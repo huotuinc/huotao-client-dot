@@ -12,28 +12,13 @@ using HotTaoCore;
 using HotCoreUtils.Helper;
 using HotTaoCore.Models;
 using HotTaoCore.Logic;
+using HotTao.Controls.Login;
 
 namespace HotTao.Controls
 {
     public partial class LoginControl : UserControl
     {
         private Main hotForm { get; set; }
-
-
-        /// <summary>
-        /// 是否记住密码
-        /// </summary>
-        private bool IsRememberPassword { get; set; }
-        /// <summary>
-        /// 临时密码
-        /// </summary>
-        private string _tempPassword { get; set; }
-        private string _tempLoginName { get; set; }
-        public bool isLogining = false;
-
-
-
-
 
 
 
@@ -45,157 +30,43 @@ namespace HotTao.Controls
 
         private void LoginControl_Load(object sender, EventArgs e)
         {
-
+            openControl(new LoginPage(hotForm, this));
         }
 
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            Login();
-        }
 
-
-
-
-
-
-        public void Login()
-        {
-            try
-            {
-                if (isLogining)
-                    return;
-                if (string.IsNullOrEmpty(loginName.Text))
-                {
-                    loginName.Focus();
-                    return;
-                }
-                if (string.IsNullOrEmpty(loginPwd.Text))
-                {
-                    loginPwd.Focus();
-                    return;
-                }
-
-                string pwd = string.Empty;
-                if (this.IsRememberPassword && _tempPassword == loginPwd.Text && _tempLoginName == loginName.Text)
-                    pwd = loginPwd.Text;
-                else
-                    pwd = EncryptHelper.MD5(loginPwd.Text);
-
-                string lgname = loginName.Text;
-                var data = LogicUser.Instance.login(lgname, pwd);
-                if (data != null)
-                {
-                    if (data.activate == 1)
-                    {
-                        loginResult(data);
-                    }
-                    else
-                    {
-                        SetText("该账号已禁用，请联系管理员!");
-                        return;
-                    }
-                }
-                else
-                {
-                    SetText("账号或密码不正确");
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-
-                SetText(ex.Message);
-            }
         }
 
         /// <summary>
-        /// 登录结果处理
+        /// 打开指定用户控件
         /// </summary>
-        /// <param name="data"></param>
-        private void loginResult(UserModel data)
+        /// <param name="uc">The uc.</param>
+        public void openControl(UserControl uc)
         {
-            string loginToken = EncryptHelper.MD5(StringHelper.CreateCheckCodeWithNum(10));
-            //更新登陆loginToken
-            if (LogicUser.Instance.RefreshLoginToken(data.userid, loginToken))
+            foreach (UserControl uu in panelLogin.Controls)
             {
-                data.loginToken = loginToken;
-                //设置登陆状态,必须先设置登录状态
-                this.hotForm.SetLoginData(data);
-
-                //判断是否记住密码
-                if (this.ckbSavePwd.Checked || ckbAutoLogin.Checked)
+                if (uu.GetType() == uc.GetType())
                 {
-                    if (_tempPassword != loginPwd.Text || _tempLoginName != loginName.Text)
-                    {
-                        string pwdStr = loginName.Text + "|" + EncryptHelper.MD5(loginPwd.Text) + "|" + (ckbAutoLogin.Checked ? "1" : "0");// ;
-                        RememberPassword(pwdStr);
-                    }
+                    return;
                 }
-                else
-                    RememberPassword("");
-
             }
+            uc.Dock = DockStyle.Fill;
+            DisPanel();
+            panelLogin.Controls.Add(uc);
         }
 
 
-        /// <summary>
-        /// 加载账号和密码，如果之前登陆记者过密码时
-        /// </summary>
-        /// <returns></returns>
-        public string LoadLoginNameAndPwd()
+        private void DisPanel()
         {
-            try
+            foreach (UserControl uc in panelLogin.Controls)
             {
-                string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.dbpath + "/lp.hot");
-                if (File.Exists(filePath))
-                {
-                    FileStream aFile = new FileStream(filePath, FileMode.Open);
-                    StreamReader sr = new StreamReader(aFile);
-                    string str = sr.ReadToEnd();
-                    sr.Close();
-                    sr.Dispose();
-                    aFile.Close();
-                    aFile.Dispose();
-                    return str;
-                }
-                return string.Empty;
-            }
-            catch (Exception)
-            {
-                return string.Empty;
+                uc.Dispose();
             }
         }
 
 
-        /// <summary>
-        /// 记住密码
-        /// </summary>
-        private void RememberPassword(string pwdStr)
-        {
-            string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.dbpath);
-            if (!Directory.Exists(filePath))
-                Directory.CreateDirectory(filePath);
-            filePath += "/lp.hot";
-            if (!File.Exists(filePath))
-                File.Create(filePath).Dispose();
-            StreamWriter sw = new StreamWriter(@filePath, false);
-            sw.Write(pwdStr);
-            sw.Close();//写入
-        }
-
-        private void ckbAutoLogin_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ckbAutoLogin.Checked)
-                ckbSavePwd.Checked = true;
-        }
-
-
-        private void SetText(string content)
-        {
-            MessageBox.Show(content, "提示");
-        }
 
     }
 }

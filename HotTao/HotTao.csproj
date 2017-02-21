@@ -57,17 +57,29 @@
     <Compile Include="Controls\HistoryControl.Designer.cs">
       <DependentUpon>HistoryControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\HomeControl.cs">
+    <Compile Include="Controls\TaskControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\HomeControl.Designer.cs">
-      <DependentUpon>HomeControl.cs</DependentUpon>
+    <Compile Include="Controls\TaskControl.Designer.cs">
+      <DependentUpon>TaskControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\LoginControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\LoginControl.Designer.cs">
       <DependentUpon>LoginControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Login\LoginPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Login\LoginPage.Designer.cs">
+      <DependentUpon>LoginPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\module\HotButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\module\HotButton.Designer.cs">
+      <DependentUpon>HotButton.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\module\HotRichTextBox.cs">
       <SubType>Component</SubType>
@@ -83,6 +95,12 @@
     </Compile>
     <Compile Include="Controls\SetControl.Designer.cs">
       <DependentUpon>SetControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TaskEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\TaskEdit.Designer.cs">
+      <DependentUpon>TaskEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\TestControl1.cs">
       <SubType>UserControl</SubType>
@@ -102,17 +120,23 @@
     <EmbeddedResource Include="Controls\HistoryControl.resx">
       <DependentUpon>HistoryControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\HomeControl.resx">
-      <DependentUpon>HomeControl.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\TaskControl.resx">
+      <DependentUpon>TaskControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\LoginControl.resx">
       <DependentUpon>LoginControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Login\LoginPage.resx">
+      <DependentUpon>LoginPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SetRightPanelControl.resx">
       <DependentUpon>SetRightPanelControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SetControl.resx">
       <DependentUpon>SetControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TaskEdit.resx">
+      <DependentUpon>TaskEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>

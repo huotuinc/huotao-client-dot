@@ -67,7 +67,7 @@ namespace HotTao
                 if (user != null)
                 {
                     SetLoginData(user);
-                    openControl(new HomeControl(this));
+                    openControl(new TaskControl(this));
                 }
                 else
                     openControl(new LoginControl(this));
@@ -76,7 +76,7 @@ namespace HotTao
 
         private void btnHome_Click(object sender, EventArgs e)
         {
-            openControl(new HomeControl(this));
+            openControl(new TaskControl(this));
         }
 
         /// <summary>

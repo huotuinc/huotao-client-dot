@@ -22,7 +22,12 @@ namespace HotTao
         public int Right; //最右坐标
         public int Bottom; //最下坐标
     }
-
+    public struct WindowInfo
+    {
+        public IntPtr hWnd;
+        public string szWindowName;
+        public string szClassName;
+    }
     public class WinApi
     {
         /// <summary>
@@ -52,6 +57,18 @@ namespace HotTao
         /// <returns></returns>
         [DllImport("User32.dll", SetLastError = true)]
         public static extern IntPtr FindWindowEx(IntPtr parent, IntPtr childe, string strclass, string strname);
+
+
+        /// <summary>
+        /// EnumWindows函数，EnumWindowsProc 为处理函数
+        /// </summary>
+        /// <param name="ewp">The ewp.</param>
+        /// <param name="lParam">The l parameter.</param>
+        /// <returns>System.Int32.</returns>
+        [DllImport("user32.dll")]
+        private static extern int EnumWindows(EnumWindowsProc ewp, int lParam);
+
+        public delegate bool EnumWindowsProc(IntPtr hWnd, int lParam);
 
         /**
           * n CmdShow的含义
@@ -301,6 +318,35 @@ namespace HotTao
                 }
             }
         }
+
+
+        /// <summary>
+        /// 寻找系统的全部窗口
+        /// </summary>
+        /// <param name="classname">ChatWnd</param>
+        /// <returns>List&lt;WindowInfo&gt;.</returns>
+        public static List<WindowInfo> GetAllDesktopWindows(string classname = "ChatWnd")
+        {
+            List<WindowInfo> wndList = new List<WindowInfo>();
+            EnumWindows(delegate (IntPtr hWin, int p)
+            {
+                StringBuilder sb = new StringBuilder(256);
+                GetClassName(hWin, sb, sb.Capacity);
+                if (classname == sb.ToString())
+                {
+                    WindowInfo wnd = new WindowInfo();
+                    wnd.hWnd = hWin;
+                    wnd.szClassName = sb.ToString();
+                    GetWindowText(hWin, sb, sb.Capacity);
+                    wnd.szWindowName = sb.ToString();
+                    wndList.Add(wnd);
+                    ShowWindow(hWin, NCmdShowFlag.SW_HIDE);
+                }
+                return true;
+            }, 0);
+            return wndList;
+        }
+
 
 
         /// <summary>

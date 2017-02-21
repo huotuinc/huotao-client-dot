@@ -59,6 +59,7 @@ namespace HotTao.Controls
                         if (this.dgvPid.Rows.Count > 0)
                         {
                             dgvPid.Rows[0].Selected = false;
+                            dgvPid.ContextMenuStrip = cmsWeChatMenu;
                         }
                     }));
                 }
@@ -82,6 +83,7 @@ namespace HotTao.Controls
                         if (this.dgvTaskPlan.Rows.Count > 0)
                         {
                             dgvTaskPlan.Rows[0].Selected = false;
+                            dgvTaskPlan.ContextMenuStrip = cmsTaskMeun;
                         }
                     }));
                 }
@@ -160,6 +162,17 @@ namespace HotTao.Controls
                     SetGoodsGridViewData(dgvData,goodsData);
                 }
             }
+        }
+
+        private void btnAddTask_Click(object sender, EventArgs e)
+        {
+            TaskEdit te = new TaskEdit(this);
+            te.ShowDialog(this);
+        }
+
+        private void toolTaskDel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
