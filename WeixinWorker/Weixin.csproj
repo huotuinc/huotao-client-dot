@@ -58,6 +58,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="IEDriverServer">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="IEDriverServer.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

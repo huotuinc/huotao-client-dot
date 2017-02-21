@@ -58,22 +58,49 @@ namespace Weixin
             searchInput.Clear();
             searchInput.SendKeys(name);
             
-            new WebDriverWait(driver, TimeSpan.FromSeconds(5)).Until(input
+            new WebDriverWait(driver, TimeSpan.FromSeconds(2)).Until(input
                     =>input != null && FindSearchResult(input)!=null);
 
             IWebElement listDiv = FindSearchResult(driver);
-                   // .orElseThrow(()-> new IllegalStateException("找不到搜索结果列表"));
+            // .orElseThrow(()-> new IllegalStateException("找不到搜索结果列表"));
+            // System.Console.WriteLine(listDiv);
 
-            listDiv.FindElements(By.ClassName("ng-scope"))
-                    .Where(element => element.FindElements(By.TagName("h4")).Count>0)
-                    .Where(element =>element.FindElement(By.TagName("h4")).Text.Equals(name))
-                    .FirstOrDefault()
-                    //.orElseThrow(()-> new IllegalStateException("找不到好友" + name))
-                    .Click();
+            if (listDiv == null)
+                throw new Exception("找不到搜索结果列表");
+            
+            // 如果超时表示找不到此人
+            new WebDriverWait(driver, TimeSpan.FromSeconds(2)).Until(input
+                    => FindCorrectResult(listDiv,name)!=null);
+
+            FindCorrectResult(listDiv, name).Click();
 
             new WebDriverWait(driver, TimeSpan.FromSeconds(5))
                     .Until(input
                             =>input != null && CurrentTitle(name, input));
+        }
+
+        /// <summary>
+        /// 从结果列表中定位唯一的准确结果
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private IWebElement FindCorrectResult(IWebElement list,String name)
+        {
+            return list.FindElements(By.ClassName("ng-scope"))
+                    .Where(element =>
+                    {
+                        try
+                        {
+                            return element.FindElements(By.TagName("h4")).Count > 0;
+                        }
+                        catch (Exception)
+                        {
+                            return false;
+                        }
+                    })
+                    .Where(element => element.FindElement(By.TagName("h4")).Text.Equals(name))
+                    .FirstOrDefault();
         }
 
         private IWebElement FindSearchResult(IWebDriver driver)
