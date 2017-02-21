@@ -14,7 +14,7 @@ using HotTaoCore;
 
 namespace HotTao.Controls
 {
-    public partial class SetRightPanelControl : UserControl
+    public partial class SetAccountControl : UserControl
     {
 
 
@@ -31,7 +31,7 @@ namespace HotTao.Controls
 
         public bool isLogining = false;
 
-        public SetRightPanelControl(Main mainWin)
+        public SetAccountControl(Main mainWin)
         {
             InitializeComponent();
             hotForm = mainWin;
@@ -53,7 +53,7 @@ namespace HotTao.Controls
                     this.ckbAutoLogin.Checked = isAutoLogin == 1 ? true : false;
                     this.IsRememberPassword = true;
                 }
-            }
+            }            
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -198,22 +198,6 @@ namespace HotTao.Controls
         private void SetText(string content)
         {
             MessageBox.Show(content, "提示");
-        }
-
-        private void btnLogout_Click(object sender, EventArgs e)
-        {
-            RememberPassword("");
-            hotForm.SetLoginData(null);
-            SetText("注销成功");
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-            string strInsertText = "[商品标题]";
-            int start = txtTempText.SelectionStart;
-            txtTempText.Text = txtTempText.Text.Insert(start, strInsertText);
-            txtTempText.SelectionStart = start;
-            txtTempText.SelectionLength = strInsertText.Length;
         }
     }
 }

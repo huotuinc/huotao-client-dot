@@ -1,6 +1,6 @@
 ﻿namespace HotTao.Controls.Login
 {
-    partial class LoginPage
+    partial class SetTaobaoAccountPage
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -29,40 +29,31 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.ckbAutoLogin = new System.Windows.Forms.CheckBox();
+            this.lbSkipStep = new System.Windows.Forms.LinkLabel();
             this.btnLogin = new System.Windows.Forms.Button();
-            this.ckbSavePwd = new System.Windows.Forms.CheckBox();
             this.loginPwd = new System.Windows.Forms.TextBox();
             this.loginName = new System.Windows.Forms.TextBox();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.lbLoginName = new System.Windows.Forms.Label();
             this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.lbLoginPwd = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.hotGroupBox1.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // linkLabel1
+            // lbSkipStep
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(220, 176);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(29, 12);
-            this.linkLabel1.TabIndex = 12;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "注册";
-            // 
-            // ckbAutoLogin
-            // 
-            this.ckbAutoLogin.AutoSize = true;
-            this.ckbAutoLogin.Location = new System.Drawing.Point(132, 175);
-            this.ckbAutoLogin.Name = "ckbAutoLogin";
-            this.ckbAutoLogin.Size = new System.Drawing.Size(72, 16);
-            this.ckbAutoLogin.TabIndex = 5;
-            this.ckbAutoLogin.Text = "自动登录";
-            this.ckbAutoLogin.UseVisualStyleBackColor = true;
-            this.ckbAutoLogin.CheckedChanged += new System.EventHandler(this.ckbAutoLogin_CheckedChanged);
+            this.lbSkipStep.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(133)))), ((int)(((byte)(133)))));
+            this.lbSkipStep.Location = new System.Drawing.Point(104, 198);
+            this.lbSkipStep.Name = "lbSkipStep";
+            this.lbSkipStep.Size = new System.Drawing.Size(62, 16);
+            this.lbSkipStep.TabIndex = 18;
+            this.lbSkipStep.TabStop = true;
+            this.lbSkipStep.Text = "点击跳过";
+            this.lbSkipStep.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbSkipStep.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbSkipStep_LinkClicked);
             // 
             // btnLogin
             // 
@@ -71,23 +62,12 @@
             this.btnLogin.FlatAppearance.BorderSize = 0;
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.ForeColor = System.Drawing.Color.White;
-            this.btnLogin.Location = new System.Drawing.Point(16, 123);
+            this.btnLogin.Location = new System.Drawing.Point(19, 143);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(233, 41);
-            this.btnLogin.TabIndex = 3;
+            this.btnLogin.TabIndex = 15;
             this.btnLogin.Text = "下一步";
             this.btnLogin.UseVisualStyleBackColor = false;
-            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
-            // 
-            // ckbSavePwd
-            // 
-            this.ckbSavePwd.AutoSize = true;
-            this.ckbSavePwd.Location = new System.Drawing.Point(19, 175);
-            this.ckbSavePwd.Name = "ckbSavePwd";
-            this.ckbSavePwd.Size = new System.Drawing.Size(72, 16);
-            this.ckbSavePwd.TabIndex = 4;
-            this.ckbSavePwd.Text = "记住密码";
-            this.ckbSavePwd.UseVisualStyleBackColor = true;
             // 
             // loginPwd
             // 
@@ -123,10 +103,10 @@
             this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
             this.hotGroupBox1.Controls.Add(this.lbLoginName);
             this.hotGroupBox1.Controls.Add(this.loginName);
-            this.hotGroupBox1.Location = new System.Drawing.Point(16, 32);
+            this.hotGroupBox1.Location = new System.Drawing.Point(19, 52);
             this.hotGroupBox1.Name = "hotGroupBox1";
             this.hotGroupBox1.Size = new System.Drawing.Size(233, 35);
-            this.hotGroupBox1.TabIndex = 1;
+            this.hotGroupBox1.TabIndex = 13;
             this.hotGroupBox1.TabStop = false;
             // 
             // lbLoginName
@@ -137,7 +117,7 @@
             this.lbLoginName.Name = "lbLoginName";
             this.lbLoginName.Size = new System.Drawing.Size(90, 22);
             this.lbLoginName.TabIndex = 100;
-            this.lbLoginName.Text = "请输入手机号码";
+            this.lbLoginName.Text = "请输入淘宝号码";
             this.lbLoginName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbLoginName.Click += new System.EventHandler(this.lbLoginName_Click);
             // 
@@ -148,10 +128,10 @@
             this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
             this.hotGroupBox2.Controls.Add(this.lbLoginPwd);
             this.hotGroupBox2.Controls.Add(this.loginPwd);
-            this.hotGroupBox2.Location = new System.Drawing.Point(16, 72);
+            this.hotGroupBox2.Location = new System.Drawing.Point(19, 92);
             this.hotGroupBox2.Name = "hotGroupBox2";
             this.hotGroupBox2.Size = new System.Drawing.Size(233, 35);
-            this.hotGroupBox2.TabIndex = 2;
+            this.hotGroupBox2.TabIndex = 14;
             this.hotGroupBox2.TabStop = false;
             // 
             // lbLoginPwd
@@ -166,38 +146,61 @@
             this.lbLoginPwd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbLoginPwd.Click += new System.EventHandler(this.lbLoginPwd_Click);
             // 
-            // LoginPage
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("宋体", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
+            this.label1.Location = new System.Drawing.Point(16, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(148, 33);
+            this.label1.TabIndex = 19;
+            this.label1.Text = "淘宝账号设置";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.White;
+            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
+            this.button1.Location = new System.Drawing.Point(166, 15);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(68, 26);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "加载更多";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // SetTaobaoAccountPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.hotGroupBox2);
-            this.Controls.Add(this.hotGroupBox1);
-            this.Controls.Add(this.linkLabel1);
-            this.Controls.Add(this.ckbAutoLogin);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lbSkipStep);
             this.Controls.Add(this.btnLogin);
-            this.Controls.Add(this.ckbSavePwd);
-            this.Name = "LoginPage";
+            this.Controls.Add(this.hotGroupBox1);
+            this.Controls.Add(this.hotGroupBox2);
+            this.Name = "SetTaobaoAccountPage";
             this.Size = new System.Drawing.Size(270, 241);
-            this.Load += new System.EventHandler(this.LoginPage_Load);
             this.hotGroupBox1.ResumeLayout(false);
             this.hotGroupBox1.PerformLayout();
             this.hotGroupBox2.ResumeLayout(false);
             this.hotGroupBox2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.CheckBox ckbAutoLogin;
+
+        private System.Windows.Forms.LinkLabel lbSkipStep;
         private System.Windows.Forms.Button btnLogin;
-        private System.Windows.Forms.CheckBox ckbSavePwd;
         private System.Windows.Forms.TextBox loginPwd;
         private System.Windows.Forms.TextBox loginName;
         private module.HotGroupBox hotGroupBox1;
-        private module.HotGroupBox hotGroupBox2;
         private System.Windows.Forms.Label lbLoginName;
+        private module.HotGroupBox hotGroupBox2;
         private System.Windows.Forms.Label lbLoginPwd;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button1;
     }
 }

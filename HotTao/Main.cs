@@ -60,6 +60,11 @@ namespace HotTao
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 窗口加载
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Main_Load(object sender, EventArgs e)
         {
             CheckAutoLogin(user =>
@@ -73,11 +78,28 @@ namespace HotTao
                     openControl(new LoginControl(this));
             });
         }
-
+        /// <summary>
+        /// 首页
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnHome_Click(object sender, EventArgs e)
         {
+            SetSelectedBackgroundImage(sender);
             openControl(new TaskControl(this));
         }
+
+        /// <summary>
+        /// 微信群发
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnWeChat_Click(object sender, EventArgs e)
+        {
+            SetSelectedBackgroundImage(sender);
+            openControl(new TaskControl(this));
+        }
+
 
         /// <summary>
         /// 销毁Panel
@@ -89,12 +111,6 @@ namespace HotTao
                 uc.Dispose();
             }
         }
-
-        private void pictureBox5_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         /// <summary>
         /// 设置面板
         /// </summary>
@@ -102,6 +118,7 @@ namespace HotTao
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnSetting_Click(object sender, EventArgs e)
         {
+            SetSelectedBackgroundImage(sender);
             openControl(new SetControl(this));
         }
 
@@ -112,7 +129,27 @@ namespace HotTao
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnHistory_Click(object sender, EventArgs e)
         {
+            SetSelectedBackgroundImage(sender);
             openControl(new HistoryControl(this));
+        }
+
+        private void SetSelectedBackgroundImage(object sender)
+        {
+            foreach (var item in Container.Panel1.Controls)
+            {
+                Panel pl = item as Panel;
+                if (pl != null)
+                    pl.BackgroundImage = null;
+            }
+            var p1 = sender as PictureBox;
+            var p2 = sender as Label;
+            var p3 = sender as Panel;
+            if (p1 != null)
+                p1.Parent.BackgroundImage = Properties.Resources.icon_bg;
+            else if(p2!=null)           
+                p2.Parent.BackgroundImage = Properties.Resources.icon_bg;
+            else if(p3!=null)
+                p3.BackgroundImage = Properties.Resources.icon_bg;
         }
 
 
@@ -156,6 +193,17 @@ namespace HotTao
             else
                 currentUserId = 0;
         }
+
+        private void pbClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void pbMin_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
 
     }
 }

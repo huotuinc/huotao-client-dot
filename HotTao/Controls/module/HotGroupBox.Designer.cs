@@ -1,6 +1,6 @@
 ﻿namespace HotTao.Controls.module
 {
-    partial class HotButton
+    partial class HotGroupBox
     {
         /// <summary>
         /// 必需的设计器变量。

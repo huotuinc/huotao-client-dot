@@ -32,12 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevComponents.DotNetBar2, Version=7.3.0.1, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="HotCoreUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HotCoreUtils.1.0.0.0\lib\net40\HotCoreUtils.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,11 +54,36 @@
     <Compile Include="BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ConstConfig.cs" />
     <Compile Include="Controls\HistoryControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\HistoryControl.Designer.cs">
       <DependentUpon>HistoryControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Login\SetTaobaoAccountPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Login\SetTaobaoAccountPage.Designer.cs">
+      <DependentUpon>SetTaobaoAccountPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\module\HotGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\module\HotGroupBox.Designer.cs">
+      <DependentUpon>HotGroupBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SetSendConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SetSendConfig.Designer.cs">
+      <DependentUpon>SetSendConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SetSendTemplateControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SetSendTemplateControl.Designer.cs">
+      <DependentUpon>SetSendTemplateControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\TaskControl.cs">
       <SubType>UserControl</SubType>
@@ -75,20 +103,11 @@
     <Compile Include="Controls\Login\LoginPage.Designer.cs">
       <DependentUpon>LoginPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\module\HotButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\module\HotButton.Designer.cs">
-      <DependentUpon>HotButton.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\module\HotRichTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\SetRightPanelControl.cs">
+    <Compile Include="Controls\SetAccountControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\SetRightPanelControl.Designer.cs">
-      <DependentUpon>SetRightPanelControl.cs</DependentUpon>
+    <Compile Include="Controls\SetAccountControl.Designer.cs">
+      <DependentUpon>SetAccountControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SetControl.cs">
       <SubType>UserControl</SubType>
@@ -120,6 +139,15 @@
     <EmbeddedResource Include="Controls\HistoryControl.resx">
       <DependentUpon>HistoryControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Login\SetTaobaoAccountPage.resx">
+      <DependentUpon>SetTaobaoAccountPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SetSendConfig.resx">
+      <DependentUpon>SetSendConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SetSendTemplateControl.resx">
+      <DependentUpon>SetSendTemplateControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\TaskControl.resx">
       <DependentUpon>TaskControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -129,8 +157,8 @@
     <EmbeddedResource Include="Controls\Login\LoginPage.resx">
       <DependentUpon>LoginPage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\SetRightPanelControl.resx">
-      <DependentUpon>SetRightPanelControl.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\SetAccountControl.resx">
+      <DependentUpon>SetAccountControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SetControl.resx">
       <DependentUpon>SetControl.cs</DependentUpon>
@@ -162,7 +190,21 @@
     <EmbeddedResource Include="Resources\home.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\DevComponents.DotNetBar2.dll" />
     <Content Include="Resources\hot.ico" />
+    <Content Include="Resources\icon_01.png" />
+    <Content Include="Resources\icon_02.png" />
+    <Content Include="Resources\icon_03.png" />
+    <Content Include="Resources\icon_04.png" />
+    <Content Include="Resources\icon_05.png" />
+    <Content Include="Resources\icon_close.png" />
+    <Content Include="Resources\icon_login_bg.png" />
+    <Content Include="Resources\icon_login_bg_full.png" />
+    <Content Include="Resources\icon_menu.png" />
+    <Content Include="Resources\icon_min.png" />
+    <Content Include="Resources\icon_user.png" />
+    <None Include="Resources\icon_06.png" />
+    <Content Include="Resources\icon_bg.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

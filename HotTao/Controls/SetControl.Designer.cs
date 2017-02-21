@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.SetContainer = new System.Windows.Forms.SplitContainer();
+            this.panel = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -41,10 +43,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.button1 = new System.Windows.Forms.Button();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.SetContainer)).BeginInit();
             this.SetContainer.Panel1.SuspendLayout();
             this.SetContainer.Panel2.SuspendLayout();
             this.SetContainer.SuspendLayout();
+            this.panel.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -53,6 +58,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // SetContainer
@@ -65,6 +71,8 @@
             // 
             // SetContainer.Panel1
             // 
+            this.SetContainer.Panel1.Controls.Add(this.panel6);
+            this.SetContainer.Panel1.Controls.Add(this.panel);
             this.SetContainer.Panel1.Controls.Add(this.panel5);
             this.SetContainer.Panel1.Controls.Add(this.panel4);
             this.SetContainer.Panel1.Controls.Add(this.panel3);
@@ -80,6 +88,26 @@
             this.SetContainer.SplitterDistance = 174;
             this.SetContainer.SplitterWidth = 1;
             this.SetContainer.TabIndex = 0;
+            // 
+            // panel
+            // 
+            this.panel.BackColor = System.Drawing.Color.White;
+            this.panel.Controls.Add(this.label6);
+            this.panel.Location = new System.Drawing.Point(1, 152);
+            this.panel.Name = "panel";
+            this.panel.Size = new System.Drawing.Size(170, 29);
+            this.panel.TabIndex = 1;
+            this.panel.Click += new System.EventHandler(this.panel_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(51, 8);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(29, 12);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "文案";
+            this.label6.Click += new System.EventHandler(this.panel_Click);
             // 
             // panel5
             // 
@@ -179,6 +207,10 @@
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.AutoScroll = true;
+            // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.button1);
@@ -197,6 +229,26 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // panel6
+            // 
+            this.panel6.BackColor = System.Drawing.Color.White;
+            this.panel6.Controls.Add(this.label7);
+            this.panel6.Location = new System.Drawing.Point(1, 176);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(170, 29);
+            this.panel6.TabIndex = 2;
+            this.panel6.Click += new System.EventHandler(this.panel6_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(51, 8);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 12);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "群发设置";
+            this.label7.Click += new System.EventHandler(this.panel6_Click);
+            // 
             // SetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -210,6 +262,8 @@
             this.SetContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SetContainer)).EndInit();
             this.SetContainer.ResumeLayout(false);
+            this.panel.ResumeLayout(false);
+            this.panel.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             this.panel4.ResumeLayout(false);
@@ -223,6 +277,8 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -242,5 +298,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel panel;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Label label7;
     }
 }

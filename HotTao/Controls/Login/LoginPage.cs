@@ -27,7 +27,7 @@ namespace HotTao.Controls.Login
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            Login();
+            Login();            
         }
 
 
@@ -118,11 +118,8 @@ namespace HotTao.Controls.Login
                 }
                 else
                     RememberPassword("");
-
-
-
-                hotForm.openControl(new TaskControl(hotForm));
-
+                                
+                loginForm.openControl(new SetTaobaoAccountPage(hotForm, loginForm));
             }
         }
 
@@ -182,6 +179,37 @@ namespace HotTao.Controls.Login
         private void SetText(string content)
         {
             MessageBox.Show(content, "提示");
+        }
+
+        private void lbLoginName_Click(object sender, EventArgs e)
+        {
+            this.loginName.Focus();
+        }
+
+        private void lbLoginPwd_Click(object sender, EventArgs e)
+        {
+            this.loginPwd.Focus();
+        }
+
+        private void loginName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(loginName.Text))
+                lbLoginName.Visible = false;
+            else
+                lbLoginName.Visible = true;
+        }
+
+        private void loginPwd_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(loginPwd.Text))
+                lbLoginPwd.Visible = false;
+            else
+                lbLoginPwd.Visible = true;
+        }
+
+        private void LoginPage_Load(object sender, EventArgs e)
+        {
+            loginName.Focus();
         }
     }
 }
