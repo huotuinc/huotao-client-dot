@@ -190,7 +190,6 @@
     <EmbeddedResource Include="Resources\home.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\DevComponents.DotNetBar2.dll" />
     <Content Include="Resources\hot.ico" />
     <Content Include="Resources\icon_01.png" />
     <Content Include="Resources\icon_02.png" />
