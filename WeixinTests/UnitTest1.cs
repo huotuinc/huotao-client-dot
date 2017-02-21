@@ -10,7 +10,9 @@ namespace WeixinTests
         [TestMethod]
         public void TestMethod1()
         {
-            new Worker().SendTextMessage("Guo Childe", "haha");
+            Worker worker = new Worker();
+            worker.SendTextMessage("Guo Childe", "haha "+ new DateTime());
+            worker = null;
         }
     }
 }
