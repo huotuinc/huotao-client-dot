@@ -185,7 +185,7 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            this.toolTipText.SetToolTip(this.pictureBox1, "帮助");
+            this.toolTipText.SetToolTip(this.pictureBox1, "客服");
             // 
             // panel5
             // 
@@ -289,7 +289,7 @@
             this.btnHistory.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.btnHistory.TabIndex = 0;
             this.btnHistory.TabStop = false;
-            this.toolTipText.SetToolTip(this.btnHistory, "历史查询");
+            this.toolTipText.SetToolTip(this.btnHistory, "计划列表");
             this.btnHistory.Click += new System.EventHandler(this.btnHistory_Click);
             // 
             // panel2
@@ -325,7 +325,7 @@
             this.btnWeChat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.btnWeChat.TabIndex = 0;
             this.btnWeChat.TabStop = false;
-            this.toolTipText.SetToolTip(this.btnWeChat, "定时");
+            this.toolTipText.SetToolTip(this.btnWeChat, "微信群发");
             this.btnWeChat.Click += new System.EventHandler(this.btnWeChat_Click);
             // 
             // panel1
