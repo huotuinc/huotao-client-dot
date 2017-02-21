@@ -15,10 +15,15 @@ namespace Weixin
     /// </summary>
     public class Worker
     {
-        IWebDriver driver = new InternetExplorerDriver();
+        private static readonly log4net.ILog log =
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        readonly IWebDriver driver = new InternetExplorerDriver();
 
         public Worker()
         {
+            log.Info("start up");
+            Console.WriteLine("Console Start up");
             driver.Navigate().GoToUrl("https://wx.qq.com");
         }
 
@@ -33,9 +38,34 @@ namespace Weixin
         /// <param name="message">消息内容</param>
         public void SendTextMessage(String to,String message)
         {
-            if (!IsLoggedIn())
-                login();
-            chooseContact(to);
+            try
+            {
+                if (!IsLoggedIn())
+                    login();
+                chooseContact(to);
+
+                IWebElement editArea = driver.FindElement(By.Id("editArea"));
+
+                IWebElement sendButton = driver.FindElement(By.CssSelector("div.action")).FindElement(By.TagName("a"));
+
+                editArea.Clear();
+                editArea.SendKeys(message);
+                sendButton.Click();
+            }
+            catch (WebDriverTimeoutException ex)
+            {
+                SendTextMessage(to, message);
+            }catch(WebDriverException ex)
+            {
+                //timed out
+                if (ex.Message.Contains("timed out"))
+                {
+                    SendTextMessage(to, message);
+                }
+                else
+                    throw;
+            }
+
         }
 
         private bool CurrentTitle(String title, IWebDriver input)
@@ -57,23 +87,46 @@ namespace Weixin
             //        contacts scrollbar-dynamic scroll-content scroll-scrolly_visible
             searchInput.Clear();
             searchInput.SendKeys(name);
-            
-            new WebDriverWait(driver, TimeSpan.FromSeconds(5)).Until(input
-                    =>input != null && FindSearchResult(input)!=null);
 
-            IWebElement listDiv = FindSearchResult(driver);
-                   // .orElseThrow(()-> new IllegalStateException("找不到搜索结果列表"));
+            // 如果超时表示找不到此人
+            new WebDriverWait(driver, TimeSpan.FromSeconds(2)).Until(input
+                    =>input != null && FindSearchResult(input,name)!=null);
 
-            listDiv.FindElements(By.ClassName("ng-scope"))
-                    .Where(element => element.FindElements(By.TagName("h4")).Count>0)
-                    .Where(element =>element.FindElement(By.TagName("h4")).Text.Equals(name))
-                    .FirstOrDefault()
-                    //.orElseThrow(()-> new IllegalStateException("找不到好友" + name))
-                    .Click();
+            FindSearchResult(driver, name).Click();
 
             new WebDriverWait(driver, TimeSpan.FromSeconds(5))
                     .Until(input
                             =>input != null && CurrentTitle(name, input));
+        }
+
+        private IWebElement FindSearchResult(IWebDriver driver,String name)
+        {
+            IWebElement list = FindSearchResult(driver);
+            if (list == null) return null;
+            return FindCorrectResult(list, name);
+        }
+
+        /// <summary>
+        /// 从结果列表中定位唯一的准确结果
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private IWebElement FindCorrectResult(IWebElement list,String name)
+        {
+            return list.FindElements(By.ClassName("ng-scope"))
+                    .Where(element =>
+                    {
+                        try
+                        {
+                            return element.FindElement(By.TagName("h4")).Text.Equals(name);
+                        }
+                        catch (Exception)
+                        {
+                            return false;
+                        }
+                    })
+                    .FirstOrDefault();
         }
 
         private IWebElement FindSearchResult(IWebDriver driver)
