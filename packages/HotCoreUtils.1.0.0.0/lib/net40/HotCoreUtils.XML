@@ -1,0 +1,3052 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HotCoreUtils</name>
+    </assembly>
+    <members>
+        <member name="T:HotCoreUtils.Caching.CacheEntry">
+            <summary>
+            CommonCacheHelper中缓存实体
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Caching.CacheEntry.CreateTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Caching.CacheEntry.LastUpdate">
+            <summary>
+            上一次更新时间
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Caching.CacheEntry.Content">
+            <summary>
+            缓存具体值
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Caching.CacheEntry.CacheLoader">
+            <summary>
+            加载委托
+            </summary>
+        </member>
+        <member name="T:HotCoreUtils.Caching.CacheLoaderDelegate">
+            <summary>
+            缓存加载器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.Caching.CommonCacheHelper">
+            <summary>
+            通用缓存类，适用于win/web
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Caching.CommonCacheHelper.GetCacheEntry(System.String)">
+            <summary>
+            返回缓存项，包括更新时间等描述
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Caching.CommonCacheHelper.Contains(System.String)">
+            <summary>
+            是否存在
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Caching.CommonCacheHelper.Insert(System.String,System.Object)">
+            <summary>
+            插入缓存
+            </summary>
+            <param name="key"></param>
+            <param name="content"></param>
+        </member>
+        <member name="M:HotCoreUtils.Caching.CommonCacheHelper.Get(System.String)">
+            <summary>
+            获取缓存值
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Caching.CommonCacheHelper.Get(System.String,HotCoreUtils.Caching.CacheLoaderDelegate)">
+            <summary>
+            获取缓存值重载
+            </summary>
+            <param name="key"></param>
+            <param name="loader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Caching.CommonCacheHelper.Update(System.String,System.Object)">
+            <summary>
+            根据键值更新缓存
+            </summary>
+            <param name="key"></param>
+            <param name="content"></param>
+        </member>
+        <member name="M:HotCoreUtils.Caching.CommonCacheHelper.Remove(System.String)">
+            <summary>
+            根据键值移除缓存
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:HotCoreUtils.Caching.CommonCacheHelper.Clear">
+            <summary>
+            清空缓存
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:HotCoreUtils.Caching.CommonCacheHelper.Instance">
+            <summary>
+            返回缓存字典
+            </summary>
+        </member>
+        <member name="T:HotCoreUtils.Caching.WebCacheHelper">
+            <summary>
+            包装了system.web.caching.cache的缓存助手类
+            </summary>
+        </member>
+        <member name="T:HotCoreUtils.Caching.WebCacheHelper.CacheLoaderDelegate">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.Caching.WebCacheHelper.CacheLoaderErrorDeletegate">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <param name="e"></param>
+        </member>
+        <member name="F:HotCoreUtils.Caching.WebCacheHelper._cacheLoaderErrorDelegate">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Caching.WebCacheHelper._cache">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Caching.WebCacheHelper.CACHEDEPFILE">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.Clear">
+            <summary>
+            清空缓存
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.Remove(System.String)">
+            <summary>
+            移除单个缓存
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.RemoveByPattern(System.String)">
+            <summary>
+            根据正则移除缓存
+            </summary>
+            <param name="pattern"></param>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.Insert(System.String,System.Object)">
+            <summary>
+            插入缓存 未使用文件依赖于过期时间
+            </summary>
+            <param name="key"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.Insert(System.String,System.Object,System.TimeSpan)">
+            <summary>
+            插入缓存 仅使用过期时间
+            </summary>
+            <param name="key"></param>
+            <param name="obj"></param>
+            <param name="absoluteExprition"></param>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.Insert(System.String,System.Object,System.Web.Caching.CacheDependency)">
+            <summary>
+            插入缓存 仅使用文件依赖
+            </summary>
+            <param name="key"></param>
+            <param name="obj"></param>
+            <param name="dep"></param>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.Insert(System.String,System.Object,System.String)">
+            <summary>
+            插入缓存 仅使用文件依赖
+            </summary>
+            <param name="key">缓存key</param>
+            <param name="obj">缓存对象</param>
+            <param name="depFileName">依赖文件名称或key</param>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.Insert(System.String,System.Object,System.TimeSpan,System.Web.Caching.CacheDependency)">
+            <summary>
+            插入缓存 使用文件依赖与过期时间
+            </summary>
+            <param name="key"></param>
+            <param name="obj"></param>
+            <param name="absoluteExprition"></param>
+            <param name="dep"></param>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.Insert(System.String,System.Object,System.TimeSpan,System.Web.Caching.CacheDependency,System.Web.Caching.CacheItemPriority,System.Web.Caching.CacheItemRemovedCallback)">
+            <summary>
+            插入缓存 使用文件依赖与过期时间，另可设置缓存优先级与缓存失效回调函数
+            </summary>
+            <param name="key"></param>
+            <param name="obj"></param>
+            <param name="absoluteExprition"></param>
+            <param name="dep"></param>
+            <param name="priority"></param>
+            <param name="onRemoveCallback"></param>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.Get(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.Get(System.String,System.TimeSpan,HotCoreUtils.Caching.WebCacheHelper.CacheLoaderDelegate)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <param name="absoluteExprition"></param>
+            <param name="cacheLoader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.Get(System.String,System.Web.Caching.CacheDependency,HotCoreUtils.Caching.WebCacheHelper.CacheLoaderDelegate)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <param name="dep"></param>
+            <param name="cacheLoader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.Get(System.String,System.TimeSpan,System.Web.Caching.CacheDependency,HotCoreUtils.Caching.WebCacheHelper.CacheLoaderDelegate)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <param name="absoluteExprition"></param>
+            <param name="dep"></param>
+            <param name="cacheLoader"></param>
+            <returns></returns>
+        </member>
+        <member name="P:HotCoreUtils.Caching.WebCacheHelper.CacheList">
+            <summary>
+            得到所有缓存
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.Contains(System.String)">
+            <summary>
+            检查是否存在
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.SetCacheLoaderErrorHandler(HotCoreUtils.Caching.WebCacheHelper.CacheLoaderErrorDeletegate)">
+            <summary>
+            
+            </summary>
+            <param name="handler"></param>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.GetDepFile(System.String)">
+            <summary>
+            得到缓存依赖KEY
+            </summary>
+            <param name="token">唯一值</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.RefreshCache(System.String)">
+            <summary>
+            刷新缓存文件
+            </summary>
+            <param name="token"></param>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper.DeleteDepFile(System.String)">
+            <summary>
+            删除缓存文件
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.Caching.WebCacheHelper`1">
+            <summary>
+            缓存助手，内部已进行类型转换
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper`1.Get(System.String)">
+            <summary>
+            获取缓存值
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper`1.Get(System.String,System.TimeSpan,HotCoreUtils.Caching.WebCacheHelper.CacheLoaderDelegate)">
+            <summary>
+            获取缓存值，如果不存在，则调用cacheLoader，absoluteExprition时间段后失效
+            </summary>
+            <param name="key"></param>
+            <param name="absoluteExprition"></param>
+            <param name="cacheLoader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper`1.Get(System.String,System.Web.Caching.CacheDependency,HotCoreUtils.Caching.WebCacheHelper.CacheLoaderDelegate)">
+            <summary>
+            获取缓存值，如果不存在，则调用cacheLoader，使用文件依赖策略
+            </summary>
+            <param name="key"></param>
+            <param name="dep"></param>
+            <param name="cacheLoader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Caching.WebCacheHelper`1.Get(System.String,System.TimeSpan,System.Web.Caching.CacheDependency,HotCoreUtils.Caching.WebCacheHelper.CacheLoaderDelegate)">
+            <summary>
+            获取缓存值，如果不存在，则调用cacheLoader，使用时间段和文件依赖两个策略
+            </summary>
+            <param name="key"></param>
+            <param name="absoluteExprition"></param>
+            <param name="dep"></param>
+            <param name="cacheLoader"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.DB.EffentNextType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.DB.EffentNextType.None">
+            <summary>
+            对其他语句无任何影响 
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.DB.EffentNextType.WhenHaveContine">
+            <summary>
+            当前语句必须为"select count(1) from .."格式，如果存在则继续执行，不存在回滚事务
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.DB.EffentNextType.WhenNoHaveContine">
+            <summary>
+            当前语句必须为"select count(1) from .."格式，如果不存在则继续执行，存在回滚事务
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.DB.EffentNextType.ExcuteEffectRows">
+            <summary>
+            当前语句影响到的行数必须大于0，否则回滚事务
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.DB.EffentNextType.SolicitationEvent">
+            <summary>
+            引发事件-当前语句必须为"select count(1) from .."格式，如果不存在则继续执行，存在回滚事务
+            </summary>
+        </member>
+        <member name="T:HotCoreUtils.DB.CommandInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.DB.CommandInfo.ShareObject">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.DB.CommandInfo.OriginalData">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:HotCoreUtils.DB.CommandInfo._solicitationEvent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:HotCoreUtils.DB.CommandInfo.SolicitationEvent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.DB.CommandInfo.OnSolicitationEvent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.DB.CommandInfo.CommandText">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.DB.CommandInfo.Parameters">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.DB.CommandInfo.EffentNextType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.DB.CommandInfo.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.DB.CommandInfo.#ctor(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            
+            </summary>
+            <param name="sqlText"></param>
+            <param name="para"></param>
+        </member>
+        <member name="M:HotCoreUtils.DB.CommandInfo.#ctor(System.String,System.Data.SqlClient.SqlParameter[],HotCoreUtils.DB.EffentNextType)">
+            <summary>
+            
+            </summary>
+            <param name="sqlText"></param>
+            <param name="para"></param>
+            <param name="type"></param>
+        </member>
+        <member name="T:HotCoreUtils.DB.DbHelperSQL">
+            <summary>
+            数据访问抽象基础类
+            Copyright (C) Maticsoft
+            </summary>
+        </member>
+        <member name="T:HotCoreUtils.DB.DbHelperSQLP">
+             <summary>
+            数据库操作类
+            修改日期：2016.07.07
+            修改作者：郭孟稳
+             </summary>
+        </member>
+        <member name="F:HotCoreUtils.DB.DbHelperSQLP.parmCache">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.ExecuteNonQuery(System.String,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            Execute a SqlCommand (that returns no resultset) against the database specified in the connection string 
+            using the provided parameters.
+            </summary>
+            <remarks>
+            e.g.:  
+             int result = ExecuteNonQuery(connString, CommandType.StoredProcedure, "PublishOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="cmdType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="cmdText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>an int representing the number of rows affected by the command</returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.ExecuteNonQuery(System.String,System.Data.CommandType,System.String,System.Int32,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            
+            </summary>
+            <param name="connectionString"></param>
+            <param name="cmdType"></param>
+            <param name="cmdText"></param>
+            <param name="commandTimeout"></param>
+            <param name="commandParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.ExecuteNonQuery(System.String,System.Data.CommandType,System.String,System.String,System.Int32@,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            加了输出项
+            </summary>
+            <param name="connectionString"></param>
+            <param name="cmdType"></param>
+            <param name="cmdText"></param>
+            <param name="_outParaName"></param>
+            <param name="_out"></param>
+            <param name="commandParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.ExecuteNonQuery(System.Data.SqlClient.SqlConnection,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            Execute a SqlCommand (that returns no resultset) against an existing database connection 
+            using the provided parameters.
+            </summary>
+            <remarks>
+            e.g.:  
+             int result = ExecuteNonQuery(connString, CommandType.StoredProcedure, "PublishOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="connection">an existing database connection</param>
+            <param name="cmdType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="cmdText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>an int representing the number of rows affected by the command</returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.ExecuteNonQuery(System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            Execute a SqlCommand (that returns no resultset) using an existing SQL Transaction 
+            using the provided parameters.
+            </summary>
+            <remarks>
+            e.g.:  
+             int result = ExecuteNonQuery(connString, CommandType.StoredProcedure, "PublishOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="trans">an existing sql transaction</param>
+            <param name="cmdType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="cmdText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>an int representing the number of rows affected by the command</returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.ExecuteReader(System.String,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            Execute a SqlCommand that returns a resultset against the database specified in the connection string 
+            using the provided parameters.
+            </summary>
+            <remarks>
+            e.g.:  
+             SqlDataReader r = ExecuteReader(connString, CommandType.StoredProcedure, "PublishOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="cmdType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="cmdText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>A SqlDataReader containing the results</returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.ExecuteReader(System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            
+            </summary>
+            <param name="trans"></param>
+            <param name="cmdType"></param>
+            <param name="cmdText"></param>
+            <param name="commandParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.ExecuteReader(System.String,System.Data.CommandType,System.String,System.Int32,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            
+            </summary>
+            <param name="connectionString"></param>
+            <param name="cmdType"></param>
+            <param name="cmdText"></param>
+            <param name="commandTimeout"></param>
+            <param name="commandParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.ExecuteScalar(System.String,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            Execute a SqlCommand that returns the first column of the first record against the database specified in the connection string 
+            using the provided parameters.
+            </summary>
+            <remarks>
+            e.g.:  
+             Object obj = ExecuteScalar(connString, CommandType.StoredProcedure, "PublishOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="cmdType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="cmdText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>An object that should be converted to the expected type using Convert.To{Type}</returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.ExecuteScalar(System.Data.SqlClient.SqlConnection,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            Execute a SqlCommand that returns the first column of the first record against an existing database connection 
+            using the provided parameters.
+            </summary>
+            <remarks>
+            e.g.:  
+             Object obj = ExecuteScalar(connString, CommandType.StoredProcedure, "PublishOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="conn">an existing database connection</param>
+            <param name="cmdType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="cmdText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>An object that should be converted to the expected type using Convert.To{Type}</returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.ExecuteScalar(System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            
+            </summary>
+            <param name="trans"></param>
+            <param name="cmdType"></param>
+            <param name="cmdText"></param>
+            <param name="commandParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.CacheParameters(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            add parameter array to the cache
+            </summary>
+            <param name="cacheKey">Key to the parameter cache</param>
+            <param name="commandParameters">an array of SqlParamters to be cached</param>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.GetCachedParameters(System.String)">
+            <summary>
+            Retrieve cached parameters
+            </summary>
+            <param name="cacheKey">key used to lookup parameters</param>
+            <returns>Cached SqlParamters array</returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.PrepareCommand(System.Data.SqlClient.SqlCommand,System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            执行Command
+            </summary>
+            <param name="cmd">SqlCommand object</param>
+            <param name="conn">SqlConnection object</param>
+            <param name="trans">SqlTransaction object</param>
+            <param name="cmdType">Cmd type e.g. stored procedure or text</param>
+            <param name="cmdText">Command text, e.g. Select * from Products</param>
+            <param name="cmdParms">SqlParameters to use in the command</param>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.ExecuteSqlTran(System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.Data.SqlClient.SqlParameter[]})">
+            <summary>
+            执行多条SQL语句，实现数据库事务。
+            </summary>
+            <param name="connectionString"></param>
+            <param name="SQLStringList">多条SQL语句</param>		
+            <param name="commandParametersList">SqlParameters to use in the command</param>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.BulkInsert(System.String,System.Data.DataTable,System.String,System.Int32)">
+            <summary>
+            批量添加数据
+            作者：郭孟稳 
+            时间： 2016-07-15
+            </summary>
+            <param name="connectionString">连接字符串</param>
+            <param name="dataTable">数据源</param>
+            <param name="TableName">表名</param>
+            <param name="batchSize">每批数量，默认10000</param>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.GetDataView(System.String,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            返回DataView数据 
+            </summary>
+            <param name="connectionString"></param>
+            <param name="cmdType"></param>
+            <param name="cmdText"></param>
+            <param name="commandParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.GetDataTable(System.String,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            返回DataTable数据
+            </summary>
+            <param name="connectionString"></param>
+            <param name="cmdType"></param>
+            <param name="cmdText"></param>
+            <param name="commandParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.GetDataSet(System.String,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            
+            </summary>
+            <param name="connectionString"></param>
+            <param name="cmdType"></param>
+            <param name="cmdText"></param>
+            <param name="commandParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.Query(System.String,System.String)">
+            <summary>
+            执行查询语句，返回DataSet
+            修改者：郭孟稳
+            </summary>
+            <param name="connectionString"></param>
+            <param name="SQLString">查询语句</param>
+            <returns>DataSet</returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.RunDoSplitPage(System.String,System.Data.IDataParameter[],System.Int32@)">
+            <summary>
+            执行分页存储过程
+            </summary>
+            <param name="connectionString"></param>
+            <param name="parameters"></param>
+            <param name="recordCount"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.BuildQueryCommand(System.Data.SqlClient.SqlConnection,System.String,System.Data.IDataParameter[])">
+            <summary>
+            构建 SqlCommand 对象(用来返回一个结果集，而不是一个整数值)
+            </summary>
+            <param name="connection">数据库连接</param>
+            <param name="storedProcName">存储过程名</param>
+            <param name="parameters">存储过程参数</param>
+            <returns>SqlCommand</returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.GetSplitDataTable``1(System.String,System.String,System.Int32,System.Int32,System.Int32@,System.Int32@)">
+            <summary>
+            获取分页DataTable
+            </summary>
+            <param name="connectionString"></param>
+            <param name="strSql"></param>
+            <param name="iPageSize">分页大小</param>
+            <param name="iPageIndex">当前页</param>
+            <param name="iRecordCount">总记录数</param>
+            <param name="pageCount"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.GetSplitDataTable(System.String,System.String,System.Int32,System.Int32,System.Int32@,System.Int32@)">
+            <summary>
+            获取分页DataTable
+            </summary>
+            <param name="connectionString"></param>
+            <param name="strSql"></param>
+            <param name="iPageSize">分页大小</param>
+            <param name="iPageIndex">当前页</param>
+            <param name="iRecordCount">总记录数</param>
+            <param name="pageCount"></param>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.buildPageSql(System.Int32,System.Int32,System.String,System.String,System.Boolean)">
+            <summary>
+            生成完整分页语句--无总数返回
+            </summary>
+            <param name="pageIndex">当前页码</param>
+            <param name="pageSize">每页数量</param>
+            <param name="querySql">原语句</param>
+            <param name="orderbyField">排序字段</param>
+            <param name="orderby">排序类型，true:默认排序，false:desc排序</param>
+            <returns>分页语句</returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.buildPageOrderBySql(System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            外部传排序，生成完整分页语句--无总数返回
+            </summary>
+            <param name="pageIndex">当前页码</param>
+            <param name="pageSize">每页数量</param>
+            <param name="querySql">原语句</param>
+            <param name="orderbyField">排序字段</param>        
+            <returns>分页语句</returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.buildRecordCountSql(System.String)">
+            <summary>
+            生成获取总数语句
+            </summary>
+            <param name="querySql">原语句</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.GetEntityList``1(System.Data.IDataReader)">
+            <summary>   
+            根据需要得实体类信息   
+            </summary>   
+            <typeparam name="T">需要一个对象有一个无参数的实例化方法</typeparam>   
+            <param name="dr">table数据源</param>   
+            <returns>返回整理好了集合</returns>           
+        </member>
+        <member name="M:HotCoreUtils.DB.DbHelperSQLP.GetEntity``1(System.Data.IDataReader)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dr"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.ExpressionEvaluator.ExpressionInterpreter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:HotCoreUtils.Helper.CommentHelper">
+            <summary>
+            TODO:文章评论助手,使用此帮助类，必须存在hot_comment_list数据表
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Helper.CommentHelper.connectionString">
+            <summary>
+            数据库连接字符串
+            </summary>
+            <value>The connection string.</value>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CommentHelper.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CommentHelper.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="conStr">数据库连接字符串</param>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CommentHelper.AddComment(HotCoreUtils.Helper.CommentModel)">
+            <summary>
+            添加评论
+            </summary>
+            <param name="model">The model.</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CommentHelper.AddReplyComment(HotCoreUtils.Helper.ReplyCommentModel)">
+            <summary>
+            回复评论
+            </summary>
+            <param name="model">The model.</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CommentHelper.AddLikeComment(System.Int32,System.Int32)">
+            <summary>
+            添加点赞
+            </summary>
+            <param name="commentId">点赞的评论ID</param>
+            <param name="userId">点赞用户ID</param>
+            <returns>true or false</returns>
+        </member>
+        <member name="T:HotCoreUtils.Helper.CommentModel">
+            <summary>
+            评论对象实体
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Helper.CommentModel.comment_id">
+            <summary>
+            评论ID
+            </summary>
+            <value>The comment_id.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.CommentModel.article_id">
+            <summary>
+            文章ID
+            </summary>
+            <value>The article_id.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.CommentModel.comment_user_id">
+            <summary>
+            评论用户ID
+            </summary>
+            <value>The comment_user_id.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.CommentModel.comment_user_name">
+            <summary>
+            评论用户名称
+            </summary>
+            <value>The comment_user_name.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.CommentModel.reply_comment_id">
+            <summary>
+            回复的评论ID
+            </summary>
+            <value>The reply_comment_id.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.CommentModel.reply_user_id">
+            <summary>
+            回复评论用户的ID
+            </summary>
+            <value>The reply_user_id.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.CommentModel.reply_user_name">
+            <summary>
+            回复评论用户的名称
+            </summary>
+            <value>The reply_user_name.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.CommentModel.reply_time">
+            <summary>
+            回复时间
+            </summary>
+            <value>The reply_time.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.CommentModel.commnet_content">
+            <summary>
+            评论或回复内容
+            </summary>
+            <value>The commnet_content.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.CommentModel.reply_count">
+            <summary>
+            当前评论的回复数
+            </summary>
+            <value>The reply_count.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.CommentModel.like_count">
+            <summary>
+            当前评论的点赞数
+            </summary>
+            <value>The like_count.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.CommentModel.hot_comment">
+            <summary>
+            是否是热点评论
+            </summary>
+            <value>The hot_comment.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.CommentModel.create_time">
+            <summary>
+            创建时间
+            </summary>
+            <value>The create_time.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.CommentModel.friendly_prompt_time">
+            <summary>
+            友好的提示时间
+            </summary>
+            <value>The friendly_prompt_time.</value>
+        </member>
+        <member name="T:HotCoreUtils.Helper.ReplyCommentModel">
+            <summary>
+            回复评论实体对象
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Helper.ReplyCommentModel.comment_user_id">
+            <summary>
+            评论用户ID
+            </summary>
+            <value>The comment_user_id.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.ReplyCommentModel.comment_user_name">
+            <summary>
+            评论用户名称
+            </summary>
+            <value>The comment_user_name.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.ReplyCommentModel.reply_comment_id">
+            <summary>
+            回复的评论ID
+            </summary>
+            <value>The reply_comment_id.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.ReplyCommentModel.reply_user_id">
+            <summary>
+            回复评论用户的ID
+            </summary>
+            <value>The reply_user_id.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.ReplyCommentModel.reply_user_name">
+            <summary>
+            回复评论用户的名称
+            </summary>
+            <value>The reply_user_name.</value>
+        </member>
+        <member name="P:HotCoreUtils.Helper.ReplyCommentModel.reply_commnet_content">
+            <summary>
+            回复内容
+            </summary>
+            <value>The commnet_content.</value>
+        </member>
+        <member name="T:HotCoreUtils.Helper.ConfigHelper">
+            <summary>
+            读取配置帮助类
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Helper.ConfigHelper.MssqlDBConnectionString">
+            <summary>
+            默认链接，key=MssqlDBConnectionString
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Helper.ConfigHelper.GetConfigString(System.String,System.String)">
+            <summary>
+            获取配置
+            </summary>
+            <param name="key"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.ConfigHelper.GetConfigString(System.String)">
+            <summary>
+            获取配置
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.Helper.CookieHelper">
+            <summary>
+            Cookie帮助类
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.SetCookieVal``1(System.String,``0,System.Int32)">
+            <summary>
+            T对象序列化后写入cookie
+            </summary>
+            <param name="cookieName">Cookie名</param>
+            <param name="targetObject">需要序列化的对象,必须标记了可被序列化</param>
+            <param name="iExpires">COOKIE对象有效时间（分钟），1表示永久有效，0和负数都表示不设有效时间，大于等于2表示具体有效分钟，525600分=1年=(60*24*365)</param>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.GetCookieVal``1(System.String)">
+            <summary>
+            反序列化cookie的值返回user对象
+            </summary>
+            <param name="cookieName">Cookie名</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.SetCookieValByCurrentDomain(System.String,System.Int32,System.String)">
+            <summary>
+            设置Cookie值，不使用共享主域名的方式
+            </summary>
+            <param name="cookieName">Cookie名</param>
+            <param name="iExpires">COOKIE对象有效时间（分钟），1表示永久有效，0和负数都表示不设有效时间，大于等于2表示具体有效分钟，525600分=1年=(60*24*365)</param>
+            <param name="cookieValue">Cookie值</param>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.SetCookieVal(System.String,System.Int32,System.String,System.Boolean)">
+            <summary>
+            设置Cookie值
+            </summary>
+            <param name="cookieName">Cookie名</param>
+            <param name="iExpires">COOKIE对象有效时间（分钟），1表示永久有效，0和负数都表示不设有效时间，大于等于2表示具体有效分钟，525600分=1年=(60*24*365)</param>
+            <param name="cookieValue">Cookie值</param>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.SetCookieVal(System.String,System.Int32,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            设置Cookie值
+            </summary>
+            <param name="cookieName">Cookie名</param>
+            <param name="iExpires">COOKIE对象有效时间（分钟），1表示永久有效，0和负数都表示不设有效时间，大于等于2表示具体有效分钟，525600分=1年=(60*24*365)</param>
+            <param name="keyAndValue ">Cookie键名和值</param>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.GetCookieVal(System.String)">
+            <summary>
+            获取Cookie值
+            </summary>
+            <param name="cookieName">Cookie名</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.GetCookieVal(System.String,System.String)">
+            <summary>
+            获取Cookie值
+            </summary>
+            <param name="cookieName">Cookie名</param>
+            <param name="keyName">键名</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.GetCookieVal(System.String,System.String[])">
+            <summary>
+            获取Cookie值
+            </summary>
+            <param name="cookieName">Cookie名</param>
+            <param name="keyName">键名数组</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.DelCookieValByCurrentDomain(System.String)">
+            <summary>
+            删除Cookie值，当前域的cookie
+            </summary>
+            <param name="cookieName">Cookie名</param>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.DelCookieVal(System.String)">
+            <summary>
+            删除Cookie值
+            </summary>
+            <param name="cookieName">Cookie名</param>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.ClearCookie">
+            <summary>
+            清除所有cookie
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.CookieExist(System.String)">
+            <summary>
+            判断Cookies是否存在
+            </summary>
+            <param name="CookieName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.GetCookies">
+            <summary>
+            获取cookie
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.DelCookie(System.String)">
+            <summary>
+            删除Cookie
+            </summary>
+            <param name="CookiesName">Cookie名</param>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.GetCookies(System.String)">
+            <summary>
+            获取Cookie
+            </summary>
+            <param name="CookiesName">Cookie名</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.GetCookies(System.String,System.String)">
+            <summary>
+            获取Cookie
+            </summary>
+            <param name="CookiesName">Cookie名</param>
+            <param name="KeyName">键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.WriteCookies(System.String,System.Int32,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            设置Cookie多值
+            </summary>
+            <param name="CookiesName">Cookie名称</param>
+            <param name="IExpires">COOKIE对象有效时间（分钟），1表示永久有效，0和负数都表示不设有效时间，大于等于2表示具体有效分钟，525600分=1年=(60*24*365)</param>
+            <param name="CookiesKeyValueCollection">键/值</param>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.WriteCookies(System.String,System.Int32,System.String,System.Boolean)">
+            <summary>
+            设置Cookie值(写入主域名)
+            </summary>
+            <param name="CookiesName">Cookie名</param>
+            <param name="IExpires">COOKIE对象有效时间（分钟），1表示永久有效，负数表示立即失效，0都表示不设有效时间，大于等于2表示具体有效分钟，525600分=1年=(60*24*365)</param>
+            <param name="CookiesValue">Cookie值</param>
+        </member>
+        <member name="M:HotCoreUtils.Helper.CookieHelper.ClearAllCookie(System.Boolean)">
+            <summary>
+            清除所有cookie --郭孟稳
+            </summary>
+            <param name="share">是否删除同一域名下的所有cookie，默认只清空当前网站cookie</param>
+        </member>
+        <member name="T:HotCoreUtils.Helper.EncryptHelper">
+            <summary>
+            加密帮助类
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Helper.EncryptHelper.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.EncryptHelper.ENCRYPT_KEY">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.EncryptHelper.AppSecret">
+            <summary>
+            内部签名密钥
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Helper.EncryptHelper.MD5(System.String)">
+            <summary>
+            MD5加密
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.EncryptHelper.MD5Digest(System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.EncryptHelper.MD5_16(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.EncryptHelper.md5DigestAsHex(System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.EncryptHelper.MD5_8(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.EncryptHelper.Encrypt(System.String,System.String)">
+            <summary>
+            加密算法
+            </summary>
+            <param name="pwdEncrypt">要加密的字符串</param>
+            <param name="key">密钥  必须8位</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.EncryptHelper.Decrypt(System.String,System.String)">
+            <summary>
+            解密算法
+            </summary>
+            <param name="pwdDecrypt">要解密的字符串</param>
+            <param name="key">密钥 必须8位</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.EncryptHelper.Encrypt32(System.String,System.String)">
+            <summary>
+            加密算法 ,密钥key，长度不限
+            </summary>
+            <param name="pwdEncrypt"></param>
+            <param name="key">密钥key，长度不限</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.EncryptHelper.Decrypt32(System.String,System.String)">
+            <summary>
+            解密算法
+            </summary>
+            <param name="pwdDecrypt">要解密的字符串</param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.EncryptHelper.RSAKey(System.String@,System.String@)">
+            <summary>
+            RSA加密算法产生私钥和公钥
+            </summary>
+            <param name="xmlKeys">XML格式私钥</param>
+            <param name="xmlPublicKey">XML格式公钥</param>
+        </member>
+        <member name="M:HotCoreUtils.Helper.EncryptHelper.RSAEncrypt(System.String,System.String)">
+            <summary>
+            RSA加密
+            </summary>
+            <param name="publickey"></param>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.EncryptHelper.RSADecrypt(System.String,System.String)">
+            <summary>
+            RSA解密
+            </summary>
+            <param name="privatekey"></param>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.EncryptHelper.SHA1_Hash(System.String)">
+            <summary>
+            SHA1签名
+            </summary>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.Helper.EvaluatorHelper">
+            <summary>
+            计算器帮助类
+            描述: 根据计算公式,计算出结果,支持-加减乘除
+            作者：郭孟稳
+            时间：2016/08/01 11:01:16
+            </summary>	
+        </member>
+        <member name="M:HotCoreUtils.Helper.EvaluatorHelper.Eval(System.String)">
+            <summary>
+            计算公式并返回计算结果,如果表达式出错则抛出异常，支持-加减乘除
+            </summary>
+            <param name="expression">表达式,如"1+2+3+4"</param>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.Helper.GlobalProvider">
+            <summary>
+            全局扩展属性类
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.StrIsNull(System.String)">
+            <summary>
+            判断字符串是否为空,返回true为空，否则不为空
+            </summary>
+            <param name="boolValue">字符串值</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.StrToString(System.Object)">
+            <summary>
+            判断字符串是否为空,为空返回空字符 否则源数据返回
+            </summary>
+            <param name="boolValue">字符串值</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.DsIsNull(System.Data.DataSet)">
+            <summary>
+            判断数据集(DataSet)是否为空
+            </summary>
+            <param name="ds">数据集</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.DtIsNull(System.Data.DataTable)">
+            <summary>
+            判断DataTable表是否为空
+            </summary>
+            <param name="dt">数据表</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.DRIsNull(System.Data.DataRow[])">
+            <summary>
+            判断DataRow是否为空
+            </summary>
+            <param name="dr">Rows行数组</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.ListIsNull``1(System.Collections.Generic.List{``0})">
+            <summary>
+            判断List对象是否为空
+            </summary>
+            <param name="list">List对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.IListIsNull``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            判断IList对象是否为空
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <param name="list">集合类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.ObjIsNull(System.Object[])">
+            <summary>
+            判断object[]对象是否为空
+            </summary>
+            <param name="obj">对象数组</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.IsVersionUpdate(System.String,System.String)">
+            <summary>
+            判断版本是否有更新
+            </summary>
+            <param name="version">最新版本号</param>
+            <param name="currentVersion">当前版本号</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.NotNull(System.Object)">
+            <summary>
+            对象是否非空
+            为空返回 false
+            不为空返回 true
+            </summary>
+            <param name="Object">要判断的对象</param>
+            <returns>bool值</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.NotNull(System.Object,System.Boolean)">
+            <summary>
+            对象是否非空
+            为空返回 false
+            不为空返回 true
+            </summary>
+            <param name="Object">要判断的对象</param>
+            <param name="IsRemoveSpace">是否去除空格</param>
+            <returns>bool值</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.IsNull(System.Object)">
+            <summary>
+            对象是否为空
+            为空返回 false
+            不为空返回 true
+            </summary>
+            <param name="Object">要判断的对象</param>
+            <returns>bool值</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.IsNull(System.Object,System.Boolean)">
+            <summary>
+            对象是否为空
+            为空返回 false
+            不为空返回 true
+            </summary>
+            <param name="Object">要判断的对象</param>
+            <param name="IsRemoveSpace">是否去除空格</param>
+            <returns>bool值</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.IsBool(System.Object)">
+            <summary>
+            对象是否为bool值
+            </summary>
+            <param name="Object">要判断的对象</param>
+            <returns>bool值</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.IsBool(System.Object,System.Boolean)">
+            <summary>
+            判断是否为bool值
+            </summary>
+            <param name="Object">要判断的对象</param>
+            <param name="Default">默认bool值</param>
+            <returns>bool值</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.IsHttp(System.String)">
+            <summary>
+            是否URL地址
+            </summary>
+            <param name="HttpUrl">等待验证的Url地址</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.IsInt(System.Object)">
+            <summary>
+            对象是否为int值
+            </summary>
+            <param name="Object"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.IsLong(System.Object)">
+            <summary>
+            对象是否为long值
+            </summary>
+            <param name="Object"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.ToBoolen(System.Object,System.Boolean)">
+            <summary>
+            转换为BOOL
+            </summary>
+            <param name="Object"></param>
+            <param name="Default"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.ToBoolen(System.Object)">
+            <summary>
+            对象转BOOL类型
+            </summary>
+            <param name="Object"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.IsTime(System.Object)">
+            <summary>
+            判断是否为时间格式
+            </summary>
+            <param name="Object">要判断的对象</param>
+            <returns>返回是否转换成功</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.IsDecimal(System.Object)">
+            <summary>
+            是否为decimal值
+            </summary>
+            <param name="Object"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.GlobalProvider.IsFloat(System.Object)">
+            <summary>
+            是否为float值
+            </summary>
+            <param name="Object"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.Helper.LogHelperTag">
+            <summary>
+            日志标识
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.LogHelperTag.DEBUG">
+            <summary>
+            debug
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.LogHelperTag.INFO">
+            <summary>
+            info
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.LogHelperTag.ERROR">
+            <summary>
+            error
+            </summary>
+        </member>
+        <member name="T:HotCoreUtils.Helper.LogHelper">
+            <summary>
+            日志帮助类
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Helper.LogHelper.Log(System.String,HotCoreUtils.Helper.LogHelperTag,System.Boolean)">
+            <summary>
+            日志，用户外面控制输出环境
+            </summary>
+            <param name="content"></param>
+            <param name="tag"></param>
+            <param name="DebugMode">true：debug模式，false：release模式,默认true，</param>
+        </member>
+        <member name="M:HotCoreUtils.Helper.LogHelper.WriteLog(System.String,System.Object)">
+            <summary>
+            写日志
+            </summary>
+            <param name="tag"></param>
+            <param name="content"></param>
+        </member>
+        <member name="T:HotCoreUtils.Helper.PageBaseHelper">
+            <summary>
+            页面基础类
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Helper.PageBaseHelper.IsHttpPOST">
+            <summary>
+            是否为POST提交方式   在这里可以判断是否重复提交的  Request.Headers["Accept"] != "*/*"
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Helper.PageBaseHelper.IsAjaxRequest">
+            <summary>
+            是否为异步请求
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Helper.PageBaseHelper.CallbackName">
+            <summary>
+            JSONP 回调函数名
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Helper.PageBaseHelper.GetQueryString(System.String,System.String)">
+            <summary>
+            获取Request.QueryString中的指定键的值
+            </summary>
+            <param name="sQueryKey">键</param>
+            <param name="sDefaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.PageBaseHelper.GetQueryString(System.String,System.Int32)">
+            <summary>
+            获取Request.QueryString中的指定键的值
+            </summary>
+            <param name="sQueryKey">键</param>
+            <param name="iDefaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.PageBaseHelper.GetQueryString(System.String,System.Int64)">
+            <summary>
+            获取Request.QueryString中的指定键的值
+            </summary>
+            <param name="sQueryKey"></param>
+            <param name="lDefaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.PageBaseHelper.GetQueryString(System.String,System.Double)">
+            <summary>
+            获取Request.QueryString中的指定键的值
+            </summary>
+            <param name="sQueryKey">键</param>
+            <param name="dDefaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.PageBaseHelper.GetFormValue(System.String,System.String)">
+            <summary>
+            获取Request.Form中的指定键的值
+            </summary>
+            <param name="sFormName">键</param>
+            <param name="sDefaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.PageBaseHelper.GetFormValue(System.String,System.Int32)">
+            <summary>
+            获取Request.Form中的指定键的值
+            </summary>
+            <param name="sFormName">键</param>
+            <param name="iDefaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.Helper.RegexHelper">
+            <summary>
+            正则助手
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.RegexHelper._RegEmail">
+            <summary>
+            email地址
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.RegexHelper._RegDecimal">
+            <summary>
+            小数
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.RegexHelper._RegTel">
+            <summary>
+            电话号码
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.RegexHelper._RegRealMobileNo">
+            <summary>
+            真实手机号码
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.RegexHelper._RegDate">
+            <summary>
+            年月日
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.RegexHelper._RegPostfix">
+            <summary>
+            后缀名
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.RegexHelper._RegIP">
+            <summary>
+            Ip
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidABC(System.String)">
+            <summary>
+            由英文字母组成
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidInt(System.String)">
+            <summary>
+            由数字组成
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidABCNum(System.String)">
+            <summary>
+            由数字和26个英文字母组成的字符串
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidNomalInput(System.String)">
+            <summary>
+            由数字、26个英文字母或者下划线组成的字符串
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidEmail(System.String)">
+            <summary>
+            验证Email地址 
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidDecimal(System.String)">
+            <summary>
+            验证是否为小数
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidTel(System.String)">
+            <summary>
+            验证是否为电话号码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidFixedTel(System.String)">
+            <summary>
+            固定电话
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidMobileNo(System.String)">
+            <summary>
+            手机号
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidRealMobileNo(System.String)">
+            <summary>
+            验证真实的手机号码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidDate(System.String)">
+            <summary>
+            验证年月日
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidPostfix(System.String)">
+            <summary>
+            验证后缀名
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidIp(System.String)">
+            <summary>
+            验证IP
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidChinese(System.String)">
+            <summary>
+            中文字符
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidDoubleByte(System.String)">
+            <summary>
+            双字节字符(包括汉字在内)：
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidCard(System.String)">
+            <summary>
+            身份证[中国的身份证为15位或18]
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidPost(System.String)">
+             <summary>
+            中国邮政编码为6位数字
+             </summary>
+             <param name="input"></param>
+             <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidQQ(System.String)">
+             <summary>
+            腾讯QQ号从10000开始
+             </summary>
+             <param name="input"></param>
+             <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidAbcNumCh(System.String)">
+            <summary>
+            字母数字和汉字
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidAbcCh(System.String)">
+            <summary>
+            字母汉字组合
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidCh(System.String)">
+            <summary>
+            汉字组成
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsValidNum(System.String)">
+            <summary>
+            有数字组成
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsGUID(System.String)">
+            <summary>
+            是否是统一编码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsChapNo(System.String)">
+            <summary>
+            是否是课件编号如 20100809_120945
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsChapTime(System.String)">
+            <summary>
+            是否是课件时长格式如 01:02:03
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsLoginName(System.String)">
+            <summary>
+            用户名，登录名(字母数字_-)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.RegexHelper.IsVersion(System.String)">
+            <summary>
+            版本号 如1.10.6
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.Helper.SerializeHelper">
+            <summary>
+            序列化辅助类
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SerializeHelper.BinarySerializeObjectToBase64String``1(``0)">
+            <summary>
+            使用二进制序列化特定对象成字符串
+            </summary>
+            <typeparam name="T">对象的类型,必须是标识为 [Serializable]</typeparam>
+            <param name="targetObject">对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SerializeHelper.BinaryDeserializeBase64StringToObject``1(System.String)">
+            <summary>
+            使用二进制反序列化字符串成指定对象
+            </summary>
+            <typeparam name="T">对象的类型,必须是标识为 [Serializable]</typeparam>
+            <param name="sBase64String">要反序列化的对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SerializeHelper.BinarySerialize``1(System.String,``0)">
+            <summary>
+            使用二进制序列化特定对象到指定的文件中
+            </summary>
+            <typeparam name="T">对象的类型,必须是标识为 [Serializable]</typeparam>
+            <param name="sBinaryFilePath">二进制文件路径</param>
+            <param name="targetObject">对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SerializeHelper.BinaryDeserialize``1(System.String)">
+            <summary>
+            使用二进制反序列化指定文件成特定对象
+            </summary>
+            <typeparam name="T">对象的类型,必须是标识为 [Serializable]</typeparam>
+            <param name="sBinaryFilePath">二进制文件路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SerializeHelper.XmlSerialize``1(System.String,System.Text.Encoding,``0)">
+            <summary>
+            使用Xml格式序列化对象
+            </summary>
+            <typeparam name="T">对象的类型,必须是标识为 [Serializable]</typeparam>
+            <param name="sXmlFilePath">xml文件路径</param>
+            <param name="encoding">编码</param>
+            <param name="targetObject">目标对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SerializeHelper.XmlDeserialize``1(System.String,System.Text.Encoding)">
+            <summary>
+            反序列化指定对象
+            </summary>
+            <typeparam name="T">对象的类型,必须是标识为 [Serializable]</typeparam>
+            <param name="sXmlFilePath">xml文件路径</param>
+            <param name="encoding">编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SerializeHelper.JsonSerializer``1(``0)">
+            <summary>
+            JSON序列化
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SerializeHelper.JsonDeserialize``1(System.String)">
+            <summary>
+            JSON反序列化
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="jsonString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SerializeHelper.ConvertJsonDateToDateString(System.Text.RegularExpressions.Match)">
+            <summary>
+             将Json序列化的时间由/Date(1294499956278+0800)转为字符串
+            </summary>
+            <param name="m"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SerializeHelper.ConvertDateStringToJsonDate(System.Text.RegularExpressions.Match)">
+            <summary>
+            将时间字符串转为Json时间
+            </summary>
+            <param name="m"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.Helper.SignatureHelper">
+            <summary>
+            数据通讯签名管理人
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:HotCoreUtils.Helper.SignatureHelper.VerifySign(System.Collections.Generic.SortedDictionary{System.String,System.String},System.String,System.String,HotCoreUtils.Helper.SignatureHelper.BuildSettingModel)" -->
+        <!-- Badly formed XML comment ignored for member "M:HotCoreUtils.Helper.SignatureHelper.VerifySign(System.Collections.Generic.SortedDictionary{System.String,System.String},System.String,System.String)" -->
+        <member name="M:HotCoreUtils.Helper.SignatureHelper.BuildSign(System.Collections.Generic.SortedDictionary{System.String,System.String},System.String,HotCoreUtils.Helper.SignatureHelper.BuildSettingModel)">
+            <summary>
+            生成签名
+            </summary>
+            <param name="inputPara">字典</param>
+            <param name="secrect">秘钥</param>
+            <param name="setting">生成的设置</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SignatureHelper.BuildSign(System.Collections.Generic.SortedDictionary{System.String,System.String},System.String)">
+            <summary>
+            生成签名（用xxx=xxx&amp;aaa=bbb连接，salt加在尾部，32位md5）
+            </summary>
+            <param name="inputPara"></param>
+            <param name="secrect">Secrect</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SignatureHelper.BuildSignStr(System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            生成带签名的参数串
+            </summary>
+            <param name="inputPara"></param>
+            <param name="secrect">Secrect</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SignatureHelper.BuildSign(System.Collections.Generic.Dictionary{System.String,System.String},System.String,HotCoreUtils.Helper.SignatureHelper.BuildSettingModel)">
+            <summary>
+            生成签名
+            </summary>
+            <param name="inputPara">字典</param>
+            <param name="secrect">秘钥</param>
+            <param name="setting">生成的设置</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SignatureHelper.BuildSign(System.Collections.Specialized.NameValueCollection,System.String,HotCoreUtils.Helper.SignatureHelper.BuildSettingModel)">
+            <summary>
+            生成签名
+            </summary>
+            <param name="coll"></param>
+            <param name="secrect"></param>
+            <param name="setting"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SignatureHelper.BuildSign(System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            生成签名（用xxx=xxx&amp;aaa=bbb连接，salt加在尾部，32位md5_utf8）
+            </summary>
+            <param name="inputPara"></param>
+            <param name="secrect"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SignatureHelper.BuildSign(System.Collections.Specialized.NameValueCollection,System.String)">
+            <summary>
+            生成签名
+            </summary>
+            <param name="coll"></param>
+            <param name="secrect"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SignatureHelper.Sign(System.String,System.String,System.String)">
+            <summary>
+            签名字符串
+            </summary>
+            <param name="prestr">需要签名的字符串</param>
+            <param name="key">密钥</param>
+            <param name="_input_charset">编码格式</param>
+            <returns>签名结果</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.SignatureHelper.FilterPara(System.Collections.Generic.SortedDictionary{System.String,System.String})">
+            <summary>
+            除去数组中的空值和签名参数并以字母a到z的顺序排序
+            </summary>
+            <param name="dicArrayPre">过滤前的参数组</param>
+            <returns>过滤后的参数组</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:HotCoreUtils.Helper.SignatureHelper.CreateLinkString(System.Collections.Generic.Dictionary{System.String,System.String})" -->
+        <member name="M:HotCoreUtils.Helper.SignatureHelper.CreateSeamlessString(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            把数组所有元素，按照“参数+参数值”的无间隔符的模式接成字符串
+            </summary>
+            <param name="dicArray">需要拼接的数组</param>
+            <returns>拼接完成以后的字符串</returns>
+        </member>
+        <member name="T:HotCoreUtils.Helper.SignatureHelper.BuildSettingModel">
+            <summary>
+            生成条件选项
+            </summary>
+        </member>
+        <member name="T:HotCoreUtils.Helper.SignatureHelper.PreSignStrJoinFormatOptions">
+            <summary>
+            presign字符串连接方式
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.SignatureHelper.PreSignStrJoinFormatOptions.None">
+            <summary>
+            例：orderid2015amount30
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:HotCoreUtils.Helper.SignatureHelper.PreSignStrJoinFormatOptions.UrlParameter" -->
+        <member name="T:HotCoreUtils.Helper.SignatureHelper.SaltAppendPositionOptions">
+            <summary>
+            key加的位置
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.SignatureHelper.SaltAppendPositionOptions.Prefix">
+            <summary>
+            前缀
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.SignatureHelper.SaltAppendPositionOptions.Suffix">
+            <summary>
+            后缀
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.SignatureHelper.SaltAppendPositionOptions.ALL">
+            <summary>
+            前后都加
+            </summary>
+        </member>
+        <member name="T:HotCoreUtils.Helper.SignatureHelper.EncryptTypeOptions">
+            <summary>
+            加密方式
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Helper.SignatureHelper.EncryptTypeOptions.MD5_UTF8_32">
+            <summary>
+            JAVA交互必须用这个
+            </summary>
+        </member>
+        <member name="T:HotCoreUtils.Helper.StringHelper">
+            <summary>
+            字符串帮助类
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetStringNoneHtml(System.Object)">
+            <summary>
+            去除HTML
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetSubStringNoneHtml(System.Object,System.Int32,System.String)">
+            <summary>
+            切割字符串【去除HTML】
+            </summary>
+            <param name="o"></param>
+            <param name="length">字节长度</param>
+            <param name="endStr">结束字符</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetSubString(System.Object,System.Int32,System.String)">
+            <summary>
+            切割字符串
+            </summary>
+            <param name="o"></param>
+            <param name="length">字节长度</param>
+            <param name="endStr">结束字符</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetSafeString(System.Object)">
+            <summary>
+            过滤特殊字符 用于sql
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ReadFileByGb2312(System.String)">
+            <summary>
+            读取文件
+            </summary>
+            <param name="strFilePath">文件绝对路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ReadSign(System.String,System.String)">
+            <summary>
+            从字符串中读取某个标签下的内容，<!--tagname-->内容<!--/tagname-->
+            </summary>
+            <param name="strSign"></param>
+            <param name="strContent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetClientIP">
+            <summary>
+            获得客户的IP
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.DateDiff(System.DateTime,System.DateTime)">
+            <summary>
+            获得两个日期的间隔
+            </summary>
+            <param name="DateTime1">日期一。</param>
+            <param name="DateTime2">日期二。</param>
+            <returns>日期间隔TimeSpan。</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.FormatDate(System.DateTime,System.String)">
+            <summary>
+            格式化日期时间
+            </summary>
+            <param name="dateTime1">日期时间</param>
+            <param name="dateMode">显示模式</param>
+            <returns>0-9种模式的日期</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.HtmlToTxt(System.String)">
+            <summary>
+            HTML转行成TEXT
+            </summary>
+            <param name="strHtml"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.StrLength(System.String)">
+            <summary>
+            得到字符串长度，一个汉字长度为2
+            </summary>
+            <param name="inputString">参数字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetDataTimeRnd">
+            <summary>
+            获得一个按时间的随机数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetRandomNumber(System.Int32,System.Int32)">
+            <summary>
+            [MinNum,MaxNum)
+            </summary>
+            <param name="MinNum"></param>
+            <param name="MaxNum"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.CreateCheckCode(System.Int32)">
+            <summary>
+            生成指定位随机数(包含数据大小写字母)
+            </summary>
+            <param name="n"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.CreateCheckCode(System.Int32,System.Int32,System.Random)">
+            <summary>
+            生成指定位随机数，根据类型生成不同的随机数
+            </summary>
+            <param name="n"></param>
+            <param name="createtype">类型 0:字母加数字 1数字 2字母</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.CreateCheckCodeWithNum(System.Int32)">
+            <summary>
+            生成指定位随机数
+            </summary>
+            <param name="n"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.RandomNo(System.Random,System.Int32)">
+            <summary>
+            生成随机数
+            </summary>
+            <param name="ran"></param>
+            <param name="xLen"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ShortUrl(System.String)">
+            <summary>
+            短地址
+            </summary>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetHtmlImageUrlList(System.String)">
+            <summary>
+            获得html中的图片
+            </summary>
+            <param name="sHtmlText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetContentbyPhtml(System.String)">
+            <summary>
+            获得html中"<p></p>"标签中的内容
+            </summary>
+            <param name="sHtmlText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetFriendlyTime(System.String)">
+            <summary>
+            获取时间的友好的提示
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetConvertFriendlyTime(System.String)">
+            <summary>
+            将时间格式转换成友好的提示
+            </summary>
+            <param name="dt">The dt.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetConvertFriendlyTime(System.String,System.Int32)">
+            <summary>
+            将时间格式转换成友好的提示
+            </summary>
+            <param name="dt">The dt.</param>
+            <param name="day">天数,超过指定天数，显示具体时间(年月日)</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetEnumDescription``1(System.Int32)">
+            <summary>
+            获取枚举的注释
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.Left(System.Object,System.Int32)">
+            <summary>
+            取字符左函数
+            </summary>
+            <param name="Object">要操作的 string  数据</param>
+            <param name="MaxLength">最大长度</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.Mid(System.String,System.Int32,System.Int32)">
+            <summary>
+            取字符中间函数
+            </summary>
+            <param name="Object">要操作的 string  数据</param>
+            <param name="StarIndex">开始的位置索引</param>
+            <param name="MaxLength">最大长度</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.Right(System.Object,System.Int32)">
+            <summary>
+            取字符右函数
+            </summary>
+            <param name="Object">要操作的 string  数据</param>
+            <param name="MaxLength">最大长度</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.IntToChar(System.Int32)">
+            <summary>
+            字符 int  转换为 char
+            </summary>
+            <param name="Int">字符[int]</param>
+            <returns>char</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.IntToString(System.Int32)">
+            <summary>
+            字符 int  转换为字符 string
+            </summary>
+            <param name="Int">字符 int</param>
+            <returns>字符 string</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.StringToInt(System.String)">
+            <summary>
+            字符 string  转换为字符 int
+            </summary>
+            <param name="Strings">字符 string</param>
+            <returns>字符 int</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.StringToChar(System.String)">
+            <summary>
+            字符 string  转换为 char
+            </summary>
+            <param name="Strings">字符 string</param>
+            <returns>char</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToString(System.Object)">
+            <summary>
+            转换为字符串
+            </summary>
+            <param name="Object"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.IsInt(System.Object,System.Boolean@)">
+            <summary>
+            对象是否为 int  类型数据
+            </summary>
+            <param name="Object">要判断的对象</param>
+            <param name="isTrue">返回是否转换成功</param>
+            <returns>int值</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToInt(System.Object)">
+            <summary>
+            转换成为 int  数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <returns>int 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToInt(System.Object,System.Int32)">
+            <summary>
+            转换成为 int  数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <param name="Default">默认值</param>
+            <returns>int 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToInt(System.Object,System.Int32,System.Int32)">
+            <summary>
+            转换成为 int  数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <param name="Default">默认值</param>
+            <param name="MinInt"> 下界限定的最小值 , 若超过范围 , 则返回 默认值</param>
+            <returns>int 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToInt(System.Object,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            转换成为 int  数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <param name="Default">默认值</param>
+            <param name="MinInt"> 下界限定的最小值 , 若超过范围 , 则返回 默认值</param>
+            <param name="MaxInt">上界限定的最大值 , 若超过范围 , 则返回 默认值</param>
+            <returns>int 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.IsLong(System.Object,System.Boolean@)">
+            <summary>
+            对象是否为 long  类型数据
+            </summary>
+            <param name="Object">要判断的对象</param>
+            <param name="isTrue">返回是否转换成功</param>
+            <returns>long值</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToLong(System.Object)">
+            <summary>
+            转换成为 Long 数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <returns>Long 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToLong(System.Object,System.Int64)">
+            <summary>
+            转换成为 Long 数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <param name="Default">默认值</param>
+            <returns>Long 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToLong(System.Object,System.Int64,System.Int64)">
+            <summary>
+            转换成为 long 数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <param name="Default">转换不成功返回的默认值</param>
+            <param name="MinLong">下界限定的最小值 , 若超过范围 , 则返回 默认值</param>
+            <returns>long 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToLong(System.Object,System.Int64,System.Int64,System.Int64)">
+            <summary>
+            转换成为 long 数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <param name="Default">默认值</param>
+            <param name="MinLong">下界限定的最小值 , 若超过范围 , 则返回 默认值</param>
+            <param name="MaxLong">上界限定的最大值 , 若超过范围 , 则返回 默认值</param>
+            <returns>long 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.IsFloat(System.Object,System.Boolean@)">
+            <summary>
+            对象是否为 float  类型数据
+            </summary>
+            <param name="Object">要判断的对象</param>
+            <param name="isTrue">返回是否转换成功</param>
+            <returns>float值</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToFloat(System.Object)">
+            <summary>
+            转换成为 float 数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <returns>float 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToFloat(System.Object,System.Single)">
+            <summary>
+            转换成为 float 数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <param name="Default">默认值</param>
+            <returns>float 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToFloat(System.Object,System.Single,System.Single)">
+            <summary>
+            转换成为 float 数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <param name="Default">默认值</param>
+            <param name="MinFloat"> 小于等于 转换成功后,下界限定的最小值,若超过范围 则返回 默认值</param>
+            <returns>float 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToFloat(System.Object,System.Single,System.Single,System.Single)">
+            <summary>
+            转换成为 float 数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <param name="Default">默认值</param>
+            <param name="MinFloat"> 下界限定的最小值 , 若超过范围 , 则返回 默认值</param>
+            <param name="MaxFloat"> 上界限定的最大值 , 若超过范围 , 则返回 默认值</param>
+            <returns>float 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.IsDecimal(System.Object,System.Boolean@)">
+            <summary>
+            对象是否为 decimal  类型数据
+            </summary>
+            <param name="Object">要判断的对象</param>
+            <param name="isTrue">返回是否转换成功</param>
+            <returns>decimal值</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToDecimal(System.Object)">
+            <summary>
+            转换成为 decimal 数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <returns>decimal 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToDecimal(System.Object,System.Decimal)">
+            <summary>
+            转换成为 decimal 数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <param name="Default">默认值</param>
+            <returns>decimal 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToDecimal(System.Object,System.Decimal,System.Decimal)">
+            <summary>
+            转换成为 decimal 数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <param name="Default">默认值</param>
+            <param name="MinFloat"> 小于等于 转换成功后,下界限定的最小值,若超过范围 则返回 默认值</param>
+            <returns>decimal 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToDecimal(System.Object,System.Decimal,System.Decimal,System.Decimal)">
+            <summary>
+            转换成为 decimal 数据
+            </summary>
+            <param name="Object">要转换的对象</param>
+            <param name="Default">默认值</param>
+            <param name="MinDecimal"> 下界限定的最小值 , 若超过范围 , 则返回 默认值</param>
+            <param name="MaxDecimal"> 上界限定的最大值 , 若超过范围 , 则返回 默认值</param>
+            <returns>decimal 数据</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.IsTime(System.Object,System.Boolean@)">
+            <summary>
+            是否为时间格式
+            </summary>
+            <param name="Object">要判断的对象</param>
+            <param name="isTrue">返回是否转换成功</param>
+            <returns>DateTime</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToTime(System.String)">
+            <summary>
+            操作 DateTime  数据
+            </summary>
+            <param name="Object">要操作的字符</param>
+            <returns>DateTime</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToTime(System.String,System.DateTime)">
+            <summary>
+            字符串转换为时间函数
+            </summary>
+            <param name="Object">要操作的字符</param>
+            <param name="Default">默认时间</param>
+            <returns>DateTime</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToNow(System.String)">
+            <summary>
+            获得当前时间
+            </summary>
+            <param name="format">时间样式</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToTimes(System.String)">
+            <summary>
+            转换字符串为格式化时间字符串
+            </summary>
+            <param name="Object">要操作的字符</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToTimes(System.String,System.String)">
+            <summary>
+            转换字符串为格式化时间字符串
+            </summary>
+            <param name="Object">要操作的字符</param>
+            <param name="format">格式化样式</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToTimes(System.String,System.DateTime)">
+            <summary>
+            转换字符串为格式化时间字符串
+            </summary>
+            <param name="Object">要操作的字符</param>
+            <param name="Default">默认时间</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ToTimes(System.String,System.DateTime,System.String)">
+            <summary>
+            转换字符串为格式化时间字符串
+            </summary>
+            <param name="Object">要操作的字符</param>
+            <param name="Default">默认时间</param>
+            <param name="format">格式化样式</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.DateDiffDays(System.DateTime,System.DateTime)">
+            <summary>
+            获取两个时间差值（按天算）
+            </summary>
+            <param name="old_time"></param>
+            <param name="new_time"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.DateDiffWeek(System.DateTime,System.DateTime)">
+            <summary>
+            获取两个时间差值（按周算）
+            </summary>
+            <param name="old_time"></param>
+            <param name="new_time"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.DateDiffMinutes(System.DateTime)">
+            <summary>
+            获取当天，按当前时间获取当天的剩下时间
+            </summary>
+            <param name="time">当前时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ConvertDateTimeInt(System.DateTime)">
+            <summary>
+            datetime转换为unixtime
+            </summary>
+            <param name="time"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.UnixTimeToTime(System.String)">
+            <summary>
+            unix时间转换为datetime
+            </summary>
+            <param name="timeStamp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetTimeStamp">
+            <summary>
+            得到时间戳unix
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetUTCTime(System.DateTime)">
+            <summary>
+            获取UTC时间
+            </summary>
+            <param name="time"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.GetTimeFromUTC(System.Int64)">
+            <summary>
+            从UTC时间转为正常时间格式（毫秒）
+            </summary>
+            <param name="t">毫秒</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.StringHelper.ObjectToDic(System.Object)">
+            <summary>
+            将对象属性转换为key-value对 jwei
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.Helper.JsonHelper">
+            <summary>
+            Json帮助类
+            作者：郭孟稳
+            时间：2016.07.08
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Helper.JsonHelper.JsonSerializer``1(``0)">
+            <summary>
+            JSON序列化
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.JsonHelper.JsonDeserialize``1(System.String)">
+            <summary>
+            JSON反序列化
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="jsonString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.JsonHelper.ConvertJsonDateToDateString(System.Text.RegularExpressions.Match)">
+            <summary>
+             将Json序列化的时间由/Date(1294499956278+0800)转为字符串
+            </summary>
+            <param name="m"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.Helper.DataTableConverter">
+            <summary>
+            DataTable JSON转换类
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Helper.DataTableConverter.Serialize(System.Object,System.Web.Script.Serialization.JavaScriptSerializer)">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <param name="serializer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Helper.DataTableConverter.Deserialize(System.Collections.Generic.IDictionary{System.String,System.Object},System.Type,System.Web.Script.Serialization.JavaScriptSerializer)">
+            <summary>
+            
+            </summary>
+            <param name="dictionary"></param>
+            <param name="type"></param>
+            <param name="serializer"></param>
+            <returns></returns>
+        </member>
+        <member name="P:HotCoreUtils.Helper.DataTableConverter.SupportedTypes">
+            <summary>
+            获取本转换器支持的类型
+            </summary>
+        </member>
+        <member name="T:HotCoreUtils.Http.HttpForm">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Http.HttpForm.#ctor(System.String,System.Int32,System.Boolean,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="userAgent"></param>
+            <param name="timeout"></param>
+            <param name="requestCompressed"></param>
+            <param name="maximumRedirects"></param>
+        </member>
+        <member name="M:HotCoreUtils.Http.HttpForm.Get(HotCoreUtils.Http.HttpFormGetRequest)">
+            <summary>
+            
+            </summary>
+            <param name="getRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Http.HttpForm.GetAsync(HotCoreUtils.Http.HttpFormGetRequest)">
+            <summary>
+            
+            </summary>
+            <param name="getRequest"></param>
+        </member>
+        <member name="M:HotCoreUtils.Http.HttpForm.GetAsync(HotCoreUtils.Http.HttpFormGetRequest,System.Action{HotCoreUtils.Http.HttpFormResponse},System.Action{System.Exception})">
+            <summary>
+            
+            </summary>
+            <param name="getRequest"></param>
+            <param name="onComplete"></param>
+            <param name="onError"></param>
+        </member>
+        <member name="M:HotCoreUtils.Http.HttpForm.Post(HotCoreUtils.Http.HttpFormPostRequest)">
+            <summary>
+            
+            </summary>
+            <param name="postRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Http.HttpForm.Post(HotCoreUtils.Http.HttpFormPostRawRequest)">
+            <summary>
+            
+            </summary>
+            <param name="postRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Http.HttpForm.PostAsync(HotCoreUtils.Http.HttpFormPostRequest)">
+            <summary>
+            
+            </summary>
+            <param name="postRequest"></param>
+        </member>
+        <member name="M:HotCoreUtils.Http.HttpForm.PostAsync(HotCoreUtils.Http.HttpFormPostRequest,System.Action{HotCoreUtils.Http.HttpFormResponse},System.Action{System.Exception})">
+            <summary>
+            
+            </summary>
+            <param name="postRequest"></param>
+            <param name="onComplete"></param>
+            <param name="onError"></param>
+        </member>
+        <member name="M:HotCoreUtils.Http.HttpForm.PostAsync(HotCoreUtils.Http.HttpFormPostRawRequest)">
+            <summary>
+            
+            </summary>
+            <param name="postRequest"></param>
+        </member>
+        <member name="M:HotCoreUtils.Http.HttpForm.PostAsync(HotCoreUtils.Http.HttpFormPostRawRequest,System.Action{HotCoreUtils.Http.HttpFormResponse},System.Action{System.Exception})">
+            <summary>
+            
+            </summary>
+            <param name="postRequest"></param>
+            <param name="onComplete"></param>
+            <param name="onError"></param>
+        </member>
+        <member name="M:HotCoreUtils.Http.HttpForm.CreateRequest(System.String,System.String,System.String,System.String,System.Collections.Specialized.NameValueCollection,System.Collections.Specialized.NameValueCollection,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="url"></param>
+            <param name="userName"></param>
+            <param name="password"></param>
+            <param name="contentType"></param>
+            <param name="headers"></param>
+            <param name="cookies"></param>
+            <param name="isPost"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.Uploader.FileUploadHelper">
+            <summary>
+            文件上传帮助类
+             2012-01-10
+            图片压缩待优化   不失真的情况下压缩文件到最小
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.SaveFile(System.Web.HttpPostedFile,HotCoreUtils.Uploader.UploadConfigInfo)">
+            <summary>
+            保存文件
+            </summary>
+            <param name="oFile"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.SaveOtherThumbnail(System.Web.HttpPostedFile,System.String,System.String,System.String)">
+            <summary>
+            保存其他缩略图
+            </summary>
+            <param name="oFile"></param>
+            <param name="OtherThumbnail"></param>
+            <param name="URL"></param>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadFile(System.Web.HttpPostedFile,System.String)">
+            <summary>
+            上传文件
+            </summary>
+            <param name="postedFile">上传文件控件的PostedFile属性值</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadPicFile(System.Web.HttpPostedFile,System.String)">
+            <summary>
+            上传图片
+            </summary>
+            <param name="postedFile">文件流</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadPicFileToWater(System.Web.HttpPostedFile,System.String,HotCoreUtils.Uploader.WaterPositionOptions)">
+            <summary>
+            上传图片打水印
+            </summary>
+            <param name="postedFile">文件流</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <param name="position">水印图片坐标位置</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadPicFileToThumbnail(System.Web.HttpPostedFile,System.String,System.Int32,System.Int32,HotCoreUtils.Uploader.ThumbnailMode)">
+            <summary>
+            上传图片生成缩略图
+            </summary>
+            <param name="postedFile">文件流</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <param name="nWidth">缩略图宽</param>
+            <param name="nHeight">缩略图高</param>
+            <param name="mode">缩略图方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadPicFileAndThumbnail(System.Web.HttpPostedFile,System.String,System.Int32,System.Int32,HotCoreUtils.Uploader.ThumbnailMode)">
+            <summary>
+             上传图片并生成缩略图(缩略图名称前加小写的英文字母“s”)
+            </summary>
+            <param name="postedFile">文件流</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <param name="nWidth">缩略图宽</param>
+            <param name="nHeight">缩略图高</param>
+            <param name="mode">缩略图方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadPicFileToWaterAndThumbnail(System.Web.HttpPostedFile,System.String,HotCoreUtils.Uploader.WaterPositionOptions,System.Int32,System.Int32,HotCoreUtils.Uploader.ThumbnailMode)">
+            <summary>
+            上传图片打水印并生成缩略图(缩略图名称前加小写的英文字母“s”)
+            </summary>
+            <param name="postedFile">文件流</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <param name="position">水印图片坐标位置</param>
+            <param name="nWidth">缩略图宽</param>
+            <param name="nHeight">缩略图高</param>
+            <param name="mode">缩略图方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadPicFileClipByMaxSize(System.Web.HttpPostedFile,System.String,System.Int32,HotCoreUtils.Uploader.ThumbnailMode,HotCoreUtils.Uploader.WaterPositionOptions,System.Int32,System.Int32,HotCoreUtils.Uploader.ThumbnailMode)">
+            <summary>
+            上传图片打水印并生成缩略图(缩略图名称前加小写的英文字母“s”)并且按照最大宽度缩略
+            </summary>
+            <param name="postedFile">文件流</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <param name="nMaxSize">最大尺寸(根据MaxMode方式选择宽或高缩略)</param>
+            <param name="MaxMode">缩略图生成方式（ThumbnailMode.W或者ThumbnailMode.H）</param>
+            <param name="position">水印图片坐标位置</param>
+            <param name="nWidth">缩略图宽</param>
+            <param name="nHeight">缩略图高</param>
+            <param name="mode">缩略图方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadPicFileClipByMaxSize(System.Web.HttpPostedFile,System.String,System.Int32,HotCoreUtils.Uploader.ThumbnailMode,System.Int32,System.Int32,HotCoreUtils.Uploader.ThumbnailMode)">
+            <summary>
+            上传图片并生成缩略图(缩略图名称前加小写的英文字母“s”)并且按照最大宽度缩略
+            </summary>
+            <param name="postedFile">文件流</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <param name="nMaxSize">最大尺寸(根据MaxMode方式选择宽或高缩略)</param>
+            <param name="MaxMode">缩略图生成方式（ThumbnailMode.W或者ThumbnailMode.H）</param>
+            <param name="nWidth">缩略图宽</param>
+            <param name="nHeight">缩略图高</param>
+            <param name="mode">缩略图方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadFile(System.Byte[],System.String)">
+            <summary>
+            上传文件
+            </summary>
+            <param name="bytes">文件字节数组</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadPicFile(System.Byte[],System.String)">
+            <summary>
+            上传图片
+            </summary>
+            <param name="bytes">文件字节数组</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadPicFileToWater(System.Byte[],System.String,HotCoreUtils.Uploader.WaterPositionOptions)">
+            <summary>
+            上传图片打水印
+            </summary>
+            <param name="bytes">文件字节数组</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <param name="position">水印图片坐标位置</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadPicFileToThumbnail(System.Byte[],System.String,System.Int32,System.Int32,HotCoreUtils.Uploader.ThumbnailMode)">
+            <summary>
+            上传图片生成缩略图
+            </summary>
+            <param name="bytes">文件字节数组</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <param name="nWidth">缩略图宽</param>
+            <param name="nHeight">缩略图高</param>
+            <param name="mode">缩略图方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadPicFileAndThumbnail(System.Byte[],System.String,System.Int32,System.Int32,HotCoreUtils.Uploader.ThumbnailMode)">
+            <summary>
+            上传图片并生成缩略图(缩略图名称前加小写的英文字母“s”)
+            </summary>
+            <param name="bytes">文件字节数组</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <param name="nWidth">缩略图宽</param>
+            <param name="nHeight">缩略图高</param>
+            <param name="mode">缩略图方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadPicFileToWaterAndThumbnail(System.Byte[],System.String,HotCoreUtils.Uploader.WaterPositionOptions,System.Int32,System.Int32,HotCoreUtils.Uploader.ThumbnailMode)">
+            <summary>
+            上传图片打水印并生成缩略图(缩略图名称前加小写的英文字母“s”)
+            </summary>
+            <param name="bytes">文件字节数组</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <param name="position">水印图片坐标位置</param>
+            <param name="nWidth">缩略图宽</param>
+            <param name="nHeight">缩略图高</param>
+            <param name="mode">缩略图方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadPicFileClipByMaxSize(System.Byte[],System.String,System.Int32,HotCoreUtils.Uploader.ThumbnailMode,HotCoreUtils.Uploader.WaterPositionOptions,System.Int32,System.Int32,HotCoreUtils.Uploader.ThumbnailMode)">
+            <summary>
+            上传图片打水印并生成缩略图(缩略图名称前加小写的英文字母“s”)并且按照最大宽度缩略
+            </summary>
+            <param name="bytes">文件字节数组</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <param name="nMaxSize">最大尺寸(根据MaxMode方式选择宽或高缩略)</param>
+            <param name="MaxMode">缩略图生成方式（ThumbnailMode.W或者ThumbnailMode.H）</param>
+            <param name="position">水印图片坐标位置</param>
+            <param name="nWidth">缩略图宽</param>
+            <param name="nHeight">缩略图高</param>
+            <param name="mode">缩略图方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.UploadPicFileClipByMaxSize(System.Byte[],System.String,System.Int32,HotCoreUtils.Uploader.ThumbnailMode,System.Int32,System.Int32,HotCoreUtils.Uploader.ThumbnailMode)">
+            <summary>
+            上传图片并生成缩略图(缩略图名称前加小写的英文字母“s”)并且按照最大宽度缩略
+            </summary>
+            <param name="bytes">文件字节数组</param>
+            <param name="sUploadPathAndFileName">保存相对路径及文件名</param>
+            <param name="nMaxSize">最大尺寸(根据MaxMode方式选择宽或高缩略)</param>
+            <param name="MaxMode">缩略图生成方式（ThumbnailMode.W或者ThumbnailMode.H）</param>
+            <param name="nWidth">缩略图宽</param>
+            <param name="nHeight">缩略图高</param>
+            <param name="mode">缩略图方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.DeleteFile(System.String)">
+            <summary>
+            删除文件（任何文件）
+            </summary>
+            <param name="sUploadPathAndFileName">相对路径及文件名</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.GetRemoteDirectory(System.String)">
+            <summary>
+            获取远程目录中文件信息及子文件夹信息
+            </summary>
+            <param name="sRemotePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.GetWaterMarkImage">
+            <summary>
+            得到水印图片
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.GetUploadBytes(System.Web.HttpPostedFile)">
+            <summary>
+            获取上传数据流
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.GetFileNameByTime(System.String,System.String)">
+            <summary>
+            根据当前时间来生成文件名字符串
+            </summary>
+            <param name="sPrevWord">前缀</param>
+            <param name="sExt">后缀名</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.FileUploadHelper.CheckFileExt(System.String,System.String)">
+            <summary>
+            验证文件扩展名是否合法
+            </summary>
+            <param name="sFileName">文件名</param>
+            <param name="sAllowExt">如：【*.jpg;*.jpeg;*.gif;*.png;】或者【.jpg|.jpeg|.gif|.png】</param>
+            <returns></returns>
+        </member>
+        <member name="T:HotCoreUtils.Uploader.ImageHelper">
+            <summary>
+            图片处理类
+            </summary>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.ImageHelper.SaveSmallImage(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="fileName"></param>
+            <param name="newFile"></param>
+            <param name="maxHeight"></param>
+            <param name="maxWidth"></param>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.ImageHelper.SaveSmallImage(System.IO.Stream,System.String,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="fileStream"></param>
+            <param name="newFile"></param>
+            <param name="maxHeight"></param>
+            <param name="maxWidth"></param>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.ImageHelper.CutForSquare(System.Web.HttpPostedFile,System.String,System.Int32,System.Int32)">
+            <summary>
+            正方型裁剪
+            以图片中心为轴心，截取正方型，然后等比缩放
+            用于头像处理
+            </summary>
+            <param name="postedFile">原图HttpPostedFile对象</param>
+            <param name="fileSaveUrl">缩略图存放地址</param>
+            <param name="side">指定的边长（正方型）</param>
+            <param name="quality">质量（范围0-100）</param>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.ImageHelper.CutForSquare(System.IO.Stream,System.String,System.Int32,System.Int32)">
+            <summary>
+            正方型裁剪
+            以图片中心为轴心，截取正方型，然后等比缩放
+            用于头像处理
+            </summary>
+            <param name="fromFile">原图HttpPostedFile对象</param>
+            <param name="fileSaveUrl">缩略图存放地址</param>
+            <param name="side">指定的边长（正方型）</param>
+            <param name="quality">质量（范围0-100）</param>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.ImageHelper.CutForCustom(System.IO.Stream,System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            指定长宽裁剪
+            按模版比例最大范围的裁剪图片并缩放至模版尺寸
+            </summary>
+            <param name="stream">原图HttpPostedFile对象</param>
+            <param name="fileSaveUrl">保存路径</param>
+            <param name="maxWidth">最大宽(单位:px)</param>
+            <param name="maxHeight">最大高(单位:px)</param>
+            <param name="quality">质量（范围0-100）</param>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.ImageHelper.ZoomAuto(System.Web.HttpPostedFileBase,System.String,System.Double,System.Double,System.String,System.String)">
+            <summary>
+            图片等比缩放
+            </summary>
+            <param name="postedFile">原图HttpPostedFile对象</param>
+            <param name="savePath">缩略图存放地址</param>
+            <param name="targetWidth">指定的最大宽度</param>
+            <param name="targetHeight">指定的最大高度</param>
+            <param name="watermarkText">水印文字(为""表示不使用水印)</param>
+            <param name="watermarkImage">水印图片路径(为""表示不使用水印)</param>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.ImageHelper.ZoomAuto(System.IO.Stream,System.String,System.Double,System.Double,System.String,System.String)">
+            <summary>
+            图片等比缩放
+            </summary>
+            <param name="stream">原图HttpPostedFile对象</param>
+            <param name="savePath">缩略图存放地址</param>
+            <param name="targetWidth">指定的最大宽度</param>
+            <param name="targetHeight">指定的最大高度</param>
+            <param name="watermarkText">水印文字(为""表示不使用水印)</param>
+            <param name="watermarkImage">水印图片路径(为""表示不使用水印)</param>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.ImageHelper.IsWebImage(System.String)">
+            <summary>
+            判断文件类型是否为WEB格式图片
+            (注：JPG,GIF,BMP,PNG)
+            </summary>
+            <param name="contentType">HttpPostedFile.ContentType</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.UploadConfigHelper.GetUploadConfigInfoByKey(System.String)">
+            <summary>
+            根据Key读取相应的上传文件的配置[UploadConfigInfo]
+            </summary>
+            <param name="sKey">键值</param>
+            <returns></returns>
+        </member>
+        <member name="M:HotCoreUtils.Uploader.UploadConfigHelper.GetUploadConfigFile">
+            <summary>
+            获得上传文件配置文件
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:HotCoreUtils.Uploader.ThumbnailMode.HW">
+            <summary>
+            按指定宽高适应缩小
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Uploader.ThumbnailMode.W">
+            <summary>
+            按宽度等比缩小
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Uploader.ThumbnailMode.H">
+            <summary>
+            按高度等比缩小
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Uploader.ThumbnailMode.Cut">
+            <summary>
+            按指定宽高等比剪切缩小
+            </summary>
+        </member>
+        <member name="F:HotCoreUtils.Uploader.ThumbnailMode.Fill">
+            <summary>
+            按指定宽高填充（不剪切）缩小
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Uploader.UploadResultInfo.UploadStatus">
+            <summary>
+            上传结果
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Uploader.UploadResultInfo.Msg">
+            <summary>
+            返回消息
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Uploader.UploadResultInfo.FileName">
+            <summary>
+            文件名
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Uploader.UploadResultInfo.FullFileName">
+            <summary>
+            文件全名  路径+文件名
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Uploader.UploadResultInfo.FileType">
+            <summary>
+            文件类型  File, Img, Flash
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Uploader.UploadResultInfo.ImgWidth">
+            <summary>
+            图片宽度
+            </summary>
+        </member>
+        <member name="P:HotCoreUtils.Uploader.UploadResultInfo.ImgHeight">
+            <summary>
+            图片高度
+            </summary>
+        </member>
+    </members>
+</doc>
