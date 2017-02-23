@@ -32,9 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevComponents.DotNetBar2, Version=7.3.0.1, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="DevComponents.DotNetBar2, Version=7.3.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>Resources\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
     <Reference Include="HotCoreUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HotCoreUtils.1.0.0.0\lib\net40\HotCoreUtils.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -55,11 +61,35 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ConstConfig.cs" />
+    <Compile Include="Controls\AddWeChat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\AddWeChat.Designer.cs">
+      <DependentUpon>AddWeChat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CustomServiceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CustomServiceControl.Designer.cs">
+      <DependentUpon>CustomServiceControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GoodsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\GoodsControl.Designer.cs">
+      <DependentUpon>GoodsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\HistoryControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\HistoryControl.Designer.cs">
       <DependentUpon>HistoryControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Login\LoginButtonPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Login\LoginButtonPage.Designer.cs">
+      <DependentUpon>LoginButtonPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Login\SetTaobaoAccountPage.cs">
       <SubType>UserControl</SubType>
@@ -67,11 +97,29 @@
     <Compile Include="Controls\Login\SetTaobaoAccountPage.Designer.cs">
       <DependentUpon>SetTaobaoAccountPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MessageAlert.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\MessageAlert.Designer.cs">
+      <DependentUpon>MessageAlert.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MessageConfirm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\MessageConfirm.Designer.cs">
+      <DependentUpon>MessageConfirm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\module\HotGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\module\HotGroupBox.Designer.cs">
       <DependentUpon>HotGroupBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SetAutoReplyControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SetAutoReplyControl.Designer.cs">
+      <DependentUpon>SetAutoReplyControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SetSendConfig.cs">
       <SubType>UserControl</SubType>
@@ -136,11 +184,32 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WinApi.cs" />
+    <EmbeddedResource Include="Controls\AddWeChat.resx">
+      <DependentUpon>AddWeChat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CustomServiceControl.resx">
+      <DependentUpon>CustomServiceControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GoodsControl.resx">
+      <DependentUpon>GoodsControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\HistoryControl.resx">
       <DependentUpon>HistoryControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Login\LoginButtonPage.resx">
+      <DependentUpon>LoginButtonPage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\Login\SetTaobaoAccountPage.resx">
       <DependentUpon>SetTaobaoAccountPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MessageAlert.resx">
+      <DependentUpon>MessageAlert.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MessageConfirm.resx">
+      <DependentUpon>MessageConfirm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SetAutoReplyControl.resx">
+      <DependentUpon>SetAutoReplyControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SetSendConfig.resx">
       <DependentUpon>SetSendConfig.cs</DependentUpon>
@@ -197,6 +266,10 @@
     <Content Include="Resources\icon_04.png" />
     <Content Include="Resources\icon_05.png" />
     <Content Include="Resources\icon_close.png" />
+    <Content Include="Resources\icon_close1.png" />
+    <Content Include="Resources\icon_delete.png" />
+    <Content Include="Resources\icon_edit.png" />
+    <Content Include="Resources\icon_kf.png" />
     <Content Include="Resources\icon_login_bg.png" />
     <Content Include="Resources\icon_login_bg_full.png" />
     <Content Include="Resources\icon_menu.png" />

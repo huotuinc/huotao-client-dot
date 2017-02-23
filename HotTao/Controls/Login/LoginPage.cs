@@ -210,6 +210,21 @@ namespace HotTao.Controls.Login
         private void LoginPage_Load(object sender, EventArgs e)
         {
             loginName.Focus();
+            string lp = LoadLoginNameAndPwd();
+            if (!string.IsNullOrEmpty(lp))
+            {
+                var arr = lp.Split('|');
+                if (arr.Length > 2)
+                {
+                    loginName.Text = _tempLoginName = arr[0];
+                    loginPwd.Text = _tempPassword = arr[1];
+                    int isAutoLogin = 0;
+                    int.TryParse(arr[2], out isAutoLogin);
+                    this.ckbSavePwd.Checked = true;
+                    this.ckbAutoLogin.Checked = isAutoLogin == 1 ? true : false;
+                    this.IsRememberPassword = true;
+                }
+            }
         }
     }
 }

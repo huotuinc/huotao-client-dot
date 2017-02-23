@@ -21,8 +21,10 @@ namespace HotTao.Controls
     /// <seealso cref="System.Windows.Forms.UserControl" />
     public partial class SetControl : UserControl
     {
+
+        private int cIndex = 0;
         private Main hotForm { get; set; }
-        
+
         public SetControl(Main mainWin)
         {
             InitializeComponent();
@@ -30,15 +32,40 @@ namespace HotTao.Controls
         }
 
         private void SetControl_Load(object sender, EventArgs e)
-        {           
-
+        {
+            SetCurrentControlIndex(0);
             openControl(new SetAccountControl(hotForm));
         }
 
 
+        /// <summary>
+        /// 当前右边控件的索引
+        /// 0 SetAccountControl
+        /// 1 SetSendTemplateControl
+        /// 2 SetSendConfig
+        /// 3 SetAutoReplyControl
+        /// </summary>
+        private void SetCurrentControlIndex(int index)
+        {
+            cIndex = index;
+        }
+
+        /// <summary>
+        /// 保存操作
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnSave_Click(object sender, EventArgs e)
         {
-         
+            foreach (UserControl uc in splitContainer1.Panel1.Controls)
+            {
+                MethodInfo mi = uc.GetType().GetMethod("Save",BindingFlags.Public);
+                if (mi != null)
+                {
+                    //执行该方法并返回
+                    mi.Invoke(uc, new object[] { });
+                }
+            }
         }
 
         /// <summary>
@@ -73,13 +100,21 @@ namespace HotTao.Controls
 
 
         private void panel_Click(object sender, EventArgs e)
-        {   
+        {
             openControl(new SetSendTemplateControl(hotForm));
+            SetCurrentControlIndex(1);
         }
 
         private void panel6_Click(object sender, EventArgs e)
         {
             openControl(new SetSendConfig(hotForm));
+            SetCurrentControlIndex(2);
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+            openControl(new SetAutoReplyControl(hotForm));
+            SetCurrentControlIndex(3);
         }
     }
 }

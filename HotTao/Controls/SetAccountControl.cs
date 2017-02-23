@@ -14,6 +14,10 @@ using HotTaoCore;
 
 namespace HotTao.Controls
 {
+    /// <summary>
+    /// 账号设置
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.UserControl" />
     public partial class SetAccountControl : UserControl
     {
 
@@ -53,58 +57,34 @@ namespace HotTao.Controls
                     this.ckbAutoLogin.Checked = isAutoLogin == 1 ? true : false;
                     this.IsRememberPassword = true;
                 }
-            }            
-        }
-
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-
+            }
         }
 
 
+        /// <summary>
+        /// 保存
+        /// </summary>
         public void Save()
         {
             try
             {
-                if (isLogining)
-                    return;
-                if (string.IsNullOrEmpty(loginName.Text))
+                string pwdStr = string.Empty;
+                //判断是否记住密码
+                if (this.ckbSavePwd.Checked || ckbAutoLogin.Checked)
                 {
-                    loginName.Focus();
-                    return;
-                }
-                if (string.IsNullOrEmpty(loginPwd.Text))
-                {
-                    loginPwd.Focus();
-                    return;
-                }
-
-                string pwd = string.Empty;
-                if (this.IsRememberPassword && _tempPassword == loginPwd.Text && _tempLoginName == loginName.Text)
-                    pwd = loginPwd.Text;
-                else
-                    pwd = EncryptHelper.MD5(loginPwd.Text);
-
-                string lgname = loginName.Text;
-                var data = LogicUser.Instance.login(lgname, pwd);
-                if (data != null)
-                {
-                    if (data.activate == 1)
+                    if (!string.IsNullOrEmpty(loginName.Text) && !string.IsNullOrEmpty(loginPwd.Text))
                     {
-                        loginResult(data);
-                    }
-                    else
-                    {
-                        SetText("该账号已禁用，请联系管理员!");
-                        return;
+                        if (_tempPassword != loginPwd.Text || _tempLoginName != loginName.Text)
+                        {
+                            pwdStr = loginName.Text + "|" + EncryptHelper.MD5(loginPwd.Text) + "|" + (ckbAutoLogin.Checked ? "1" : "0");// ;                            
+                        }
+                        else
+                        {
+                            pwdStr = _tempLoginName + "|" + _tempPassword + "|" + (ckbAutoLogin.Checked ? "1" : "0");// ;          
+                        }
                     }
                 }
-                else
-                {
-                    SetText("账号或密码不正确");
-
-                }
-
+                RememberPassword(pwdStr);
             }
             catch (Exception ex)
             {
@@ -112,36 +92,6 @@ namespace HotTao.Controls
                 SetText(ex.Message);
             }
         }
-
-        /// <summary>
-        /// 登录结果处理
-        /// </summary>
-        /// <param name="data"></param>
-        private void loginResult(UserModel data)
-        {
-            string loginToken = EncryptHelper.MD5(StringHelper.CreateCheckCodeWithNum(10));
-            //更新登陆loginToken
-            if (LogicUser.Instance.RefreshLoginToken(data.userid, loginToken))
-            {
-                data.loginToken = loginToken;
-                //设置登陆状态,必须先设置登录状态
-                this.hotForm.SetLoginData(data);
-
-                //判断是否记住密码
-                if (this.ckbSavePwd.Checked || ckbAutoLogin.Checked)
-                {
-                    if (_tempPassword != loginPwd.Text || _tempLoginName != loginName.Text)
-                    {
-                        string pwdStr = loginName.Text + "|" + EncryptHelper.MD5(loginPwd.Text) + "|" + (ckbAutoLogin.Checked ? "1" : "0");// ;
-                        RememberPassword(pwdStr);
-                    }
-                }
-                else
-                    RememberPassword("");
-
-            }
-        }
-
 
         /// <summary>
         /// 加载账号和密码，如果之前登陆记者过密码时
@@ -197,7 +147,8 @@ namespace HotTao.Controls
 
         private void SetText(string content)
         {
-            MessageBox.Show(content, "提示");
+            MessageAlert alert = new MessageAlert(content);
+            alert.ShowDialog(this);            
         }
     }
 }

@@ -29,12 +29,14 @@
         private void InitializeComponent()
         {
             this.SetContainer = new System.Windows.Forms.SplitContainer();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
             this.panel = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -42,23 +44,21 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.button1 = new System.Windows.Forms.Button();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
+            this.btnAddGoods = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.SetContainer)).BeginInit();
             this.SetContainer.Panel1.SuspendLayout();
             this.SetContainer.Panel2.SuspendLayout();
             this.SetContainer.SuspendLayout();
+            this.panel7.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.panel.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // SetContainer
@@ -71,10 +71,10 @@
             // 
             // SetContainer.Panel1
             // 
+            this.SetContainer.Panel1.Controls.Add(this.panel7);
             this.SetContainer.Panel1.Controls.Add(this.panel6);
             this.SetContainer.Panel1.Controls.Add(this.panel);
             this.SetContainer.Panel1.Controls.Add(this.panel5);
-            this.SetContainer.Panel1.Controls.Add(this.panel4);
             this.SetContainer.Panel1.Controls.Add(this.panel3);
             this.SetContainer.Panel1.Controls.Add(this.panel2);
             this.SetContainer.Panel1.Controls.Add(this.panel1);
@@ -84,16 +84,55 @@
             this.SetContainer.Panel2.AutoScroll = true;
             this.SetContainer.Panel2.BackColor = System.Drawing.Color.Transparent;
             this.SetContainer.Panel2.Controls.Add(this.splitContainer1);
-            this.SetContainer.Size = new System.Drawing.Size(777, 507);
-            this.SetContainer.SplitterDistance = 174;
+            this.SetContainer.Size = new System.Drawing.Size(920, 507);
+            this.SetContainer.SplitterDistance = 170;
             this.SetContainer.SplitterWidth = 1;
             this.SetContainer.TabIndex = 0;
+            // 
+            // panel7
+            // 
+            this.panel7.BackColor = System.Drawing.Color.White;
+            this.panel7.Controls.Add(this.label8);
+            this.panel7.Location = new System.Drawing.Point(2, 175);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(170, 29);
+            this.panel7.TabIndex = 3;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(51, 8);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(77, 12);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "自动回复设置";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
+            // 
+            // panel6
+            // 
+            this.panel6.BackColor = System.Drawing.Color.White;
+            this.panel6.Controls.Add(this.label7);
+            this.panel6.Location = new System.Drawing.Point(1, 145);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(170, 29);
+            this.panel6.TabIndex = 2;
+            this.panel6.Click += new System.EventHandler(this.panel6_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(51, 8);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 12);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "群发设置";
+            this.label7.Click += new System.EventHandler(this.panel6_Click);
             // 
             // panel
             // 
             this.panel.BackColor = System.Drawing.Color.White;
             this.panel.Controls.Add(this.label6);
-            this.panel.Location = new System.Drawing.Point(1, 152);
+            this.panel.Location = new System.Drawing.Point(1, 121);
             this.panel.Name = "panel";
             this.panel.Size = new System.Drawing.Size(170, 29);
             this.panel.TabIndex = 1;
@@ -112,7 +151,7 @@
             // panel5
             // 
             this.panel5.Controls.Add(this.label5);
-            this.panel5.Location = new System.Drawing.Point(1, 122);
+            this.panel5.Location = new System.Drawing.Point(1, 91);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(170, 29);
             this.panel5.TabIndex = 0;
@@ -125,24 +164,6 @@
             this.label5.Size = new System.Drawing.Size(53, 12);
             this.label5.TabIndex = 0;
             this.label5.Text = "软件设置";
-            // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.White;
-            this.panel4.Controls.Add(this.label4);
-            this.panel4.Location = new System.Drawing.Point(1, 91);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(170, 29);
-            this.panel4.TabIndex = 0;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(51, 8);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 12);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "账户设置";
             // 
             // panel3
             // 
@@ -160,7 +181,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 0;
-            this.label3.Text = "账户设置";
+            this.label3.Text = "淘宝账号";
             // 
             // panel2
             // 
@@ -203,6 +224,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -213,41 +235,26 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.button1);
-            this.splitContainer1.Size = new System.Drawing.Size(602, 507);
-            this.splitContainer1.SplitterDistance = 457;
+            this.splitContainer1.Panel2.Controls.Add(this.btnAddGoods);
+            this.splitContainer1.Size = new System.Drawing.Size(749, 507);
+            this.splitContainer1.SplitterDistance = 465;
             this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 0;
             // 
-            // button1
+            // btnAddGoods
             // 
-            this.button1.Location = new System.Drawing.Point(507, 14);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "确认";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // panel6
-            // 
-            this.panel6.BackColor = System.Drawing.Color.White;
-            this.panel6.Controls.Add(this.label7);
-            this.panel6.Location = new System.Drawing.Point(1, 176);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(170, 29);
-            this.panel6.TabIndex = 2;
-            this.panel6.Click += new System.EventHandler(this.panel6_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(51, 8);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(53, 12);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "群发设置";
-            this.label7.Click += new System.EventHandler(this.panel6_Click);
+            this.btnAddGoods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(105)))));
+            this.btnAddGoods.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnAddGoods.FlatAppearance.BorderSize = 0;
+            this.btnAddGoods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddGoods.ForeColor = System.Drawing.Color.White;
+            this.btnAddGoods.Location = new System.Drawing.Point(675, 9);
+            this.btnAddGoods.Name = "btnAddGoods";
+            this.btnAddGoods.Size = new System.Drawing.Size(61, 23);
+            this.btnAddGoods.TabIndex = 4;
+            this.btnAddGoods.Text = "确认";
+            this.btnAddGoods.UseVisualStyleBackColor = false;
+            this.btnAddGoods.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // SetControl
             // 
@@ -256,18 +263,20 @@
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.SetContainer);
             this.Name = "SetControl";
-            this.Size = new System.Drawing.Size(777, 507);
+            this.Size = new System.Drawing.Size(920, 507);
             this.Load += new System.EventHandler(this.SetControl_Load);
             this.SetContainer.Panel1.ResumeLayout(false);
             this.SetContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SetContainer)).EndInit();
             this.SetContainer.ResumeLayout(false);
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
             this.panel.ResumeLayout(false);
             this.panel.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -277,8 +286,6 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.panel6.ResumeLayout(false);
-            this.panel6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -290,17 +297,17 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button btnAddGoods;
     }
 }

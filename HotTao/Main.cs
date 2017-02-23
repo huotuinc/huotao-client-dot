@@ -1,4 +1,5 @@
 ﻿using HotTao.Controls;
+using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using System;
 using System.Collections.Generic;
@@ -54,6 +55,31 @@ namespace HotTao
         }
         #endregion
 
+        /// <summary>
+        /// 淘宝账号
+        /// </summary>
+        /// <value>The taobao no.</value>
+        public string taobaoNo { get; set; }
+        /// <summary>
+        /// 淘宝密码
+        /// </summary>
+        public string taobaoPwd { set; get; }
+        /// <summary>
+        /// 是否已模拟淘宝登录
+        /// </summary>
+        /// <value>true if this instance is taobao login; otherwise, false.</value>
+        public bool isTaobaoLogin { get; set; }
+
+        /// <summary>
+        /// 设置淘宝账号
+        /// </summary>
+        /// <param name="no">The no.</param>
+        /// <param name="pwd">The password.</param>
+        public void SetTaobaoAccount(string no, string pwd)
+        {
+            taobaoNo = no;
+            taobaoPwd = pwd;
+        }
 
         public Main()
         {
@@ -67,17 +93,47 @@ namespace HotTao
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Main_Load(object sender, EventArgs e)
         {
+            isTaobaoLogin = false;
             CheckAutoLogin(user =>
             {
                 if (user != null)
                 {
                     SetLoginData(user);
-                    openControl(new TaskControl(this));
+                    openControl(new GoodsControl(this));
                 }
                 else
                     openControl(new LoginControl(this));
             });
         }
+
+        /// <summary>
+        /// 检查登录状态
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckLogin()
+        {
+            try
+            {
+                if (currentUserData != null)
+                {
+                    var user = LogicUser.Instance.getUserInfoByToken(currentUserData.loginToken);
+                    if (user != null && user.activate == 1)
+                    {
+                        LoginSync = true;
+                        return true;
+                    }
+                }
+                LoginSync = false;
+                openControl(new LoginControl(this));
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
         /// <summary>
         /// 首页
         /// </summary>
@@ -86,7 +142,7 @@ namespace HotTao
         private void btnHome_Click(object sender, EventArgs e)
         {
             SetSelectedBackgroundImage(sender);
-            openControl(new TaskControl(this));
+            openControl(new GoodsControl(this));
         }
 
         /// <summary>
@@ -123,7 +179,7 @@ namespace HotTao
         }
 
         /// <summary>
-        /// 历史
+        /// 计划列表
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
@@ -132,6 +188,18 @@ namespace HotTao
             SetSelectedBackgroundImage(sender);
             openControl(new HistoryControl(this));
         }
+
+        /// <summary>
+        /// 客服
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+        private void btnCustomService_Click(object sender, EventArgs e)
+        {
+            SetSelectedBackgroundImage(sender);
+            openControl(new CustomServiceControl(this));
+        }
+
 
         private void SetSelectedBackgroundImage(object sender)
         {
@@ -146,9 +214,9 @@ namespace HotTao
             var p3 = sender as Panel;
             if (p1 != null)
                 p1.Parent.BackgroundImage = Properties.Resources.icon_bg;
-            else if(p2!=null)           
+            else if (p2 != null)
                 p2.Parent.BackgroundImage = Properties.Resources.icon_bg;
-            else if(p3!=null)
+            else if (p3 != null)
                 p3.BackgroundImage = Properties.Resources.icon_bg;
         }
 
@@ -172,7 +240,32 @@ namespace HotTao
         }
 
 
-
+        /// <summary>
+        /// 设置微信群发为选中状态
+        /// </summary>
+        public void SetWeChatTabSelected()
+        {
+            foreach (var item in Container.Panel1.Controls)
+            {
+                Panel pl = item as Panel;
+                if (pl != null)
+                    pl.BackgroundImage = null;
+            }
+            btnWeChat.Parent.BackgroundImage = Properties.Resources.icon_bg;
+        }
+        /// <summary>
+        /// 设置首页为选中状态
+        /// </summary>
+        public void SetHomeTabSelected()
+        {
+            foreach (var item in Container.Panel1.Controls)
+            {
+                Panel pl = item as Panel;
+                if (pl != null)
+                    pl.BackgroundImage = null;
+            }
+            btnHome.Parent.BackgroundImage = Properties.Resources.icon_bg;
+        }
 
 
 
@@ -181,6 +274,9 @@ namespace HotTao
         /// 当前登陆用户ID
         /// </summary>
         public int currentUserId { get; set; }
+
+        public bool LoginSync = false;
+
         /// <summary>
         /// 设置登录用户数据
         /// </summary>
@@ -189,7 +285,18 @@ namespace HotTao
         {
             currentUserData = user;
             if (user != null)
+            {
+                LoginSync = true;
                 currentUserId = user.userid;
+                ((Action)(delegate ()
+                {
+                    while (LoginSync)
+                    {
+                        CheckLogin();
+                        System.Threading.Thread.Sleep(1000);
+                    }
+                })).BeginInvoke(null, null);
+            }
             else
                 currentUserId = 0;
         }

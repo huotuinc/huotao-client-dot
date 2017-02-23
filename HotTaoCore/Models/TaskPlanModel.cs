@@ -19,6 +19,12 @@ namespace HotTaoCore.Models
 
         public int status { get; set; }
 
+        /// <summary>
+        /// 当前执行状态0,待执行，1执行中，2已执行，3已过期
+        /// </summary>
+        /// <value>The execute statu.</value>
+        public int ExecStatus { get; set; }
+
         public string statusText { get; set; }
         public DateTime startTime { get; set; }
 

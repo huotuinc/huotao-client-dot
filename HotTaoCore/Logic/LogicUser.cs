@@ -115,7 +115,7 @@ namespace HotTaoCore.Logic
                 //将数据插入缓存中
                 if (!string.IsNullOrEmpty(templateText))
                     WebCacheHelper.Insert(key, templateText);
-                
+
 
             }
 
@@ -130,6 +130,73 @@ namespace HotTaoCore.Logic
         public WxAuthConfigModel GetWxAuthConfig(int userid)
         {
             return dal.GetWxAuthConfig(userid);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 获取微信群聊列表
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>List&lt;UserWechatListModel&gt;.</returns>
+        public List<UserWechatListModel> GetUserWeChatList(int userId)
+        {
+            return dal.GetUserWeChatList(userId);
+        }
+
+        /// <summary>
+        /// 添加用户微信群
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public int AddUserWeChat(UserWechatListModel model)
+        {
+            return dal.AddUserWeChat(model);
+        }
+
+        /// <summary>
+        /// 修改微信群聊标题
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <param name="wechatid">The wechatid.</param>
+        /// <param name="wechattitle">The wechattitle.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public int UpdateUserWeChatTitle(int userid, int wechatid, string wechattitle)
+        {
+            return dal.UpdateUserWeChatTitle(userid, wechatid, wechattitle);
+        }
+
+        /// <summary>
+        /// 删除微信群
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <param name="wechatid">The wechatid.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool DeleteUserWeChat(int userid, List<int> wechatid)
+        {
+            return dal.DeleteUserWeChat(userid, wechatid);
+        }
+
+
+        /// <summary>
+        /// 设置微信群关联PID
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <param name="wechatid">The wechatid.</param>
+        /// <param name="pidid">The pidid.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool SetUserWeChatPid(int userid, int wechatid, int pidid)
+        {
+            return dal.SetUserWeChatPid(userid, wechatid, pidid);
         }
     }
 }

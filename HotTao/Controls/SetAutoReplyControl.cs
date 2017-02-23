@@ -9,14 +9,15 @@ using System.Windows.Forms;
 
 namespace HotTao.Controls
 {
-    public partial class SetSendConfig : UserControl
+    public partial class SetAutoReplyControl : UserControl
     {
         private Main hotForm { get; set; }
-        public SetSendConfig(Main mainWin)
+        public SetAutoReplyControl(Main mainWin)
         {
             InitializeComponent();
             hotForm = mainWin;
         }
+
 
 
 

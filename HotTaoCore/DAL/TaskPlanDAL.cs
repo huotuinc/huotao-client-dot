@@ -32,14 +32,23 @@ namespace HotTaoCore.DAL
                     data.ForEach(item =>
                     {
                         if (item.status == 1)
+                        {
                             item.statusText = "已完成";
+                            item.ExecStatus = 2;
+                        }
                         else
                         {
                             if (item.endTime.CompareTo(DateTime.Now) < 0)
+                            {
                                 item.statusText = "已过期";
+                                item.ExecStatus = 3;
+                            }
 
                             if (item.startTime.CompareTo(DateTime.Now) >= 0)
+                            {
                                 item.statusText = "进行中";
+                                item.ExecStatus = 1;
+                            }
                         }
                         item.startTimeText = item.startTime.ToString("yyyy年MM月dd日 HH时mm分ss秒");
                     });

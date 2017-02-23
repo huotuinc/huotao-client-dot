@@ -25,11 +25,7 @@ namespace HotTao.Controls
             if (hotForm.currentUserId > 0)
                 LoadTaskPlanGridView();
             else
-                hotForm.openControl(new LoginControl(hotForm));
-
-            dateTimePicker1.Size = new System.Drawing.Size(217, 40);
-            dateTimePicker1.Height = 40;
-            
+                hotForm.openControl(new LoginControl(hotForm));           
 
         }
 

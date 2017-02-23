@@ -18,6 +18,11 @@ namespace HotTao.Controls
         public int CurrentShowRowNumber { get; set; }
 
         public const int PageRowCount = 100;
+        /// <summary>
+        /// 主界面等待背景
+        /// </summary>
+        private Panel _pWait;
+
 
         public TaskControl(Main mainWin)
         {
@@ -58,19 +63,28 @@ namespace HotTao.Controls
                     DataGridViewCell dvc = dataGridView1.CurrentCell;
                     int ri = dvc.RowIndex;
                     int ci = dvc.ColumnIndex;
+                    int c = 0;
                     if (e.Delta > 0)//向上
                     {
-                        if (ri > 0)
+                        if (ri - 3 > 0)
+                            c = 3;
+                        else if (ri > 0)
+                            c = 1;
+                        if (c > 0)
                         {
-                            dvc = dataGridView1.Rows[ri - 1].Cells[ci];
+                            dvc = dataGridView1.Rows[ri - c].Cells[ci];
                             dataGridView1.CurrentCell = dvc;
                         }
                     }
                     else
                     {
-                        if (ri < dataGridView1.Rows.Count - 1)
+                        if (ri < dataGridView1.Rows.Count - 3)
+                            c = 3;
+                        else if (ri < dataGridView1.Rows.Count - 1)
+                            c = 1;
+                        if (c > 0)
                         {
-                            dvc = dataGridView1.Rows[ri + 1].Cells[ci];
+                            dvc = dataGridView1.Rows[ri + c].Cells[ci];
                             dataGridView1.CurrentCell = dvc;
                         }
                     }
@@ -86,14 +100,15 @@ namespace HotTao.Controls
         /// <summary>
         /// 加载用户推广位
         /// </summary>
-        private void loadUserPidGridView()
+        public void loadUserPidGridView()
         {
 
             //是否自动添加属性字段
             this.dgvPid.AutoGenerateColumns = false;
+            this.dgvPid.Rows.Clear();
             ((Action)(delegate ()
             {
-                var pidData = LogicUserPid.Instance.getUserPidList(hotForm.currentUserId);
+                var pidData = LogicUser.Instance.GetUserWeChatList(hotForm.currentUserId);
                 if (pidData != null)
                 {
                     this.BeginInvoke((Action)(delegate ()  //等待结束
@@ -111,7 +126,7 @@ namespace HotTao.Controls
         }
 
 
-        private void SetPidView(List<UserPidModel> data)
+        private void SetPidView(List<UserWechatListModel> data)
         {
             int i = dgvPid.Rows.Count;
             for (int j = 0; j < data.Count(); j++)
@@ -119,7 +134,7 @@ namespace HotTao.Controls
                 dgvPid.Rows.Add();
                 ++i;
                 dgvPid.Rows[i - 1].Cells["shareid"].Value = data[j].id.ToString();
-                dgvPid.Rows[i - 1].Cells["sharetitle"].Value = data[j].title.ToString();
+                dgvPid.Rows[i - 1].Cells["sharetitle"].Value = data[j].wechattitle.ToString();
                 dgvPid.Rows[i - 1].Cells["pid"].Value = data[j].pid.ToString();
                 if (i % 2 == 0)
                     dgvPid.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
@@ -131,10 +146,11 @@ namespace HotTao.Controls
             }
         }
 
-        private void LoadTaskPlanGridView()
+        public void LoadTaskPlanGridView()
         {
             //是否自动添加属性字段
             this.dgvTaskPlan.AutoGenerateColumns = false;
+            this.dgvTaskPlan.Rows.Clear();
             ((Action)(delegate ()
             {
                 var taskData = LogicTaskPlan.Instance.getTaskPlanList(hotForm.currentUserId);
@@ -165,9 +181,12 @@ namespace HotTao.Controls
                 dgvTaskPlan.Rows[i - 1].Cells["taskid"].Value = taskData[j].id.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["taskTitle"].Value = taskData[j].title.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["taskStartTime"].Value = taskData[j].startTime.ToString();
+                dgvTaskPlan.Rows[i - 1].Cells["taskEndTime"].Value = taskData[j].endTime.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["taskStatusText"].Value = taskData[j].statusText.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["goodsText"].Value = taskData[j].goodsText.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["pidsText"].Value = taskData[j].pidsText.ToString();
+
+                dgvTaskPlan.Rows[i - 1].Cells["ExecStatus"].Value = taskData[j].ExecStatus.ToString();
                 if (i % 2 == 0)
                     dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
                 else
@@ -272,7 +291,7 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnAddTask_Click(object sender, EventArgs e)
         {
-            TaskEdit te = new TaskEdit(this);
+            TaskEdit te = new TaskEdit(hotForm, this);
             te.ShowDialog(this);
         }
 
@@ -285,10 +304,6 @@ namespace HotTao.Controls
         {
 
         }
-
-
-
-        private bool allSelected = false;
 
         /// <summary>
         /// 微信群全选和取消
@@ -303,7 +318,7 @@ namespace HotTao.Controls
                 {
                     int result = 0;
                     int.TryParse(row.Cells["shareid"].Value.ToString(), out result);
-                    if (!allSelected)
+                    if (ckbWeChatAllSelected.Checked)
                     {
                         row.Cells[0].Value = result;
                         row.Selected = true;
@@ -314,14 +329,7 @@ namespace HotTao.Controls
                         row.Selected = false;
                     }
                 }
-                allSelected = !allSelected;
             }
-
-
-            if (allSelected)
-                toolWeChatAllSelected.Text = "取消选择";
-            else
-                toolWeChatAllSelected.Text = "全择";
         }
         /// <summary>
         /// 添加/编辑微信群
@@ -331,7 +339,8 @@ namespace HotTao.Controls
 
         private void btnAddWeChatGroup_Click(object sender, EventArgs e)
         {
-
+            AddWeChat add = new AddWeChat(hotForm, this);
+            add.ShowDialog(this);
         }
         /// <summary>
         /// 删除
@@ -340,9 +349,40 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void toolWeChatDel_Click(object sender, EventArgs e)
         {
+            List<int> pidList = new List<int>();
+            List<DataGridViewRow> rows = new List<DataGridViewRow>();
+            foreach (DataGridViewRow item in dgvPid.Rows)
+            {
+                if ((bool)item.Cells[0].EditedFormattedValue == true)
+                {
+                    int result = 0;
+                    int.TryParse(item.Cells["shareid"].Value.ToString(), out result);
+                    if (result > 0 && !pidList.Contains(result))
+                    {
+                        pidList.Add(result);
+                        rows.Add(item);
+                    }
+                }
+            }
+            if (pidList != null && pidList.Count() > 0)
+            {
+                MessageConfirm confirm = new MessageConfirm();
+                confirm.Message = "您确认要删除勾选的微信群吗";
+                confirm.CallBack += () =>
+                {
+                    if (LogicUser.Instance.DeleteUserWeChat(hotForm.currentUserId, pidList))
+                    {
+                        loadUserPidGridView();
+                    }
+                };
+                confirm.ShowDialog(this);
+            }
+            else
+            {
+                ShowAlert("请先选择要删除的数据行");
+            }
 
         }
-
 
         /// <summary>
         /// 修改任务计划
@@ -351,10 +391,27 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dgvTaskPlan_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            DataGridViewCell cell = this.dgvTaskPlan.CurrentRow.Cells["edittask"];
-            if (cell != null && cell.ColumnIndex == e.ColumnIndex)
+            DataGridViewCellCollection cells = this.dgvTaskPlan.CurrentRow.Cells;
+            if (cells != null && cells["edittask"].ColumnIndex == e.ColumnIndex)
             {
-                btnAddTask_Click(null, null);
+                int eCode = 0;
+                int.TryParse(cells["ExecStatus"].Value.ToString(), out eCode);
+                if (eCode == 0)
+                {
+                    //
+                    TaskEdit te = new TaskEdit(hotForm, this);
+                    int result = 0;
+                    int.TryParse(cells["taskid"].Value.ToString(), out result);
+                    te.taskid = result;
+                    te.taskStartTime = cells["taskStartTime"].Value.ToString();
+                    te.taskTitle = cells["taskTitle"].Value.ToString();
+                    te.taskEndTime = cells["taskEndTime"].Value.ToString();
+                    te.ShowDialog(this);
+                }
+                else
+                {
+                    ShowAlert("只能修改[未执行]的任务");
+                }
             }
 
         }
@@ -370,8 +427,14 @@ namespace HotTao.Controls
             DataGridViewCell cell = this.dgvData.CurrentRow.Cells["editgoods"];
             if (cell != null && cell.ColumnIndex == e.ColumnIndex)
             {
-                this.dgvData.Rows.RemoveAt(cell.RowIndex);
-                MessageBox.Show("删除成功");
+                MessageConfirm confirm = new MessageConfirm();
+                confirm.Message = "确认要删除该商品吗";
+                confirm.CallBack += () =>
+                {
+                    this.dgvData.Rows.RemoveAt(cell.RowIndex);
+                    ShowAlert("删除成功");
+                };
+                confirm.ShowDialog(this);
             }
         }
 
@@ -382,30 +445,46 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnWeChatWinGet_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("请确保采集的群聊都单独拖出来", "提示", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            MessageConfirm confirm = new MessageConfirm();
+            confirm.Message = "请确保采集的群聊都单独拖出来";
+            confirm.CallBack += GetWeChatWinHandler;
+            confirm.ShowDialog(this);
+        }
+        /// <summary>
+        /// 采集微信聊天窗口
+        /// </summary>
+        private void GetWeChatWinHandler()
+        {
+            var wins = WinApi.GetAllDesktopWindows();
+            if (wins != null && wins.Count() > 0)
             {
-                var wins = WinApi.GetAllDesktopWindows();
-                if (wins != null && wins.Count() > 0)
+                List<UserWechatListModel> testData = new List<UserWechatListModel>();
+                int itemid = dgvPid.Rows.Count + 1;
+                foreach (var win in wins)
                 {
-                    List<UserPidModel> testData = new List<UserPidModel>();
-                    int itemid = dgvPid.Rows.Count + 1;
-                    foreach (var win in wins)
+                    int flag = LogicUser.Instance.AddUserWeChat(new UserWechatListModel()
                     {
-                        testData.Add(new UserPidModel()
+                        wechattitle = win.szWindowName,
+                        userid = hotForm.currentUserId
+                    });
+                    if (flag > 0)
+                    {
+                        testData.Add(new UserWechatListModel()
                         {
-                            id = itemid,
-                            title = win.szWindowName,
-                            userid = 1,
-                            pid = ""
+                            id = flag,
+                            wechattitle = win.szWindowName,
+                            userid = hotForm.currentUserId,
+                            pid = "",
+                            pidid = 0
                         });
-                        itemid++;
                     }
-                    SetPidView(testData);
                 }
-                else
-                {
-                    MessageBox.Show("微信初始化失败,请把需要采集的群聊单独拖出来");
-                }
+                SetPidView(testData);
+                ShowAlert("采集完成");
+            }
+            else
+            {
+                ShowAlert("微信初始化失败");
             }
         }
 
@@ -417,6 +496,55 @@ namespace HotTao.Controls
         private void btnAddGoods_Click(object sender, EventArgs e)
         {
 
+        }
+
+
+        private void ShowAlert(string Message)
+        {
+            MessageAlert alert = new MessageAlert();
+            alert.Message = Message;
+            alert.ShowDialog(this);
+        }
+
+        private void dgvPid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewCell cell = this.dgvPid.CurrentRow.Cells["editwechat"];
+            if (cell != null && cell.ColumnIndex == e.ColumnIndex)
+            {
+                AddWeChat add = new AddWeChat(hotForm, this);
+                int result = 0;
+                int.TryParse(this.dgvPid.CurrentRow.Cells["shareid"].Value.ToString(), out result);
+                add.editId = result;
+                add.weChatTitle = this.dgvPid.CurrentRow.Cells["sharetitle"].Value.ToString();
+                add.ShowDialog(this);
+            }
+        }
+
+        /// <summary>
+        /// 全选任务计划
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void ckbAllSelectedTask_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dgvPid.Rows != null && dgvTaskPlan.Rows.Count > 0)
+            {
+                foreach (DataGridViewRow row in dgvTaskPlan.Rows)
+                {
+                    int result = 0;
+                    int.TryParse(row.Cells["taskid"].Value.ToString(), out result);
+                    if (ckbAllSelectedTask.Checked)
+                    {
+                        row.Cells[0].Value = result;
+                        row.Selected = true;
+                    }
+                    else
+                    {
+                        row.Cells[0].Value = 0;
+                        row.Selected = false;
+                    }
+                }
+            }
         }
     }
 }

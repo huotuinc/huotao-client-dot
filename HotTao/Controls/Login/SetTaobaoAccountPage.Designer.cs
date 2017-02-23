@@ -38,7 +38,6 @@
             this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.lbLoginPwd = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.hotGroupBox1.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -66,7 +65,7 @@
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(233, 41);
             this.btnLogin.TabIndex = 15;
-            this.btnLogin.Text = "下一步";
+            this.btnLogin.Text = "模拟登陆";
             this.btnLogin.UseVisualStyleBackColor = false;
             // 
             // loginPwd
@@ -117,7 +116,7 @@
             this.lbLoginName.Name = "lbLoginName";
             this.lbLoginName.Size = new System.Drawing.Size(90, 22);
             this.lbLoginName.TabIndex = 100;
-            this.lbLoginName.Text = "请输入淘宝号码";
+            this.lbLoginName.Text = "请输入淘宝账户";
             this.lbLoginName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbLoginName.Click += new System.EventHandler(this.lbLoginName_Click);
             // 
@@ -157,24 +156,10 @@
             this.label1.Text = "淘宝账号设置";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.White;
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
-            this.button1.Location = new System.Drawing.Point(166, 15);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(68, 26);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "加载更多";
-            this.button1.UseVisualStyleBackColor = false;
-            // 
             // SetTaobaoAccountPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lbSkipStep);
             this.Controls.Add(this.btnLogin);
@@ -201,6 +186,5 @@
         private module.HotGroupBox hotGroupBox2;
         private System.Windows.Forms.Label lbLoginPwd;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
     }
 }

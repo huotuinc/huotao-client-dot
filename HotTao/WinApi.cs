@@ -339,8 +339,11 @@ namespace HotTao
                     wnd.szClassName = sb.ToString();
                     GetWindowText(hWin, sb, sb.Capacity);
                     wnd.szWindowName = sb.ToString();
-                    wndList.Add(wnd);
-                    ShowWindow(hWin, NCmdShowFlag.SW_HIDE);
+
+                    if (!wndList.Exists(item=> { return item.szWindowName == wnd.szWindowName; }))                   
+                        wndList.Add(wnd);
+                    //隐藏
+                    //ShowWindow(hWin, NCmdShowFlag.SW_HIDE);
                 }
                 return true;
             }, 0);

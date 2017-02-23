@@ -159,5 +159,112 @@ namespace HotTaoCore.DAL
             }
         }
 
+
+        /******************new *************************************/
+
+
+
+
+        /// <summary>
+        /// 获取微信群聊列表
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>List&lt;UserWechatListModel&gt;.</returns>
+        public List<UserWechatListModel> GetUserWeChatList(int userId)
+        {
+            string strSql = @"select a.id,a.userid,a.wechattitle,a.pidid,b.pid,a.createTime from user_wechat_list a
+                              left join userpid_list b on a.pidid=b.id
+                              where a.userid=@userid";
+            var param = new[]
+            {
+                new SqlParameter("@userid",userId)
+            };
+            using (SqlDataReader dr = DbHelperSQL.ExecuteReader(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param))
+            {
+                return DbHelperSQL.GetEntityList<UserWechatListModel>(dr);
+            }
+        }
+
+
+        /// <summary>
+        /// 添加用户微信群
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public int AddUserWeChat(UserWechatListModel model)
+        {
+
+            string strSql = @"
+                            if not exists (select * from user_wechat_list where userid=@userid and wechattitle=@wechattitle)
+                            begin
+                                insert into user_wechat_list(userid,wechattitle) values(@userid,@wechattitle);select @@IDENTITY;
+                            end
+                            else
+                            begin
+                                select 0
+                            end
+                            ";
+
+            var param = new[]
+            {
+                new SqlParameter("@userid",model.userid),
+                new SqlParameter("@wechattitle",model.wechattitle)
+            };
+            object obj = DbHelperSQL.ExecuteScalar(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param);
+            return obj != null ? Convert.ToInt32(obj) : 0;
+        }
+
+        /// <summary>
+        /// 设置微信群关联PID
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <param name="wechatid">The wechatid.</param>
+        /// <param name="pidid">The pidid.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool SetUserWeChatPid(int userid, int wechatid, int pidid)
+        {
+            string strSql = "update user_wechat_list set pidid=@pidid where userid=@userid and id=@id";
+            var param = new[]
+            {
+                new SqlParameter("@userid",userid),
+                new SqlParameter("@pidid",pidid),
+                new SqlParameter("@id",wechatid)
+            };
+            return DbHelperSQL.ExecuteNonQuery(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param) > 0;
+        }
+        /// <summary>
+        /// 修改微信群聊标题
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <param name="wechatid">The wechatid.</param>
+        /// <param name="wechattitle">The wechattitle.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public int UpdateUserWeChatTitle(int userid, int wechatid, string wechattitle)
+        {
+            string strSql = "update user_wechat_list set wechattitle=@wechattitle where userid=@userid and id=@id";
+            var param = new[]
+            {
+                new SqlParameter("@userid",userid),
+                new SqlParameter("@wechattitle",wechattitle),
+                new SqlParameter("@id",wechatid)
+            };
+            return DbHelperSQL.ExecuteNonQuery(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param);
+        }
+
+        /// <summary>
+        /// 删除微信群
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <param name="wechatid">The wechatid.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool DeleteUserWeChat(int userid, List<int> wechatid)
+        {
+            string strSql = string.Format("delete from user_wechat_list where userid=@userid and id in ({0})", string.Join(",", wechatid));
+            var param = new[]
+            {
+                new SqlParameter("@userid",userid)
+            };
+            return DbHelperSQL.ExecuteNonQuery(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param) > 0;
+        }
     }
 }

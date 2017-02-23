@@ -30,7 +30,7 @@ namespace HotTao.Controls
 
         private void LoginControl_Load(object sender, EventArgs e)
         {
-            openControl(new LoginPage(hotForm, this));
+            openControl(new LoginButtonPage(hotForm, this));
         }
 
 
@@ -52,11 +52,10 @@ namespace HotTao.Controls
                     return;
                 }
             }
-            uc.Dock = DockStyle.Fill;
+            uc.Dock = DockStyle.Fill;                                
             DisPanel();
             panelLogin.Controls.Add(uc);
         }
-
 
         private void DisPanel()
         {

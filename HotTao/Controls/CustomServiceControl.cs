@@ -9,20 +9,15 @@ using System.Windows.Forms;
 
 namespace HotTao.Controls
 {
-    public partial class SetSendConfig : UserControl
+    public partial class CustomServiceControl : UserControl
     {
+
         private Main hotForm { get; set; }
-        public SetSendConfig(Main mainWin)
+
+        public CustomServiceControl(Main mainWin)
         {
             InitializeComponent();
             hotForm = mainWin;
-        }
-
-
-
-        public void Save()
-        {
-
         }
     }
 }
