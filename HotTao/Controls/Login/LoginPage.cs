@@ -27,7 +27,7 @@ namespace HotTao.Controls.Login
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            Login();            
+            Login();
         }
 
 
@@ -41,7 +41,23 @@ namespace HotTao.Controls.Login
         /// </summary>
         private string _tempPassword { get; set; }
         private string _tempLoginName { get; set; }
-        public bool isLogining = false;
+
+        private bool _isLogining = false;
+        public bool loginSuccess { get; set; }
+
+        public bool isLogining
+        {
+            get
+            {
+                return _isLogining;
+            }
+
+            set
+            {
+                _isLogining = value;
+            }
+        }
+
         public void Login()
         {
             try
@@ -50,11 +66,13 @@ namespace HotTao.Controls.Login
                     return;
                 if (string.IsNullOrEmpty(loginName.Text))
                 {
+                    lbTipMsg.Text = "请输入登录账户!";
                     loginName.Focus();
                     return;
                 }
                 if (string.IsNullOrEmpty(loginPwd.Text))
                 {
+                    lbTipMsg.Text = "请输入登录密码!";
                     loginPwd.Focus();
                     return;
                 }
@@ -66,30 +84,79 @@ namespace HotTao.Controls.Login
                     pwd = EncryptHelper.MD5(loginPwd.Text);
 
                 string lgname = loginName.Text;
-                var data = LogicUser.Instance.login(lgname, pwd);
-                if (data != null)
+                loginSuccess = false;
+                isLogining = true;
+                ((Action)(delegate ()
                 {
-                    if (data.activate == 1)
+                    var data = LogicUser.Instance.login(lgname, pwd);
+                    if (data != null)
                     {
-                        loginResult(data);
+                        if (data.activate == 1)
+                        {
+                            loginSuccess = true;
+                            isLogining = false;
+                            this.BeginInvoke((Action)(delegate ()  //等待结束
+                            {
+                                lbTipMsg.Text = "登录成功，请稍后...";
+                            }));
+                            loginResult(data);
+                        }
+                        else
+                        {
+                            this.BeginInvoke((Action)(delegate ()  //等待结束
+                            {
+                                lbTipMsg.Text = "该账号已禁用，请联系管理员!";
+                            }));
+                            isLogining = false;
+                            loginSuccess = true;
+                        }
                     }
                     else
                     {
-                        SetText("该账号已禁用，请联系管理员!");
-                        return;
+                        this.BeginInvoke((Action)(delegate ()  //等待结束
+                        {
+                            lbTipMsg.Text = "账号或密码不正确!";
+                        }));
+                        isLogining = false;
+                        loginSuccess = true;
                     }
-                }
-                else
-                {
-                    SetText("账号或密码不正确");
+                })).BeginInvoke(null, null);
 
-                }
+                ((Action)(delegate ()
+                {
+                    int c = 1;
+                    while (!loginSuccess)
+                    {
+                        this.BeginInvoke((Action)(delegate ()  //等待结束
+                        {
+                            string t = "";
+                            if (c == 1)
+                                t = "登录中，请稍后.";
+                            else if (c == 2)
+                                t = "登录中，请稍后..";
+                            else if (c == 3)
+                            {
+                                t = "登录中，请稍后...";
+                                c = 0;
+                            }
+                            if (!loginSuccess)
+                                lbTipMsg.Text = t;
+                        }));
+                        c++;
+                        System.Threading.Thread.Sleep(1000);
+                    }
+                })).BeginInvoke(null, null);
 
             }
             catch (Exception ex)
             {
 
-                SetText(ex.Message);
+                this.BeginInvoke((Action)(delegate ()  //等待结束
+                {
+                    lbTipMsg.Text = "连接服务器失败!";
+                    loginSuccess = true;
+                    isLogining = false;
+                }));
             }
         }
 
@@ -118,8 +185,11 @@ namespace HotTao.Controls.Login
                 }
                 else
                     RememberPassword("");
-                                
-                loginForm.openControl(new SetTaobaoAccountPage(hotForm, loginForm));
+                this.BeginInvoke((Action)(delegate ()  //等待结束
+                {                    
+                    loginForm.openControl(new SetTaobaoAccountPage(hotForm, loginForm));
+                }));
+               
             }
         }
 
@@ -225,6 +295,11 @@ namespace HotTao.Controls.Login
                     this.IsRememberPassword = true;
                 }
             }
+        }
+
+        private void lkRegister_Click(object sender, EventArgs e)
+        {
+            loginForm.openControl(new RegisterPage(hotForm, loginForm));
         }
     }
 }

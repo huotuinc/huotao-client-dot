@@ -18,11 +18,6 @@ namespace HotTao.Controls
         public int CurrentShowRowNumber { get; set; }
 
         public const int PageRowCount = 100;
-        /// <summary>
-        /// 主界面等待背景
-        /// </summary>
-        private Panel _pWait;
-
 
         public TaskControl(Main mainWin)
         {
@@ -291,7 +286,41 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnAddTask_Click(object sender, EventArgs e)
         {
+            List<GoodsTaskModel> goodsidList = new List<GoodsTaskModel>();
+            //循环获取选中的数据
+            foreach (DataGridViewRow item in dgvData.Rows)
+            {
+                //if ((bool)item.Cells[0].EditedFormattedValue == true)
+                //{
+                int result = 0;
+                int.TryParse(item.Cells["gid"].Value.ToString(), out result);
+                if (result > 0 && goodsidList.FindIndex(r => { return r.id == result; }) < 0)
+                    goodsidList.Add(new GoodsTaskModel() { id = result });
+                //}
+            }
+            List<UserPidTaskModel> pidList = new List<UserPidTaskModel>();
+            foreach (DataGridViewRow item in dgvPid.Rows)
+            {
+                if ((bool)item.Cells[0].EditedFormattedValue == true)
+                {
+                    int result = 0;
+                    int.TryParse(item.Cells["shareid"].Value.ToString(), out result);
+                    if (result > 0 && pidList.FindIndex(r => { return r.id == result; }) < 0)
+                        pidList.Add(new UserPidTaskModel() { id = result });
+                }
+            }
+
+            if (goodsidList.Count() == 0 || pidList.Count() == 0)
+            {
+                MessageBox.Show("请先选择需要推广的商品和推广位！", "提示");
+                return;
+            }
+
+
+
             TaskEdit te = new TaskEdit(hotForm, this);
+            te.hotGoodsText = goodsidList;
+            te.hotPidsText = pidList;
             te.ShowDialog(this);
         }
 
@@ -340,6 +369,7 @@ namespace HotTao.Controls
         private void btnAddWeChatGroup_Click(object sender, EventArgs e)
         {
             AddWeChat add = new AddWeChat(hotForm, this);
+            add.Title = "添加微信群";
             add.ShowDialog(this);
         }
         /// <summary>
@@ -512,6 +542,7 @@ namespace HotTao.Controls
             if (cell != null && cell.ColumnIndex == e.ColumnIndex)
             {
                 AddWeChat add = new AddWeChat(hotForm, this);
+                add.Title = "修改微信群";
                 int result = 0;
                 int.TryParse(this.dgvPid.CurrentRow.Cells["shareid"].Value.ToString(), out result);
                 add.editId = result;
@@ -544,6 +575,30 @@ namespace HotTao.Controls
                         row.Selected = false;
                     }
                 }
+            }
+        }
+        /// <summary>
+        /// 修改微信群
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void toolWeChatUpdate_Click(object sender, EventArgs e)
+        {
+            DataGridViewCellCollection row = this.dgvPid.CurrentRow.Cells;
+            if (row != null)
+            {
+                AddWeChat add = new AddWeChat(hotForm, this);
+                int result = 0;
+                int.TryParse(row["shareid"].Value.ToString(), out result);
+                add.editId = result;
+                add.weChatTitle = row["sharetitle"].Value.ToString();
+                add.ShowDialog(this);
+
+
+            }
+            else
+            {
+                ShowAlert("请先选择要修改的数据行");
             }
         }
     }

@@ -114,8 +114,9 @@ namespace HotTao.Controls
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            CallBack?.Invoke();
             this.Close();
+            CallBack?.Invoke();
+        
         }
 
         private void MessageConfirm_Load(object sender, EventArgs e)

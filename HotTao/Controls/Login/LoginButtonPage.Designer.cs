@@ -42,7 +42,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(202, 24);
             this.label1.TabIndex = 0;
-            this.label1.Text = "请选登陆火淘账号";
+            this.label1.Text = "请先登陆火淘账号";
             // 
             // label2
             // 

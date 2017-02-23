@@ -31,6 +31,14 @@ namespace HotTaoCore.Logic
         /// <returns></returns>
         public UserModel login(string loginName, string loginPwd)
         {
+
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["username"] = loginName;
+            data["password"] = loginPwd;
+            //var userData = BaseRequestService.Post<UserModel>(ApiConst.login, data,(error=> {
+                
+            //}));
+
             var userData = dal.login(loginName, loginPwd);
             if (userData != null)
             {
@@ -41,6 +49,22 @@ namespace HotTaoCore.Logic
             }
             return null;
         }
+
+
+        public UserModel Register(string loginName, string loginPwd, string verifyCode)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["username"] = loginName;
+            data["password"] = loginPwd;
+            data["verifycode"] = verifyCode;
+            var userData = BaseRequestService.Post<UserModel>(ApiConst.register, data);
+            if (userData != null)
+            {
+                return userData;
+            }
+            return null;
+        }
+
         /// <summary>
         /// 根据用户ID获取用户信息
         /// </summary>

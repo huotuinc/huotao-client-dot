@@ -10,10 +10,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-
-namespace HotTao
+namespace HotTao.Controls
 {
-    public partial class Main : BaseForm
+
+    //DesktopControl : UserControl
+    public partial class DesktopControl : BaseForm
     {
         #region 移动窗口
         /*
@@ -81,6 +82,8 @@ namespace HotTao
         /// <value>true if this instance is taobao login; otherwise, false.</value>
         public bool isTaobaoLogin { get; set; }
 
+        private Main hotForm { get; set; }
+
         /// <summary>
         /// 设置淘宝账号
         /// </summary>
@@ -92,9 +95,10 @@ namespace HotTao
             taobaoPwd = pwd;
         }
 
-        public Main()
+        public DesktopControl(Main mainWin)
         {
             InitializeComponent();
+            hotForm = mainWin;
         }
 
         /// <summary>
@@ -117,10 +121,10 @@ namespace HotTao
                 if (user != null)
                 {
                     SetLoginData(user);
-                    openControl(new GoodsControl(this));
+                    openControl(new GoodsControl(hotForm));
                 }
                 else
-                    openControl(new LoginControl(this));
+                    openControl(new LoginControl(hotForm));
             });
 
 
@@ -144,7 +148,7 @@ namespace HotTao
                     }
                 }
                 LoginSync = false;
-                openControl(new LoginControl(this));
+                openControl(new LoginControl(hotForm));
                 return false;
             }
             catch (Exception)
@@ -162,7 +166,7 @@ namespace HotTao
         private void btnHome_Click(object sender, EventArgs e)
         {
             SetSelectedBackgroundImage(sender);
-            openControl(new GoodsControl(this));
+            openControl(new GoodsControl(hotForm));
         }
 
         /// <summary>
@@ -173,7 +177,7 @@ namespace HotTao
         private void btnWeChat_Click(object sender, EventArgs e)
         {
             SetSelectedBackgroundImage(sender);
-            openControl(new TaskControl(this));
+            openControl(new TaskControl(hotForm));
         }
 
 
@@ -195,7 +199,7 @@ namespace HotTao
         private void btnSetting_Click(object sender, EventArgs e)
         {
             SetSelectedBackgroundImage(sender);
-            openControl(new SetControl(this));
+            openControl(new SetControl(hotForm));
         }
 
         /// <summary>
@@ -206,7 +210,7 @@ namespace HotTao
         private void btnHistory_Click(object sender, EventArgs e)
         {
             SetSelectedBackgroundImage(sender);
-            openControl(new HistoryControl(this));
+            openControl(new HistoryControl(hotForm));
         }
 
         /// <summary>
@@ -217,7 +221,7 @@ namespace HotTao
         private void btnCustomService_Click(object sender, EventArgs e)
         {
             SetSelectedBackgroundImage(sender);
-            openControl(new CustomServiceControl(this));
+            openControl(new CustomServiceControl(hotForm));
         }
 
 
@@ -328,7 +332,7 @@ namespace HotTao
 
         private void pbMin_Click(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Minimized;
+            hotForm.WindowState = FormWindowState.Minimized;
         }
 
 

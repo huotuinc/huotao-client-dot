@@ -1,16 +1,16 @@
-﻿namespace HotTao
+﻿namespace HotTao.Controls
 {
-    partial class Main
+    partial class DesktopControl
     {
-        /// <summary>
-        /// Required designer variable.
+        /// <summary> 
+        /// 必需的设计器变量。
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
+        /// <summary> 
+        /// 清理所有正在使用的资源。
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,15 +20,16 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region 组件设计器生成的代码
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        /// <summary> 
+        /// 设计器支持所需的方法 - 不要修改
+        /// 使用代码编辑器修改此方法的内容。
         /// </summary>
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.Container = new System.Windows.Forms.SplitContainer();
             this.panel7 = new System.Windows.Forms.Panel();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -52,8 +53,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.btnHome = new System.Windows.Forms.PictureBox();
-            this.toolTipText = new System.Windows.Forms.ToolTip(this.components);
-            this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
+            this.hotPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Container)).BeginInit();
             this.Container.Panel1.SuspendLayout();
             this.Container.SuspendLayout();
@@ -73,8 +73,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnWeChat)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnHome)).BeginInit();
-            this.hotPanel1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // hotPanel1
+            // 
+            this.hotPanel1.BackColor = System.Drawing.Color.White;
+            this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Controls.Add(this.Container);
+            this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.hotPanel1.Location = new System.Drawing.Point(0, 0);
+            this.hotPanel1.Name = "hotPanel1";
+            this.hotPanel1.Size = new System.Drawing.Size(920, 720);
+            this.hotPanel1.TabIndex = 0;
             // 
             // Container
             // 
@@ -105,10 +115,10 @@
             this.Container.Panel2.AutoScroll = true;
             this.Container.Panel2.BackColor = System.Drawing.Color.Transparent;
             this.Container.Panel2MinSize = 0;
-            this.Container.Size = new System.Drawing.Size(918, 718);
+            this.Container.Size = new System.Drawing.Size(920, 720);
             this.Container.SplitterDistance = 111;
             this.Container.SplitterWidth = 1;
-            this.Container.TabIndex = 0;
+            this.Container.TabIndex = 1;
             // 
             // panel7
             // 
@@ -130,7 +140,6 @@
             this.pictureBox3.Size = new System.Drawing.Size(13, 13);
             this.pictureBox3.TabIndex = 4;
             this.pictureBox3.TabStop = false;
-            this.toolTipText.SetToolTip(this.pictureBox3, "菜单");
             // 
             // pbClose
             // 
@@ -141,8 +150,6 @@
             this.pbClose.Size = new System.Drawing.Size(13, 13);
             this.pbClose.TabIndex = 5;
             this.pbClose.TabStop = false;
-            this.toolTipText.SetToolTip(this.pbClose, "关闭");
-            this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
             // 
             // pbMin
             // 
@@ -153,8 +160,6 @@
             this.pbMin.Size = new System.Drawing.Size(13, 13);
             this.pbMin.TabIndex = 3;
             this.pbMin.TabStop = false;
-            this.toolTipText.SetToolTip(this.pbMin, "最小化");
-            this.pbMin.Click += new System.EventHandler(this.pbMin_Click);
             // 
             // panel6
             // 
@@ -187,8 +192,6 @@
             this.btnCustomService.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.btnCustomService.TabIndex = 0;
             this.btnCustomService.TabStop = false;
-            this.toolTipText.SetToolTip(this.btnCustomService, "客服");
-            this.btnCustomService.Click += new System.EventHandler(this.btnCustomService_Click);
             // 
             // panel5
             // 
@@ -221,7 +224,6 @@
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox5.TabIndex = 0;
             this.pictureBox5.TabStop = false;
-            this.toolTipText.SetToolTip(this.pictureBox5, "帮助");
             // 
             // panel4
             // 
@@ -233,7 +235,6 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(83, 113);
             this.panel4.TabIndex = 1;
-            this.panel4.Click += new System.EventHandler(this.btnSetting_Click);
             // 
             // label4
             // 
@@ -245,7 +246,6 @@
             this.label4.Size = new System.Drawing.Size(53, 12);
             this.label4.TabIndex = 1;
             this.label4.Text = "软件配置";
-            this.label4.Click += new System.EventHandler(this.btnSetting_Click);
             // 
             // btnSetting
             // 
@@ -256,8 +256,6 @@
             this.btnSetting.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.btnSetting.TabIndex = 0;
             this.btnSetting.TabStop = false;
-            this.toolTipText.SetToolTip(this.btnSetting, "软件配置");
-            this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
             // 
             // panel3
             // 
@@ -269,7 +267,6 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(83, 113);
             this.panel3.TabIndex = 1;
-            this.panel3.Click += new System.EventHandler(this.btnHistory_Click);
             // 
             // label3
             // 
@@ -281,7 +278,6 @@
             this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 1;
             this.label3.Text = "计划列表";
-            this.label3.Click += new System.EventHandler(this.btnHistory_Click);
             // 
             // btnHistory
             // 
@@ -292,8 +288,6 @@
             this.btnHistory.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.btnHistory.TabIndex = 0;
             this.btnHistory.TabStop = false;
-            this.toolTipText.SetToolTip(this.btnHistory, "计划列表");
-            this.btnHistory.Click += new System.EventHandler(this.btnHistory_Click);
             // 
             // panel2
             // 
@@ -305,7 +299,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(83, 113);
             this.panel2.TabIndex = 1;
-            this.panel2.Click += new System.EventHandler(this.btnWeChat_Click);
             // 
             // label2
             // 
@@ -317,7 +310,6 @@
             this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 1;
             this.label2.Text = "微信群发";
-            this.label2.Click += new System.EventHandler(this.btnWeChat_Click);
             // 
             // btnWeChat
             // 
@@ -328,8 +320,6 @@
             this.btnWeChat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.btnWeChat.TabIndex = 0;
             this.btnWeChat.TabStop = false;
-            this.toolTipText.SetToolTip(this.btnWeChat, "微信群发");
-            this.btnWeChat.Click += new System.EventHandler(this.btnWeChat_Click);
             // 
             // panel1
             // 
@@ -342,7 +332,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(83, 113);
             this.panel1.TabIndex = 1;
-            this.panel1.Click += new System.EventHandler(this.btnHome_Click);
             // 
             // label1
             // 
@@ -354,7 +343,6 @@
             this.label1.Size = new System.Drawing.Size(29, 12);
             this.label1.TabIndex = 1;
             this.label1.Text = "首页";
-            this.label1.Click += new System.EventHandler(this.btnHome_Click);
             // 
             // btnHome
             // 
@@ -366,33 +354,15 @@
             this.btnHome.TabIndex = 0;
             this.btnHome.TabStop = false;
             this.btnHome.Tag = "";
-            this.toolTipText.SetToolTip(this.btnHome, "首页");
-            this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
             // 
-            // hotPanel1
-            // 
-            this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.hotPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.hotPanel1.Controls.Add(this.Container);
-            this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.hotPanel1.Location = new System.Drawing.Point(0, 0);
-            this.hotPanel1.Name = "hotPanel1";
-            this.hotPanel1.Size = new System.Drawing.Size(920, 720);
-            this.hotPanel1.TabIndex = 1;
-            // 
-            // Main
+            // DesktopControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(920, 720);
             this.Controls.Add(this.hotPanel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Main";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "火淘助手工具";
-            this.Load += new System.EventHandler(this.Main_Load);
+            this.Name = "DesktopControl";
+            this.Size = new System.Drawing.Size(920, 720);
+            this.hotPanel1.ResumeLayout(false);
             this.Container.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Container)).EndInit();
             this.Container.ResumeLayout(false);
@@ -418,37 +388,35 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnHome)).EndInit();
-            this.hotPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
+        private module.HotPanel hotPanel1;
         private System.Windows.Forms.SplitContainer Container;
-        private System.Windows.Forms.PictureBox pictureBox5;
-        private System.Windows.Forms.PictureBox btnHistory;
-        private System.Windows.Forms.PictureBox btnSetting;
-        private System.Windows.Forms.PictureBox btnWeChat;
-        private System.Windows.Forms.PictureBox btnHome;
-        private System.Windows.Forms.ToolTip toolTipText;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pbClose;
+        private System.Windows.Forms.PictureBox pbMin;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.PictureBox btnCustomService;
-        private System.Windows.Forms.PictureBox pbMin;
-        private System.Windows.Forms.PictureBox pbClose;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.Panel panel7;
-        private Controls.module.HotPanel hotPanel1;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.PictureBox btnSetting;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PictureBox btnHistory;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox btnWeChat;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox btnHome;
     }
 }

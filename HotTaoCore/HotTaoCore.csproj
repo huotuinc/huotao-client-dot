@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiConst.cs" />
     <Compile Include="BaseRequestService.cs" />
     <Compile Include="DAL\GoodsDAL.cs" />
     <Compile Include="DAL\TaskPlanDAL.cs" />

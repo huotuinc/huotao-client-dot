@@ -1,6 +1,6 @@
 ﻿namespace HotTao.Controls
 {
-    partial class TestControl1
+    partial class BaseForm
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -28,32 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
-            this.SuspendLayout();
-            // 
-            // hotPanel1
-            // 
-            this.hotPanel1.BorderColor = System.Drawing.Color.Gainsboro;
-            this.hotPanel1.Location = new System.Drawing.Point(116, 95);
-            this.hotPanel1.Name = "hotPanel1";
-            this.hotPanel1.Size = new System.Drawing.Size(308, 219);
-            this.hotPanel1.TabIndex = 0;
-            // 
-            // TestControl1
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.hotPanel1);
-            this.Name = "TestControl1";
-            this.Size = new System.Drawing.Size(531, 423);
-            this.ResumeLayout(false);
-
         }
 
         #endregion
-
-        private module.HotPanel hotPanel1;
     }
 }

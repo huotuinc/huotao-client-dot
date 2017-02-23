@@ -67,6 +67,7 @@
             this.btnLogin.TabIndex = 15;
             this.btnLogin.Text = "模拟登陆";
             this.btnLogin.UseVisualStyleBackColor = false;
+            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
             // loginPwd
             // 

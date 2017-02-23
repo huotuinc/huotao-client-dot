@@ -36,19 +36,15 @@ namespace HotTaoCore
     /// </summary>
     public class BaseRequestService
     {
-
-        const string SecretKey = "1165a8d240b29af3f418b8d10599d0da";
-
-        const string Url = "http://192.168.1.57:8080";
-
         /// <summary>
         /// 向服务器发送post请求 返回服务器数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="reqName">接口名 /xxx/init </param>
+        /// <param name="reqName">接口名 /xxx/init</param>
         /// <param name="formFields">The form fields.</param>
+        /// <param name="OnError">The on error.</param>
         /// <returns>T.</returns>
-        public static T Post<T>(string reqName, Dictionary<string, string> formFields)
+        public static T Post<T>(string reqName, Dictionary<string, string> formFields, Action<ResultModel> OnError = null)
         {
             try
             {
@@ -57,15 +53,15 @@ namespace HotTaoCore
                     formFields = new Dictionary<string, string>();
 
                 }
-                formFields["timestamp"] = StringHelper.GetTimeStamp();                
-                string sign = SignatureHelper.BuildSign(formFields, SecretKey);
+                formFields["timestamp"] = StringHelper.GetTimeStamp();
+                string sign = SignatureHelper.BuildSign(formFields, ApiConst.SecretKey);
                 //获取签名
                 formFields["signature"] = sign;
                 string rawData = PrepareRequestBody(formFields);
-                var request = (HttpWebRequest)WebRequest.Create(Url + reqName);
-                request.Method = "POST";    
-                     
-                request.ContentType = "application/x-www-form-urlencoded";                              
+                var request = (HttpWebRequest)WebRequest.Create(ApiConst.Url + reqName);
+                request.Method = "POST";
+
+                request.ContentType = "application/x-www-form-urlencoded";
 
                 byte[] content = Encoding.UTF8.GetBytes(rawData);
                 request.ContentLength = content.Length;
@@ -85,11 +81,17 @@ namespace HotTaoCore
                     {
                         return Resolve<T>(result.data);
                     }
+                    else
+                        OnError?.Invoke(result);
                 }
                 return default(T);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                ResultModel result = new ResultModel();
+                result.resultMsg = "连接服务器失败";
+                result.resultCode = 500;
+                OnError?.Invoke(result);
                 return default(T);
             }
         }

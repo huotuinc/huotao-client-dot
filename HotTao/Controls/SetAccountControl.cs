@@ -42,6 +42,10 @@ namespace HotTao.Controls
         }
         private void SetAccountControl_Load(object sender, EventArgs e)
         {
+
+            txtTaobaoNo.Text = hotForm.taobaoNo;
+            txtTaobaoPwd.Text = hotForm.taobaoPwd;
+
             this.IsRememberPassword = false;
             string lp = LoadLoginNameAndPwd();
             if (!string.IsNullOrEmpty(lp))
@@ -148,7 +152,7 @@ namespace HotTao.Controls
         private void SetText(string content)
         {
             MessageAlert alert = new MessageAlert(content);
-            alert.ShowDialog(this);            
+            alert.ShowDialog(this);
         }
     }
 }

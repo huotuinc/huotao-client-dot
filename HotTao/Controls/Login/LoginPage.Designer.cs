@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.lkRegister = new System.Windows.Forms.LinkLabel();
             this.ckbAutoLogin = new System.Windows.Forms.CheckBox();
             this.btnLogin = new System.Windows.Forms.Button();
             this.ckbSavePwd = new System.Windows.Forms.CheckBox();
@@ -39,19 +39,21 @@
             this.lbLoginName = new System.Windows.Forms.Label();
             this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.lbLoginPwd = new System.Windows.Forms.Label();
+            this.lbTipMsg = new System.Windows.Forms.Label();
             this.hotGroupBox1.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // linkLabel1
+            // lkRegister
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(220, 176);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(29, 12);
-            this.linkLabel1.TabIndex = 12;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "注册";
+            this.lkRegister.AutoSize = true;
+            this.lkRegister.Location = new System.Drawing.Point(220, 176);
+            this.lkRegister.Name = "lkRegister";
+            this.lkRegister.Size = new System.Drawing.Size(29, 12);
+            this.lkRegister.TabIndex = 12;
+            this.lkRegister.TabStop = true;
+            this.lkRegister.Text = "注册";
+            this.lkRegister.Click += new System.EventHandler(this.lkRegister_Click);
             // 
             // ckbAutoLogin
             // 
@@ -166,13 +168,23 @@
             this.lbLoginPwd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbLoginPwd.Click += new System.EventHandler(this.lbLoginPwd_Click);
             // 
+            // lbTipMsg
+            // 
+            this.lbTipMsg.ForeColor = System.Drawing.Color.Red;
+            this.lbTipMsg.Location = new System.Drawing.Point(16, 194);
+            this.lbTipMsg.Name = "lbTipMsg";
+            this.lbTipMsg.Size = new System.Drawing.Size(233, 31);
+            this.lbTipMsg.TabIndex = 13;
+            this.lbTipMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // LoginPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lbTipMsg);
             this.Controls.Add(this.hotGroupBox2);
             this.Controls.Add(this.hotGroupBox1);
-            this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.lkRegister);
             this.Controls.Add(this.ckbAutoLogin);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.ckbSavePwd);
@@ -189,7 +201,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel lkRegister;
         private System.Windows.Forms.CheckBox ckbAutoLogin;
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.CheckBox ckbSavePwd;
@@ -199,5 +211,6 @@
         private module.HotGroupBox hotGroupBox2;
         private System.Windows.Forms.Label lbLoginName;
         private System.Windows.Forms.Label lbLoginPwd;
+        private System.Windows.Forms.Label lbTipMsg;
     }
 }
