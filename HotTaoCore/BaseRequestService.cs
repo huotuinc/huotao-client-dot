@@ -16,6 +16,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 
 namespace HotTaoCore
@@ -36,6 +37,14 @@ namespace HotTaoCore
     /// </summary>
     public class BaseRequestService
     {
+
+
+        private static readonly HttpClientHandler clientHandler = new HttpClientHandler();
+        /// <summary>
+        /// HTTP请求发送者
+        /// </summary>
+        private static readonly HttpClient client = new HttpClient(clientHandler);
+
         /// <summary>
         /// 向服务器发送post请求 返回服务器数据
         /// </summary>
@@ -49,34 +58,17 @@ namespace HotTaoCore
             try
             {
                 if (formFields == null)
-                {
                     formFields = new Dictionary<string, string>();
-
-                }
                 formFields["timestamp"] = StringHelper.GetTimeStamp();
-                string sign = SignatureHelper.BuildSign(formFields, ApiConst.SecretKey);
                 //获取签名
-                formFields["signature"] = sign;
-                string rawData = PrepareRequestBody(formFields);
-                var request = (HttpWebRequest)WebRequest.Create(ApiConst.Url + reqName);
-                request.Method = "POST";
-
-                request.ContentType = "application/x-www-form-urlencoded";
-
-                byte[] content = Encoding.UTF8.GetBytes(rawData);
-                request.ContentLength = content.Length;
-                using (Stream requestStream = request.GetRequestStream())
-                {
-                    requestStream.Write(content, 0, content.Length);
-                }
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                Stream response_stream = response.GetResponseStream();
-                StreamReader sr = new StreamReader(response_stream, Encoding.UTF8);
-                string respone = sr.ReadToEnd().Trim();
+                formFields["signature"] = SignatureHelper.BuildSign(formFields, ApiConst.SecretKey);
+                byte[] request_body = Encoding.UTF8.GetBytes(PrepareRequestBody(formFields));
+                ByteArrayContent content = new ByteArrayContent(request_body);
+                var ret = client.PostAsync(ApiConst.Url + reqName, content).Result.Content.ReadAsByteArrayAsync().Result;
+                string respone = Encoding.UTF8.GetString(ret);
                 if (!string.IsNullOrEmpty(respone))
                 {
                     ResultModel result = JsonConvert.DeserializeObject<ResultModel>(respone);
-
                     if (result != null && result.resultCode == 200)
                     {
                         return Resolve<T>(result.data);
@@ -84,6 +76,37 @@ namespace HotTaoCore
                     else
                         OnError?.Invoke(result);
                 }
+
+
+
+
+
+                //var request = (HttpWebRequest)WebRequest.Create(ApiConst.Url + reqName);
+                //request.Method = "POST";
+
+                //request.ContentType = "application/x-www-form-urlencoded";
+
+
+                //request.ContentLength = content.Length;
+                //using (Stream requestStream = request.GetRequestStream())
+                //{
+                //    requestStream.Write(content, 0, content.Length);
+                //}
+                //HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                //Stream response_stream = response.GetResponseStream();
+                //StreamReader sr = new StreamReader(response_stream, Encoding.UTF8);
+                //string respone = sr.ReadToEnd().Trim();
+                //if (!string.IsNullOrEmpty(respone))
+                //{
+                //    ResultModel result = JsonConvert.DeserializeObject<ResultModel>(respone);
+
+                //    if (result != null && result.resultCode == 200)
+                //    {
+                //        return Resolve<T>(result.data);
+                //    }
+                //    else
+                //        OnError?.Invoke(result);
+                //}
                 return default(T);
             }
             catch (Exception ex)

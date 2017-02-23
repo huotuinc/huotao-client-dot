@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HotTao</RootNamespace>
     <AssemblyName>火淘助手</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -26,6 +26,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,6 +47,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevComponents.DotNetBar2, Version=7.3.0.1, Culture=neutral, processorArchitecture=MSIL">
@@ -97,12 +100,6 @@
     </Compile>
     <Compile Include="Controls\CustomServiceControl.Designer.cs">
       <DependentUpon>CustomServiceControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\DesktopControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\DesktopControl.Designer.cs">
-      <DependentUpon>DesktopControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\GoodsControl.cs">
       <SubType>UserControl</SubType>
@@ -233,9 +230,6 @@
     <EmbeddedResource Include="Controls\CustomServiceControl.resx">
       <DependentUpon>CustomServiceControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\DesktopControl.resx">
-      <DependentUpon>DesktopControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\GoodsControl.resx">
       <DependentUpon>GoodsControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -328,6 +322,7 @@
     <Content Include="Resources\icon_min.png" />
     <Content Include="Resources\icon_user.png" />
     <Content Include="Resources\loading.gif" />
+    <None Include="app.config" />
     <None Include="Nlog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
