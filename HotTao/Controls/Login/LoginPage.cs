@@ -16,6 +16,7 @@ namespace HotTao.Controls.Login
 {
     public partial class LoginPage : UserControl
     {
+        NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
         private Main hotForm { get; set; }
         private LoginControl loginForm { get; set; }
         public LoginPage(Main mainWin, LoginControl loginWin)
@@ -150,7 +151,7 @@ namespace HotTao.Controls.Login
             }
             catch (Exception ex)
             {
-
+                log.Error(ex);
                 this.BeginInvoke((Action)(delegate ()  //等待结束
                 {
                     lbTipMsg.Text = "连接服务器失败!";
@@ -293,6 +294,8 @@ namespace HotTao.Controls.Login
                     this.ckbSavePwd.Checked = true;
                     this.ckbAutoLogin.Checked = isAutoLogin == 1 ? true : false;
                     this.IsRememberPassword = true;
+                    lbLoginName.Visible = false;
+                    lbLoginPwd.Visible = false;
                 }
             }
         }

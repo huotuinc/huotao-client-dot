@@ -251,6 +251,27 @@ namespace HotTaoCore.DAL
             return DbHelperSQL.ExecuteNonQuery(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param);
         }
 
+
+        /// <summary>
+        /// 设置微信群对应的pid
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <param name="wechatid">The wechatid.</param>
+        /// <param name="pidid">The pidid.</param>
+        /// <returns>System.Int32.</returns>
+        public bool UpdateUserWeChatPid(int userid, int wechatid, int pidid)
+        {
+            string strSql = "update user_wechat_list set pidid=@pidid where userid=@userid and id=@id";
+            var param = new[]
+            {
+                new SqlParameter("@userid",userid),
+                new SqlParameter("@pidid",pidid),
+                new SqlParameter("@id",wechatid)
+            };
+            return DbHelperSQL.ExecuteNonQuery(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param)>0;
+        }
+
+
         /// <summary>
         /// 删除微信群
         /// </summary>

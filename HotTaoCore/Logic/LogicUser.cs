@@ -200,6 +200,19 @@ namespace HotTaoCore.Logic
         }
 
         /// <summary>
+        /// 设置微信群对应的pid
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <param name="wechatid">The wechatid.</param>
+        /// <param name="pidid">The pidid.</param>
+        /// <returns>System.Int32.</returns>
+        public bool UpdateUserWeChatPid(int userid, int wechatid, int pidid)
+        {
+            return dal.UpdateUserWeChatPid(userid, wechatid, pidid);
+        }
+
+
+        /// <summary>
         /// 删除微信群
         /// </summary>
         /// <param name="userid">The userid.</param>

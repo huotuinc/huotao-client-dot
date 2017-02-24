@@ -80,7 +80,7 @@
             // lbContent
             // 
             this.lbContent.BackColor = System.Drawing.Color.Transparent;
-            this.lbContent.Font = new System.Drawing.Font("新宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbContent.Font = new System.Drawing.Font("新宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lbContent.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
             this.lbContent.Location = new System.Drawing.Point(2, 34);
             this.lbContent.Name = "lbContent";
@@ -99,7 +99,7 @@
             this.btnOk.ForeColor = System.Drawing.Color.White;
             this.btnOk.Location = new System.Drawing.Point(77, 99);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(115, 32);
+            this.btnOk.Size = new System.Drawing.Size(125, 32);
             this.btnOk.TabIndex = 9;
             this.btnOk.Text = "确定";
             this.btnOk.UseVisualStyleBackColor = false;

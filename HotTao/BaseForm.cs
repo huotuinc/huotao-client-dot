@@ -83,7 +83,7 @@ namespace HotTao
         private void AutoLogin(string loginName, string loginPwd, Action<UserModel> callback)
         {
             var data = LogicUser.Instance.login(loginName, loginPwd);
-            if (data.activate == 1)
+            if (data != null && data.activate == 1)
             {
                 data = loginResult(data);
                 callback?.Invoke(data);

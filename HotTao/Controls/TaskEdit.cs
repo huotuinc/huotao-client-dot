@@ -97,12 +97,20 @@ namespace HotTao.Controls
             {
                 this.Close();
             }
+            else
+            {
+                hotGoodsText = new List<GoodsTaskModel>();
+                hotPidsText = new List<UserPidTaskModel>();
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            MessageAlert alert = new MessageAlert();
             if (string.IsNullOrEmpty(txtTaskTitle.Text))
             {
+                alert.Message = "请输入任务标题";
+                alert.Show(this);
                 txtTaskTitle.Focus();
                 return;
             }
@@ -116,8 +124,7 @@ namespace HotTao.Controls
             {
                 txtEndTime.Focus();
                 return;
-            }
-
+            }            
             string goodsText = JsonConvert.SerializeObject(hotGoodsText);
             string pidsText = JsonConvert.SerializeObject(hotPidsText);
             TaskPlanModel model = new TaskPlanModel()
@@ -125,34 +132,41 @@ namespace HotTao.Controls
                 userid = hotForm.currentUserId,
                 title = txtTaskTitle.Text,
                 startTime = Convert.ToDateTime(txtStartTime.Text),
+                endTime = Convert.ToDateTime(txtEndTime.Text),
                 pidsText = pidsText,
-                goodsText = goodsText
+                goodsText = goodsText,
+                id = taskid
             };
-            //int taskid = LogicTaskPlan.Instance.addTaskPlan(model);
-            //if (taskid > 0)
-            //{
-            //    hotGoodsText.ForEach(goods =>
-            //    {
-            //        hotPidsText.ForEach(pids =>
-            //        {
-            //            LogicTaskPlan.Instance.addTaskGoodsPidLog(new TaskGoodsPidLogModel()
-            //            {
-            //                userid = hotForm.currentUserId,
-            //                taskid = taskid,
-            //                goodsid = goods.id,
-            //                pid = pids.id,
-            //                shareText = ""
-            //            });
-            //        });
-            //    });
+            if (taskid == 0)
+                taskid = LogicTaskPlan.Instance.addTaskPlan(model);
+            else
+                LogicTaskPlan.Instance.updateTaskPlan(model);
+            if (taskid > 0)
+            {
+                hotGoodsText.ForEach(goods =>
+                {
+                    hotPidsText.ForEach(pids =>
+                    {
+                        LogicTaskPlan.Instance.addTaskGoodsPidLog(new TaskGoodsPidLogModel()
+                        {
+                            userid = hotForm.currentUserId,
+                            taskid = taskid,
+                            goodsid = goods.id,
+                            pid = pids.id,
+                            shareText = ""
+                        });
+                    });
+                });
+            }
 
-
-            //    hotTask.LoadTaskPlanGridView();
-            //    txtTaskTitle.Clear();
-            //    MessageAlert alert = new MessageAlert("保存成功");
-            //    alert.Show(this);
-
-            //}
+            hotTask.LoadTaskPlanGridView();
+            txtTaskTitle.Clear();
+            alert.Message = "保存成功";
+            alert.CallBack += () =>
+            {
+                this.Close();
+            };
+            alert.Show(this);
         }
     }
 }

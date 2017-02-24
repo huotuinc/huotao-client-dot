@@ -16,12 +16,13 @@ namespace HotTaoCore.DAL
         /// 获取用户推广位
         /// </summary>
         /// <returns></returns>
-        public List<UserPidModel> getUserPidList(int userId)
+        public List<UserPidModel> getUserPidList(int userId,string taobaoNo)
         {
-            string strSql = "select id,userid,title,pid,createTime from userpid_list where userid=@userid";
+            string strSql = "select id,userid,title,pid,createTime from userpid_list where userid=@userid and taobaono=@taobaono";
             var param = new[]
             {
-                new SqlParameter("@userid",userId)
+                new SqlParameter("@userid",userId),
+                new SqlParameter("@taobaono",taobaoNo)
             };
             using (SqlDataReader dr = DbHelperSQL.ExecuteReader(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param))
             {

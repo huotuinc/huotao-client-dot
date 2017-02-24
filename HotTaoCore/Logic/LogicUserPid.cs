@@ -23,12 +23,14 @@ namespace HotTaoCore.Logic
         }
 
         /// <summary>
-        /// 获取用户推广位
+        /// 获取用户登录的淘宝账号pid推广位
         /// </summary>
-        /// <returns></returns>
-        public List<UserPidModel> getUserPidList(int userId)
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="taobaoNo">当前淘宝账号</param>
+        /// <returns>List&lt;UserPidModel&gt;.</returns>
+        public List<UserPidModel> getUserPidList(int userId, string taobaoNo)
         {
-            return dal.getUserPidList(userId);
+            return dal.getUserPidList(userId,taobaoNo);
         }
 
         /// <summary>

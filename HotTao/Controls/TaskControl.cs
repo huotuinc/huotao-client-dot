@@ -312,15 +312,14 @@ namespace HotTao.Controls
 
             if (goodsidList.Count() == 0 || pidList.Count() == 0)
             {
-                MessageBox.Show("请先选择需要推广的商品和推广位！", "提示");
+                ShowAlert("请先选择微信群");
                 return;
             }
-
-
 
             TaskEdit te = new TaskEdit(hotForm, this);
             te.hotGoodsText = goodsidList;
             te.hotPidsText = pidList;
+            te.Title = "添加任务计划";
             te.ShowDialog(this);
         }
 
@@ -331,7 +330,30 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void toolTaskDel_Click(object sender, EventArgs e)
         {
-
+            DataGridViewRow row = this.dgvTaskPlan.CurrentRow;
+            if (row != null)
+            {
+                int taskid = Convert.ToInt32(row.Cells["taskid"].Value);
+                int eCode = 0;
+                int.TryParse(row.Cells["ExecStatus"].Value.ToString(), out eCode);
+                if (eCode != 1)
+                {
+                    MessageConfirm confirm = new MessageConfirm("您确认要删除计划【" + taskid + "】吗？");
+                    confirm.CallBack += () =>
+                    {
+                        if (LogicTaskPlan.Instance.deleteTaskPlan(hotForm.currentUserId, taskid))
+                        {
+                            dgvTaskPlan.Rows.Remove(row);
+                            //LoadTaskPlanGridView();
+                        }
+                    };
+                    confirm.ShowDialog(this);
+                }
+                else
+                    ShowAlert("不能删除正在执行的计划");
+            }
+            else
+                ShowAlert("请先选择要删除的数据行!");
         }
 
         /// <summary>
@@ -397,7 +419,7 @@ namespace HotTao.Controls
             if (pidList != null && pidList.Count() > 0)
             {
                 MessageConfirm confirm = new MessageConfirm();
-                confirm.Message = "您确认要删除勾选的微信群吗";
+                confirm.Message = "您确定要删除勾选的微信群吗";
                 confirm.CallBack += () =>
                 {
                     if (LogicUser.Instance.DeleteUserWeChat(hotForm.currentUserId, pidList))
@@ -409,7 +431,25 @@ namespace HotTao.Controls
             }
             else
             {
-                ShowAlert("请先选择要删除的数据行");
+                DataGridViewRow row = this.dgvPid.CurrentRow;
+                if (row != null)
+                {
+                    int result = 0;
+                    int.TryParse(row.Cells["shareid"].Value.ToString(), out result);
+                    string sharetitle = row.Cells["sharetitle"].Value.ToString();
+                    MessageConfirm confirm = new MessageConfirm("您确定要删除【" + sharetitle + "】？");
+                    confirm.CallBack += () =>
+                    {
+                        pidList.Add(result);
+                        if (LogicUser.Instance.DeleteUserWeChat(hotForm.currentUserId, pidList))
+                        {
+                            this.dgvPid.Rows.Remove(row);
+                        }
+                    };
+                    confirm.ShowDialog(this);
+                }
+                else
+                    ShowAlert("请先选择要删除的数据行!");
             }
 
         }
@@ -424,27 +464,44 @@ namespace HotTao.Controls
             DataGridViewCellCollection cells = this.dgvTaskPlan.CurrentRow.Cells;
             if (cells != null && cells["edittask"].ColumnIndex == e.ColumnIndex)
             {
-                int eCode = 0;
-                int.TryParse(cells["ExecStatus"].Value.ToString(), out eCode);
-                if (eCode == 0)
-                {
-                    //
-                    TaskEdit te = new TaskEdit(hotForm, this);
-                    int result = 0;
-                    int.TryParse(cells["taskid"].Value.ToString(), out result);
-                    te.taskid = result;
-                    te.taskStartTime = cells["taskStartTime"].Value.ToString();
-                    te.taskTitle = cells["taskTitle"].Value.ToString();
-                    te.taskEndTime = cells["taskEndTime"].Value.ToString();
-                    te.ShowDialog(this);
-                }
-                else
-                {
-                    ShowAlert("只能修改[未执行]的任务");
-                }
+                UpdateTask(cells);
             }
 
         }
+
+        private void toolTaskUpdate_Click(object sender, EventArgs e)
+        {
+            DataGridViewCellCollection cells = this.dgvTaskPlan.CurrentRow.Cells;
+            if (cells != null)
+            {
+                UpdateTask(cells);
+            }
+        }
+
+        private void UpdateTask(DataGridViewCellCollection cells)
+        {
+            int eCode = 0;
+            int.TryParse(cells["ExecStatus"].Value.ToString(), out eCode);
+            if (eCode == 0)
+            {
+                //
+                TaskEdit te = new TaskEdit(hotForm, this);
+                te.Title = "修改任务计划";
+                int result = 0;
+                int.TryParse(cells["taskid"].Value.ToString(), out result);
+                te.taskid = result;
+                te.taskStartTime = cells["taskStartTime"].Value.ToString();
+                te.taskTitle = cells["taskTitle"].Value.ToString();
+                te.taskEndTime = cells["taskEndTime"].Value.ToString();
+                te.ShowDialog(this);
+            }
+            else
+            {
+                ShowAlert("只能修改[未执行]的任务");
+            }
+        }
+
+
 
         /// <summary>
         /// 删除商品
@@ -584,22 +641,72 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void toolWeChatUpdate_Click(object sender, EventArgs e)
         {
-            DataGridViewCellCollection row = this.dgvPid.CurrentRow.Cells;
-            if (row != null)
+            if (this.dgvPid.Rows.Count > MouseCurrentRowIndex)
             {
-                AddWeChat add = new AddWeChat(hotForm, this);
-                int result = 0;
-                int.TryParse(row["shareid"].Value.ToString(), out result);
-                add.editId = result;
-                add.weChatTitle = row["sharetitle"].Value.ToString();
-                add.ShowDialog(this);
-
-
+                DataGridViewCellCollection row = this.dgvPid.Rows[MouseCurrentRowIndex].Cells;
+                if (row != null)
+                {
+                    AddWeChat add = new AddWeChat(hotForm, this);
+                    int result = 0;
+                    int.TryParse(row["shareid"].Value.ToString(), out result);
+                    add.editId = result;
+                    add.Title = "修改微信群";
+                    add.weChatTitle = row["sharetitle"].Value.ToString();
+                    add.ShowDialog(this);
+                }
+                else
+                {
+                    ShowAlert("请先选择要修改的数据行");
+                }
+            }
+        }
+        private int MouseCurrentRowIndex = 0;
+        private void toolWeChatSetPid_Click(object sender, EventArgs e)
+        {
+            if (hotForm.isTaobaoLogin)
+            {
+                if (this.dgvPid.Rows.Count > MouseCurrentRowIndex)
+                {
+                    DataGridViewCell cell = this.dgvPid.Rows[MouseCurrentRowIndex].Cells["shareid"];
+                    if (cell != null)
+                    {
+                        int WeChatId = 0;
+                        int.TryParse(cell.Value.ToString(), out WeChatId);
+                        UserPIDControl userPid = new UserPIDControl(hotForm, this);
+                        userPid.Title = "设置PID";
+                        userPid.WeChatId = WeChatId;
+                        userPid.CurrentRowIndex = cell.RowIndex;
+                        userPid.ShowDialog(this);
+                    }
+                }
             }
             else
             {
-                ShowAlert("请先选择要修改的数据行");
+                ShowAlert("请先设置淘宝账号");
             }
+        }
+
+
+        /// <summary>
+        /// 设置微信群数据
+        /// </summary>
+        /// <param name="rowIndex">行索引</param>
+        /// <param name="columnName">列名称</param>
+        /// <param name="value">值</param>
+        public void SetWeChatRowData(int rowIndex, string columnName, string value)
+        {
+            if (this.dgvPid.Rows.Count > rowIndex)
+            {
+                dgvPid.Rows[rowIndex].Cells[columnName].Value = value;
+                ShowAlert("设置成功");
+            }
+            else
+                ShowAlert("设置失败");
+        }
+
+        private void dgvPid_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            MouseCurrentRowIndex = e.RowIndex;
         }
     }
 }

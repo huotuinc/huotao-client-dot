@@ -64,13 +64,13 @@ namespace HotTao.Controls
         public MessageConfirm(string message)
         {
             InitializeComponent();
-            lbContent.Text = message;
+            Message = message;
         }
         public MessageConfirm(string message, string title)
         {
             InitializeComponent();
-            lbContent.Text = message;
-            lbTitle.Text = title;
+            Message = message;
+            Title = title;
         }
 
 

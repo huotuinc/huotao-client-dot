@@ -39,7 +39,7 @@
             this.txtTaobaoNo = new System.Windows.Forms.TextBox();
             this.hotGroupBox5 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.txtTaobaoPwd = new System.Windows.Forms.TextBox();
-            this.btnLogin = new System.Windows.Forms.Button();
+            this.btnLoginTaobao = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -113,7 +113,7 @@
             this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Blue;
             this.hotGroupBox1.Controls.Add(this.hotGroupBox6);
             this.hotGroupBox1.Controls.Add(this.hotGroupBox5);
-            this.hotGroupBox1.Controls.Add(this.btnLogin);
+            this.hotGroupBox1.Controls.Add(this.btnLoginTaobao);
             this.hotGroupBox1.Controls.Add(this.label9);
             this.hotGroupBox1.Controls.Add(this.label10);
             this.hotGroupBox1.Controls.Add(this.label13);
@@ -170,19 +170,20 @@
             this.txtTaobaoPwd.TabIndex = 1;
             this.txtTaobaoPwd.UseSystemPasswordChar = true;
             // 
-            // btnLogin
+            // btnLoginTaobao
             // 
-            this.btnLogin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(105)))));
-            this.btnLogin.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(105)))));
-            this.btnLogin.FlatAppearance.BorderSize = 0;
-            this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLogin.ForeColor = System.Drawing.Color.White;
-            this.btnLogin.Location = new System.Drawing.Point(467, 40);
-            this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(141, 41);
-            this.btnLogin.TabIndex = 16;
-            this.btnLogin.Text = "模拟登陆";
-            this.btnLogin.UseVisualStyleBackColor = false;
+            this.btnLoginTaobao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(105)))));
+            this.btnLoginTaobao.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(105)))));
+            this.btnLoginTaobao.FlatAppearance.BorderSize = 0;
+            this.btnLoginTaobao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLoginTaobao.ForeColor = System.Drawing.Color.White;
+            this.btnLoginTaobao.Location = new System.Drawing.Point(467, 40);
+            this.btnLoginTaobao.Name = "btnLoginTaobao";
+            this.btnLoginTaobao.Size = new System.Drawing.Size(141, 41);
+            this.btnLoginTaobao.TabIndex = 16;
+            this.btnLoginTaobao.Text = "模拟登陆";
+            this.btnLoginTaobao.UseVisualStyleBackColor = false;
+            this.btnLoginTaobao.Click += new System.EventHandler(this.btnLoginTaobao_Click);
             // 
             // label9
             // 
@@ -316,7 +317,7 @@
         private System.Windows.Forms.Label label13;
         private module.HotGroupBox hotGroupBox1;
         private module.HotGroupBox hotGroupBox2;
-        private System.Windows.Forms.Button btnLogin;
+        private System.Windows.Forms.Button btnLoginTaobao;
         private module.HotGroupBox hotGroupBox3;
         private System.Windows.Forms.TextBox loginName;
         private module.HotGroupBox hotGroupBox4;

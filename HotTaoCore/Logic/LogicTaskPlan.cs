@@ -54,7 +54,15 @@ namespace HotTaoCore.Logic
         {
             return dal.addTaskPlan(model);
         }
-
+        /// <summary>
+        /// 修改任务计划
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>System.Int32.</returns>
+        public int updateTaskPlan(TaskPlanModel model)
+        {
+            return dal.updateTaskPlan(model);
+        }
 
         /// <summary>
         /// 添加日志

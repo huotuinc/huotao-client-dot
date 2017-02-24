@@ -10,6 +10,9 @@ using System.Security.Permissions;
 using HotTaoCore;
 using HotCoreUtils.Helper;
 using HotTaoCore.Models;
+using CefSharp.WinForms;
+using CefSharp;
+using System.Threading;
 
 namespace HotTao.Controls
 {
@@ -25,17 +28,43 @@ namespace HotTao.Controls
 
         }
 
+        public ChromiumWebBrowser browser;
+
         private void GoodsControl_Load(object sender, EventArgs e)
         {
 
             if (hotForm.currentUserId > 0)
             {
+                new Thread(() =>
+                {
+                    //browser = new ChromiumWebBrowser("file:///J:/HOT/CODE/huotao-client-dot/HotTao/bin/Debug/html/index.html");
+                    //BrowserSettings settings = new BrowserSettings()
+                    //{
+                    //    LocalStorage = CefState.Enabled,
+                    //    Javascript = CefState.Enabled
+                    //};
+                    //browser.Dock = DockStyle.Fill;
+                    //SetBrowserPanel(browser);
+                })
+                { IsBackground = true }.Start();
+
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));
 
         }
-
+        private void SetBrowserPanel(ChromiumWebBrowser data)
+        {
+            if (hotPanel2.InvokeRequired)
+            {
+                this.Invoke(new Action<ChromiumWebBrowser>(SetBrowserPanel), new object[] { data });
+            }
+            else
+            {
+                hotPanel2.Controls.Add(data);
+                hotPanel2.Refresh();
+            }
+        }
 
         /// <summary>
         /// 

@@ -80,7 +80,7 @@
             // lbContent
             // 
             this.lbContent.BackColor = System.Drawing.Color.Transparent;
-            this.lbContent.Font = new System.Drawing.Font("新宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbContent.Font = new System.Drawing.Font("新宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lbContent.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
             this.lbContent.Location = new System.Drawing.Point(3, 31);
             this.lbContent.Name = "lbContent";
@@ -96,7 +96,7 @@
             this.btnOk.FlatAppearance.BorderSize = 0;
             this.btnOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOk.ForeColor = System.Drawing.Color.White;
-            this.btnOk.Location = new System.Drawing.Point(55, 98);
+            this.btnOk.Location = new System.Drawing.Point(61, 98);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(78, 32);
             this.btnOk.TabIndex = 12;
@@ -112,9 +112,9 @@
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(139, 98);
+            this.button1.Location = new System.Drawing.Point(145, 98);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(78, 32);
+            this.button1.Size = new System.Drawing.Size(77, 32);
             this.button1.TabIndex = 12;
             this.button1.Text = "取消";
             this.button1.UseVisualStyleBackColor = false;

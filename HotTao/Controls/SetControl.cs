@@ -21,8 +21,6 @@ namespace HotTao.Controls
     /// <seealso cref="System.Windows.Forms.UserControl" />
     public partial class SetControl : UserControl
     {
-
-        private int cIndex = 0;
         private Main hotForm { get; set; }
 
         public SetControl(Main mainWin)
@@ -33,21 +31,7 @@ namespace HotTao.Controls
 
         private void SetControl_Load(object sender, EventArgs e)
         {
-            SetCurrentControlIndex(0);
             openControl(new SetAccountControl(hotForm));
-        }
-
-
-        /// <summary>
-        /// 当前右边控件的索引
-        /// 0 SetAccountControl
-        /// 1 SetSendTemplateControl
-        /// 2 SetSendConfig
-        /// 3 SetAutoReplyControl
-        /// </summary>
-        private void SetCurrentControlIndex(int index)
-        {
-            cIndex = index;
         }
 
         /// <summary>
@@ -59,7 +43,7 @@ namespace HotTao.Controls
         {
             foreach (UserControl uc in splitContainer1.Panel1.Controls)
             {
-                MethodInfo mi = uc.GetType().GetMethod("Save",BindingFlags.Public);
+                MethodInfo mi = uc.GetType().GetMethod("Save", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
                 if (mi != null)
                 {
                     //执行该方法并返回
@@ -79,7 +63,6 @@ namespace HotTao.Controls
             }
         }
 
-
         /// <summary>
         /// 打开指定用户控件
         /// </summary>
@@ -98,23 +81,67 @@ namespace HotTao.Controls
             this.splitContainer1.Panel1.Controls.Add(uc);
         }
 
-
-        private void panel_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 切换面板
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void SwitchControl_Click(object sender, EventArgs e)
         {
-            openControl(new SetSendTemplateControl(hotForm));
-            SetCurrentControlIndex(1);
+            Control c = sender as Control;
+            int tag = Convert.ToInt32(c.Tag);
+            switch (tag)
+            {
+                case 1: //软件账户设置
+                    openControl(new SetAccountControl(hotForm));
+                    break;
+                case 2://淘宝账号设置
+                    openControl(new SetAccountControl(hotForm));
+                    break;
+                case 3://文案设置
+                    openControl(new SetSendTemplateControl(hotForm));
+                    break;
+                case 4://群发设置
+                    openControl(new SetSendConfig(hotForm));
+                    break;
+                case 5://自动回复设置
+                    openControl(new SetAutoReplyControl(hotForm));
+                    break;
+                default:
+                    break;
+            }
+            SetSelectedState(sender);
         }
 
-        private void panel6_Click(object sender, EventArgs e)
-        {
-            openControl(new SetSendConfig(hotForm));
-            SetCurrentControlIndex(2);
-        }
 
-        private void label8_Click(object sender, EventArgs e)
+        private void SetSelectedState(object sender)
         {
-            openControl(new SetAutoReplyControl(hotForm));
-            SetCurrentControlIndex(3);
+            //默认颜色
+            Color fore = Color.FromArgb(129, 129, 129);
+
+            foreach (Control item in hotLeftPanel.Controls)
+            {
+                int tag = 0;
+                int.TryParse(item.Tag.ToString(), out tag);
+                if (tag > 0)
+                {
+                    item.BackColor = Color.White;
+                    item.Controls[0].ForeColor = fore;
+                }
+            }  
+
+            Panel p = sender as Panel;
+            if (p != null)
+            {                
+                p.BackColor = ConstConfig.SetLeftSelectedBackColor;
+                p.Controls[0].ForeColor = Color.White;
+            }
+            else
+            {
+                Label lp = sender as Label;
+                lp.Parent.BackColor = ConstConfig.SetLeftSelectedBackColor;
+                lp.ForeColor = Color.White;
+            }
         }
     }
 }

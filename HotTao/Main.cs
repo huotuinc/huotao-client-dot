@@ -2,13 +2,9 @@
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Forms;
 
 namespace HotTao
@@ -81,6 +77,7 @@ namespace HotTao
         /// <value>true if this instance is taobao login; otherwise, false.</value>
         public bool isTaobaoLogin { get; set; }
 
+
         /// <summary>
         /// 设置淘宝账号
         /// </summary>
@@ -96,6 +93,7 @@ namespace HotTao
         {
             InitializeComponent();
         }
+
 
         /// <summary>
         /// 窗口加载
@@ -182,9 +180,10 @@ namespace HotTao
         /// </summary>
         private void DisPanel()
         {
-            foreach (UserControl uc in this.Container.Panel2.Controls)
+            foreach (UserControl uc in this.HotContainer.Panel2.Controls)
             {
-                uc.Dispose();
+                if (uc != null)
+                    uc.Dispose();
             }
         }
         /// <summary>
@@ -223,7 +222,7 @@ namespace HotTao
 
         private void SetSelectedBackgroundImage(object sender)
         {
-            foreach (var item in Container.Panel1.Controls)
+            foreach (var item in HotContainer.Panel1.Controls)
             {
                 Panel pl = item as Panel;
                 if (pl != null)
@@ -247,16 +246,20 @@ namespace HotTao
         /// <param name="uc">The uc.</param>
         public void openControl(UserControl uc)
         {
-            foreach (UserControl uu in Container.Panel2.Controls)
+            HotContainer.Panel2.Controls.Clear();
+            foreach (UserControl uu in HotContainer.Panel2.Controls)
             {
-                if (uu.GetType() == uc.GetType())
+                if (uu != null)
                 {
-                    return;
+                    if (uu.GetType() == uc.GetType())
+                    {
+                        return;
+                    }
                 }
             }
             uc.Dock = DockStyle.Fill;
-            DisPanel();
-            this.Container.Panel2.Controls.Add(uc);
+            //DisPanel();
+            this.HotContainer.Panel2.Controls.Add(uc);
         }
 
 
@@ -265,7 +268,7 @@ namespace HotTao
         /// </summary>
         public void SetWeChatTabSelected()
         {
-            foreach (var item in Container.Panel1.Controls)
+            foreach (var item in HotContainer.Panel1.Controls)
             {
                 Panel pl = item as Panel;
                 if (pl != null)
@@ -278,7 +281,7 @@ namespace HotTao
         /// </summary>
         public void SetHomeTabSelected()
         {
-            foreach (var item in Container.Panel1.Controls)
+            foreach (var item in HotContainer.Panel1.Controls)
             {
                 Panel pl = item as Panel;
                 if (pl != null)
@@ -323,7 +326,11 @@ namespace HotTao
 
         private void pbClose_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.Dispose();
+            this.Close();
+            Process.GetCurrentProcess().Kill();
+            Application.ExitThread();
+            Environment.Exit(Environment.ExitCode);
         }
 
         private void pbMin_Click(object sender, EventArgs e)

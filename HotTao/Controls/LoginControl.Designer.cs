@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panelLogin = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,6 +61,15 @@
             this.panel1.Size = new System.Drawing.Size(920, 238);
             this.panel1.TabIndex = 9;
             // 
+            // hotPanel1
+            // 
+            this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.hotPanel1.Location = new System.Drawing.Point(0, 0);
+            this.hotPanel1.Name = "hotPanel1";
+            this.hotPanel1.Size = new System.Drawing.Size(920, 607);
+            this.hotPanel1.TabIndex = 10;
+            // 
             // LoginControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -68,6 +79,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panelLogin);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.hotPanel1);
             this.Name = "LoginControl";
             this.Size = new System.Drawing.Size(920, 607);
             this.Load += new System.EventHandler(this.LoginControl_Load);
@@ -80,5 +92,6 @@
         private System.Windows.Forms.Panel panelLogin;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel1;
+        private module.HotPanel hotPanel1;
     }
 }

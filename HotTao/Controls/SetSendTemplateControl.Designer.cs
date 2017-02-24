@@ -37,7 +37,7 @@
             this.txtTempText = new System.Windows.Forms.RichTextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnDefaultTemplate = new System.Windows.Forms.Button();
             this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.txtTempDefaultText = new System.Windows.Forms.RichTextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -129,7 +129,7 @@
             // 
             this.hotGroupBox1.BorderColor = System.Drawing.Color.DeepSkyBlue;
             this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox1.Controls.Add(this.button1);
+            this.hotGroupBox1.Controls.Add(this.btnDefaultTemplate);
             this.hotGroupBox1.Controls.Add(this.hotGroupBox2);
             this.hotGroupBox1.Controls.Add(this.label9);
             this.hotGroupBox1.Controls.Add(this.label11);
@@ -149,19 +149,19 @@
             this.hotGroupBox1.TabIndex = 33;
             this.hotGroupBox1.TabStop = false;
             // 
-            // button1
+            // btnDefaultTemplate
             // 
-            this.button1.BackColor = System.Drawing.Color.Lime;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(585, 127);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 35;
-            this.button1.Text = "恢复默认模板";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnDefaultTemplate.BackColor = System.Drawing.Color.Lime;
+            this.btnDefaultTemplate.FlatAppearance.BorderSize = 0;
+            this.btnDefaultTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDefaultTemplate.ForeColor = System.Drawing.Color.White;
+            this.btnDefaultTemplate.Location = new System.Drawing.Point(631, 127);
+            this.btnDefaultTemplate.Name = "btnDefaultTemplate";
+            this.btnDefaultTemplate.Size = new System.Drawing.Size(75, 23);
+            this.btnDefaultTemplate.TabIndex = 35;
+            this.btnDefaultTemplate.Text = "恢复默认模板";
+            this.btnDefaultTemplate.UseVisualStyleBackColor = false;
+            this.btnDefaultTemplate.Click += new System.EventHandler(this.btnDefaultTemplate_Click);
             // 
             // hotGroupBox2
             // 
@@ -284,7 +284,7 @@
         private module.HotGroupBox hotGroupBox1;
         private System.Windows.Forms.Label label9;
         private module.HotGroupBox hotGroupBox2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnDefaultTemplate;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;

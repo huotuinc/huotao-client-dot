@@ -20,7 +20,7 @@ namespace HotTao.Controls
     /// <seealso cref="System.Windows.Forms.UserControl" />
     public partial class SetAccountControl : UserControl
     {
-
+        NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
 
         private Main hotForm { get; set; }
         /// <summary>
@@ -89,11 +89,15 @@ namespace HotTao.Controls
                     }
                 }
                 RememberPassword(pwdStr);
+
+                hotForm.SetLoginData(null);
+
+                hotForm.SetTaobaoAccount(txtTaobaoNo.Text, txtTaobaoPwd.Text);
             }
             catch (Exception ex)
             {
-
-                SetText(ex.Message);
+                log.Error(ex);
+                ShowAlert("保存失败");
             }
         }
 
@@ -119,8 +123,9 @@ namespace HotTao.Controls
                 }
                 return string.Empty;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                log.Error(ex);
                 return string.Empty;
             }
         }
@@ -149,10 +154,33 @@ namespace HotTao.Controls
         }
 
 
-        private void SetText(string content)
+        private void ShowAlert(string content)
         {
             MessageAlert alert = new MessageAlert(content);
             alert.ShowDialog(this);
         }
+
+        private void btnLoginTaobao_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtTaobaoNo.Text))
+            {
+                txtTaobaoNo.Focus();
+                return;
+            }
+            if (string.IsNullOrEmpty(txtTaobaoPwd.Text))
+            {
+                txtTaobaoPwd.Focus();
+                return;
+            }
+
+            hotForm.SetTaobaoAccount(txtTaobaoNo.Text, txtTaobaoPwd.Text);
+            hotForm.isTaobaoLogin = true;
+
+        }
+
+
+
+
+
     }
 }

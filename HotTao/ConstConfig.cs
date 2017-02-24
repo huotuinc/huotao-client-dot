@@ -21,6 +21,22 @@ namespace HotTao
     /// </summary>
     public class ConstConfig
     {
+
+        #region Top 
+
+
+        /// <summary>
+        /// 头部颜色
+        /// </summary>
+        public static Color HeaderBackColor = Color.FromArgb(107, 108, 172);
+
+        #endregion
+
+
+
+
+
+        #region DataGridView
         /// <summary>
         /// DataGridView 行高
         /// </summary>
@@ -39,5 +55,14 @@ namespace HotTao
         /// DataGridViewRow  奇数行背景颜色值
         /// </summary>
         public static Color DataGridViewOddRowBackColor = Color.FromArgb(255, 255, 255);
+        #endregion
+
+
+
+        /// <summary>
+        /// 软件设置页面，左侧选中后背景颜色值
+        /// </summary>
+        public static Color SetLeftSelectedBackColor = Color.FromArgb(84, 84, 158);
+
     }
 }

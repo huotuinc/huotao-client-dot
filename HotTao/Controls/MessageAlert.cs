@@ -58,8 +58,8 @@ namespace HotTao.Controls
         }
         #endregion
 
-
-       public MessageAlert()
+        public event OKEventHandler CallBack;
+        public MessageAlert()
         {
             InitializeComponent();
         }
@@ -94,6 +94,7 @@ namespace HotTao.Controls
         private void btnOk_Click(object sender, EventArgs e)
         {
             this.Close();
+            CallBack?.Invoke();
         }
 
         private void MessageAlert_Load(object sender, EventArgs e)

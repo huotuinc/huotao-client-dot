@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.Container = new System.Windows.Forms.SplitContainer();
+            this.HotContainer = new System.Windows.Forms.SplitContainer();
             this.panel7 = new System.Windows.Forms.Panel();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pbClose = new System.Windows.Forms.PictureBox();
@@ -54,9 +54,9 @@
             this.btnHome = new System.Windows.Forms.PictureBox();
             this.toolTipText = new System.Windows.Forms.ToolTip(this.components);
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.Container)).BeginInit();
-            this.Container.Panel1.SuspendLayout();
-            this.Container.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.HotContainer)).BeginInit();
+            this.HotContainer.Panel1.SuspendLayout();
+            this.HotContainer.SuspendLayout();
             this.panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
@@ -76,39 +76,39 @@
             this.hotPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // Container
+            // HotContainer
             // 
-            this.Container.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Container.IsSplitterFixed = true;
-            this.Container.Location = new System.Drawing.Point(0, 0);
-            this.Container.Margin = new System.Windows.Forms.Padding(0);
-            this.Container.Name = "Container";
-            this.Container.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.HotContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.HotContainer.IsSplitterFixed = true;
+            this.HotContainer.Location = new System.Drawing.Point(0, 0);
+            this.HotContainer.Margin = new System.Windows.Forms.Padding(0);
+            this.HotContainer.Name = "HotContainer";
+            this.HotContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // Container.Panel1
+            // HotContainer.Panel1
             // 
-            this.Container.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
-            this.Container.Panel1.Controls.Add(this.panel7);
-            this.Container.Panel1.Controls.Add(this.panel6);
-            this.Container.Panel1.Controls.Add(this.panel5);
-            this.Container.Panel1.Controls.Add(this.panel4);
-            this.Container.Panel1.Controls.Add(this.panel3);
-            this.Container.Panel1.Controls.Add(this.panel2);
-            this.Container.Panel1.Controls.Add(this.panel1);
-            this.Container.Panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
-            this.Container.Panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
-            this.Container.Panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
-            this.Container.Panel1MinSize = 0;
+            this.HotContainer.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
+            this.HotContainer.Panel1.Controls.Add(this.panel7);
+            this.HotContainer.Panel1.Controls.Add(this.panel6);
+            this.HotContainer.Panel1.Controls.Add(this.panel5);
+            this.HotContainer.Panel1.Controls.Add(this.panel4);
+            this.HotContainer.Panel1.Controls.Add(this.panel3);
+            this.HotContainer.Panel1.Controls.Add(this.panel2);
+            this.HotContainer.Panel1.Controls.Add(this.panel1);
+            this.HotContainer.Panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
+            this.HotContainer.Panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
+            this.HotContainer.Panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
+            this.HotContainer.Panel1MinSize = 0;
             // 
-            // Container.Panel2
+            // HotContainer.Panel2
             // 
-            this.Container.Panel2.AutoScroll = true;
-            this.Container.Panel2.BackColor = System.Drawing.Color.Transparent;
-            this.Container.Panel2MinSize = 0;
-            this.Container.Size = new System.Drawing.Size(918, 718);
-            this.Container.SplitterDistance = 111;
-            this.Container.SplitterWidth = 1;
-            this.Container.TabIndex = 0;
+            this.HotContainer.Panel2.AutoScroll = true;
+            this.HotContainer.Panel2.BackColor = System.Drawing.Color.Transparent;
+            this.HotContainer.Panel2MinSize = 0;
+            this.HotContainer.Size = new System.Drawing.Size(920, 720);
+            this.HotContainer.SplitterDistance = 110;
+            this.HotContainer.SplitterWidth = 1;
+            this.HotContainer.TabIndex = 0;
             // 
             // panel7
             // 
@@ -371,9 +371,8 @@
             // 
             // hotPanel1
             // 
-            this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.hotPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.hotPanel1.Controls.Add(this.Container);
+            this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Controls.Add(this.HotContainer);
             this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.hotPanel1.Location = new System.Drawing.Point(0, 0);
             this.hotPanel1.Name = "hotPanel1";
@@ -393,9 +392,9 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "火淘助手工具";
             this.Load += new System.EventHandler(this.Main_Load);
-            this.Container.Panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Container)).EndInit();
-            this.Container.ResumeLayout(false);
+            this.HotContainer.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.HotContainer)).EndInit();
+            this.HotContainer.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
@@ -425,7 +424,7 @@
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer Container;
+        private System.Windows.Forms.SplitContainer HotContainer;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.PictureBox btnHistory;
         private System.Windows.Forms.PictureBox btnSetting;

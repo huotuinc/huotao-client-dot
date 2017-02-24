@@ -19,7 +19,7 @@ namespace HotTaoCore.DAL
         /// <returns></returns>
         public List<TaskPlanModel> getTaskPlanList(int userId)
         {
-            string strSql = "select id,userid,title,startTime,status,goodsText,pidsText,createTime,remark,taskContent,endTime,finishTime from task_plan where userid=@userid  order by status,startTime";
+            string strSql = "select id,userid,title,startTime,status,goodsText,pidsText,createTime,remark,taskContent,endTime,finishTime from task_plan where isDel=0 and userid=@userid  order by status,startTime";
             var param = new[]
             {
                 new SqlParameter("@userid",userId)
@@ -31,6 +31,7 @@ namespace HotTaoCore.DAL
                 {
                     data.ForEach(item =>
                     {
+                        item.statusText = "待执行";
                         if (item.status == 1)
                         {
                             item.statusText = "已完成";
@@ -49,6 +50,7 @@ namespace HotTaoCore.DAL
                                 item.statusText = "进行中";
                                 item.ExecStatus = 1;
                             }
+                            
                         }
                         item.startTimeText = item.startTime.ToString("yyyy年MM月dd日 HH时mm分ss秒");
                     });
@@ -66,7 +68,7 @@ namespace HotTaoCore.DAL
         /// <returns></returns>
         public bool deleteTaskPlan(int userid, int taskid)
         {
-            string strSql = "delete from task_plan where userid=@userid and id=@id";
+            string strSql = "update task_plan set isdel=1 where userid=@userid and id=@id";
             var param = new[]
             {
                 new SqlParameter("@userid",userid),
@@ -82,17 +84,40 @@ namespace HotTaoCore.DAL
         /// <returns></returns>
         public int addTaskPlan(TaskPlanModel model)
         {
-            string strSql = "insert into task_plan(userid,title,startTime,goodsText,pidsText) values(@userid,@title,@startTime,@goodsText,@pidsText);select @@IDENTITY";
+            string strSql = "insert into task_plan(userid,title,startTime,goodsText,pidsText,@endTime) values(@userid,@title,@startTime,@goodsText,@pidsText,@endTime);select @@IDENTITY";
             var param = new[]
             {
                 new SqlParameter("@userid",model.userid),
                 new SqlParameter("@title",model.title),
                 new SqlParameter("@startTime",model.startTime),
+                new SqlParameter("@endTime",model.endTime),
                 new SqlParameter("@goodsText",model.goodsText),
                 new SqlParameter("@pidsText",model.pidsText)
             };
             return Convert.ToInt32(DbHelperSQL.ExecuteScalar(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param));
         }
+
+        /// <summary>
+        /// 修改任务计划
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>System.Int32.</returns>
+        public int updateTaskPlan(TaskPlanModel model)
+        {
+            string strSql = "update task_plan set title=@title,startTime=@startTime ,endTime=@endTime where id=@id and userid=@userid";
+            var param = new[]
+            {
+                new SqlParameter("@userid",model.userid),
+                new SqlParameter("@title",model.title),
+                new SqlParameter("@startTime",model.startTime),
+                new SqlParameter("@endTime",model.endTime),
+                new SqlParameter("@id",model.id),
+            };
+            return Convert.ToInt32(DbHelperSQL.ExecuteScalar(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param));
+        }
+
+
+
 
 
         /// <summary>
@@ -123,7 +148,7 @@ namespace HotTaoCore.DAL
         /// <returns></returns>
         public bool deleteTaskGoodsPidLog(int userid, int taskid)
         {
-            string strSql = "delete from task_goods_pid_log where userid=@userid and taskid=@taskid";
+            string strSql = "update task_goods_pid_log set statusCode=1 where userid=@userid and taskid=@taskid";
             var param = new[]
             {
                 new SqlParameter("@userid",userid),

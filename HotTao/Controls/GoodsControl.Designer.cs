@@ -28,48 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.btnSubmit = new System.Windows.Forms.Button();
+            this.components = new System.ComponentModel.Container();
+            this.hotPanel2 = new HotTao.Controls.module.HotPanel(this.components);
             this.SuspendLayout();
             // 
-            // webBrowser1
+            // hotPanel2
             // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.ScriptErrorsSuppressed = true;
-            this.webBrowser1.ScrollBarsEnabled = false;
-            this.webBrowser1.Size = new System.Drawing.Size(920, 607);
-            this.webBrowser1.TabIndex = 0;
-            this.webBrowser1.Url = new System.Uri("http://www.baidu.com", System.UriKind.Absolute);
-            // 
-            // btnSubmit
-            // 
-            this.btnSubmit.Location = new System.Drawing.Point(621, 537);
-            this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(257, 58);
-            this.btnSubmit.TabIndex = 1;
-            this.btnSubmit.Text = "提交商品";
-            this.btnSubmit.UseVisualStyleBackColor = true;
-            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
+            this.hotPanel2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.hotPanel2.Location = new System.Drawing.Point(0, 0);
+            this.hotPanel2.Name = "hotPanel2";
+            this.hotPanel2.Size = new System.Drawing.Size(920, 607);
+            this.hotPanel2.TabIndex = 0;
+            this.hotPanel2.Tag = "";
             // 
             // GoodsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btnSubmit);
-            this.Controls.Add(this.webBrowser1);
+            this.Controls.Add(this.hotPanel2);
             this.Name = "GoodsControl";
             this.Size = new System.Drawing.Size(920, 607);
+            this.Tag = "goods";
             this.Load += new System.EventHandler(this.GoodsControl_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.WebBrowser webBrowser1;
-        private System.Windows.Forms.Button btnSubmit;
+        private module.HotPanel hotPanel2;
     }
 }

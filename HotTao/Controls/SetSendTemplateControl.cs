@@ -34,21 +34,27 @@ namespace HotTao.Controls
             txtTempText.SelectionLength = strInsertText.Length;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            txtTempText.Text = txtTempDefaultText.Text;
-        }
-
-
-
+        /// <summary>
+        /// 保存操作
+        /// </summary>
         public void Save()
         {
+            MessageAlert alert = new MessageAlert();
+
             if (LogicUser.Instance.AddUserSendTemplate(hotForm.currentUserId, txtTempText.Text))
-            {
-                MessageBox.Show("保存成功", "提示");
-            }
+                alert.Message = "保存成功";
             else
-                MessageBox.Show("保存失败", "提示");
+                alert.Message = "保存失败";
+            alert.ShowDialog(this);
+        }
+        /// <summary>
+        /// 恢复默认模板
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnDefaultTemplate_Click(object sender, EventArgs e)
+        {
+            txtTempText.Text = txtTempDefaultText.Text;
         }
     }
 }
