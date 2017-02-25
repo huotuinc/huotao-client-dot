@@ -166,7 +166,7 @@ namespace HotTaoCore.DAL
         /// <returns></returns>
         public List<ReplyResponeModel> GetSoonExecuteTaskplan(int userid)
         {
-            string strSql = @"select  A.id,A.taskid,a.shareText as [text],B.wechattitle as title,A.goodsid from task_goods_pid_log A with(nolock)
+            string strSql = @"select A.id,A.userid,A.taskid,a.shareText as [text],B.wechattitle as title,A.goodsid from task_goods_pid_log A with(nolock)
                                 left join user_wechat_list B with(nolock) on B.id=A.pid
                                 left join task_plan C with(nolock) on C.id=A.taskid
                                 where A.userid=@userid and C.status=0 and A.statusCode=0 and C.startTime<GETDATE() and C.endTime>GETDATE()
@@ -184,7 +184,7 @@ namespace HotTaoCore.DAL
         }
 
         /// <summary>
-        /// 获取需要执行的任务计划数据
+        /// 获取需要执行的任务计划数据（完整，生成淘口令时调用）
         /// </summary>
         /// <param name="userid"></param>
         /// <param name="taskid"></param>
@@ -235,6 +235,24 @@ namespace HotTaoCore.DAL
             string strSql = string.Format("update task_goods_pid_log set statusCode=1 where userid={1} and id in ({0})", string.Join(",", lst), clientUid);
             return DbHelperSQL.ExecuteNonQuery(GlobalConfig.getConnectionString(), CommandType.Text, strSql) > 0;
         }
+        /// <summary>
+        /// 修改已执行的商品状态
+        /// </summary>
+        /// <param name="clientUid"></param>
+        /// <param name="itemid"></param>
+        /// <returns></returns>
+        public bool UpdateTaskFinished(int clientUid, int itemid)
+        {
+            string strSql ="update task_goods_pid_log set statusCode=1 where userid=@userid and id=@id";
+            var param = new[]
+           {
+                new SqlParameter("@userid",clientUid),
+                new SqlParameter("@id",itemid),
+            };
+            return DbHelperSQL.ExecuteNonQuery(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param) > 0;
+        }
+
+
         /// <summary>
         /// 修改任务转链状态
         /// </summary>

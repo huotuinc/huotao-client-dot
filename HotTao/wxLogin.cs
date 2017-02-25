@@ -1,6 +1,8 @@
 ﻿using HotTao.Controls;
+using HotTaoCore;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -82,6 +84,7 @@ namespace HotTao
         }
         private void picClose_Click(object sender, EventArgs e)
         {
+            Dispose();
             Close();
         }
         private void DoLogin()
@@ -123,12 +126,12 @@ namespace HotTao
                             //访问登录跳转URL
                             ls.GetSidUid(login_result as string);
 
+                            var wxConfig = ls.GetWxAuthConfig();
                             //打开主界面
                             this.BeginInvoke((Action)delegate ()
                             {
                                 this.Hide();
                                 historyForm.ShowStartButtonText("暂停任务");
-                                var wxConfig = ls.GetWxAuthConfig();
                                 LogicUser.Instance.AddWxAuthConfig(new HotTaoCore.Models.WxAuthConfigModel()
                                 {
                                     userid = hotForm.currentUserId,
@@ -153,25 +156,33 @@ namespace HotTao
         /// </summary>
         public void CloseWx()
         {
-            Close();
+            isStartTask = !isStartTask;
+            if (isStartTask)
+                isSyncCheck = false;
         }
 
         private void wxLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
             historyForm.ShowStartButtonText("启动计划");
+            hotForm.wxlogin = null;
+            isStartTask = false;
         }
 
-        private bool isStartTask { get; set; }
+        public bool isStartTask { get; set; }
+
+        private bool isSyncCheck { get; set; }
 
         private WXService wxs { get; set; }
+
+
         /// <summary>
         /// 当前登录微信用户
         /// </summary>
         private WXUser _me;
-        List<object> contact_all = new List<object>();
+        List<WXUser> contact_all = new List<WXUser>();
         public void DoMainLogic()
         {
-            bool isSyncCheck = true;
+            isSyncCheck = true;
             isStartTask = false;
             wxs = new WXService();
             JObject init_result = wxs.WxInit();  //初始化
@@ -260,7 +271,7 @@ namespace HotTao
             if (!isSyncCheck)
                 DoMainLogic();
         }
-
+        private static Dictionary<int, string> _goodsKey = new Dictionary<int, string>();
         /// <summary>
         /// 执行任务
         /// </summary>
@@ -271,37 +282,65 @@ namespace HotTao
                 //获取执行的任务
                 while (isStartTask)
                 {
+                    if (lastDate.CompareTo(DateTime.Now.AddMinutes(-(5 * 63 * 1000))) < 0)
+                        isStartTask = false;
                     //获取要执行的数据
-                    List<ReplyResponeModel> lst = LogicTaskPlan.Instance.GetSoonExecuteTaskplan(hotForm.currentUserId);
+                    List<ReplyResponeModel> lst = isStartTask ? LogicTaskPlan.Instance.GetSoonExecuteTaskplan(hotForm.currentUserId) : null;
                     if (lst != null)
                     {
-
                         foreach (var item in lst)
                         {
                             if (!isStartTask)
                                 break;
 
-                            foreach (WXUser user in contact_all)
+                            WXUser user = contact_all.Find((WXUser obj) =>
                             {
-                                if (user.ShowName.Contains("才才"))
-                                {
-                                    wxs.SendMsg(item.text, _me.UserName, user.UserName, 1);
+                                return obj.ShowName.Contains(item.title);
+                            });
+                            if (user != null)
+                                Send(item, user.UserName);
 
-                                    //todo: 相同的商品图片，只需上传一次就ok了
-
-                                    //wxs.SendPic(hotForm.currentUserId, item.id, "http://120.24.54.54:3000", user.UserName, _me.UserName);
-                                    isStartTask = false;
-                                }
-                            }
+                            System.Threading.Thread.Sleep(5000);
                         }
                     }
-                    if (lastDate.CompareTo(DateTime.Now.AddMinutes(-(5 * 63 * 1000))) < 0)
-                        isStartTask = false;
+
                     if (isStartTask)
-                        System.Threading.Thread.Sleep(40000);
+                        System.Threading.Thread.Sleep(2000);
                 }
             })
             { IsBackground = true }.Start();
+        }
+
+
+        private void Send(ReplyResponeModel item, string to)
+        {
+            wxs.SendMsg(item.text, _me.UserName, to, 1);
+
+            if (!_goodsKey.ContainsKey(item.goodsid))
+            {
+                //todo:                  
+                string _result = wxs.UpdateMediaId(hotForm.currentUserId, item.id, GlobalConfig.listenUrl(), to, _me.UserName);
+                if (_result != null)
+                {
+                    JObject init_result = JsonConvert.DeserializeObject(_result) as JObject;
+                    switch (init_result["ext"].ToString())
+                    {
+                        case "bmp":
+                        case "jpeg":
+                        case "jpg":
+                        case "png":
+                            string mediaId = init_result["mediaId"].ToString();
+                            _goodsKey.Add(item.goodsid, mediaId);
+                            wxs.SendPic(init_result["mediaId"].ToString(), _me.UserName, to);
+                            break;
+                    }
+                }
+            }
+            else
+                wxs.SendPic(_goodsKey[item.goodsid], _me.UserName, to);
+
+            //更新发送状态
+            LogicTaskPlan.Instance.UpdateTaskFinished(hotForm.currentUserId, item.id);
         }
     }
 }

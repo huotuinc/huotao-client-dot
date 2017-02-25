@@ -8,6 +8,9 @@ namespace HotTaoCore.Models
 {
     public class ReplyResponeModel
     {
+
+        public int goodsid { get; set; }
+
         /// <summary>
         /// 
         /// </summary>

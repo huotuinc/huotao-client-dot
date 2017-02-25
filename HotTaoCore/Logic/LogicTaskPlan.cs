@@ -106,7 +106,16 @@ namespace HotTaoCore.Logic
         {
             return dal.UpdateTaskFinished(clientUid, lst);
         }
-
+        /// <summary>
+        /// 修改已执行的商品状态
+        /// </summary>
+        /// <param name="clientUid"></param>
+        /// <param name="itemid"></param>
+        /// <returns></returns>
+        public bool UpdateTaskFinished(int clientUid, int itemid)
+        {
+            return dal.UpdateTaskFinished(clientUid, itemid);
+        }
 
         /// <summary>
         /// 开始任务转链

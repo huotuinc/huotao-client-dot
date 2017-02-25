@@ -139,8 +139,10 @@ namespace HotTao.Controls
             else
             {
                 hotForm.wxlogin.CloseWx();
-                hotForm.wxlogin = null;
-                ShowStartButtonText("启动计划");
+                if (hotForm.wxlogin.isStartTask)
+                    ShowStartButtonText("暂停计划");
+                else
+                    ShowStartButtonText("启用计划");
             }
         }
 
