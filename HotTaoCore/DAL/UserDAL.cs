@@ -159,6 +159,32 @@ namespace HotTaoCore.DAL
             }
         }
 
+        /// <summary>
+        /// 添加配置
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public bool AddWxAuthConfig(WxAuthConfigModel model)
+        {
+            string strSql = @"if exists (select userid from user_wx_auth_config where userid=@userid)
+                                begin
+                                 update user_wx_auth_config set [uid]=@uid,[sid]=@sid,skey=@skey,webwxDataTicket=@webwxDataTicket,passTicket=@passTicket where userid=@userid
+                                end
+                                else
+                                begin
+                                insert into user_wx_auth_config([uid],[sid],skey,webwxDataTicket,passTicket,userid) values(@uid,@sid,@skey,@webwxDataTicket,@passTicket,@userid)
+                                end";
+            var param = new[] {
+                new SqlParameter("@userid",model.userid),
+                new SqlParameter("@uid",model.uid),
+                new SqlParameter("@sid",model.sid),
+                new SqlParameter("@skey",model.skey),
+                new SqlParameter("@webwxDataTicket",model.webwxDataTicket),
+                new SqlParameter("@passTicket",model.passTicket)
+            };
+            return DbHelperSQL.ExecuteNonQuery(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param) > 0;
+        }
+
 
         /******************new *************************************/
 

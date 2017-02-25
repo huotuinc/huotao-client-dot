@@ -1,4 +1,6 @@
 ﻿using HotTao.Controls;
+using HotTaoCore.Logic;
+using HotTaoCore.Models;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WwChatHttpCore.HTTP;
@@ -59,7 +62,7 @@ namespace HotTao
         #endregion
 
         private Main hotForm { get; set; }
-
+        public DateTime lastDate { get; set; }
         private HistoryControl historyForm { get; set; }
 
         public wxLogin(Main mainWin, HistoryControl history)
@@ -125,10 +128,21 @@ namespace HotTao
                             {
                                 this.Hide();
                                 historyForm.ShowStartButtonText("暂停任务");
+                                var wxConfig = ls.GetWxAuthConfig();
+                                LogicUser.Instance.AddWxAuthConfig(new HotTaoCore.Models.WxAuthConfigModel()
+                                {
+                                    userid = hotForm.currentUserId,
+                                    sid = wxConfig.sid,
+                                    uid = wxConfig.uid,
+                                    passTicket = wxConfig.passTicket,
+                                    webwxDataTicket = wxConfig.webwxDataTicket,
+                                    skey = wxConfig.skey
+                                });
                             });
                             break;
                         }
-                    }                    
+                    }
+                    lastDate = DateTime.Now;
                     DoMainLogic();
                 }
             })).BeginInvoke(null, null);
@@ -147,20 +161,21 @@ namespace HotTao
             historyForm.ShowStartButtonText("启动计划");
         }
 
+        private bool isStartTask { get; set; }
 
+        private WXService wxs { get; set; }
         /// <summary>
         /// 当前登录微信用户
         /// </summary>
         private WXUser _me;
-
-        private List<object> _contact_all = new List<object>();
         List<object> contact_all = new List<object>();
         public void DoMainLogic()
         {
-            WXService wxs = new WXService();
+            bool isSyncCheck = true;
+            isStartTask = false;
+            wxs = new WXService();
             JObject init_result = wxs.WxInit();  //初始化
-            contact_all = new List<object>();
-
+            contact_all.Clear();
             if (init_result != null)
             {
                 _me = new WXUser();
@@ -181,45 +196,26 @@ namespace HotTao
             {
                 foreach (JObject contact in contact_result["MemberList"])  //完整好友名单
                 {
-                    //if (contact["UserName"].ToString().Contains("@") && !contact["UserName"].ToString().Contains("@@") && contact["VerifyFlag"].ToString() == "0")
-                    //{
-                    //    WXUser user = new WXUser();
-                    //    user.UserName = contact["UserName"].ToString();
-                    //    user.City = contact["City"].ToString();
-                    //    user.HeadImgUrl = contact["HeadImgUrl"].ToString();
-                    //    user.NickName = contact["NickName"].ToString();
-                    //    user.Province = contact["Province"].ToString();
-                    //    user.PYQuanPin = contact["PYQuanPin"].ToString();
-                    //    user.RemarkName = contact["RemarkName"].ToString();
-                    //    user.RemarkPYQuanPin = contact["RemarkPYQuanPin"].ToString();
-                    //    user.Sex = contact["Sex"].ToString();
-                    //    user.Signature = contact["Signature"].ToString();
-                    //    user.IsOwner = Convert.ToInt32(contact["IsOwner"].ToString());
-                    //    contact_all.Add(user);
-                    //}
-                    //只监控群
-                    if (contact["UserName"].ToString().Contains("@@"))
-                    {
-                        WXUser user = new WXUser();
-                        user.UserName = contact["UserName"].ToString();
-                        user.City = contact["City"].ToString();
-                        user.HeadImgUrl = contact["HeadImgUrl"].ToString();
-                        user.NickName = contact["NickName"].ToString();
-                        user.Province = contact["Province"].ToString();
-                        user.PYQuanPin = contact["PYQuanPin"].ToString();
-                        user.RemarkName = contact["RemarkName"].ToString();
-                        user.RemarkPYQuanPin = contact["RemarkPYQuanPin"].ToString();
-                        user.Sex = contact["Sex"].ToString();
-                        user.Signature = contact["Signature"].ToString();
-                        user.IsOwner = Convert.ToInt32(contact["IsOwner"].ToString());
-                        contact_all.Add(user);
-                    }
+                    WXUser user = new WXUser();
+                    user.UserName = contact["UserName"].ToString();
+                    user.City = contact["City"].ToString();
+                    user.HeadImgUrl = contact["HeadImgUrl"].ToString();
+                    user.NickName = contact["NickName"].ToString();
+                    user.Province = contact["Province"].ToString();
+                    user.PYQuanPin = contact["PYQuanPin"].ToString();
+                    user.RemarkName = contact["RemarkName"].ToString();
+                    user.RemarkPYQuanPin = contact["RemarkPYQuanPin"].ToString();
+                    user.Sex = contact["Sex"].ToString();
+                    user.Signature = contact["Signature"].ToString();
+                    user.IsOwner = Convert.ToInt32(contact["IsOwner"].ToString());
+                    contact_all.Add(user);
                 }
+                isStartTask = true;
             }
-
+            ExcuteTask();
             string sync_flag = "";
             JObject sync_result;
-            while (true)
+            while (isSyncCheck)
             {
                 sync_flag = wxs.WxSyncCheck();  //同步检查
                 if (sync_flag == null)
@@ -253,7 +249,59 @@ namespace HotTao
                     //}
                 }
                 System.Threading.Thread.Sleep(10);
+
+                if (lastDate.CompareTo(DateTime.Now.AddMinutes(-(5 * 63 * 1000))) < 0)
+                {
+                    lastDate = DateTime.Now;
+                    isSyncCheck = false;
+                    isStartTask = false;
+                }
             }
+            if (!isSyncCheck)
+                DoMainLogic();
+        }
+
+        /// <summary>
+        /// 执行任务
+        /// </summary>
+        private void ExcuteTask()
+        {
+            new Thread(() =>
+            {
+                //获取执行的任务
+                while (isStartTask)
+                {
+                    //获取要执行的数据
+                    List<ReplyResponeModel> lst = LogicTaskPlan.Instance.GetSoonExecuteTaskplan(hotForm.currentUserId);
+                    if (lst != null)
+                    {
+
+                        foreach (var item in lst)
+                        {
+                            if (!isStartTask)
+                                break;
+
+                            foreach (WXUser user in contact_all)
+                            {
+                                if (user.ShowName.Contains("才才"))
+                                {
+                                    wxs.SendMsg(item.text, _me.UserName, user.UserName, 1);
+
+                                    //todo: 相同的商品图片，只需上传一次就ok了
+
+                                    //wxs.SendPic(hotForm.currentUserId, item.id, "http://120.24.54.54:3000", user.UserName, _me.UserName);
+                                    isStartTask = false;
+                                }
+                            }
+                        }
+                    }
+                    if (lastDate.CompareTo(DateTime.Now.AddMinutes(-(5 * 63 * 1000))) < 0)
+                        isStartTask = false;
+                    if (isStartTask)
+                        System.Threading.Thread.Sleep(40000);
+                }
+            })
+            { IsBackground = true }.Start();
         }
     }
 }

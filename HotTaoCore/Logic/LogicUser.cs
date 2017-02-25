@@ -36,7 +36,7 @@ namespace HotTaoCore.Logic
             data["username"] = loginName;
             data["password"] = loginPwd;
             //var userData = BaseRequestService.Post<UserModel>(ApiConst.login, data,(error=> {
-                
+
             //}));
 
             var userData = dal.login(loginName, loginPwd);
@@ -156,7 +156,15 @@ namespace HotTaoCore.Logic
             return dal.GetWxAuthConfig(userid);
         }
 
-
+        /// <summary>
+        /// 添加配置
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public bool AddWxAuthConfig(WxAuthConfigModel model)
+        {
+            return dal.AddWxAuthConfig(model);
+        }
 
 
 

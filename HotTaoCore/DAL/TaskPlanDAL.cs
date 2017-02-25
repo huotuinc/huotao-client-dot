@@ -164,35 +164,21 @@ namespace HotTaoCore.DAL
         /// </summary>
         /// <param name="userid"></param>
         /// <returns></returns>
-        public List<ReplyResponeDetailModel> GetSoonExecuteTaskplan(int userid)
+        public List<ReplyResponeModel> GetSoonExecuteTaskplan(int userid)
         {
-            string strSql = @"select top 1 A.id, A.userid,A.taskid,B.title,a.shareText as [text],B.pid,A.goodsid,D.goodsMainImgUrl,D.goodsName,D.shareLink,D.goodsPrice,D.couponPrice,D.goodsSupplier,D.couponUrl,D.goodsId  as ItemId,D.goodsSalesAmount from task_goods_pid_log A with(nolock)
-                                left join userpid_list B with(nolock) on B.id=A.pid
+            string strSql = @"select  A.id,A.taskid,a.shareText as [text],B.wechattitle as title,A.goodsid from task_goods_pid_log A with(nolock)
+                                left join user_wechat_list B with(nolock) on B.id=A.pid
                                 left join task_plan C with(nolock) on C.id=A.taskid
-                                left join goods_list D with(nolock) on D.id=A.goodsid
-                                where A.userid=@userid and C.status=0 and A.statusCode=0 and C.startTime<GETDATE() and  and C.endTime>GETDATE()";
+                                where A.userid=@userid and C.status=0 and A.statusCode=0 and C.startTime<GETDATE() and C.endTime>GETDATE()
+                                and (A.shareText is not null or A.shareText<>'')
+                                ";
             var param = new[]
             {
                 new SqlParameter("@userid",userid)
             };
             using (SqlDataReader dr = DbHelperSQL.ExecuteReader(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param))
             {
-                var data = DbHelperSQL.GetEntityList<ReplyResponeDetailModel>(dr);
-                if (data != null)
-                {
-                    Regex regs = new Regex("&activityId=[^&]*", RegexOptions.IgnoreCase);
-                    string url = "https://uland.taobao.com/coupon/edetail";
-                    data.ForEach(item =>
-                    {
-                        Match m = regs.Match(item.couponUrl);
-                        if (m.Success)
-                            url += "?src=ht_hot" + m.Value;
-                        url += "&itemId=" + item.ItemId;
-                        url += "&pid=" + item.pid;
-                        item.shareLink = url;// reg.Replace(item.shareLink, string.Format("&pid={0}", item.pid));
-                    });
-                }
-
+                var data = DbHelperSQL.GetEntityList<ReplyResponeModel>(dr);
                 return data;
             }
         }
@@ -205,8 +191,9 @@ namespace HotTaoCore.DAL
         /// <returns></returns>
         public List<ReplyResponeDetailModel> GetTaskplanGoodsList(int userid, int taskid)
         {
-            string strSql = @"select A.id, A.userid,A.taskid,B.title,a.shareText as [text],B.pid,A.goodsid,D.goodsMainImgUrl,D.goodsName,D.shareLink,D.goodsPrice,D.couponPrice,D.goodsSupplier,D.couponUrl,D.goodsId  as ItemId,D.goodsSalesAmount from task_goods_pid_log A with(nolock)
-                                left join userpid_list B with(nolock) on B.id=A.pid
+            string strSql = @"select A.id, A.userid,A.taskid,a.shareText as [text],E.pid,A.goodsid,D.goodsMainImgUrl,D.goodsName,D.shareLink,D.goodsPrice,D.couponPrice,D.goodsSupplier,D.couponUrl,D.goodsId  as ItemId,D.goodsSalesAmount from task_goods_pid_log A with(nolock)
+                                left join user_wechat_list B with(nolock) on B.id=A.pid
+                                left join userpid_list E with(nolock) on E.id=B.pidid
                                 left join task_plan C with(nolock) on C.id=A.taskid
                                 left join goods_list D with(nolock) on D.id=A.goodsid
                                 where A.userid=@userid and A.taskid=@taskid and C.status=0 and A.statusCode=0 and  C.endTime>GETDATE() and (A.shareText is null or A.shareText='')";

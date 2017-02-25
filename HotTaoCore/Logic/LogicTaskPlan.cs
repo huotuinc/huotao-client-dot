@@ -92,7 +92,7 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="userid"></param>
         /// <returns></returns>
-        public List<ReplyResponeDetailModel> GetSoonExecuteTaskplan(int userid)
+        public List<ReplyResponeModel> GetSoonExecuteTaskplan(int userid)
         {
             return dal.GetSoonExecuteTaskplan(userid);
         }
