@@ -35,27 +35,39 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvPid = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.shareid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sharetitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.editwechat = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.ckbWeChatAllSelected = new System.Windows.Forms.CheckBox();
             this.dgvTaskPlan = new System.Windows.Forms.DataGridView();
+            this.Column3 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.taskid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.taskTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.taskStartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.taskEndTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.taskStatusText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pidsText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.edittask = new System.Windows.Forms.DataGridViewImageColumn();
+            this.ExecStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.ckbAllSelectedTask = new System.Windows.Forms.CheckBox();
             this.dgvData = new System.Windows.Forms.DataGridView();
@@ -72,6 +84,7 @@
             this.goodsCommission = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.couponPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.updateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.editgoods = new System.Windows.Forms.DataGridViewImageColumn();
             this.startTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.endTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.createTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -105,23 +118,9 @@
             this.toolTaskUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTaskDel = new System.Windows.Forms.ToolStripMenuItem();
             this.btnWeChatWinGet = new System.Windows.Forms.Button();
-            this.btn = new System.Windows.Forms.Button();
-            this.label19 = new System.Windows.Forms.Label();
-            this.Column3 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.taskid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.taskTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.taskStartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.taskEndTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.taskStatusText = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsText = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pidsText = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ExecStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.editgoods = new System.Windows.Forms.DataGridViewImageColumn();
-            this.edittask = new System.Windows.Forms.DataGridViewImageColumn();
-            this.editwechat = new System.Windows.Forms.DataGridViewImageColumn();
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPid)).BeginInit();
             this.panel1.SuspendLayout();
@@ -224,6 +223,13 @@
             this.pid.ReadOnly = true;
             this.pid.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
+            // editwechat
+            // 
+            this.editwechat.HeaderText = "编辑";
+            this.editwechat.Image = global::HotTao.Properties.Resources.icon_edit;
+            this.editwechat.Name = "editwechat";
+            this.editwechat.Width = 50;
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
@@ -308,6 +314,105 @@
             this.dgvTaskPlan.Size = new System.Drawing.Size(496, 150);
             this.dgvTaskPlan.TabIndex = 2;
             this.dgvTaskPlan.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTaskPlan_CellClick);
+            this.dgvTaskPlan.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvTaskPlan_CellMouseMove);
+            // 
+            // Column3
+            // 
+            this.Column3.FalseValue = "0";
+            this.Column3.HeaderText = "序号";
+            this.Column3.IndeterminateValue = "0";
+            this.Column3.MinimumWidth = 25;
+            this.Column3.Name = "Column3";
+            this.Column3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Column3.TrueValue = "id";
+            this.Column3.Visible = false;
+            this.Column3.Width = 25;
+            // 
+            // taskid
+            // 
+            this.taskid.DataPropertyName = "id";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.taskid.DefaultCellStyle = dataGridViewCellStyle6;
+            this.taskid.HeaderText = "ID";
+            this.taskid.MinimumWidth = 60;
+            this.taskid.Name = "taskid";
+            this.taskid.ReadOnly = true;
+            this.taskid.Width = 60;
+            // 
+            // taskTitle
+            // 
+            this.taskTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.taskTitle.DataPropertyName = "title";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.taskTitle.DefaultCellStyle = dataGridViewCellStyle7;
+            this.taskTitle.HeaderText = "任务标题";
+            this.taskTitle.Name = "taskTitle";
+            this.taskTitle.ReadOnly = true;
+            this.taskTitle.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // taskStartTime
+            // 
+            this.taskStartTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.taskStartTime.DataPropertyName = "startTime";
+            this.taskStartTime.HeaderText = "执行时间";
+            this.taskStartTime.Name = "taskStartTime";
+            this.taskStartTime.ReadOnly = true;
+            this.taskStartTime.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // taskEndTime
+            // 
+            this.taskEndTime.DataPropertyName = "taskEndTime";
+            this.taskEndTime.HeaderText = "结束时间";
+            this.taskEndTime.Name = "taskEndTime";
+            this.taskEndTime.ReadOnly = true;
+            this.taskEndTime.Visible = false;
+            // 
+            // taskStatusText
+            // 
+            this.taskStatusText.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.taskStatusText.DataPropertyName = "statusText";
+            this.taskStatusText.HeaderText = "执行状态";
+            this.taskStatusText.Name = "taskStatusText";
+            this.taskStatusText.ReadOnly = true;
+            this.taskStatusText.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // goodsText
+            // 
+            this.goodsText.DataPropertyName = "goodsText";
+            this.goodsText.HeaderText = "推广商品ids";
+            this.goodsText.Name = "goodsText";
+            this.goodsText.ReadOnly = true;
+            this.goodsText.Visible = false;
+            this.goodsText.Width = 5;
+            // 
+            // pidsText
+            // 
+            this.pidsText.DataPropertyName = "pidsText";
+            this.pidsText.HeaderText = "推广位ids";
+            this.pidsText.Name = "pidsText";
+            this.pidsText.ReadOnly = true;
+            this.pidsText.Visible = false;
+            this.pidsText.Width = 5;
+            // 
+            // edittask
+            // 
+            this.edittask.HeaderText = "编辑";
+            this.edittask.Image = global::HotTao.Properties.Resources.icon_edit;
+            this.edittask.MinimumWidth = 50;
+            this.edittask.Name = "edittask";
+            this.edittask.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.edittask.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.edittask.ToolTipText = "修改计划";
+            this.edittask.Width = 50;
+            // 
+            // ExecStatus
+            // 
+            this.ExecStatus.HeaderText = "状态码";
+            this.ExecStatus.Name = "ExecStatus";
+            this.ExecStatus.ReadOnly = true;
+            this.ExecStatus.Visible = false;
             // 
             // panel2
             // 
@@ -343,6 +448,17 @@
             this.label3.Size = new System.Drawing.Size(59, 13);
             this.label3.TabIndex = 2;
             this.label3.Text = "执行时间";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("宋体", 9.7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label19.Location = new System.Drawing.Point(3, 11);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(59, 13);
+            this.label19.TabIndex = 2;
+            this.label19.Text = "计划编号";
             // 
             // label4
             // 
@@ -554,6 +670,14 @@
             this.updateTime.Name = "updateTime";
             this.updateTime.ReadOnly = true;
             this.updateTime.Width = 120;
+            // 
+            // editgoods
+            // 
+            this.editgoods.HeaderText = "删除";
+            this.editgoods.Image = global::HotTao.Properties.Resources.icon_delete;
+            this.editgoods.Name = "editgoods";
+            this.editgoods.ToolTipText = "删除";
+            this.editgoods.Width = 50;
             // 
             // startTime
             // 
@@ -898,119 +1022,6 @@
             this.btnWeChatWinGet.UseVisualStyleBackColor = false;
             this.btnWeChatWinGet.Click += new System.EventHandler(this.btnWeChatWinGet_Click);
             // 
-            // btn
-            // 
-            this.btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(105)))));
-            this.btn.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
-            this.btn.FlatAppearance.BorderSize = 0;
-            this.btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn.ForeColor = System.Drawing.Color.White;
-            this.btn.Location = new System.Drawing.Point(852, 238);
-            this.btn.Name = "btn";
-            this.btn.Size = new System.Drawing.Size(61, 23);
-            this.btn.TabIndex = 3;
-            this.btn.Text = "开始转链";
-            this.btn.UseVisualStyleBackColor = false;
-            this.btn.Click += new System.EventHandler(this.btnAddGoods_Click);
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("宋体", 9.7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label19.Location = new System.Drawing.Point(3, 11);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(59, 13);
-            this.label19.TabIndex = 2;
-            this.label19.Text = "计划编号";
-            // 
-            // Column3
-            // 
-            this.Column3.FalseValue = "0";
-            this.Column3.HeaderText = "序号";
-            this.Column3.IndeterminateValue = "0";
-            this.Column3.MinimumWidth = 25;
-            this.Column3.Name = "Column3";
-            this.Column3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Column3.TrueValue = "id";
-            this.Column3.Visible = false;
-            this.Column3.Width = 25;
-            // 
-            // taskid
-            // 
-            this.taskid.DataPropertyName = "id";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.taskid.DefaultCellStyle = dataGridViewCellStyle6;
-            this.taskid.HeaderText = "ID";
-            this.taskid.MinimumWidth = 60;
-            this.taskid.Name = "taskid";
-            this.taskid.ReadOnly = true;
-            this.taskid.Width = 60;
-            // 
-            // taskTitle
-            // 
-            this.taskTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.taskTitle.DataPropertyName = "title";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.taskTitle.DefaultCellStyle = dataGridViewCellStyle7;
-            this.taskTitle.HeaderText = "任务标题";
-            this.taskTitle.Name = "taskTitle";
-            this.taskTitle.ReadOnly = true;
-            this.taskTitle.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // taskStartTime
-            // 
-            this.taskStartTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.taskStartTime.DataPropertyName = "startTime";
-            this.taskStartTime.HeaderText = "执行时间";
-            this.taskStartTime.Name = "taskStartTime";
-            this.taskStartTime.ReadOnly = true;
-            this.taskStartTime.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // taskEndTime
-            // 
-            this.taskEndTime.DataPropertyName = "taskEndTime";
-            this.taskEndTime.HeaderText = "结束时间";
-            this.taskEndTime.Name = "taskEndTime";
-            this.taskEndTime.ReadOnly = true;
-            this.taskEndTime.Visible = false;
-            // 
-            // taskStatusText
-            // 
-            this.taskStatusText.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.taskStatusText.DataPropertyName = "statusText";
-            this.taskStatusText.HeaderText = "执行状态";
-            this.taskStatusText.Name = "taskStatusText";
-            this.taskStatusText.ReadOnly = true;
-            this.taskStatusText.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // goodsText
-            // 
-            this.goodsText.DataPropertyName = "goodsText";
-            this.goodsText.HeaderText = "推广商品ids";
-            this.goodsText.Name = "goodsText";
-            this.goodsText.ReadOnly = true;
-            this.goodsText.Visible = false;
-            this.goodsText.Width = 5;
-            // 
-            // pidsText
-            // 
-            this.pidsText.DataPropertyName = "pidsText";
-            this.pidsText.HeaderText = "推广位ids";
-            this.pidsText.Name = "pidsText";
-            this.pidsText.ReadOnly = true;
-            this.pidsText.Visible = false;
-            this.pidsText.Width = 5;
-            // 
-            // ExecStatus
-            // 
-            this.ExecStatus.HeaderText = "状态码";
-            this.ExecStatus.Name = "ExecStatus";
-            this.ExecStatus.ReadOnly = true;
-            this.ExecStatus.Visible = false;
-            // 
             // dataGridViewImageColumn1
             // 
             this.dataGridViewImageColumn1.HeaderText = "删除";
@@ -1041,32 +1052,6 @@
             this.dataGridViewImageColumn3.ToolTipText = "删除";
             this.dataGridViewImageColumn3.Width = 50;
             // 
-            // editgoods
-            // 
-            this.editgoods.HeaderText = "删除";
-            this.editgoods.Image = global::HotTao.Properties.Resources.icon_delete;
-            this.editgoods.Name = "editgoods";
-            this.editgoods.ToolTipText = "删除";
-            this.editgoods.Width = 50;
-            // 
-            // edittask
-            // 
-            this.edittask.HeaderText = "编辑";
-            this.edittask.Image = global::HotTao.Properties.Resources.icon_edit;
-            this.edittask.MinimumWidth = 50;
-            this.edittask.Name = "edittask";
-            this.edittask.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.edittask.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.edittask.ToolTipText = "修改计划";
-            this.edittask.Width = 50;
-            // 
-            // editwechat
-            // 
-            this.editwechat.HeaderText = "编辑";
-            this.editwechat.Image = global::HotTao.Properties.Resources.icon_edit;
-            this.editwechat.Name = "editwechat";
-            this.editwechat.Width = 50;
-            // 
             // hotPanel1
             // 
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
@@ -1083,7 +1068,6 @@
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.label17);
             this.Controls.Add(this.label16);
-            this.Controls.Add(this.btn);
             this.Controls.Add(this.btnAddGoods);
             this.Controls.Add(this.btnAddTask);
             this.Controls.Add(this.btnWeChatWinGet);
@@ -1185,7 +1169,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn pid;
         private System.Windows.Forms.DataGridViewImageColumn editwechat;
         private System.Windows.Forms.ToolStripMenuItem toolWeChatUpdate;
-        private System.Windows.Forms.Button btn;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn taskid;

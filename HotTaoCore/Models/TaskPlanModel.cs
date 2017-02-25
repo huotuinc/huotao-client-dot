@@ -49,6 +49,11 @@ namespace HotTaoCore.Models
         public string pidsText { get; set; }
 
         public DateTime createTime { get; set; }
+
+        /// <summary>
+        /// 是否已转链 1是
+        /// </summary>
+        public int isTpwd { get; set; }
     }
 
 

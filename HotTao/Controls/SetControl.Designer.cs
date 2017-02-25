@@ -312,13 +312,14 @@
             // btnAddGoods
             // 
             this.btnAddGoods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(105)))));
+            this.btnAddGoods.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAddGoods.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
             this.btnAddGoods.FlatAppearance.BorderSize = 0;
             this.btnAddGoods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddGoods.ForeColor = System.Drawing.Color.White;
-            this.btnAddGoods.Location = new System.Drawing.Point(675, 9);
+            this.btnAddGoods.Location = new System.Drawing.Point(630, 6);
             this.btnAddGoods.Name = "btnAddGoods";
-            this.btnAddGoods.Size = new System.Drawing.Size(61, 23);
+            this.btnAddGoods.Size = new System.Drawing.Size(106, 39);
             this.btnAddGoods.TabIndex = 4;
             this.btnAddGoods.Text = "确认";
             this.btnAddGoods.UseVisualStyleBackColor = false;

@@ -30,55 +30,89 @@
         {
             this.components = new System.ComponentModel.Container();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.hotGroupBox3 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.txtTempText = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.hotGroupBox1.SuspendLayout();
+            this.hotGroupBox3.SuspendLayout();
+            this.hotGroupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // hotGroupBox1
             // 
             this.hotGroupBox1.BorderColor = System.Drawing.Color.Magenta;
             this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox1.Controls.Add(this.richTextBox2);
-            this.hotGroupBox1.Controls.Add(this.richTextBox1);
+            this.hotGroupBox1.Controls.Add(this.hotGroupBox3);
+            this.hotGroupBox1.Controls.Add(this.hotGroupBox2);
             this.hotGroupBox1.Controls.Add(this.label2);
             this.hotGroupBox1.Controls.Add(this.label1);
             this.hotGroupBox1.Controls.Add(this.checkBox1);
             this.hotGroupBox1.Controls.Add(this.label9);
             this.hotGroupBox1.Location = new System.Drawing.Point(11, 19);
             this.hotGroupBox1.Name = "hotGroupBox1";
-            this.hotGroupBox1.Size = new System.Drawing.Size(678, 497);
+            this.hotGroupBox1.Size = new System.Drawing.Size(729, 497);
             this.hotGroupBox1.TabIndex = 1;
             this.hotGroupBox1.TabStop = false;
             // 
-            // richTextBox2
+            // hotGroupBox3
             // 
-            this.richTextBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
-            this.richTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox2.Location = new System.Drawing.Point(355, 143);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(262, 100);
-            this.richTextBox2.TabIndex = 36;
-            this.richTextBox2.Text = "";
+            this.hotGroupBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
+            this.hotGroupBox3.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox3.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox3.Controls.Add(this.richTextBox1);
+            this.hotGroupBox3.Location = new System.Drawing.Point(395, 147);
+            this.hotGroupBox3.Name = "hotGroupBox3";
+            this.hotGroupBox3.Size = new System.Drawing.Size(280, 220);
+            this.hotGroupBox3.TabIndex = 38;
+            this.hotGroupBox3.TabStop = false;
             // 
             // richTextBox1
             // 
             this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.Location = new System.Drawing.Point(53, 143);
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            this.richTextBox1.Location = new System.Drawing.Point(3, 17);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(246, 100);
-            this.richTextBox1.TabIndex = 36;
+            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.richTextBox1.Size = new System.Drawing.Size(274, 200);
+            this.richTextBox1.TabIndex = 26;
             this.richTextBox1.Text = "";
+            // 
+            // hotGroupBox2
+            // 
+            this.hotGroupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
+            this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox2.Controls.Add(this.txtTempText);
+            this.hotGroupBox2.Location = new System.Drawing.Point(53, 147);
+            this.hotGroupBox2.Name = "hotGroupBox2";
+            this.hotGroupBox2.Size = new System.Drawing.Size(280, 220);
+            this.hotGroupBox2.TabIndex = 38;
+            this.hotGroupBox2.TabStop = false;
+            // 
+            // txtTempText
+            // 
+            this.txtTempText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
+            this.txtTempText.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtTempText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtTempText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            this.txtTempText.Location = new System.Drawing.Point(3, 17);
+            this.txtTempText.Name = "txtTempText";
+            this.txtTempText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txtTempText.Size = new System.Drawing.Size(274, 200);
+            this.txtTempText.TabIndex = 26;
+            this.txtTempText.Text = "";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(353, 105);
+            this.label2.Location = new System.Drawing.Point(393, 105);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(101, 12);
             this.label2.TabIndex = 37;
@@ -122,9 +156,11 @@
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.hotGroupBox1);
             this.Name = "SetAutoReplyControl";
-            this.Size = new System.Drawing.Size(703, 646);
+            this.Size = new System.Drawing.Size(750, 646);
             this.hotGroupBox1.ResumeLayout(false);
             this.hotGroupBox1.PerformLayout();
+            this.hotGroupBox3.ResumeLayout(false);
+            this.hotGroupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -134,9 +170,11 @@
         private module.HotGroupBox hotGroupBox1;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.RichTextBox richTextBox2;
+        private module.HotGroupBox hotGroupBox2;
+        private System.Windows.Forms.RichTextBox txtTempText;
+        private module.HotGroupBox hotGroupBox3;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }

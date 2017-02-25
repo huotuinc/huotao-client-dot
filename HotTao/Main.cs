@@ -79,6 +79,11 @@ namespace HotTao
 
 
         /// <summary>
+        /// 微信登录窗口对象
+        /// </summary>
+        public wxLogin wxlogin { get; set; }
+
+        /// <summary>
         /// 设置淘宝账号
         /// </summary>
         /// <param name="no">The no.</param>

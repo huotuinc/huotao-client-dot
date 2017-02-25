@@ -96,6 +96,10 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WwChatHttpCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\WwChatHttpCore.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseForm.cs">
@@ -249,6 +253,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WinApi.cs" />
+    <Compile Include="wxLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="wxLogin.Designer.cs">
+      <DependentUpon>wxLogin.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Controls\AddWeChat.resx">
       <DependentUpon>AddWeChat.cs</DependentUpon>
     </EmbeddedResource>
@@ -322,6 +332,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="wxLogin.resx">
+      <DependentUpon>wxLogin.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HotTaoCore\HotTaoCore.csproj">

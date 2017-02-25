@@ -52,6 +52,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TopSdk">
+      <HintPath>..\lib\TopSdk.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiConst.cs" />
@@ -61,6 +64,7 @@
     <Compile Include="DAL\UserDAL.cs" />
     <Compile Include="DAL\UserPidDAL.cs" />
     <Compile Include="GlobalConfig.cs" />
+    <Compile Include="HotTaoApiService.cs" />
     <Compile Include="Logic\LogicGoods.cs" />
     <Compile Include="Logic\LogicTaskPlan.cs" />
     <Compile Include="Logic\LogicUser.cs" />

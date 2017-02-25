@@ -76,12 +76,23 @@ namespace HotTao.Controls
 
         private Main hotForm { get; set; }
         private TaskControl hotTask { get; set; }
+
+        private HistoryControl hotHistoryTask { get; set; }
+
         public TaskEdit(Main main, TaskControl task)
         {
             InitializeComponent();
             hotForm = main;
             hotTask = task;
         }
+
+        public TaskEdit(Main main, HistoryControl task)
+        {
+            InitializeComponent();
+            hotForm = main;
+            hotHistoryTask = task;
+        }
+
 
         private void btnClose_Click(object sender, EventArgs e)
         {
@@ -90,6 +101,7 @@ namespace HotTao.Controls
 
         private void TaskEdit_Load(object sender, EventArgs e)
         {
+            lbTitle.Text = Title;
             txtTaskTitle.Text = taskTitle;
             txtStartTime.Text = taskStartTime;
             txtEndTime.Text = taskEndTime;
@@ -99,8 +111,10 @@ namespace HotTao.Controls
             }
             else
             {
-                hotGoodsText = new List<GoodsTaskModel>();
-                hotPidsText = new List<UserPidTaskModel>();
+                if (hotGoodsText == null)
+                    hotGoodsText = new List<GoodsTaskModel>();
+                if (hotPidsText == null)
+                    hotPidsText = new List<UserPidTaskModel>();
             }
         }
 
@@ -124,7 +138,7 @@ namespace HotTao.Controls
             {
                 txtEndTime.Focus();
                 return;
-            }            
+            }
             string goodsText = JsonConvert.SerializeObject(hotGoodsText);
             string pidsText = JsonConvert.SerializeObject(hotPidsText);
             TaskPlanModel model = new TaskPlanModel()
@@ -158,8 +172,10 @@ namespace HotTao.Controls
                     });
                 });
             }
-
-            hotTask.LoadTaskPlanGridView();
+            if (hotTask != null)
+                hotTask.LoadTaskPlanGridView();
+            if (hotHistoryTask != null)
+                hotHistoryTask.LoadTaskPlanGridView();
             txtTaskTitle.Clear();
             alert.Message = "保存成功";
             alert.CallBack += () =>

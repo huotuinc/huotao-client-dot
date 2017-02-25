@@ -330,7 +330,7 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void toolTaskDel_Click(object sender, EventArgs e)
         {
-            DataGridViewRow row = this.dgvTaskPlan.CurrentRow;
+            DataGridViewRow row = this.dgvTaskPlan.Rows[MouseCurrentRowIndex];
             if (row != null)
             {
                 int taskid = Convert.ToInt32(row.Cells["taskid"].Value);
@@ -471,7 +471,7 @@ namespace HotTao.Controls
 
         private void toolTaskUpdate_Click(object sender, EventArgs e)
         {
-            DataGridViewCellCollection cells = this.dgvTaskPlan.CurrentRow.Cells;
+            DataGridViewCellCollection cells = this.dgvTaskPlan.Rows[MouseCurrentRowIndex].Cells;
             if (cells != null)
             {
                 UpdateTask(cells);
@@ -582,7 +582,7 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnAddGoods_Click(object sender, EventArgs e)
         {
-
+            
         }
 
 
@@ -705,6 +705,11 @@ namespace HotTao.Controls
         }
 
         private void dgvPid_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            MouseCurrentRowIndex = e.RowIndex;
+        }
+
+        private void dgvTaskPlan_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
         {
             MouseCurrentRowIndex = e.RowIndex;
         }

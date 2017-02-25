@@ -111,7 +111,7 @@
             this.txtTempText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
             this.txtTempText.Location = new System.Drawing.Point(3, 17);
             this.txtTempText.Name = "txtTempText";
-            this.txtTempText.Size = new System.Drawing.Size(687, 217);
+            this.txtTempText.Size = new System.Drawing.Size(687, 263);
             this.txtTempText.TabIndex = 26;
             this.txtTempText.Text = "【[来源]】[商品标题]\n[分隔符]\n【原价】：[商品价格]元\n【券后】：[券后价格]元\n【口令】：[二合一淘口令]\n[分隔符]\n购买方式：复制这条信息，打开『手" +
     "机淘宝』即可看到商品和优惠券，先领券再下单哦\n[分隔符]\n本群都是内部优惠券，敬请大家关注每天特价产品。\n";
@@ -145,7 +145,7 @@
             this.hotGroupBox1.Controls.Add(this.label1);
             this.hotGroupBox1.Location = new System.Drawing.Point(13, 17);
             this.hotGroupBox1.Name = "hotGroupBox1";
-            this.hotGroupBox1.Size = new System.Drawing.Size(724, 427);
+            this.hotGroupBox1.Size = new System.Drawing.Size(724, 475);
             this.hotGroupBox1.TabIndex = 33;
             this.hotGroupBox1.TabStop = false;
             // 
@@ -172,7 +172,7 @@
             this.hotGroupBox2.Controls.Add(this.txtTempDefaultText);
             this.hotGroupBox2.Location = new System.Drawing.Point(13, 153);
             this.hotGroupBox2.Name = "hotGroupBox2";
-            this.hotGroupBox2.Size = new System.Drawing.Size(693, 237);
+            this.hotGroupBox2.Size = new System.Drawing.Size(693, 283);
             this.hotGroupBox2.TabIndex = 34;
             this.hotGroupBox2.TabStop = false;
             // 
@@ -184,7 +184,7 @@
             this.txtTempDefaultText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
             this.txtTempDefaultText.Location = new System.Drawing.Point(3, 17);
             this.txtTempDefaultText.Name = "txtTempDefaultText";
-            this.txtTempDefaultText.Size = new System.Drawing.Size(687, 217);
+            this.txtTempDefaultText.Size = new System.Drawing.Size(687, 263);
             this.txtTempDefaultText.TabIndex = 27;
             this.txtTempDefaultText.Text = "【[来源]】[商品标题]\n[分隔符]\n【原价】：[商品价格]元\n【券后】：[券后价格]元\n【口令】：[二合一淘口令]\n[分隔符]\n购买方式：复制这条信息，打开『手" +
     "机淘宝』即可看到商品和优惠券，先领券再下单哦\n[分隔符]\n本群都是内部优惠券，敬请大家关注每天特价产品。\n";
@@ -195,7 +195,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.label9.Location = new System.Drawing.Point(277, -4);
+            this.label9.Location = new System.Drawing.Point(319, -4);
             this.label9.Name = "label9";
             this.label9.Padding = new System.Windows.Forms.Padding(5);
             this.label9.Size = new System.Drawing.Size(80, 22);
@@ -264,7 +264,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.hotGroupBox1);
             this.Name = "SetSendTemplateControl";
-            this.Size = new System.Drawing.Size(750, 459);
+            this.Size = new System.Drawing.Size(750, 512);
             this.Load += new System.EventHandler(this.SetSendTemplateControl_Load);
             this.hotGroupBox1.ResumeLayout(false);
             this.hotGroupBox1.PerformLayout();
