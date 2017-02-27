@@ -33,32 +33,36 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.txtmaxGoodsPrice = new System.Windows.Forms.TextBox();
+            this.txtminGoodsPrice = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.txtminCmsRateAmount = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.txtminMonthSalesAmount = new System.Windows.Forms.TextBox();
+            this.txtminCouponDateDayCount = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtminCouponAmount = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.ckbfilterGoods = new System.Windows.Forms.CheckBox();
+            this.ckbGoodsPrice = new System.Windows.Forms.CheckBox();
+            this.ckbCmsRate = new System.Windows.Forms.CheckBox();
+            this.ckbminCouponDayCount = new System.Windows.Forms.CheckBox();
+            this.ckbMonthSales = new System.Windows.Forms.CheckBox();
+            this.ckbCoupon = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.rbtSendorderbyAsc = new System.Windows.Forms.RadioButton();
+            this.rbtSendorderbyDesc = new System.Windows.Forms.RadioButton();
             this.label5 = new System.Windows.Forms.Label();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtgoodsinterval = new System.Windows.Forms.TextBox();
+            this.txthandleInterval = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -74,22 +78,26 @@
             this.hotGroupBox3.Controls.Add(this.label15);
             this.hotGroupBox3.Controls.Add(this.label13);
             this.hotGroupBox3.Controls.Add(this.label11);
+            this.hotGroupBox3.Controls.Add(this.label18);
             this.hotGroupBox3.Controls.Add(this.label8);
-            this.hotGroupBox3.Controls.Add(this.textBox7);
-            this.hotGroupBox3.Controls.Add(this.textBox6);
+            this.hotGroupBox3.Controls.Add(this.txtmaxGoodsPrice);
+            this.hotGroupBox3.Controls.Add(this.txtminGoodsPrice);
             this.hotGroupBox3.Controls.Add(this.label16);
             this.hotGroupBox3.Controls.Add(this.label14);
-            this.hotGroupBox3.Controls.Add(this.textBox5);
+            this.hotGroupBox3.Controls.Add(this.txtminCmsRateAmount);
             this.hotGroupBox3.Controls.Add(this.label12);
-            this.hotGroupBox3.Controls.Add(this.textBox4);
+            this.hotGroupBox3.Controls.Add(this.txtminMonthSalesAmount);
+            this.hotGroupBox3.Controls.Add(this.txtminCouponDateDayCount);
             this.hotGroupBox3.Controls.Add(this.label10);
-            this.hotGroupBox3.Controls.Add(this.textBox3);
+            this.hotGroupBox3.Controls.Add(this.label17);
+            this.hotGroupBox3.Controls.Add(this.txtminCouponAmount);
             this.hotGroupBox3.Controls.Add(this.label7);
-            this.hotGroupBox3.Controls.Add(this.checkBox7);
-            this.hotGroupBox3.Controls.Add(this.checkBox6);
-            this.hotGroupBox3.Controls.Add(this.checkBox4);
-            this.hotGroupBox3.Controls.Add(this.checkBox3);
-            this.hotGroupBox3.Controls.Add(this.checkBox1);
+            this.hotGroupBox3.Controls.Add(this.ckbfilterGoods);
+            this.hotGroupBox3.Controls.Add(this.ckbGoodsPrice);
+            this.hotGroupBox3.Controls.Add(this.ckbCmsRate);
+            this.hotGroupBox3.Controls.Add(this.ckbminCouponDayCount);
+            this.hotGroupBox3.Controls.Add(this.ckbMonthSales);
+            this.hotGroupBox3.Controls.Add(this.ckbCoupon);
             this.hotGroupBox3.Controls.Add(this.label6);
             this.hotGroupBox3.Location = new System.Drawing.Point(13, 233);
             this.hotGroupBox3.Name = "hotGroupBox3";
@@ -100,7 +108,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(295, 142);
+            this.label15.Location = new System.Drawing.Point(330, 157);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(65, 12);
             this.label15.TabIndex = 38;
@@ -109,7 +117,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(206, 113);
+            this.label13.Location = new System.Drawing.Point(241, 128);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(83, 12);
             this.label13.TabIndex = 38;
@@ -118,39 +126,50 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(206, 84);
+            this.label11.Location = new System.Drawing.Point(241, 99);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(83, 12);
             this.label11.TabIndex = 38;
             this.label11.Text = "   不发此商品";
             // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(241, 42);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(83, 12);
+            this.label18.TabIndex = 38;
+            this.label18.Text = "天 不发此商品";
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(206, 55);
+            this.label8.Location = new System.Drawing.Point(241, 70);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(83, 12);
             this.label8.TabIndex = 38;
             this.label8.Text = "张 不发此商品";
             // 
-            // textBox7
+            // txtmaxGoodsPrice
             // 
-            this.textBox7.Location = new System.Drawing.Point(234, 138);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(55, 21);
-            this.textBox7.TabIndex = 37;
+            this.txtmaxGoodsPrice.Location = new System.Drawing.Point(269, 153);
+            this.txtmaxGoodsPrice.Name = "txtmaxGoodsPrice";
+            this.txtmaxGoodsPrice.Size = new System.Drawing.Size(55, 21);
+            this.txtmaxGoodsPrice.TabIndex = 37;
+            this.txtmaxGoodsPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxFloat_KeyPress);
             // 
-            // textBox6
+            // txtminGoodsPrice
             // 
-            this.textBox6.Location = new System.Drawing.Point(158, 137);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(43, 21);
-            this.textBox6.TabIndex = 37;
+            this.txtminGoodsPrice.Location = new System.Drawing.Point(193, 152);
+            this.txtminGoodsPrice.Name = "txtminGoodsPrice";
+            this.txtminGoodsPrice.Size = new System.Drawing.Size(43, 21);
+            this.txtminGoodsPrice.TabIndex = 37;
+            this.txtminGoodsPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxFloat_KeyPress);
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(207, 142);
+            this.label16.Location = new System.Drawing.Point(242, 157);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(29, 12);
             this.label16.TabIndex = 36;
@@ -159,115 +178,145 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(131, 141);
+            this.label14.Location = new System.Drawing.Point(166, 156);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(29, 12);
             this.label14.TabIndex = 36;
             this.label14.Text = "低于";
             // 
-            // textBox5
+            // txtminCmsRateAmount
             // 
-            this.textBox5.Location = new System.Drawing.Point(158, 109);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(43, 21);
-            this.textBox5.TabIndex = 37;
+            this.txtminCmsRateAmount.Location = new System.Drawing.Point(193, 124);
+            this.txtminCmsRateAmount.Name = "txtminCmsRateAmount";
+            this.txtminCmsRateAmount.Size = new System.Drawing.Size(43, 21);
+            this.txtminCmsRateAmount.TabIndex = 37;
+            this.txtminCmsRateAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxFloat_KeyPress);
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(131, 113);
+            this.label12.Location = new System.Drawing.Point(166, 128);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(29, 12);
             this.label12.TabIndex = 36;
             this.label12.Text = "低于";
             // 
-            // textBox4
+            // txtminMonthSalesAmount
             // 
-            this.textBox4.Location = new System.Drawing.Point(158, 80);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(43, 21);
-            this.textBox4.TabIndex = 37;
+            this.txtminMonthSalesAmount.Location = new System.Drawing.Point(193, 95);
+            this.txtminMonthSalesAmount.Name = "txtminMonthSalesAmount";
+            this.txtminMonthSalesAmount.Size = new System.Drawing.Size(43, 21);
+            this.txtminMonthSalesAmount.TabIndex = 37;
+            this.txtminMonthSalesAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
+            // 
+            // txtminCouponDateDayCount
+            // 
+            this.txtminCouponDateDayCount.Location = new System.Drawing.Point(193, 38);
+            this.txtminCouponDateDayCount.Name = "txtminCouponDateDayCount";
+            this.txtminCouponDateDayCount.Size = new System.Drawing.Size(43, 21);
+            this.txtminCouponDateDayCount.TabIndex = 37;
+            this.txtminCouponDateDayCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(131, 84);
+            this.label10.Location = new System.Drawing.Point(166, 99);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(29, 12);
             this.label10.TabIndex = 36;
             this.label10.Text = "低于";
             // 
-            // textBox3
+            // label17
             // 
-            this.textBox3.Location = new System.Drawing.Point(158, 51);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(43, 21);
-            this.textBox3.TabIndex = 37;
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(166, 42);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(29, 12);
+            this.label17.TabIndex = 36;
+            this.label17.Text = "低于";
+            // 
+            // txtminCouponAmount
+            // 
+            this.txtminCouponAmount.Location = new System.Drawing.Point(193, 66);
+            this.txtminCouponAmount.Name = "txtminCouponAmount";
+            this.txtminCouponAmount.Size = new System.Drawing.Size(43, 21);
+            this.txtminCouponAmount.TabIndex = 37;
+            this.txtminCouponAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(131, 55);
+            this.label7.Location = new System.Drawing.Point(166, 70);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(29, 12);
             this.label7.TabIndex = 36;
             this.label7.Text = "低于";
             // 
-            // checkBox7
+            // ckbfilterGoods
             // 
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Location = new System.Drawing.Point(56, 168);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(120, 16);
-            this.checkBox7.TabIndex = 35;
-            this.checkBox7.Text = "过滤今日重复商品";
-            this.checkBox7.UseVisualStyleBackColor = true;
+            this.ckbfilterGoods.AutoSize = true;
+            this.ckbfilterGoods.Location = new System.Drawing.Point(56, 183);
+            this.ckbfilterGoods.Name = "ckbfilterGoods";
+            this.ckbfilterGoods.Size = new System.Drawing.Size(120, 16);
+            this.ckbfilterGoods.TabIndex = 35;
+            this.ckbfilterGoods.Text = "过滤今日重复商品";
+            this.ckbfilterGoods.UseVisualStyleBackColor = true;
             // 
-            // checkBox6
+            // ckbGoodsPrice
             // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(56, 141);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(72, 16);
-            this.checkBox6.TabIndex = 35;
-            this.checkBox6.Text = "商品价格";
-            this.checkBox6.UseVisualStyleBackColor = true;
+            this.ckbGoodsPrice.AutoSize = true;
+            this.ckbGoodsPrice.Location = new System.Drawing.Point(56, 156);
+            this.ckbGoodsPrice.Name = "ckbGoodsPrice";
+            this.ckbGoodsPrice.Size = new System.Drawing.Size(72, 16);
+            this.ckbGoodsPrice.TabIndex = 35;
+            this.ckbGoodsPrice.Text = "商品价格";
+            this.ckbGoodsPrice.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // ckbCmsRate
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(56, 112);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(72, 16);
-            this.checkBox4.TabIndex = 35;
-            this.checkBox4.Text = "佣金比率";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.ckbCmsRate.AutoSize = true;
+            this.ckbCmsRate.Location = new System.Drawing.Point(56, 127);
+            this.ckbCmsRate.Name = "ckbCmsRate";
+            this.ckbCmsRate.Size = new System.Drawing.Size(72, 16);
+            this.ckbCmsRate.TabIndex = 35;
+            this.ckbCmsRate.Text = "佣金比率";
+            this.ckbCmsRate.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // ckbminCouponDayCount
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(56, 82);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(60, 16);
-            this.checkBox3.TabIndex = 35;
-            this.checkBox3.Text = "月销量";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.ckbminCouponDayCount.AutoSize = true;
+            this.ckbminCouponDayCount.Location = new System.Drawing.Point(56, 40);
+            this.ckbminCouponDayCount.Name = "ckbminCouponDayCount";
+            this.ckbminCouponDayCount.Size = new System.Drawing.Size(108, 16);
+            this.ckbminCouponDayCount.TabIndex = 35;
+            this.ckbminCouponDayCount.Text = "优惠券过期天数";
+            this.ckbminCouponDayCount.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // ckbMonthSales
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(56, 53);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(60, 16);
-            this.checkBox1.TabIndex = 35;
-            this.checkBox1.Text = "优惠券";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.ckbMonthSales.AutoSize = true;
+            this.ckbMonthSales.Location = new System.Drawing.Point(56, 97);
+            this.ckbMonthSales.Name = "ckbMonthSales";
+            this.ckbMonthSales.Size = new System.Drawing.Size(60, 16);
+            this.ckbMonthSales.TabIndex = 35;
+            this.ckbMonthSales.Text = "月销量";
+            this.ckbMonthSales.UseVisualStyleBackColor = true;
+            // 
+            // ckbCoupon
+            // 
+            this.ckbCoupon.AutoSize = true;
+            this.ckbCoupon.Location = new System.Drawing.Point(56, 68);
+            this.ckbCoupon.Name = "ckbCoupon";
+            this.ckbCoupon.Size = new System.Drawing.Size(60, 16);
+            this.ckbCoupon.TabIndex = 35;
+            this.ckbCoupon.Text = "优惠券";
+            this.ckbCoupon.UseVisualStyleBackColor = true;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
             this.label6.Location = new System.Drawing.Point(333, -3);
             this.label6.Name = "label6";
             this.label6.Padding = new System.Windows.Forms.Padding(5);
@@ -279,8 +328,8 @@
             // 
             this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
             this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox2.Controls.Add(this.radioButton2);
-            this.hotGroupBox2.Controls.Add(this.radioButton1);
+            this.hotGroupBox2.Controls.Add(this.rbtSendorderbyAsc);
+            this.hotGroupBox2.Controls.Add(this.rbtSendorderbyDesc);
             this.hotGroupBox2.Controls.Add(this.label5);
             this.hotGroupBox2.Location = new System.Drawing.Point(13, 128);
             this.hotGroupBox2.Name = "hotGroupBox2";
@@ -288,33 +337,33 @@
             this.hotGroupBox2.TabIndex = 1;
             this.hotGroupBox2.TabStop = false;
             // 
-            // radioButton2
+            // rbtSendorderbyAsc
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(56, 39);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(47, 16);
-            this.radioButton2.TabIndex = 35;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "正序";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.rbtSendorderbyAsc.AutoSize = true;
+            this.rbtSendorderbyAsc.Checked = true;
+            this.rbtSendorderbyAsc.Location = new System.Drawing.Point(56, 39);
+            this.rbtSendorderbyAsc.Name = "rbtSendorderbyAsc";
+            this.rbtSendorderbyAsc.Size = new System.Drawing.Size(47, 16);
+            this.rbtSendorderbyAsc.TabIndex = 35;
+            this.rbtSendorderbyAsc.TabStop = true;
+            this.rbtSendorderbyAsc.Text = "正序";
+            this.rbtSendorderbyAsc.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // rbtSendorderbyDesc
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(156, 39);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(47, 16);
-            this.radioButton1.TabIndex = 35;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "倒序";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rbtSendorderbyDesc.AutoSize = true;
+            this.rbtSendorderbyDesc.Location = new System.Drawing.Point(156, 39);
+            this.rbtSendorderbyDesc.Name = "rbtSendorderbyDesc";
+            this.rbtSendorderbyDesc.Size = new System.Drawing.Size(47, 16);
+            this.rbtSendorderbyDesc.TabIndex = 35;
+            this.rbtSendorderbyDesc.Text = "倒序";
+            this.rbtSendorderbyDesc.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
             this.label5.Location = new System.Drawing.Point(317, -2);
             this.label5.Name = "label5";
             this.label5.Padding = new System.Windows.Forms.Padding(5);
@@ -324,12 +373,12 @@
             // 
             // hotGroupBox1
             // 
-            this.hotGroupBox1.BorderColor = System.Drawing.Color.Magenta;
+            this.hotGroupBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
             this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
             this.hotGroupBox1.Controls.Add(this.label4);
             this.hotGroupBox1.Controls.Add(this.label2);
-            this.hotGroupBox1.Controls.Add(this.textBox2);
-            this.hotGroupBox1.Controls.Add(this.textBox1);
+            this.hotGroupBox1.Controls.Add(this.txtgoodsinterval);
+            this.hotGroupBox1.Controls.Add(this.txthandleInterval);
             this.hotGroupBox1.Controls.Add(this.label3);
             this.hotGroupBox1.Controls.Add(this.label1);
             this.hotGroupBox1.Controls.Add(this.label9);
@@ -359,21 +408,23 @@
             this.label2.TabIndex = 37;
             this.label2.Text = "默认2秒";
             // 
-            // textBox2
+            // txtgoodsinterval
             // 
-            this.textBox2.Location = new System.Drawing.Point(113, 51);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(60, 21);
-            this.textBox2.TabIndex = 36;
-            this.textBox2.Text = "5";
+            this.txtgoodsinterval.Location = new System.Drawing.Point(113, 51);
+            this.txtgoodsinterval.Name = "txtgoodsinterval";
+            this.txtgoodsinterval.Size = new System.Drawing.Size(60, 21);
+            this.txtgoodsinterval.TabIndex = 36;
+            this.txtgoodsinterval.Text = "5";
+            this.txtgoodsinterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
             // 
-            // textBox1
+            // txthandleInterval
             // 
-            this.textBox1.Location = new System.Drawing.Point(113, 24);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(60, 21);
-            this.textBox1.TabIndex = 36;
-            this.textBox1.Text = "2";
+            this.txthandleInterval.Location = new System.Drawing.Point(113, 24);
+            this.txthandleInterval.Name = "txthandleInterval";
+            this.txthandleInterval.Size = new System.Drawing.Size(60, 21);
+            this.txthandleInterval.TabIndex = 36;
+            this.txthandleInterval.Text = "2";
+            this.txthandleInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
             // 
             // label3
             // 
@@ -397,7 +448,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
             this.label9.Location = new System.Drawing.Point(271, -2);
             this.label9.Name = "label9";
             this.label9.Padding = new System.Windows.Forms.Padding(5);
@@ -415,6 +466,7 @@
             this.Controls.Add(this.hotGroupBox1);
             this.Name = "SetSendConfig";
             this.Size = new System.Drawing.Size(750, 646);
+            this.Load += new System.EventHandler(this.SetSendConfig_Load);
             this.hotGroupBox3.ResumeLayout(false);
             this.hotGroupBox3.PerformLayout();
             this.hotGroupBox2.ResumeLayout(false);
@@ -431,34 +483,38 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txthandleInterval;
+        private System.Windows.Forms.TextBox txtgoodsinterval;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private module.HotGroupBox hotGroupBox2;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton rbtSendorderbyAsc;
+        private System.Windows.Forms.RadioButton rbtSendorderbyDesc;
         private module.HotGroupBox hotGroupBox3;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckBox checkBox7;
-        private System.Windows.Forms.CheckBox checkBox6;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.CheckBox ckbfilterGoods;
+        private System.Windows.Forms.CheckBox ckbGoodsPrice;
+        private System.Windows.Forms.CheckBox ckbCmsRate;
+        private System.Windows.Forms.CheckBox ckbMonthSales;
+        private System.Windows.Forms.CheckBox ckbCoupon;
+        private System.Windows.Forms.TextBox txtminCouponAmount;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox txtminGoodsPrice;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox txtminCmsRateAmount;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox txtminMonthSalesAmount;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox txtmaxGoodsPrice;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox txtminCouponDateDayCount;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.CheckBox ckbminCouponDayCount;
     }
 }

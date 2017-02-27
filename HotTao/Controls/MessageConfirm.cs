@@ -121,6 +121,11 @@ namespace HotTao.Controls
 
         private void MessageConfirm_Load(object sender, EventArgs e)
         {
+            if (!string.IsNullOrEmpty(Title))
+            {
+                lbTitle.Text = Title;
+                this.Text = Title;
+            }
             lbContent.Text = Message;
             lbTitle.Text = string.IsNullOrEmpty(Title) ? "提示" : Title;
         }

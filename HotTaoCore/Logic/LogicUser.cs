@@ -243,5 +243,26 @@ namespace HotTaoCore.Logic
         {
             return dal.SetUserWeChatPid(userid, wechatid, pidid);
         }
+
+
+
+        /// <summary>
+        /// 设置配置保存
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>System.Int32.</returns>
+        public int AddUserConfigModel(ConfigModel model)
+        {
+            return dal.AddUserConfigModel(model);
+        }
+        /// <summary>
+        /// 获取配置
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <returns>ConfigModel.</returns>
+        public ConfigModel GetConfigModel(int userid)
+        {
+            return dal.GetConfigModel(userid);
+        }
     }
 }

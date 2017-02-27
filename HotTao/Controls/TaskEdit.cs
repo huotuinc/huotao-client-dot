@@ -101,7 +101,11 @@ namespace HotTao.Controls
 
         private void TaskEdit_Load(object sender, EventArgs e)
         {
-            lbTitle.Text = Title;
+            if (!string.IsNullOrEmpty(Title))
+            {
+                lbTitle.Text = Title;
+                this.Text = Title;
+            }
             txtTaskTitle.Text = taskTitle;
             txtStartTime.Text = taskStartTime;
             txtEndTime.Text = taskEndTime;

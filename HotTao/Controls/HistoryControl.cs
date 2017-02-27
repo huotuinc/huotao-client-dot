@@ -36,10 +36,59 @@ namespace HotTao.Controls
                 if (hotForm.wxlogin != null)
                     ShowStartButtonText("暂停计划");
                 LoadTaskPlanGridView();
+
+                dgvTaskPlan.MouseWheel += DgvData_MouseWheel;
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));
 
+        }
+        /// <summary>
+        /// 鼠标滚动事件
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
+        private void DgvData_MouseWheel(object sender, MouseEventArgs e)
+        {
+            DataGridView dataGridView1 = sender as DataGridView;
+            try
+            {
+                if (dataGridView1.CurrentCell != null)
+                {
+                    DataGridViewCell dvc = dataGridView1.CurrentCell;
+                    int ri = dvc.RowIndex;
+                    int ci = dvc.ColumnIndex;
+                    int c = 0;
+                    if (e.Delta > 0)//向上
+                    {
+                        if (ri - 3 > 0)
+                            c = 3;
+                        else if (ri > 0)
+                            c = 1;
+                        if (c > 0)
+                        {
+                            dvc = dataGridView1.Rows[ri - c].Cells[ci];
+                            dataGridView1.CurrentCell = dvc;
+                        }
+                    }
+                    else
+                    {
+                        if (ri < dataGridView1.Rows.Count - 3)
+                            c = 3;
+                        else if (ri < dataGridView1.Rows.Count - 1)
+                            c = 1;
+                        if (c > 0)
+                        {
+                            dvc = dataGridView1.Rows[ri + c].Cells[ci];
+                            dataGridView1.CurrentCell = dvc;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                return;
+            }
         }
 
 
@@ -113,15 +162,18 @@ namespace HotTao.Controls
             lstSuccessTaskId = new List<int>();
             if (dgvTaskPlan.Rows != null)
             {
-                foreach (DataGridViewRow row in dgvTaskPlan.Rows)
+                ((Action)(delegate ()
                 {
-                    int result = 0;
-                    int.TryParse(row.Cells["isTpwd"].Value.ToString(), out result);
-                    if (result == 0)
-                        StartTaskTpwd(row);
-                }
-                //更新转链结果
-                LogicTaskPlan.Instance.UpdateTaskIsTpwd(hotForm.currentUserId, lstSuccessTaskId);
+                    foreach (DataGridViewRow row in dgvTaskPlan.Rows)
+                    {
+                        int result = 0;
+                        int.TryParse(row.Cells["isTpwd"].Value.ToString(), out result);
+                        if (result == 0)
+                            StartTaskTpwd(row);
+                    }
+                    //更新转链结果
+                    LogicTaskPlan.Instance.UpdateTaskIsTpwd(hotForm.currentUserId, lstSuccessTaskId);
+                })).BeginInvoke(null, null);
             }
         }
         /// <summary>
@@ -134,15 +186,20 @@ namespace HotTao.Controls
             if (hotForm.wxlogin == null)
             {
                 hotForm.wxlogin = new wxLogin(hotForm, this);
-                hotForm.wxlogin.Show();
+                hotForm.wxlogin.ShowDialog(this);
             }
             else
             {
-                hotForm.wxlogin.CloseWx();
-                if (hotForm.wxlogin.isStartTask)
-                    ShowStartButtonText("暂停计划");
+                if (hotForm.wxlogin.isCloseWinForm)
+                    hotForm.wxlogin.ShowWx();
                 else
-                    ShowStartButtonText("启用计划");
+                {
+                    if (hotForm.wxlogin.isStartTask)
+                        hotForm.wxlogin.StopWx();
+                    else
+                        hotForm.wxlogin.StartWx();
+                }
+
             }
         }
 
@@ -197,20 +254,23 @@ namespace HotTao.Controls
             {
                 int result = 0;
                 int.TryParse(row.Cells["isTpwd"].Value.ToString(), out result);
-                if (result > 0)
+                ((Action)(delegate ()
                 {
-                    MessageConfirm confirm = new MessageConfirm("确定重新转链");
-                    confirm.CallBack += () =>
+                    if (result > 0)
                     {
+                        MessageConfirm confirm = new MessageConfirm("确定重新转链");
+                        confirm.CallBack += () =>
+                        {
+                            StartTaskTpwd(row);
+                        };
+                        confirm.ShowDialog(this);
+                    }
+                    else
                         StartTaskTpwd(row);
-                    };
-                    confirm.ShowDialog(this);
-                }
-                else
-                    StartTaskTpwd(row);
 
-                //更新转链结果
-                LogicTaskPlan.Instance.UpdateTaskIsTpwd(hotForm.currentUserId, lstSuccessTaskId);
+                    //更新转链结果
+                    LogicTaskPlan.Instance.UpdateTaskIsTpwd(hotForm.currentUserId, lstSuccessTaskId);
+                })).BeginInvoke(null, null);
             }
         }
 
@@ -220,28 +280,27 @@ namespace HotTao.Controls
         /// <param name="row"></param>
         private void StartTaskTpwd(DataGridViewRow row)
         {
-            ((Action)(delegate ()
+
+            int eCode = 0;
+            int.TryParse(row.Cells["ExecStatus"].Value.ToString(), out eCode);
+            if (eCode == 0 || eCode == 1)
             {
-                int eCode = 0;
-                int.TryParse(row.Cells["ExecStatus"].Value.ToString(), out eCode);
-                if (eCode == 0 || eCode == 1)
+                int result = 0;
+                int.TryParse(row.Cells["taskid"].Value.ToString(), out result);
+                row.Cells["TpwdText"].Value = "正在转链";
+                if (LogicTaskPlan.Instance.StartTaskTpwd(hotForm.currentUserId, result))
                 {
-                    int result = 0;
-                    int.TryParse(row.Cells["taskid"].Value.ToString(), out result);
-                    row.Cells["TpwdText"].Value = "正在转链";
-                    if (LogicTaskPlan.Instance.StartTaskTpwd(hotForm.currentUserId, result))
-                    {
-                        row.Cells["TpwdText"].Value = "OK";
-                        row.Cells["isTpwd"].Value = 1;
-                        lstSuccessTaskId.Add(result);
-                    }
-                    else
-                    {
-                        row.Cells["TpwdText"].Value = "转链失败";
-                        row.Cells["isTpwd"].Value = 0;
-                    }
+                    row.Cells["TpwdText"].Value = "OK";
+                    row.Cells["isTpwd"].Value = 1;
+                    lstSuccessTaskId.Add(result);
                 }
-            })).BeginInvoke(null, null);
+                else
+                {
+                    row.Cells["TpwdText"].Value = "转链失败";
+                    row.Cells["isTpwd"].Value = 0;
+                }
+            }
+
         }
 
 

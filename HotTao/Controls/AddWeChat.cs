@@ -80,7 +80,10 @@ namespace HotTao.Controls
         {
             txtWeChatTitle.Text = weChatTitle;
             if (!string.IsNullOrEmpty(Title))
+            {
                 lbTitle.Text = Title;
+                this.Text = Title;
+            }
         }
 
 

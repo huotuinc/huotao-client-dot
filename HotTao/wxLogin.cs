@@ -21,7 +21,7 @@ namespace HotTao
 {
     public partial class wxLogin : Form
     {
-
+        NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
         #region 移动窗口
         /*
          * 首先将窗体的边框样式修改为None，让窗体没有标题栏
@@ -67,6 +67,37 @@ namespace HotTao
         public DateTime lastDate { get; set; }
         private HistoryControl historyForm { get; set; }
 
+        /// <summary>
+        /// 是否开始任务
+        /// </summary>
+        public bool isStartTask = false;
+
+        /// <summary>
+        /// 是否检查扫描登录状态
+        /// </summary>
+        private static bool isLoginCheck = false;
+        /// <summary>
+        /// 微信登录地址，用于刷新登录状态，避免掉线
+        /// </summary>
+        private string login_redirect_url = string.Empty;
+        /// <summary>
+        /// 判断是否中断二维码扫描登录
+        /// </summary>
+        public static bool loginClose = false;
+
+        public bool isCloseWinForm = false;
+
+        /// <summary>
+        /// 当前登录微信用户
+        /// </summary>
+        private WXUser _me;
+
+        /// <summary>
+        /// 当前用户的所用联系人
+        /// </summary>
+        private List<WXUser> contact_all = new List<WXUser>();
+
+
         public wxLogin(Main mainWin, HistoryControl history)
         {
             InitializeComponent();
@@ -75,18 +106,29 @@ namespace HotTao
         }
         private void wxLogin_Load(object sender, EventArgs e)
         {
+            login_redirect_url = string.Empty;
+            isCloseWinForm = false;
             DoLogin();
         }
+
         private void linkReturn_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkReturn.Visible = false;
+            isStartTask = false;
+            isLoginCheck = false;
+            loginClose = true;
             DoLogin();
         }
         private void picClose_Click(object sender, EventArgs e)
         {
-            Dispose();
-            Close();
+            isStartTask = false;
+            isLoginCheck = false;
+            loginClose = true;
+            isCloseWinForm = true;
+            this.Hide();
         }
+
+        //微信登录
         private void DoLogin()
         {
             picQRCode.Image = null;
@@ -97,6 +139,8 @@ namespace HotTao
             {
                 //异步加载二维码
                 LoginService ls = new LoginService();
+                //等待[判断手机扫面二维码结果]操作结束
+                while (loginClose) { }
                 Image qrcode = ls.GetQRCode();
                 if (qrcode != null)
                 {
@@ -104,10 +148,10 @@ namespace HotTao
                     {
                         picQRCode.Image = qrcode;
                     });
-
                     object login_result = null;
                     Image headImg = null;
-                    while (true)  //循环判断手机扫面二维码结果
+                    isLoginCheck = true;
+                    while (isLoginCheck)  //循环判断手机扫面二维码结果
                     {
                         login_result = ls.LoginCheck();
                         if (login_result is Image) //已扫描 未登录
@@ -126,65 +170,62 @@ namespace HotTao
                             //访问登录跳转URL
                             ls.GetSidUid(login_result as string);
 
-                            var wxConfig = ls.GetWxAuthConfig();
+                            login_redirect_url = login_result.ToString();
+
                             //打开主界面
                             this.BeginInvoke((Action)delegate ()
-                            {
-                                this.Hide();
-                                historyForm.ShowStartButtonText("暂停任务");
-                                LogicUser.Instance.AddWxAuthConfig(new HotTaoCore.Models.WxAuthConfigModel()
                                 {
-                                    userid = hotForm.currentUserId,
-                                    sid = wxConfig.sid,
-                                    uid = wxConfig.uid,
-                                    passTicket = wxConfig.passTicket,
-                                    webwxDataTicket = wxConfig.webwxDataTicket,
-                                    skey = wxConfig.skey
+                                    this.Hide();
+                                    historyForm.ShowStartButtonText("暂停任务");
                                 });
-                            });
                             break;
                         }
                     }
-                    lastDate = DateTime.Now;
-                    DoMainLogic();
+                    loginClose = false;
+                    if (isLoginCheck)
+                    {
+                        lastDate = DateTime.Now;
+                        DoMainLogic();
+                    }
                 }
             })).BeginInvoke(null, null);
         }
 
         /// <summary>
-        /// 退出微信
+        /// 暂停
         /// </summary>
-        public void CloseWx()
+        public void StopWx()
         {
-            isStartTask = !isStartTask;
-            if (isStartTask)
-                isSyncCheck = false;
+            isStartTask = false;
+            historyForm.ShowStartButtonText("启动计划");
         }
-
+        /// <summary>
+        /// 启用
+        /// </summary>
+        public void StartWx()
+        {
+            historyForm.ShowStartButtonText("暂停任务");
+            isStartTask = true;
+        }
+        /// <summary>
+        /// 显示登录
+        /// </summary>
+        public void ShowWx()
+        {
+            isCloseWinForm = false;
+            this.Show();
+            DoLogin();
+        }
         private void wxLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
             historyForm.ShowStartButtonText("启动计划");
-            hotForm.wxlogin = null;
-            isStartTask = false;
         }
 
-        public bool isStartTask { get; set; }
-
-        private bool isSyncCheck { get; set; }
-
-        private WXService wxs { get; set; }
-
-
-        /// <summary>
-        /// 当前登录微信用户
-        /// </summary>
-        private WXUser _me;
-        List<WXUser> contact_all = new List<WXUser>();
         public void DoMainLogic()
         {
-            isSyncCheck = true;
+
             isStartTask = false;
-            wxs = new WXService();
+            WXService wxs = new WXService();
             JObject init_result = wxs.WxInit();  //初始化
             contact_all.Clear();
             if (init_result != null)
@@ -201,7 +242,7 @@ namespace HotTao
                 _me.Sex = init_result["User"]["Sex"].ToString();
                 _me.Signature = init_result["User"]["Signature"].ToString();
             }
-
+            else return;
             JObject contact_result = wxs.GetContact(); //通讯录
             if (contact_result != null)
             {
@@ -226,7 +267,7 @@ namespace HotTao
             ExcuteTask();
             string sync_flag = "";
             JObject sync_result;
-            while (isSyncCheck)
+            while (true)
             {
                 sync_flag = wxs.WxSyncCheck();  //同步检查
                 if (sync_flag == null)
@@ -238,40 +279,33 @@ namespace HotTao
                 {
                     sync_result = wxs.WxSync();  //进行同步
 
+
+
+
                     //在此次进行判断自动回复或踢人操作
-                    //if (sync_result != null)
-                    //{
-                    //    if (sync_result["AddMsgCount"] != null && sync_result["AddMsgCount"].ToString() != "0")
-                    //    {
-                    //        foreach (JObject m in sync_result["AddMsgList"])
-                    //        {
-                    //            string from = m["FromUserName"].ToString();
-                    //            string to = m["ToUserName"].ToString();
-                    //            string content = m["Content"].ToString();
-                    //            string type = m["MsgType"].ToString();
-                    //            if (type == "10000")
-                    //            {
-                    //                if (content.Contains("开启了朋友验证") || content.Contains("消息已发出，但被对方拒收"))
-                    //                {
-                    //                }
-                    //            }
-                    //        }
-                    //    }
-                    //}
+                    if (sync_result != null)
+                    {
+                        if (sync_result["AddMsgCount"] != null && sync_result["AddMsgCount"].ToString() != "0")
+                        {
+                            foreach (JObject m in sync_result["AddMsgList"])
+                            {
+                                string from = m["FromUserName"].ToString();
+                                string to = m["ToUserName"].ToString();
+                                string content = m["Content"].ToString();
+                                string type = m["MsgType"].ToString();
+                                if (type == "10000")
+                                {
+                                    if (content.Contains("开启了朋友验证") || content.Contains("消息已发出，但被对方拒收"))
+                                    {
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 System.Threading.Thread.Sleep(10);
-
-                if (lastDate.CompareTo(DateTime.Now.AddMinutes(-(5 * 63 * 1000))) < 0)
-                {
-                    lastDate = DateTime.Now;
-                    isSyncCheck = false;
-                    isStartTask = false;
-                }
             }
-            if (!isSyncCheck)
-                DoMainLogic();
         }
-        private static Dictionary<int, string> _goodsKey = new Dictionary<int, string>();
         /// <summary>
         /// 执行任务
         /// </summary>
@@ -282,8 +316,7 @@ namespace HotTao
                 //获取执行的任务
                 while (isStartTask)
                 {
-                    if (lastDate.CompareTo(DateTime.Now.AddMinutes(-(5 * 63 * 1000))) < 0)
-                        isStartTask = false;
+                    WXService wxs = new WXService();
                     //获取要执行的数据
                     List<ReplyResponeModel> lst = isStartTask ? LogicTaskPlan.Instance.GetSoonExecuteTaskplan(hotForm.currentUserId) : null;
                     if (lst != null)
@@ -292,55 +325,47 @@ namespace HotTao
                         {
                             if (!isStartTask)
                                 break;
-
                             WXUser user = contact_all.Find((WXUser obj) =>
                             {
                                 return obj.ShowName.Contains(item.title);
                             });
                             if (user != null)
-                                Send(item, user.UserName);
-
-                            System.Threading.Thread.Sleep(5000);
+                            {
+                                //每个商品间隔5秒发送                                
+                                Send(wxs, item, user.UserName);
+                                System.Threading.Thread.Sleep(40000);
+                            }
                         }
                     }
-
-                    if (isStartTask)
-                        System.Threading.Thread.Sleep(2000);
+                    System.Threading.Thread.Sleep(2000);
                 }
             })
             { IsBackground = true }.Start();
         }
 
 
-        private void Send(ReplyResponeModel item, string to)
+        /// <summary>
+        /// 开始发送
+        /// </summary>
+        /// <param name="wxs">The WXS.</param>
+        /// <param name="item">The item.</param>
+        /// <param name="to">To.</param>
+        private void Send(WXService wxs, ReplyResponeModel item, string to)
         {
-            wxs.SendMsg(item.text, _me.UserName, to, 1);
-
-            if (!_goodsKey.ContainsKey(item.goodsid))
+            //发送图片给指定用户
+            try
             {
-                //todo:                  
-                string _result = wxs.UpdateMediaId(hotForm.currentUserId, item.id, GlobalConfig.listenUrl(), to, _me.UserName);
-                if (_result != null)
-                {
-                    JObject init_result = JsonConvert.DeserializeObject(_result) as JObject;
-                    switch (init_result["ext"].ToString())
-                    {
-                        case "bmp":
-                        case "jpeg":
-                        case "jpg":
-                        case "png":
-                            string mediaId = init_result["mediaId"].ToString();
-                            _goodsKey.Add(item.goodsid, mediaId);
-                            wxs.SendPic(init_result["mediaId"].ToString(), _me.UserName, to);
-                            break;
-                    }
-                }
+                wxs.SendImageToUserName(to, item.logo);
+                //发完图片后，间隔2秒再发文本
+                System.Threading.Thread.Sleep(2000);
+                wxs.SendMsg(item.text, _me.UserName, to, 1);
+                //更新发送状态
+                LogicTaskPlan.Instance.UpdateTaskFinished(hotForm.currentUserId, item.id);
             }
-            else
-                wxs.SendPic(_goodsKey[item.goodsid], _me.UserName, to);
-
-            //更新发送状态
-            LogicTaskPlan.Instance.UpdateTaskFinished(hotForm.currentUserId, item.id);
+            catch (Exception ex)
+            {
+                log.Error(ex);                
+            }
         }
     }
 }

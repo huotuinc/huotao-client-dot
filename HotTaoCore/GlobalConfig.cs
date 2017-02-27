@@ -18,7 +18,7 @@ namespace HotTaoCore
         /// <returns>返回连接字符串</returns>
         public static string getConnectionString()
         {
-            return "Data Source=.; Database=HotTaoHelper;User ID=wxroot;Password=wxroot@1234;";// ConfigHelper.MssqlDBConnectionString;
+            return "Data Source=192.168.1.210; Database=HotTaoHelper;User ID=wxroot;Password=wxroot@1234;";// ConfigHelper.MssqlDBConnectionString;
         }
 
         /// <summary>

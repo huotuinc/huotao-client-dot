@@ -229,10 +229,10 @@
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(50, 8);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 12);
+            this.label2.Size = new System.Drawing.Size(89, 12);
             this.label2.TabIndex = 0;
             this.label2.Tag = "1";
-            this.label2.Text = "软件账户设置";
+            this.label2.Text = "* 软件账户设置";
             this.label2.Click += new System.EventHandler(this.SwitchControl_Click);
             // 
             // panel5
@@ -311,7 +311,7 @@
             // 
             // btnAddGoods
             // 
-            this.btnAddGoods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(105)))));
+            this.btnAddGoods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
             this.btnAddGoods.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAddGoods.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
             this.btnAddGoods.FlatAppearance.BorderSize = 0;

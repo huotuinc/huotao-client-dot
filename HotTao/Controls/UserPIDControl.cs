@@ -94,6 +94,11 @@ namespace HotTao.Controls
 
         private void UserPIDControl_Load(object sender, EventArgs e)
         {
+            if (!string.IsNullOrEmpty(Title))
+            {
+                lbTitle.Text = Title;
+                this.Text = Title;
+            }
             loadUserPidGridView();
 
             dgvUserPid.MouseWheel += DgvData_MouseWheel;

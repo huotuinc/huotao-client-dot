@@ -69,6 +69,7 @@
     <Compile Include="Logic\LogicTaskPlan.cs" />
     <Compile Include="Logic\LogicUser.cs" />
     <Compile Include="Logic\LogicUserPid.cs" />
+    <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\GoodsModel.cs" />
     <Compile Include="Models\ReplyResponeModel.cs" />
     <Compile Include="Models\TaskPlanModel.cs" />

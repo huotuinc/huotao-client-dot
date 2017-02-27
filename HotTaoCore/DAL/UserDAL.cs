@@ -294,7 +294,7 @@ namespace HotTaoCore.DAL
                 new SqlParameter("@pidid",pidid),
                 new SqlParameter("@id",wechatid)
             };
-            return DbHelperSQL.ExecuteNonQuery(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param)>0;
+            return DbHelperSQL.ExecuteNonQuery(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param) > 0;
         }
 
 
@@ -313,5 +313,60 @@ namespace HotTaoCore.DAL
             };
             return DbHelperSQL.ExecuteNonQuery(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param) > 0;
         }
+
+
+
+
+        /// <summary>
+        /// 设置配置保存
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>System.Int32.</returns>
+        public int AddUserConfigModel(ConfigModel model)
+        {
+
+            string strSql = @"
+                            if not exists (select userid from user_set_config where userid=@userid)
+                            begin
+                                insert into user_set_config(userid,where_config,send_orderby,send_time_config,enable_autoreply,auto_reply_config) values(@userid,@where_config,@send_orderby,@send_time_config,@enable_autoreply,@auto_reply_config)
+                            end
+                            else
+                            begin
+                                update user_set_config set where_config=@where_config,send_orderby=@send_orderby,send_time_config=@send_time_config,enable_autoreply=@enable_autoreply,auto_reply_config=@auto_reply_config where  userid=@userid
+                            end
+                            ";
+
+            var param = new[]
+            {
+                new SqlParameter("@userid",model.userid),
+                new SqlParameter("@where_config",model.where_config),
+                new SqlParameter("@send_orderby",model.send_orderby),
+                new SqlParameter("@send_time_config",model.send_time_config),
+                new SqlParameter("@enable_autoreply",model.enable_autoreply),
+                new SqlParameter("@auto_reply_config",model.auto_reply_config)
+            };
+            return DbHelperSQL.ExecuteNonQuery(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param);
+        }
+
+        /// <summary>
+        /// 获取配置
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <returns>ConfigModel.</returns>
+        public ConfigModel GetConfigModel(int userid)
+        {
+            string strSql = "select userid,where_config,send_orderby,send_time_config,enable_autoreply,auto_reply_config,createtime from user_set_config where userid=@userid";
+
+            var param = new[]
+            {
+                new SqlParameter("@userid",userid)
+            };
+            using (SqlDataReader dr = DbHelperSQL.ExecuteReader(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param))
+            {
+                return DbHelperSQL.GetEntity<ConfigModel>(dr);
+            }
+
+        }
+
     }
 }

@@ -20,9 +20,15 @@ namespace HotTao.Controls
         }
         private void SetSendTemplateControl_Load(object sender, EventArgs e)
         {
-            string tempText = LogicUser.Instance.GetUserSendTemplate(hotForm.currentUserId);
-            if (!string.IsNullOrEmpty(tempText))
-                txtTempText.Text = tempText;
+            if (hotForm.currentUserId > 0)
+            {
+                string tempText = LogicUser.Instance.GetUserSendTemplate(hotForm.currentUserId);
+                if (!string.IsNullOrEmpty(tempText))
+                    txtTempText.Text = tempText;
+            }
+            else
+                hotForm.openControl(new LoginControl(hotForm));
+            
         }
         private void SetTag_Click(object sender, EventArgs e)
         {

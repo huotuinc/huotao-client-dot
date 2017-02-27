@@ -29,11 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.ckbAutoLogin = new System.Windows.Forms.CheckBox();
-            this.ckbSavePwd = new System.Windows.Forms.CheckBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.hotGroupBox3 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.loginName = new System.Windows.Forms.TextBox();
+            this.hotGroupBox4 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.loginPwd = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.ckbAutoLogin = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.ckbSavePwd = new System.Windows.Forms.CheckBox();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.hotGroupBox6 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.txtTaobaoNo = new System.Windows.Forms.TextBox();
@@ -43,18 +48,98 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.hotGroupBox3 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.loginName = new System.Windows.Forms.TextBox();
-            this.hotGroupBox4 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.loginPwd = new System.Windows.Forms.TextBox();
-            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.hotGroupBox2.SuspendLayout();
+            this.hotGroupBox3.SuspendLayout();
+            this.hotGroupBox4.SuspendLayout();
             this.hotGroupBox1.SuspendLayout();
             this.hotGroupBox6.SuspendLayout();
             this.hotGroupBox5.SuspendLayout();
-            this.hotGroupBox3.SuspendLayout();
-            this.hotGroupBox4.SuspendLayout();
-            this.hotGroupBox2.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // hotGroupBox2
+            // 
+            this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox2.Controls.Add(this.hotGroupBox3);
+            this.hotGroupBox2.Controls.Add(this.hotGroupBox4);
+            this.hotGroupBox2.Controls.Add(this.label8);
+            this.hotGroupBox2.Controls.Add(this.label6);
+            this.hotGroupBox2.Controls.Add(this.ckbAutoLogin);
+            this.hotGroupBox2.Controls.Add(this.label7);
+            this.hotGroupBox2.Controls.Add(this.ckbSavePwd);
+            this.hotGroupBox2.Location = new System.Drawing.Point(10, 12);
+            this.hotGroupBox2.Name = "hotGroupBox2";
+            this.hotGroupBox2.Size = new System.Drawing.Size(730, 169);
+            this.hotGroupBox2.TabIndex = 29;
+            this.hotGroupBox2.TabStop = false;
+            // 
+            // hotGroupBox3
+            // 
+            this.hotGroupBox3.BackColor = System.Drawing.Color.White;
+            this.hotGroupBox3.BorderColor = System.Drawing.Color.Silver;
+            this.hotGroupBox3.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox3.Controls.Add(this.loginName);
+            this.hotGroupBox3.Location = new System.Drawing.Point(249, 22);
+            this.hotGroupBox3.Name = "hotGroupBox3";
+            this.hotGroupBox3.Size = new System.Drawing.Size(189, 35);
+            this.hotGroupBox3.TabIndex = 1;
+            this.hotGroupBox3.TabStop = false;
+            // 
+            // loginName
+            // 
+            this.loginName.BackColor = System.Drawing.Color.White;
+            this.loginName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.loginName.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.loginName.Location = new System.Drawing.Point(4, 14);
+            this.loginName.Margin = new System.Windows.Forms.Padding(10);
+            this.loginName.Name = "loginName";
+            this.loginName.Size = new System.Drawing.Size(176, 16);
+            this.loginName.TabIndex = 0;
+            // 
+            // hotGroupBox4
+            // 
+            this.hotGroupBox4.BackColor = System.Drawing.Color.White;
+            this.hotGroupBox4.BorderColor = System.Drawing.Color.Silver;
+            this.hotGroupBox4.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox4.Controls.Add(this.loginPwd);
+            this.hotGroupBox4.Location = new System.Drawing.Point(249, 68);
+            this.hotGroupBox4.Name = "hotGroupBox4";
+            this.hotGroupBox4.Size = new System.Drawing.Size(189, 35);
+            this.hotGroupBox4.TabIndex = 2;
+            this.hotGroupBox4.TabStop = false;
+            // 
+            // loginPwd
+            // 
+            this.loginPwd.BackColor = System.Drawing.Color.White;
+            this.loginPwd.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.loginPwd.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.loginPwd.Location = new System.Drawing.Point(4, 14);
+            this.loginPwd.Margin = new System.Windows.Forms.Padding(10);
+            this.loginPwd.Name = "loginPwd";
+            this.loginPwd.Size = new System.Drawing.Size(176, 16);
+            this.loginPwd.TabIndex = 1;
+            this.loginPwd.UseSystemPasswordChar = true;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.label8.Location = new System.Drawing.Point(332, -4);
+            this.label8.Name = "label8";
+            this.label8.Padding = new System.Windows.Forms.Padding(5);
+            this.label8.Size = new System.Drawing.Size(67, 22);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "账户设置";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(176, 36);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "软件账户";
             // 
             // ckbAutoLogin
             // 
@@ -67,16 +152,6 @@
             this.ckbAutoLogin.UseVisualStyleBackColor = true;
             this.ckbAutoLogin.CheckedChanged += new System.EventHandler(this.ckbAutoLogin_CheckedChanged);
             // 
-            // ckbSavePwd
-            // 
-            this.ckbSavePwd.AutoSize = true;
-            this.ckbSavePwd.Location = new System.Drawing.Point(261, 120);
-            this.ckbSavePwd.Name = "ckbSavePwd";
-            this.ckbSavePwd.Size = new System.Drawing.Size(72, 16);
-            this.ckbSavePwd.TabIndex = 11;
-            this.ckbSavePwd.Text = "记住密码";
-            this.ckbSavePwd.UseVisualStyleBackColor = true;
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -86,26 +161,15 @@
             this.label7.TabIndex = 7;
             this.label7.Text = "密码";
             // 
-            // label6
+            // ckbSavePwd
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(176, 36);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 12);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "软件账户";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.label8.Location = new System.Drawing.Point(332, -4);
-            this.label8.Name = "label8";
-            this.label8.Padding = new System.Windows.Forms.Padding(5);
-            this.label8.Size = new System.Drawing.Size(67, 22);
-            this.label8.TabIndex = 14;
-            this.label8.Text = "账户设置";
+            this.ckbSavePwd.AutoSize = true;
+            this.ckbSavePwd.Location = new System.Drawing.Point(261, 120);
+            this.ckbSavePwd.Name = "ckbSavePwd";
+            this.ckbSavePwd.Size = new System.Drawing.Size(72, 16);
+            this.ckbSavePwd.TabIndex = 11;
+            this.ckbSavePwd.Text = "记住密码";
+            this.ckbSavePwd.UseVisualStyleBackColor = true;
             // 
             // hotGroupBox1
             // 
@@ -119,7 +183,7 @@
             this.hotGroupBox1.Controls.Add(this.label13);
             this.hotGroupBox1.Location = new System.Drawing.Point(10, 209);
             this.hotGroupBox1.Name = "hotGroupBox1";
-            this.hotGroupBox1.Size = new System.Drawing.Size(730, 151);
+            this.hotGroupBox1.Size = new System.Drawing.Size(730, 172);
             this.hotGroupBox1.TabIndex = 28;
             this.hotGroupBox1.TabStop = false;
             // 
@@ -177,11 +241,11 @@
             this.btnLoginTaobao.FlatAppearance.BorderSize = 0;
             this.btnLoginTaobao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoginTaobao.ForeColor = System.Drawing.Color.White;
-            this.btnLoginTaobao.Location = new System.Drawing.Point(467, 40);
+            this.btnLoginTaobao.Location = new System.Drawing.Point(249, 116);
             this.btnLoginTaobao.Name = "btnLoginTaobao";
-            this.btnLoginTaobao.Size = new System.Drawing.Size(141, 41);
+            this.btnLoginTaobao.Size = new System.Drawing.Size(58, 33);
             this.btnLoginTaobao.TabIndex = 16;
-            this.btnLoginTaobao.Text = "模拟登陆";
+            this.btnLoginTaobao.Text = "登陆";
             this.btnLoginTaobao.UseVisualStyleBackColor = false;
             this.btnLoginTaobao.Click += new System.EventHandler(this.btnLoginTaobao_Click);
             // 
@@ -189,7 +253,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
             this.label9.Location = new System.Drawing.Point(319, -4);
             this.label9.Name = "label9";
             this.label9.Padding = new System.Windows.Forms.Padding(5);
@@ -215,70 +279,6 @@
             this.label13.TabIndex = 7;
             this.label13.Text = "淘宝密码";
             // 
-            // hotGroupBox3
-            // 
-            this.hotGroupBox3.BackColor = System.Drawing.Color.White;
-            this.hotGroupBox3.BorderColor = System.Drawing.Color.Silver;
-            this.hotGroupBox3.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox3.Controls.Add(this.loginName);
-            this.hotGroupBox3.Location = new System.Drawing.Point(249, 22);
-            this.hotGroupBox3.Name = "hotGroupBox3";
-            this.hotGroupBox3.Size = new System.Drawing.Size(189, 35);
-            this.hotGroupBox3.TabIndex = 1;
-            this.hotGroupBox3.TabStop = false;
-            // 
-            // loginName
-            // 
-            this.loginName.BackColor = System.Drawing.Color.White;
-            this.loginName.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.loginName.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.loginName.Location = new System.Drawing.Point(4, 14);
-            this.loginName.Margin = new System.Windows.Forms.Padding(10);
-            this.loginName.Name = "loginName";
-            this.loginName.Size = new System.Drawing.Size(176, 16);
-            this.loginName.TabIndex = 0;
-            // 
-            // hotGroupBox4
-            // 
-            this.hotGroupBox4.BackColor = System.Drawing.Color.White;
-            this.hotGroupBox4.BorderColor = System.Drawing.Color.Silver;
-            this.hotGroupBox4.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox4.Controls.Add(this.loginPwd);
-            this.hotGroupBox4.Location = new System.Drawing.Point(249, 68);
-            this.hotGroupBox4.Name = "hotGroupBox4";
-            this.hotGroupBox4.Size = new System.Drawing.Size(189, 35);
-            this.hotGroupBox4.TabIndex = 2;
-            this.hotGroupBox4.TabStop = false;
-            // 
-            // loginPwd
-            // 
-            this.loginPwd.BackColor = System.Drawing.Color.White;
-            this.loginPwd.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.loginPwd.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.loginPwd.Location = new System.Drawing.Point(4, 14);
-            this.loginPwd.Margin = new System.Windows.Forms.Padding(10);
-            this.loginPwd.Name = "loginPwd";
-            this.loginPwd.Size = new System.Drawing.Size(176, 16);
-            this.loginPwd.TabIndex = 1;
-            this.loginPwd.UseSystemPasswordChar = true;
-            // 
-            // hotGroupBox2
-            // 
-            this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
-            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox2.Controls.Add(this.hotGroupBox3);
-            this.hotGroupBox2.Controls.Add(this.hotGroupBox4);
-            this.hotGroupBox2.Controls.Add(this.label8);
-            this.hotGroupBox2.Controls.Add(this.label6);
-            this.hotGroupBox2.Controls.Add(this.ckbAutoLogin);
-            this.hotGroupBox2.Controls.Add(this.label7);
-            this.hotGroupBox2.Controls.Add(this.ckbSavePwd);
-            this.hotGroupBox2.Location = new System.Drawing.Point(10, 12);
-            this.hotGroupBox2.Name = "hotGroupBox2";
-            this.hotGroupBox2.Size = new System.Drawing.Size(730, 169);
-            this.hotGroupBox2.TabIndex = 29;
-            this.hotGroupBox2.TabStop = false;
-            // 
             // SetAccountControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -290,18 +290,18 @@
             this.Name = "SetAccountControl";
             this.Size = new System.Drawing.Size(750, 384);
             this.Load += new System.EventHandler(this.SetAccountControl_Load);
+            this.hotGroupBox2.ResumeLayout(false);
+            this.hotGroupBox2.PerformLayout();
+            this.hotGroupBox3.ResumeLayout(false);
+            this.hotGroupBox3.PerformLayout();
+            this.hotGroupBox4.ResumeLayout(false);
+            this.hotGroupBox4.PerformLayout();
             this.hotGroupBox1.ResumeLayout(false);
             this.hotGroupBox1.PerformLayout();
             this.hotGroupBox6.ResumeLayout(false);
             this.hotGroupBox6.PerformLayout();
             this.hotGroupBox5.ResumeLayout(false);
             this.hotGroupBox5.PerformLayout();
-            this.hotGroupBox3.ResumeLayout(false);
-            this.hotGroupBox3.PerformLayout();
-            this.hotGroupBox4.ResumeLayout(false);
-            this.hotGroupBox4.PerformLayout();
-            this.hotGroupBox2.ResumeLayout(false);
-            this.hotGroupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }

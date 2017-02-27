@@ -46,7 +46,7 @@ namespace HotTaoCore.DAL
                                 item.ExecStatus = 3;
                             }
 
-                            if (item.startTime.CompareTo(DateTime.Now) >= 0)
+                            if (item.startTime.CompareTo(DateTime.Now) < 0)
                             {
                                 item.statusText = "进行中";
                                 item.ExecStatus = 1;
@@ -166,12 +166,12 @@ namespace HotTaoCore.DAL
         /// <returns></returns>
         public List<ReplyResponeModel> GetSoonExecuteTaskplan(int userid)
         {
-            string strSql = @"select A.id,A.userid,A.taskid,a.shareText as [text],B.wechattitle as title,A.goodsid from task_goods_pid_log A with(nolock)
+            string strSql = @"select A.id,A.userid,A.taskid,a.shareText as [text],B.wechattitle as title,A.goodsid,d.goodsMainImgUrl as logo from task_goods_pid_log A with(nolock)
                                 left join user_wechat_list B with(nolock) on B.id=A.pid
                                 left join task_plan C with(nolock) on C.id=A.taskid
-                                where A.userid=@userid and C.status=0 and A.statusCode=0 and C.startTime<GETDATE() and C.endTime>GETDATE()
-                                and (A.shareText is not null or A.shareText<>'')
-                                ";
+                                left join goods_list d with(nolock) on d.id=A.goodsid
+                                where A.userid=@userid and C.status=0 and A.statusCode=0 and d.id<>0 and c.id<>0 and b.id<>0 and C.startTime<GETDATE() and C.endTime>GETDATE()
+                                and (A.shareText is not null or A.shareText<>'') ";
             var param = new[]
             {
                 new SqlParameter("@userid",userid)
@@ -243,7 +243,7 @@ namespace HotTaoCore.DAL
         /// <returns></returns>
         public bool UpdateTaskFinished(int clientUid, int itemid)
         {
-            string strSql ="update task_goods_pid_log set statusCode=1 where userid=@userid and id=@id";
+            string strSql = "update task_goods_pid_log set statusCode=1 where userid=@userid and id=@id";
             var param = new[]
            {
                 new SqlParameter("@userid",clientUid),

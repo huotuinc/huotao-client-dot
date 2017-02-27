@@ -34,17 +34,19 @@ namespace HotTao.Controls
         {
 
             if (hotForm.currentUserId > 0)
-            {
+            {   
                 new Thread(() =>
                 {
-                    //browser = new ChromiumWebBrowser("file:///J:/HOT/CODE/huotao-client-dot/HotTao/bin/Debug/html/index.html");
-                    //BrowserSettings settings = new BrowserSettings()
-                    //{
-                    //    LocalStorage = CefState.Enabled,
-                    //    Javascript = CefState.Enabled
-                    //};
-                    //browser.Dock = DockStyle.Fill;
-                    //SetBrowserPanel(browser);
+                    string url = Application.StartupPath+ "/html/index.html";
+                    browser = new ChromiumWebBrowser(url);
+                    browser.RegisterJsObject("jsGoods", new GoodsControl(hotForm), false);
+                    BrowserSettings settings = new BrowserSettings()
+                    {
+                        LocalStorage = CefState.Enabled,
+                        Javascript = CefState.Enabled
+                    };
+                    browser.Dock = DockStyle.Fill;
+                    SetBrowserPanel(browser);
                 })
                 { IsBackground = true }.Start();
 
@@ -73,6 +75,7 @@ namespace HotTao.Controls
         {
             //网页调该方法
             //window.external.SubmitGoodsSelected()
+
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)

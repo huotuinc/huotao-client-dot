@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TaskEdit));
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.bgPanel = new System.Windows.Forms.Panel();
             this.lbTitle = new System.Windows.Forms.Label();
@@ -190,9 +191,10 @@
             this.Controls.Add(this.hotPanel1);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(149)))), ((int)(((byte)(149)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TaskEdit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "TaskEdit";
+            this.Text = "编辑任务";
             this.Load += new System.EventHandler(this.TaskEdit_Load);
             this.hotPanel1.ResumeLayout(false);
             this.hotPanel1.PerformLayout();

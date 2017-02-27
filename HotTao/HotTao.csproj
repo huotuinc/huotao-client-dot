@@ -71,6 +71,16 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\lg.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Win32Resource>
+    </Win32Resource>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="HotCoreUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HotCoreUtils.1.0.0.0\lib\net40\HotCoreUtils.dll</HintPath>
@@ -111,12 +121,6 @@
     </Compile>
     <Compile Include="Controls\AddWeChat.Designer.cs">
       <DependentUpon>AddWeChat.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\BaseForm.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\BaseForm.Designer.cs">
-      <DependentUpon>BaseForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\CustomServiceControl.cs">
       <SubType>UserControl</SubType>
@@ -366,7 +370,9 @@
     <Content Include="Resources\icon_set3.png" />
     <Content Include="Resources\icon_set4.png" />
     <Content Include="Resources\icon_user.png" />
+    <Content Include="Resources\lg.ico" />
     <Content Include="Resources\loading.gif" />
+    <Content Include="Resources\logo.png" />
     <None Include="app.config" />
     <None Include="Nlog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
