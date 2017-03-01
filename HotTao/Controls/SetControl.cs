@@ -90,6 +90,7 @@ namespace HotTao.Controls
         {
             Control c = sender as Control;
             int tag = Convert.ToInt32(c.Tag);
+            SetSaveButtonVisible(true);
             switch (tag)
             {
                 case 1: //软件账户设置
@@ -106,6 +107,11 @@ namespace HotTao.Controls
                     break;
                 case 5://自动回复设置
                     openControl(new SetAutoReplyControl(hotForm));
+                    SetSaveButtonVisible(false);
+                    break;
+                case 6://自动踢人设置
+                    openControl(new SetAutoRemoveChatroom(hotForm));
+                    SetSaveButtonVisible(false);
                     break;
                 default:
                     break;
@@ -114,6 +120,15 @@ namespace HotTao.Controls
         }
 
 
+        public void SetSaveButtonVisible(bool Visible)
+        {
+            btnSave.Visible = Visible;
+        }
+
+        /// <summary>
+        /// 设置选中菜单背景颜色和字体样式
+        /// </summary>
+        /// <param name="sender">The sender.</param>
         private void SetSelectedState(object sender)
         {
             //默认颜色
@@ -128,11 +143,11 @@ namespace HotTao.Controls
                     item.BackColor = Color.White;
                     item.Controls[0].ForeColor = fore;
                 }
-            }  
+            }
 
             Panel p = sender as Panel;
             if (p != null)
-            {                
+            {
                 p.BackColor = ConstConfig.SetLeftSelectedBackColor;
                 p.Controls[0].ForeColor = Color.White;
             }
@@ -143,5 +158,6 @@ namespace HotTao.Controls
                 lp.ForeColor = Color.White;
             }
         }
+
     }
 }

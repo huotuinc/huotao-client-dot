@@ -27,17 +27,66 @@ namespace HotTaoCore
         /// <summary>
         /// 接口地址
         /// </summary>
-        public const string Url = "http://192.168.1.57:8080";
+        public const string Url = "http://192.168.1.75:8080";
 
         #region 接口常量
 
         public const string login = "/huotao/login";
-
+        /// <summary>
+        /// The register
+        /// </summary>
         public const string register = "/huotao/register";
         /// <summary>
         /// token校验
         /// </summary>
         public const string checkToken = "/huotao/checkToken";
+
+        /// <summary>
+        /// 获取获取微信群列表
+        /// </summary>
+        public const string getWeChatGroups = "/weChatGroup/getWeChatGroups";
+
+        /// <summary>
+        /// 新增微信群
+        /// </summary>
+        public const string saveWeChatGroup = "/weChatGroup/saveWeChatGroup";
+
+        /// <summary>
+        /// 删除微信群
+        /// </summary>
+        public const string delWeChatGroup = "/weChatGroup/delWeChatGroup";
+
+        /// <summary>
+        /// 获取任务列表
+        /// </summary>
+        public const string getTaskList = "/task/getTaskList";
+
+        /// <summary>
+        /// 添加/修改任务
+        /// </summary>
+        public const string addTask = "/task/addTask";
+
+        /// <summary>
+        /// 删除任务
+        /// </summary>
+        public const string delTask = "/task/delTask";
+
+        /// <summary>
+        /// 获取商品
+        /// </summary>
+        public const string getGoodsList = "/hotUser/getGoodsList";
+
+        /// <summary>
+        /// 删除商品
+        /// </summary>
+        public const string delGoods = "/hotUser/delGoods";
+
+
+        /// <summary>
+        /// 添加自动管理群
+        /// </summary>
+        public const string saveAutoWeChatGroup = "/weChatGroup/saveWeChatGroup";
+
         #endregion
     }
 }

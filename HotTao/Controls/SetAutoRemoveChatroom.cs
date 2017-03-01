@@ -5,46 +5,36 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
-using Newtonsoft.Json;
 
 namespace HotTao.Controls
 {
-    public partial class SetAutoReplyControl : UserControl
+    public partial class SetAutoRemoveChatroom : UserControl
     {
         private Main hotForm { get; set; }
-
-        /// <summary>
-        /// 自动回复群id
-        /// </summary>
-        /// <value>The wechatid.</value>
-        private int wechatid { get; set; }
-
-
-        public SetAutoReplyControl(Main mainWin)
+        public SetAutoRemoveChatroom(Main mainWin)
         {
             InitializeComponent();
             hotForm = mainWin;
         }
 
-        private void SetAutoReplyControl_Load(object sender, EventArgs e)
+        private void SetAutoRemoveChatroom_Load(object sender, EventArgs e)
         {
             if (MyUserInfo.currentUserId > 0)
             {
-
                 LoadConfig();
                 LoadDgvChatRoom();
-                LoadDgvKeyword();
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));
 
-            dgvChatRoom.MouseWheel += DgvData_MouseWheel;
-            dgvKeyword.MouseWheel += DgvData_MouseWheel;
-
+            dgvChatRoom.MouseWheel += DgvData_MouseWheel;            
         }
+
+
 
         /// <summary>
         /// 加载自动回复的群
@@ -70,7 +60,6 @@ namespace HotTao.Controls
                 }
             })).BeginInvoke(null, null);
         }
-
         /// <summary>
         /// 加载数据列表
         /// </summary>
@@ -94,75 +83,6 @@ namespace HotTao.Controls
                 dgvChatRoom.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
             }
 
-        }
-
-
-        /// <summary>
-        /// 加载关键字
-        /// </summary>
-        public void LoadDgvKeyword()
-        {
-            //是否自动添加属性字段
-            this.dgvKeyword.AutoGenerateColumns = false;
-            this.dgvKeyword.Rows.Clear();
-            ((Action)(delegate ()
-            {
-                var data = LogicUser.Instance.GetUserReplyKeywordList(MyUserInfo.LoginToken);
-                if (data != null)
-                {
-                    this.BeginInvoke((Action)(delegate ()  //等待结束
-                    {
-                        SetKeywordView(data);
-                        if (this.dgvKeyword.Rows.Count > 0)
-                        {
-                            dgvKeyword.Rows[0].Selected = false;
-                        }
-                    }));
-                }
-            })).BeginInvoke(null, null);
-        }
-
-
-        private void SetKeywordView(List<WxAutoReplyKeywordModel> data)
-        {
-            int i = dgvKeyword.Rows.Count;
-            for (int j = 0; j < data.Count(); j++)
-            {
-                dgvKeyword.Rows.Add();
-                ++i;
-                dgvKeyword.Rows[i - 1].Cells["keywordid"].Value = data[j].id.ToString();
-                dgvKeyword.Rows[i - 1].Cells["replyKeyword"].Value = data[j].replyKeyword.ToString();
-                dgvKeyword.Rows[i - 1].Cells["replyType"].Value = data[j].replyType == 0 ? "自定义文字" : "自定义商品";
-                if (data[j].replyType == 0)
-                    dgvKeyword.Rows[i - 1].Cells["replyContent"].Value = data[j].replyContent.ToString();
-                else
-                    dgvKeyword.Rows[i - 1].Cells["replyContent"].Value = "回复商品";
-
-
-                if (i % 2 == 0)
-                    dgvKeyword.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
-                else
-                    dgvKeyword.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
-
-                dgvKeyword.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
-                dgvKeyword.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
-            }
-
-        }
-
-
-
-
-        private void LoadConfig()
-        {
-            if (hotForm.myConfig == null)
-                hotForm.myConfig = new ConfigModel();
-            ckbAutoReplay.Checked = hotForm.myConfig.enable_autoreply == 1;
-        }
-
-
-        public void Save()
-        {
         }
 
         /// <summary>
@@ -212,6 +132,20 @@ namespace HotTao.Controls
                 return;
             }
         }
+
+        public void Save()
+        {
+
+        }
+
+        private void LoadConfig()
+        {
+            if (hotForm.myConfig == null)
+                hotForm.myConfig = new ConfigModel();
+            ckbAutoRemove.Checked = hotForm.myConfig.enable_autoremove == 1;
+        }
+
+
         private void btnAddChat_Click(object sender, EventArgs e)
         {
             AddWeChat wechat = new AddWeChat(hotForm, this);
@@ -219,24 +153,15 @@ namespace HotTao.Controls
             wechat.ShowDialog(this);
         }
 
-
-        private void ckbAutoReplay_CheckedChanged(object sender, EventArgs e)
+        private void ckbAutoRemove_CheckedChanged(object sender, EventArgs e)
         {
             ((Action)(delegate ()
             {
-                hotForm.myConfig.enable_autoreply = ckbAutoReplay.Checked ? 1 : 0;
+                hotForm.myConfig.enable_autoremove = ckbAutoRemove.Checked ? 1 : 0;
                 LogicUser.Instance.AddUserConfigModel(hotForm.myConfig);
 
             })).BeginInvoke(null, null);
-
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            AddKeywordControl kwControl = new AddKeywordControl(hotForm,this);
-            kwControl.Title = "添加关键字";
-            kwControl.ShowDialog(this);
         }
     }
+
 }

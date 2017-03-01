@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WwChatHttpCore.HTTP;
 using WwChatHttpCore.Objects;
+using static HotTaoCore.GlobalConfig;
 
 namespace HotTao
 {
@@ -110,7 +111,11 @@ namespace HotTao
             isCloseWinForm = false;
             DoLogin();
         }
-
+        /// <summary>
+        /// 返回二维码页面
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="LinkLabelLinkClickedEventArgs"/> instance containing the event data.</param>
         private void linkReturn_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkReturn.Visible = false;
@@ -119,6 +124,12 @@ namespace HotTao
             loginClose = true;
             DoLogin();
         }
+
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void picClose_Click(object sender, EventArgs e)
         {
             isStartTask = false;
@@ -128,11 +139,13 @@ namespace HotTao
             this.Hide();
         }
 
-        //微信登录
+        /// <summary>
+        /// 微信登录
+        /// </summary>
         private void DoLogin()
         {
-            picQRCode.Image = null;
-            picQRCode.SizeMode = PictureBoxSizeMode.Zoom;
+            picQRCode.Image = Properties.Resources.loading;
+            picQRCode.SizeMode = PictureBoxSizeMode.CenterImage;
             lblTip.Text = "手机微信扫一扫以登录";
             lblTip.Width = 200;
             ((Action)(delegate ()
@@ -146,6 +159,7 @@ namespace HotTao
                 {
                     this.BeginInvoke((Action)delegate ()
                     {
+                        picQRCode.SizeMode = PictureBoxSizeMode.Zoom;
                         picQRCode.Image = qrcode;
                     });
                     object login_result = null;
@@ -216,52 +230,24 @@ namespace HotTao
             this.Show();
             DoLogin();
         }
-        private void wxLogin_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            historyForm.ShowStartButtonText("启动计划");
-        }
-
+        /// <summary>
+        /// 微信登录初始化及同步操作
+        /// </summary>
         public void DoMainLogic()
         {
-
             isStartTask = false;
             WXService wxs = new WXService();
             JObject init_result = wxs.WxInit();  //初始化
-            contact_all.Clear();
+
             if (init_result != null)
             {
-                _me = new WXUser();
-                _me.UserName = init_result["User"]["UserName"].ToString();
-                _me.City = "";
-                _me.HeadImgUrl = init_result["User"]["HeadImgUrl"].ToString();
-                _me.NickName = init_result["User"]["NickName"].ToString();
-                _me.Province = "";
-                _me.PYQuanPin = init_result["User"]["PYQuanPin"].ToString();
-                _me.RemarkName = init_result["User"]["RemarkName"].ToString();
-                _me.RemarkPYQuanPin = init_result["User"]["RemarkPYQuanPin"].ToString();
-                _me.Sex = init_result["User"]["Sex"].ToString();
-                _me.Signature = init_result["User"]["Signature"].ToString();
+                InitCurrentUserData(init_result);
             }
             else return;
             JObject contact_result = wxs.GetContact(); //通讯录
             if (contact_result != null)
             {
-                foreach (JObject contact in contact_result["MemberList"])  //完整好友名单
-                {
-                    WXUser user = new WXUser();
-                    user.UserName = contact["UserName"].ToString();
-                    user.City = contact["City"].ToString();
-                    user.HeadImgUrl = contact["HeadImgUrl"].ToString();
-                    user.NickName = contact["NickName"].ToString();
-                    user.Province = contact["Province"].ToString();
-                    user.PYQuanPin = contact["PYQuanPin"].ToString();
-                    user.RemarkName = contact["RemarkName"].ToString();
-                    user.RemarkPYQuanPin = contact["RemarkPYQuanPin"].ToString();
-                    user.Sex = contact["Sex"].ToString();
-                    user.Signature = contact["Signature"].ToString();
-                    user.IsOwner = Convert.ToInt32(contact["IsOwner"].ToString());
-                    contact_all.Add(user);
-                }
+                LoadMyContact(contact_result);
                 isStartTask = true;
             }
             ExcuteTask();
@@ -279,9 +265,6 @@ namespace HotTao
                 {
                     sync_result = wxs.WxSync();  //进行同步
 
-
-
-
                     //在此次进行判断自动回复或踢人操作
                     if (sync_result != null)
                     {
@@ -289,16 +272,7 @@ namespace HotTao
                         {
                             foreach (JObject m in sync_result["AddMsgList"])
                             {
-                                string from = m["FromUserName"].ToString();
-                                string to = m["ToUserName"].ToString();
-                                string content = m["Content"].ToString();
-                                string type = m["MsgType"].ToString();
-                                if (type == "10000")
-                                {
-                                    if (content.Contains("开启了朋友验证") || content.Contains("消息已发出，但被对方拒收"))
-                                    {
-                                    }
-                                }
+                                // SyncMsgHandle(wxs, m);
                             }
                         }
                     }
@@ -306,6 +280,146 @@ namespace HotTao
                 System.Threading.Thread.Sleep(10);
             }
         }
+
+
+        /// <summary>
+        /// 初始化当前用户数据
+        /// </summary>
+        /// <param name="init_result">The init_result.</param>
+        private void InitCurrentUserData(JObject init_result)
+        {
+            _me = new WXUser();
+            _me.UserName = init_result["User"]["UserName"].ToString();
+            _me.City = "";
+            _me.HeadImgUrl = init_result["User"]["HeadImgUrl"].ToString();
+            _me.NickName = init_result["User"]["NickName"].ToString();
+            _me.Province = "";
+            _me.PYQuanPin = init_result["User"]["PYQuanPin"].ToString();
+            _me.RemarkName = init_result["User"]["RemarkName"].ToString();
+            _me.RemarkPYQuanPin = init_result["User"]["RemarkPYQuanPin"].ToString();
+            _me.Sex = init_result["User"]["Sex"].ToString();
+            _me.Signature = init_result["User"]["Signature"].ToString();
+        }
+
+
+        /// <summary>
+        /// 加载我的通讯录
+        /// </summary>
+        /// <param name="contact_result">The contact_result.</param>
+        private void LoadMyContact(JObject contact_result)
+        {
+            contact_all.Clear();
+            foreach (JObject contact in contact_result["MemberList"])  //完整好友名单
+            {
+                WXUser user = new WXUser();
+                user.UserName = contact["UserName"].ToString();
+                user.City = contact["City"].ToString();
+                user.HeadImgUrl = contact["HeadImgUrl"].ToString();
+                user.NickName = contact["NickName"].ToString();
+                user.Province = contact["Province"].ToString();
+                user.PYQuanPin = contact["PYQuanPin"].ToString();
+                user.RemarkName = contact["RemarkName"].ToString();
+                user.RemarkPYQuanPin = contact["RemarkPYQuanPin"].ToString();
+                user.Sex = contact["Sex"].ToString();
+                user.Signature = contact["Signature"].ToString();
+                user.IsOwner = Convert.ToInt32(contact["IsOwner"].ToString());
+                contact_all.Add(user);
+            }
+        }
+
+
+
+
+        /// <summary>
+        /// 消息同步操作
+        /// </summary>
+        /// <param name="service">The service.</param>
+        /// <param name="m">The m.</param>
+        private void SyncMsgHandle(WXService service, JObject m)
+        {
+            if (MyUserInfo.currentUserId == 0) return;
+            //发送方
+            string from = m["FromUserName"].ToString();
+            //接收方
+            string to = m["ToUserName"].ToString();
+            string content = m["Content"].ToString();
+            int msgtype = 0;
+            int.TryParse(m["MsgType"].ToString(), out msgtype);
+            //判断发送方不是本人,且目标是群聊
+            if (_me.UserName != from && to.Contains("@@"))
+            {
+                //获取当前群信息
+                WXUser user = contact_all.Find((WXUser obj) =>
+                {
+                    return obj.UserName == to;
+                });
+                switch (msgtype)
+                {
+                    case (int)WxMsgType.文本消息:
+                        //自动回复
+                        AutoReplyChatroom(service, user, to);
+                        if (user.IsOwner == 1)
+                        {
+                            //TODO:踢人操作
+                            service.DeleteChatroom(user.UserName, from);
+                        }
+                        break;
+                    case (int)WxMsgType.图片消息:
+                    case (int)WxMsgType.分享链接:
+                    case (int)WxMsgType.共享名片:
+                        RemoveChatroom(service, user, to, from);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        /// <summary>
+        /// 自动回复群聊
+        /// </summary>
+        /// <param name="service">The service.</param>
+        /// <param name="user">The user.</param>
+        /// <param name="to">To.</param>
+        private void AutoReplyChatroom(WXService service, WXUser user, string to)
+        {
+            if (MyUserInfo.currentUserId == 0) return;
+            if (user == null) return;
+
+            //判断是否自动回复
+            if (hotForm.myConfig != null && hotForm.myConfig.enable_autoreply == 1)
+            {
+                //ConfigAutoReplyModel cfgReply = string.IsNullOrEmpty(hotForm.myConfig.auto_reply_config) ? null : JsonConvert.DeserializeObject<ConfigAutoReplyModel>(hotForm.myConfig.auto_reply_config);
+                //if (cfgReply != null && !string.IsNullOrEmpty(cfgReply.replycontent))
+                //{
+                //    //TODO:自动回复操作
+                //    var aa = cfgReply.keyworld.Split(',');
+                //    service.SendMsg(cfgReply.replycontent, _me.UserName, to, 1);
+                //}
+            }
+        }
+
+        /// <summary>
+        /// 将目标移除群聊(当前用户必须是群主)
+        /// </summary>
+        /// <param name="service">The service.</param>
+        /// <param name="to">To.</param>
+        /// <param name="from">From.</param>
+        private void RemoveChatroom(WXService service, WXUser user, string to, string from)
+        {
+            if (MyUserInfo.currentUserId == 0) return;
+            if (user == null) return;
+            if (user.IsOwner == 1)
+            {
+                //TODO:踢人操作
+                service.DeleteChatroom(to, from);
+            }
+        }
+
+
+
+
+
+
         /// <summary>
         /// 执行任务
         /// </summary>
@@ -313,13 +427,25 @@ namespace HotTao
         {
             new Thread(() =>
             {
-                //获取执行的任务
-                while (isStartTask)
+                int handleTimeout = 2000, sendGoodsTimeout = 40 * 1000;
+
+                if (hotForm.myConfig != null)
                 {
+                    ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(hotForm.myConfig.send_time_config) ? null : JsonConvert.DeserializeObject<ConfigSendTimeModel>(hotForm.myConfig.send_time_config);
+                    if (cfgTime != null)
+                    {
+                        handleTimeout = cfgTime.handleInterval * 1000;
+                        sendGoodsTimeout = cfgTime.goodsinterval * 1000;
+                    }
+                }
+                //获取执行的任务
+                while (true)
+                {
+                    if (MyUserInfo.currentUserId == 0) continue;
                     WXService wxs = new WXService();
                     //获取要执行的数据
-                    List<ReplyResponeModel> lst = isStartTask ? LogicTaskPlan.Instance.GetSoonExecuteTaskplan(hotForm.currentUserId) : null;
-                    if (lst != null)
+                    List<ReplyResponeModel> lst = isStartTask ? LogicTaskPlan.Instance.GetSoonExecuteTaskplan(MyUserInfo.currentUserId) : null;
+                    if (lst != null && lst.Count() > 0)
                     {
                         foreach (var item in lst)
                         {
@@ -332,12 +458,20 @@ namespace HotTao
                             if (user != null)
                             {
                                 //每个商品间隔5秒发送                                
-                                Send(wxs, item, user.UserName);
-                                System.Threading.Thread.Sleep(40000);
+                                Send(wxs, item, user.UserName, handleTimeout);
+
+                                //更新发送状态
+                                // LogicTaskPlan.Instance.UpdateTaskFinished(hotForm.currentUserId, item.id);
+
+                                System.Threading.Thread.Sleep(sendGoodsTimeout);
                             }
                         }
                     }
-                    System.Threading.Thread.Sleep(2000);
+                    else
+                    {
+                        //如果当前没有获取到执行任务数据，则暂停10秒重新获取
+                        System.Threading.Thread.Sleep(10000);
+                    }
                 }
             })
             { IsBackground = true }.Start();
@@ -350,21 +484,20 @@ namespace HotTao
         /// <param name="wxs">The WXS.</param>
         /// <param name="item">The item.</param>
         /// <param name="to">To.</param>
-        private void Send(WXService wxs, ReplyResponeModel item, string to)
+        /// <param name="handleTimeout">操作间隔</param>
+        private void Send(WXService wxs, ReplyResponeModel item, string to, int handleTimeout)
         {
             //发送图片给指定用户
             try
             {
                 wxs.SendImageToUserName(to, item.logo);
                 //发完图片后，间隔2秒再发文本
-                System.Threading.Thread.Sleep(2000);
+                System.Threading.Thread.Sleep(handleTimeout);
                 wxs.SendMsg(item.text, _me.UserName, to, 1);
-                //更新发送状态
-                LogicTaskPlan.Instance.UpdateTaskFinished(hotForm.currentUserId, item.id);
             }
             catch (Exception ex)
             {
-                log.Error(ex);                
+                log.Error(ex);
             }
         }
     }

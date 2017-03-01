@@ -168,30 +168,23 @@ namespace HotTao.Controls.Login
         private void loginResult(UserModel data)
         {
             string loginToken = EncryptHelper.MD5(StringHelper.CreateCheckCodeWithNum(10));
-            //更新登陆loginToken
-            if (LogicUser.Instance.RefreshLoginToken(data.userid, loginToken))
+            //设置登陆状态,必须先设置登录状态
+            this.hotForm.SetLoginData(data);            
+            //判断是否记住密码
+            if (this.ckbSavePwd.Checked || ckbAutoLogin.Checked)
             {
-                data.loginToken = loginToken;
-                //设置登陆状态,必须先设置登录状态
-                this.hotForm.SetLoginData(data);
-
-                //判断是否记住密码
-                if (this.ckbSavePwd.Checked || ckbAutoLogin.Checked)
+                if (_tempPassword != loginPwd.Text || _tempLoginName != loginName.Text)
                 {
-                    if (_tempPassword != loginPwd.Text || _tempLoginName != loginName.Text)
-                    {
-                        string pwdStr = loginName.Text + "|" + EncryptHelper.MD5(loginPwd.Text) + "|" + (ckbAutoLogin.Checked ? "1" : "0");// ;
-                        RememberPassword(pwdStr);
-                    }
+                    string pwdStr = loginName.Text + "|" + EncryptHelper.MD5(loginPwd.Text) + "|" + (ckbAutoLogin.Checked ? "1" : "0");// ;
+                    RememberPassword(pwdStr);
                 }
-                else
-                    RememberPassword("");
-                this.BeginInvoke((Action)(delegate ()  //等待结束
-                {                    
-                    loginForm.openControl(new SetTaobaoAccountPage(hotForm, loginForm));
-                }));
-               
             }
+            else
+                RememberPassword("");
+            this.BeginInvoke((Action)(delegate ()  //等待结束
+            {
+                loginForm.openControl(new SetTaobaoAccountPage(hotForm, loginForm));
+            }));
         }
 
 

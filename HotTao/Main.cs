@@ -56,12 +56,6 @@ namespace HotTao
         NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
 
 
-        [DllImport("user32.dll", EntryPoint = "GetWindowLong", CharSet = CharSet.Auto)]
-        public static extern int GetWindowLong(HandleRef hWnd, int nIndex);
-
-        [DllImport("user32.dll", EntryPoint = "SetWindowLong", CharSet = CharSet.Auto)]
-        public static extern IntPtr SetWindowLong(HandleRef hWnd, int nIndex, int dwNewLong);
-
         /// <summary>
         /// 淘宝账号
         /// </summary>
@@ -94,6 +88,13 @@ namespace HotTao
             taobaoPwd = pwd;
         }
 
+        /// <summary>
+        /// 我的配置信息
+        /// </summary>
+        /// <value>My configuration.</value>
+        public ConfigModel myConfig { get; set; }
+
+
         public Main()
         {
             InitializeComponent();
@@ -108,25 +109,58 @@ namespace HotTao
         private void Main_Load(object sender, EventArgs e)
         {
 
+            SetWinFormTaskbarSystemMenu();
+            isTaobaoLogin = false;
+            try
+            {                
+
+                CheckAutoLogin(this,user =>
+                {
+                    if (user != null)
+                    {
+                        SetLoginData(user);
+                        openControl(new GoodsControl(this));
+                    }
+                    else
+                        openControl(new LoginControl(this));
+                });
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                MessageAlert alert = new MessageAlert("系统初始化失败");
+                alert.CallBack += () =>
+                {
+                    this.Close();
+                };
+                alert.ShowDialog(this);
+
+            }
+        }
+
+        /// <summary>
+        /// 加载用户配置信息
+        /// </summary>
+        public void LoadMyConfig()
+        {
+            ((Action)(delegate ()
+            {
+                myConfig = LogicUser.Instance.GetConfigModel(MyUserInfo.currentUserId);
+
+            })).BeginInvoke(null, null);
+        }
+
+
+        /// <summary>
+        /// 无边框样式的winform窗口，需要单独设置，才能启用任务栏的系统菜单功能，
+        /// </summary>
+        private void SetWinFormTaskbarSystemMenu()
+        {
             //无标题窗体右键菜单
             int WS_SYSMENU = 0x00080000; // 系统菜单
             int WS_MINIMIZEBOX = 0x20000; // 最大最小化按钮
-            int windowLong = (GetWindowLong(new HandleRef(this, this.Handle), -16));
-            SetWindowLong(new HandleRef(this, this.Handle), -16, windowLong | WS_SYSMENU | WS_MINIMIZEBOX);
-
-            isTaobaoLogin = false;
-            CheckAutoLogin(user =>
-            {
-                if (user != null)
-                {
-                    SetLoginData(user);
-                    openControl(new GoodsControl(this));
-                }
-                else
-                    openControl(new LoginControl(this));
-            });
-
-
+            int windowLong = (WinApi.GetWindowLong(new HandleRef(this, this.Handle), -16));
+            WinApi.SetWindowLong(new HandleRef(this, this.Handle), -16, windowLong | WS_SYSMENU | WS_MINIMIZEBOX);
         }
 
         /// <summary>
@@ -137,17 +171,19 @@ namespace HotTao
         {
             try
             {
-                if (currentUserData != null)
+                if (LogicUser.Instance.getUserInfoByToken(MyUserInfo.LoginToken))
                 {
-                    var user = LogicUser.Instance.getUserInfoByToken(currentUserData.loginToken);
-                    if (user != null && user.activate == 1)
-                    {
-                        LoginSync = true;
-                        return true;
-                    }
+                    LoginSync = true;
+                    return true;
                 }
+
                 LoginSync = false;
-                openControl(new LoginControl(this));
+                this.BeginInvoke((Action)(delegate ()  //等待结束
+                {
+                    openControl(new LoginControl(this));
+                }));
+
+
                 return false;
             }
             catch (Exception)
@@ -251,20 +287,23 @@ namespace HotTao
         /// <param name="uc">The uc.</param>
         public void openControl(UserControl uc)
         {
-            HotContainer.Panel2.Controls.Clear();
-            foreach (UserControl uu in HotContainer.Panel2.Controls)
+            this.BeginInvoke((Action)(delegate ()  //等待结束
             {
-                if (uu != null)
+                HotContainer.Panel2.Controls.Clear();
+                foreach (UserControl uu in HotContainer.Panel2.Controls)
                 {
-                    if (uu.GetType() == uc.GetType())
+                    if (uu != null)
                     {
-                        return;
+                        if (uu.GetType() == uc.GetType())
+                        {
+                            return;
+                        }
                     }
                 }
-            }
-            uc.Dock = DockStyle.Fill;
-            //DisPanel();
-            this.HotContainer.Panel2.Controls.Add(uc);
+                uc.Dock = DockStyle.Fill;
+                //DisPanel();
+                this.HotContainer.Panel2.Controls.Add(uc);
+            }));
         }
 
 
@@ -294,15 +333,10 @@ namespace HotTao
             }
             btnHome.Parent.BackgroundImage = Properties.Resources.icon_bg;
         }
-
-
-
-        public static UserModel currentUserData = null;
         /// <summary>
         /// 当前登陆用户ID
         /// </summary>
-        public int currentUserId { get; set; }
-
+        //public  int currentUserId { get; set; }        
         public bool LoginSync = false;
 
         /// <summary>
@@ -311,11 +345,13 @@ namespace HotTao
         /// <param name="user"></param>
         public void SetLoginData(UserModel user)
         {
-            currentUserData = user;
+            MyUserInfo my = new MyUserInfo();
+            my.SetUserData(user);
             if (user != null)
             {
                 LoginSync = true;
-                currentUserId = user.userid;
+                MyUserInfo.currentUserId = user.userid;
+                LoadMyConfig();
                 ((Action)(delegate ()
                 {
                     while (LoginSync)
@@ -326,7 +362,7 @@ namespace HotTao
                 })).BeginInvoke(null, null);
             }
             else
-                currentUserId = 0;
+                MyUserInfo.currentUserId = 0;
         }
 
         private void pbClose_Click(object sender, EventArgs e)
@@ -353,6 +389,26 @@ namespace HotTao
                 cp.Style = cp.Style | WS_MINIMIZEBOX;   // 允许最小化操作
                 return cp;
             }
+        }
+
+        /// <summary>
+        /// 帮助
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void pbHelp_Click(object sender, EventArgs e)
+        {
+            MessageAlert alert = new MessageAlert("计划中...");
+            alert.ShowDialog(this);
+        }
+
+
+
+        public Loading LoadingShow()
+        {
+            Loading ld = new Loading();
+            ld.ShowDialog(this);
+            return ld;
         }
     }
 }

@@ -28,16 +28,35 @@ namespace HotTao.Controls
 
         }
 
-        public ChromiumWebBrowser browser;
+        public static ChromiumWebBrowser browser;
+        private static bool isSubmit = false;
+        /// <summary>
+        /// 定时器，定时去检查网页操作是否完成,如果完成，则跳转到微信群发页面
+        /// </summary>
+        private static System.Windows.Forms.Timer timer = null;
 
         private void GoodsControl_Load(object sender, EventArgs e)
         {
 
-            if (hotForm.currentUserId > 0)
-            {   
+            if (MyUserInfo.currentUserId > 0)
+            {
+                isSubmit = false;
                 new Thread(() =>
                 {
-                    string url = Application.StartupPath+ "/html/index.html";
+                    string url = ApiConst.Url + "/goods/goodListPage?token="+MyUserInfo.LoginToken;
+                    if (browser != null)
+                    {
+                        try
+                        {
+                            browser.Dispose();
+                            browser = null;
+                        }
+                        catch (Exception)
+                        {
+                            browser = null;
+                        }
+
+                    }
                     browser = new ChromiumWebBrowser(url);
                     browser.RegisterJsObject("jsGoods", new GoodsControl(hotForm), false);
                     BrowserSettings settings = new BrowserSettings()
@@ -47,14 +66,46 @@ namespace HotTao.Controls
                     };
                     browser.Dock = DockStyle.Fill;
                     SetBrowserPanel(browser);
+
                 })
                 { IsBackground = true }.Start();
 
+                if (timer != null)
+                {
+                    timer.Stop();
+                    timer = null;
+                }
+                timer = new System.Windows.Forms.Timer();
+                timer.Interval = 10;
+                timer.Tick += Timer_Tick;
+                timer.Start();
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));
 
         }
+
+
+        /// <summary>
+        /// 定时器，定时去检查网页操作是否完成,如果完成，则跳转到微信群发页面
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (isSubmit)
+            {
+                if (timer != null)
+                {
+                    timer.Stop();
+                    timer = null;
+                }
+                hotForm.SetWeChatTabSelected();
+                hotForm.openControl(new TaskControl(hotForm));
+
+            }
+        }
+
         private void SetBrowserPanel(ChromiumWebBrowser data)
         {
             if (hotPanel2.InvokeRequired)
@@ -69,28 +120,22 @@ namespace HotTao.Controls
         }
 
         /// <summary>
-        /// 
+        /// 网页通知客户端操作完成
         /// </summary>
-        public void SubmitGoodsSelected()
+        public void Finish()
         {
-            //网页调该方法
-            //window.external.SubmitGoodsSelected()
-
+            //网页调该方法            
+            isSubmit = true;
         }
 
-        private void btnSubmit_Click(object sender, EventArgs e)
+
+        /// <summary>
+        /// 获取token
+        /// </summary>
+        /// <returns>System.String.</returns>
+        public string getToken()
         {
-            ((Action)(delegate ()
-            {
-                Dictionary<string, string> data = new Dictionary<string, string>();
-                data["username"] = "guomw4";
-                data["password"] = EncryptHelper.MD5_8("123456");
-                //var content = BaseRequestService.Post<UserModel>("/huotao/register", data);
-            })).BeginInvoke(null, null);
-
-
-            hotForm.SetWeChatTabSelected();
-            hotForm.openControl(new TaskControl(hotForm));
+            return MyUserInfo.LoginToken;
         }
     }
 }

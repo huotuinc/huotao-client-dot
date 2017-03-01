@@ -57,19 +57,36 @@ namespace HotTao.Controls
 
         private Main hotForm { get; set; }
         private TaskControl hotTask { get; set; }
+
+        /// <summary>
+        /// 自动回复对象
+        /// </summary>
+        /// <value>The autoreply form.</value>
+        private UserControl hotAutoForm { get; set; }
+
+
+
         /// <summary>
         /// 窗口标题
         /// </summary>
         /// <value>The title.</value>
         public string Title { get; set; }
 
-        public AddWeChat(Main main, TaskControl task)
+        public AddWeChat(Main main, TaskControl control)
         {
             InitializeComponent();
             hotForm = main;
-            hotTask = task;
+            hotTask = control;
+            hotAutoForm = null;
         }
 
+        public AddWeChat(Main main, UserControl control)
+        {
+            InitializeComponent();
+            hotForm = main;
+            hotAutoForm = control;
+            hotTask = null;
+        }
 
         public int editId { get; set; }
 
@@ -95,21 +112,52 @@ namespace HotTao.Controls
                 return;
             }
             MessageAlert alert = new MessageAlert();
-            int flag = editId > 0 ? LogicUser.Instance.UpdateUserWeChatTitle(hotForm.currentUserId, editId, txtWeChatTitle.Text) : LogicUser.Instance.AddUserWeChat(new HotTaoCore.Models.UserWechatListModel()
+            //int flag = editId > 0 ? LogicUser.Instance.UpdateUserWeChatTitle(hotForm.currentLoginToken, editId, txtWeChatTitle.Text) : LogicUser.Instance.AddUserWeChat(new HotTaoCore.Models.UserWechatListModel()
+            //{
+            //    wechattitle = txtWeChatTitle.Text,
+            //    userid = hotForm.currentUserId
+            //});
+            Loading ld = new Loading();
+            SetAutoReplyControl replyControl = hotAutoForm as SetAutoReplyControl;
+            SetAutoRemoveChatroom autoRemoveControl = hotAutoForm as SetAutoRemoveChatroom;
+            ((Action)(delegate ()
             {
-                wechattitle = txtWeChatTitle.Text,
-                userid = hotForm.currentUserId
-            });
-            if (flag > 0)
-            {
-                alert.Message = "保存成功";
-            }
-            else
-                alert.Message = "保存失败，请检查是否重复";
+                int flag = 0;
+                if (hotTask != null)
+                    flag = LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, editId, txtWeChatTitle.Text);
+                else if (replyControl != null)
+                    flag = LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, txtWeChatTitle.Text, 0);
+                else if (autoRemoveControl != null)
+                    flag = LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, txtWeChatTitle.Text, 1);
 
-            hotTask.loadUserPidGridView();
-            alert.ShowDialog(this);
-            this.Close();
+                if (flag > 0)
+                {
+                    alert.Message = "保存成功";
+                }
+                else
+                    alert.Message = "保存失败，请检查是否重复";
+
+                ld.CloseForm();
+                this.BeginInvoke((Action)(delegate ()
+                {
+                    alert.ShowDialog(this);
+                    if (flag > 0)
+                    {
+                        if (hotTask != null)
+                            hotTask.loadUserPidGridView();
+                        else
+                        {
+                            if (replyControl != null)
+                                replyControl.LoadDgvChatRoom();
+                            else if (autoRemoveControl != null)
+                                autoRemoveControl.LoadDgvChatRoom();
+                        }
+                        this.Close();
+                    }
+                }));
+
+            })).BeginInvoke(null, null);
+            ld.ShowDialog(hotForm);
         }
 
         private void btnClose_Click(object sender, EventArgs e)

@@ -20,14 +20,9 @@ namespace HotTao.Controls
             InitializeComponent();
             hotForm = mainWin;
         }
-        /// <summary>
-        /// 我的配置
-        /// </summary>
-        /// <value>My configuration.</value>
-        private ConfigModel myConfig { get; set; }
         private void SetSendConfig_Load(object sender, EventArgs e)
         {
-            if (hotForm.currentUserId > 0)
+            if (MyUserInfo.currentUserId > 0)
             {
                 LoadConfig();
             }
@@ -41,22 +36,21 @@ namespace HotTao.Controls
         /// </summary>
         private void LoadConfig()
         {
-            myConfig = LogicUser.Instance.GetConfigModel(hotForm.currentUserId);
-            if (myConfig == null)
-                myConfig = new ConfigModel();
+            if (hotForm.myConfig == null)
+                hotForm.myConfig = new ConfigModel();
             else
             {
-                ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(myConfig.send_time_config) ? null : JsonConvert.DeserializeObject<ConfigSendTimeModel>(myConfig.send_time_config);
+                ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(hotForm.myConfig.send_time_config) ? null : JsonConvert.DeserializeObject<ConfigSendTimeModel>(hotForm.myConfig.send_time_config);
                 if (cfgTime != null)
                 {
                     txtgoodsinterval.Text = cfgTime.goodsinterval.ToString();
                     txthandleInterval.Text = cfgTime.handleInterval.ToString();
                 }
                 //排序
-                rbtSendorderbyAsc.Checked = myConfig.send_orderby == 0;
-                rbtSendorderbyDesc.Checked = myConfig.send_orderby == 1;
+                rbtSendorderbyAsc.Checked = hotForm.myConfig.send_orderby == 0;
+                rbtSendorderbyDesc.Checked = hotForm.myConfig.send_orderby == 1;
 
-                ConfigWhereModel cfgWhere = string.IsNullOrEmpty(myConfig.where_config) ? null : JsonConvert.DeserializeObject<ConfigWhereModel>(myConfig.where_config);
+                ConfigWhereModel cfgWhere = string.IsNullOrEmpty(hotForm.myConfig.where_config) ? null : JsonConvert.DeserializeObject<ConfigWhereModel>(hotForm.myConfig.where_config);
                 if (cfgWhere != null)
                 {
                     //优惠券过期天数
@@ -92,9 +86,9 @@ namespace HotTao.Controls
             int result = 0;
             decimal result2 = 0;
             MessageAlert alert = new MessageAlert();
+            hotForm.myConfig.userid = MyUserInfo.currentUserId;
 
-
-            ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(myConfig.send_time_config) ? new ConfigSendTimeModel() : JsonConvert.DeserializeObject<ConfigSendTimeModel>(myConfig.send_time_config);
+            ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(hotForm.myConfig.send_time_config) ? new ConfigSendTimeModel() : JsonConvert.DeserializeObject<ConfigSendTimeModel>(hotForm.myConfig.send_time_config);
             cfgTime = cfgTime == null ? new ConfigSendTimeModel() : cfgTime;
 
             //操作时间
@@ -104,7 +98,7 @@ namespace HotTao.Controls
             cfgTime.handleInterval = result;
 
             //过滤条件
-            ConfigWhereModel cfgWhere = string.IsNullOrEmpty(myConfig.where_config) ? new ConfigWhereModel() : JsonConvert.DeserializeObject<ConfigWhereModel>(myConfig.where_config);
+            ConfigWhereModel cfgWhere = string.IsNullOrEmpty(hotForm.myConfig.where_config) ? new ConfigWhereModel() : JsonConvert.DeserializeObject<ConfigWhereModel>(hotForm.myConfig.where_config);
             cfgWhere = cfgWhere == null ? new ConfigWhereModel() : cfgWhere;
 
             //优惠券过期
@@ -139,10 +133,10 @@ namespace HotTao.Controls
             cfgWhere.filterGoodsEnable = ckbfilterGoods.Checked ? 1 : 0;
 
 
-            myConfig.send_orderby = rbtSendorderbyAsc.Checked ? 0 : 1;
-            myConfig.send_time_config = JsonConvert.SerializeObject(cfgTime);
-            myConfig.where_config = JsonConvert.SerializeObject(cfgWhere);
-            LogicUser.Instance.AddUserConfigModel(myConfig);
+            hotForm.myConfig.send_orderby = rbtSendorderbyAsc.Checked ? 0 : 1;
+            hotForm.myConfig.send_time_config = JsonConvert.SerializeObject(cfgTime);
+            hotForm.myConfig.where_config = JsonConvert.SerializeObject(cfgWhere);
+            LogicUser.Instance.AddUserConfigModel(hotForm.myConfig);
 
             alert.Message = "保存成功";
             alert.ShowDialog(this);
@@ -159,13 +153,6 @@ namespace HotTao.Controls
             if (!Char.IsNumber(e.KeyChar) && !Char.IsControl(e.KeyChar))
             {
                 e.Handled = true;//消除不合适字符  
-            }
-            else if (Char.IsNumber(e.KeyChar))
-            {
-                int result = 0;
-                int.TryParse(t.Text, out result);
-                if (result <= 0)
-                    e.Handled = true;
             }
         }
 

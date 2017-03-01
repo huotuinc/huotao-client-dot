@@ -26,7 +26,7 @@ namespace HotTao.Controls
         }
         private void HomeControl_Load(object sender, EventArgs e)
         {
-            if (hotForm.currentUserId > 0)
+            if (MyUserInfo.currentUserId > 0)
             {
                 CurrentShowRowNumber = 1;
                 LoadGoodsGridView();
@@ -97,13 +97,12 @@ namespace HotTao.Controls
         /// </summary>
         public void loadUserPidGridView()
         {
-
             //是否自动添加属性字段
             this.dgvPid.AutoGenerateColumns = false;
             this.dgvPid.Rows.Clear();
             ((Action)(delegate ()
             {
-                var pidData = LogicUser.Instance.GetUserWeChatList(hotForm.currentUserId);
+                var pidData = LogicUser.Instance.GetUserWeChatList(MyUserInfo.LoginToken);
                 if (pidData != null)
                 {
                     this.BeginInvoke((Action)(delegate ()  //等待结束
@@ -148,7 +147,7 @@ namespace HotTao.Controls
             this.dgvTaskPlan.Rows.Clear();
             ((Action)(delegate ()
             {
-                var taskData = LogicTaskPlan.Instance.getTaskPlanList(hotForm.currentUserId);
+                var taskData = LogicTaskPlan.Instance.getTaskPlanList(MyUserInfo.currentUserId);
                 if (taskData != null)
                 {
                     this.BeginInvoke((Action)(delegate ()  //等待结束
@@ -202,7 +201,7 @@ namespace HotTao.Controls
             {
                 //是否自动添加属性字段
                 this.dgvData.AutoGenerateColumns = false;
-                var data = LogicGoods.Instance.getGoodsList(CurrentShowRowNumber, PageRowCount);
+                var data = LogicGoods.Instance.getGoodsList(MyUserInfo.LoginToken);
                 if (data != null)
                 {
                     SetGoodsGridViewData(dgvData, data);
@@ -267,16 +266,16 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="ScrollEventArgs"/> instance containing the event data.</param>
         private void dgvData_Scroll(object sender, ScrollEventArgs e)
         {
-            if (e.OldValue < e.NewValue && dgvData.RowCount < e.NewValue + 16)
-            {
-                CurrentShowRowNumber++;
-                var goodsData = LogicGoods.Instance.getGoodsList(CurrentShowRowNumber, PageRowCount);
-                if (goodsData != null)
-                {
-                    //data.AddRange(goodsData);
-                    SetGoodsGridViewData(dgvData, goodsData);
-                }
-            }
+            //if (e.OldValue < e.NewValue && dgvData.RowCount < e.NewValue + 16)
+            //{
+            //    CurrentShowRowNumber++;
+            //    var goodsData = LogicGoods.Instance.getGoodsList(CurrentShowRowNumber, PageRowCount);
+            //    if (goodsData != null)
+            //    {
+            //        //data.AddRange(goodsData);
+            //        SetGoodsGridViewData(dgvData, goodsData);
+            //    }
+            //}
         }
 
         /// <summary>
@@ -341,7 +340,7 @@ namespace HotTao.Controls
                     MessageConfirm confirm = new MessageConfirm("您确认要删除计划【" + taskid + "】吗？");
                     confirm.CallBack += () =>
                     {
-                        if (LogicTaskPlan.Instance.deleteTaskPlan(hotForm.currentUserId, taskid))
+                        if (LogicTaskPlan.Instance.deleteTaskPlan(MyUserInfo.currentUserId, taskid))
                         {
                             dgvTaskPlan.Rows.Remove(row);
                             //LoadTaskPlanGridView();
@@ -422,7 +421,7 @@ namespace HotTao.Controls
                 confirm.Message = "您确定要删除勾选的微信群吗";
                 confirm.CallBack += () =>
                 {
-                    if (LogicUser.Instance.DeleteUserWeChat(hotForm.currentUserId, pidList))
+                    if (LogicUser.Instance.DeleteUserWeChat(MyUserInfo.currentUserId, pidList))
                     {
                         loadUserPidGridView();
                     }
@@ -431,7 +430,7 @@ namespace HotTao.Controls
             }
             else
             {
-                DataGridViewRow row = this.dgvPid.CurrentRow;
+                DataGridViewRow row = this.dgvPid.Rows[MouseCurrentRowIndex];
                 if (row != null)
                 {
                     int result = 0;
@@ -441,7 +440,7 @@ namespace HotTao.Controls
                     confirm.CallBack += () =>
                     {
                         pidList.Add(result);
-                        if (LogicUser.Instance.DeleteUserWeChat(hotForm.currentUserId, pidList))
+                        if (LogicUser.Instance.DeleteUserWeChat(MyUserInfo.currentUserId, pidList))
                         {
                             this.dgvPid.Rows.Remove(row);
                         }
@@ -545,29 +544,20 @@ namespace HotTao.Controls
             var wins = WinApi.GetAllDesktopWindows();
             if (wins != null && wins.Count() > 0)
             {
-                List<UserWechatListModel> testData = new List<UserWechatListModel>();
-                int itemid = dgvPid.Rows.Count + 1;
-                foreach (var win in wins)
+                Loading ld = new Loading();
+                ((Action)(delegate ()
                 {
-                    int flag = LogicUser.Instance.AddUserWeChat(new UserWechatListModel()
+                    foreach (var win in wins)
                     {
-                        wechattitle = win.szWindowName,
-                        userid = hotForm.currentUserId
-                    });
-                    if (flag > 0)
-                    {
-                        testData.Add(new UserWechatListModel()
+                        LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, 0, win.szWindowName);
+                        this.BeginInvoke((Action)(delegate ()
                         {
-                            id = flag,
-                            wechattitle = win.szWindowName,
-                            userid = hotForm.currentUserId,
-                            pid = "",
-                            pidid = 0
-                        });
+                            ld.CloseForm();
+                            ShowAlert("采集完成");
+                        }));
                     }
-                }
-                SetPidView(testData);
-                ShowAlert("采集完成");
+                })).BeginInvoke(null, null);
+                ld.ShowDialog(hotForm);
             }
             else
             {
@@ -582,7 +572,7 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnAddGoods_Click(object sender, EventArgs e)
         {
-            
+            hotForm.openControl(new GoodsControl(hotForm));
         }
 
 
@@ -593,6 +583,11 @@ namespace HotTao.Controls
             alert.ShowDialog(this);
         }
 
+        /// <summary>
+        /// 修改微信群
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dgvPid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewCell cell = this.dgvPid.CurrentRow.Cells["editwechat"];

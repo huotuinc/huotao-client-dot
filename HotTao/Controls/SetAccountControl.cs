@@ -73,6 +73,7 @@ namespace HotTao.Controls
             try
             {
                 string pwdStr = string.Empty;
+                bool isUpdate = false;
                 //判断是否记住密码
                 if (this.ckbSavePwd.Checked || ckbAutoLogin.Checked)
                 {
@@ -80,7 +81,8 @@ namespace HotTao.Controls
                     {
                         if (_tempPassword != loginPwd.Text || _tempLoginName != loginName.Text)
                         {
-                            pwdStr = loginName.Text + "|" + EncryptHelper.MD5(loginPwd.Text) + "|" + (ckbAutoLogin.Checked ? "1" : "0");// ;                            
+                            pwdStr = loginName.Text + "|" + EncryptHelper.MD5(loginPwd.Text) + "|" + (ckbAutoLogin.Checked ? "1" : "0");// ;       
+                            isUpdate = true;
                         }
                         else
                         {
@@ -89,10 +91,10 @@ namespace HotTao.Controls
                     }
                 }
                 RememberPassword(pwdStr);
-
-                hotForm.SetLoginData(null);
-
+                if (isUpdate)
+                    hotForm.SetLoginData(null);
                 hotForm.SetTaobaoAccount(txtTaobaoNo.Text, txtTaobaoPwd.Text);
+                ShowAlert("保存成功");
             }
             catch (Exception ex)
             {
@@ -175,6 +177,9 @@ namespace HotTao.Controls
 
             hotForm.SetTaobaoAccount(txtTaobaoNo.Text, txtTaobaoPwd.Text);
             hotForm.isTaobaoLogin = true;
+
+            tbLogin tb = new tbLogin(hotForm);
+            tb.Show(this);
 
         }
 

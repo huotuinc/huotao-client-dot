@@ -1,16 +1,16 @@
 ﻿namespace HotTao.Controls
 {
-    partial class TaskEdit
+    partial class AddKeywordControl
     {
-        /// <summary>
-        /// Required designer variable.
+        /// <summary> 
+        /// 必需的设计器变量。
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
+        /// <summary> 
+        /// 清理所有正在使用的资源。
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,50 +20,77 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region 组件设计器生成的代码
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        /// <summary> 
+        /// 设计器支持所需的方法 - 不要修改
+        /// 使用代码编辑器修改此方法的内容。
         /// </summary>
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TaskEdit));
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
+            this.ckbAutoGoods = new System.Windows.Forms.RadioButton();
+            this.ckbAutoText = new System.Windows.Forms.RadioButton();
             this.bgPanel = new System.Windows.Forms.Panel();
             this.lbTitle = new System.Windows.Forms.Label();
             this.pbClose = new System.Windows.Forms.PictureBox();
+            this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.txtReplyContent = new System.Windows.Forms.RichTextBox();
             this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.txtTaskTitle = new System.Windows.Forms.TextBox();
+            this.txtKeyword = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtEndTime = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtStartTime = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             this.hotPanel1.SuspendLayout();
             this.bgPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
+            this.hotGroupBox1.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // hotPanel1
             // 
+            this.hotPanel1.BackColor = System.Drawing.Color.White;
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Controls.Add(this.ckbAutoGoods);
+            this.hotPanel1.Controls.Add(this.ckbAutoText);
             this.hotPanel1.Controls.Add(this.bgPanel);
+            this.hotPanel1.Controls.Add(this.hotGroupBox1);
             this.hotPanel1.Controls.Add(this.hotGroupBox2);
             this.hotPanel1.Controls.Add(this.btnSave);
             this.hotPanel1.Controls.Add(this.label1);
-            this.hotPanel1.Controls.Add(this.txtEndTime);
             this.hotPanel1.Controls.Add(this.label3);
-            this.hotPanel1.Controls.Add(this.txtStartTime);
             this.hotPanel1.Controls.Add(this.label2);
             this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.hotPanel1.Location = new System.Drawing.Point(0, 0);
             this.hotPanel1.Name = "hotPanel1";
             this.hotPanel1.Size = new System.Drawing.Size(520, 274);
-            this.hotPanel1.TabIndex = 7;
+            this.hotPanel1.TabIndex = 8;
+            // 
+            // ckbAutoGoods
+            // 
+            this.ckbAutoGoods.AutoSize = true;
+            this.ckbAutoGoods.Location = new System.Drawing.Point(258, 96);
+            this.ckbAutoGoods.Name = "ckbAutoGoods";
+            this.ckbAutoGoods.Size = new System.Drawing.Size(83, 16);
+            this.ckbAutoGoods.TabIndex = 15;
+            this.ckbAutoGoods.TabStop = true;
+            this.ckbAutoGoods.Text = "自定义商品";
+            this.ckbAutoGoods.UseVisualStyleBackColor = true;
+            // 
+            // ckbAutoText
+            // 
+            this.ckbAutoText.AutoSize = true;
+            this.ckbAutoText.Checked = true;
+            this.ckbAutoText.Location = new System.Drawing.Point(161, 96);
+            this.ckbAutoText.Name = "ckbAutoText";
+            this.ckbAutoText.Size = new System.Drawing.Size(83, 16);
+            this.ckbAutoText.TabIndex = 15;
+            this.ckbAutoText.TabStop = true;
+            this.ckbAutoText.Text = "自定义文本";
+            this.ckbAutoText.UseVisualStyleBackColor = true;
             // 
             // bgPanel
             // 
@@ -93,33 +120,56 @@
             // 
             this.pbClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbClose.Image = global::HotTao.Properties.Resources.icon_close;
-            this.pbClose.Location = new System.Drawing.Point(494, 6);
+            this.pbClose.Location = new System.Drawing.Point(494, 4);
             this.pbClose.Name = "pbClose";
-            this.pbClose.Size = new System.Drawing.Size(13, 13);
+            this.pbClose.Size = new System.Drawing.Size(20, 20);
+            this.pbClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pbClose.TabIndex = 5;
             this.pbClose.TabStop = false;
-            this.pbClose.Click += new System.EventHandler(this.btnClose_Click);
+            this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
+            // 
+            // hotGroupBox1
+            // 
+            this.hotGroupBox1.BackColor = System.Drawing.Color.White;
+            this.hotGroupBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox1.Controls.Add(this.txtReplyContent);
+            this.hotGroupBox1.Location = new System.Drawing.Point(162, 128);
+            this.hotGroupBox1.Name = "hotGroupBox1";
+            this.hotGroupBox1.Size = new System.Drawing.Size(283, 65);
+            this.hotGroupBox1.TabIndex = 13;
+            this.hotGroupBox1.TabStop = false;
+            // 
+            // txtReplyContent
+            // 
+            this.txtReplyContent.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtReplyContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtReplyContent.Location = new System.Drawing.Point(3, 17);
+            this.txtReplyContent.Name = "txtReplyContent";
+            this.txtReplyContent.Size = new System.Drawing.Size(277, 45);
+            this.txtReplyContent.TabIndex = 0;
+            this.txtReplyContent.Text = "";
             // 
             // hotGroupBox2
             // 
             this.hotGroupBox2.BackColor = System.Drawing.Color.White;
             this.hotGroupBox2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox2.Controls.Add(this.txtTaskTitle);
+            this.hotGroupBox2.Controls.Add(this.txtKeyword);
             this.hotGroupBox2.Location = new System.Drawing.Point(161, 41);
             this.hotGroupBox2.Name = "hotGroupBox2";
-            this.hotGroupBox2.Size = new System.Drawing.Size(283, 35);
+            this.hotGroupBox2.Size = new System.Drawing.Size(167, 35);
             this.hotGroupBox2.TabIndex = 13;
             this.hotGroupBox2.TabStop = false;
             // 
-            // txtTaskTitle
+            // txtKeyword
             // 
-            this.txtTaskTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtTaskTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.txtTaskTitle.Location = new System.Drawing.Point(6, 15);
-            this.txtTaskTitle.Name = "txtTaskTitle";
-            this.txtTaskTitle.Size = new System.Drawing.Size(271, 14);
-            this.txtTaskTitle.TabIndex = 7;
+            this.txtKeyword.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtKeyword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.txtKeyword.Location = new System.Drawing.Point(6, 15);
+            this.txtKeyword.Name = "txtKeyword";
+            this.txtKeyword.Size = new System.Drawing.Size(155, 14);
+            this.txtKeyword.TabIndex = 7;
             // 
             // btnSave
             // 
@@ -129,7 +179,7 @@
             this.btnSave.FlatAppearance.BorderSize = 0;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(189, 201);
+            this.btnSave.Location = new System.Drawing.Point(178, 216);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(163, 32);
             this.btnSave.TabIndex = 5;
@@ -146,61 +196,40 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "任务标题：";
             // 
-            // txtEndTime
-            // 
-            this.txtEndTime.CustomFormat = "yyyy-MM-dd HH:mm:ss";
-            this.txtEndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.txtEndTime.Location = new System.Drawing.Point(161, 153);
-            this.txtEndTime.Name = "txtEndTime";
-            this.txtEndTime.Size = new System.Drawing.Size(283, 21);
-            this.txtEndTime.TabIndex = 2;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(83, 156);
+            this.label3.Location = new System.Drawing.Point(83, 144);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 12);
             this.label3.TabIndex = 0;
-            this.label3.Text = "截止时间：";
-            // 
-            // txtStartTime
-            // 
-            this.txtStartTime.CustomFormat = "yyyy-MM-dd HH:mm:ss";
-            this.txtStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.txtStartTime.Location = new System.Drawing.Point(161, 101);
-            this.txtStartTime.Name = "txtStartTime";
-            this.txtStartTime.Size = new System.Drawing.Size(283, 21);
-            this.txtStartTime.TabIndex = 2;
+            this.label3.Text = "回复内容：";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(83, 105);
+            this.label2.Location = new System.Drawing.Point(83, 100);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 12);
             this.label2.TabIndex = 0;
             this.label2.Text = "开始时间：";
             // 
-            // TaskEdit
+            // AddKeywordControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(520, 274);
             this.Controls.Add(this.hotPanel1);
-            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(149)))), ((int)(((byte)(149)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "TaskEdit";
+            this.Name = "AddKeywordControl";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "编辑任务";
-            this.Load += new System.EventHandler(this.TaskEdit_Load);
+            this.Load += new System.EventHandler(this.AddKeywordControl_Load);
             this.hotPanel1.ResumeLayout(false);
             this.hotPanel1.PerformLayout();
             this.bgPanel.ResumeLayout(false);
             this.bgPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
+            this.hotGroupBox1.ResumeLayout(false);
             this.hotGroupBox2.ResumeLayout(false);
             this.hotGroupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -209,17 +238,19 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DateTimePicker txtStartTime;
-        private System.Windows.Forms.DateTimePicker txtEndTime;
-        private System.Windows.Forms.Button btnSave;
         private module.HotPanel hotPanel1;
         private System.Windows.Forms.Panel bgPanel;
         private System.Windows.Forms.Label lbTitle;
         private System.Windows.Forms.PictureBox pbClose;
         private module.HotGroupBox hotGroupBox2;
-        private System.Windows.Forms.TextBox txtTaskTitle;
+        private System.Windows.Forms.TextBox txtKeyword;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private module.HotGroupBox hotGroupBox1;
+        private System.Windows.Forms.RichTextBox txtReplyContent;
+        private System.Windows.Forms.RadioButton ckbAutoGoods;
+        private System.Windows.Forms.RadioButton ckbAutoText;
     }
 }

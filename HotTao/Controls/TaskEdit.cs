@@ -147,7 +147,7 @@ namespace HotTao.Controls
             string pidsText = JsonConvert.SerializeObject(hotPidsText);
             TaskPlanModel model = new TaskPlanModel()
             {
-                userid = hotForm.currentUserId,
+                userid = MyUserInfo.currentUserId,
                 title = txtTaskTitle.Text,
                 startTime = Convert.ToDateTime(txtStartTime.Text),
                 endTime = Convert.ToDateTime(txtEndTime.Text),
@@ -167,7 +167,7 @@ namespace HotTao.Controls
                     {
                         LogicTaskPlan.Instance.addTaskGoodsPidLog(new TaskGoodsPidLogModel()
                         {
-                            userid = hotForm.currentUserId,
+                            userid = MyUserInfo.currentUserId,
                             taskid = taskid,
                             goodsid = goods.id,
                             pid = pids.id,

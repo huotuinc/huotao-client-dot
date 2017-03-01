@@ -328,11 +328,11 @@ namespace HotTaoCore.DAL
             string strSql = @"
                             if not exists (select userid from user_set_config where userid=@userid)
                             begin
-                                insert into user_set_config(userid,where_config,send_orderby,send_time_config,enable_autoreply,auto_reply_config) values(@userid,@where_config,@send_orderby,@send_time_config,@enable_autoreply,@auto_reply_config)
+                                insert into user_set_config(userid,where_config,send_orderby,send_time_config,enable_autoreply,enable_autoremove) values(@userid,@where_config,@send_orderby,@send_time_config,@enable_autoreply,@enable_autoremove)
                             end
                             else
                             begin
-                                update user_set_config set where_config=@where_config,send_orderby=@send_orderby,send_time_config=@send_time_config,enable_autoreply=@enable_autoreply,auto_reply_config=@auto_reply_config where  userid=@userid
+                                update user_set_config set where_config=@where_config,send_orderby=@send_orderby,send_time_config=@send_time_config,enable_autoreply=@enable_autoreply,enable_autoremove=@enable_autoremove where  userid=@userid
                             end
                             ";
 
@@ -343,7 +343,7 @@ namespace HotTaoCore.DAL
                 new SqlParameter("@send_orderby",model.send_orderby),
                 new SqlParameter("@send_time_config",model.send_time_config),
                 new SqlParameter("@enable_autoreply",model.enable_autoreply),
-                new SqlParameter("@auto_reply_config",model.auto_reply_config)
+                new SqlParameter("@enable_autoremove",model.enable_autoremove)
             };
             return DbHelperSQL.ExecuteNonQuery(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param);
         }
@@ -367,6 +367,34 @@ namespace HotTaoCore.DAL
             }
 
         }
+
+
+        /// <summary>
+        /// 获取微信群聊列表
+        /// </summary>
+        /// <returns>List&lt;UserWechatListModel&gt;.</returns>
+        public List<WxAutoReplyModel> GetUserReplyWeChatList()
+        {
+            string strSql = @"select id,userid,handleType,wechattitle,createtime from user_auto_chatroom";
+            using (SqlDataReader dr = DbHelperSQL.ExecuteReader(GlobalConfig.getConnectionString(), CommandType.Text, strSql))
+            {
+                return DbHelperSQL.GetEntityList<WxAutoReplyModel>(dr);
+            }
+        }
+
+        /// <summary>
+        /// 获取用户关键字回复列表
+        /// </summary>
+        /// <returns>List&lt;WxAutoReplyKeywordModel&gt;.</returns>
+        public List<WxAutoReplyKeywordModel> GetUserReplyKeywordList()
+        {
+            string strSql = @"select id,userid,replyKeyword,replyType,replyContent,replyGoodsId from user_auto_reply_keyword";
+            using (SqlDataReader dr = DbHelperSQL.ExecuteReader(GlobalConfig.getConnectionString(), CommandType.Text, strSql))
+            {
+                return DbHelperSQL.GetEntityList<WxAutoReplyKeywordModel>(dr);
+            }
+        }
+
 
     }
 }

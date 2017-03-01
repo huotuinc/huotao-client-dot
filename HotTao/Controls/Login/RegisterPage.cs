@@ -104,12 +104,17 @@ namespace HotTao.Controls.Login
                 string lgname = loginName.Text;
                 string pwd = EncryptHelper.MD5(loginPwd.Text);
                 string verifyCode = txtVerifyCode.Text;
+               // bool loginSuccess = true;
                 ((Action)(delegate ()
                 {
                     var data = LogicUser.Instance.Register(lgname, pwd, verifyCode);
                     if (data != null)
                     {
-                        loginForm.openControl(new LoginPage(hotForm, loginForm));
+                        this.BeginInvoke((Action)(delegate ()  //等待结束
+                        {
+                            loginForm.openControl(new LoginPage(hotForm, loginForm));
+                        }));
+                       
                     }
                     else
                     {

@@ -108,7 +108,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(330, 157);
+            this.label15.Location = new System.Drawing.Point(333, 155);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(65, 12);
             this.label15.TabIndex = 38;
@@ -152,24 +152,24 @@
             // 
             // txtmaxGoodsPrice
             // 
-            this.txtmaxGoodsPrice.Location = new System.Drawing.Point(269, 153);
+            this.txtmaxGoodsPrice.Location = new System.Drawing.Point(193, 150);
             this.txtmaxGoodsPrice.Name = "txtmaxGoodsPrice";
             this.txtmaxGoodsPrice.Size = new System.Drawing.Size(55, 21);
-            this.txtmaxGoodsPrice.TabIndex = 37;
+            this.txtmaxGoodsPrice.TabIndex = 14;
             this.txtmaxGoodsPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxFloat_KeyPress);
             // 
             // txtminGoodsPrice
             // 
-            this.txtminGoodsPrice.Location = new System.Drawing.Point(193, 152);
+            this.txtminGoodsPrice.Location = new System.Drawing.Point(281, 151);
             this.txtminGoodsPrice.Name = "txtminGoodsPrice";
             this.txtminGoodsPrice.Size = new System.Drawing.Size(43, 21);
-            this.txtminGoodsPrice.TabIndex = 37;
+            this.txtminGoodsPrice.TabIndex = 15;
             this.txtminGoodsPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxFloat_KeyPress);
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(242, 157);
+            this.label16.Location = new System.Drawing.Point(166, 154);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(29, 12);
             this.label16.TabIndex = 36;
@@ -178,7 +178,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(166, 156);
+            this.label14.Location = new System.Drawing.Point(254, 156);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(29, 12);
             this.label14.TabIndex = 36;
@@ -189,7 +189,7 @@
             this.txtminCmsRateAmount.Location = new System.Drawing.Point(193, 124);
             this.txtminCmsRateAmount.Name = "txtminCmsRateAmount";
             this.txtminCmsRateAmount.Size = new System.Drawing.Size(43, 21);
-            this.txtminCmsRateAmount.TabIndex = 37;
+            this.txtminCmsRateAmount.TabIndex = 12;
             this.txtminCmsRateAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxFloat_KeyPress);
             // 
             // label12
@@ -206,7 +206,7 @@
             this.txtminMonthSalesAmount.Location = new System.Drawing.Point(193, 95);
             this.txtminMonthSalesAmount.Name = "txtminMonthSalesAmount";
             this.txtminMonthSalesAmount.Size = new System.Drawing.Size(43, 21);
-            this.txtminMonthSalesAmount.TabIndex = 37;
+            this.txtminMonthSalesAmount.TabIndex = 10;
             this.txtminMonthSalesAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
             // 
             // txtminCouponDateDayCount
@@ -214,7 +214,7 @@
             this.txtminCouponDateDayCount.Location = new System.Drawing.Point(193, 38);
             this.txtminCouponDateDayCount.Name = "txtminCouponDateDayCount";
             this.txtminCouponDateDayCount.Size = new System.Drawing.Size(43, 21);
-            this.txtminCouponDateDayCount.TabIndex = 37;
+            this.txtminCouponDateDayCount.TabIndex = 6;
             this.txtminCouponDateDayCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
             // 
             // label10
@@ -240,7 +240,7 @@
             this.txtminCouponAmount.Location = new System.Drawing.Point(193, 66);
             this.txtminCouponAmount.Name = "txtminCouponAmount";
             this.txtminCouponAmount.Size = new System.Drawing.Size(43, 21);
-            this.txtminCouponAmount.TabIndex = 37;
+            this.txtminCouponAmount.TabIndex = 8;
             this.txtminCouponAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
             // 
             // label7
@@ -258,7 +258,7 @@
             this.ckbfilterGoods.Location = new System.Drawing.Point(56, 183);
             this.ckbfilterGoods.Name = "ckbfilterGoods";
             this.ckbfilterGoods.Size = new System.Drawing.Size(120, 16);
-            this.ckbfilterGoods.TabIndex = 35;
+            this.ckbfilterGoods.TabIndex = 16;
             this.ckbfilterGoods.Text = "过滤今日重复商品";
             this.ckbfilterGoods.UseVisualStyleBackColor = true;
             // 
@@ -268,7 +268,7 @@
             this.ckbGoodsPrice.Location = new System.Drawing.Point(56, 156);
             this.ckbGoodsPrice.Name = "ckbGoodsPrice";
             this.ckbGoodsPrice.Size = new System.Drawing.Size(72, 16);
-            this.ckbGoodsPrice.TabIndex = 35;
+            this.ckbGoodsPrice.TabIndex = 13;
             this.ckbGoodsPrice.Text = "商品价格";
             this.ckbGoodsPrice.UseVisualStyleBackColor = true;
             // 
@@ -278,7 +278,7 @@
             this.ckbCmsRate.Location = new System.Drawing.Point(56, 127);
             this.ckbCmsRate.Name = "ckbCmsRate";
             this.ckbCmsRate.Size = new System.Drawing.Size(72, 16);
-            this.ckbCmsRate.TabIndex = 35;
+            this.ckbCmsRate.TabIndex = 11;
             this.ckbCmsRate.Text = "佣金比率";
             this.ckbCmsRate.UseVisualStyleBackColor = true;
             // 
@@ -288,7 +288,7 @@
             this.ckbminCouponDayCount.Location = new System.Drawing.Point(56, 40);
             this.ckbminCouponDayCount.Name = "ckbminCouponDayCount";
             this.ckbminCouponDayCount.Size = new System.Drawing.Size(108, 16);
-            this.ckbminCouponDayCount.TabIndex = 35;
+            this.ckbminCouponDayCount.TabIndex = 5;
             this.ckbminCouponDayCount.Text = "优惠券过期天数";
             this.ckbminCouponDayCount.UseVisualStyleBackColor = true;
             // 
@@ -298,7 +298,7 @@
             this.ckbMonthSales.Location = new System.Drawing.Point(56, 97);
             this.ckbMonthSales.Name = "ckbMonthSales";
             this.ckbMonthSales.Size = new System.Drawing.Size(60, 16);
-            this.ckbMonthSales.TabIndex = 35;
+            this.ckbMonthSales.TabIndex = 9;
             this.ckbMonthSales.Text = "月销量";
             this.ckbMonthSales.UseVisualStyleBackColor = true;
             // 
@@ -308,7 +308,7 @@
             this.ckbCoupon.Location = new System.Drawing.Point(56, 68);
             this.ckbCoupon.Name = "ckbCoupon";
             this.ckbCoupon.Size = new System.Drawing.Size(60, 16);
-            this.ckbCoupon.TabIndex = 35;
+            this.ckbCoupon.TabIndex = 7;
             this.ckbCoupon.Text = "优惠券";
             this.ckbCoupon.UseVisualStyleBackColor = true;
             // 
@@ -344,7 +344,7 @@
             this.rbtSendorderbyAsc.Location = new System.Drawing.Point(56, 39);
             this.rbtSendorderbyAsc.Name = "rbtSendorderbyAsc";
             this.rbtSendorderbyAsc.Size = new System.Drawing.Size(47, 16);
-            this.rbtSendorderbyAsc.TabIndex = 35;
+            this.rbtSendorderbyAsc.TabIndex = 3;
             this.rbtSendorderbyAsc.TabStop = true;
             this.rbtSendorderbyAsc.Text = "正序";
             this.rbtSendorderbyAsc.UseVisualStyleBackColor = true;
@@ -355,7 +355,7 @@
             this.rbtSendorderbyDesc.Location = new System.Drawing.Point(156, 39);
             this.rbtSendorderbyDesc.Name = "rbtSendorderbyDesc";
             this.rbtSendorderbyDesc.Size = new System.Drawing.Size(47, 16);
-            this.rbtSendorderbyDesc.TabIndex = 35;
+            this.rbtSendorderbyDesc.TabIndex = 4;
             this.rbtSendorderbyDesc.Text = "倒序";
             this.rbtSendorderbyDesc.UseVisualStyleBackColor = true;
             // 
@@ -394,9 +394,9 @@
             this.label4.Location = new System.Drawing.Point(180, 56);
             this.label4.Margin = new System.Windows.Forms.Padding(0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(47, 12);
+            this.label4.Size = new System.Drawing.Size(53, 12);
             this.label4.TabIndex = 37;
-            this.label4.Text = "默认5秒";
+            this.label4.Text = "默认40秒";
             // 
             // label2
             // 
@@ -413,8 +413,8 @@
             this.txtgoodsinterval.Location = new System.Drawing.Point(113, 51);
             this.txtgoodsinterval.Name = "txtgoodsinterval";
             this.txtgoodsinterval.Size = new System.Drawing.Size(60, 21);
-            this.txtgoodsinterval.TabIndex = 36;
-            this.txtgoodsinterval.Text = "5";
+            this.txtgoodsinterval.TabIndex = 2;
+            this.txtgoodsinterval.Text = "40";
             this.txtgoodsinterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
             // 
             // txthandleInterval
@@ -422,7 +422,7 @@
             this.txthandleInterval.Location = new System.Drawing.Point(113, 24);
             this.txthandleInterval.Name = "txthandleInterval";
             this.txthandleInterval.Size = new System.Drawing.Size(60, 21);
-            this.txthandleInterval.TabIndex = 36;
+            this.txthandleInterval.TabIndex = 1;
             this.txthandleInterval.Text = "2";
             this.txthandleInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
             // 

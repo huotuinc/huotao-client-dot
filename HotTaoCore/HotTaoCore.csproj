@@ -76,6 +76,7 @@
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserPidModel.cs" />
     <Compile Include="Models\WxAuthConfigModel.cs" />
+    <Compile Include="Models\WxAutoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

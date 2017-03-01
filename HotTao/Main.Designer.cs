@@ -40,7 +40,7 @@
             this.btnCustomService = new System.Windows.Forms.PictureBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.pbHelp = new System.Windows.Forms.PictureBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.btnSetting = new System.Windows.Forms.PictureBox();
@@ -65,7 +65,7 @@
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnCustomService)).BeginInit();
             this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnSetting)).BeginInit();
             this.panel3.SuspendLayout();
@@ -195,12 +195,13 @@
             // 
             this.panel5.BackColor = System.Drawing.Color.Transparent;
             this.panel5.Controls.Add(this.label5);
-            this.panel5.Controls.Add(this.pictureBox5);
+            this.panel5.Controls.Add(this.pbHelp);
             this.panel5.Cursor = System.Windows.Forms.Cursors.Hand;
             this.panel5.Location = new System.Drawing.Point(524, 0);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(83, 113);
             this.panel5.TabIndex = 1;
+            this.panel5.Click += new System.EventHandler(this.pbHelp_Click);
             // 
             // label5
             // 
@@ -212,17 +213,19 @@
             this.label5.Size = new System.Drawing.Size(29, 12);
             this.label5.TabIndex = 1;
             this.label5.Text = "帮助";
+            this.label5.Click += new System.EventHandler(this.pbHelp_Click);
             // 
-            // pictureBox5
+            // pbHelp
             // 
-            this.pictureBox5.Image = global::HotTao.Properties.Resources.icon_05;
-            this.pictureBox5.Location = new System.Drawing.Point(16, 25);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox5.TabIndex = 0;
-            this.pictureBox5.TabStop = false;
-            this.toolTipText.SetToolTip(this.pictureBox5, "帮助");
+            this.pbHelp.Image = global::HotTao.Properties.Resources.icon_05;
+            this.pbHelp.Location = new System.Drawing.Point(16, 25);
+            this.pbHelp.Name = "pbHelp";
+            this.pbHelp.Size = new System.Drawing.Size(50, 50);
+            this.pbHelp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbHelp.TabIndex = 0;
+            this.pbHelp.TabStop = false;
+            this.toolTipText.SetToolTip(this.pbHelp, "帮助");
+            this.pbHelp.Click += new System.EventHandler(this.pbHelp_Click);
             // 
             // panel4
             // 
@@ -406,7 +409,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnCustomService)).EndInit();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnSetting)).EndInit();
@@ -427,7 +430,7 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer HotContainer;
-        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.PictureBox pbHelp;
         private System.Windows.Forms.PictureBox btnHistory;
         private System.Windows.Forms.PictureBox btnSetting;
         private System.Windows.Forms.PictureBox btnWeChat;

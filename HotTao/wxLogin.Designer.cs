@@ -129,7 +129,6 @@
             this.Name = "wxLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "微信登录";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.wxLogin_FormClosing);
             this.Load += new System.EventHandler(this.wxLogin_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picQRCode)).EndInit();

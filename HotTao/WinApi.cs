@@ -28,6 +28,14 @@ namespace HotTao
         public string szWindowName;
         public string szClassName;
     }
+
+    public struct My_lParam
+    {
+
+        public int i;
+        public string s;
+    }
+
     public class WinApi
     {
         /// <summary>
@@ -83,6 +91,9 @@ namespace HotTao
 
 
         //此处用于向窗口发送消息
+        [DllImport("user32.dll", EntryPoint = "SendMessage")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, ref My_lParam lParam);
+
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
@@ -95,6 +106,15 @@ namespace HotTao
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
+
+
+        [DllImport("user32.dll", EntryPoint = "GetWindowLong", CharSet = CharSet.Auto)]
+        public static extern int GetWindowLong(HandleRef hWnd, int nIndex);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLong", CharSet = CharSet.Auto)]
+        public static extern IntPtr SetWindowLong(HandleRef hWnd, int nIndex, int dwNewLong);
+
+
 
         /// <summary>
         /// 将枚举作为位域处理
@@ -289,13 +309,13 @@ namespace HotTao
 
 
         /// <summary>
-        　/// 发送一个字符串
-        　/// </summary>
-        　/// <param name="myIntPtr">窗口句柄</param>
-        　/// <param name="Input">字符串</param>
+        /// 发送一个字符串
+        /// </summary>
+        /// <param name="myIntPtr">窗口句柄</param>
+        /// <param name="Input">字符串</param>
         public static void InputStr(IntPtr myIntPtr, string Input)
         {
-            byte[] ch = (Encoding.ASCII.GetBytes(Input));
+            byte[] ch = (Encoding.UTF8.GetBytes(Input));
             for (int i = 0; i < ch.Length; i++)
             {
                 SendMessage(myIntPtr, WM_CHAR, ch[i], 0);
@@ -340,7 +360,7 @@ namespace HotTao
                     GetWindowText(hWin, sb, sb.Capacity);
                     wnd.szWindowName = sb.ToString();
 
-                    if (!wndList.Exists(item=> { return item.szWindowName == wnd.szWindowName; }))                   
+                    if (!wndList.Exists(item => { return item.szWindowName == wnd.szWindowName; }))
                         wndList.Add(wnd);
                     //隐藏
                     //ShowWindow(hWin, NCmdShowFlag.SW_HIDE);

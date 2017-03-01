@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.SetContainer = new System.Windows.Forms.SplitContainer();
             this.hotLeftPanel = new HotTao.Controls.module.HotPanel(this.components);
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
             this.plSet5 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
             this.plSet4 = new System.Windows.Forms.Panel();
@@ -42,13 +44,16 @@
             this.label6 = new System.Windows.Forms.Label();
             this.plSet1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
             this.plSet2 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.btnAddGoods = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
             this.hotPanel2 = new HotTao.Controls.module.HotPanel(this.components);
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.SetContainer)).BeginInit();
@@ -56,12 +61,15 @@
             this.SetContainer.Panel2.SuspendLayout();
             this.SetContainer.SuspendLayout();
             this.hotLeftPanel.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.plSet5.SuspendLayout();
             this.plSet4.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.plSet3.SuspendLayout();
             this.plSet1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.plSet2.SuspendLayout();
@@ -96,11 +104,13 @@
             // hotLeftPanel
             // 
             this.hotLeftPanel.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotLeftPanel.Controls.Add(this.panel3);
             this.hotLeftPanel.Controls.Add(this.plSet5);
             this.hotLeftPanel.Controls.Add(this.plSet4);
             this.hotLeftPanel.Controls.Add(this.panel1);
             this.hotLeftPanel.Controls.Add(this.plSet3);
             this.hotLeftPanel.Controls.Add(this.plSet1);
+            this.hotLeftPanel.Controls.Add(this.panel2);
             this.hotLeftPanel.Controls.Add(this.panel5);
             this.hotLeftPanel.Controls.Add(this.plSet2);
             this.hotLeftPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -109,12 +119,35 @@
             this.hotLeftPanel.Size = new System.Drawing.Size(168, 606);
             this.hotLeftPanel.TabIndex = 4;
             // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.Controls.Add(this.label9);
+            this.panel3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.panel3.Location = new System.Drawing.Point(1, 240);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(166, 30);
+            this.panel3.TabIndex = 3;
+            this.panel3.Tag = "6";
+            this.panel3.Click += new System.EventHandler(this.SwitchControl_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(51, 8);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(77, 12);
+            this.label9.TabIndex = 0;
+            this.label9.Tag = "6";
+            this.label9.Text = "自动踢人设置";
+            this.label9.Click += new System.EventHandler(this.SwitchControl_Click);
+            // 
             // plSet5
             // 
             this.plSet5.BackColor = System.Drawing.Color.White;
             this.plSet5.Controls.Add(this.label8);
             this.plSet5.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.plSet5.Location = new System.Drawing.Point(1, 180);
+            this.plSet5.Location = new System.Drawing.Point(1, 210);
             this.plSet5.Name = "plSet5";
             this.plSet5.Size = new System.Drawing.Size(166, 30);
             this.plSet5.TabIndex = 3;
@@ -229,11 +262,42 @@
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(50, 8);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(89, 12);
+            this.label2.Size = new System.Drawing.Size(77, 12);
             this.label2.TabIndex = 0;
             this.label2.Tag = "1";
-            this.label2.Text = "* 软件账户设置";
+            this.label2.Text = "软件账户设置";
             this.label2.Click += new System.EventHandler(this.SwitchControl_Click);
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.panel2.Controls.Add(this.pictureBox3);
+            this.panel2.Controls.Add(this.label4);
+            this.panel2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.panel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.panel2.Location = new System.Drawing.Point(1, 180);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(166, 30);
+            this.panel2.TabIndex = 0;
+            this.panel2.Tag = "0";
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::HotTao.Properties.Resources.icon_set4;
+            this.pictureBox3.Location = new System.Drawing.Point(20, 7);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(15, 15);
+            this.pictureBox3.TabIndex = 5;
+            this.pictureBox3.TabStop = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(40, 8);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(57, 12);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "辅助设置";
             // 
             // panel5
             // 
@@ -303,27 +367,27 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.btnAddGoods);
+            this.splitContainer1.Panel2.Controls.Add(this.btnSave);
             this.splitContainer1.Size = new System.Drawing.Size(750, 606);
-            this.splitContainer1.SplitterDistance = 554;
+            this.splitContainer1.SplitterDistance = 564;
             this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 0;
             // 
-            // btnAddGoods
+            // btnSave
             // 
-            this.btnAddGoods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.btnAddGoods.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAddGoods.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
-            this.btnAddGoods.FlatAppearance.BorderSize = 0;
-            this.btnAddGoods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddGoods.ForeColor = System.Drawing.Color.White;
-            this.btnAddGoods.Location = new System.Drawing.Point(630, 6);
-            this.btnAddGoods.Name = "btnAddGoods";
-            this.btnAddGoods.Size = new System.Drawing.Size(106, 39);
-            this.btnAddGoods.TabIndex = 4;
-            this.btnAddGoods.Text = "确认";
-            this.btnAddGoods.UseVisualStyleBackColor = false;
-            this.btnAddGoods.Click += new System.EventHandler(this.btnSave_Click);
+            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSave.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnSave.FlatAppearance.BorderSize = 0;
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSave.ForeColor = System.Drawing.Color.White;
+            this.btnSave.Location = new System.Drawing.Point(635, 7);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(106, 30);
+            this.btnSave.TabIndex = 4;
+            this.btnSave.Text = "确认";
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // hotPanel2
             // 
@@ -358,6 +422,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.SetContainer)).EndInit();
             this.SetContainer.ResumeLayout(false);
             this.hotLeftPanel.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.plSet5.ResumeLayout(false);
             this.plSet5.PerformLayout();
             this.plSet4.ResumeLayout(false);
@@ -369,6 +435,9 @@
             this.plSet3.PerformLayout();
             this.plSet1.ResumeLayout(false);
             this.plSet1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -399,11 +468,16 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel plSet5;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button btnAddGoods;
+        private System.Windows.Forms.Button btnSave;
         private module.HotPanel hotLeftPanel;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private module.HotPanel hotPanel1;
         private module.HotPanel hotPanel2;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label9;
     }
 }

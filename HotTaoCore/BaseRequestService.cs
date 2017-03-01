@@ -63,51 +63,19 @@ namespace HotTaoCore
                 //获取签名
                 formFields["signature"] = SignatureHelper.BuildSign(formFields, ApiConst.SecretKey);
                 byte[] request_body = Encoding.UTF8.GetBytes(PrepareRequestBody(formFields));
-                ByteArrayContent content = new ByteArrayContent(request_body);
-                var ret = client.PostAsync(ApiConst.Url + reqName, content).Result.Content.ReadAsByteArrayAsync().Result;
-                string respone = Encoding.UTF8.GetString(ret);
-                if (!string.IsNullOrEmpty(respone))
+
+                var request = (HttpWebRequest)WebRequest.Create(ApiConst.Url + reqName);
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.ContentLength = request_body.Length;
+                using (Stream requestStream = request.GetRequestStream())
                 {
-                    ResultModel result = JsonConvert.DeserializeObject<ResultModel>(respone);
-                    if (result != null && result.resultCode == 200)
-                    {
-                        return Resolve<T>(result.data);
-                    }
-                    else
-                        OnError?.Invoke(result);
+                    requestStream.Write(request_body, 0, request_body.Length);
                 }
-
-
-
-
-
-                //var request = (HttpWebRequest)WebRequest.Create(ApiConst.Url + reqName);
-                //request.Method = "POST";
-
-                //request.ContentType = "application/x-www-form-urlencoded";
-
-
-                //request.ContentLength = content.Length;
-                //using (Stream requestStream = request.GetRequestStream())
-                //{
-                //    requestStream.Write(content, 0, content.Length);
-                //}
-                //HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                //Stream response_stream = response.GetResponseStream();
-                //StreamReader sr = new StreamReader(response_stream, Encoding.UTF8);
-                //string respone = sr.ReadToEnd().Trim();
-                //if (!string.IsNullOrEmpty(respone))
-                //{
-                //    ResultModel result = JsonConvert.DeserializeObject<ResultModel>(respone);
-
-                //    if (result != null && result.resultCode == 200)
-                //    {
-                //        return Resolve<T>(result.data);
-                //    }
-                //    else
-                //        OnError?.Invoke(result);
-                //}
-                return default(T);
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    return GetResponse<T>(response, OnError);
+                }
             }
             catch (Exception ex)
             {
@@ -118,6 +86,95 @@ namespace HotTaoCore
                 return default(T);
             }
         }
+
+        public static bool Post(string reqName, Dictionary<string, string> formFields, Action<ResultModel> OnError = null)
+        {
+            try
+            {
+                if (formFields == null)
+                    formFields = new Dictionary<string, string>();
+                formFields["timestamp"] = StringHelper.GetTimeStamp();
+                //获取签名
+                formFields["signature"] = SignatureHelper.BuildSign(formFields, ApiConst.SecretKey);
+                byte[] request_body = Encoding.UTF8.GetBytes(PrepareRequestBody(formFields));
+
+                var request = CreateRequest(ApiConst.Url + reqName, request_body);
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    return GetResponse(response, OnError);
+                }
+            }
+            catch (Exception ex)
+            {
+                ResultModel result = new ResultModel();
+                result.resultMsg = "连接服务器失败";
+                result.resultCode = 500;
+                OnError?.Invoke(result);
+                return false;
+            }
+        }
+
+        private static HttpWebRequest CreateRequest(string url, byte[] request_body)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = request_body.Length;
+            using (Stream requestStream = request.GetRequestStream())
+            {
+                requestStream.Write(request_body, 0, request_body.Length);
+            }
+            return request;
+        }
+
+
+        private static T GetResponse<T>(HttpWebResponse response, Action<ResultModel> OnError)
+        {
+            using (Stream response_stream = response.GetResponseStream())
+            {
+                using (StreamReader sr = new StreamReader(response_stream, Encoding.UTF8))
+                {
+                    string respone = sr.ReadToEnd().Trim();
+                    if (!string.IsNullOrEmpty(respone))
+                    {
+                        ResultModel result = JsonConvert.DeserializeObject<ResultModel>(respone);
+                        if (result != null && result.resultCode == 200)
+                        {
+                            if (result.data != null)
+                                return Resolve<T>(result.data);
+                        }
+                        else
+                            OnError?.Invoke(result);
+                    }
+                }
+            }
+            return default(T);
+        }
+
+        private static bool GetResponse(HttpWebResponse response, Action<ResultModel> OnError)
+        {
+            using (Stream response_stream = response.GetResponseStream())
+            {
+                using (StreamReader sr = new StreamReader(response_stream, Encoding.UTF8))
+                {
+                    string respone = sr.ReadToEnd().Trim();
+                    if (!string.IsNullOrEmpty(respone))
+                    {
+                        ResultModel result = JsonConvert.DeserializeObject<ResultModel>(respone);
+                        if (result != null && result.resultCode == 200)
+                        {
+                            return true;
+                        }
+                        else
+                            OnError?.Invoke(result);
+                    }
+                }
+            }
+            return false;
+        }
+
+
+
 
 
         /// <summary>

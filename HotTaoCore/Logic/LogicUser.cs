@@ -35,13 +35,11 @@ namespace HotTaoCore.Logic
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["username"] = loginName;
             data["password"] = loginPwd;
-            //var userData = BaseRequestService.Post<UserModel>(ApiConst.login, data,(error=> {
-
-            //}));
-
-            var userData = dal.login(loginName, loginPwd);
+            var userData = BaseRequestService.Post<UserModel>(ApiConst.login, data);
+            //var userData = dal.login(loginName, loginPwd);
             if (userData != null)
             {
+                userData.activate = 1;
                 if (userData.activate == 1)
                 {
                     return userData;
@@ -79,9 +77,12 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="loginToken"></param>
         /// <returns></returns>
-        public UserModel getUserInfoByToken(string loginToken)
+        public bool getUserInfoByToken(string loginToken)
         {
-            return dal.getUserInfoByToken(loginToken);
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            return true;// BaseRequestService.Post(ApiConst.checkToken, data);
+            //return dal.getUserInfoByToken(loginToken);
         }
         /// <summary>
         /// 刷新用户登陆token
@@ -186,6 +187,68 @@ namespace HotTaoCore.Logic
         }
 
         /// <summary>
+        /// 获取微信群聊列表
+        /// </summary>
+        /// <param name="loginToken">The login token.</param>
+        /// <returns>List&lt;UserWechatListModel&gt;.</returns>
+        public List<UserWechatListModel> GetUserWeChatList(string loginToken)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            return BaseRequestService.Post<List<UserWechatListModel>>(ApiConst.getWeChatGroups, data);
+        }
+
+
+        /// <summary>
+        /// 获取自动回复的微信群聊
+        /// </summary>
+        /// <param name="loginToken">The login token.</param>
+        /// <returns>List&lt;WxAutoReplyModel&gt;.</returns>
+        public List<WxAutoReplyModel> GetUserReplyWeChatList(string loginToken)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            return dal.GetUserReplyWeChatList();
+            //return BaseRequestService.Post<List<WxAutoReplyModel>>(ApiConst.getWeChatGroups, data);
+        }
+
+        public int UpdateReplyWeChat(string loginToken, int wechatid, string wechattitle)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            return 0;
+        }
+
+
+        /// <summary>
+        /// 添加回复关键字
+        /// </summary>
+        /// <param name="loginToken">The login token.</param>
+        /// <param name="keyword">The keyword.</param>
+        /// <param name="replyContent">Content of the reply.</param>
+        /// <param name="msgType">Type of the MSG.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public int AddReplyKeyword(string loginToken,string keyword,string replyContent,int msgType)
+        {
+
+            return 0;
+        }
+
+        /// <summary>
+        /// 获取关键字回复列表
+        /// </summary>
+        /// <param name="loginToken">The login token.</param>
+        /// <returns>List&lt;WxAutoReplyKeywordModel&gt;.</returns>
+        public List<WxAutoReplyKeywordModel> GetUserReplyKeywordList(string loginToken)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            return dal.GetUserReplyKeywordList();
+            //return BaseRequestService.Post<List<WxAutoReplyModel>>(ApiConst.getWeChatGroups, data);
+        }
+
+
+        /// <summary>
         /// 添加用户微信群
         /// </summary>
         /// <param name="model"></param>
@@ -206,6 +269,41 @@ namespace HotTaoCore.Logic
         {
             return dal.UpdateUserWeChatTitle(userid, wechatid, wechattitle);
         }
+
+        /// <summary>
+        /// 编辑微信群信息
+        /// </summary>
+        /// <param name="loginToken">The login token.</param>
+        /// <param name="wechatid">The wechatid.</param>
+        /// <param name="wechattitle">The wechattitle.</param>
+        /// <returns>System.Int32.</returns>
+        public int UpdateUserWeChatTitle(string loginToken, int wechatid, string wechattitle)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["groupname"] = wechattitle;
+            if (wechatid > 0)
+                data["id"] = wechatid.ToString();
+            return BaseRequestService.Post(ApiConst.saveWeChatGroup, data) ? 1 : 0;
+        }
+
+        /// <summary>
+        /// Updates the user we chat title.
+        /// </summary>
+        /// <param name="loginToken">The login token.</param>
+        /// <param name="wechattitle">微信群标题</param>
+        /// <param name="type">0,自动回复，1自动踢人</param>
+        /// <returns>System.Int32.</returns>
+        public int UpdateUserWeChatTitle(string loginToken, string wechattitle, int type)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["groupname"] = wechattitle;
+            data["type"] = type.ToString();
+            return 0;// BaseRequestService.Post(ApiConst.saveAutoWeChatGroup, data) ? 1 : 0;
+        }
+
+
 
         /// <summary>
         /// 设置微信群对应的pid

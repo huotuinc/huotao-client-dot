@@ -49,7 +49,7 @@ namespace HotTao.Controls.Login
 
         private void lbSkipStep_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            hotForm.openControl(new TaskControl(hotForm));
+            hotForm.openControl(new GoodsControl(hotForm));
             hotForm.SetWeChatTabSelected();
         }
 
@@ -63,9 +63,13 @@ namespace HotTao.Controls.Login
             {
                 return;
             }
-
             hotForm.SetTaobaoAccount(loginName.Text, loginPwd.Text);
-            hotForm.openControl(new TaskControl(hotForm));
+
+            tbLogin tb = new tbLogin(hotForm);
+            tb.Show(this);
+
+
+            hotForm.openControl(new GoodsControl(hotForm));
             hotForm.SetWeChatTabSelected();
         }
     }

@@ -49,12 +49,11 @@ namespace HotTaoCore.Models
         /// </summary>
         /// <value>The enable_autoreply.</value>
         public int enable_autoreply { get; set; }
-
         /// <summary>
-        /// 自动回复配置
+        /// 启用自动移除  1启用
         /// </summary>
-        /// <value>The auto_reply_config.</value>
-        public string auto_reply_config { get; set; }
+        /// <value>The enable_auto_remove.</value>
+        public int enable_autoremove { get; set; }
 
 
         public DateTime createtime { get; set; }
@@ -65,15 +64,12 @@ namespace HotTaoCore.Models
     /// </summary>
     public class ConfigWhereModel
     {
-
         public int minCouponDateDayCountEnable { get; set; }
-
         /// <summary>
         // 最小优惠券结束天数
         /// </summary>
         /// <value>The minimum coupon amount.</value>
         public int minCouponDateDayCount { get; set; }
-
 
         public int minCouponAmountEnable { get; set; }
         /// <summary>
@@ -88,21 +84,17 @@ namespace HotTaoCore.Models
         public int minMonthSalesAmount { get; set; }
 
         public int minMonthSalesAmountEnable { get; set; }
-
         /// <summary>
         /// 最低佣金率
         /// </summary>
         /// <value>The minimum CMS rate amount.</value>
         public decimal minCmsRateAmount { get; set; }
-
-
         public int minCmsRateAmountEnable { get; set; }
         /// <summary>
         /// 最小商品价格
         /// </summary>
         /// <value>The minimum goods price.</value>
         public decimal minGoodsPrice { get; set; }
-
         /// <summary>
         /// 启用价格过滤
         /// </summary>
@@ -113,12 +105,7 @@ namespace HotTaoCore.Models
         /// </summary>
         /// <value>The minimum goods price.</value>
         public decimal maxGoodsPrice { get; set; }
-
-
         public int filterGoodsEnable { get; set; }
-
-
-
     }
     /// <summary>
     /// 发送时间配置
@@ -136,21 +123,4 @@ namespace HotTaoCore.Models
         /// <value>The goodsinterval.</value>
         public int goodsinterval { get; set; }
     }
-    /// <summary>
-    /// 自动回复配置
-    /// </summary>
-    public class ConfigAutoReplyModel
-    {
-        /// <summary>
-        /// 关键字
-        /// </summary>
-        /// <value>The keyworld.</value>
-        public string keyworld { get; set; }
-        /// <summary>
-        /// 回复内容
-        /// </summary>
-        /// <value>The replycontent.</value>
-        public string replycontent { get; set; }
-    }
-
 }

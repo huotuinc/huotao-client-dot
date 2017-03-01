@@ -65,7 +65,7 @@
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(233, 41);
             this.btnLogin.TabIndex = 15;
-            this.btnLogin.Text = "模拟登陆";
+            this.btnLogin.Text = "登陆";
             this.btnLogin.UseVisualStyleBackColor = false;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 

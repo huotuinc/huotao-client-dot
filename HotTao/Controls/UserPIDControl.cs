@@ -120,7 +120,7 @@ namespace HotTao.Controls
             this.dgvUserPid.Rows.Clear();
             ((Action)(delegate ()
             {
-                var pidData = LogicUserPid.Instance.getUserPidList(hotForm.currentUserId, hotForm.taobaoNo);
+                var pidData = LogicUserPid.Instance.getUserPidList(MyUserInfo.currentUserId, hotForm.taobaoNo);
                 if (pidData != null)
                 {
                     this.BeginInvoke((Action)(delegate ()  //等待结束
@@ -174,7 +174,7 @@ namespace HotTao.Controls
                     int.TryParse(SelectedRow["id"].Value.ToString(), out result);
                     pidText = SelectedRow["pid"].Value.ToString();
                 }
-                if (LogicUser.Instance.UpdateUserWeChatPid(hotForm.currentUserId, WeChatId, result))
+                if (LogicUser.Instance.UpdateUserWeChatPid(MyUserInfo.currentUserId, WeChatId, result))
                 {
                     pidText = result > 0 ? pidText : "";
                     this.Close();

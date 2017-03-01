@@ -116,6 +116,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ConstConfig.cs" />
+    <Compile Include="Controls\AddKeywordControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\AddKeywordControl.Designer.cs">
+      <DependentUpon>AddKeywordControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\AddWeChat.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +145,12 @@
     </Compile>
     <Compile Include="Controls\HistoryControl.Designer.cs">
       <DependentUpon>HistoryControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Logining.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Logining.Designer.cs">
+      <DependentUpon>Logining.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Login\LoginButtonPage.cs">
       <SubType>UserControl</SubType>
@@ -181,6 +193,12 @@
     </Compile>
     <Compile Include="Controls\module\HotPanel.Designer.cs">
       <DependentUpon>HotPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SetAutoRemoveChatroom.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SetAutoRemoveChatroom.Designer.cs">
+      <DependentUpon>SetAutoRemoveChatroom.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SetAutoReplyControl.cs">
       <SubType>UserControl</SubType>
@@ -248,14 +266,27 @@
     <Compile Include="Controls\UserPIDControl.Designer.cs">
       <DependentUpon>UserPIDControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Loading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Loading.Designer.cs">
+      <DependentUpon>Loading.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyUserInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tbLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="tbLogin.Designer.cs">
+      <DependentUpon>tbLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinApi.cs" />
     <Compile Include="wxLogin.cs">
       <SubType>Form</SubType>
@@ -263,6 +294,9 @@
     <Compile Include="wxLogin.Designer.cs">
       <DependentUpon>wxLogin.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\AddKeywordControl.resx">
+      <DependentUpon>AddKeywordControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\AddWeChat.resx">
       <DependentUpon>AddWeChat.cs</DependentUpon>
     </EmbeddedResource>
@@ -274,6 +308,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\HistoryControl.resx">
       <DependentUpon>HistoryControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Logining.resx">
+      <DependentUpon>Logining.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Login\LoginButtonPage.resx">
       <DependentUpon>LoginButtonPage.cs</DependentUpon>
@@ -289,6 +326,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\MessageConfirm.resx">
       <DependentUpon>MessageConfirm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SetAutoRemoveChatroom.resx">
+      <DependentUpon>SetAutoRemoveChatroom.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SetAutoReplyControl.resx">
       <DependentUpon>SetAutoReplyControl.cs</DependentUpon>
@@ -323,6 +363,9 @@
     <EmbeddedResource Include="Controls\UserPIDControl.resx">
       <DependentUpon>UserPIDControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Loading.resx">
+      <DependentUpon>Loading.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -336,6 +379,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="tbLogin.resx">
+      <DependentUpon>tbLogin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="wxLogin.resx">
       <DependentUpon>wxLogin.cs</DependentUpon>
     </EmbeddedResource>

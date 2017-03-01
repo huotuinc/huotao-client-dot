@@ -20,9 +20,9 @@ namespace HotTao.Controls
         }
         private void SetSendTemplateControl_Load(object sender, EventArgs e)
         {
-            if (hotForm.currentUserId > 0)
+            if (MyUserInfo.currentUserId > 0)
             {
-                string tempText = LogicUser.Instance.GetUserSendTemplate(hotForm.currentUserId);
+                string tempText = LogicUser.Instance.GetUserSendTemplate(MyUserInfo.currentUserId);
                 if (!string.IsNullOrEmpty(tempText))
                     txtTempText.Text = tempText;
             }
@@ -47,7 +47,7 @@ namespace HotTao.Controls
         {
             MessageAlert alert = new MessageAlert();
 
-            if (LogicUser.Instance.AddUserSendTemplate(hotForm.currentUserId, txtTempText.Text))
+            if (LogicUser.Instance.AddUserSendTemplate(MyUserInfo.currentUserId, txtTempText.Text))
                 alert.Message = "保存成功";
             else
                 alert.Message = "保存失败";

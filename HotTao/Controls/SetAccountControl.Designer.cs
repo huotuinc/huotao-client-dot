@@ -237,6 +237,7 @@
             // btnLoginTaobao
             // 
             this.btnLoginTaobao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(105)))));
+            this.btnLoginTaobao.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLoginTaobao.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(105)))));
             this.btnLoginTaobao.FlatAppearance.BorderSize = 0;
             this.btnLoginTaobao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;

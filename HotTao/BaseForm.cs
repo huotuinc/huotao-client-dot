@@ -1,4 +1,5 @@
 ﻿using HotCoreUtils.Helper;
+using HotTao.Controls;
 using HotTaoCore;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
@@ -47,7 +48,7 @@ namespace HotTao
         /// 检查登录
         /// </summary>
         /// <param name="callback">The callback.</param>
-        public void CheckAutoLogin(Action<UserModel> callback)
+        public void CheckAutoLogin(Main hotForm,Action<UserModel> callback)
         {
             string lp = LoadLoginNameAndPwd();
             if (!string.IsNullOrEmpty(lp))
@@ -61,7 +62,14 @@ namespace HotTao
                     int.TryParse(arr[2], out isAutoLogin);
                     //自动登录
                     if (isAutoLogin == 1)
-                        AutoLogin(loginName, loginPwd, callback);
+                    {
+                        hotForm.openControl(new Logining());
+                        ((Action)(delegate ()
+                        {
+                            AutoLogin(loginName, loginPwd, callback);
+
+                        })).BeginInvoke(null, null);
+                    }
                     else
                         callback?.Invoke(null);
 
@@ -85,29 +93,18 @@ namespace HotTao
             var data = LogicUser.Instance.login(loginName, loginPwd);
             if (data != null && data.activate == 1)
             {
-                data = loginResult(data);
-                callback?.Invoke(data);
+                this.BeginInvoke((Action)(delegate ()  //等待结束
+                {
+                    callback?.Invoke(data);
+                }));
             }
             else
             {
-                callback?.Invoke(null);
+                this.BeginInvoke((Action)(delegate ()  //等待结束
+                {
+                    callback?.Invoke(null);
+                }));
             }
         }
-
-        /// <summary>
-        /// 登录结果处理
-        /// </summary>
-        /// <param name="data"></param>
-        private UserModel loginResult(UserModel data)
-        {
-            string loginToken = EncryptHelper.MD5(StringHelper.CreateCheckCodeWithNum(10));
-            //更新登陆loginToken
-            if (LogicUser.Instance.RefreshLoginToken(data.userid, loginToken))
-            {
-                data.loginToken = loginToken;
-            }
-            return data;
-        }
-
     }
 }

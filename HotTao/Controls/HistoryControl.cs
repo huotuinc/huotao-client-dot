@@ -31,9 +31,9 @@ namespace HotTao.Controls
 
         private void HistoryControl_Load(object sender, EventArgs e)
         {
-            if (hotForm.currentUserId > 0)
+            if (MyUserInfo.currentUserId > 0)
             {
-                if (hotForm.wxlogin != null)
+                if (hotForm.wxlogin != null && hotForm.wxlogin.isStartTask)
                     ShowStartButtonText("暂停计划");
                 LoadTaskPlanGridView();
 
@@ -101,7 +101,7 @@ namespace HotTao.Controls
             this.dgvTaskPlan.AutoGenerateColumns = false;
             ((Action)(delegate ()
             {
-                var taskData = LogicTaskPlan.Instance.getTaskPlanList(hotForm.currentUserId);
+                var taskData = LogicTaskPlan.Instance.getTaskPlanList(MyUserInfo.currentUserId);
                 if (taskData != null)
                 {
                     this.BeginInvoke((Action)(delegate ()  //等待结束
@@ -172,7 +172,7 @@ namespace HotTao.Controls
                             StartTaskTpwd(row);
                     }
                     //更新转链结果
-                    LogicTaskPlan.Instance.UpdateTaskIsTpwd(hotForm.currentUserId, lstSuccessTaskId);
+                    LogicTaskPlan.Instance.UpdateTaskIsTpwd(MyUserInfo.currentUserId, lstSuccessTaskId);
                 })).BeginInvoke(null, null);
             }
         }
@@ -269,7 +269,7 @@ namespace HotTao.Controls
                         StartTaskTpwd(row);
 
                     //更新转链结果
-                    LogicTaskPlan.Instance.UpdateTaskIsTpwd(hotForm.currentUserId, lstSuccessTaskId);
+                    LogicTaskPlan.Instance.UpdateTaskIsTpwd(MyUserInfo.currentUserId, lstSuccessTaskId);
                 })).BeginInvoke(null, null);
             }
         }
@@ -288,7 +288,7 @@ namespace HotTao.Controls
                 int result = 0;
                 int.TryParse(row.Cells["taskid"].Value.ToString(), out result);
                 row.Cells["TpwdText"].Value = "正在转链";
-                if (LogicTaskPlan.Instance.StartTaskTpwd(hotForm.currentUserId, result))
+                if (LogicTaskPlan.Instance.StartTaskTpwd(MyUserInfo.currentUserId, result))
                 {
                     row.Cells["TpwdText"].Value = "OK";
                     row.Cells["isTpwd"].Value = 1;
@@ -322,7 +322,7 @@ namespace HotTao.Controls
                     MessageConfirm confirm = new MessageConfirm("您确认要删除计划【" + taskid + "】吗？");
                     confirm.CallBack += () =>
                     {
-                        if (LogicTaskPlan.Instance.deleteTaskPlan(hotForm.currentUserId, taskid))
+                        if (LogicTaskPlan.Instance.deleteTaskPlan(MyUserInfo.currentUserId, taskid))
                         {
                             dgvTaskPlan.Rows.Remove(row);
                         }

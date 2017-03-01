@@ -43,6 +43,19 @@ namespace HotTaoCore.Logic
         }
 
         /// <summary>
+        /// 获取已选商品列表
+        /// </summary>
+        /// <param name="loginToken">The login token.</param>
+        /// <returns>List&lt;GoodsModel&gt;.</returns>
+        public List<GoodsModel> getGoodsList(string loginToken)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            return BaseRequestService.Post<List<GoodsModel>>(ApiConst.getGoodsList, data);
+        }
+
+
+        /// <summary>
         /// 添加商品
         /// </summary>
         /// <param name="model"></param>
