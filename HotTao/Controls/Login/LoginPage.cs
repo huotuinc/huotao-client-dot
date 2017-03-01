@@ -168,8 +168,7 @@ namespace HotTao.Controls.Login
         private void loginResult(UserModel data)
         {
             string loginToken = EncryptHelper.MD5(StringHelper.CreateCheckCodeWithNum(10));
-            //设置登陆状态,必须先设置登录状态
-            this.hotForm.SetLoginData(data);            
+
             //判断是否记住密码
             if (this.ckbSavePwd.Checked || ckbAutoLogin.Checked)
             {
@@ -182,7 +181,9 @@ namespace HotTao.Controls.Login
             else
                 RememberPassword("");
             this.BeginInvoke((Action)(delegate ()  //等待结束
-            {
+            {            
+                //设置登陆状态,必须先设置登录状态
+                hotForm.SetLoginData(data);
                 loginForm.openControl(new SetTaobaoAccountPage(hotForm, loginForm));
             }));
         }

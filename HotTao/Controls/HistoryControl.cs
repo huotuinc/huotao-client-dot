@@ -101,7 +101,7 @@ namespace HotTao.Controls
             this.dgvTaskPlan.AutoGenerateColumns = false;
             ((Action)(delegate ()
             {
-                var taskData = LogicTaskPlan.Instance.getTaskPlanList(MyUserInfo.currentUserId);
+                var taskData = LogicTaskPlan.Instance.getTaskPlanList(MyUserInfo.LoginToken);
                 if (taskData != null)
                 {
                     this.BeginInvoke((Action)(delegate ()  //等待结束
@@ -195,9 +195,15 @@ namespace HotTao.Controls
                 else
                 {
                     if (hotForm.wxlogin.isStartTask)
+                    {
                         hotForm.wxlogin.StopWx();
+                        ShowStartButtonText("启动计划");
+                    }
                     else
+                    {
                         hotForm.wxlogin.StartWx();
+                        ShowStartButtonText("暂停计划");
+                    }
                 }
 
             }
@@ -320,9 +326,17 @@ namespace HotTao.Controls
                 if (eCode != 1)
                 {
                     MessageConfirm confirm = new MessageConfirm("您确认要删除计划【" + taskid + "】吗？");
+
+
                     confirm.CallBack += () =>
                     {
-                        if (LogicTaskPlan.Instance.deleteTaskPlan(MyUserInfo.currentUserId, taskid))
+                        var taskidList = new List<GoodsTaskModel>();
+                        taskidList.Add(new GoodsTaskModel()
+                        {
+                            id = taskid
+                        });
+                        string taskids = JsonConvert.SerializeObject(taskidList);
+                        if (LogicTaskPlan.Instance.deleteTaskPlan(MyUserInfo.LoginToken, taskids))
                         {
                             dgvTaskPlan.Rows.Remove(row);
                         }

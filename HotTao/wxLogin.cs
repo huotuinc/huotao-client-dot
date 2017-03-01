@@ -210,15 +210,13 @@ namespace HotTao
         /// </summary>
         public void StopWx()
         {
-            isStartTask = false;
-            historyForm.ShowStartButtonText("启动计划");
+            isStartTask = false;            
         }
         /// <summary>
         /// 启用
         /// </summary>
         public void StartWx()
-        {
-            historyForm.ShowStartButtonText("暂停任务");
+        {            
             isStartTask = true;
         }
         /// <summary>

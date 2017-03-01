@@ -70,13 +70,12 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public bool DeleteGoods(int id)
+        public bool DeleteGoods(string loginToken,int id)
         {
-            return dal.DeleteGoods(id);
-        }
-        public bool DeleteGoods(List<int> ids)
-        {
-            return dal.DeleteGoods(ids);
-        }
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["goodsid"] = id.ToString();
+            return BaseRequestService.Post(ApiConst.delGoods, data);
+        }        
     }
 }

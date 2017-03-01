@@ -31,6 +31,44 @@ namespace HotTaoCore.Logic
         {
             return dal.getTaskPlanList(userId);
         }
+        /// <summary>
+        /// 获取任务计划
+        /// </summary>
+        /// <param name="loginToken">The login token.</param>
+        /// <returns>List&lt;TaskPlanModel&gt;.</returns>
+        public List<TaskPlanModel> getTaskPlanList(string loginToken)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            var taskData= BaseRequestService.Post<List<TaskPlanModel>>(ApiConst.getTaskList, data);
+            taskData.ForEach(item =>
+            {
+                item.statusText = "待执行";
+                if (item.status == 1)
+                {
+                    item.statusText = "已完成";
+                    item.ExecStatus = 2;
+                }
+                else
+                {
+                    if (item.endTime.CompareTo(DateTime.Now) < 0)
+                    {
+                        item.statusText = "已过期";
+                        item.ExecStatus = 3;
+                    }
+
+                    if (item.startTime.CompareTo(DateTime.Now) < 0)
+                    {
+                        item.statusText = "进行中";
+                        item.ExecStatus = 1;
+                    }
+
+                }
+                item.startTimeText = item.startTime.ToString("yyyy年MM月dd日 HH时mm分ss秒");
+            });
+            return taskData;
+
+        }
 
         /// <summary>
         /// 删除计划
@@ -38,22 +76,34 @@ namespace HotTaoCore.Logic
         /// <param name="userid"></param>
         /// <param name="taskid"></param>
         /// <returns></returns>
-        public bool deleteTaskPlan(int userid, int taskid)
-        {
-            if (dal.deleteTaskPlan(userid, taskid))
-                dal.deleteTaskGoodsPidLog(userid, taskid);
-
-            return true;
+        public bool deleteTaskPlan(string loginToken, string taskids)
+        {            
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["taskids"] = taskids;
+            return BaseRequestService.Post(ApiConst.delTask, data);
         }
 
         /// <summary>
-        /// 添加任务计划
+        /// 添加/修改任务计划
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public int addTaskPlan(TaskPlanModel model)
+        public TaskPlanModel addTaskPlan(string loginToken, TaskPlanModel model)
         {
-            return dal.addTaskPlan(model);
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            if (model.id > 0)
+                data["id"] = model.id.ToString();
+            else
+            {
+                data["groupids"] = model.pidsText;
+                data["goodsids"] = model.goodsText;
+            }
+            data["title"] = model.title;
+            data["executetime"] = model.startTime.ToString("yyyy-MM-dd HH:mm:ss");
+            data["endtime"] = model.endTime.ToString("yyyy-MM-dd HH:mm:ss");
+            return BaseRequestService.Post<TaskPlanModel>(ApiConst.saveTask, data);
         }
         /// <summary>
         /// 修改任务计划

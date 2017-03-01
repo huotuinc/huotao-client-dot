@@ -94,10 +94,13 @@
       <HintPath>..\packages\NLog.4.4.3\lib\net40\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -106,6 +109,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
     <Reference Include="WwChatHttpCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\WwChatHttpCore.dll</HintPath>
@@ -116,6 +122,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ConstConfig.cs" />
+    <Compile Include="Controls\About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\AddKeywordControl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -294,6 +306,9 @@
     <Compile Include="wxLogin.Designer.cs">
       <DependentUpon>wxLogin.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\AddKeywordControl.resx">
       <DependentUpon>AddKeywordControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -396,6 +411,7 @@
     <EmbeddedResource Include="Resources\home.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\abuot.png" />
     <Content Include="Resources\hot.ico" />
     <Content Include="Resources\icon_01.png" />
     <Content Include="Resources\icon_02.png" />

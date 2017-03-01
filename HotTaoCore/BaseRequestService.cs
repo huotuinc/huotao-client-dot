@@ -37,7 +37,7 @@ namespace HotTaoCore
     /// </summary>
     public class BaseRequestService
     {
-
+        static NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
 
         private static readonly HttpClientHandler clientHandler = new HttpClientHandler();
         /// <summary>
@@ -63,15 +63,7 @@ namespace HotTaoCore
                 //获取签名
                 formFields["signature"] = SignatureHelper.BuildSign(formFields, ApiConst.SecretKey);
                 byte[] request_body = Encoding.UTF8.GetBytes(PrepareRequestBody(formFields));
-
-                var request = (HttpWebRequest)WebRequest.Create(ApiConst.Url + reqName);
-                request.Method = "POST";
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.ContentLength = request_body.Length;
-                using (Stream requestStream = request.GetRequestStream())
-                {
-                    requestStream.Write(request_body, 0, request_body.Length);
-                }
+                var request = CreateRequest(ApiConst.Url + reqName, request_body);
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
                     return GetResponse<T>(response, OnError);
@@ -79,6 +71,7 @@ namespace HotTaoCore
             }
             catch (Exception ex)
             {
+                log.Error(ex);
                 ResultModel result = new ResultModel();
                 result.resultMsg = "连接服务器失败";
                 result.resultCode = 500;
@@ -106,6 +99,7 @@ namespace HotTaoCore
             }
             catch (Exception ex)
             {
+                log.Error(ex);
                 ResultModel result = new ResultModel();
                 result.resultMsg = "连接服务器失败";
                 result.resultCode = 500;
@@ -118,7 +112,7 @@ namespace HotTaoCore
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
             request.ContentLength = request_body.Length;
             using (Stream requestStream = request.GetRequestStream())
             {

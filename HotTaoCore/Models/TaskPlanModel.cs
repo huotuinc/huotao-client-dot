@@ -37,7 +37,7 @@ namespace HotTaoCore.Models
         /// 任务执行完成时间
         /// </summary>
         /// <value>The finish time.</value>
-        public DateTime finishTime { get; set; }
+        //public DateTime finishTime { get; set; }
 
 
         public string remark { get; set; }
@@ -48,7 +48,7 @@ namespace HotTaoCore.Models
 
         public string pidsText { get; set; }
 
-        public DateTime createTime { get; set; }
+        //public DateTime createTime { get; set; }
 
         /// <summary>
         /// 是否已转链 1是

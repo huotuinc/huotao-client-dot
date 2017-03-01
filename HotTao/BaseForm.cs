@@ -63,12 +63,12 @@ namespace HotTao
                     //自动登录
                     if (isAutoLogin == 1)
                     {
-                        hotForm.openControl(new Logining());
+                        hotForm.openControl(new Logining());                                                
                         ((Action)(delegate ()
                         {
                             AutoLogin(loginName, loginPwd, callback);
 
-                        })).BeginInvoke(null, null);
+                        })).BeginInvoke(null, null);                        
                     }
                     else
                         callback?.Invoke(null);
@@ -90,7 +90,7 @@ namespace HotTao
         /// <param name="callback">The callback.</param>
         private void AutoLogin(string loginName, string loginPwd, Action<UserModel> callback)
         {
-            var data = LogicUser.Instance.login(loginName, loginPwd);
+            var data = LogicUser.Instance.login(loginName, loginPwd);            
             if (data != null && data.activate == 1)
             {
                 this.BeginInvoke((Action)(delegate ()  //等待结束

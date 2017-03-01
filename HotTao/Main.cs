@@ -110,20 +110,22 @@ namespace HotTao
         {
 
             SetWinFormTaskbarSystemMenu();
+
             isTaobaoLogin = false;
             try
-            {                
-
-                CheckAutoLogin(this,user =>
-                {
-                    if (user != null)
-                    {
-                        SetLoginData(user);
-                        openControl(new GoodsControl(this));
-                    }
-                    else
-                        openControl(new LoginControl(this));
-                });
+            {
+                CheckAutoLogin(this, user =>
+                 {
+                     if (LoadingShow != null)
+                         LoadingShow.CloseForm();
+                     if (user != null)
+                     {
+                         SetLoginData(user);
+                         openControl(new GoodsControl(this));
+                     }
+                     else
+                         openControl(new LoginControl(this));
+                 });
             }
             catch (Exception ex)
             {
@@ -134,8 +136,8 @@ namespace HotTao
                     this.Close();
                 };
                 alert.ShowDialog(this);
-
             }
+
         }
 
         /// <summary>
@@ -180,6 +182,8 @@ namespace HotTao
                 LoginSync = false;
                 this.BeginInvoke((Action)(delegate ()  //等待结束
                 {
+                    MyUserInfo my = new MyUserInfo();
+                    my.SetUserData(null);
                     openControl(new LoginControl(this));
                 }));
 
@@ -267,17 +271,29 @@ namespace HotTao
             {
                 Panel pl = item as Panel;
                 if (pl != null)
+                {
                     pl.BackgroundImage = null;
+                    pl.BackColor = ConstConfig.HeaderBackColor;
+                }
             }
             var p1 = sender as PictureBox;
             var p2 = sender as Label;
             var p3 = sender as Panel;
             if (p1 != null)
+            {
                 p1.Parent.BackgroundImage = Properties.Resources.icon_bg;
+                p1.Parent.BackColor = Color.Transparent;
+            }
             else if (p2 != null)
+            {
                 p2.Parent.BackgroundImage = Properties.Resources.icon_bg;
+                p2.Parent.BackColor = Color.Transparent;
+            }
             else if (p3 != null)
+            {
                 p3.BackgroundImage = Properties.Resources.icon_bg;
+                p3.BackColor = Color.Transparent;
+            }
         }
 
 
@@ -316,9 +332,13 @@ namespace HotTao
             {
                 Panel pl = item as Panel;
                 if (pl != null)
+                {
                     pl.BackgroundImage = null;
+                    pl.BackColor = ConstConfig.HeaderBackColor;
+                }
             }
             btnWeChat.Parent.BackgroundImage = Properties.Resources.icon_bg;
+            btnWeChat.Parent.BackColor = Color.Transparent;
         }
         /// <summary>
         /// 设置首页为选中状态
@@ -329,9 +349,13 @@ namespace HotTao
             {
                 Panel pl = item as Panel;
                 if (pl != null)
+                {
                     pl.BackgroundImage = null;
+                    pl.BackColor = ConstConfig.HeaderBackColor;
+                }
             }
             btnHome.Parent.BackgroundImage = Properties.Resources.icon_bg;
+            btnHome.Parent.BackColor = Color.Transparent;
         }
         /// <summary>
         /// 当前登陆用户ID
@@ -361,8 +385,6 @@ namespace HotTao
                     }
                 })).BeginInvoke(null, null);
             }
-            else
-                MyUserInfo.currentUserId = 0;
         }
 
         private void pbClose_Click(object sender, EventArgs e)
@@ -403,12 +425,30 @@ namespace HotTao
         }
 
 
+        public Loading LoadingShow  { get; set; }
+        //public Loading LoadingShow()
+        //{
+        //    Loading ld = new Loading();            
+        //    return ld;
+        //}
 
-        public Loading LoadingShow()
+        private void Main_Shown(object sender, EventArgs e)
         {
-            Loading ld = new Loading();
-            ld.ShowDialog(this);
-            return ld;
+            foreach (var item in HotContainer.Panel1.Controls)
+            {
+                Panel pl = item as Panel;
+                if (pl != null)
+                {
+                    pl.Visible = true;
+                }
+            }
+            panelHelp.Visible = false;
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            About about = new About();
+            about.ShowDialog(this);
         }
     }
 }

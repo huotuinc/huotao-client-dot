@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace HotTao.Controls
 {
@@ -120,7 +121,7 @@ namespace HotTao.Controls
         }
 
 
-        private void SetPidView(List<UserWechatListModel> data)
+        public void SetPidView(List<UserWechatListModel> data)
         {
             int i = dgvPid.Rows.Count;
             for (int j = 0; j < data.Count(); j++)
@@ -140,6 +141,32 @@ namespace HotTao.Controls
             }
         }
 
+        public void SetPidView(UserWechatListModel model, int CurrentRowIndex)
+        {
+            if (CurrentRowIndex != -1)
+            {
+                dgvPid.Rows[CurrentRowIndex].Cells["shareid"].Value = model.id.ToString();
+                dgvPid.Rows[CurrentRowIndex].Cells["sharetitle"].Value = model.wechattitle.ToString();
+                dgvPid.Rows[CurrentRowIndex].Cells["pid"].Value = model.pid.ToString();
+            }
+            else
+            {
+                int i = dgvPid.Rows.Count;
+                dgvPid.Rows.Add();
+                ++i;
+                dgvPid.Rows[i - 1].Cells["shareid"].Value = model.id.ToString();
+                dgvPid.Rows[i - 1].Cells["sharetitle"].Value = model.wechattitle.ToString();
+                dgvPid.Rows[i - 1].Cells["pid"].Value = model.pid.ToString();
+                if (i % 2 == 0)
+                    dgvPid.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                else
+                    dgvPid.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+                dgvPid.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
+                dgvPid.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
+            }
+        }
+
+
         public void LoadTaskPlanGridView()
         {
             //是否自动添加属性字段
@@ -147,7 +174,7 @@ namespace HotTao.Controls
             this.dgvTaskPlan.Rows.Clear();
             ((Action)(delegate ()
             {
-                var taskData = LogicTaskPlan.Instance.getTaskPlanList(MyUserInfo.currentUserId);
+                var taskData = LogicTaskPlan.Instance.getTaskPlanList(MyUserInfo.LoginToken);
                 if (taskData != null)
                 {
                     this.BeginInvoke((Action)(delegate ()  //等待结束
@@ -179,7 +206,6 @@ namespace HotTao.Controls
                 dgvTaskPlan.Rows[i - 1].Cells["taskStatusText"].Value = taskData[j].statusText.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["goodsText"].Value = taskData[j].goodsText.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["pidsText"].Value = taskData[j].pidsText.ToString();
-
                 dgvTaskPlan.Rows[i - 1].Cells["ExecStatus"].Value = taskData[j].ExecStatus.ToString();
                 if (i % 2 == 0)
                     dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
@@ -190,6 +216,43 @@ namespace HotTao.Controls
                 dgvTaskPlan.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
             }
         }
+
+        public void SetTaskView(TaskPlanModel model, int CurrentRowIndex)
+        {
+            if (CurrentRowIndex != -1)
+            {
+                dgvTaskPlan.Rows[CurrentRowIndex].Cells["taskid"].Value = model.id.ToString();
+                dgvTaskPlan.Rows[CurrentRowIndex].Cells["taskTitle"].Value = model.title.ToString();
+                dgvTaskPlan.Rows[CurrentRowIndex].Cells["taskStartTime"].Value = model.startTime.ToString();
+                dgvTaskPlan.Rows[CurrentRowIndex].Cells["taskEndTime"].Value = model.endTime.ToString();
+                dgvTaskPlan.Rows[CurrentRowIndex].Cells["taskStatusText"].Value = model.statusText.ToString();
+                dgvTaskPlan.Rows[CurrentRowIndex].Cells["goodsText"].Value = model.goodsText.ToString();
+                dgvTaskPlan.Rows[CurrentRowIndex].Cells["pidsText"].Value = model.pidsText.ToString();
+                dgvTaskPlan.Rows[CurrentRowIndex].Cells["ExecStatus"].Value = model.ExecStatus.ToString();
+            }
+            else
+            {
+                int i = dgvTaskPlan.Rows.Count;
+                dgvTaskPlan.Rows.Add();
+                ++i;
+                dgvTaskPlan.Rows[i - 1].Cells["taskid"].Value = model.id.ToString();
+                dgvTaskPlan.Rows[i - 1].Cells["taskTitle"].Value = model.title.ToString();
+                dgvTaskPlan.Rows[i - 1].Cells["taskStartTime"].Value = model.startTime.ToString();
+                dgvTaskPlan.Rows[i - 1].Cells["taskEndTime"].Value = model.endTime.ToString();
+                dgvTaskPlan.Rows[i - 1].Cells["taskStatusText"].Value = model.statusText.ToString();
+                dgvTaskPlan.Rows[i - 1].Cells["goodsText"].Value = model.goodsText.ToString();
+                dgvTaskPlan.Rows[i - 1].Cells["pidsText"].Value = model.pidsText.ToString();
+                dgvTaskPlan.Rows[i - 1].Cells["ExecStatus"].Value = model.ExecStatus.ToString();
+                if (i % 2 == 0)
+                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                else
+                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+
+                dgvTaskPlan.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
+                dgvTaskPlan.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
+            }
+        }
+
 
 
         /// <summary>
@@ -231,8 +294,8 @@ namespace HotTao.Controls
                     ++i;
                     obj.Rows[i - 1].Cells["rowIndex"].Value = data[j].rowIndex.ToString();
                     obj.Rows[i - 1].Cells["gid"].Value = data[j].id.ToString();
-                    obj.Rows[i - 1].Cells["goodsId"].Value = data[j].goodsId.ToString();
-                    obj.Rows[i - 1].Cells["goodsDetailUrl"].Value = data[j].goodsDetailUrl.ToString();
+                    //obj.Rows[i - 1].Cells["goodsId"].Value = data[j].goodsId.ToString();
+                    //obj.Rows[i - 1].Cells["goodsDetailUrl"].Value = data[j].goodsDetailUrl.ToString();
                     obj.Rows[i - 1].Cells["goodsName"].Value = data[j].goodsName.ToString();
                     obj.Rows[i - 1].Cells["goodsSupplier"].Value = data[j].goodsSupplier.ToString();
                     obj.Rows[i - 1].Cells["goodsPrice"].Value = data[j].goodsPrice.ToString();
@@ -240,13 +303,13 @@ namespace HotTao.Controls
                     obj.Rows[i - 1].Cells["goodsComsRate"].Value = data[j].goodsComsRate.ToString();
                     obj.Rows[i - 1].Cells["goodsCommission"].Value = data[j].goodsCommission.ToString();
                     obj.Rows[i - 1].Cells["couponPrice"].Value = data[j].couponPrice.ToString();
-                    obj.Rows[i - 1].Cells["updateTime"].Value = data[j].updateTime.ToString();
-                    obj.Rows[i - 1].Cells["startTime"].Value = data[j].startTime.ToString();
-                    obj.Rows[i - 1].Cells["endTime"].Value = data[j].endTime.ToString();
-                    obj.Rows[i - 1].Cells["createTime"].Value = data[j].createTime.ToString();
-                    obj.Rows[i - 1].Cells["couponUrl"].Value = data[j].couponUrl.ToString();
-                    obj.Rows[i - 1].Cells["shareLink"].Value = data[j].shareLink.ToString();
-                    obj.Rows[i - 1].Cells["goodsMainImgUrl"].Value = data[j].goodsMainImgUrl.ToString();
+                    //obj.Rows[i - 1].Cells["updateTime"].Value = data[j].updateTime.ToString();
+                    //obj.Rows[i - 1].Cells["startTime"].Value = data[j].startTime.ToString();
+                    //obj.Rows[i - 1].Cells["endTime"].Value = data[j].endTime.ToString();
+                    //obj.Rows[i - 1].Cells["createTime"].Value = data[j].createTime.ToString();
+                    //obj.Rows[i - 1].Cells["couponUrl"].Value = data[j].couponUrl.ToString();
+                    //obj.Rows[i - 1].Cells["shareLink"].Value = data[j].shareLink.ToString();
+                    //obj.Rows[i - 1].Cells["goodsMainImgUrl"].Value = data[j].goodsMainImgUrl.ToString();
 
 
                     if (i % 2 == 0)
@@ -289,13 +352,10 @@ namespace HotTao.Controls
             //循环获取选中的数据
             foreach (DataGridViewRow item in dgvData.Rows)
             {
-                //if ((bool)item.Cells[0].EditedFormattedValue == true)
-                //{
                 int result = 0;
                 int.TryParse(item.Cells["gid"].Value.ToString(), out result);
                 if (result > 0 && goodsidList.FindIndex(r => { return r.id == result; }) < 0)
                     goodsidList.Add(new GoodsTaskModel() { id = result });
-                //}
             }
             List<UserPidTaskModel> pidList = new List<UserPidTaskModel>();
             foreach (DataGridViewRow item in dgvPid.Rows)
@@ -308,10 +368,14 @@ namespace HotTao.Controls
                         pidList.Add(new UserPidTaskModel() { id = result });
                 }
             }
-
-            if (goodsidList.Count() == 0 || pidList.Count() == 0)
+            if (pidList.Count() == 0)
             {
                 ShowAlert("请先选择微信群");
+                return;
+            }
+            if (goodsidList.Count() == 0)
+            {
+                ShowAlert("请先添加商品");
                 return;
             }
 
@@ -340,11 +404,18 @@ namespace HotTao.Controls
                     MessageConfirm confirm = new MessageConfirm("您确认要删除计划【" + taskid + "】吗？");
                     confirm.CallBack += () =>
                     {
-                        if (LogicTaskPlan.Instance.deleteTaskPlan(MyUserInfo.currentUserId, taskid))
+                        var taskidList = new List<GoodsTaskModel>();
+                        taskidList.Add(new GoodsTaskModel()
                         {
-                            dgvTaskPlan.Rows.Remove(row);
-                            //LoadTaskPlanGridView();
-                        }
+                            id = taskid
+                        });
+                        string taskids = JsonConvert.SerializeObject(taskidList);
+                        dgvTaskPlan.Rows.Remove(row);
+                        ((Action)(delegate ()
+                        {
+                            LogicTaskPlan.Instance.deleteTaskPlan(MyUserInfo.LoginToken, taskids);
+                        })).BeginInvoke(null, null);                       
+
                     };
                     confirm.ShowDialog(this);
                 }
@@ -400,7 +471,7 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void toolWeChatDel_Click(object sender, EventArgs e)
         {
-            List<int> pidList = new List<int>();
+            List<UserPidTaskModel> pidList = new List<UserPidTaskModel>();
             List<DataGridViewRow> rows = new List<DataGridViewRow>();
             foreach (DataGridViewRow item in dgvPid.Rows)
             {
@@ -408,9 +479,9 @@ namespace HotTao.Controls
                 {
                     int result = 0;
                     int.TryParse(item.Cells["shareid"].Value.ToString(), out result);
-                    if (result > 0 && !pidList.Contains(result))
+                    if (result > 0 && pidList.FindIndex(r => { return r.id == result; }) < 0)
                     {
-                        pidList.Add(result);
+                        pidList.Add(new UserPidTaskModel() { id = result });
                         rows.Add(item);
                     }
                 }
@@ -421,10 +492,21 @@ namespace HotTao.Controls
                 confirm.Message = "您确定要删除勾选的微信群吗";
                 confirm.CallBack += () =>
                 {
-                    if (LogicUser.Instance.DeleteUserWeChat(MyUserInfo.currentUserId, pidList))
+                    Loading ld = new Loading();
+                    string ids = JsonConvert.SerializeObject(pidList);
+                    ((Action)(delegate ()
                     {
-                        loadUserPidGridView();
-                    }
+                        if (LogicUser.Instance.DeleteUserWeChat(MyUserInfo.LoginToken, ids))
+                        {
+                            this.BeginInvoke((Action)(delegate ()
+                            {
+                                loadUserPidGridView();
+                            }));
+                        }
+                        ld.CloseForm();
+                    })).BeginInvoke(null, null);
+                    ld.ShowDialog(hotForm);
+
                 };
                 confirm.ShowDialog(this);
             }
@@ -439,11 +521,16 @@ namespace HotTao.Controls
                     MessageConfirm confirm = new MessageConfirm("您确定要删除【" + sharetitle + "】？");
                     confirm.CallBack += () =>
                     {
-                        pidList.Add(result);
-                        if (LogicUser.Instance.DeleteUserWeChat(MyUserInfo.currentUserId, pidList))
+                        pidList.Add(new UserPidTaskModel() { id = result });
+                        string ids = JsonConvert.SerializeObject(pidList);
+                        this.dgvPid.Rows.Remove(row);
+                        ((Action)(delegate ()
                         {
-                            this.dgvPid.Rows.Remove(row);
-                        }
+                            LogicUser.Instance.DeleteUserWeChat(MyUserInfo.LoginToken, ids);
+                        })).BeginInvoke(null, null);
+
+
+
                     };
                     confirm.ShowDialog(this);
                 }
@@ -463,7 +550,7 @@ namespace HotTao.Controls
             DataGridViewCellCollection cells = this.dgvTaskPlan.CurrentRow.Cells;
             if (cells != null && cells["edittask"].ColumnIndex == e.ColumnIndex)
             {
-                UpdateTask(cells);
+                UpdateTask(cells, cells["edittask"].RowIndex);
             }
 
         }
@@ -473,11 +560,11 @@ namespace HotTao.Controls
             DataGridViewCellCollection cells = this.dgvTaskPlan.Rows[MouseCurrentRowIndex].Cells;
             if (cells != null)
             {
-                UpdateTask(cells);
+                UpdateTask(cells, MouseCurrentRowIndex);
             }
         }
 
-        private void UpdateTask(DataGridViewCellCollection cells)
+        private void UpdateTask(DataGridViewCellCollection cells, int rowIndex)
         {
             int eCode = 0;
             int.TryParse(cells["ExecStatus"].Value.ToString(), out eCode);
@@ -489,6 +576,7 @@ namespace HotTao.Controls
                 int result = 0;
                 int.TryParse(cells["taskid"].Value.ToString(), out result);
                 te.taskid = result;
+                te.CurrentRowIndex = rowIndex;
                 te.taskStartTime = cells["taskStartTime"].Value.ToString();
                 te.taskTitle = cells["taskTitle"].Value.ToString();
                 te.taskEndTime = cells["taskEndTime"].Value.ToString();
@@ -513,12 +601,20 @@ namespace HotTao.Controls
             DataGridViewCell cell = this.dgvData.CurrentRow.Cells["editgoods"];
             if (cell != null && cell.ColumnIndex == e.ColumnIndex)
             {
+                DataGridViewCellCollection cells = this.dgvData.CurrentRow.Cells;
+                int deleteId = 0;
+                int.TryParse(cells["gid"].ToString(), out deleteId);
                 MessageConfirm confirm = new MessageConfirm();
                 confirm.Message = "确认要删除该商品吗";
                 confirm.CallBack += () =>
                 {
                     this.dgvData.Rows.RemoveAt(cell.RowIndex);
                     ShowAlert("删除成功");
+                    ((Action)(delegate ()
+                    {
+                        LogicGoods.Instance.DeleteGoods(MyUserInfo.LoginToken, deleteId);
+                    })).BeginInvoke(null, null);
+
                 };
                 confirm.ShowDialog(this);
             }
@@ -595,6 +691,7 @@ namespace HotTao.Controls
             {
                 AddWeChat add = new AddWeChat(hotForm, this);
                 add.Title = "修改微信群";
+                add.CurrentRowIndex = cell.RowIndex;
                 int result = 0;
                 int.TryParse(this.dgvPid.CurrentRow.Cells["shareid"].Value.ToString(), out result);
                 add.editId = result;
@@ -646,6 +743,7 @@ namespace HotTao.Controls
                     int.TryParse(row["shareid"].Value.ToString(), out result);
                     add.editId = result;
                     add.Title = "修改微信群";
+                    add.CurrentRowIndex = MouseCurrentRowIndex;
                     add.weChatTitle = row["sharetitle"].Value.ToString();
                     add.ShowDialog(this);
                 }

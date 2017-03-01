@@ -27,7 +27,7 @@ namespace HotTaoCore
         /// <summary>
         /// 接口地址
         /// </summary>
-        public const string Url = "http://192.168.1.75:8080";
+        public const string Url = "http://192.168.1.57:8080";
 
         #region 接口常量
 
@@ -64,7 +64,7 @@ namespace HotTaoCore
         /// <summary>
         /// 添加/修改任务
         /// </summary>
-        public const string addTask = "/task/addTask";
+        public const string saveTask = "/task/saveTask";
 
         /// <summary>
         /// 删除任务

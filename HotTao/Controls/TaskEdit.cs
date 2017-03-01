@@ -79,6 +79,11 @@ namespace HotTao.Controls
 
         private HistoryControl hotHistoryTask { get; set; }
 
+
+
+        public int CurrentRowIndex { get; set; }
+
+
         public TaskEdit(Main main, TaskControl task)
         {
             InitializeComponent();
@@ -155,38 +160,38 @@ namespace HotTao.Controls
                 goodsText = goodsText,
                 id = taskid
             };
-            if (taskid == 0)
-                taskid = LogicTaskPlan.Instance.addTaskPlan(model);
-            else
-                LogicTaskPlan.Instance.updateTaskPlan(model);
-            if (taskid > 0)
+            Loading ld = new Loading();
+            ((Action)(delegate ()
             {
-                hotGoodsText.ForEach(goods =>
+                TaskPlanModel data = LogicTaskPlan.Instance.addTaskPlan(MyUserInfo.LoginToken, model);
+                ld.CloseForm();
+                if (data != null)
                 {
-                    hotPidsText.ForEach(pids =>
+                    if (hotTask != null)
                     {
-                        LogicTaskPlan.Instance.addTaskGoodsPidLog(new TaskGoodsPidLogModel()
-                        {
-                            userid = MyUserInfo.currentUserId,
-                            taskid = taskid,
-                            goodsid = goods.id,
-                            pid = pids.id,
-                            shareText = ""
-                        });
-                    });
-                });
-            }
-            if (hotTask != null)
-                hotTask.LoadTaskPlanGridView();
-            if (hotHistoryTask != null)
-                hotHistoryTask.LoadTaskPlanGridView();
-            txtTaskTitle.Clear();
-            alert.Message = "保存成功";
-            alert.CallBack += () =>
-            {
-                this.Close();
-            };
-            alert.Show(this);
+                        hotTask.SetTaskView(data, taskid > 0 ? CurrentRowIndex : -1);
+                        hotTask.LoadTaskPlanGridView();
+                    }
+                    if (hotHistoryTask != null)
+                        hotHistoryTask.LoadTaskPlanGridView();
+                    this.BeginInvoke((Action)(delegate ()  //等待结束
+                    {
+                        txtTaskTitle.Clear();
+                        alert.Message = "保存成功";
+                        alert.CallBack += () => { this.Close(); };
+                        alert.ShowDialog(this);
+                    }));
+                }
+                else
+                {
+                    this.BeginInvoke((Action)(delegate ()  //等待结束
+                    {                        
+                        alert.Message = "保存失败";
+                        alert.ShowDialog(this);
+                    }));
+                }
+            })).BeginInvoke(null, null);
+            ld.ShowDialog(hotForm);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Windows.Forms;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,7 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+
 
 namespace HotTao
 {
@@ -28,7 +30,7 @@ namespace HotTao
         private string taobaoLoginUrl = "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=true&css_style=alimama&from=alimama&redirectURL=http://www.alimama.com&full_redirect=true&disableQuickLogin=true";
         public void Loading()
         {
-            webBrowser1.Navigate(taobaoLoginUrl);
+            //webBrowser1.Navigate(taobaoLoginUrl);
         }
 
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -54,8 +56,6 @@ namespace HotTao
                 //J_SubmitStatic.InvokeMember("click");
 
 
-
-
             }
         }
 
@@ -63,5 +63,37 @@ namespace HotTao
         {
             return webBrowser1.Document.GetElementById("J_LoginBox").GetAttribute("ClassName").Equals("module-quick");
         }
+
+
+
+
+
+
+
+
+        
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+           
+            //IWebElement usernameElement = driver.FindElement(By.Id("TPL_username_1"));
+            //IWebElement passwordElement = driver.FindElement(By.Id("TPL_password_1"));            
+            //usernameElement.SendKeys(hotForm.taobaoNo);
+            //usernameElement.SendKeys(hotForm.taobaoPwd);
+
+        }
+
+        //public Worker()
+        //{
+        //    log.Info("start up");
+        //    Console.WriteLine("Console Start up");
+        //    driver.Navigate().GoToUrl("https://wx.qq.com");
+        //}
+
+
+
+
+
+
     }
 }

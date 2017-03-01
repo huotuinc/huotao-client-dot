@@ -36,6 +36,11 @@ namespace HotTao
                 LoginToken = user.loginToken;
                 currentUserId = user.userid;
             }
+            else
+            {
+                LoginToken = "";
+                currentUserId = 0;
+            }
 
         }
     }

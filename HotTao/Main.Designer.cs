@@ -38,7 +38,7 @@
             this.panel6 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.btnCustomService = new System.Windows.Forms.PictureBox();
-            this.panel5 = new System.Windows.Forms.Panel();
+            this.panelHelp = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.pbHelp = new System.Windows.Forms.PictureBox();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -64,7 +64,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbMin)).BeginInit();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnCustomService)).BeginInit();
-            this.panel5.SuspendLayout();
+            this.panelHelp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnSetting)).BeginInit();
@@ -91,7 +91,7 @@
             this.HotContainer.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
             this.HotContainer.Panel1.Controls.Add(this.panel7);
             this.HotContainer.Panel1.Controls.Add(this.panel6);
-            this.HotContainer.Panel1.Controls.Add(this.panel5);
+            this.HotContainer.Panel1.Controls.Add(this.panelHelp);
             this.HotContainer.Panel1.Controls.Add(this.panel4);
             this.HotContainer.Panel1.Controls.Add(this.panel3);
             this.HotContainer.Panel1.Controls.Add(this.panel2);
@@ -117,27 +117,28 @@
             this.panel7.Controls.Add(this.pictureBox3);
             this.panel7.Controls.Add(this.pbClose);
             this.panel7.Controls.Add(this.pbMin);
-            this.panel7.Location = new System.Drawing.Point(836, 6);
+            this.panel7.Location = new System.Drawing.Point(818, 6);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(79, 22);
+            this.panel7.Size = new System.Drawing.Size(97, 25);
             this.panel7.TabIndex = 6;
             // 
             // pictureBox3
             // 
             this.pictureBox3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox3.Image = global::HotTao.Properties.Resources.icon_menu;
-            this.pictureBox3.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox3.Location = new System.Drawing.Point(28, 3);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(13, 13);
             this.pictureBox3.TabIndex = 4;
             this.pictureBox3.TabStop = false;
             this.toolTipText.SetToolTip(this.pictureBox3, "菜单");
+            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
             // pbClose
             // 
             this.pbClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbClose.Image = global::HotTao.Properties.Resources.icon_close;
-            this.pbClose.Location = new System.Drawing.Point(57, 3);
+            this.pbClose.Location = new System.Drawing.Point(82, 3);
             this.pbClose.Name = "pbClose";
             this.pbClose.Size = new System.Drawing.Size(13, 13);
             this.pbClose.TabIndex = 5;
@@ -149,7 +150,7 @@
             // 
             this.pbMin.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbMin.Image = global::HotTao.Properties.Resources.icon_min;
-            this.pbMin.Location = new System.Drawing.Point(30, 3);
+            this.pbMin.Location = new System.Drawing.Point(55, 3);
             this.pbMin.Name = "pbMin";
             this.pbMin.Size = new System.Drawing.Size(13, 13);
             this.pbMin.TabIndex = 3;
@@ -159,7 +160,7 @@
             // 
             // panel6
             // 
-            this.panel6.BackColor = System.Drawing.Color.Transparent;
+            this.panel6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
             this.panel6.Controls.Add(this.label6);
             this.panel6.Controls.Add(this.btnCustomService);
             this.panel6.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -167,6 +168,7 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(83, 113);
             this.panel6.TabIndex = 2;
+            this.panel6.Visible = false;
             // 
             // label6
             // 
@@ -181,6 +183,7 @@
             // 
             // btnCustomService
             // 
+            this.btnCustomService.BackColor = System.Drawing.Color.Transparent;
             this.btnCustomService.Image = global::HotTao.Properties.Resources.icon_06;
             this.btnCustomService.Location = new System.Drawing.Point(16, 25);
             this.btnCustomService.Name = "btnCustomService";
@@ -191,17 +194,18 @@
             this.toolTipText.SetToolTip(this.btnCustomService, "客服");
             this.btnCustomService.Click += new System.EventHandler(this.btnCustomService_Click);
             // 
-            // panel5
+            // panelHelp
             // 
-            this.panel5.BackColor = System.Drawing.Color.Transparent;
-            this.panel5.Controls.Add(this.label5);
-            this.panel5.Controls.Add(this.pbHelp);
-            this.panel5.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.panel5.Location = new System.Drawing.Point(524, 0);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(83, 113);
-            this.panel5.TabIndex = 1;
-            this.panel5.Click += new System.EventHandler(this.pbHelp_Click);
+            this.panelHelp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
+            this.panelHelp.Controls.Add(this.label5);
+            this.panelHelp.Controls.Add(this.pbHelp);
+            this.panelHelp.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.panelHelp.Location = new System.Drawing.Point(524, 0);
+            this.panelHelp.Name = "panelHelp";
+            this.panelHelp.Size = new System.Drawing.Size(83, 113);
+            this.panelHelp.TabIndex = 1;
+            this.panelHelp.Visible = false;
+            this.panelHelp.Click += new System.EventHandler(this.pbHelp_Click);
             // 
             // label5
             // 
@@ -217,6 +221,7 @@
             // 
             // pbHelp
             // 
+            this.pbHelp.BackColor = System.Drawing.Color.Transparent;
             this.pbHelp.Image = global::HotTao.Properties.Resources.icon_05;
             this.pbHelp.Location = new System.Drawing.Point(16, 25);
             this.pbHelp.Name = "pbHelp";
@@ -229,7 +234,7 @@
             // 
             // panel4
             // 
-            this.panel4.BackColor = System.Drawing.Color.Transparent;
+            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
             this.panel4.Controls.Add(this.label4);
             this.panel4.Controls.Add(this.btnSetting);
             this.panel4.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -237,6 +242,7 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(83, 113);
             this.panel4.TabIndex = 1;
+            this.panel4.Visible = false;
             this.panel4.Click += new System.EventHandler(this.btnSetting_Click);
             // 
             // label4
@@ -253,6 +259,7 @@
             // 
             // btnSetting
             // 
+            this.btnSetting.BackColor = System.Drawing.Color.Transparent;
             this.btnSetting.Image = global::HotTao.Properties.Resources.icon_04;
             this.btnSetting.Location = new System.Drawing.Point(16, 25);
             this.btnSetting.Name = "btnSetting";
@@ -265,7 +272,7 @@
             // 
             // panel3
             // 
-            this.panel3.BackColor = System.Drawing.Color.Transparent;
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
             this.panel3.Controls.Add(this.label3);
             this.panel3.Controls.Add(this.btnHistory);
             this.panel3.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -273,6 +280,7 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(83, 113);
             this.panel3.TabIndex = 1;
+            this.panel3.Visible = false;
             this.panel3.Click += new System.EventHandler(this.btnHistory_Click);
             // 
             // label3
@@ -289,6 +297,7 @@
             // 
             // btnHistory
             // 
+            this.btnHistory.BackColor = System.Drawing.Color.Transparent;
             this.btnHistory.Image = global::HotTao.Properties.Resources.icon_03;
             this.btnHistory.Location = new System.Drawing.Point(16, 25);
             this.btnHistory.Name = "btnHistory";
@@ -301,7 +310,7 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.Transparent;
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.btnWeChat);
             this.panel2.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -309,6 +318,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(83, 113);
             this.panel2.TabIndex = 1;
+            this.panel2.Visible = false;
             this.panel2.Click += new System.EventHandler(this.btnWeChat_Click);
             // 
             // label2
@@ -325,6 +335,7 @@
             // 
             // btnWeChat
             // 
+            this.btnWeChat.BackColor = System.Drawing.Color.Transparent;
             this.btnWeChat.Image = global::HotTao.Properties.Resources.icon_02;
             this.btnWeChat.Location = new System.Drawing.Point(16, 25);
             this.btnWeChat.Name = "btnWeChat";
@@ -346,6 +357,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(83, 113);
             this.panel1.TabIndex = 1;
+            this.panel1.Visible = false;
             this.panel1.Click += new System.EventHandler(this.btnHome_Click);
             // 
             // label1
@@ -397,6 +409,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "火淘助手工具";
             this.Load += new System.EventHandler(this.Main_Load);
+            this.Shown += new System.EventHandler(this.Main_Shown);
             this.HotContainer.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.HotContainer)).EndInit();
             this.HotContainer.ResumeLayout(false);
@@ -407,8 +420,8 @@
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnCustomService)).EndInit();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
+            this.panelHelp.ResumeLayout(false);
+            this.panelHelp.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
@@ -442,7 +455,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Panel panelHelp;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label4;

@@ -72,6 +72,7 @@
             // ckbAutoGoods
             // 
             this.ckbAutoGoods.AutoSize = true;
+            this.ckbAutoGoods.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
             this.ckbAutoGoods.Location = new System.Drawing.Point(258, 96);
             this.ckbAutoGoods.Name = "ckbAutoGoods";
             this.ckbAutoGoods.Size = new System.Drawing.Size(83, 16);
@@ -79,11 +80,13 @@
             this.ckbAutoGoods.TabStop = true;
             this.ckbAutoGoods.Text = "自定义商品";
             this.ckbAutoGoods.UseVisualStyleBackColor = true;
+            this.ckbAutoGoods.Visible = false;
             // 
             // ckbAutoText
             // 
             this.ckbAutoText.AutoSize = true;
             this.ckbAutoText.Checked = true;
+            this.ckbAutoText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
             this.ckbAutoText.Location = new System.Drawing.Point(161, 96);
             this.ckbAutoText.Name = "ckbAutoText";
             this.ckbAutoText.Size = new System.Drawing.Size(83, 16);
@@ -134,6 +137,7 @@
             this.hotGroupBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
             this.hotGroupBox1.Controls.Add(this.txtReplyContent);
+            this.hotGroupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
             this.hotGroupBox1.Location = new System.Drawing.Point(162, 128);
             this.hotGroupBox1.Name = "hotGroupBox1";
             this.hotGroupBox1.Size = new System.Drawing.Size(283, 65);
@@ -156,6 +160,7 @@
             this.hotGroupBox2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
             this.hotGroupBox2.Controls.Add(this.txtKeyword);
+            this.hotGroupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
             this.hotGroupBox2.Location = new System.Drawing.Point(161, 41);
             this.hotGroupBox2.Name = "hotGroupBox2";
             this.hotGroupBox2.Size = new System.Drawing.Size(167, 35);
@@ -190,6 +195,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
             this.label1.Location = new System.Drawing.Point(83, 55);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 12);
@@ -199,6 +205,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
             this.label3.Location = new System.Drawing.Point(83, 144);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 12);
@@ -208,6 +215,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
             this.label2.Location = new System.Drawing.Point(83, 100);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 12);

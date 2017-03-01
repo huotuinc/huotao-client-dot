@@ -31,7 +31,11 @@ namespace HotTao.Controls
 
         private void SetControl_Load(object sender, EventArgs e)
         {
-            openControl(new SetAccountControl(hotForm));
+            if (MyUserInfo.currentUserId > 0)
+                openControl(new SetAccountControl(hotForm));
+            else
+                hotForm.openControl(new LoginControl(hotForm));
+
         }
 
         /// <summary>

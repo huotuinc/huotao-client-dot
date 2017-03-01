@@ -81,7 +81,7 @@ namespace HotTaoCore.Logic
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
-            return true;// BaseRequestService.Post(ApiConst.checkToken, data);
+            return BaseRequestService.Post(ApiConst.checkToken, data);
             //return dal.getUserInfoByToken(loginToken);
         }
         /// <summary>
@@ -228,7 +228,7 @@ namespace HotTaoCore.Logic
         /// <param name="replyContent">Content of the reply.</param>
         /// <param name="msgType">Type of the MSG.</param>
         /// <returns>true if XXXX, false otherwise.</returns>
-        public int AddReplyKeyword(string loginToken,string keyword,string replyContent,int msgType)
+        public int AddReplyKeyword(string loginToken, string keyword, string replyContent, int msgType)
         {
 
             return 0;
@@ -277,14 +277,14 @@ namespace HotTaoCore.Logic
         /// <param name="wechatid">The wechatid.</param>
         /// <param name="wechattitle">The wechattitle.</param>
         /// <returns>System.Int32.</returns>
-        public int UpdateUserWeChatTitle(string loginToken, int wechatid, string wechattitle)
+        public UserWechatListModel UpdateUserWeChatTitle(string loginToken, int wechatid, string wechattitle)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
             data["groupname"] = wechattitle;
             if (wechatid > 0)
                 data["id"] = wechatid.ToString();
-            return BaseRequestService.Post(ApiConst.saveWeChatGroup, data) ? 1 : 0;
+            return BaseRequestService.Post<UserWechatListModel>(ApiConst.saveWeChatGroup, data);
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace HotTaoCore.Logic
             data["token"] = loginToken;
             data["groupname"] = wechattitle;
             data["type"] = type.ToString();
-            return 0;// BaseRequestService.Post(ApiConst.saveAutoWeChatGroup, data) ? 1 : 0;
+            return BaseRequestService.Post(ApiConst.saveAutoWeChatGroup, data) ? 1 : 0;
         }
 
 
@@ -321,12 +321,15 @@ namespace HotTaoCore.Logic
         /// <summary>
         /// 删除微信群
         /// </summary>
-        /// <param name="userid">The userid.</param>
-        /// <param name="wechatid">The wechatid.</param>
+        /// <param name="loginToken">The login token.</param>
+        /// <param name="groupids">The groupids.</param>
         /// <returns>true if XXXX, false otherwise.</returns>
-        public bool DeleteUserWeChat(int userid, List<int> wechatid)
+        public bool DeleteUserWeChat(string loginToken, string groupids)
         {
-            return dal.DeleteUserWeChat(userid, wechatid);
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["groupids"] = groupids;
+            return BaseRequestService.Post(ApiConst.delWeChatGroup, data);
         }
 
 

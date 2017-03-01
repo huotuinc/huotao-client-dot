@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using HotTaoCore.Logic;
+using HotTaoCore.Models;
 
 namespace HotTao.Controls
 {
@@ -72,6 +73,8 @@ namespace HotTao.Controls
         /// <value>The title.</value>
         public string Title { get; set; }
 
+        public int CurrentRowIndex { get; set; }
+
         public AddWeChat(Main main, TaskControl control)
         {
             InitializeComponent();
@@ -112,19 +115,21 @@ namespace HotTao.Controls
                 return;
             }
             MessageAlert alert = new MessageAlert();
-            //int flag = editId > 0 ? LogicUser.Instance.UpdateUserWeChatTitle(hotForm.currentLoginToken, editId, txtWeChatTitle.Text) : LogicUser.Instance.AddUserWeChat(new HotTaoCore.Models.UserWechatListModel()
-            //{
-            //    wechattitle = txtWeChatTitle.Text,
-            //    userid = hotForm.currentUserId
-            //});
             Loading ld = new Loading();
             SetAutoReplyControl replyControl = hotAutoForm as SetAutoReplyControl;
             SetAutoRemoveChatroom autoRemoveControl = hotAutoForm as SetAutoRemoveChatroom;
             ((Action)(delegate ()
             {
                 int flag = 0;
+                UserWechatListModel data = new UserWechatListModel();
                 if (hotTask != null)
-                    flag = LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, editId, txtWeChatTitle.Text);
+                {
+                    data = LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, editId, txtWeChatTitle.Text);
+                    if (data != null)
+                    {
+                        flag = 1;
+                    }
+                }
                 else if (replyControl != null)
                     flag = LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, txtWeChatTitle.Text, 0);
                 else if (autoRemoveControl != null)
@@ -144,7 +149,7 @@ namespace HotTao.Controls
                     if (flag > 0)
                     {
                         if (hotTask != null)
-                            hotTask.loadUserPidGridView();
+                            hotTask.SetPidView(data, editId > 0 ? CurrentRowIndex : -1);
                         else
                         {
                             if (replyControl != null)
