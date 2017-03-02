@@ -89,7 +89,18 @@ namespace HotTao.Controls.Login
                 isLogining = true;
                 ((Action)(delegate ()
                 {
-                    var data = LogicUser.Instance.login(lgname, pwd);
+                    var data = LogicUser.Instance.login(lgname, pwd, (err) =>
+                    {
+                        if (err != null && err.resultCode != 200)
+                        {
+                            this.BeginInvoke((Action)(delegate ()  //等待结束
+                            {
+                                lbTipMsg.Text = err.resultMsg;
+                            }));
+                            isLogining = false;
+                            loginSuccess = true;
+                        }
+                    });
                     if (data != null)
                     {
                         if (data.activate == 1)
@@ -111,15 +122,6 @@ namespace HotTao.Controls.Login
                             isLogining = false;
                             loginSuccess = true;
                         }
-                    }
-                    else
-                    {
-                        this.BeginInvoke((Action)(delegate ()  //等待结束
-                        {
-                            lbTipMsg.Text = "账号或密码不正确!";
-                        }));
-                        isLogining = false;
-                        loginSuccess = true;
                     }
                 })).BeginInvoke(null, null);
 
@@ -151,11 +153,11 @@ namespace HotTao.Controls.Login
             }
             catch (Exception ex)
             {
+                loginSuccess = true;
                 log.Error(ex);
                 this.BeginInvoke((Action)(delegate ()  //等待结束
                 {
                     lbTipMsg.Text = "连接服务器失败!";
-                    loginSuccess = true;
                     isLogining = false;
                 }));
             }
@@ -181,7 +183,7 @@ namespace HotTao.Controls.Login
             else
                 RememberPassword("");
             this.BeginInvoke((Action)(delegate ()  //等待结束
-            {            
+            {
                 //设置登陆状态,必须先设置登录状态
                 hotForm.SetLoginData(data);
                 loginForm.openControl(new SetTaobaoAccountPage(hotForm, loginForm));

@@ -31,11 +31,11 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.button2 = new System.Windows.Forms.Button();
@@ -45,25 +45,23 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvKeyword = new System.Windows.Forms.DataGridView();
-            this.keywordid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.replyKeyword = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.replyType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.replyContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dgvChatRoom = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wechattitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.editwechat = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.btnWeChat = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.ckbAutoReplay = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.keywordid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.replyKeyword = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.replyType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.replyContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.deleteKeyword = new System.Windows.Forms.DataGridViewImageColumn();
+            this.groupid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.wechattitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.deleteWechat = new System.Windows.Forms.DataGridViewImageColumn();
             this.hotGroupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKeyword)).BeginInit();
@@ -124,7 +122,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("宋体", 9.7F);
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label6.Location = new System.Drawing.Point(604, 11);
+            this.label6.Location = new System.Drawing.Point(634, 11);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(33, 13);
             this.label6.TabIndex = 2;
@@ -179,8 +177,7 @@
             this.replyKeyword,
             this.replyType,
             this.replyContent,
-            this.dataGridViewImageColumn1,
-            this.dataGridViewImageColumn2});
+            this.deleteKeyword});
             this.dgvKeyword.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.dgvKeyword.Location = new System.Drawing.Point(14, 307);
             this.dgvKeyword.Name = "dgvKeyword";
@@ -203,6 +200,136 @@
             this.dgvKeyword.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvKeyword.Size = new System.Drawing.Size(700, 232);
             this.dgvKeyword.TabIndex = 42;
+            this.dgvKeyword.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKeyword_CellClick);
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Location = new System.Drawing.Point(14, 57);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(700, 36);
+            this.panel1.TabIndex = 43;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("宋体", 9.7F);
+            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label7.Location = new System.Drawing.Point(634, 11);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(33, 13);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "操作";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("宋体", 9.7F);
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label2.Location = new System.Drawing.Point(7, 11);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(72, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "已添加的群";
+            // 
+            // dgvChatRoom
+            // 
+            this.dgvChatRoom.AllowUserToAddRows = false;
+            this.dgvChatRoom.AllowUserToDeleteRows = false;
+            this.dgvChatRoom.AllowUserToResizeColumns = false;
+            this.dgvChatRoom.AllowUserToResizeRows = false;
+            this.dgvChatRoom.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.dgvChatRoom.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvChatRoom.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgvChatRoom.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgvChatRoom.ColumnHeadersVisible = false;
+            this.dgvChatRoom.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.groupid,
+            this.wechattitle,
+            this.deleteWechat});
+            this.dgvChatRoom.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.dgvChatRoom.Location = new System.Drawing.Point(14, 93);
+            this.dgvChatRoom.Name = "dgvChatRoom";
+            this.dgvChatRoom.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.InfoText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvChatRoom.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.dgvChatRoom.RowHeadersVisible = false;
+            this.dgvChatRoom.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
+            this.dgvChatRoom.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            this.dgvChatRoom.RowTemplate.Height = 23;
+            this.dgvChatRoom.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.dgvChatRoom.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvChatRoom.Size = new System.Drawing.Size(700, 127);
+            this.dgvChatRoom.TabIndex = 42;
+            this.dgvChatRoom.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvChatRoom_CellClick);
+            // 
+            // btnWeChat
+            // 
+            this.btnWeChat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.btnWeChat.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnWeChat.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnWeChat.FlatAppearance.BorderSize = 0;
+            this.btnWeChat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWeChat.ForeColor = System.Drawing.Color.White;
+            this.btnWeChat.Location = new System.Drawing.Point(636, 21);
+            this.btnWeChat.Name = "btnWeChat";
+            this.btnWeChat.Size = new System.Drawing.Size(78, 32);
+            this.btnWeChat.TabIndex = 41;
+            this.btnWeChat.Text = "添加";
+            this.btnWeChat.UseVisualStyleBackColor = false;
+            this.btnWeChat.Click += new System.EventHandler(this.btnAddChat_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(323, 244);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(89, 12);
+            this.label8.TabIndex = 40;
+            this.label8.Text = "自动回复关键字";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(286, 30);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(149, 12);
+            this.label3.TabIndex = 40;
+            this.label3.Text = "选择添加开启自动回复的群";
+            // 
+            // ckbAutoReplay
+            // 
+            this.ckbAutoReplay.AutoSize = true;
+            this.ckbAutoReplay.Location = new System.Drawing.Point(14, 29);
+            this.ckbAutoReplay.Name = "ckbAutoReplay";
+            this.ckbAutoReplay.Size = new System.Drawing.Size(96, 16);
+            this.ckbAutoReplay.TabIndex = 35;
+            this.ckbAutoReplay.Text = "开启自动回复";
+            this.ckbAutoReplay.UseVisualStyleBackColor = true;
+            this.ckbAutoReplay.CheckedChanged += new System.EventHandler(this.ckbAutoReplay_CheckedChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.label9.Location = new System.Drawing.Point(323, -1);
+            this.label9.Name = "label9";
+            this.label9.Padding = new System.Windows.Forms.Padding(5);
+            this.label9.Size = new System.Drawing.Size(93, 22);
+            this.label9.TabIndex = 34;
+            this.label9.Text = "自动回复设置";
             // 
             // keywordid
             // 
@@ -248,102 +375,23 @@
             this.replyContent.Name = "replyContent";
             this.replyContent.ReadOnly = true;
             // 
-            // dataGridViewImageColumn1
+            // deleteKeyword
             // 
-            this.dataGridViewImageColumn1.HeaderText = "编辑";
-            this.dataGridViewImageColumn1.Image = global::HotTao.Properties.Resources.icon_edit;
-            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            this.dataGridViewImageColumn1.Width = 50;
+            this.deleteKeyword.HeaderText = "删除";
+            this.deleteKeyword.Image = global::HotTao.Properties.Resources.icon_delete;
+            this.deleteKeyword.Name = "deleteKeyword";
+            this.deleteKeyword.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.deleteKeyword.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
-            // dataGridViewImageColumn2
+            // groupid
             // 
-            this.dataGridViewImageColumn2.HeaderText = "删除";
-            this.dataGridViewImageColumn2.Image = global::HotTao.Properties.Resources.icon_delete;
-            this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
-            this.dataGridViewImageColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewImageColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dataGridViewImageColumn2.Width = 50;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Location = new System.Drawing.Point(14, 57);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(700, 36);
-            this.panel1.TabIndex = 43;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label7.Location = new System.Drawing.Point(604, 11);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(33, 13);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "操作";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label2.Location = new System.Drawing.Point(7, 11);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "已添加的群";
-            // 
-            // dgvChatRoom
-            // 
-            this.dgvChatRoom.AllowUserToAddRows = false;
-            this.dgvChatRoom.AllowUserToDeleteRows = false;
-            this.dgvChatRoom.AllowUserToResizeColumns = false;
-            this.dgvChatRoom.AllowUserToResizeRows = false;
-            this.dgvChatRoom.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            this.dgvChatRoom.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgvChatRoom.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dgvChatRoom.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dgvChatRoom.ColumnHeadersVisible = false;
-            this.dgvChatRoom.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.id,
-            this.wechattitle,
-            this.editwechat,
-            this.Column2});
-            this.dgvChatRoom.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.dgvChatRoom.Location = new System.Drawing.Point(14, 93);
-            this.dgvChatRoom.Name = "dgvChatRoom";
-            this.dgvChatRoom.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.InfoText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvChatRoom.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.dgvChatRoom.RowHeadersVisible = false;
-            this.dgvChatRoom.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
-            this.dgvChatRoom.RowsDefaultCellStyle = dataGridViewCellStyle8;
-            this.dgvChatRoom.RowTemplate.Height = 23;
-            this.dgvChatRoom.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dgvChatRoom.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvChatRoom.Size = new System.Drawing.Size(700, 127);
-            this.dgvChatRoom.TabIndex = 42;
-            // 
-            // id
-            // 
-            this.id.DataPropertyName = "id";
-            this.id.HeaderText = "id";
-            this.id.MinimumWidth = 50;
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Visible = false;
-            this.id.Width = 50;
+            this.groupid.DataPropertyName = "id";
+            this.groupid.HeaderText = "id";
+            this.groupid.MinimumWidth = 50;
+            this.groupid.Name = "groupid";
+            this.groupid.ReadOnly = true;
+            this.groupid.Visible = false;
+            this.groupid.Width = 50;
             // 
             // wechattitle
             // 
@@ -358,78 +406,11 @@
             this.wechattitle.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.wechattitle.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // editwechat
+            // deleteWechat
             // 
-            this.editwechat.HeaderText = "编辑";
-            this.editwechat.Image = global::HotTao.Properties.Resources.icon_edit;
-            this.editwechat.Name = "editwechat";
-            this.editwechat.Width = 50;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "删除";
-            this.Column2.Image = global::HotTao.Properties.Resources.icon_delete;
-            this.Column2.Name = "Column2";
-            this.Column2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Column2.Width = 50;
-            // 
-            // btnWeChat
-            // 
-            this.btnWeChat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.btnWeChat.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnWeChat.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
-            this.btnWeChat.FlatAppearance.BorderSize = 0;
-            this.btnWeChat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnWeChat.ForeColor = System.Drawing.Color.White;
-            this.btnWeChat.Location = new System.Drawing.Point(636, 21);
-            this.btnWeChat.Name = "btnWeChat";
-            this.btnWeChat.Size = new System.Drawing.Size(78, 32);
-            this.btnWeChat.TabIndex = 41;
-            this.btnWeChat.Text = "添加";
-            this.btnWeChat.UseVisualStyleBackColor = false;
-            this.btnWeChat.Click += new System.EventHandler(this.btnAddChat_Click);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(323, 244);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(89, 12);
-            this.label8.TabIndex = 40;
-            this.label8.Text = "自动回复关键字";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(323, 30);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(149, 12);
-            this.label3.TabIndex = 40;
-            this.label3.Text = "选择添加开启自动回复的群";
-            // 
-            // ckbAutoReplay
-            // 
-            this.ckbAutoReplay.AutoSize = true;
-            this.ckbAutoReplay.Location = new System.Drawing.Point(14, 29);
-            this.ckbAutoReplay.Name = "ckbAutoReplay";
-            this.ckbAutoReplay.Size = new System.Drawing.Size(96, 16);
-            this.ckbAutoReplay.TabIndex = 35;
-            this.ckbAutoReplay.Text = "开启自动回复";
-            this.ckbAutoReplay.UseVisualStyleBackColor = true;
-            this.ckbAutoReplay.CheckedChanged += new System.EventHandler(this.ckbAutoReplay_CheckedChanged);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.label9.Location = new System.Drawing.Point(323, -1);
-            this.label9.Name = "label9";
-            this.label9.Padding = new System.Windows.Forms.Padding(5);
-            this.label9.Size = new System.Drawing.Size(93, 22);
-            this.label9.TabIndex = 34;
-            this.label9.Text = "自动回复设置";
+            this.deleteWechat.HeaderText = "编辑";
+            this.deleteWechat.Image = global::HotTao.Properties.Resources.icon_edit;
+            this.deleteWechat.Name = "deleteWechat";
             // 
             // SetAutoReplyControl
             // 
@@ -475,11 +456,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn replyKeyword;
         private System.Windows.Forms.DataGridViewTextBoxColumn replyType;
         private System.Windows.Forms.DataGridViewTextBoxColumn replyContent;
-        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
-        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewImageColumn deleteKeyword;
+        private System.Windows.Forms.DataGridViewTextBoxColumn groupid;
         private System.Windows.Forms.DataGridViewTextBoxColumn wechattitle;
-        private System.Windows.Forms.DataGridViewImageColumn editwechat;
-        private System.Windows.Forms.DataGridViewImageColumn Column2;
+        private System.Windows.Forms.DataGridViewImageColumn deleteWechat;
     }
 }

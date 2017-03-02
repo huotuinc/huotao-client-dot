@@ -50,9 +50,9 @@
             // lbTipMsg
             // 
             this.lbTipMsg.ForeColor = System.Drawing.Color.Red;
-            this.lbTipMsg.Location = new System.Drawing.Point(18, 206);
+            this.lbTipMsg.Location = new System.Drawing.Point(0, 216);
             this.lbTipMsg.Name = "lbTipMsg";
-            this.lbTipMsg.Size = new System.Drawing.Size(233, 31);
+            this.lbTipMsg.Size = new System.Drawing.Size(270, 31);
             this.lbTipMsg.TabIndex = 20;
             this.lbTipMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -64,7 +64,7 @@
             this.btnRegister.FlatAppearance.BorderSize = 0;
             this.btnRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRegister.ForeColor = System.Drawing.Color.White;
-            this.btnRegister.Location = new System.Drawing.Point(18, 162);
+            this.btnRegister.Location = new System.Drawing.Point(18, 169);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(233, 41);
             this.btnRegister.TabIndex = 16;
@@ -107,7 +107,7 @@
             this.hotGroupBox1.Controls.Add(this.lbLoginName);
             this.hotGroupBox1.Controls.Add(this.loginName);
             this.hotGroupBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.hotGroupBox1.Location = new System.Drawing.Point(18, 34);
+            this.hotGroupBox1.Location = new System.Drawing.Point(18, 41);
             this.hotGroupBox1.Name = "hotGroupBox1";
             this.hotGroupBox1.Size = new System.Drawing.Size(233, 35);
             this.hotGroupBox1.TabIndex = 14;
@@ -134,7 +134,7 @@
             this.hotGroupBox2.Controls.Add(this.lbLoginPwd);
             this.hotGroupBox2.Controls.Add(this.loginPwd);
             this.hotGroupBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.hotGroupBox2.Location = new System.Drawing.Point(18, 114);
+            this.hotGroupBox2.Location = new System.Drawing.Point(18, 121);
             this.hotGroupBox2.Name = "hotGroupBox2";
             this.hotGroupBox2.Size = new System.Drawing.Size(233, 35);
             this.hotGroupBox2.TabIndex = 16;
@@ -162,7 +162,7 @@
             this.hotGroupBox3.Controls.Add(this.lbVerifyCode);
             this.hotGroupBox3.Controls.Add(this.txtVerifyCode);
             this.hotGroupBox3.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.hotGroupBox3.Location = new System.Drawing.Point(18, 75);
+            this.hotGroupBox3.Location = new System.Drawing.Point(18, 82);
             this.hotGroupBox3.Name = "hotGroupBox3";
             this.hotGroupBox3.Size = new System.Drawing.Size(233, 35);
             this.hotGroupBox3.TabIndex = 15;
@@ -214,7 +214,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(148, 33);
             this.label3.TabIndex = 21;
-            this.label3.Text = "火图账号注册";
+            this.label3.Text = "注册火淘账号";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // RegisterPage
@@ -228,7 +228,7 @@
             this.Controls.Add(this.hotGroupBox3);
             this.Controls.Add(this.hotGroupBox2);
             this.Name = "RegisterPage";
-            this.Size = new System.Drawing.Size(270, 241);
+            this.Size = new System.Drawing.Size(270, 251);
             this.hotGroupBox1.ResumeLayout(false);
             this.hotGroupBox1.PerformLayout();
             this.hotGroupBox2.ResumeLayout(false);

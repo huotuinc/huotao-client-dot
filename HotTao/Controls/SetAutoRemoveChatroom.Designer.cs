@@ -37,14 +37,13 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dgvChatRoom = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wechattitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.editwechat = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.btnAddChat = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.ckbAutoRemove = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.groupid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.wechattitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.deleteWechat = new System.Windows.Forms.DataGridViewImageColumn();
             this.hotGroupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvChatRoom)).BeginInit();
@@ -81,7 +80,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("宋体", 9.7F);
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label7.Location = new System.Drawing.Point(604, 11);
+            this.label7.Location = new System.Drawing.Point(629, 11);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(33, 13);
             this.label7.TabIndex = 2;
@@ -110,10 +109,9 @@
             this.dgvChatRoom.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvChatRoom.ColumnHeadersVisible = false;
             this.dgvChatRoom.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.id,
+            this.groupid,
             this.wechattitle,
-            this.editwechat,
-            this.Column2});
+            this.deleteWechat});
             this.dgvChatRoom.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.dgvChatRoom.Location = new System.Drawing.Point(14, 96);
             this.dgvChatRoom.Name = "dgvChatRoom";
@@ -134,47 +132,9 @@
             this.dgvChatRoom.RowTemplate.Height = 23;
             this.dgvChatRoom.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvChatRoom.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvChatRoom.Size = new System.Drawing.Size(700, 347);
+            this.dgvChatRoom.Size = new System.Drawing.Size(700, 375);
             this.dgvChatRoom.TabIndex = 42;
-            // 
-            // id
-            // 
-            this.id.DataPropertyName = "id";
-            this.id.HeaderText = "id";
-            this.id.MinimumWidth = 50;
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Visible = false;
-            this.id.Width = 50;
-            // 
-            // wechattitle
-            // 
-            this.wechattitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.wechattitle.DataPropertyName = "wechattitle";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.wechattitle.DefaultCellStyle = dataGridViewCellStyle1;
-            this.wechattitle.HeaderText = "群昵称";
-            this.wechattitle.Name = "wechattitle";
-            this.wechattitle.ReadOnly = true;
-            this.wechattitle.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.wechattitle.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // editwechat
-            // 
-            this.editwechat.HeaderText = "编辑";
-            this.editwechat.Image = global::HotTao.Properties.Resources.icon_edit;
-            this.editwechat.Name = "editwechat";
-            this.editwechat.Width = 50;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "删除";
-            this.Column2.Image = global::HotTao.Properties.Resources.icon_delete;
-            this.Column2.Name = "Column2";
-            this.Column2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Column2.Width = 50;
+            this.dgvChatRoom.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvChatRoom_CellClick);
             // 
             // btnAddChat
             // 
@@ -195,7 +155,8 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(117, 32);
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label3.Location = new System.Drawing.Point(116, 31);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(125, 12);
             this.label3.TabIndex = 40;
@@ -224,6 +185,37 @@
             this.label9.TabIndex = 34;
             this.label9.Text = "自动踢人设置";
             // 
+            // groupid
+            // 
+            this.groupid.DataPropertyName = "id";
+            this.groupid.HeaderText = "id";
+            this.groupid.MinimumWidth = 50;
+            this.groupid.Name = "groupid";
+            this.groupid.ReadOnly = true;
+            this.groupid.Visible = false;
+            this.groupid.Width = 50;
+            // 
+            // wechattitle
+            // 
+            this.wechattitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.wechattitle.DataPropertyName = "wechattitle";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.wechattitle.DefaultCellStyle = dataGridViewCellStyle1;
+            this.wechattitle.HeaderText = "群昵称";
+            this.wechattitle.Name = "wechattitle";
+            this.wechattitle.ReadOnly = true;
+            this.wechattitle.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.wechattitle.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // deleteWechat
+            // 
+            this.deleteWechat.HeaderText = "删除";
+            this.deleteWechat.Image = global::HotTao.Properties.Resources.icon_delete;
+            this.deleteWechat.Name = "deleteWechat";
+            this.deleteWechat.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.deleteWechat.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // SetAutoRemoveChatroom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -249,13 +241,12 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dgvChatRoom;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wechattitle;
-        private System.Windows.Forms.DataGridViewImageColumn editwechat;
-        private System.Windows.Forms.DataGridViewImageColumn Column2;
         private System.Windows.Forms.Button btnAddChat;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox ckbAutoRemove;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn groupid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn wechattitle;
+        private System.Windows.Forms.DataGridViewImageColumn deleteWechat;
     }
 }

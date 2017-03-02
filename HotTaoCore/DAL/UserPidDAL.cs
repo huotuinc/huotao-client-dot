@@ -30,22 +30,22 @@ namespace HotTaoCore.DAL
             }
         }
 
-        /// <summary>
-        /// 添加用户PID
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public int addUserPID(UserPidModel model)
-        {
-            string strSql = "insert into userpid_list(userid,title,pid) values(@userid,@title,@pid);select @@IDENTITY";
-            var param = new[]
-            {
-                new SqlParameter("@userid",model.userid),
-                new SqlParameter("@title",model.title),
-                new SqlParameter("@pid",model.pid)
-            };
-            return Convert.ToInt32(DbHelperSQL.ExecuteScalar(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param));
-        }
+        ///// <summary>
+        ///// 添加用户PID
+        ///// </summary>
+        ///// <param name="model"></param>
+        ///// <returns></returns>
+        //public int addUserPID(UserPidModel model)
+        //{
+        //    string strSql = "insert into userpid_list(userid,title,pid) values(@userid,@title,@pid);select @@IDENTITY";
+        //    var param = new[]
+        //    {
+        //        new SqlParameter("@userid",model.userid),
+        //        new SqlParameter("@title",model.title),
+        //        new SqlParameter("@pid",model.pid)
+        //    };
+        //    return Convert.ToInt32(DbHelperSQL.ExecuteScalar(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param));
+        //}
 
         /// <summary>
         /// 删除用户PID数据
@@ -77,23 +77,5 @@ namespace HotTaoCore.DAL
             return true;
         }
 
-
-        /// <summary>
-        /// 修改用户PID
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public bool UpdateUserPID(UserPidModel model)
-        {
-            string strSql = "update userpid_list set title=@title,pid=@pid  where userid=@userid and id=@id";
-            var param = new[]
-            {
-                new SqlParameter("@userid",model.userid),
-                new SqlParameter("@id",model.id),
-                new SqlParameter("@title",model.title),
-                new SqlParameter("@pid",model.pid)
-            };
-            return DbHelperSQL.ExecuteNonQuery(GlobalConfig.getConnectionString(), CommandType.Text, strSql, param) > 0;
-        }
     }
 }

@@ -13,13 +13,12 @@ namespace HotTaoCore.Models
     {
         public int id { get; set; }
 
-        public int userid { get; set; }
+
 
         public string title { get; set; }
 
         public string pid { get; set; }
-
-        public DateTime createTime { get; set; }
+        
 
     }
 

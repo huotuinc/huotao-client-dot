@@ -99,6 +99,7 @@ namespace HotTao.Controls
         {
             //是否自动添加属性字段
             this.dgvTaskPlan.AutoGenerateColumns = false;
+            this.dgvTaskPlan.Rows.Clear();
             ((Action)(delegate ()
             {
                 var taskData = LogicTaskPlan.Instance.getTaskPlanList(MyUserInfo.LoginToken);
@@ -131,13 +132,11 @@ namespace HotTao.Controls
                 dgvTaskPlan.Rows[i - 1].Cells["taskTitle"].Value = taskData[j].title.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["taskStartTime"].Value = taskData[j].startTime.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["taskEndTime"].Value = taskData[j].endTime.ToString();
-
-
                 dgvTaskPlan.Rows[i - 1].Cells["startTimeText"].Value = taskData[j].startTimeText.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["taskStatusText"].Value = taskData[j].statusText.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["goodsText"].Value = taskData[j].goodsText.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["pidsText"].Value = taskData[j].pidsText.ToString();
-                dgvTaskPlan.Rows[i - 1].Cells["ExecStatus"].Value = taskData[j].ExecStatus.ToString();
+                dgvTaskPlan.Rows[i - 1].Cells["ExecStatus"].Value = taskData[j].status.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["isTpwd"].Value = taskData[j].isTpwd.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["TpwdText"].Value = taskData[j].isTpwd == 1 ? "OK" : "";
                 if (i % 2 == 0)
@@ -166,9 +165,10 @@ namespace HotTao.Controls
                 {
                     foreach (DataGridViewRow row in dgvTaskPlan.Rows)
                     {
-                        int result = 0;
+                        int result = 0, eCode = 0;
                         int.TryParse(row.Cells["isTpwd"].Value.ToString(), out result);
-                        if (result == 0)
+                        int.TryParse(row.Cells["ExecStatus"].Value.ToString(), out eCode);
+                        if (result == 0 && eCode == 0)
                             StartTaskTpwd(row);
                     }
                     //更新转链结果
@@ -258,25 +258,31 @@ namespace HotTao.Controls
             DataGridViewRow row = this.dgvTaskPlan.Rows[MouseCurrentRowIndex];
             if (row != null)
             {
-                int result = 0;
+                int result = 0, eCode = 0;
                 int.TryParse(row.Cells["isTpwd"].Value.ToString(), out result);
-                ((Action)(delegate ()
+                int.TryParse(row.Cells["ExecStatus"].Value.ToString(), out eCode);
+                if (eCode == 0)
                 {
-                    if (result > 0)
+                    ((Action)(delegate ()
                     {
-                        MessageConfirm confirm = new MessageConfirm("确定重新转链");
-                        confirm.CallBack += () =>
+                        if (result > 0)
                         {
+                            MessageConfirm confirm = new MessageConfirm("确定重新转链");
+                            confirm.CallBack += () =>
+                            {
+                                StartTaskTpwd(row);
+                            };
+                            confirm.ShowDialog(this);
+                        }
+                        else
                             StartTaskTpwd(row);
-                        };
-                        confirm.ShowDialog(this);
-                    }
-                    else
-                        StartTaskTpwd(row);
 
-                    //更新转链结果
-                    LogicTaskPlan.Instance.UpdateTaskIsTpwd(MyUserInfo.currentUserId, lstSuccessTaskId);
-                })).BeginInvoke(null, null);
+                    })).BeginInvoke(null, null);
+                }
+                else
+                {
+                    ShowAlert("只对未执行的任务进行转链");
+                }
             }
         }
 
@@ -286,27 +292,20 @@ namespace HotTao.Controls
         /// <param name="row"></param>
         private void StartTaskTpwd(DataGridViewRow row)
         {
-
-            int eCode = 0;
-            int.TryParse(row.Cells["ExecStatus"].Value.ToString(), out eCode);
-            if (eCode == 0 || eCode == 1)
+            int result = 0;
+            int.TryParse(row.Cells["taskid"].Value.ToString(), out result);
+            row.Cells["TpwdText"].Value = "正在转链";
+            if (LogicTaskPlan.Instance.StartTaskTpwd(MyUserInfo.LoginToken, result))
             {
-                int result = 0;
-                int.TryParse(row.Cells["taskid"].Value.ToString(), out result);
-                row.Cells["TpwdText"].Value = "正在转链";
-                if (LogicTaskPlan.Instance.StartTaskTpwd(MyUserInfo.currentUserId, result))
-                {
-                    row.Cells["TpwdText"].Value = "OK";
-                    row.Cells["isTpwd"].Value = 1;
-                    lstSuccessTaskId.Add(result);
-                }
-                else
-                {
-                    row.Cells["TpwdText"].Value = "转链失败";
-                    row.Cells["isTpwd"].Value = 0;
-                }
+                row.Cells["TpwdText"].Value = "OK";
+                row.Cells["isTpwd"].Value = 1;
+                lstSuccessTaskId.Add(result);
             }
-
+            else
+            {
+                row.Cells["TpwdText"].Value = "转链失败";
+                row.Cells["isTpwd"].Value = 0;
+            }
         }
 
 

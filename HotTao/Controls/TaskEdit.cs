@@ -150,6 +150,7 @@ namespace HotTao.Controls
             }
             string goodsText = JsonConvert.SerializeObject(hotGoodsText);
             string pidsText = JsonConvert.SerializeObject(hotPidsText);
+
             TaskPlanModel model = new TaskPlanModel()
             {
                 userid = MyUserInfo.currentUserId,
@@ -167,15 +168,15 @@ namespace HotTao.Controls
                 ld.CloseForm();
                 if (data != null)
                 {
-                    if (hotTask != null)
-                    {
-                        hotTask.SetTaskView(data, taskid > 0 ? CurrentRowIndex : -1);
-                        hotTask.LoadTaskPlanGridView();
-                    }
-                    if (hotHistoryTask != null)
-                        hotHistoryTask.LoadTaskPlanGridView();
+
                     this.BeginInvoke((Action)(delegate ()  //等待结束
                     {
+                        if (hotTask != null)
+                            hotTask.SetTaskView(data, taskid > 0 ? CurrentRowIndex : -1);
+
+                        if (hotHistoryTask != null)
+                            hotHistoryTask.LoadTaskPlanGridView();
+
                         txtTaskTitle.Clear();
                         alert.Message = "保存成功";
                         alert.CallBack += () => { this.Close(); };
@@ -185,7 +186,7 @@ namespace HotTao.Controls
                 else
                 {
                     this.BeginInvoke((Action)(delegate ()  //等待结束
-                    {                        
+                    {
                         alert.Message = "保存失败";
                         alert.ShowDialog(this);
                     }));

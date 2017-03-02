@@ -22,14 +22,32 @@ namespace HotTao.Controls
         {
             if (MyUserInfo.currentUserId > 0)
             {
-                string tempText = LogicUser.Instance.GetUserSendTemplate(MyUserInfo.currentUserId);
-                if (!string.IsNullOrEmpty(tempText))
-                    txtTempText.Text = tempText;
+                ((Action)(delegate ()
+                {
+                    string tempText = LogicUser.Instance.GetUserSendTemplate(MyUserInfo.currentUserId);
+                    MyUserInfo.sendtemplate = tempText;
+                    this.BeginInvoke((Action)(delegate ()
+                    {
+                        if (!string.IsNullOrEmpty(tempText))
+                            txtTempText.Text = tempText;
+                        else
+                            MyUserInfo.sendtemplate = txtTempDefaultText.Text;
+                    }));
+
+                })).BeginInvoke(null, null);
+
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));
-            
+
         }
+
+
+        /// <summary>
+        /// 将变量标签插入指定位置
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void SetTag_Click(object sender, EventArgs e)
         {
             Label tag = sender as Label;
@@ -47,11 +65,24 @@ namespace HotTao.Controls
         {
             MessageAlert alert = new MessageAlert();
 
-            if (LogicUser.Instance.AddUserSendTemplate(MyUserInfo.currentUserId, txtTempText.Text))
-                alert.Message = "保存成功";
-            else
-                alert.Message = "保存失败";
-            alert.ShowDialog(this);
+
+            Loading ld = new Loading();
+            ((Action)(delegate ()
+            {
+                if (LogicUser.Instance.AddUserSendTemplate(MyUserInfo.currentUserId, txtTempText.Text))
+                {
+                    alert.Message = "保存成功";                    
+                }
+                else
+                    alert.Message = "保存失败";
+                ld.CloseForm();                
+                this.BeginInvoke((Action)(delegate ()
+                {
+                    MyUserInfo.sendtemplate = txtTempText.Text;
+                    alert.ShowDialog(this);
+                }));
+            })).BeginInvoke(null, null);
+            ld.ShowDialog(this);
         }
         /// <summary>
         /// 恢复默认模板

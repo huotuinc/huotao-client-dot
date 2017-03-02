@@ -147,7 +147,7 @@ namespace HotTao
         {
             ((Action)(delegate ()
             {
-                myConfig = LogicUser.Instance.GetConfigModel(MyUserInfo.currentUserId);
+                myConfig = LogicUser.Instance.GetConfigModel(MyUserInfo.LoginToken);
 
             })).BeginInvoke(null, null);
         }

@@ -82,7 +82,7 @@ namespace HotTao.Controls
             {
                 dgvChatRoom.Rows.Add();
                 ++i;
-                dgvChatRoom.Rows[i - 1].Cells["id"].Value = data[j].id.ToString();
+                dgvChatRoom.Rows[i - 1].Cells["groupid"].Value = data[j].id.ToString();
                 dgvChatRoom.Rows[i - 1].Cells["wechattitle"].Value = data[j].wechattitle.ToString();
 
                 if (i % 2 == 0)
@@ -136,8 +136,7 @@ namespace HotTao.Controls
                 if (data[j].replyType == 0)
                     dgvKeyword.Rows[i - 1].Cells["replyContent"].Value = data[j].replyContent.ToString();
                 else
-                    dgvKeyword.Rows[i - 1].Cells["replyContent"].Value = "回复商品";
-
+                    dgvKeyword.Rows[i - 1].Cells["replyContent"].Value = "回复相关商品";
 
                 if (i % 2 == 0)
                     dgvKeyword.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
@@ -147,7 +146,6 @@ namespace HotTao.Controls
                 dgvKeyword.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                 dgvKeyword.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
             }
-
         }
 
 
@@ -211,7 +209,11 @@ namespace HotTao.Controls
             {
                 return;
             }
-        }
+        }/// <summary>
+        /// 添加微信群
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddChat_Click(object sender, EventArgs e)
         {
             AddWeChat wechat = new AddWeChat(hotForm, this);
@@ -225,18 +227,95 @@ namespace HotTao.Controls
             ((Action)(delegate ()
             {
                 hotForm.myConfig.enable_autoreply = ckbAutoReplay.Checked ? 1 : 0;
-                LogicUser.Instance.AddUserConfigModel(hotForm.myConfig);
+                LogicUser.Instance.AddUserConfigModel(MyUserInfo.LoginToken,hotForm.myConfig);
 
             })).BeginInvoke(null, null);
-
-
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            AddKeywordControl kwControl = new AddKeywordControl(hotForm,this);
+            AddKeywordControl kwControl = new AddKeywordControl(hotForm, this);
             kwControl.Title = "添加关键字";
             kwControl.ShowDialog(this);
+        }
+
+
+        /// <summary>
+        /// 删除回复微信群
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
+        private void dgvChatRoom_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewCell cell = this.dgvChatRoom.CurrentRow.Cells["deleteWechat"];
+            if (cell != null && cell.ColumnIndex == e.ColumnIndex)
+            {
+                DataGridViewCellCollection cells = this.dgvChatRoom.CurrentRow.Cells;
+                int deleteId = 0;
+                int.TryParse(cells["groupid"].ToString(), out deleteId);
+                if (deleteId <= 0)
+                {
+                    ShowAlert("请选择要删除的关键字");
+                    return;
+                }
+                MessageConfirm confirm = new MessageConfirm();
+                confirm.Message = "确认要删除该微信群吗";
+                confirm.CallBack += () =>
+                {
+                    this.dgvChatRoom.Rows.RemoveAt(cell.RowIndex);
+                    ShowAlert("删除成功");
+                    ((Action)(delegate ()
+                    {
+                        LogicUser.Instance.DeleteReplyWeChat(MyUserInfo.LoginToken, deleteId);
+
+                    })).BeginInvoke(null, null);
+
+                };
+                confirm.ShowDialog(this);
+            }
+        }
+        /// <summary>
+        /// 删除关键字
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
+        private void dgvKeyword_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewCell cell = this.dgvKeyword.CurrentRow.Cells["deleteKeyword"];
+            if (cell != null && cell.ColumnIndex == e.ColumnIndex)
+            {
+                DataGridViewCellCollection cells = this.dgvKeyword.CurrentRow.Cells;
+                int deleteId = 0;
+                int.TryParse(cells["keywordid"].ToString(), out deleteId);
+                if(deleteId<=0)
+                {
+                    ShowAlert("请选择要删除的关键字");
+                    return;
+                }
+                MessageConfirm confirm = new MessageConfirm();
+                confirm.Message = "确认要删除该关键字吗";
+                confirm.CallBack += () =>
+                {
+                    this.dgvKeyword.Rows.RemoveAt(cell.RowIndex);
+                    ShowAlert("删除成功");
+                    ((Action)(delegate ()
+                    {
+                        LogicUser.Instance.DeleteUserKeyword(MyUserInfo.LoginToken, deleteId);
+
+
+                    })).BeginInvoke(null, null);
+
+                };
+                confirm.ShowDialog(this);
+            }
+        }
+
+
+        private void ShowAlert(string Message)
+        {
+            MessageAlert alert = new MessageAlert();
+            alert.Message = Message;
+            alert.ShowDialog(this);
         }
     }
 }

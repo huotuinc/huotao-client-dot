@@ -29,14 +29,15 @@ namespace HotTaoCore.Logic
         /// <param name="loginName"></param>
         /// <param name="loginPwd"></param>
         /// <returns></returns>
-        public UserModel login(string loginName, string loginPwd)
+        public UserModel login(string loginName, string loginPwd, Action<ResultModel> error = null)
         {
-
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["username"] = loginName;
             data["password"] = loginPwd;
-            var userData = BaseRequestService.Post<UserModel>(ApiConst.login, data);
-            //var userData = dal.login(loginName, loginPwd);
+            var userData = BaseRequestService.Post<UserModel>(ApiConst.login, data, (err) =>
+            {
+                error?.Invoke(err);
+            });
             if (userData != null)
             {
                 userData.activate = 1;
@@ -49,13 +50,16 @@ namespace HotTaoCore.Logic
         }
 
 
-        public UserModel Register(string loginName, string loginPwd, string verifyCode)
+        public UserModel Register(string loginName, string loginPwd, string verifyCode, Action<ResultModel> error = null)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["username"] = loginName;
             data["password"] = loginPwd;
             data["verifycode"] = verifyCode;
-            var userData = BaseRequestService.Post<UserModel>(ApiConst.register, data);
+            var userData = BaseRequestService.Post<UserModel>(ApiConst.register, data, (err) =>
+            {
+                error?.Invoke(err);
+            });
             if (userData != null)
             {
                 return userData;
@@ -211,12 +215,18 @@ namespace HotTaoCore.Logic
             return dal.GetUserReplyWeChatList();
             //return BaseRequestService.Post<List<WxAutoReplyModel>>(ApiConst.getWeChatGroups, data);
         }
-
-        public int UpdateReplyWeChat(string loginToken, int wechatid, string wechattitle)
+        /// <summary>
+        /// 删除回复微信群
+        /// </summary>
+        /// <param name="loginToken">The login token.</param>
+        /// <param name="wechatid">The wechatid.</param>        
+        /// <returns>System.Int32.</returns>
+        public bool DeleteReplyWeChat(string loginToken, int wechatid)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
-            return 0;
+            data["groupid"] = wechatid.ToString();
+            return true;
         }
 
 
@@ -230,7 +240,8 @@ namespace HotTaoCore.Logic
         /// <returns>true if XXXX, false otherwise.</returns>
         public int AddReplyKeyword(string loginToken, string keyword, string replyContent, int msgType)
         {
-
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
             return 0;
         }
 
@@ -246,6 +257,20 @@ namespace HotTaoCore.Logic
             return dal.GetUserReplyKeywordList();
             //return BaseRequestService.Post<List<WxAutoReplyModel>>(ApiConst.getWeChatGroups, data);
         }
+        /// <summary>
+        /// 删除关键字
+        /// </summary>
+        /// <param name="loginToken">The login token.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool DeleteUserKeyword(string loginToken, int keywordid)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["keywordid"] = keywordid.ToString();
+            return false;
+        }
+
+
 
 
         /// <summary>
@@ -312,9 +337,13 @@ namespace HotTaoCore.Logic
         /// <param name="wechatid">The wechatid.</param>
         /// <param name="pidid">The pidid.</param>
         /// <returns>System.Int32.</returns>
-        public bool UpdateUserWeChatPid(int userid, int wechatid, int pidid)
+        public bool UpdateUserWeChatPid(string loginToken, int wechatid, int pidid)
         {
-            return dal.UpdateUserWeChatPid(userid, wechatid, pidid);
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["pidid"] = pidid.ToString();
+            data["groupid"] = wechatid.ToString();
+            return BaseRequestService.Post(ApiConst.setPid, data);
         }
 
 
@@ -352,18 +381,26 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns>System.Int32.</returns>
-        public int AddUserConfigModel(ConfigModel model)
+        public int AddUserConfigModel(string loginToken,ConfigModel model)
         {
-            return dal.AddUserConfigModel(model);
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["where_config"] = model.where_config;            
+            data["send_time_config"] = model.send_time_config;
+            data["enable_autoreply"] = model.enable_autoreply.ToString();
+            data["enable_autoremove"] = model.enable_autoremove.ToString();
+            return BaseRequestService.Post(ApiConst.saveHotUserConfig, data) ? 1 : 0;
         }
         /// <summary>
         /// 获取配置
         /// </summary>
         /// <param name="userid">The userid.</param>
         /// <returns>ConfigModel.</returns>
-        public ConfigModel GetConfigModel(int userid)
+        public ConfigModel GetConfigModel(string loginToken)
         {
-            return dal.GetConfigModel(userid);
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            return BaseRequestService.Post<ConfigModel>(ApiConst.getHotUserConfig, data);
         }
     }
 }

@@ -72,6 +72,12 @@ namespace HotTaoCore
         public const string delTask = "/task/delTask";
 
         /// <summary>
+        /// 修改已转发的数据状态
+        /// </summary>
+        public const string modifyTaskExecuteStatus = "/task/modifyTaskExecuteStatus";
+
+
+        /// <summary>
         /// 获取商品
         /// </summary>
         public const string getGoodsList = "/hotUser/getGoodsList";
@@ -85,7 +91,33 @@ namespace HotTaoCore
         /// <summary>
         /// 添加自动管理群
         /// </summary>
-        public const string saveAutoWeChatGroup = "/weChatGroup/saveWeChatGroup";
+        public const string saveAutoWeChatGroup = "/weChatGroup/saveAutoWeChatGroup";
+
+
+        /// <summary>
+        /// 转链
+        /// </summary>
+        public const string turnChain = "/task/turnChain";
+
+        /// <summary>
+        /// 获取推广位列表
+        /// </summary>
+        public const string getExtensions = "/weChatGroup/getExtensions";
+
+        /// <summary>
+        /// 设置微信群pid
+        /// </summary>
+        public const string setPid = "/weChatGroup/setPid";
+
+
+        /// <summary>
+        /// 设置用户配置
+        /// </summary>
+        public const string saveHotUserConfig = "/hotUser/saveHotUserConfig";
+        /// <summary>
+        /// 获取用户配置
+        /// </summary>
+        public const string getHotUserConfig = "/hotUser/getHotUserConfig";
 
         #endregion
     }

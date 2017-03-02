@@ -34,12 +34,6 @@ namespace HotTaoCore.Models
         public string where_config { get; set; }
 
         /// <summary>
-        /// 发送顺序，0正序，1倒序
-        /// </summary>
-        /// <value>The send_orderby.</value>
-        public int send_orderby { get; set; }
-
-        /// <summary>
         /// 发送时间配置
         /// </summary>
         /// <value>The send_time_config.</value>
@@ -54,9 +48,7 @@ namespace HotTaoCore.Models
         /// </summary>
         /// <value>The enable_auto_remove.</value>
         public int enable_autoremove { get; set; }
-
-
-        public DateTime createtime { get; set; }
+        
     }
 
     /// <summary>

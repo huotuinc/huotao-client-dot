@@ -104,26 +104,29 @@ namespace HotTao.Controls.Login
                 string lgname = loginName.Text;
                 string pwd = EncryptHelper.MD5(loginPwd.Text);
                 string verifyCode = txtVerifyCode.Text;
-               // bool loginSuccess = true;
+                Loading ld = new Loading();
                 ((Action)(delegate ()
                 {
-                    var data = LogicUser.Instance.Register(lgname, pwd, verifyCode);
+                    var data = LogicUser.Instance.Register(lgname, pwd, verifyCode, (err) =>
+                    {
+                        if (err != null && err.resultCode != 200)
+                        {
+                            this.BeginInvoke((Action)(delegate ()  //等待结束
+                            {
+                                lbTipMsg.Text = err.resultMsg;
+                            }));
+                        }
+                    });
+                    ld.CloseForm();
                     if (data != null)
                     {
                         this.BeginInvoke((Action)(delegate ()  //等待结束
                         {
                             loginForm.openControl(new LoginPage(hotForm, loginForm));
                         }));
-                       
-                    }
-                    else
-                    {
-                        this.BeginInvoke((Action)(delegate ()  //等待结束
-                        {
-                            lbTipMsg.Text = "注册失败，请稍后再试!";
-                        }));
                     }
                 })).BeginInvoke(null, null);
+                ld.ShowDialog(this);
             }
             catch (Exception ex)
             {

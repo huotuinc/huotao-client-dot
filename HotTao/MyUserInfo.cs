@@ -43,5 +43,19 @@ namespace HotTao
             }
 
         }
+
+        /// <summary>
+        /// 发送文案
+        /// </summary>
+        public static string sendtemplate = "";
+
+        /// <summary>
+        /// 设置文章
+        /// </summary>
+        /// <param name="text">The text.</param>
+        public void SetTemplateText(string text)
+        {
+            sendtemplate = text;
+        }
     }
 }

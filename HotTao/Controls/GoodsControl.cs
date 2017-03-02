@@ -43,7 +43,7 @@ namespace HotTao.Controls
                 isSubmit = false;
                 new Thread(() =>
                 {
-                    string url = ApiConst.Url + "/goods/goodListPage?token="+MyUserInfo.LoginToken;
+                    string url = ApiConst.Url + "/goods/goodListPage?token=" + MyUserInfo.LoginToken;
                     if (browser != null)
                     {
                         try
@@ -64,7 +64,9 @@ namespace HotTao.Controls
                         LocalStorage = CefState.Enabled,
                         Javascript = CefState.Enabled
                     };
-                    browser.Dock = DockStyle.Fill;
+                    browser.Dock = DockStyle.None;
+                    browser.Size = new Size(920, 607);
+                    browser.Location = new Point(1, 0);
                     SetBrowserPanel(browser);
 
                 })

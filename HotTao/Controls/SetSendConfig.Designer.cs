@@ -54,10 +54,6 @@
             this.ckbMonthSales = new System.Windows.Forms.CheckBox();
             this.ckbCoupon = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.rbtSendorderbyAsc = new System.Windows.Forms.RadioButton();
-            this.rbtSendorderbyDesc = new System.Windows.Forms.RadioButton();
-            this.label5 = new System.Windows.Forms.Label();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -67,7 +63,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.hotGroupBox3.SuspendLayout();
-            this.hotGroupBox2.SuspendLayout();
             this.hotGroupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -99,9 +94,9 @@
             this.hotGroupBox3.Controls.Add(this.ckbMonthSales);
             this.hotGroupBox3.Controls.Add(this.ckbCoupon);
             this.hotGroupBox3.Controls.Add(this.label6);
-            this.hotGroupBox3.Location = new System.Drawing.Point(13, 233);
+            this.hotGroupBox3.Location = new System.Drawing.Point(13, 125);
             this.hotGroupBox3.Name = "hotGroupBox3";
-            this.hotGroupBox3.Size = new System.Drawing.Size(725, 311);
+            this.hotGroupBox3.Size = new System.Drawing.Size(725, 419);
             this.hotGroupBox3.TabIndex = 2;
             this.hotGroupBox3.TabStop = false;
             // 
@@ -342,53 +337,6 @@
             this.label6.TabIndex = 34;
             this.label6.Text = "过滤条件";
             // 
-            // hotGroupBox2
-            // 
-            this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
-            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox2.Controls.Add(this.rbtSendorderbyAsc);
-            this.hotGroupBox2.Controls.Add(this.rbtSendorderbyDesc);
-            this.hotGroupBox2.Controls.Add(this.label5);
-            this.hotGroupBox2.Location = new System.Drawing.Point(13, 128);
-            this.hotGroupBox2.Name = "hotGroupBox2";
-            this.hotGroupBox2.Size = new System.Drawing.Size(725, 81);
-            this.hotGroupBox2.TabIndex = 1;
-            this.hotGroupBox2.TabStop = false;
-            // 
-            // rbtSendorderbyAsc
-            // 
-            this.rbtSendorderbyAsc.AutoSize = true;
-            this.rbtSendorderbyAsc.Checked = true;
-            this.rbtSendorderbyAsc.Location = new System.Drawing.Point(56, 39);
-            this.rbtSendorderbyAsc.Name = "rbtSendorderbyAsc";
-            this.rbtSendorderbyAsc.Size = new System.Drawing.Size(47, 16);
-            this.rbtSendorderbyAsc.TabIndex = 3;
-            this.rbtSendorderbyAsc.TabStop = true;
-            this.rbtSendorderbyAsc.Text = "正序";
-            this.rbtSendorderbyAsc.UseVisualStyleBackColor = true;
-            // 
-            // rbtSendorderbyDesc
-            // 
-            this.rbtSendorderbyDesc.AutoSize = true;
-            this.rbtSendorderbyDesc.Location = new System.Drawing.Point(156, 39);
-            this.rbtSendorderbyDesc.Name = "rbtSendorderbyDesc";
-            this.rbtSendorderbyDesc.Size = new System.Drawing.Size(47, 16);
-            this.rbtSendorderbyDesc.TabIndex = 4;
-            this.rbtSendorderbyDesc.Text = "倒序";
-            this.rbtSendorderbyDesc.UseVisualStyleBackColor = true;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.label5.Location = new System.Drawing.Point(317, -2);
-            this.label5.Name = "label5";
-            this.label5.Padding = new System.Windows.Forms.Padding(5);
-            this.label5.Size = new System.Drawing.Size(93, 22);
-            this.label5.TabIndex = 34;
-            this.label5.Text = "云端发送模式";
-            // 
             // hotGroupBox1
             // 
             this.hotGroupBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
@@ -484,15 +432,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.hotGroupBox3);
-            this.Controls.Add(this.hotGroupBox2);
             this.Controls.Add(this.hotGroupBox1);
             this.Name = "SetSendConfig";
             this.Size = new System.Drawing.Size(750, 646);
             this.Load += new System.EventHandler(this.SetSendConfig_Load);
             this.hotGroupBox3.ResumeLayout(false);
             this.hotGroupBox3.PerformLayout();
-            this.hotGroupBox2.ResumeLayout(false);
-            this.hotGroupBox2.PerformLayout();
             this.hotGroupBox1.ResumeLayout(false);
             this.hotGroupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -509,10 +454,6 @@
         private System.Windows.Forms.TextBox txtgoodsinterval;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
-        private module.HotGroupBox hotGroupBox2;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.RadioButton rbtSendorderbyAsc;
-        private System.Windows.Forms.RadioButton rbtSendorderbyDesc;
         private module.HotGroupBox hotGroupBox3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox ckbfilterGoods;

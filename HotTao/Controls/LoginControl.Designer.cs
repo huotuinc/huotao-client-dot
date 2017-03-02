@@ -56,9 +56,9 @@
             // panel1
             // 
             this.panel1.BackgroundImage = global::HotTao.Properties.Resources.icon_login_bg;
-            this.panel1.Location = new System.Drawing.Point(0, 369);
+            this.panel1.Location = new System.Drawing.Point(0, 371);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(920, 238);
+            this.panel1.Size = new System.Drawing.Size(922, 238);
             this.panel1.TabIndex = 9;
             // 
             // hotPanel1
@@ -67,7 +67,7 @@
             this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.hotPanel1.Location = new System.Drawing.Point(0, 0);
             this.hotPanel1.Name = "hotPanel1";
-            this.hotPanel1.Size = new System.Drawing.Size(920, 607);
+            this.hotPanel1.Size = new System.Drawing.Size(922, 609);
             this.hotPanel1.TabIndex = 10;
             // 
             // LoginControl
@@ -81,7 +81,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.hotPanel1);
             this.Name = "LoginControl";
-            this.Size = new System.Drawing.Size(920, 607);
+            this.Size = new System.Drawing.Size(922, 609);
             this.Load += new System.EventHandler(this.LoginControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

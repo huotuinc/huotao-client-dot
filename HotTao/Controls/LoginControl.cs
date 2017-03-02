@@ -33,12 +33,6 @@ namespace HotTao.Controls
             openControl(new LoginButtonPage(hotForm, this));
         }
 
-
-        private void btnLogin_Click(object sender, EventArgs e)
-        {
-
-        }
-
         /// <summary>
         /// 打开指定用户控件
         /// </summary>

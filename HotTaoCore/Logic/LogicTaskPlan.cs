@@ -40,32 +40,21 @@ namespace HotTaoCore.Logic
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
-            var taskData= BaseRequestService.Post<List<TaskPlanModel>>(ApiConst.getTaskList, data);
-            taskData.ForEach(item =>
+            var taskData = BaseRequestService.Post<List<TaskPlanModel>>(ApiConst.getTaskList, data);
+            if (taskData != null)
             {
-                item.statusText = "待执行";
-                if (item.status == 1)
+                taskData.ForEach(item =>
                 {
-                    item.statusText = "已完成";
-                    item.ExecStatus = 2;
-                }
-                else
-                {
-                    if (item.endTime.CompareTo(DateTime.Now) < 0)
-                    {
-                        item.statusText = "已过期";
-                        item.ExecStatus = 3;
-                    }
-
-                    if (item.startTime.CompareTo(DateTime.Now) < 0)
-                    {
+                    item.statusText = "待执行";
+                    if (item.status == 1)
+                        item.statusText = "已完成";
+                    else if (item.status == 2)
                         item.statusText = "进行中";
-                        item.ExecStatus = 1;
-                    }
-
-                }
-                item.startTimeText = item.startTime.ToString("yyyy年MM月dd日 HH时mm分ss秒");
-            });
+                    else if (item.status == 3)
+                        item.statusText = "已过期";
+                    item.startTimeText = item.startTime.ToString("yyyy年MM月dd日 HH时mm分ss秒");
+                });
+            }
             return taskData;
 
         }
@@ -77,7 +66,7 @@ namespace HotTaoCore.Logic
         /// <param name="taskid"></param>
         /// <returns></returns>
         public bool deleteTaskPlan(string loginToken, string taskids)
-        {            
+        {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
             data["taskids"] = taskids;
@@ -103,7 +92,32 @@ namespace HotTaoCore.Logic
             data["title"] = model.title;
             data["executetime"] = model.startTime.ToString("yyyy-MM-dd HH:mm:ss");
             data["endtime"] = model.endTime.ToString("yyyy-MM-dd HH:mm:ss");
-            return BaseRequestService.Post<TaskPlanModel>(ApiConst.saveTask, data);
+            var item = BaseRequestService.Post<TaskPlanModel>(ApiConst.saveTask, data);
+            if (item == null) return item;
+            item.statusText = "待执行";
+            if (item.status == 1)
+            {
+                item.statusText = "已完成";
+                item.ExecStatus = 2;
+            }
+            else
+            {
+                if (item.endTime.CompareTo(DateTime.Now) < 0)
+                {
+                    item.statusText = "已过期";
+                    item.ExecStatus = 3;
+                }
+
+                if (item.startTime.CompareTo(DateTime.Now) < 0)
+                {
+                    item.statusText = "进行中";
+                    item.ExecStatus = 1;
+                }
+
+            }
+            item.startTimeText = item.startTime.ToString("yyyy年MM月dd日 HH时mm分ss秒");
+
+            return item;
         }
         /// <summary>
         /// 修改任务计划
@@ -173,12 +187,12 @@ namespace HotTaoCore.Logic
         /// <param name="userid"></param>
         /// <param name="taskid"></param>
         /// <returns></returns>
-        public bool StartTaskTpwd(int userid, int taskid)
+        public bool StartTaskTpwd(string loginToken, int taskid)
         {
-            if (userid > 0 && taskid > 0)
-                return bacthBuildTpwd(userid, taskid);
-
-            return false;
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["taskid"] = taskid.ToString();
+            return BaseRequestService.Post(ApiConst.turnChain, data);
         }
         /// <summary>
         /// 修改任务转链状态

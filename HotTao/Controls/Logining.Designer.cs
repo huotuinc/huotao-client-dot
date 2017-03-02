@@ -49,13 +49,13 @@
             this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.hotPanel1.Location = new System.Drawing.Point(0, 0);
             this.hotPanel1.Name = "hotPanel1";
-            this.hotPanel1.Size = new System.Drawing.Size(920, 607);
+            this.hotPanel1.Size = new System.Drawing.Size(922, 609);
             this.hotPanel1.TabIndex = 11;
             // 
             // label2
             // 
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(180)))), ((int)(((byte)(181)))));
-            this.label2.Location = new System.Drawing.Point(409, 260);
+            this.label2.Location = new System.Drawing.Point(409, 262);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(275, 16);
             this.label2.TabIndex = 12;
@@ -85,9 +85,9 @@
             // panel1
             // 
             this.panel1.BackgroundImage = global::HotTao.Properties.Resources.icon_login_bg;
-            this.panel1.Location = new System.Drawing.Point(0, 369);
+            this.panel1.Location = new System.Drawing.Point(0, 371);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(920, 238);
+            this.panel1.Size = new System.Drawing.Size(922, 238);
             this.panel1.TabIndex = 11;
             // 
             // Logining
@@ -96,7 +96,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.hotPanel1);
             this.Name = "Logining";
-            this.Size = new System.Drawing.Size(920, 607);
+            this.Size = new System.Drawing.Size(922, 609);
             this.hotPanel1.ResumeLayout(false);
             this.hotPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

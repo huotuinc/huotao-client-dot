@@ -860,7 +860,6 @@
             // 
             // cbselect
             // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle9.NullValue = false;
             this.cbselect.DefaultCellStyle = dataGridViewCellStyle9;
             this.cbselect.FalseValue = "0";
@@ -869,19 +868,18 @@
             this.cbselect.Name = "cbselect";
             this.cbselect.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.cbselect.TrueValue = "id";
-            this.cbselect.Visible = false;
-            this.cbselect.Width = 25;
+            this.cbselect.Width = 20;
             // 
             // rowIndex
             // 
             this.rowIndex.DataPropertyName = "rowIndex";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             this.rowIndex.DefaultCellStyle = dataGridViewCellStyle10;
             this.rowIndex.HeaderText = "编号";
-            this.rowIndex.MinimumWidth = 50;
+            this.rowIndex.MinimumWidth = 30;
             this.rowIndex.Name = "rowIndex";
             this.rowIndex.ReadOnly = true;
-            this.rowIndex.Width = 50;
+            this.rowIndex.Width = 30;
             // 
             // gid
             // 

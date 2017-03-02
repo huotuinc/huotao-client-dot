@@ -28,37 +28,15 @@ namespace HotTaoCore.Logic
         /// <param name="userId">The user identifier.</param>
         /// <param name="taobaoNo">当前淘宝账号</param>
         /// <returns>List&lt;UserPidModel&gt;.</returns>
-        public List<UserPidModel> getUserPidList(int userId, string taobaoNo)
+        public List<UserPidModel> getUserPidList(string loginToken, string taobaoNo)
         {
-            return dal.getUserPidList(userId,taobaoNo);
+
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["taobaousername"] = taobaoNo.ToString();
+            return BaseRequestService.Post<List<UserPidModel>>(ApiConst.getExtensions, data);            
         }
 
-        /// <summary>
-        /// 编辑用户PID
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public bool EditUserPID(UserPidModel model)
-        {
-            if (model.id <= 0)
-                return dal.addUserPID(model) > 0;
-            else
-                return dal.UpdateUserPID(model);
-        }
-
-        /// <summary>
-        /// 批量添加
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public bool BatchAddUserPID(List<UserPidModel> data)
-        {
-            foreach (var item in data)
-            {
-                dal.addUserPID(item);
-            }
-            return true;
-        }
 
         /// <summary>
         /// 删除用户PID数据
@@ -75,23 +53,5 @@ namespace HotTaoCore.Logic
             return dal.deleteUserPID(userid, ids);
         }
 
-        /// <summary>
-        /// 修改用户PID
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public bool UpdateUserPID(UserPidModel model)
-        {
-            return dal.UpdateUserPID(model);
-        }
-        /// <summary>
-        /// 添加用户PID
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public int AddUserPID(UserPidModel model)
-        {
-            return dal.addUserPID(model);
-        }
     }
 }

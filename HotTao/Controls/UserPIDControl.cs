@@ -120,7 +120,7 @@ namespace HotTao.Controls
             this.dgvUserPid.Rows.Clear();
             ((Action)(delegate ()
             {
-                var pidData = LogicUserPid.Instance.getUserPidList(MyUserInfo.currentUserId, hotForm.taobaoNo);
+                var pidData = LogicUserPid.Instance.getUserPidList(MyUserInfo.LoginToken, hotForm.taobaoNo);
                 if (pidData != null)
                 {
                     this.BeginInvoke((Action)(delegate ()  //等待结束
@@ -166,20 +166,30 @@ namespace HotTao.Controls
         {
             if (WeChatId > 0)
             {
-                this.Close();
                 string pidText = string.Empty;
                 int result = 0;
                 if (SelectedRow != null)
                 {
                     int.TryParse(SelectedRow["id"].Value.ToString(), out result);
                     pidText = SelectedRow["pid"].Value.ToString();
+
                 }
-                if (LogicUser.Instance.UpdateUserWeChatPid(MyUserInfo.currentUserId, WeChatId, result))
+                Loading ld = new Loading();
+                ((Action)(delegate ()
                 {
-                    pidText = result > 0 ? pidText : "";
-                    this.Close();
-                    hotTask.SetWeChatRowData(CurrentRowIndex, "pid", pidText);
-                }
+                    if (LogicUser.Instance.UpdateUserWeChatPid(MyUserInfo.LoginToken, WeChatId, result))
+                    {
+                        pidText = result > 0 ? pidText : "";
+                    }
+                    ld.CloseForm();
+                    this.BeginInvoke((Action)(delegate ()  //等待结束
+                    {
+                        this.Close();
+                        hotTask.SetWeChatRowData(CurrentRowIndex, "pid", pidText);
+                    }));
+
+                })).BeginInvoke(null, null);
+                ld.ShowDialog(hotForm);
             }
         }
 

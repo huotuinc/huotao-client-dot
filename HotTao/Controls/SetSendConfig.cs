@@ -45,10 +45,8 @@ namespace HotTao.Controls
                 {
                     txtgoodsinterval.Text = cfgTime.goodsinterval.ToString();
                     txthandleInterval.Text = cfgTime.handleInterval.ToString();
-                }
-                //排序
-                rbtSendorderbyAsc.Checked = hotForm.myConfig.send_orderby == 0;
-                rbtSendorderbyDesc.Checked = hotForm.myConfig.send_orderby == 1;
+                }               
+
 
                 ConfigWhereModel cfgWhere = string.IsNullOrEmpty(hotForm.myConfig.where_config) ? null : JsonConvert.DeserializeObject<ConfigWhereModel>(hotForm.myConfig.where_config);
                 if (cfgWhere != null)
@@ -85,9 +83,7 @@ namespace HotTao.Controls
         {
             int result = 0;
             decimal result2 = 0;
-            MessageAlert alert = new MessageAlert();
             hotForm.myConfig.userid = MyUserInfo.currentUserId;
-
             ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(hotForm.myConfig.send_time_config) ? new ConfigSendTimeModel() : JsonConvert.DeserializeObject<ConfigSendTimeModel>(hotForm.myConfig.send_time_config);
             cfgTime = cfgTime == null ? new ConfigSendTimeModel() : cfgTime;
 
@@ -132,14 +128,28 @@ namespace HotTao.Controls
             //过滤今日重复商品
             cfgWhere.filterGoodsEnable = ckbfilterGoods.Checked ? 1 : 0;
 
+            ConfigModel myConfig = hotForm.myConfig;            
+            myConfig.send_time_config = JsonConvert.SerializeObject(cfgTime);
+            myConfig.where_config = JsonConvert.SerializeObject(cfgWhere);
 
-            hotForm.myConfig.send_orderby = rbtSendorderbyAsc.Checked ? 0 : 1;
-            hotForm.myConfig.send_time_config = JsonConvert.SerializeObject(cfgTime);
-            hotForm.myConfig.where_config = JsonConvert.SerializeObject(cfgWhere);
-            LogicUser.Instance.AddUserConfigModel(hotForm.myConfig);
+            MessageAlert alert = new MessageAlert();
+            Loading ld = new Loading();
+            ((Action)(delegate ()
+            {
+                if (LogicUser.Instance.AddUserConfigModel(MyUserInfo.LoginToken, hotForm.myConfig) > 0)
+                    alert.Message = "保存成功";
+                else
+                    alert.Message = "保存失败，请重试";
+                ld.CloseForm();
+                this.BeginInvoke((Action)(delegate ()
+                {
+                    hotForm.myConfig = myConfig;
+                    alert.ShowDialog(this);
+                }));
 
-            alert.Message = "保存成功";
-            alert.ShowDialog(this);
+
+            })).BeginInvoke(null, null);
+            ld.ShowDialog(this);
         }
 
         /// <summary>

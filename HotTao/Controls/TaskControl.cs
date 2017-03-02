@@ -179,7 +179,6 @@ namespace HotTao.Controls
                 {
                     this.BeginInvoke((Action)(delegate ()  //等待结束
                     {
-
                         SetTaskView(taskData);
                         if (this.dgvTaskPlan.Rows.Count > 0)
                         {
@@ -206,7 +205,7 @@ namespace HotTao.Controls
                 dgvTaskPlan.Rows[i - 1].Cells["taskStatusText"].Value = taskData[j].statusText.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["goodsText"].Value = taskData[j].goodsText.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["pidsText"].Value = taskData[j].pidsText.ToString();
-                dgvTaskPlan.Rows[i - 1].Cells["ExecStatus"].Value = taskData[j].ExecStatus.ToString();
+                dgvTaskPlan.Rows[i - 1].Cells["ExecStatus"].Value = taskData[j].status.ToString();
                 if (i % 2 == 0)
                     dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
                 else
@@ -352,10 +351,13 @@ namespace HotTao.Controls
             //循环获取选中的数据
             foreach (DataGridViewRow item in dgvData.Rows)
             {
-                int result = 0;
-                int.TryParse(item.Cells["gid"].Value.ToString(), out result);
-                if (result > 0 && goodsidList.FindIndex(r => { return r.id == result; }) < 0)
-                    goodsidList.Add(new GoodsTaskModel() { id = result });
+                if ((bool)item.Cells[0].EditedFormattedValue == true)
+                {
+                    int result = 0;
+                    int.TryParse(item.Cells["gid"].Value.ToString(), out result);
+                    if (result > 0 && goodsidList.FindIndex(r => { return r.id == result; }) < 0)
+                        goodsidList.Add(new GoodsTaskModel() { id = result });
+                }
             }
             List<UserPidTaskModel> pidList = new List<UserPidTaskModel>();
             foreach (DataGridViewRow item in dgvPid.Rows)
@@ -399,7 +401,7 @@ namespace HotTao.Controls
                 int taskid = Convert.ToInt32(row.Cells["taskid"].Value);
                 int eCode = 0;
                 int.TryParse(row.Cells["ExecStatus"].Value.ToString(), out eCode);
-                if (eCode != 1)
+                if (eCode != 2)
                 {
                     MessageConfirm confirm = new MessageConfirm("您确认要删除计划【" + taskid + "】吗？");
                     confirm.CallBack += () =>
@@ -414,7 +416,7 @@ namespace HotTao.Controls
                         ((Action)(delegate ()
                         {
                             LogicTaskPlan.Instance.deleteTaskPlan(MyUserInfo.LoginToken, taskids);
-                        })).BeginInvoke(null, null);                       
+                        })).BeginInvoke(null, null);
 
                     };
                     confirm.ShowDialog(this);
@@ -603,18 +605,18 @@ namespace HotTao.Controls
             {
                 DataGridViewCellCollection cells = this.dgvData.CurrentRow.Cells;
                 int deleteId = 0;
-                int.TryParse(cells["gid"].ToString(), out deleteId);
+                int.TryParse(cells["gid"].Value.ToString(), out deleteId);
                 MessageConfirm confirm = new MessageConfirm();
                 confirm.Message = "确认要删除该商品吗";
                 confirm.CallBack += () =>
-                {
-                    this.dgvData.Rows.RemoveAt(cell.RowIndex);
-                    ShowAlert("删除成功");
+                {                    
                     ((Action)(delegate ()
                     {
                         LogicGoods.Instance.DeleteGoods(MyUserInfo.LoginToken, deleteId);
                     })).BeginInvoke(null, null);
 
+                    this.dgvData.Rows.RemoveAt(cell.RowIndex);
+                    ShowAlert("删除成功");
                 };
                 confirm.ShowDialog(this);
             }
@@ -648,10 +650,10 @@ namespace HotTao.Controls
                         LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, 0, win.szWindowName);
                         this.BeginInvoke((Action)(delegate ()
                         {
-                            ld.CloseForm();
                             ShowAlert("采集完成");
                         }));
                     }
+                    ld.CloseForm();
                 })).BeginInvoke(null, null);
                 ld.ShowDialog(hotForm);
             }

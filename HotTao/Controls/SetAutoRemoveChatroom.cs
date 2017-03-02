@@ -31,7 +31,7 @@ namespace HotTao.Controls
             else
                 hotForm.openControl(new LoginControl(hotForm));
 
-            dgvChatRoom.MouseWheel += DgvData_MouseWheel;            
+            dgvChatRoom.MouseWheel += DgvData_MouseWheel;
         }
 
 
@@ -71,7 +71,7 @@ namespace HotTao.Controls
             {
                 dgvChatRoom.Rows.Add();
                 ++i;
-                dgvChatRoom.Rows[i - 1].Cells["id"].Value = data[j].id.ToString();
+                dgvChatRoom.Rows[i - 1].Cells["groupid"].Value = data[j].id.ToString();
                 dgvChatRoom.Rows[i - 1].Cells["wechattitle"].Value = data[j].wechattitle.ToString();
 
                 if (i % 2 == 0)
@@ -158,10 +158,59 @@ namespace HotTao.Controls
             ((Action)(delegate ()
             {
                 hotForm.myConfig.enable_autoremove = ckbAutoRemove.Checked ? 1 : 0;
-                LogicUser.Instance.AddUserConfigModel(hotForm.myConfig);
+                LogicUser.Instance.AddUserConfigModel(MyUserInfo.LoginToken,hotForm.myConfig);
 
             })).BeginInvoke(null, null);
         }
+
+
+
+        /// <summary>
+        /// 删除回复微信群
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
+        private void dgvChatRoom_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewCell cell = this.dgvChatRoom.CurrentRow.Cells["deleteWechat"];
+            if (cell != null && cell.ColumnIndex == e.ColumnIndex)
+            {
+                DataGridViewCellCollection cells = this.dgvChatRoom.CurrentRow.Cells;
+                int deleteId = 0;
+                int.TryParse(cells["groupid"].ToString(), out deleteId);
+                if (deleteId <= 0)
+                {
+                    ShowAlert("请选择要删除的关键字");
+                    return;
+                }
+                MessageConfirm confirm = new MessageConfirm();
+                confirm.Message = "确认要删除该微信群吗";
+                confirm.CallBack += () =>
+                {
+                    this.dgvChatRoom.Rows.RemoveAt(cell.RowIndex);
+                    ShowAlert("删除成功");
+                    ((Action)(delegate ()
+                    {
+                        LogicUser.Instance.DeleteReplyWeChat(MyUserInfo.LoginToken, deleteId);
+
+                    })).BeginInvoke(null, null);
+
+                };
+                confirm.ShowDialog(this);
+            }
+        }
+
+        private void ShowAlert(string Message)
+        {
+            MessageAlert alert = new MessageAlert();
+            alert.Message = Message;
+            alert.ShowDialog(this);
+        }
+
+
+
+
+
     }
 
 }
