@@ -252,7 +252,7 @@ namespace HotTao.Controls
             {
                 DataGridViewCellCollection cells = this.dgvChatRoom.CurrentRow.Cells;
                 int deleteId = 0;
-                int.TryParse(cells["groupid"].ToString(), out deleteId);
+                int.TryParse(cells["groupid"].Value.ToString(), out deleteId);
                 if (deleteId <= 0)
                 {
                     ShowAlert("请选择要删除的关键字");
@@ -286,7 +286,7 @@ namespace HotTao.Controls
             {
                 DataGridViewCellCollection cells = this.dgvKeyword.CurrentRow.Cells;
                 int deleteId = 0;
-                int.TryParse(cells["keywordid"].ToString(), out deleteId);
+                int.TryParse(cells["keywordid"].Value.ToString(), out deleteId);
                 if(deleteId<=0)
                 {
                     ShowAlert("请选择要删除的关键字");

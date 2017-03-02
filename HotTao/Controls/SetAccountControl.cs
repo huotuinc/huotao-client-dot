@@ -11,6 +11,9 @@ using HotTaoCore.Logic;
 using HotCoreUtils.Helper;
 using HotTaoCore.Models;
 using HotTaoCore;
+using Alimama;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace HotTao.Controls
 {
@@ -164,24 +167,17 @@ namespace HotTao.Controls
 
         private void btnLoginTaobao_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtTaobaoNo.Text))
-            {
-                txtTaobaoNo.Focus();
-                return;
-            }
-            if (string.IsNullOrEmpty(txtTaobaoPwd.Text))
-            {
-                txtTaobaoPwd.Focus();
-                return;
-            }
-
-            hotForm.SetTaobaoAccount(txtTaobaoNo.Text, txtTaobaoPwd.Text);
-            hotForm.isTaobaoLogin = true;
-
-            tbLogin tb = new tbLogin(hotForm);
-            tb.Show(this);
 
         }
 
+    }
+    class TaobaoLoginAware : LoginAware
+    {
+        public bool success(JArray jsons)
+        {
+            string cookies = JsonConvert.SerializeObject(jsons);
+            MyUserInfo.MyPidList = LogicUser.Instance.GetPids(MyUserInfo.LoginToken, cookies);
+            return true;
+        }
     }
 }

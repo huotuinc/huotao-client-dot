@@ -18,9 +18,48 @@ namespace HotTaoCore.Models
         public string title { get; set; }
 
         public string pid { get; set; }
-        
 
     }
+
+
+
+    public class UserTaoPidModel
+    {
+        /// <summary>
+        /// 推广位ID
+        /// </summary>
+        /// <value>The identifier.</value>
+        public int id { get; set; }
+
+        /// <summary>
+        /// 推广位名称
+        /// </summary>
+        /// <value>The name.</value>
+        public string name { get; set; }
+        /// <summary>
+        /// 推广位
+        /// </summary>
+        /// <value>The pid.</value>
+        public string pid { get; set; }
+
+        /// <summary>
+        /// 类型  自助、主题活动
+        /// </summary>
+        /// <value>The type of the extension.</value>
+        public string extensionType { get; set; }
+        /// <summary>
+        /// 淘宝账号
+        /// </summary>
+        /// <value>The taobao username.</value>
+        public string taobaoUsername { get; set; }
+
+        /// <summary>
+        /// 所属导购
+        /// </summary>
+        /// <value>The name of the shop guide.</value>
+        public string shopGuideName { get; set; }
+    }
+
 
     /// <summary>
     /// 用户PID计划任务石头

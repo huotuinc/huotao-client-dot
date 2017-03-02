@@ -106,8 +106,8 @@
             this.HotContainer.Panel2.AutoScroll = true;
             this.HotContainer.Panel2.BackColor = System.Drawing.Color.Transparent;
             this.HotContainer.Panel2MinSize = 0;
-            this.HotContainer.Size = new System.Drawing.Size(922, 722);
-            this.HotContainer.SplitterDistance = 110;
+            this.HotContainer.Size = new System.Drawing.Size(922, 720);
+            this.HotContainer.SplitterDistance = 109;
             this.HotContainer.SplitterWidth = 1;
             this.HotContainer.TabIndex = 0;
             // 
@@ -392,7 +392,7 @@
             this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.hotPanel1.Location = new System.Drawing.Point(0, 0);
             this.hotPanel1.Name = "hotPanel1";
-            this.hotPanel1.Size = new System.Drawing.Size(922, 722);
+            this.hotPanel1.Size = new System.Drawing.Size(922, 720);
             this.hotPanel1.TabIndex = 1;
             // 
             // Main
@@ -401,7 +401,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(922, 722);
+            this.ClientSize = new System.Drawing.Size(922, 720);
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

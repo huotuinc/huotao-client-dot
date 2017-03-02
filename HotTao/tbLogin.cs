@@ -26,6 +26,8 @@ namespace HotTao
         private void tbLogin_Load(object sender, EventArgs e)
         {
             Loading();
+            //http://pub.alimama.com/myunion.htm?spm=0.0.0.0.hwVElj
+            string s = "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=true&css_style=alimama&from=alimama&redirectURL=http%3A%2F%2Fpub.alimama.com%2Fmyunion.htm%3Fspm%3D0.0.0.0.hwVElj";
         }
         private string taobaoLoginUrl = "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=true&css_style=alimama&from=alimama&redirectURL=http://www.alimama.com&full_redirect=true&disableQuickLogin=true";
         public void Loading()

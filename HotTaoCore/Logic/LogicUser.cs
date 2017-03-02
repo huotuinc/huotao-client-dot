@@ -117,9 +117,11 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="userid">The userid.</param>
         /// <returns>System.String.</returns>
-        public string GetUserSendTemplate(int userid)
+        public string GetUserSendTemplate(string loginToken)
         {
-            return dal.GetUserSendTemplate(userid);
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            return BaseRequestService.PostToString(ApiConst.getUserGoodsTempList, data);
         }
 
         /// <summary>
@@ -128,9 +130,13 @@ namespace HotTaoCore.Logic
         /// <param name="userid">The userid.</param>
         /// <param name="tempText">The temporary text.</param>
         /// <returns>true if XXXX, false otherwise.</returns>
-        public bool AddUserSendTemplate(int userid, string tempText)
+        public bool AddUserSendTemplate(string loginToken, string tempText)
         {
-            return dal.AddUserSendTemplate(userid, tempText);
+
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["customdocument"] = tempText;
+            return BaseRequestService.Post(ApiConst.saveUserGoodsTempList, data);
         }
 
 
@@ -140,7 +146,7 @@ namespace HotTaoCore.Logic
             string templateText = WebCacheHelper<string>.Get(key);
             if (string.IsNullOrEmpty(templateText))
             {
-                templateText = GetUserSendTemplate(userid);
+                templateText = GetUserSendTemplate("");
                 //将数据插入缓存中
                 if (!string.IsNullOrEmpty(templateText))
                     WebCacheHelper.Insert(key, templateText);
@@ -212,8 +218,7 @@ namespace HotTaoCore.Logic
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
-            return dal.GetUserReplyWeChatList();
-            //return BaseRequestService.Post<List<WxAutoReplyModel>>(ApiConst.getWeChatGroups, data);
+            return BaseRequestService.Post<List<WxAutoReplyModel>>(ApiConst.getKeywordReplyConfigList, data);
         }
         /// <summary>
         /// 删除回复微信群
@@ -238,11 +243,16 @@ namespace HotTaoCore.Logic
         /// <param name="replyContent">Content of the reply.</param>
         /// <param name="msgType">Type of the MSG.</param>
         /// <returns>true if XXXX, false otherwise.</returns>
-        public int AddReplyKeyword(string loginToken, string keyword, string replyContent, int msgType)
+        public bool AddReplyKeyword(string loginToken, string keyword, string replyContent, int msgType, int goodsid)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
-            return 0;
+            data["keyword"] = keyword;
+            data["replyContent"] = replyContent;
+            data["replytype"] = msgType.ToString();
+            if (goodsid > 0)
+                data["replygoodsid"] = goodsid.ToString();
+            return BaseRequestService.Post(ApiConst.saveReplyConfig, data);
         }
 
         /// <summary>
@@ -254,8 +264,7 @@ namespace HotTaoCore.Logic
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
-            return dal.GetUserReplyKeywordList();
-            //return BaseRequestService.Post<List<WxAutoReplyModel>>(ApiConst.getWeChatGroups, data);
+            return BaseRequestService.Post<List<WxAutoReplyKeywordModel>>(ApiConst.getKeywordReplyConfigList, data);
         }
         /// <summary>
         /// 删除关键字
@@ -266,8 +275,8 @@ namespace HotTaoCore.Logic
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
-            data["keywordid"] = keywordid.ToString();
-            return false;
+            data["id"] = keywordid.ToString();
+            return BaseRequestService.Post(ApiConst.delReplyConfig, data);
         }
 
 
@@ -381,11 +390,11 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns>System.Int32.</returns>
-        public int AddUserConfigModel(string loginToken,ConfigModel model)
+        public int AddUserConfigModel(string loginToken, ConfigModel model)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
-            data["where_config"] = model.where_config;            
+            data["where_config"] = model.where_config;
             data["send_time_config"] = model.send_time_config;
             data["enable_autoreply"] = model.enable_autoreply.ToString();
             data["enable_autoremove"] = model.enable_autoremove.ToString();
@@ -402,5 +411,21 @@ namespace HotTaoCore.Logic
             data["token"] = loginToken;
             return BaseRequestService.Post<ConfigModel>(ApiConst.getHotUserConfig, data);
         }
+
+
+        /// <summary>
+        /// 拉取阿里妈妈PID数据
+        /// </summary>
+        /// <param name="loginToken">The login token.</param>
+        /// <param name="cookies">The cookies.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public List<UserTaoPidModel> GetPids(string loginToken, string cookies)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["cookies"] = cookies;
+            return BaseRequestService.Post<List<UserTaoPidModel>>(ApiConst.getPids, data);
+        }
+
     }
 }

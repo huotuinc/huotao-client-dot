@@ -156,9 +156,11 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="userid"></param>
         /// <returns></returns>
-        public List<ReplyResponeModel> GetSoonExecuteTaskplan(int userid)
+        public List<ReplyResponeModel> GetSoonExecuteTaskplan(string loginToken)
         {
-            return dal.GetSoonExecuteTaskplan(userid);
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            return BaseRequestService.Post<List<ReplyResponeModel>>(ApiConst.getTaskExecuteList, data);
         }
 
         /// <summary>
@@ -166,9 +168,26 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="lst"></param>
         /// <returns></returns>
-        public bool UpdateTaskFinished(int clientUid, List<int> lst)
+        public bool UpdateTaskFinished(string loginToken, int taskid)
         {
-            return dal.UpdateTaskFinished(clientUid, lst);
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["id"] = taskid.ToString();
+            return BaseRequestService.Post(ApiConst.modifyTaskStatus, data);
+        }
+        /// <summary>
+        /// 修改执行数据的状态
+        /// </summary>
+        /// <param name="loginToken">The login token.</param>
+        /// <param name="taskid">The taskid.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool UpdateExecuteTaskFinished(string loginToken, int id)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["id"] = id.ToString();
+            return BaseRequestService.Post(ApiConst.modifyTaskExecuteStatus, data);
+
         }
         /// <summary>
         /// 修改已执行的商品状态
@@ -220,7 +239,7 @@ namespace HotTaoCore.Logic
                 List<ReplyResponeDetailModel> lst = dal.GetTaskplanGoodsList(userid, taskid);
                 if (lst == null) return false;
                 Dictionary<int, string> root = new Dictionary<int, string>();
-                string tempText = LogicUser.Instance.GetUserSendTemplate(userid);
+                string tempText = LogicUser.Instance.GetUserSendTemplate("");
                 bool isBuildError = false;
                 lst.ForEach(item =>
                 {

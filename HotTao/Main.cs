@@ -147,8 +147,8 @@ namespace HotTao
         {
             ((Action)(delegate ()
             {
-                myConfig = LogicUser.Instance.GetConfigModel(MyUserInfo.LoginToken);
-
+                myConfig = LogicUser.Instance.GetConfigModel(MyUserInfo.LoginToken);         
+                
             })).BeginInvoke(null, null);
         }
 
@@ -376,6 +376,7 @@ namespace HotTao
                 LoginSync = true;
                 MyUserInfo.currentUserId = user.userid;
                 LoadMyConfig();
+                GetDefaultTemplateText();
                 ((Action)(delegate ()
                 {
                     while (LoginSync)
@@ -425,7 +426,7 @@ namespace HotTao
         }
 
 
-        public Loading LoadingShow  { get; set; }
+        public Loading LoadingShow { get; set; }
         //public Loading LoadingShow()
         //{
         //    Loading ld = new Loading();            

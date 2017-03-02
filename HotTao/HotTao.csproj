@@ -308,6 +308,9 @@
     <Compile Include="wxLogin.Designer.cs">
       <DependentUpon>wxLogin.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="BaseForm.resx">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
@@ -404,6 +407,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Alimama\Alimama.csproj">
+      <Project>{d3221ca0-393e-4bfd-8ace-8192d331c964}</Project>
+      <Name>Alimama</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HotTaoCore\HotTaoCore.csproj">
       <Project>{850f7582-733e-4a00-9d30-8c977e4f01b9}</Project>
       <Name>HotTaoCore</Name>

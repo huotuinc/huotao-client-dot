@@ -10,6 +10,7 @@ using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using System.Threading;
 using Newtonsoft.Json;
+using Alimama;
 
 namespace HotTao.Controls
 {
@@ -609,7 +610,7 @@ namespace HotTao.Controls
                 MessageConfirm confirm = new MessageConfirm();
                 confirm.Message = "确认要删除该商品吗";
                 confirm.CallBack += () =>
-                {                    
+                {
                     ((Action)(delegate ()
                     {
                         LogicGoods.Instance.DeleteGoods(MyUserInfo.LoginToken, deleteId);
@@ -758,7 +759,7 @@ namespace HotTao.Controls
         private int MouseCurrentRowIndex = 0;
         private void toolWeChatSetPid_Click(object sender, EventArgs e)
         {
-            if (hotForm.isTaobaoLogin)
+            if (MyUserInfo.MyPidList != null)
             {
                 if (this.dgvPid.Rows.Count > MouseCurrentRowIndex)
                 {
@@ -777,7 +778,20 @@ namespace HotTao.Controls
             }
             else
             {
-                ShowAlert("请先设置淘宝账号");
+                MessageConfirm confirm = new MessageConfirm("您还没登录淘宝,马上登录?");
+                confirm.CallBack += () => {
+
+                    LoginWindow tblg = new LoginWindow(new TaobaoLoginAware());
+                    ((Action)(delegate ()
+                    {
+                        this.BeginInvoke((Action)(delegate ()
+                        {
+                            tblg.ShowDialog(this);
+                        }));
+
+                    })).BeginInvoke(null, null);
+                };
+                confirm.ShowDialog(this);
             }
         }
 

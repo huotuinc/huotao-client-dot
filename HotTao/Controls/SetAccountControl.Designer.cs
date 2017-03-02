@@ -186,6 +186,7 @@
             this.hotGroupBox1.Size = new System.Drawing.Size(730, 172);
             this.hotGroupBox1.TabIndex = 28;
             this.hotGroupBox1.TabStop = false;
+            this.hotGroupBox1.Visible = false;
             // 
             // hotGroupBox6
             // 
@@ -289,7 +290,7 @@
             this.Controls.Add(this.hotGroupBox2);
             this.Controls.Add(this.hotGroupBox1);
             this.Name = "SetAccountControl";
-            this.Size = new System.Drawing.Size(750, 384);
+            this.Size = new System.Drawing.Size(750, 397);
             this.Load += new System.EventHandler(this.SetAccountControl_Load);
             this.hotGroupBox2.ResumeLayout(false);
             this.hotGroupBox2.PerformLayout();

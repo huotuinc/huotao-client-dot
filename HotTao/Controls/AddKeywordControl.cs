@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using HotTaoCore.Logic;
+
 
 namespace HotTao.Controls
 {
@@ -108,21 +103,25 @@ namespace HotTao.Controls
                     return;
                 }
             }
+            int flag = 0;
+            int replyType = 0;
+            if (ckbAutoText.Checked)
+                replyType = 0;
+            if (ckbAutoGoods.Checked)
+                replyType = 1;
+
+
+            string keyword = txtKeyword.Text;
+            string content = txtReplyContent.Text;
 
             MessageAlert alert = new MessageAlert();
             Loading ld = new Loading();
             ((Action)(delegate ()
             {
-                int flag = 0;
-                int replyType = 0;
-                if (ckbAutoText.Checked)
-                    replyType = 0;
-                if (ckbAutoGoods.Checked)
-                    replyType = 1;
 
 
-                flag = LogicUser.Instance.AddReplyKeyword(MyUserInfo.LoginToken, txtKeyword.Text, txtReplyContent.Text, replyType);
 
+                flag = LogicUser.Instance.AddReplyKeyword(MyUserInfo.LoginToken, keyword, content, replyType, 0) ? 1 : 0;
                 ld.CloseForm();
                 if (flag > 0)
                     alert.Message = "添加成功";
@@ -140,6 +139,6 @@ namespace HotTao.Controls
 
             })).BeginInvoke(null, null);
             ld.ShowDialog(hotForm);
-        }        
+        }
     }
 }

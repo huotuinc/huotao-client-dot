@@ -210,13 +210,13 @@ namespace HotTao
         /// </summary>
         public void StopWx()
         {
-            isStartTask = false;            
+            isStartTask = false;
         }
         /// <summary>
         /// 启用
         /// </summary>
         public void StartWx()
-        {            
+        {
             isStartTask = true;
         }
         /// <summary>
@@ -442,28 +442,36 @@ namespace HotTao
                     if (MyUserInfo.currentUserId == 0) continue;
                     WXService wxs = new WXService();
                     //获取要执行的数据
-                    List<ReplyResponeModel> lst = isStartTask ? LogicTaskPlan.Instance.GetSoonExecuteTaskplan(MyUserInfo.currentUserId) : null;
+                    List<ReplyResponeModel> lst = isStartTask ? LogicTaskPlan.Instance.GetSoonExecuteTaskplan(MyUserInfo.LoginToken) : null;
                     if (lst != null && lst.Count() > 0)
                     {
+                        int taskid = lst[0].taskid;
                         foreach (var item in lst)
                         {
                             if (!isStartTask)
                                 break;
-                            WXUser user = contact_all.Find((WXUser obj) =>
+                            int dataid = item.id;
+                            ((Action)(delegate ()
                             {
-                                return obj.ShowName.Contains(item.title);
-                            });
+                                //更新执行状态
+                                LogicTaskPlan.Instance.UpdateExecuteTaskFinished(MyUserInfo.LoginToken, dataid);
+                            })).BeginInvoke(null, null);
+
+                            WXUser user = contact_all.Find((WXUser obj) => { return obj.ShowName.Contains(item.title); });
                             if (user != null)
                             {
-                                //每个商品间隔5秒发送                                
                                 Send(wxs, item, user.UserName, handleTimeout);
-
-                                //更新发送状态
-                                // LogicTaskPlan.Instance.UpdateTaskFinished(hotForm.currentUserId, item.id);
-
+                                //每个商品
                                 System.Threading.Thread.Sleep(sendGoodsTimeout);
                             }
                         }
+
+                        ((Action)(delegate ()
+                        {
+                            //更新任务状态
+                            LogicTaskPlan.Instance.UpdateTaskFinished(MyUserInfo.LoginToken, taskid);
+                        })).BeginInvoke(null, null);
+
                     }
                     else
                     {
@@ -491,7 +499,8 @@ namespace HotTao
                 wxs.SendImageToUserName(to, item.logo);
                 //发完图片后，间隔2秒再发文本
                 System.Threading.Thread.Sleep(handleTimeout);
-                wxs.SendMsg(item.text, _me.UserName, to, 1);
+                if (!string.IsNullOrEmpty(item.text))
+                    wxs.SendMsg(item.text, _me.UserName, to, 1);
             }
             catch (Exception ex)
             {

@@ -22,20 +22,13 @@ namespace HotTao.Controls
         {
             if (MyUserInfo.currentUserId > 0)
             {
-                ((Action)(delegate ()
+
+                if (string.IsNullOrEmpty(MyUserInfo.sendtemplate))
+                    MyUserInfo.sendtemplate = MyUserInfo.defaultSendTempateText;
+                else
                 {
-                    string tempText = LogicUser.Instance.GetUserSendTemplate(MyUserInfo.currentUserId);
-                    MyUserInfo.sendtemplate = tempText;
-                    this.BeginInvoke((Action)(delegate ()
-                    {
-                        if (!string.IsNullOrEmpty(tempText))
-                            txtTempText.Text = tempText;
-                        else
-                            MyUserInfo.sendtemplate = txtTempDefaultText.Text;
-                    }));
-
-                })).BeginInvoke(null, null);
-
+                    txtTempText.Text = MyUserInfo.sendtemplate;
+                }
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));
@@ -64,21 +57,20 @@ namespace HotTao.Controls
         public void Save()
         {
             MessageAlert alert = new MessageAlert();
-
-
             Loading ld = new Loading();
+            string tempText = txtTempText.Text;
             ((Action)(delegate ()
             {
-                if (LogicUser.Instance.AddUserSendTemplate(MyUserInfo.currentUserId, txtTempText.Text))
+                if (LogicUser.Instance.AddUserSendTemplate(MyUserInfo.LoginToken, tempText))
                 {
-                    alert.Message = "保存成功";                    
+                    alert.Message = "保存成功";
                 }
                 else
                     alert.Message = "保存失败";
-                ld.CloseForm();                
+                ld.CloseForm();
                 this.BeginInvoke((Action)(delegate ()
                 {
-                    MyUserInfo.sendtemplate = txtTempText.Text;
+                    MyUserInfo.sendtemplate = tempText;
                     alert.ShowDialog(this);
                 }));
             })).BeginInvoke(null, null);
@@ -91,7 +83,7 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnDefaultTemplate_Click(object sender, EventArgs e)
         {
-            txtTempText.Text = txtTempDefaultText.Text;
+            txtTempText.Text = MyUserInfo.defaultSendTempateText;
         }
     }
 }

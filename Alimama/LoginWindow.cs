@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -62,6 +63,8 @@ namespace Alimama
 
         private readonly LoginAware aware;
 
+        private static bool isLogin = false;
+
         public LoginWindow(LoginAware aware)
         {
             this.aware = aware;
@@ -70,12 +73,21 @@ namespace Alimama
 
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            //webBrowser1.Script
-            //Console.WriteLine(webBrowser1.DocumentTitle);
             if (webBrowser1.DocumentTitle.StartsWith("淘宝联盟"))
             {
-                button1.Enabled = true;
-            }else
+                if (!isLogin)
+                {
+                    isLogin = true;
+                    this.Hide();
+                    ((Action)(delegate ()
+                    {
+                        Thread.Sleep(1000);
+                        loginSuccess();
+
+                    })).BeginInvoke(null, null);
+                }
+            }
+            else
             {
                 button1.Enabled = false;
             }
@@ -85,7 +97,7 @@ namespace Alimama
         {
             CookieContainer cookies = GetUriCookieContainer(webBrowser1.Url);
             JArray jsons = new JArray();
-            foreach(Cookie cookie in cookies.GetCookies(webBrowser1.Url))
+            foreach (Cookie cookie in cookies.GetCookies(webBrowser1.Url))
             {
                 //Console.WriteLine(cookie.Name+":"+cookie.Value);
                 JObject json = new JObject();
@@ -98,7 +110,34 @@ namespace Alimama
 
             if (aware.success(jsons))
             {
+                MessageBox.Show("登录成功", "提示");
                 this.Close();
+            }
+        }
+
+
+        private void loginSuccess()
+        {
+            CookieContainer cookies = GetUriCookieContainer(webBrowser1.Url);
+            JArray jsons = new JArray();
+            foreach (Cookie cookie in cookies.GetCookies(webBrowser1.Url))
+            {
+                //Console.WriteLine(cookie.Name+":"+cookie.Value);
+                JObject json = new JObject();
+                json["name"] = cookie.Name;
+                json["path"] = cookie.Path;
+                json["domain"] = cookie.Domain;
+                json["value"] = cookie.Value;
+                jsons.Add(json);
+            }
+
+            if (aware.success(jsons))
+            {
+                this.BeginInvoke((Action)(delegate ()
+                {
+                    this.Close();
+                }));
+
             }
         }
     }

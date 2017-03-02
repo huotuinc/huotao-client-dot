@@ -118,6 +118,59 @@ namespace HotTaoCore
         /// 获取用户配置
         /// </summary>
         public const string getHotUserConfig = "/hotUser/getHotUserConfig";
+        /// <summary>
+        /// 获取执行任务列表
+        /// </summary>
+        public const string getTaskExecuteList = "/task/getTaskExecuteList";
+
+        /// <summary>
+        /// 修改任务状态
+        /// </summary>
+        public const string modifyTaskStatus = "/task/modifyTaskStatus";
+
+
+        /// <summary>
+        /// 拉取阿里妈妈推广位信息
+        /// </summary>
+        public const string getPids = "/alimama/getPids";
+
+        /// <summary>
+        /// 获取自定义文案
+        /// </summary>
+        public const string getUserGoodsTempList = "/hotUser/getUserGoodsTempList";
+
+        /// <summary>
+        /// 自定义文案设置
+        /// </summary>
+        public const string saveUserGoodsTempList = "/hotUser/saveUserGoodsTempList";
+
+
+
+
+        /// <summary>
+        /// 获取自动回复微信群列表
+        /// </summary>
+        public const string getReplyWeChatList = "/hotUser/getReplyWeChatList";
+
+
+
+
+        /// <summary>
+        /// 获取关键字自动回复配置列表
+        /// </summary>
+        public const string getKeywordReplyConfigList = "/hotUser/getReplyConfigList";
+
+        /// <summary>
+        /// 添加关键字回复配置
+        /// </summary>
+        public const string saveReplyConfig = "/hotUser/saveReplyConfig";
+
+        /// <summary>
+        /// 删除关键字回复配置
+        /// </summary>
+        public const string delReplyConfig = "/hotUser/delReplyConfig";
+
+
 
         #endregion
     }

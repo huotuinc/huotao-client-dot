@@ -185,8 +185,9 @@ namespace HotTao.Controls.Login
             this.BeginInvoke((Action)(delegate ()  //等待结束
             {
                 //设置登陆状态,必须先设置登录状态
-                hotForm.SetLoginData(data);
-                loginForm.openControl(new SetTaobaoAccountPage(hotForm, loginForm));
+                hotForm.SetLoginData(data);                
+                hotForm.SetHomeTabSelected();
+                hotForm.openControl(new GoodsControl(hotForm));
             }));
         }
 
