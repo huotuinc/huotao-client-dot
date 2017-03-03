@@ -114,5 +114,17 @@ namespace HotTaoCore.Models
         /// </summary>
         /// <value>The goodsinterval.</value>
         public int goodsinterval { get; set; }
+
+        /// <summary>
+        /// 图文发送顺序0是先图后文，1是先文后图
+        /// </summary>
+        /// <value>The imagetextsort.</value>
+        public int imagetextsort { get; set; }
+
+        /// <summary>
+        /// 任务之间的间隔时间
+        /// </summary>
+        /// <value>The taskinterval.</value>
+        public int taskinterval { get; set; }
     }
 }

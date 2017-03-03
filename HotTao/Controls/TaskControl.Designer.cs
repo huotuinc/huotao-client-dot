@@ -71,6 +71,26 @@
             this.label4 = new System.Windows.Forms.Label();
             this.ckbAllSelectedTask = new System.Windows.Forms.CheckBox();
             this.dgvData = new System.Windows.Forms.DataGridView();
+            this.cbselect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.rowIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsDetailUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsSupplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsSalesAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsComsRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsCommission = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.couponPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.updateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.editgoods = new System.Windows.Forms.DataGridViewImageColumn();
+            this.startTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.endTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.createTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.couponUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.shareLink = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsMainImgUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -101,26 +121,6 @@
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
-            this.cbselect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.rowIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsDetailUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsSupplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsSalesAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsComsRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsCommission = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.couponPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.updateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.editgoods = new System.Windows.Forms.DataGridViewImageColumn();
-            this.startTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.endTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.createTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.couponUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.shareLink = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsMainImgUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPid)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTaskPlan)).BeginInit();
@@ -540,324 +540,6 @@
             this.dgvData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
             this.dgvData.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dgvData_Scroll);
             // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.panel3.Controls.Add(this.label10);
-            this.panel3.Controls.Add(this.label9);
-            this.panel3.Controls.Add(this.label12);
-            this.panel3.Controls.Add(this.label11);
-            this.panel3.Controls.Add(this.label6);
-            this.panel3.Controls.Add(this.label7);
-            this.panel3.Controls.Add(this.label18);
-            this.panel3.Controls.Add(this.label8);
-            this.panel3.Location = new System.Drawing.Point(7, 267);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(907, 36);
-            this.panel3.TabIndex = 1;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label10.Location = new System.Drawing.Point(620, 11);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(33, 13);
-            this.label10.TabIndex = 2;
-            this.label10.Text = "销量";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label9.Location = new System.Drawing.Point(518, 11);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(33, 13);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "所属";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label12.Location = new System.Drawing.Point(786, 11);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(59, 13);
-            this.label12.TabIndex = 2;
-            this.label12.Text = "优惠金额";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label11.Location = new System.Drawing.Point(741, 11);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(33, 13);
-            this.label11.TabIndex = 2;
-            this.label11.Text = "佣金";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label6.Location = new System.Drawing.Point(668, 11);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(67, 13);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "返佣率(%)";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label7.Location = new System.Drawing.Point(567, 11);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(33, 13);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "价格";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("宋体", 9.7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label18.Location = new System.Drawing.Point(7, 11);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(33, 13);
-            this.label18.TabIndex = 2;
-            this.label18.Text = "编号";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("宋体", 9.7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label8.Location = new System.Drawing.Point(51, 11);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(59, 13);
-            this.label8.TabIndex = 2;
-            this.label8.Text = "商品名称";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("新宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label14.Location = new System.Drawing.Point(12, 10);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(151, 15);
-            this.label14.TabIndex = 3;
-            this.label14.Text = "第一步，添加微信群";
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("新宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label15.Location = new System.Drawing.Point(420, 10);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(167, 15);
-            this.label15.TabIndex = 3;
-            this.label15.Text = "第二步，添加任务计划";
-            // 
-            // btnAddWeChatGroup
-            // 
-            this.btnAddWeChatGroup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(188)))), ((int)(((byte)(61)))));
-            this.btnAddWeChatGroup.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
-            this.btnAddWeChatGroup.FlatAppearance.BorderSize = 0;
-            this.btnAddWeChatGroup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddWeChatGroup.ForeColor = System.Drawing.Color.White;
-            this.btnAddWeChatGroup.Location = new System.Drawing.Point(340, 7);
-            this.btnAddWeChatGroup.Name = "btnAddWeChatGroup";
-            this.btnAddWeChatGroup.Size = new System.Drawing.Size(61, 23);
-            this.btnAddWeChatGroup.TabIndex = 3;
-            this.btnAddWeChatGroup.Text = "添加";
-            this.btnAddWeChatGroup.UseVisualStyleBackColor = false;
-            this.btnAddWeChatGroup.Click += new System.EventHandler(this.btnAddWeChatGroup_Click);
-            // 
-            // btnAddTask
-            // 
-            this.btnAddTask.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(188)))), ((int)(((byte)(61)))));
-            this.btnAddTask.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
-            this.btnAddTask.FlatAppearance.BorderSize = 0;
-            this.btnAddTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddTask.ForeColor = System.Drawing.Color.White;
-            this.btnAddTask.Location = new System.Drawing.Point(853, 7);
-            this.btnAddTask.Name = "btnAddTask";
-            this.btnAddTask.Size = new System.Drawing.Size(61, 23);
-            this.btnAddTask.TabIndex = 3;
-            this.btnAddTask.Text = "添加";
-            this.btnAddTask.UseVisualStyleBackColor = false;
-            this.btnAddTask.Click += new System.EventHandler(this.btnAddTask_Click);
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("新宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label16.Location = new System.Drawing.Point(6, 242);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(103, 15);
-            this.label16.TabIndex = 4;
-            this.label16.Text = "已选商品列表";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("新宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label17.Location = new System.Drawing.Point(108, 242);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(47, 15);
-            this.label17.TabIndex = 5;
-            this.label17.Text = "(100)";
-            // 
-            // btnAddGoods
-            // 
-            this.btnAddGoods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(188)))), ((int)(((byte)(61)))));
-            this.btnAddGoods.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
-            this.btnAddGoods.FlatAppearance.BorderSize = 0;
-            this.btnAddGoods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddGoods.ForeColor = System.Drawing.Color.White;
-            this.btnAddGoods.Location = new System.Drawing.Point(852, 571);
-            this.btnAddGoods.Name = "btnAddGoods";
-            this.btnAddGoods.Size = new System.Drawing.Size(61, 23);
-            this.btnAddGoods.TabIndex = 3;
-            this.btnAddGoods.Text = "添加商品";
-            this.btnAddGoods.UseVisualStyleBackColor = false;
-            this.btnAddGoods.Click += new System.EventHandler(this.btnAddGoods_Click);
-            // 
-            // cmsWeChatMenu
-            // 
-            this.cmsWeChatMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.添加ToolStripMenuItem,
-            this.toolWeChatUpdate,
-            this.toolWeChatDel,
-            this.toolWeChatSetPid});
-            this.cmsWeChatMenu.Name = "cmsWeChatMenu";
-            this.cmsWeChatMenu.Size = new System.Drawing.Size(121, 92);
-            // 
-            // 添加ToolStripMenuItem
-            // 
-            this.添加ToolStripMenuItem.Name = "添加ToolStripMenuItem";
-            this.添加ToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
-            this.添加ToolStripMenuItem.Text = "添加";
-            this.添加ToolStripMenuItem.Click += new System.EventHandler(this.btnAddWeChatGroup_Click);
-            // 
-            // toolWeChatUpdate
-            // 
-            this.toolWeChatUpdate.Name = "toolWeChatUpdate";
-            this.toolWeChatUpdate.Size = new System.Drawing.Size(120, 22);
-            this.toolWeChatUpdate.Text = "修改";
-            this.toolWeChatUpdate.Click += new System.EventHandler(this.toolWeChatUpdate_Click);
-            // 
-            // toolWeChatDel
-            // 
-            this.toolWeChatDel.Name = "toolWeChatDel";
-            this.toolWeChatDel.Size = new System.Drawing.Size(120, 22);
-            this.toolWeChatDel.Text = "删除";
-            this.toolWeChatDel.Click += new System.EventHandler(this.toolWeChatDel_Click);
-            // 
-            // toolWeChatSetPid
-            // 
-            this.toolWeChatSetPid.Name = "toolWeChatSetPid";
-            this.toolWeChatSetPid.Size = new System.Drawing.Size(120, 22);
-            this.toolWeChatSetPid.Text = "设置PID";
-            this.toolWeChatSetPid.Click += new System.EventHandler(this.toolWeChatSetPid_Click);
-            // 
-            // cmsTaskMeun
-            // 
-            this.cmsTaskMeun.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.添加计划ToolStripMenuItem,
-            this.toolTaskUpdate,
-            this.toolTaskDel});
-            this.cmsTaskMeun.Name = "cmsTaskMeun";
-            this.cmsTaskMeun.Size = new System.Drawing.Size(125, 70);
-            // 
-            // 添加计划ToolStripMenuItem
-            // 
-            this.添加计划ToolStripMenuItem.Name = "添加计划ToolStripMenuItem";
-            this.添加计划ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.添加计划ToolStripMenuItem.Text = "添加计划";
-            this.添加计划ToolStripMenuItem.Click += new System.EventHandler(this.btnAddTask_Click);
-            // 
-            // toolTaskUpdate
-            // 
-            this.toolTaskUpdate.Name = "toolTaskUpdate";
-            this.toolTaskUpdate.Size = new System.Drawing.Size(124, 22);
-            this.toolTaskUpdate.Text = "修改计划";
-            this.toolTaskUpdate.Click += new System.EventHandler(this.toolTaskUpdate_Click);
-            // 
-            // toolTaskDel
-            // 
-            this.toolTaskDel.Name = "toolTaskDel";
-            this.toolTaskDel.Size = new System.Drawing.Size(124, 22);
-            this.toolTaskDel.Text = "删除计划";
-            this.toolTaskDel.Click += new System.EventHandler(this.toolTaskDel_Click);
-            // 
-            // btnWeChatWinGet
-            // 
-            this.btnWeChatWinGet.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(188)))), ((int)(((byte)(61)))));
-            this.btnWeChatWinGet.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
-            this.btnWeChatWinGet.FlatAppearance.BorderSize = 0;
-            this.btnWeChatWinGet.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Lime;
-            this.btnWeChatWinGet.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
-            this.btnWeChatWinGet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnWeChatWinGet.ForeColor = System.Drawing.Color.White;
-            this.btnWeChatWinGet.Location = new System.Drawing.Point(232, 7);
-            this.btnWeChatWinGet.Name = "btnWeChatWinGet";
-            this.btnWeChatWinGet.Size = new System.Drawing.Size(102, 23);
-            this.btnWeChatWinGet.TabIndex = 3;
-            this.btnWeChatWinGet.Text = "获取微信句柄";
-            this.btnWeChatWinGet.UseVisualStyleBackColor = false;
-            this.btnWeChatWinGet.Click += new System.EventHandler(this.btnWeChatWinGet_Click);
-            // 
-            // dataGridViewImageColumn1
-            // 
-            this.dataGridViewImageColumn1.HeaderText = "删除";
-            this.dataGridViewImageColumn1.Image = global::HotTao.Properties.Resources.icon_delete;
-            this.dataGridViewImageColumn1.MinimumWidth = 50;
-            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewImageColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dataGridViewImageColumn1.ToolTipText = "删除";
-            this.dataGridViewImageColumn1.Width = 50;
-            // 
-            // dataGridViewImageColumn2
-            // 
-            this.dataGridViewImageColumn2.HeaderText = "删除";
-            this.dataGridViewImageColumn2.Image = global::HotTao.Properties.Resources.icon_delete;
-            this.dataGridViewImageColumn2.MinimumWidth = 50;
-            this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
-            this.dataGridViewImageColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewImageColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dataGridViewImageColumn2.ToolTipText = "删除";
-            this.dataGridViewImageColumn2.Width = 50;
-            // 
-            // dataGridViewImageColumn3
-            // 
-            this.dataGridViewImageColumn3.HeaderText = "删除";
-            this.dataGridViewImageColumn3.Image = global::HotTao.Properties.Resources.icon_delete;
-            this.dataGridViewImageColumn3.Name = "dataGridViewImageColumn3";
-            this.dataGridViewImageColumn3.ToolTipText = "删除";
-            this.dataGridViewImageColumn3.Width = 50;
-            // 
-            // hotPanel1
-            // 
-            this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.hotPanel1.Location = new System.Drawing.Point(0, 0);
-            this.hotPanel1.Name = "hotPanel1";
-            this.hotPanel1.Size = new System.Drawing.Size(920, 606);
-            this.hotPanel1.TabIndex = 6;
-            // 
             // cbselect
             // 
             dataGridViewCellStyle9.NullValue = false;
@@ -1048,6 +730,328 @@
             this.goodsMainImgUrl.ReadOnly = true;
             this.goodsMainImgUrl.Visible = false;
             this.goodsMainImgUrl.Width = 5;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.panel3.Controls.Add(this.label10);
+            this.panel3.Controls.Add(this.label9);
+            this.panel3.Controls.Add(this.label12);
+            this.panel3.Controls.Add(this.label11);
+            this.panel3.Controls.Add(this.label6);
+            this.panel3.Controls.Add(this.label7);
+            this.panel3.Controls.Add(this.label18);
+            this.panel3.Controls.Add(this.label8);
+            this.panel3.Location = new System.Drawing.Point(7, 267);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(907, 36);
+            this.panel3.TabIndex = 1;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("宋体", 9.7F);
+            this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label10.Location = new System.Drawing.Point(620, 11);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(33, 13);
+            this.label10.TabIndex = 2;
+            this.label10.Text = "销量";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("宋体", 9.7F);
+            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label9.Location = new System.Drawing.Point(518, 11);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(33, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "所属";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("宋体", 9.7F);
+            this.label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label12.Location = new System.Drawing.Point(786, 11);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(59, 13);
+            this.label12.TabIndex = 2;
+            this.label12.Text = "优惠金额";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("宋体", 9.7F);
+            this.label11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label11.Location = new System.Drawing.Point(741, 11);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(33, 13);
+            this.label11.TabIndex = 2;
+            this.label11.Text = "佣金";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("宋体", 9.7F);
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label6.Location = new System.Drawing.Point(668, 11);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(67, 13);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "返佣率(%)";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("宋体", 9.7F);
+            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label7.Location = new System.Drawing.Point(567, 11);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(33, 13);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "价格";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("宋体", 9.7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label18.Location = new System.Drawing.Point(7, 11);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(33, 13);
+            this.label18.TabIndex = 2;
+            this.label18.Text = "编号";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("宋体", 9.7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label8.Location = new System.Drawing.Point(51, 11);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(59, 13);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "商品名称";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("新宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label14.Location = new System.Drawing.Point(12, 10);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(151, 15);
+            this.label14.TabIndex = 3;
+            this.label14.Text = "第一步，添加微信群";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("新宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label15.Location = new System.Drawing.Point(420, 10);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(167, 15);
+            this.label15.TabIndex = 3;
+            this.label15.Text = "第二步，添加任务计划";
+            // 
+            // btnAddWeChatGroup
+            // 
+            this.btnAddWeChatGroup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(188)))), ((int)(((byte)(61)))));
+            this.btnAddWeChatGroup.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAddWeChatGroup.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnAddWeChatGroup.FlatAppearance.BorderSize = 0;
+            this.btnAddWeChatGroup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddWeChatGroup.ForeColor = System.Drawing.Color.White;
+            this.btnAddWeChatGroup.Location = new System.Drawing.Point(340, 7);
+            this.btnAddWeChatGroup.Name = "btnAddWeChatGroup";
+            this.btnAddWeChatGroup.Size = new System.Drawing.Size(61, 23);
+            this.btnAddWeChatGroup.TabIndex = 3;
+            this.btnAddWeChatGroup.Text = "添加";
+            this.btnAddWeChatGroup.UseVisualStyleBackColor = false;
+            this.btnAddWeChatGroup.Click += new System.EventHandler(this.btnAddWeChatGroup_Click);
+            // 
+            // btnAddTask
+            // 
+            this.btnAddTask.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(188)))), ((int)(((byte)(61)))));
+            this.btnAddTask.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAddTask.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnAddTask.FlatAppearance.BorderSize = 0;
+            this.btnAddTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddTask.ForeColor = System.Drawing.Color.White;
+            this.btnAddTask.Location = new System.Drawing.Point(853, 7);
+            this.btnAddTask.Name = "btnAddTask";
+            this.btnAddTask.Size = new System.Drawing.Size(61, 23);
+            this.btnAddTask.TabIndex = 3;
+            this.btnAddTask.Text = "添加";
+            this.btnAddTask.UseVisualStyleBackColor = false;
+            this.btnAddTask.Click += new System.EventHandler(this.btnAddTask_Click);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("新宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label16.Location = new System.Drawing.Point(6, 242);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(103, 15);
+            this.label16.TabIndex = 4;
+            this.label16.Text = "已选商品列表";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("新宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label17.Location = new System.Drawing.Point(108, 242);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(47, 15);
+            this.label17.TabIndex = 5;
+            this.label17.Text = "(100)";
+            // 
+            // btnAddGoods
+            // 
+            this.btnAddGoods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(188)))), ((int)(((byte)(61)))));
+            this.btnAddGoods.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAddGoods.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnAddGoods.FlatAppearance.BorderSize = 0;
+            this.btnAddGoods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddGoods.ForeColor = System.Drawing.Color.White;
+            this.btnAddGoods.Location = new System.Drawing.Point(852, 571);
+            this.btnAddGoods.Name = "btnAddGoods";
+            this.btnAddGoods.Size = new System.Drawing.Size(61, 23);
+            this.btnAddGoods.TabIndex = 3;
+            this.btnAddGoods.Text = "添加商品";
+            this.btnAddGoods.UseVisualStyleBackColor = false;
+            this.btnAddGoods.Click += new System.EventHandler(this.btnAddGoods_Click);
+            // 
+            // cmsWeChatMenu
+            // 
+            this.cmsWeChatMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.添加ToolStripMenuItem,
+            this.toolWeChatUpdate,
+            this.toolWeChatDel,
+            this.toolWeChatSetPid});
+            this.cmsWeChatMenu.Name = "cmsWeChatMenu";
+            this.cmsWeChatMenu.Size = new System.Drawing.Size(121, 92);
+            // 
+            // 添加ToolStripMenuItem
+            // 
+            this.添加ToolStripMenuItem.Name = "添加ToolStripMenuItem";
+            this.添加ToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.添加ToolStripMenuItem.Text = "添加";
+            this.添加ToolStripMenuItem.Click += new System.EventHandler(this.btnAddWeChatGroup_Click);
+            // 
+            // toolWeChatUpdate
+            // 
+            this.toolWeChatUpdate.Name = "toolWeChatUpdate";
+            this.toolWeChatUpdate.Size = new System.Drawing.Size(120, 22);
+            this.toolWeChatUpdate.Text = "修改";
+            this.toolWeChatUpdate.Click += new System.EventHandler(this.toolWeChatUpdate_Click);
+            // 
+            // toolWeChatDel
+            // 
+            this.toolWeChatDel.Name = "toolWeChatDel";
+            this.toolWeChatDel.Size = new System.Drawing.Size(120, 22);
+            this.toolWeChatDel.Text = "删除";
+            this.toolWeChatDel.Click += new System.EventHandler(this.toolWeChatDel_Click);
+            // 
+            // toolWeChatSetPid
+            // 
+            this.toolWeChatSetPid.Name = "toolWeChatSetPid";
+            this.toolWeChatSetPid.Size = new System.Drawing.Size(120, 22);
+            this.toolWeChatSetPid.Text = "设置PID";
+            this.toolWeChatSetPid.Click += new System.EventHandler(this.toolWeChatSetPid_Click);
+            // 
+            // cmsTaskMeun
+            // 
+            this.cmsTaskMeun.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.添加计划ToolStripMenuItem,
+            this.toolTaskUpdate,
+            this.toolTaskDel});
+            this.cmsTaskMeun.Name = "cmsTaskMeun";
+            this.cmsTaskMeun.Size = new System.Drawing.Size(125, 70);
+            // 
+            // 添加计划ToolStripMenuItem
+            // 
+            this.添加计划ToolStripMenuItem.Name = "添加计划ToolStripMenuItem";
+            this.添加计划ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.添加计划ToolStripMenuItem.Text = "添加计划";
+            this.添加计划ToolStripMenuItem.Click += new System.EventHandler(this.btnAddTask_Click);
+            // 
+            // toolTaskUpdate
+            // 
+            this.toolTaskUpdate.Name = "toolTaskUpdate";
+            this.toolTaskUpdate.Size = new System.Drawing.Size(124, 22);
+            this.toolTaskUpdate.Text = "修改计划";
+            this.toolTaskUpdate.Click += new System.EventHandler(this.toolTaskUpdate_Click);
+            // 
+            // toolTaskDel
+            // 
+            this.toolTaskDel.Name = "toolTaskDel";
+            this.toolTaskDel.Size = new System.Drawing.Size(124, 22);
+            this.toolTaskDel.Text = "删除计划";
+            this.toolTaskDel.Click += new System.EventHandler(this.toolTaskDel_Click);
+            // 
+            // btnWeChatWinGet
+            // 
+            this.btnWeChatWinGet.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(188)))), ((int)(((byte)(61)))));
+            this.btnWeChatWinGet.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnWeChatWinGet.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnWeChatWinGet.FlatAppearance.BorderSize = 0;
+            this.btnWeChatWinGet.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Lime;
+            this.btnWeChatWinGet.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.btnWeChatWinGet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWeChatWinGet.ForeColor = System.Drawing.Color.White;
+            this.btnWeChatWinGet.Location = new System.Drawing.Point(232, 7);
+            this.btnWeChatWinGet.Name = "btnWeChatWinGet";
+            this.btnWeChatWinGet.Size = new System.Drawing.Size(102, 23);
+            this.btnWeChatWinGet.TabIndex = 3;
+            this.btnWeChatWinGet.Text = "获取微信句柄";
+            this.btnWeChatWinGet.UseVisualStyleBackColor = false;
+            this.btnWeChatWinGet.Click += new System.EventHandler(this.btnWeChatWinGet_Click);
+            // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.HeaderText = "删除";
+            this.dataGridViewImageColumn1.Image = global::HotTao.Properties.Resources.icon_delete;
+            this.dataGridViewImageColumn1.MinimumWidth = 50;
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewImageColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dataGridViewImageColumn1.ToolTipText = "删除";
+            this.dataGridViewImageColumn1.Width = 50;
+            // 
+            // dataGridViewImageColumn2
+            // 
+            this.dataGridViewImageColumn2.HeaderText = "删除";
+            this.dataGridViewImageColumn2.Image = global::HotTao.Properties.Resources.icon_delete;
+            this.dataGridViewImageColumn2.MinimumWidth = 50;
+            this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
+            this.dataGridViewImageColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewImageColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dataGridViewImageColumn2.ToolTipText = "删除";
+            this.dataGridViewImageColumn2.Width = 50;
+            // 
+            // dataGridViewImageColumn3
+            // 
+            this.dataGridViewImageColumn3.HeaderText = "删除";
+            this.dataGridViewImageColumn3.Image = global::HotTao.Properties.Resources.icon_delete;
+            this.dataGridViewImageColumn3.Name = "dataGridViewImageColumn3";
+            this.dataGridViewImageColumn3.ToolTipText = "删除";
+            this.dataGridViewImageColumn3.Width = 50;
+            // 
+            // hotPanel1
+            // 
+            this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.hotPanel1.Location = new System.Drawing.Point(0, 0);
+            this.hotPanel1.Name = "hotPanel1";
+            this.hotPanel1.Size = new System.Drawing.Size(920, 606);
+            this.hotPanel1.TabIndex = 6;
             // 
             // TaskControl
             // 

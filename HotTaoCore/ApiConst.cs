@@ -89,9 +89,21 @@ namespace HotTaoCore
 
 
         /// <summary>
+        /// 获取自动回复/踢人微信群列表
+        /// </summary>
+        public const string getAutoReplyWeChatGroupList = "/hotUser/getAutoReplyWeChatGroupList";
+
+        /// <summary>
         /// 添加自动管理群
         /// </summary>
-        public const string saveAutoWeChatGroup = "/weChatGroup/saveAutoWeChatGroup";
+        public const string saveAutoWeChatGroup = "/hotUser/saveAutoReplyWeChatGroupList";
+
+        /// <summary>
+        /// 删除回复/踢人微信群
+        /// </summary>
+        public const string delAutoReplyWeChatGroup = "/hotUser/delReplyWeChatGroup";
+
+
 
 
         /// <summary>
@@ -135,6 +147,12 @@ namespace HotTaoCore
         public const string getPids = "/alimama/getPids";
 
         /// <summary>
+        /// 获取淘宝账号
+        /// </summary>
+        public const string getTaobaoUsername = "/alimama/getTaobaoUsername";
+
+
+        /// <summary>
         /// 获取自定义文案
         /// </summary>
         public const string getUserGoodsTempList = "/hotUser/getUserGoodsTempList";
@@ -147,10 +165,10 @@ namespace HotTaoCore
 
 
 
-        /// <summary>
-        /// 获取自动回复微信群列表
-        /// </summary>
-        public const string getReplyWeChatList = "/hotUser/getReplyWeChatList";
+        ///// <summary>
+        ///// 获取自动回复微信群列表
+        ///// </summary>
+        //public const string getReplyWeChatList = "/hotUser/getReplyWeChatList";
 
 
 

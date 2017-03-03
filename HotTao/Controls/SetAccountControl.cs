@@ -45,10 +45,6 @@ namespace HotTao.Controls
         }
         private void SetAccountControl_Load(object sender, EventArgs e)
         {
-
-            txtTaobaoNo.Text = hotForm.taobaoNo;
-            txtTaobaoPwd.Text = hotForm.taobaoPwd;
-
             this.IsRememberPassword = false;
             string lp = LoadLoginNameAndPwd();
             if (!string.IsNullOrEmpty(lp))
@@ -96,7 +92,7 @@ namespace HotTao.Controls
                 RememberPassword(pwdStr);
                 if (isUpdate)
                     hotForm.SetLoginData(null);
-                hotForm.SetTaobaoAccount(txtTaobaoNo.Text, txtTaobaoPwd.Text);
+                //hotForm.SetTaobaoAccount(txtTaobaoNo.Text, txtTaobaoPwd.Text);
                 ShowAlert("保存成功");
             }
             catch (Exception ex)
@@ -167,17 +163,32 @@ namespace HotTao.Controls
 
         private void btnLoginTaobao_Click(object sender, EventArgs e)
         {
+            LoginWindow tblg = new LoginWindow();
+            tblg.LoginSuccessHandle += (jsons) =>
+            {
+                MyUserInfo.TaobaoLoginCookies = JsonConvert.SerializeObject(jsons);
+                ((Action)(delegate ()
+                {
+                    MyUserInfo.TaobaoName = LogicUser.Instance.GetTaobaoUsername(MyUserInfo.LoginToken, MyUserInfo.TaobaoLoginCookies);
 
+                })).BeginInvoke(null, null);
+
+            };
+            tblg.ShowDialog(this);
+            ((Action)(delegate ()
+            {
+                if (!string.IsNullOrEmpty(MyUserInfo.TaobaoLoginCookies))
+                {
+                    MyUserInfo.MyPidList = LogicUser.Instance.GetPids(MyUserInfo.LoginToken, MyUserInfo.TaobaoLoginCookies);
+                }
+            })).BeginInvoke(null, null);
+
+            while (string.IsNullOrEmpty(MyUserInfo.TaobaoLoginCookies)) { }
+            if (!string.IsNullOrEmpty(MyUserInfo.TaobaoLoginCookies))
+                ShowAlert("登录成功!");
+            else
+                ShowAlert("数据读取异常，请重新登录!");
         }
 
-    }
-    class TaobaoLoginAware : LoginAware
-    {
-        public bool success(JArray jsons)
-        {
-            string cookies = JsonConvert.SerializeObject(jsons);
-            MyUserInfo.MyPidList = LogicUser.Instance.GetPids(MyUserInfo.LoginToken, cookies);
-            return true;
-        }
     }
 }

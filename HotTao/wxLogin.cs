@@ -203,6 +203,8 @@ namespace HotTao
                     }
                 }
             })).BeginInvoke(null, null);
+
+            LoadAutoHandleData();
         }
 
         /// <summary>
@@ -218,6 +220,7 @@ namespace HotTao
         public void StartWx()
         {
             isStartTask = true;
+            LoadAutoHandleData();
         }
         /// <summary>
         /// 显示登录
@@ -270,7 +273,7 @@ namespace HotTao
                         {
                             foreach (JObject m in sync_result["AddMsgList"])
                             {
-                                // SyncMsgHandle(wxs, m);
+                                SyncMsgHandle(wxs, m);
                             }
                         }
                     }
@@ -328,6 +331,7 @@ namespace HotTao
 
 
 
+
         /// <summary>
         /// 消息同步操作
         /// </summary>
@@ -351,21 +355,18 @@ namespace HotTao
                 {
                     return obj.UserName == to;
                 });
+                if (user == null) return;
                 switch (msgtype)
                 {
                     case (int)WxMsgType.文本消息:
                         //自动回复
-                        AutoReplyChatroom(service, user, to);
-                        if (user.IsOwner == 1)
-                        {
-                            //TODO:踢人操作
-                            service.DeleteChatroom(user.UserName, from);
-                        }
+                        AutoReplyChatroom(service, user.ShowName, to, content);
+                        RemoveChatroom(service, user, from, to);
                         break;
                     case (int)WxMsgType.图片消息:
                     case (int)WxMsgType.分享链接:
                     case (int)WxMsgType.共享名片:
-                        RemoveChatroom(service, user, to, from);
+                        RemoveChatroom(service, user, from, to);
                         break;
                     default:
                         break;
@@ -373,26 +374,53 @@ namespace HotTao
             }
         }
         /// <summary>
+        /// 回复关键字列表
+        /// </summary>
+        private static List<WxAutoReplyKeywordModel> keyList = null;
+        /// <summary>
+        /// 回复微信群列表
+        /// </summary>
+        private static List<WxAutoReplyModel> weChatGroupList = null;
+        /// <summary>
+        /// 获取自动操作数据
+        /// </summary>
+        public void LoadAutoHandleData()
+        {
+            ((Action)(delegate ()
+            {
+                //回复微信群列表
+                weChatGroupList = LogicUser.Instance.GetUserReplyWeChatList(MyUserInfo.LoginToken, -1);
+                //回复关键字
+                keyList = LogicUser.Instance.GetUserReplyKeywordList(MyUserInfo.LoginToken);
+            })).BeginInvoke(null, null);
+
+        }
+
+
+        /// <summary>
         /// 自动回复群聊
         /// </summary>
         /// <param name="service">The service.</param>
-        /// <param name="user">The user.</param>
-        /// <param name="to">To.</param>
-        private void AutoReplyChatroom(WXService service, WXUser user, string to)
+        /// <param name="ShowName">群标题</param>
+        /// <param name="to"></param>
+        /// <param name="content">The content.</param>
+        private void AutoReplyChatroom(WXService service, string ShowName, string to, string content)
         {
             if (MyUserInfo.currentUserId == 0) return;
-            if (user == null) return;
 
             //判断是否自动回复
-            if (hotForm.myConfig != null && hotForm.myConfig.enable_autoreply == 1)
+            if (hotForm.myConfig != null && hotForm.myConfig.enable_autoreply == 1 && weChatGroupList != null && weChatGroupList.Count() > 0)
             {
-                //ConfigAutoReplyModel cfgReply = string.IsNullOrEmpty(hotForm.myConfig.auto_reply_config) ? null : JsonConvert.DeserializeObject<ConfigAutoReplyModel>(hotForm.myConfig.auto_reply_config);
-                //if (cfgReply != null && !string.IsNullOrEmpty(cfgReply.replycontent))
-                //{
-                //    //TODO:自动回复操作
-                //    var aa = cfgReply.keyworld.Split(',');
-                //    service.SendMsg(cfgReply.replycontent, _me.UserName, to, 1);
-                //}
+                //查找回复目标群是否存在
+                bool b = weChatGroupList.Exists((group) => { return group.handleType == 0 && group.wechattitle == ShowName; });
+                if (!b) return;
+
+                //查找回复关键字是否存在
+                var keyword = keyList.Find((keys) => { return content.Contains(keys.replyKeyword); });
+                if (keyword == null) return;
+
+                if (keyword.replyType == 0 && !string.IsNullOrEmpty(keyword.replyContent))
+                    service.SendMsg(keyword.replyContent, _me.UserName, to, 1);
             }
         }
 
@@ -408,8 +436,11 @@ namespace HotTao
             if (user == null) return;
             if (user.IsOwner == 1)
             {
-                //TODO:踢人操作
-                service.DeleteChatroom(to, from);
+                if (hotForm.myConfig != null && hotForm.myConfig.enable_autoremove == 1 && keyList != null && keyList.Count() > 0)
+                {
+                    //TODO:踢人操作
+                    service.DeleteChatroom(from, to);
+                }
             }
         }
 
@@ -425,7 +456,7 @@ namespace HotTao
         {
             new Thread(() =>
             {
-                int handleTimeout = 2000, sendGoodsTimeout = 40 * 1000;
+                int handleTimeout = 2000, sendGoodsTimeout = 40 * 1000, imageTextSort = 0, taskTimeout = 30 * 1000;
 
                 if (hotForm.myConfig != null)
                 {
@@ -434,6 +465,8 @@ namespace HotTao
                     {
                         handleTimeout = cfgTime.handleInterval * 1000;
                         sendGoodsTimeout = cfgTime.goodsinterval * 1000;
+                        imageTextSort = cfgTime.imagetextsort;
+                        taskTimeout = cfgTime.taskinterval * 1000;
                     }
                 }
                 //获取执行的任务
@@ -460,7 +493,7 @@ namespace HotTao
                             WXUser user = contact_all.Find((WXUser obj) => { return obj.ShowName.Contains(item.title); });
                             if (user != null)
                             {
-                                Send(wxs, item, user.UserName, handleTimeout);
+                                Send(wxs, item, user.UserName, handleTimeout, imageTextSort);
                                 //每个商品
                                 System.Threading.Thread.Sleep(sendGoodsTimeout);
                             }
@@ -472,11 +505,13 @@ namespace HotTao
                             LogicTaskPlan.Instance.UpdateTaskFinished(MyUserInfo.LoginToken, taskid);
                         })).BeginInvoke(null, null);
 
+                        //执行任务数据间隔
+                        System.Threading.Thread.Sleep(taskTimeout);
                     }
                     else
                     {
-                        //如果当前没有获取到执行任务数据，则暂停10秒重新获取
-                        System.Threading.Thread.Sleep(10000);
+                        //如果当前没有获取到执行任务数据，则暂停1分钟重新获取
+                        System.Threading.Thread.Sleep(60 * 1000);
                     }
                 }
             })
@@ -491,16 +526,28 @@ namespace HotTao
         /// <param name="item">The item.</param>
         /// <param name="to">To.</param>
         /// <param name="handleTimeout">操作间隔</param>
-        private void Send(WXService wxs, ReplyResponeModel item, string to, int handleTimeout)
+        /// <param name="imageTextSort">图文发送顺序，0是先图后文</param>
+        private void Send(WXService wxs, ReplyResponeModel item, string to, int handleTimeout, int imageTextSort)
         {
             //发送图片给指定用户
             try
             {
-                wxs.SendImageToUserName(to, item.logo);
-                //发完图片后，间隔2秒再发文本
-                System.Threading.Thread.Sleep(handleTimeout);
-                if (!string.IsNullOrEmpty(item.text))
-                    wxs.SendMsg(item.text, _me.UserName, to, 1);
+                if (imageTextSort == 0)
+                {
+                    wxs.SendImageToUserName(to, item.logo);
+                    //发完图片后，间隔2秒再发文本
+                    System.Threading.Thread.Sleep(handleTimeout);
+                    if (!string.IsNullOrEmpty(item.text))
+                        wxs.SendMsg(item.text, _me.UserName, to, 1);
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(item.text))
+                        wxs.SendMsg(item.text, _me.UserName, to, 1);
+                    //发完文本后，间隔2秒再发图片
+                    System.Threading.Thread.Sleep(handleTimeout);
+                    wxs.SendImageToUserName(to, item.logo);
+                }
             }
             catch (Exception ex)
             {

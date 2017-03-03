@@ -120,7 +120,7 @@ namespace HotTao.Controls
             this.dgvUserPid.Rows.Clear();
             ((Action)(delegate ()
             {
-                var pidData = LogicUserPid.Instance.getUserPidList(MyUserInfo.LoginToken, hotForm.taobaoNo);
+                var pidData = LogicUserPid.Instance.getUserPidList(MyUserInfo.LoginToken, MyUserInfo.TaobaoName);
                 if (pidData != null)
                 {
                     this.BeginInvoke((Action)(delegate ()  //等待结束

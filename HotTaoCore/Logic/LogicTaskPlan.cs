@@ -93,30 +93,15 @@ namespace HotTaoCore.Logic
             data["executetime"] = model.startTime.ToString("yyyy-MM-dd HH:mm:ss");
             data["endtime"] = model.endTime.ToString("yyyy-MM-dd HH:mm:ss");
             var item = BaseRequestService.Post<TaskPlanModel>(ApiConst.saveTask, data);
-            if (item == null) return item;
+
             item.statusText = "待执行";
             if (item.status == 1)
-            {
                 item.statusText = "已完成";
-                item.ExecStatus = 2;
-            }
-            else
-            {
-                if (item.endTime.CompareTo(DateTime.Now) < 0)
-                {
-                    item.statusText = "已过期";
-                    item.ExecStatus = 3;
-                }
-
-                if (item.startTime.CompareTo(DateTime.Now) < 0)
-                {
-                    item.statusText = "进行中";
-                    item.ExecStatus = 1;
-                }
-
-            }
+            else if (item.status == 2)
+                item.statusText = "进行中";
+            else if (item.status == 3)
+                item.statusText = "已过期";
             item.startTimeText = item.startTime.ToString("yyyy年MM月dd日 HH时mm分ss秒");
-
             return item;
         }
         /// <summary>

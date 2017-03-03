@@ -132,7 +132,7 @@
             this.dgvChatRoom.RowTemplate.Height = 23;
             this.dgvChatRoom.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvChatRoom.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvChatRoom.Size = new System.Drawing.Size(700, 396);
+            this.dgvChatRoom.Size = new System.Drawing.Size(700, 165);
             this.dgvChatRoom.TabIndex = 42;
             this.dgvChatRoom.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvChatRoom_CellClick);
             // 

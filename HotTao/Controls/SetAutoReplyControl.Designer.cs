@@ -31,11 +31,11 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.button2 = new System.Windows.Forms.Button();
@@ -45,6 +45,11 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvKeyword = new System.Windows.Forms.DataGridView();
+            this.keywordid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.replyKeyword = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.replyType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.replyContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.deleteKeyword = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -54,11 +59,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.ckbAutoReplay = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.keywordid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.replyKeyword = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.replyType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.replyContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.deleteKeyword = new System.Windows.Forms.DataGridViewImageColumn();
             this.groupid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.wechattitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.deleteWechat = new System.Windows.Forms.DataGridViewImageColumn();
@@ -202,6 +202,58 @@
             this.dgvKeyword.TabIndex = 42;
             this.dgvKeyword.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKeyword_CellClick);
             // 
+            // keywordid
+            // 
+            this.keywordid.DataPropertyName = "id";
+            this.keywordid.HeaderText = "id";
+            this.keywordid.MinimumWidth = 50;
+            this.keywordid.Name = "keywordid";
+            this.keywordid.ReadOnly = true;
+            this.keywordid.Visible = false;
+            this.keywordid.Width = 50;
+            // 
+            // replyKeyword
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.replyKeyword.DefaultCellStyle = dataGridViewCellStyle1;
+            this.replyKeyword.HeaderText = "关键字";
+            this.replyKeyword.Name = "replyKeyword";
+            this.replyKeyword.ReadOnly = true;
+            this.replyKeyword.Width = 120;
+            // 
+            // replyType
+            // 
+            this.replyType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.replyType.DefaultCellStyle = dataGridViewCellStyle2;
+            this.replyType.FillWeight = 15.46391F;
+            this.replyType.HeaderText = "回复类型";
+            this.replyType.Name = "replyType";
+            this.replyType.ReadOnly = true;
+            this.replyType.Width = 150;
+            // 
+            // replyContent
+            // 
+            this.replyContent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.replyContent.DataPropertyName = "replyContent";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.replyContent.DefaultCellStyle = dataGridViewCellStyle3;
+            this.replyContent.FillWeight = 15.46391F;
+            this.replyContent.HeaderText = "回复内容";
+            this.replyContent.Name = "replyContent";
+            this.replyContent.ReadOnly = true;
+            // 
+            // deleteKeyword
+            // 
+            this.deleteKeyword.HeaderText = "删除";
+            this.deleteKeyword.Image = global::HotTao.Properties.Resources.icon_delete;
+            this.deleteKeyword.Name = "deleteKeyword";
+            this.deleteKeyword.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.deleteKeyword.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
@@ -331,58 +383,6 @@
             this.label9.TabIndex = 34;
             this.label9.Text = "自动回复设置";
             // 
-            // keywordid
-            // 
-            this.keywordid.DataPropertyName = "id";
-            this.keywordid.HeaderText = "id";
-            this.keywordid.MinimumWidth = 50;
-            this.keywordid.Name = "keywordid";
-            this.keywordid.ReadOnly = true;
-            this.keywordid.Visible = false;
-            this.keywordid.Width = 50;
-            // 
-            // replyKeyword
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.replyKeyword.DefaultCellStyle = dataGridViewCellStyle1;
-            this.replyKeyword.HeaderText = "关键字";
-            this.replyKeyword.Name = "replyKeyword";
-            this.replyKeyword.ReadOnly = true;
-            this.replyKeyword.Width = 120;
-            // 
-            // replyType
-            // 
-            this.replyType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.replyType.DefaultCellStyle = dataGridViewCellStyle2;
-            this.replyType.FillWeight = 15.46391F;
-            this.replyType.HeaderText = "回复类型";
-            this.replyType.Name = "replyType";
-            this.replyType.ReadOnly = true;
-            this.replyType.Width = 150;
-            // 
-            // replyContent
-            // 
-            this.replyContent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.replyContent.DataPropertyName = "replyContent";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.replyContent.DefaultCellStyle = dataGridViewCellStyle3;
-            this.replyContent.FillWeight = 15.46391F;
-            this.replyContent.HeaderText = "回复内容";
-            this.replyContent.Name = "replyContent";
-            this.replyContent.ReadOnly = true;
-            // 
-            // deleteKeyword
-            // 
-            this.deleteKeyword.HeaderText = "删除";
-            this.deleteKeyword.Image = global::HotTao.Properties.Resources.icon_delete;
-            this.deleteKeyword.Name = "deleteKeyword";
-            this.deleteKeyword.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.deleteKeyword.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
             // groupid
             // 
             this.groupid.DataPropertyName = "id";
@@ -409,7 +409,7 @@
             // deleteWechat
             // 
             this.deleteWechat.HeaderText = "编辑";
-            this.deleteWechat.Image = global::HotTao.Properties.Resources.icon_edit;
+            this.deleteWechat.Image = global::HotTao.Properties.Resources.icon_delete;
             this.deleteWechat.Name = "deleteWechat";
             // 
             // SetAutoReplyControl

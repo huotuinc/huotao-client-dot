@@ -56,10 +56,10 @@ namespace HotTao.Controls
             this.dgvChatRoom.Rows.Clear();
             ((Action)(delegate ()
             {
-                var data = LogicUser.Instance.GetUserReplyWeChatList(MyUserInfo.LoginToken);
+                var data = LogicUser.Instance.GetUserReplyWeChatList(MyUserInfo.LoginToken, 0);
                 if (data != null)
                 {
-                    this.BeginInvoke((Action)(delegate ()  //等待结束
+                    dgvChatRoom.BeginInvoke((Action)(delegate ()  //等待结束
                     {
                         SetChatRoomView(data);
                         if (this.dgvChatRoom.Rows.Count > 0)
@@ -110,7 +110,7 @@ namespace HotTao.Controls
                 var data = LogicUser.Instance.GetUserReplyKeywordList(MyUserInfo.LoginToken);
                 if (data != null)
                 {
-                    this.BeginInvoke((Action)(delegate ()  //等待结束
+                    dgvKeyword.BeginInvoke((Action)(delegate ()  //等待结束
                     {
                         SetKeywordView(data);
                         if (this.dgvKeyword.Rows.Count > 0)
@@ -210,10 +210,10 @@ namespace HotTao.Controls
                 return;
             }
         }/// <summary>
-        /// 添加微信群
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+         /// 添加微信群
+         /// </summary>
+         /// <param name="sender"></param>
+         /// <param name="e"></param>
         private void btnAddChat_Click(object sender, EventArgs e)
         {
             AddWeChat wechat = new AddWeChat(hotForm, this);
@@ -227,7 +227,7 @@ namespace HotTao.Controls
             ((Action)(delegate ()
             {
                 hotForm.myConfig.enable_autoreply = ckbAutoReplay.Checked ? 1 : 0;
-                LogicUser.Instance.AddUserConfigModel(MyUserInfo.LoginToken,hotForm.myConfig);
+                LogicUser.Instance.AddUserConfigModel(MyUserInfo.LoginToken, hotForm.myConfig);
 
             })).BeginInvoke(null, null);
         }
@@ -253,9 +253,10 @@ namespace HotTao.Controls
                 DataGridViewCellCollection cells = this.dgvChatRoom.CurrentRow.Cells;
                 int deleteId = 0;
                 int.TryParse(cells["groupid"].Value.ToString(), out deleteId);
+
                 if (deleteId <= 0)
                 {
-                    ShowAlert("请选择要删除的关键字");
+                    ShowAlert("请选择要删除的微信群");
                     return;
                 }
                 MessageConfirm confirm = new MessageConfirm();
@@ -287,7 +288,7 @@ namespace HotTao.Controls
                 DataGridViewCellCollection cells = this.dgvKeyword.CurrentRow.Cells;
                 int deleteId = 0;
                 int.TryParse(cells["keywordid"].Value.ToString(), out deleteId);
-                if(deleteId<=0)
+                if (deleteId <= 0)
                 {
                     ShowAlert("请选择要删除的关键字");
                     return;

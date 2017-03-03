@@ -40,20 +40,12 @@
             this.label7 = new System.Windows.Forms.Label();
             this.ckbSavePwd = new System.Windows.Forms.CheckBox();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.hotGroupBox6 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.txtTaobaoNo = new System.Windows.Forms.TextBox();
-            this.hotGroupBox5 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.txtTaobaoPwd = new System.Windows.Forms.TextBox();
             this.btnLoginTaobao = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
             this.hotGroupBox2.SuspendLayout();
             this.hotGroupBox3.SuspendLayout();
             this.hotGroupBox4.SuspendLayout();
             this.hotGroupBox1.SuspendLayout();
-            this.hotGroupBox6.SuspendLayout();
-            this.hotGroupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // hotGroupBox2
@@ -175,65 +167,13 @@
             // 
             this.hotGroupBox1.BorderColor = System.Drawing.Color.Gainsboro;
             this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Blue;
-            this.hotGroupBox1.Controls.Add(this.hotGroupBox6);
-            this.hotGroupBox1.Controls.Add(this.hotGroupBox5);
             this.hotGroupBox1.Controls.Add(this.btnLoginTaobao);
             this.hotGroupBox1.Controls.Add(this.label9);
-            this.hotGroupBox1.Controls.Add(this.label10);
-            this.hotGroupBox1.Controls.Add(this.label13);
             this.hotGroupBox1.Location = new System.Drawing.Point(10, 209);
             this.hotGroupBox1.Name = "hotGroupBox1";
-            this.hotGroupBox1.Size = new System.Drawing.Size(730, 172);
+            this.hotGroupBox1.Size = new System.Drawing.Size(730, 125);
             this.hotGroupBox1.TabIndex = 28;
             this.hotGroupBox1.TabStop = false;
-            this.hotGroupBox1.Visible = false;
-            // 
-            // hotGroupBox6
-            // 
-            this.hotGroupBox6.BackColor = System.Drawing.Color.White;
-            this.hotGroupBox6.BorderColor = System.Drawing.Color.Silver;
-            this.hotGroupBox6.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox6.Controls.Add(this.txtTaobaoNo);
-            this.hotGroupBox6.Location = new System.Drawing.Point(249, 27);
-            this.hotGroupBox6.Name = "hotGroupBox6";
-            this.hotGroupBox6.Size = new System.Drawing.Size(189, 35);
-            this.hotGroupBox6.TabIndex = 3;
-            this.hotGroupBox6.TabStop = false;
-            // 
-            // txtTaobaoNo
-            // 
-            this.txtTaobaoNo.BackColor = System.Drawing.Color.White;
-            this.txtTaobaoNo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtTaobaoNo.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtTaobaoNo.Location = new System.Drawing.Point(4, 14);
-            this.txtTaobaoNo.Margin = new System.Windows.Forms.Padding(10);
-            this.txtTaobaoNo.Name = "txtTaobaoNo";
-            this.txtTaobaoNo.Size = new System.Drawing.Size(176, 16);
-            this.txtTaobaoNo.TabIndex = 0;
-            // 
-            // hotGroupBox5
-            // 
-            this.hotGroupBox5.BackColor = System.Drawing.Color.White;
-            this.hotGroupBox5.BorderColor = System.Drawing.Color.Silver;
-            this.hotGroupBox5.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox5.Controls.Add(this.txtTaobaoPwd);
-            this.hotGroupBox5.Location = new System.Drawing.Point(249, 73);
-            this.hotGroupBox5.Name = "hotGroupBox5";
-            this.hotGroupBox5.Size = new System.Drawing.Size(189, 35);
-            this.hotGroupBox5.TabIndex = 4;
-            this.hotGroupBox5.TabStop = false;
-            // 
-            // txtTaobaoPwd
-            // 
-            this.txtTaobaoPwd.BackColor = System.Drawing.Color.White;
-            this.txtTaobaoPwd.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtTaobaoPwd.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtTaobaoPwd.Location = new System.Drawing.Point(4, 14);
-            this.txtTaobaoPwd.Margin = new System.Windows.Forms.Padding(10);
-            this.txtTaobaoPwd.Name = "txtTaobaoPwd";
-            this.txtTaobaoPwd.Size = new System.Drawing.Size(176, 16);
-            this.txtTaobaoPwd.TabIndex = 1;
-            this.txtTaobaoPwd.UseSystemPasswordChar = true;
             // 
             // btnLoginTaobao
             // 
@@ -243,9 +183,9 @@
             this.btnLoginTaobao.FlatAppearance.BorderSize = 0;
             this.btnLoginTaobao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoginTaobao.ForeColor = System.Drawing.Color.White;
-            this.btnLoginTaobao.Location = new System.Drawing.Point(249, 116);
+            this.btnLoginTaobao.Location = new System.Drawing.Point(212, 49);
             this.btnLoginTaobao.Name = "btnLoginTaobao";
-            this.btnLoginTaobao.Size = new System.Drawing.Size(58, 33);
+            this.btnLoginTaobao.Size = new System.Drawing.Size(295, 33);
             this.btnLoginTaobao.TabIndex = 16;
             this.btnLoginTaobao.Text = "登陆";
             this.btnLoginTaobao.UseVisualStyleBackColor = false;
@@ -262,24 +202,6 @@
             this.label9.Size = new System.Drawing.Size(93, 22);
             this.label9.TabIndex = 14;
             this.label9.Text = "淘宝账户设置";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(176, 41);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 12);
-            this.label10.TabIndex = 6;
-            this.label10.Text = "淘宝账号";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(176, 90);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(53, 12);
-            this.label13.TabIndex = 7;
-            this.label13.Text = "淘宝密码";
             // 
             // SetAccountControl
             // 
@@ -300,10 +222,6 @@
             this.hotGroupBox4.PerformLayout();
             this.hotGroupBox1.ResumeLayout(false);
             this.hotGroupBox1.PerformLayout();
-            this.hotGroupBox6.ResumeLayout(false);
-            this.hotGroupBox6.PerformLayout();
-            this.hotGroupBox5.ResumeLayout(false);
-            this.hotGroupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -315,8 +233,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label13;
         private module.HotGroupBox hotGroupBox1;
         private module.HotGroupBox hotGroupBox2;
         private System.Windows.Forms.Button btnLoginTaobao;
@@ -324,9 +240,5 @@
         private System.Windows.Forms.TextBox loginName;
         private module.HotGroupBox hotGroupBox4;
         private System.Windows.Forms.TextBox loginPwd;
-        private module.HotGroupBox hotGroupBox6;
-        private System.Windows.Forms.TextBox txtTaobaoNo;
-        private module.HotGroupBox hotGroupBox5;
-        private System.Windows.Forms.TextBox txtTaobaoPwd;
     }
 }

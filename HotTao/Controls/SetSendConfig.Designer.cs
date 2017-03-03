@@ -55,10 +55,16 @@
             this.ckbCoupon = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.rbWtSort = new System.Windows.Forms.RadioButton();
+            this.rbTwSort = new System.Windows.Forms.RadioButton();
             this.label4 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtgoodsinterval = new System.Windows.Forms.TextBox();
+            this.txtTaskInterval = new System.Windows.Forms.TextBox();
             this.txthandleInterval = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -94,9 +100,9 @@
             this.hotGroupBox3.Controls.Add(this.ckbMonthSales);
             this.hotGroupBox3.Controls.Add(this.ckbCoupon);
             this.hotGroupBox3.Controls.Add(this.label6);
-            this.hotGroupBox3.Location = new System.Drawing.Point(13, 125);
+            this.hotGroupBox3.Location = new System.Drawing.Point(13, 176);
             this.hotGroupBox3.Name = "hotGroupBox3";
-            this.hotGroupBox3.Size = new System.Drawing.Size(725, 419);
+            this.hotGroupBox3.Size = new System.Drawing.Size(725, 287);
             this.hotGroupBox3.TabIndex = 2;
             this.hotGroupBox3.TabStop = false;
             // 
@@ -267,6 +273,7 @@
             // ckbfilterGoods
             // 
             this.ckbfilterGoods.AutoSize = true;
+            this.ckbfilterGoods.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ckbfilterGoods.Location = new System.Drawing.Point(56, 183);
             this.ckbfilterGoods.Name = "ckbfilterGoods";
             this.ckbfilterGoods.Size = new System.Drawing.Size(120, 16);
@@ -278,6 +285,7 @@
             // ckbGoodsPrice
             // 
             this.ckbGoodsPrice.AutoSize = true;
+            this.ckbGoodsPrice.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ckbGoodsPrice.Location = new System.Drawing.Point(56, 156);
             this.ckbGoodsPrice.Name = "ckbGoodsPrice";
             this.ckbGoodsPrice.Size = new System.Drawing.Size(72, 16);
@@ -288,6 +296,7 @@
             // ckbCmsRate
             // 
             this.ckbCmsRate.AutoSize = true;
+            this.ckbCmsRate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ckbCmsRate.Location = new System.Drawing.Point(56, 127);
             this.ckbCmsRate.Name = "ckbCmsRate";
             this.ckbCmsRate.Size = new System.Drawing.Size(72, 16);
@@ -298,6 +307,7 @@
             // ckbminCouponDayCount
             // 
             this.ckbminCouponDayCount.AutoSize = true;
+            this.ckbminCouponDayCount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ckbminCouponDayCount.Location = new System.Drawing.Point(56, 40);
             this.ckbminCouponDayCount.Name = "ckbminCouponDayCount";
             this.ckbminCouponDayCount.Size = new System.Drawing.Size(108, 16);
@@ -308,6 +318,7 @@
             // ckbMonthSales
             // 
             this.ckbMonthSales.AutoSize = true;
+            this.ckbMonthSales.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ckbMonthSales.Location = new System.Drawing.Point(56, 97);
             this.ckbMonthSales.Name = "ckbMonthSales";
             this.ckbMonthSales.Size = new System.Drawing.Size(60, 16);
@@ -318,6 +329,7 @@
             // ckbCoupon
             // 
             this.ckbCoupon.AutoSize = true;
+            this.ckbCoupon.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ckbCoupon.Location = new System.Drawing.Point(56, 68);
             this.ckbCoupon.Name = "ckbCoupon";
             this.ckbCoupon.Size = new System.Drawing.Size(60, 16);
@@ -341,18 +353,48 @@
             // 
             this.hotGroupBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
             this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox1.Controls.Add(this.rbWtSort);
+            this.hotGroupBox1.Controls.Add(this.rbTwSort);
             this.hotGroupBox1.Controls.Add(this.label4);
+            this.hotGroupBox1.Controls.Add(this.label20);
             this.hotGroupBox1.Controls.Add(this.label2);
             this.hotGroupBox1.Controls.Add(this.txtgoodsinterval);
+            this.hotGroupBox1.Controls.Add(this.txtTaskInterval);
             this.hotGroupBox1.Controls.Add(this.txthandleInterval);
+            this.hotGroupBox1.Controls.Add(this.label5);
+            this.hotGroupBox1.Controls.Add(this.label19);
             this.hotGroupBox1.Controls.Add(this.label3);
             this.hotGroupBox1.Controls.Add(this.label1);
             this.hotGroupBox1.Controls.Add(this.label9);
             this.hotGroupBox1.Location = new System.Drawing.Point(13, 13);
             this.hotGroupBox1.Name = "hotGroupBox1";
-            this.hotGroupBox1.Size = new System.Drawing.Size(725, 93);
+            this.hotGroupBox1.Size = new System.Drawing.Size(725, 144);
             this.hotGroupBox1.TabIndex = 0;
             this.hotGroupBox1.TabStop = false;
+            // 
+            // rbWtSort
+            // 
+            this.rbWtSort.AutoSize = true;
+            this.rbWtSort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.rbWtSort.Location = new System.Drawing.Point(199, 83);
+            this.rbWtSort.Name = "rbWtSort";
+            this.rbWtSort.Size = new System.Drawing.Size(71, 16);
+            this.rbWtSort.TabIndex = 38;
+            this.rbWtSort.Text = "先文后图";
+            this.rbWtSort.UseVisualStyleBackColor = true;
+            // 
+            // rbTwSort
+            // 
+            this.rbTwSort.AutoSize = true;
+            this.rbTwSort.Checked = true;
+            this.rbTwSort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.rbTwSort.Location = new System.Drawing.Point(117, 83);
+            this.rbTwSort.Name = "rbTwSort";
+            this.rbTwSort.Size = new System.Drawing.Size(71, 16);
+            this.rbTwSort.TabIndex = 38;
+            this.rbTwSort.TabStop = true;
+            this.rbTwSort.Text = "先图后文";
+            this.rbTwSort.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -364,6 +406,17 @@
             this.label4.Size = new System.Drawing.Size(113, 12);
             this.label4.TabIndex = 37;
             this.label4.Text = "默认40秒(最少35秒)";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.label20.Location = new System.Drawing.Point(180, 112);
+            this.label20.Margin = new System.Windows.Forms.Padding(0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(329, 12);
+            this.label20.TabIndex = 37;
+            this.label20.Text = "默认30秒（即上个任务执行完成后，间隔多久执行下个任务）";
             // 
             // label2
             // 
@@ -386,6 +439,16 @@
             this.txtgoodsinterval.Text = "40";
             this.txtgoodsinterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
             // 
+            // txtTaskInterval
+            // 
+            this.txtTaskInterval.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.txtTaskInterval.Location = new System.Drawing.Point(113, 108);
+            this.txtTaskInterval.Name = "txtTaskInterval";
+            this.txtTaskInterval.Size = new System.Drawing.Size(60, 21);
+            this.txtTaskInterval.TabIndex = 1;
+            this.txtTaskInterval.Text = "30";
+            this.txtTaskInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
+            // 
             // txthandleInterval
             // 
             this.txthandleInterval.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
@@ -395,6 +458,24 @@
             this.txthandleInterval.TabIndex = 1;
             this.txthandleInterval.Text = "2";
             this.txthandleInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(54, 84);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.TabIndex = 35;
+            this.label5.Text = "图文顺序";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(54, 112);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(53, 12);
+            this.label19.TabIndex = 35;
+            this.label19.Text = "任务间隔";
             // 
             // label3
             // 
@@ -434,7 +515,7 @@
             this.Controls.Add(this.hotGroupBox3);
             this.Controls.Add(this.hotGroupBox1);
             this.Name = "SetSendConfig";
-            this.Size = new System.Drawing.Size(750, 646);
+            this.Size = new System.Drawing.Size(750, 510);
             this.Load += new System.EventHandler(this.SetSendConfig_Load);
             this.hotGroupBox3.ResumeLayout(false);
             this.hotGroupBox3.PerformLayout();
@@ -479,5 +560,11 @@
         private System.Windows.Forms.TextBox txtminCouponDateDayCount;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox ckbminCouponDayCount;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.RadioButton rbWtSort;
+        private System.Windows.Forms.RadioButton rbTwSort;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox txtTaskInterval;
+        private System.Windows.Forms.Label label19;
     }
 }

@@ -46,7 +46,7 @@ namespace HotTao.Controls
             this.dgvChatRoom.Rows.Clear();
             ((Action)(delegate ()
             {
-                var data = LogicUser.Instance.GetUserReplyWeChatList(MyUserInfo.LoginToken);
+                var data = LogicUser.Instance.GetUserReplyWeChatList(MyUserInfo.LoginToken,1);
                 if (data != null)
                 {
                     this.BeginInvoke((Action)(delegate ()  //等待结束
@@ -177,10 +177,10 @@ namespace HotTao.Controls
             {
                 DataGridViewCellCollection cells = this.dgvChatRoom.CurrentRow.Cells;
                 int deleteId = 0;
-                int.TryParse(cells["groupid"].ToString(), out deleteId);
+                int.TryParse(cells["groupid"].Value.ToString(), out deleteId);
                 if (deleteId <= 0)
                 {
-                    ShowAlert("请选择要删除的关键字");
+                    ShowAlert("请选择要删除的微信群");
                     return;
                 }
                 MessageConfirm confirm = new MessageConfirm();

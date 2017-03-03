@@ -213,12 +213,14 @@ namespace HotTaoCore.Logic
         /// 获取自动回复的微信群聊
         /// </summary>
         /// <param name="loginToken">The login token.</param>
+        /// <param name="type">-1全部，0回复，1踢人</param>
         /// <returns>List&lt;WxAutoReplyModel&gt;.</returns>
-        public List<WxAutoReplyModel> GetUserReplyWeChatList(string loginToken)
+        public List<WxAutoReplyModel> GetUserReplyWeChatList(string loginToken, int type)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
-            data["token"] = loginToken;
-            return BaseRequestService.Post<List<WxAutoReplyModel>>(ApiConst.getKeywordReplyConfigList, data);
+            data["token"] = loginToken;//
+            data["type"] = type.ToString();//
+            return BaseRequestService.Post<List<WxAutoReplyModel>>(ApiConst.getAutoReplyWeChatGroupList, data);
         }
         /// <summary>
         /// 删除回复微信群
@@ -230,8 +232,8 @@ namespace HotTaoCore.Logic
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
-            data["groupid"] = wechatid.ToString();
-            return true;
+            data["id"] = wechatid.ToString();
+            return BaseRequestService.Post(ApiConst.delAutoReplyWeChatGroup, data);
         }
 
 
@@ -248,7 +250,7 @@ namespace HotTaoCore.Logic
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
             data["keyword"] = keyword;
-            data["replyContent"] = replyContent;
+            data["replycontent"] = replyContent;
             data["replytype"] = msgType.ToString();
             if (goodsid > 0)
                 data["replygoodsid"] = goodsid.ToString();
@@ -322,7 +324,7 @@ namespace HotTaoCore.Logic
         }
 
         /// <summary>
-        /// Updates the user we chat title.
+        /// 添加自动回复微信群
         /// </summary>
         /// <param name="loginToken">The login token.</param>
         /// <param name="wechattitle">微信群标题</param>
@@ -332,8 +334,8 @@ namespace HotTaoCore.Logic
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
-            data["groupname"] = wechattitle;
-            data["type"] = type.ToString();
+            data["wechattitle"] = wechattitle;
+            data["handleType"] = type.ToString();
             return BaseRequestService.Post(ApiConst.saveAutoWeChatGroup, data) ? 1 : 0;
         }
 
@@ -425,6 +427,19 @@ namespace HotTaoCore.Logic
             data["token"] = loginToken;
             data["cookies"] = cookies;
             return BaseRequestService.Post<List<UserTaoPidModel>>(ApiConst.getPids, data);
+        }
+        /// <summary>
+        /// 获取淘宝账号
+        /// </summary>
+        /// <param name="loginToken">The login token.</param>
+        /// <param name="cookies">The cookies.</param>
+        /// <returns>System.String.</returns>
+        public string GetTaobaoUsername(string loginToken, string cookies)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["cookies"] = cookies;
+            return BaseRequestService.PostToString(ApiConst.getTaobaoUsername, data);
         }
 
     }

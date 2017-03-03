@@ -757,9 +757,12 @@ namespace HotTao.Controls
             }
         }
         private int MouseCurrentRowIndex = 0;
+
         private void toolWeChatSetPid_Click(object sender, EventArgs e)
         {
-            if (MyUserInfo.MyPidList != null)
+            if (MyUserInfo.currentUserId == 0) return;
+
+            if (!string.IsNullOrEmpty(MyUserInfo.TaobaoName))
             {
                 if (this.dgvPid.Rows.Count > MouseCurrentRowIndex)
                 {
@@ -778,20 +781,7 @@ namespace HotTao.Controls
             }
             else
             {
-                MessageConfirm confirm = new MessageConfirm("您还没登录淘宝,马上登录?");
-                confirm.CallBack += () => {
-
-                    LoginWindow tblg = new LoginWindow(new TaobaoLoginAware());
-                    ((Action)(delegate ()
-                    {
-                        this.BeginInvoke((Action)(delegate ()
-                        {
-                            tblg.ShowDialog(this);
-                        }));
-
-                    })).BeginInvoke(null, null);
-                };
-                confirm.ShowDialog(this);
+                ShowAlert("请先登录淘宝账号");
             }
         }
 

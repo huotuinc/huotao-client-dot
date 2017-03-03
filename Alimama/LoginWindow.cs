@@ -14,6 +14,14 @@ using System.Windows.Forms;
 
 namespace Alimama
 {
+
+
+    /// <summary>
+    /// 表示登录完成事件的方法
+    /// </summary>
+    /// <param name="user"></param>
+    public delegate void LoginSuccessEventHandler(JArray jsons);
+
     /// <summary>
     /// 可以使用<see cref="LoginAware"/>该接口作为结果回调获取者
     /// </summary>
@@ -61,13 +69,20 @@ namespace Alimama
             return cookies;
         }
 
-        private readonly LoginAware aware;
+        /// <summary>
+        /// 登录成功的回调事件
+        /// </summary>
+        public event LoginSuccessEventHandler LoginSuccessHandle;
+
+        //private readonly LoginAware aware;
 
         private static bool isLogin = false;
 
-        public LoginWindow(LoginAware aware)
+        public LoginWindow()
         {
-            this.aware = aware;
+            //LoginAware aware
+            //this.aware = aware;
+            isLogin = false;
             InitializeComponent();
         }
 
@@ -78,13 +93,7 @@ namespace Alimama
                 if (!isLogin)
                 {
                     isLogin = true;
-                    this.Hide();
-                    ((Action)(delegate ()
-                    {
-                        Thread.Sleep(1000);
-                        loginSuccess();
-
-                    })).BeginInvoke(null, null);
+                    loginSuccess();
                 }
             }
             else
@@ -95,24 +104,7 @@ namespace Alimama
 
         private void button1_Click(object sender, EventArgs e)
         {
-            CookieContainer cookies = GetUriCookieContainer(webBrowser1.Url);
-            JArray jsons = new JArray();
-            foreach (Cookie cookie in cookies.GetCookies(webBrowser1.Url))
-            {
-                //Console.WriteLine(cookie.Name+":"+cookie.Value);
-                JObject json = new JObject();
-                json["name"] = cookie.Name;
-                json["path"] = cookie.Path;
-                json["domain"] = cookie.Domain;
-                json["value"] = cookie.Value;
-                jsons.Add(json);
-            }
-
-            if (aware.success(jsons))
-            {
-                MessageBox.Show("登录成功", "提示");
-                this.Close();
-            }
+            this.Close();
         }
 
 
@@ -122,7 +114,6 @@ namespace Alimama
             JArray jsons = new JArray();
             foreach (Cookie cookie in cookies.GetCookies(webBrowser1.Url))
             {
-                //Console.WriteLine(cookie.Name+":"+cookie.Value);
                 JObject json = new JObject();
                 json["name"] = cookie.Name;
                 json["path"] = cookie.Path;
@@ -130,14 +121,30 @@ namespace Alimama
                 json["value"] = cookie.Value;
                 jsons.Add(json);
             }
+            LoginSuccessHandle?.Invoke(jsons);
+        }
 
-            if (aware.success(jsons))
+        private void LoginWindow_Load(object sender, EventArgs e)
+        {
+            new Thread(delegate ()
             {
-                this.BeginInvoke((Action)(delegate ()
-                {
-                    this.Close();
-                }));
+                while (!isLogin){}
+                Thread.Sleep(1000);
+                EnabledButton();
+            })
+            { IsBackground = true }.Start();
+        }
 
+
+        private void EnabledButton()
+        {
+            if (button1.InvokeRequired)
+            {
+                this.Invoke(new Action(EnabledButton), new object[] { });
+            }
+            else
+            {
+                button1.Enabled = true;
             }
         }
     }

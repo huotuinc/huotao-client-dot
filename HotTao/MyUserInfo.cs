@@ -63,6 +63,15 @@ namespace HotTao
         public static List<UserTaoPidModel> MyPidList { get; set; }
 
 
+        /// <summary>
+        /// 淘宝登录cookie
+        /// </summary>
+        public static string TaobaoLoginCookies = "";
+
+        /// <summary>
+        /// 登录登录的淘宝账号
+        /// </summary>
+        public static string TaobaoName = "";
 
 
 

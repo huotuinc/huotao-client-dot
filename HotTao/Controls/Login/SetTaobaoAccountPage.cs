@@ -63,7 +63,7 @@ namespace HotTao.Controls.Login
             {
                 return;
             }
-            hotForm.SetTaobaoAccount(loginName.Text, loginPwd.Text);
+            //hotForm.SetTaobaoAccount(loginName.Text, loginPwd.Text);
 
             tbLogin tb = new tbLogin(hotForm);
             tb.Show(this);

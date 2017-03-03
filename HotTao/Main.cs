@@ -65,28 +65,11 @@ namespace HotTao
         /// 淘宝密码
         /// </summary>
         public string taobaoPwd { set; get; }
-        /// <summary>
-        /// 是否已模拟淘宝登录
-        /// </summary>
-        /// <value>true if this instance is taobao login; otherwise, false.</value>
-        public bool isTaobaoLogin { get; set; }
-
 
         /// <summary>
         /// 微信登录窗口对象
         /// </summary>
         public wxLogin wxlogin { get; set; }
-
-        /// <summary>
-        /// 设置淘宝账号
-        /// </summary>
-        /// <param name="no">The no.</param>
-        /// <param name="pwd">The password.</param>
-        public void SetTaobaoAccount(string no, string pwd)
-        {
-            taobaoNo = no;
-            taobaoPwd = pwd;
-        }
 
         /// <summary>
         /// 我的配置信息
@@ -109,9 +92,7 @@ namespace HotTao
         private void Main_Load(object sender, EventArgs e)
         {
 
-            SetWinFormTaskbarSystemMenu();
-
-            isTaobaoLogin = false;
+            SetWinFormTaskbarSystemMenu();            
             try
             {
                 CheckAutoLogin(this, user =>
@@ -382,7 +363,7 @@ namespace HotTao
                     while (LoginSync)
                     {
                         CheckLogin();
-                        System.Threading.Thread.Sleep(1000);
+                        System.Threading.Thread.Sleep(10000);
                     }
                 })).BeginInvoke(null, null);
             }

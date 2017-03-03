@@ -26,8 +26,10 @@ namespace AlimamaTests
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new MockWeb());
-            LoginWindow web = new LoginWindow(new SimpleAware());
-            
+            LoginWindow web = new LoginWindow();
+            web.LoginSuccessHandle += (jsons) => {
+
+            };
             //Thread thread = new Thread(() =>
             //{
             //    web.Login("tb8138055", "yangzhenhao3");

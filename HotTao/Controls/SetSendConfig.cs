@@ -43,11 +43,13 @@ namespace HotTao.Controls
                 ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(hotForm.myConfig.send_time_config) ? null : JsonConvert.DeserializeObject<ConfigSendTimeModel>(hotForm.myConfig.send_time_config);
                 if (cfgTime != null)
                 {
-                    txtgoodsinterval.Text = cfgTime.goodsinterval.ToString();
-                    txthandleInterval.Text = cfgTime.handleInterval.ToString();
-                }               
-
-
+                    txtgoodsinterval.Text = cfgTime.goodsinterval > 0 ? cfgTime.goodsinterval.ToString() : "35";
+                    txthandleInterval.Text = cfgTime.handleInterval > 0 ? cfgTime.handleInterval.ToString() : "2";
+                    rbTwSort.Checked = cfgTime.imagetextsort == 0;
+                    rbWtSort.Checked = cfgTime.imagetextsort == 1;
+                    txtTaskInterval.Text = cfgTime.taskinterval > 0 ? cfgTime.taskinterval.ToString() : "30";
+                }
+                
                 ConfigWhereModel cfgWhere = string.IsNullOrEmpty(hotForm.myConfig.where_config) ? null : JsonConvert.DeserializeObject<ConfigWhereModel>(hotForm.myConfig.where_config);
                 if (cfgWhere != null)
                 {
@@ -87,11 +89,20 @@ namespace HotTao.Controls
             ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(hotForm.myConfig.send_time_config) ? new ConfigSendTimeModel() : JsonConvert.DeserializeObject<ConfigSendTimeModel>(hotForm.myConfig.send_time_config);
             cfgTime = cfgTime == null ? new ConfigSendTimeModel() : cfgTime;
 
-            //操作时间
+
+            //商品间隔
             int.TryParse(txtgoodsinterval.Text, out result);
-            cfgTime.goodsinterval = result;
+            cfgTime.goodsinterval = result < 35 ? 35 : result;
+
+            //图文间隔
             int.TryParse(txthandleInterval.Text, out result);
-            cfgTime.handleInterval = result;
+            cfgTime.handleInterval = result == 0 ? 2 : result;
+
+            //任务间隔
+            int.TryParse(txtTaskInterval.Text, out result);
+            cfgTime.taskinterval = result == 0 ? 30 : result;
+            //图文顺序
+            cfgTime.imagetextsort = rbTwSort.Checked ? 0 : 1;
 
             //过滤条件
             ConfigWhereModel cfgWhere = string.IsNullOrEmpty(hotForm.myConfig.where_config) ? new ConfigWhereModel() : JsonConvert.DeserializeObject<ConfigWhereModel>(hotForm.myConfig.where_config);
@@ -128,7 +139,7 @@ namespace HotTao.Controls
             //过滤今日重复商品
             cfgWhere.filterGoodsEnable = ckbfilterGoods.Checked ? 1 : 0;
 
-            ConfigModel myConfig = hotForm.myConfig;            
+            ConfigModel myConfig = hotForm.myConfig;
             myConfig.send_time_config = JsonConvert.SerializeObject(cfgTime);
             myConfig.where_config = JsonConvert.SerializeObject(cfgWhere);
 
