@@ -1,4 +1,4 @@
-﻿using HotTaoCore.DAL;
+﻿
 using HotTaoCore.Models;
 using System;
 using System.Collections.Generic;
@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 namespace HotTaoCore.Logic
 {
     public class LogicGoods
-    {
-        private static GoodsDAL dal = new GoodsDAL();
+    {     
 
         private static LogicGoods _instance = new LogicGoods();
 
@@ -21,27 +20,6 @@ namespace HotTaoCore.Logic
                 return _instance;
             }
         }
-
-        /// <summary>
-        /// 商品列表
-        /// </summary>
-        /// <returns></returns>
-        public List<GoodsModel> getGoodsList()
-        {
-            return dal.getGoodsList();
-        }
-
-        /// <summary>
-        /// 分页数据
-        /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        public List<GoodsModel> getGoodsList(int pageIndex, int pageSize)
-        {
-            return dal.getGoodsList(pageIndex, pageSize);
-        }
-
         /// <summary>
         /// 获取已选商品列表
         /// </summary>
@@ -52,17 +30,6 @@ namespace HotTaoCore.Logic
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
             return BaseRequestService.Post<List<GoodsModel>>(ApiConst.getGoodsList, data);
-        }
-
-
-        /// <summary>
-        /// 添加商品
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public int addGoods(GoodsModel model)
-        {
-            return dal.addGoods(model);
         }
 
         /// <summary>

@@ -64,10 +64,6 @@
   <ItemGroup>
     <Compile Include="ApiConst.cs" />
     <Compile Include="BaseRequestService.cs" />
-    <Compile Include="DAL\GoodsDAL.cs" />
-    <Compile Include="DAL\TaskPlanDAL.cs" />
-    <Compile Include="DAL\UserDAL.cs" />
-    <Compile Include="DAL\UserPidDAL.cs" />
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="HotTaoApiService.cs" />
     <Compile Include="Logic\LogicGoods.cs" />

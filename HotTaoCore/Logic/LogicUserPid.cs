@@ -1,5 +1,4 @@
-﻿using HotTaoCore.DAL;
-using HotTaoCore.Models;
+﻿using HotTaoCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,6 @@ namespace HotTaoCore.Logic
 {
     public class LogicUserPid
     {
-        private static UserPidDAL dal = new UserPidDAL();
 
         private static LogicUserPid _instance = new LogicUserPid();
 
@@ -36,22 +34,5 @@ namespace HotTaoCore.Logic
             data["taobaousername"] = taobaoNo.ToString();
             return BaseRequestService.Post<List<UserPidModel>>(ApiConst.getExtensions, data);            
         }
-
-
-        /// <summary>
-        /// 删除用户PID数据
-        /// </summary>
-        /// <param name="userid"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public bool deleteUserPID(int userid, int id)
-        {
-            return dal.deleteUserPID(userid, id);
-        }
-        public bool deleteUserPID(int userid, List<int> ids)
-        {
-            return dal.deleteUserPID(userid, ids);
-        }
-
     }
 }

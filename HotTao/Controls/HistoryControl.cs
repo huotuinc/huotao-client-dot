@@ -170,9 +170,7 @@ namespace HotTao.Controls
                         int.TryParse(row.Cells["ExecStatus"].Value.ToString(), out eCode);
                         if (result == 0 && eCode == 0)
                             StartTaskTpwd(row);
-                    }
-                    //更新转链结果
-                    LogicTaskPlan.Instance.UpdateTaskIsTpwd(MyUserInfo.currentUserId, lstSuccessTaskId);
+                    }                    
                 })).BeginInvoke(null, null);
             }
         }

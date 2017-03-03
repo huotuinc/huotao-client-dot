@@ -1,5 +1,4 @@
-﻿using HotTaoCore.DAL;
-using HotTaoCore.Models;
+﻿using HotTaoCore.Models;
 using HotCoreUtils.Caching;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,6 @@ namespace HotTaoCore.Logic
 {
     public class LogicUser
     {
-        private static UserDAL dal = new UserDAL();
 
         private static LogicUser _instance = new LogicUser();
 
@@ -66,16 +64,6 @@ namespace HotTaoCore.Logic
             }
             return null;
         }
-
-        /// <summary>
-        /// 根据用户ID获取用户信息
-        /// </summary>
-        /// <param name="userid"></param>
-        /// <returns></returns>
-        public UserModel getUserInfoById(int userid)
-        {
-            return dal.getUserInfoById(userid);
-        }
         /// <summary>
         /// 根据登录token获取用户信息
         /// </summary>
@@ -86,31 +74,7 @@ namespace HotTaoCore.Logic
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
             return BaseRequestService.Post(ApiConst.checkToken, data);
-            //return dal.getUserInfoByToken(loginToken);
         }
-        /// <summary>
-        /// 刷新用户登陆token
-        /// </summary>
-        /// <param name="userid"></param>
-        /// <returns></returns>
-        public bool RefreshLoginToken(int userid, string token)
-        {
-            return dal.RefreshLoginToken(userid, token);
-        }
-
-        /// <summary>
-        /// 修改密码
-        /// </summary>
-        /// <param name="userid">The userid.</param>
-        /// <param name="oldpwd">The oldpwd.</param>
-        /// <param name="newpwd">The newpwd.</param>
-        /// <returns>true if XXXX, false otherwise.</returns>
-        public bool ChanagePassword(int userid, string oldpwd, string newpwd)
-        {
-            return dal.ChanagePassword(userid, oldpwd, newpwd);
-        }
-
-
 
         /// <summary>
         ///获取用户发送模板
@@ -137,63 +101,6 @@ namespace HotTaoCore.Logic
             data["token"] = loginToken;
             data["customdocument"] = tempText;
             return BaseRequestService.Post(ApiConst.saveUserGoodsTempList, data);
-        }
-
-
-        public string GetUserSendTemplate(int userid, bool cache)
-        {
-            string key = "temptext_" + userid;
-            string templateText = WebCacheHelper<string>.Get(key);
-            if (string.IsNullOrEmpty(templateText))
-            {
-                templateText = GetUserSendTemplate("");
-                //将数据插入缓存中
-                if (!string.IsNullOrEmpty(templateText))
-                    WebCacheHelper.Insert(key, templateText);
-
-
-            }
-
-            return templateText;
-        }
-
-        /// <summary>
-        /// 获取用户微信授权配置
-        /// </summary>
-        /// <param name="userid">The userid.</param>
-        /// <returns>WxAuthConfigModel.</returns>
-        public WxAuthConfigModel GetWxAuthConfig(int userid)
-        {
-            return dal.GetWxAuthConfig(userid);
-        }
-
-        /// <summary>
-        /// 添加配置
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public bool AddWxAuthConfig(WxAuthConfigModel model)
-        {
-            return dal.AddWxAuthConfig(model);
-        }
-
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// 获取微信群聊列表
-        /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <returns>List&lt;UserWechatListModel&gt;.</returns>
-        public List<UserWechatListModel> GetUserWeChatList(int userId)
-        {
-            return dal.GetUserWeChatList(userId);
         }
 
         /// <summary>
@@ -281,31 +188,6 @@ namespace HotTaoCore.Logic
             return BaseRequestService.Post(ApiConst.delReplyConfig, data);
         }
 
-
-
-
-        /// <summary>
-        /// 添加用户微信群
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public int AddUserWeChat(UserWechatListModel model)
-        {
-            return dal.AddUserWeChat(model);
-        }
-
-        /// <summary>
-        /// 修改微信群聊标题
-        /// </summary>
-        /// <param name="userid">The userid.</param>
-        /// <param name="wechatid">The wechatid.</param>
-        /// <param name="wechattitle">The wechattitle.</param>
-        /// <returns>true if XXXX, false otherwise.</returns>
-        public int UpdateUserWeChatTitle(int userid, int wechatid, string wechattitle)
-        {
-            return dal.UpdateUserWeChatTitle(userid, wechatid, wechattitle);
-        }
-
         /// <summary>
         /// 编辑微信群信息
         /// </summary>
@@ -371,21 +253,6 @@ namespace HotTaoCore.Logic
             data["groupids"] = groupids;
             return BaseRequestService.Post(ApiConst.delWeChatGroup, data);
         }
-
-
-        /// <summary>
-        /// 设置微信群关联PID
-        /// </summary>
-        /// <param name="userid">The userid.</param>
-        /// <param name="wechatid">The wechatid.</param>
-        /// <param name="pidid">The pidid.</param>
-        /// <returns>true if XXXX, false otherwise.</returns>
-        public bool SetUserWeChatPid(int userid, int wechatid, int pidid)
-        {
-            return dal.SetUserWeChatPid(userid, wechatid, pidid);
-        }
-
-
 
         /// <summary>
         /// 设置配置保存
