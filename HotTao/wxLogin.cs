@@ -239,7 +239,7 @@ namespace HotTao
             isStartTask = false;
             WXService wxs = new WXService();
             JObject init_result = wxs.WxInit();  //初始化
-
+            contact_all.Clear();
             if (init_result != null)
             {
                 InitCurrentUserData(init_result);
@@ -273,7 +273,7 @@ namespace HotTao
                         {
                             foreach (JObject m in sync_result["AddMsgList"])
                             {
-                                SyncMsgHandle(wxs, m);
+                                SyncMsgHandle(wxs, m, sync_result);
                             }
                         }
                     }
@@ -300,17 +300,9 @@ namespace HotTao
             _me.RemarkPYQuanPin = init_result["User"]["RemarkPYQuanPin"].ToString();
             _me.Sex = init_result["User"]["Sex"].ToString();
             _me.Signature = init_result["User"]["Signature"].ToString();
-        }
 
 
-        /// <summary>
-        /// 加载我的通讯录
-        /// </summary>
-        /// <param name="contact_result">The contact_result.</param>
-        private void LoadMyContact(JObject contact_result)
-        {
-            contact_all.Clear();
-            foreach (JObject contact in contact_result["MemberList"])  //完整好友名单
+            foreach (JObject contact in init_result["ContactList"])  //部分好友名单
             {
                 WXUser user = new WXUser();
                 user.UserName = contact["UserName"].ToString();
@@ -326,6 +318,34 @@ namespace HotTao
                 user.IsOwner = Convert.ToInt32(contact["IsOwner"].ToString());
                 contact_all.Add(user);
             }
+
+        }
+
+
+        /// <summary>
+        /// 加载我的通讯录
+        /// </summary>
+        /// <param name="contact_result">The contact_result.</param>
+        private void LoadMyContact(JObject contact_result)
+        {
+            foreach (JObject contact in contact_result["MemberList"])  //完整好友名单
+            {
+                WXUser user = new WXUser();
+                user.UserName = contact["UserName"].ToString();
+                user.City = contact["City"].ToString();
+                user.HeadImgUrl = contact["HeadImgUrl"].ToString();
+                user.NickName = contact["NickName"].ToString();
+                user.Province = contact["Province"].ToString();
+                user.PYQuanPin = contact["PYQuanPin"].ToString();
+                user.RemarkName = contact["RemarkName"].ToString();
+                user.RemarkPYQuanPin = contact["RemarkPYQuanPin"].ToString();
+                user.Sex = contact["Sex"].ToString();
+                user.Signature = contact["Signature"].ToString();
+                user.IsOwner = Convert.ToInt32(contact["IsOwner"].ToString());
+                //判断是否存在重复
+                if (!contact_all.Exists((item) => { return item.UserName == user.UserName; }))
+                    contact_all.Add(user);
+            }
         }
 
 
@@ -337,42 +357,72 @@ namespace HotTao
         /// </summary>
         /// <param name="service">The service.</param>
         /// <param name="m">The m.</param>
-        private void SyncMsgHandle(WXService service, JObject m)
+        private void SyncMsgHandle(WXService service, JObject m, JObject sync_result)
         {
             if (MyUserInfo.currentUserId == 0) return;
-            //发送方
+            //自己发消息时，from为自己的id，否则为群id
             string from = m["FromUserName"].ToString();
-            //接收方
+            //不是自己发消息时，to为自己的id,否则为群id
             string to = m["ToUserName"].ToString();
             string content = m["Content"].ToString();
+
             int msgtype = 0;
             int.TryParse(m["MsgType"].ToString(), out msgtype);
             //判断发送方不是本人,且目标是群聊
-            if (_me.UserName != from && to.Contains("@@"))
+            if (_me.UserName == to && from.Contains("@@"))
             {
+                //获取发送者标识id;
+                var msgSendUser = content.Split(':')[0];
                 //获取当前群信息
                 WXUser user = contact_all.Find((WXUser obj) =>
                 {
-                    return obj.UserName == to;
+                    return obj.UserName == from;
                 });
                 if (user == null) return;
+                string nickName = GetCurrentMessageUserNickName(service, msgSendUser);
                 switch (msgtype)
                 {
                     case (int)WxMsgType.文本消息:
                         //自动回复
-                        AutoReplyChatroom(service, user.ShowName, to, content);
-                        RemoveChatroom(service, user, from, to);
+                        AutoReplyChatroom(service, user.ShowName, from, content, nickName);
+                        //RemoveChatroom(service, user, from, to);
                         break;
                     case (int)WxMsgType.图片消息:
                     case (int)WxMsgType.分享链接:
                     case (int)WxMsgType.共享名片:
-                        RemoveChatroom(service, user, from, to);
+                        RemoveChatroom(service, user, msgSendUser, from, nickName);
                         break;
                     default:
                         break;
                 }
             }
         }
+
+
+        /// <summary>
+        /// 获取当前发消息人的昵称
+        /// </summary>
+        /// <param name="CurrentMsgSendUserId">The current MSG send user identifier.</param>
+        /// <param name="memberlist_result">The memberlist_result.</param>
+        /// <returns>System.String.</returns>
+        private string GetCurrentMessageUserNickName(WXService service, string CurrentMsgSendUserId)
+        {
+            //根据群用户ID，获取用户信息
+            try
+            {
+                JObject contact_result = service.GetChatRoomContactList(CurrentMsgSendUserId);
+                if (contact_result == null) return null;
+                var ContactList = contact_result["ContactList"];
+                if (ContactList == null || ContactList.Count() == 0) return null;
+                return ContactList[0]["NickName"].ToString();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                return string.Empty;
+            }
+        }
+
         /// <summary>
         /// 回复关键字列表
         /// </summary>
@@ -404,7 +454,7 @@ namespace HotTao
         /// <param name="ShowName">群标题</param>
         /// <param name="to"></param>
         /// <param name="content">The content.</param>
-        private void AutoReplyChatroom(WXService service, string ShowName, string to, string content)
+        private void AutoReplyChatroom(WXService service, string ShowName, string to, string content, string nickName)
         {
             if (MyUserInfo.currentUserId == 0) return;
 
@@ -420,7 +470,12 @@ namespace HotTao
                 if (keyword == null) return;
 
                 if (keyword.replyType == 0 && !string.IsNullOrEmpty(keyword.replyContent))
-                    service.SendMsg(keyword.replyContent, _me.UserName, to, 1);
+                {
+                    if (!string.IsNullOrEmpty(nickName))
+                        service.SendMsg("@" + nickName + " " + keyword.replyContent, _me.UserName, to, 1);
+                    else
+                        service.SendMsg(keyword.replyContent, _me.UserName, to, 1);
+                }
             }
         }
 
@@ -430,16 +485,22 @@ namespace HotTao
         /// <param name="service">The service.</param>
         /// <param name="to">To.</param>
         /// <param name="from">From.</param>
-        private void RemoveChatroom(WXService service, WXUser user, string to, string from)
+        private void RemoveChatroom(WXService service, WXUser user, string to, string from, string nickName)
         {
             if (MyUserInfo.currentUserId == 0) return;
             if (user == null) return;
             if (user.IsOwner == 1)
             {
-                if (hotForm.myConfig != null && hotForm.myConfig.enable_autoremove == 1 && keyList != null && keyList.Count() > 0)
+                if (hotForm.myConfig != null && hotForm.myConfig.enable_autoremove == 1 && weChatGroupList != null && weChatGroupList.Count() > 00)
                 {
+                    //查找回复目标群是否存在
+                    bool b = weChatGroupList.Exists((group) => { return group.handleType == 1 && group.wechattitle == user.ShowName; });
+                    if (!b) return;
                     //TODO:踢人操作
                     service.DeleteChatroom(from, to);
+                    //
+                    if (!string.IsNullOrEmpty(nickName))
+                        service.SendMsg("【" + nickName + "】已被管理员移除群", _me.UserName, from, 1);
                 }
             }
         }
@@ -472,7 +533,7 @@ namespace HotTao
                 //获取执行的任务
                 while (true)
                 {
-                    if (MyUserInfo.currentUserId == 0) continue;
+                    if (MyUserInfo.currentUserId == 0 || !isStartTask) continue;
                     WXService wxs = new WXService();
                     //获取要执行的数据
                     List<ReplyResponeModel> lst = isStartTask ? LogicTaskPlan.Instance.GetSoonExecuteTaskplan(MyUserInfo.LoginToken) : null;
@@ -481,7 +542,7 @@ namespace HotTao
                         int taskid = lst[0].taskid;
                         foreach (var item in lst)
                         {
-                            if (!isStartTask)
+                            if (!isStartTask || MyUserInfo.currentUserId == 0)
                                 break;
                             int dataid = item.id;
                             ((Action)(delegate ()
@@ -498,13 +559,11 @@ namespace HotTao
                                 System.Threading.Thread.Sleep(sendGoodsTimeout);
                             }
                         }
-
-                        ((Action)(delegate ()
+                        if (isStartTask && MyUserInfo.currentUserId > 0)
                         {
                             //更新任务状态
                             LogicTaskPlan.Instance.UpdateTaskFinished(MyUserInfo.LoginToken, taskid);
-                        })).BeginInvoke(null, null);
-
+                        }
                         //执行任务数据间隔
                         System.Threading.Thread.Sleep(taskTimeout);
                     }

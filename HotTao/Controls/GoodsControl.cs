@@ -55,15 +55,15 @@ namespace HotTao.Controls
                         {
                             browser = null;
                         }
-
                     }
                     browser = new ChromiumWebBrowser(url);
                     browser.RegisterJsObject("jsGoods", new GoodsControl(hotForm), false);
                     BrowserSettings settings = new BrowserSettings()
                     {
                         LocalStorage = CefState.Enabled,
-                        Javascript = CefState.Enabled
+                        Javascript = CefState.Enabled,                        
                     };
+                    
                     browser.Dock = DockStyle.None;
                     browser.Size = new Size(920, 607);
                     browser.Location = new Point(1, 0);

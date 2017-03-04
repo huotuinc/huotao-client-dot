@@ -174,7 +174,10 @@ namespace HotTaoCore
                                 return Resolve<T>(result.data);
                         }
                         else
+                        {
+                            log.Debug(respone);
                             OnError?.Invoke(result);
+                        }
                     }
                 }
             }
@@ -196,7 +199,10 @@ namespace HotTaoCore
                             return true;
                         }
                         else
+                        {
+                            log.Debug(respone);
                             OnError?.Invoke(result);
+                        }
                     }
                 }
             }
@@ -218,7 +224,10 @@ namespace HotTaoCore
                             return result.data.ToString();
                         }
                         else
+                        {
+                            log.Debug(respone);
                             OnError?.Invoke(result);
+                        }
                     }
                 }
             }

@@ -172,7 +172,6 @@ namespace HotTao.Controls
                     MyUserInfo.TaobaoName = LogicUser.Instance.GetTaobaoUsername(MyUserInfo.LoginToken, MyUserInfo.TaobaoLoginCookies);
 
                 })).BeginInvoke(null, null);
-
             };
             tblg.ShowDialog(this);
             ((Action)(delegate ()
@@ -183,11 +182,8 @@ namespace HotTao.Controls
                 }
             })).BeginInvoke(null, null);
 
-            while (string.IsNullOrEmpty(MyUserInfo.TaobaoLoginCookies)) { }
             if (!string.IsNullOrEmpty(MyUserInfo.TaobaoLoginCookies))
-                ShowAlert("登录成功!");
-            else
-                ShowAlert("数据读取异常，请重新登录!");
+                ShowAlert("登录成功!");            
         }
 
     }

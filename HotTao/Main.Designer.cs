@@ -103,7 +103,6 @@
             // 
             // HotContainer.Panel2
             // 
-            this.HotContainer.Panel2.AutoScroll = true;
             this.HotContainer.Panel2.BackColor = System.Drawing.Color.Transparent;
             this.HotContainer.Panel2MinSize = 0;
             this.HotContainer.Size = new System.Drawing.Size(922, 720);

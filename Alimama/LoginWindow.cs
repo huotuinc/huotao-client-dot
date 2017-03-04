@@ -147,5 +147,10 @@ namespace Alimama
                 button1.Enabled = true;
             }
         }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

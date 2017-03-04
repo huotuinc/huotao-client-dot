@@ -27,7 +27,7 @@ namespace HotTaoCore
         /// <summary>
         /// 接口地址
         /// </summary>
-        public const string Url = "http://192.168.1.57:8080";
+        public const string Url = "http://112.74.23.122:8080";
 
         #region 接口常量
 
