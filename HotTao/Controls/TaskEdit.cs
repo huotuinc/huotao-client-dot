@@ -133,7 +133,7 @@ namespace HotTao.Controls
             if (string.IsNullOrEmpty(txtTaskTitle.Text))
             {
                 alert.Message = "请输入任务标题";
-                alert.Show(this);
+                alert.ShowDialog(this);
                 txtTaskTitle.Focus();
                 return;
             }

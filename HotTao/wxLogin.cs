@@ -1,18 +1,13 @@
 ﻿using HotTao.Controls;
-using HotTaoCore;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WwChatHttpCore.HTTP;
 using WwChatHttpCore.Objects;
@@ -65,7 +60,6 @@ namespace HotTao
         #endregion
 
         private Main hotForm { get; set; }
-        public DateTime lastDate { get; set; }
         private HistoryControl historyForm { get; set; }
 
         /// <summary>
@@ -197,10 +191,7 @@ namespace HotTao
                     }
                     loginClose = false;
                     if (isLoginCheck)
-                    {
-                        lastDate = DateTime.Now;
                         DoMainLogic();
-                    }
                 }
             })).BeginInvoke(null, null);
 
@@ -359,38 +350,49 @@ namespace HotTao
         /// <param name="m">The m.</param>
         private void SyncMsgHandle(WXService service, JObject m, JObject sync_result)
         {
-            if (MyUserInfo.currentUserId == 0) return;
+            //用户退出或任务停止时
+            if (MyUserInfo.currentUserId == 0 || !isStartTask) return;
+
             //自己发消息时，from为自己的id，否则为群id
             string from = m["FromUserName"].ToString();
             //不是自己发消息时，to为自己的id,否则为群id
             string to = m["ToUserName"].ToString();
-            string content = m["Content"].ToString();
 
-            int msgtype = 0;
-            int.TryParse(m["MsgType"].ToString(), out msgtype);
             //判断发送方不是本人,且目标是群聊
             if (_me.UserName == to && from.Contains("@@"))
             {
-                //获取发送者标识id;
-                var msgSendUser = content.Split(':')[0];
+                string content = m["Content"].ToString();
+                int msgtype = 0;
+                int.TryParse(m["MsgType"].ToString(), out msgtype);
                 //获取当前群信息
-                WXUser user = contact_all.Find((WXUser obj) =>
-                {
-                    return obj.UserName == from;
-                });
+                WXUser user = contact_all.Find((WXUser obj) => { return obj.UserName == from; });
                 if (user == null) return;
-                string nickName = GetCurrentMessageUserNickName(service, msgSendUser);
+
+                string nickName = string.Empty, msgSendUser = string.Empty;
                 switch (msgtype)
                 {
                     case (int)WxMsgType.文本消息:
+                        //获取发送者标识id;
+                        msgSendUser = content.Split(':')[0];
+                        //获取当前发送方的昵称
+                        nickName = GetCurrentMessageUserNickName(service, msgSendUser);
                         //自动回复
                         AutoReplyChatroom(service, user.ShowName, from, content, nickName);
-                        //RemoveChatroom(service, user, from, to);
+                        //自动踢人
+                        RemoveChatroom(service, user, msgSendUser, from, nickName);
                         break;
                     case (int)WxMsgType.图片消息:
                     case (int)WxMsgType.分享链接:
                     case (int)WxMsgType.共享名片:
+                        //获取发送者标识id;
+                        msgSendUser = content.Split(':')[0];
+                        //获取当前发送方的昵称
+                        nickName = GetCurrentMessageUserNickName(service, msgSendUser);
+                        //自动踢人
                         RemoveChatroom(service, user, msgSendUser, from, nickName);
+                        break;
+                    case (int)WxMsgType.系统消息:
+
                         break;
                     default:
                         break;
@@ -456,7 +458,7 @@ namespace HotTao
         /// <param name="content">The content.</param>
         private void AutoReplyChatroom(WXService service, string ShowName, string to, string content, string nickName)
         {
-            if (MyUserInfo.currentUserId == 0) return;
+            if (MyUserInfo.currentUserId == 0 || !isStartTask) return;
 
             //判断是否自动回复
             if (hotForm.myConfig != null && hotForm.myConfig.enable_autoreply == 1 && weChatGroupList != null && weChatGroupList.Count() > 0)
@@ -487,7 +489,7 @@ namespace HotTao
         /// <param name="from">From.</param>
         private void RemoveChatroom(WXService service, WXUser user, string to, string from, string nickName)
         {
-            if (MyUserInfo.currentUserId == 0) return;
+            if (MyUserInfo.currentUserId == 0 || !isStartTask) return;
             if (user == null) return;
             if (user.IsOwner == 1)
             {
@@ -498,7 +500,7 @@ namespace HotTao
                     if (!b) return;
                     //TODO:踢人操作
                     service.DeleteChatroom(from, to);
-                    //
+                    //移除后，通知微信群
                     if (!string.IsNullOrEmpty(nickName))
                         service.SendMsg("【" + nickName + "】已被管理员移除群", _me.UserName, from, 1);
                 }
@@ -521,6 +523,7 @@ namespace HotTao
 
                 if (hotForm.myConfig != null)
                 {
+                    //获取操作时间间隔配置
                     ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(hotForm.myConfig.send_time_config) ? null : JsonConvert.DeserializeObject<ConfigSendTimeModel>(hotForm.myConfig.send_time_config);
                     if (cfgTime != null)
                     {
@@ -536,10 +539,13 @@ namespace HotTao
                     if (MyUserInfo.currentUserId == 0 || !isStartTask) continue;
                     WXService wxs = new WXService();
                     //获取要执行的数据
+                    //数据数量=任务的商品数量*任务的群数
+                    //数据顺序：根据商品排序
                     List<ReplyResponeModel> lst = isStartTask ? LogicTaskPlan.Instance.GetSoonExecuteTaskplan(MyUserInfo.LoginToken) : null;
                     if (lst != null && lst.Count() > 0)
                     {
                         int taskid = lst[0].taskid;
+                        int len = lst.Count() - 1;
                         foreach (var item in lst)
                         {
                             if (!isStartTask || MyUserInfo.currentUserId == 0)
@@ -555,10 +561,12 @@ namespace HotTao
                             if (user != null)
                             {
                                 Send(wxs, item, user.UserName, handleTimeout, imageTextSort);
-                                //每个商品
-                                System.Threading.Thread.Sleep(sendGoodsTimeout);
+
+                                if (lst.IndexOf(item) != len)
+                                    System.Threading.Thread.Sleep(sendGoodsTimeout);//每发完一次图文，需要等待n秒，才执行下一个操作
                             }
                         }
+
                         if (isStartTask && MyUserInfo.currentUserId > 0)
                         {
                             //更新任务状态

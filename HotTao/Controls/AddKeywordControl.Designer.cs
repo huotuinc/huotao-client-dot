@@ -72,10 +72,12 @@
             // ckbAutoGoods
             // 
             this.ckbAutoGoods.AutoSize = true;
+            this.ckbAutoGoods.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ckbAutoGoods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ckbAutoGoods.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.ckbAutoGoods.Location = new System.Drawing.Point(258, 96);
+            this.ckbAutoGoods.Location = new System.Drawing.Point(259, 98);
             this.ckbAutoGoods.Name = "ckbAutoGoods";
-            this.ckbAutoGoods.Size = new System.Drawing.Size(83, 16);
+            this.ckbAutoGoods.Size = new System.Drawing.Size(82, 16);
             this.ckbAutoGoods.TabIndex = 15;
             this.ckbAutoGoods.TabStop = true;
             this.ckbAutoGoods.Text = "自定义商品";
@@ -86,10 +88,12 @@
             // 
             this.ckbAutoText.AutoSize = true;
             this.ckbAutoText.Checked = true;
+            this.ckbAutoText.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ckbAutoText.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ckbAutoText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.ckbAutoText.Location = new System.Drawing.Point(161, 96);
+            this.ckbAutoText.Location = new System.Drawing.Point(161, 98);
             this.ckbAutoText.Name = "ckbAutoText";
-            this.ckbAutoText.Size = new System.Drawing.Size(83, 16);
+            this.ckbAutoText.Size = new System.Drawing.Size(82, 16);
             this.ckbAutoText.TabIndex = 15;
             this.ckbAutoText.TabStop = true;
             this.ckbAutoText.Text = "自定义文本";
@@ -178,10 +182,12 @@
             // 
             // btnSave
             // 
-            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(105)))));
+            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSave.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnSave.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
             this.btnSave.FlatAppearance.BorderSize = 0;
+            this.btnSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.ForeColor = System.Drawing.Color.White;
             this.btnSave.Location = new System.Drawing.Point(178, 216);

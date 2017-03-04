@@ -75,9 +75,12 @@
             // 
             // btnDefaultTemplate
             // 
-            this.btnDefaultTemplate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(218)))), ((int)(((byte)(111)))));
+            this.btnDefaultTemplate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
             this.btnDefaultTemplate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDefaultTemplate.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
             this.btnDefaultTemplate.FlatAppearance.BorderSize = 0;
+            this.btnDefaultTemplate.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnDefaultTemplate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
             this.btnDefaultTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDefaultTemplate.ForeColor = System.Drawing.Color.White;
             this.btnDefaultTemplate.Location = new System.Drawing.Point(631, 127);
@@ -140,7 +143,7 @@
             this.label10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
             this.label10.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(591, 46);
+            this.label10.Location = new System.Drawing.Point(303, 91);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(58, 25);
             this.label10.TabIndex = 29;
@@ -153,7 +156,7 @@
             this.label8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
             this.label8.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(532, 46);
+            this.label8.Location = new System.Drawing.Point(367, 91);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(53, 25);
             this.label8.TabIndex = 29;
@@ -205,7 +208,7 @@
             this.label4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
             this.label4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(99, 86);
+            this.label4.Location = new System.Drawing.Point(201, 91);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(96, 25);
             this.label4.TabIndex = 29;

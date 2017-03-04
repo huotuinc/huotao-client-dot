@@ -177,10 +177,12 @@
             // 
             // btnLoginTaobao
             // 
-            this.btnLoginTaobao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(105)))));
+            this.btnLoginTaobao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
             this.btnLoginTaobao.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnLoginTaobao.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(105)))));
+            this.btnLoginTaobao.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
             this.btnLoginTaobao.FlatAppearance.BorderSize = 0;
+            this.btnLoginTaobao.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnLoginTaobao.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
             this.btnLoginTaobao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoginTaobao.ForeColor = System.Drawing.Color.White;
             this.btnLoginTaobao.Location = new System.Drawing.Point(212, 49);

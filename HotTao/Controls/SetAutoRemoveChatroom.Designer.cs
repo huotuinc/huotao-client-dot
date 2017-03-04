@@ -59,9 +59,9 @@
             this.hotGroupBox1.Controls.Add(this.label3);
             this.hotGroupBox1.Controls.Add(this.ckbAutoRemove);
             this.hotGroupBox1.Controls.Add(this.label9);
-            this.hotGroupBox1.Location = new System.Drawing.Point(11, 3);
+            this.hotGroupBox1.Location = new System.Drawing.Point(11, 13);
             this.hotGroupBox1.Name = "hotGroupBox1";
-            this.hotGroupBox1.Size = new System.Drawing.Size(729, 508);
+            this.hotGroupBox1.Size = new System.Drawing.Size(729, 498);
             this.hotGroupBox1.TabIndex = 2;
             this.hotGroupBox1.TabStop = false;
             // 

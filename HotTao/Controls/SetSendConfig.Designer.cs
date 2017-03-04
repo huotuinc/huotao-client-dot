@@ -375,10 +375,12 @@
             // rbWtSort
             // 
             this.rbWtSort.AutoSize = true;
+            this.rbWtSort.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rbWtSort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.rbWtSort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
             this.rbWtSort.Location = new System.Drawing.Point(199, 83);
             this.rbWtSort.Name = "rbWtSort";
-            this.rbWtSort.Size = new System.Drawing.Size(71, 16);
+            this.rbWtSort.Size = new System.Drawing.Size(70, 16);
             this.rbWtSort.TabIndex = 38;
             this.rbWtSort.Text = "先文后图";
             this.rbWtSort.UseVisualStyleBackColor = true;
@@ -387,10 +389,12 @@
             // 
             this.rbTwSort.AutoSize = true;
             this.rbTwSort.Checked = true;
+            this.rbTwSort.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rbTwSort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.rbTwSort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
             this.rbTwSort.Location = new System.Drawing.Point(117, 83);
             this.rbTwSort.Name = "rbTwSort";
-            this.rbTwSort.Size = new System.Drawing.Size(71, 16);
+            this.rbTwSort.Size = new System.Drawing.Size(70, 16);
             this.rbTwSort.TabIndex = 38;
             this.rbTwSort.TabStop = true;
             this.rbTwSort.Text = "先图后文";

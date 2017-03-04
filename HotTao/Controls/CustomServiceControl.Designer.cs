@@ -90,9 +90,9 @@
             this.hotGroupBox1.Controls.Add(this.pictureBox1);
             this.hotGroupBox1.Controls.Add(this.label1);
             this.hotGroupBox1.Controls.Add(this.label9);
-            this.hotGroupBox1.Location = new System.Drawing.Point(13, 2);
+            this.hotGroupBox1.Location = new System.Drawing.Point(7, 13);
             this.hotGroupBox1.Name = "hotGroupBox1";
-            this.hotGroupBox1.Size = new System.Drawing.Size(895, 594);
+            this.hotGroupBox1.Size = new System.Drawing.Size(907, 591);
             this.hotGroupBox1.TabIndex = 38;
             this.hotGroupBox1.TabStop = false;
             // 
