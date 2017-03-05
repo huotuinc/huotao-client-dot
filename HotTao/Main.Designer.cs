@@ -381,7 +381,7 @@
             this.btnHome.TabIndex = 0;
             this.btnHome.TabStop = false;
             this.btnHome.Tag = "";
-            this.toolTipText.SetToolTip(this.btnHome, "首页");
+            this.toolTipText.SetToolTip(this.btnHome, "商品库");
             this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
             // 
             // hotPanel1

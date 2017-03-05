@@ -185,6 +185,7 @@ namespace HotTao.Controls
             {
                 hotForm.wxlogin = new wxLogin(hotForm, this);
                 hotForm.wxlogin.ShowDialog(this);
+     
             }
             else
             {

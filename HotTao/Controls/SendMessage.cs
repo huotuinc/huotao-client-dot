@@ -7,35 +7,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using HotTaoCore.Logic;
 using HotTaoCore.Models;
-using Newtonsoft.Json;
+using HotTaoCore.Logic;
+using System.Threading;
 
 namespace HotTao.Controls
 {
-    public partial class SetAutoRemoveChatroom : UserControl
+    public partial class SendMessage : UserControl
     {
         private Main hotForm { get; set; }
-        public SetAutoRemoveChatroom(Main mainWin)
+        public SendMessage(Main mainWin)
         {
             InitializeComponent();
             hotForm = mainWin;
         }
 
-        private void SetAutoRemoveChatroom_Load(object sender, EventArgs e)
+        private void SendMessage_Load(object sender, EventArgs e)
         {
             if (MyUserInfo.currentUserId > 0)
             {
-                LoadConfig();
                 LoadDgvChatRoom();
+                //检查发送状态
+                CheckSendStatus();
+                txtSendMessage.Text = MyUserInfo.SendMessageText;
+                dgvChatRoom.MouseWheel += DgvData_MouseWheel;
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));
-
-            dgvChatRoom.MouseWheel += DgvData_MouseWheel;
         }
-
-
 
         /// <summary>
         /// 加载自动回复的群
@@ -47,7 +46,7 @@ namespace HotTao.Controls
             this.dgvChatRoom.Rows.Clear();
             ((Action)(delegate ()
             {
-                var data = LogicUser.Instance.GetUserReplyWeChatList(MyUserInfo.LoginToken, 1);
+                var data = LogicUser.Instance.GetUserReplyWeChatList(MyUserInfo.LoginToken, 0);
                 if (data != null)
                 {
                     this.BeginInvoke((Action)(delegate ()  //等待结束
@@ -139,49 +138,6 @@ namespace HotTao.Controls
 
         }
 
-        private void LoadConfig()
-        {
-            if (hotForm.myConfig != null)
-            {
-                ckbAutoRemove.Checked = hotForm.myConfig.enable_autoremove == 1;
-
-                ConfigWhereModel cfgWhere = string.IsNullOrEmpty(hotForm.myConfig.where_config) ? null : JsonConvert.DeserializeObject<ConfigWhereModel>(hotForm.myConfig.where_config);
-
-                if (cfgWhere == null || string.IsNullOrEmpty(cfgWhere.auto_remove_user_where)) return;
-
-                AutoRemoveUserWhereModel auto_remove = JsonConvert.DeserializeObject<AutoRemoveUserWhereModel>(cfgWhere.auto_remove_user_where);
-                if (auto_remove == null) return;
-
-                ckbSendMessage.Checked = auto_remove.enable_send_text == 1;
-                ckbSendImage.Checked = auto_remove.enable_send_image == 1;
-                ckbSendLink.Checked = auto_remove.enable_share_link == 1;
-                ckbSendCard.Checked = auto_remove.enable_share_card == 1;
-
-                txtSendTextLenght.Text = auto_remove.send_text_lenght.ToString();
-                txtSendImageCount.Text = auto_remove.send_image_count.ToString();
-            }
-        }
-
-
-        private void btnAddChat_Click(object sender, EventArgs e)
-        {
-            AddWeChat wechat = new AddWeChat(hotForm, this);
-            wechat.Title = "添加微信群";
-            wechat.ShowDialog(this);
-        }
-
-        private void ckbAutoRemove_CheckedChanged(object sender, EventArgs e)
-        {
-            ((Action)(delegate ()
-            {
-                hotForm.myConfig.enable_autoremove = ckbAutoRemove.Checked ? 1 : 0;
-
-                LogicUser.Instance.AddUserConfigModel(MyUserInfo.LoginToken, hotForm.myConfig);
-
-            })).BeginInvoke(null, null);
-        }
-
-
 
         /// <summary>
         /// 删除回复微信群
@@ -217,7 +173,12 @@ namespace HotTao.Controls
                 confirm.ShowDialog(this);
             }
         }
-
+        private void btnAddChat_Click(object sender, EventArgs e)
+        {
+            AddWeChat wechat = new AddWeChat(hotForm, this);
+            wechat.Title = "添加微信群";
+            wechat.ShowDialog(this);
+        }
         private void ShowAlert(string Message)
         {
             MessageAlert alert = new MessageAlert();
@@ -227,59 +188,59 @@ namespace HotTao.Controls
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            MessageAlert alert = new MessageAlert();
-            Loading ld = new Loading();
-            ((Action)(delegate ()
+            if (string.IsNullOrEmpty(txtSendMessage.Text))
             {
-                hotForm.myConfig.enable_autoremove = ckbAutoRemove.Checked ? 1 : 0;
-
-                AutoRemoveUserWhereModel auto_remove_user_where = new AutoRemoveUserWhereModel();
-                auto_remove_user_where.enable_send_text = ckbSendMessage.Checked ? 1 : 0;
-                auto_remove_user_where.enable_send_image = ckbSendImage.Checked ? 1 : 0;
-                auto_remove_user_where.enable_share_card = ckbSendCard.Checked ? 1 : 0;
-                auto_remove_user_where.enable_share_link = ckbSendLink.Checked ? 1 : 0;
-
-                int result = 0;
-
-                int.TryParse(txtSendImageCount.Text, out result);
-                auto_remove_user_where.send_image_count = result > 0 ? result : 2;
-
-                //发送文本的长度
-                int.TryParse(txtSendTextLenght.Text, out result);
-                auto_remove_user_where.send_text_lenght = result > 0 ? result : 20;
-
-                ConfigWhereModel cfgWhere = string.IsNullOrEmpty(hotForm.myConfig.where_config) ? null : JsonConvert.DeserializeObject<ConfigWhereModel>(hotForm.myConfig.where_config);
-
-                cfgWhere.auto_remove_user_where = JsonConvert.SerializeObject(auto_remove_user_where);
-
-                hotForm.myConfig.where_config = JsonConvert.SerializeObject(cfgWhere);
-                int flag = LogicUser.Instance.AddUserConfigModel(MyUserInfo.LoginToken, hotForm.myConfig);
-
-                ld.CloseForm();
-                this.BeginInvoke((Action)(delegate ()  //等待结束
-                {
-                    alert.Message = flag > 0 ? "保存成功" : "保存失败";
-                    alert.ShowDialog(this);
-                }));
-
-            })).BeginInvoke(null, null);
-            ld.ShowDialog(hotForm);
+                return;
+            }
+            txtSendMessage.ReadOnly = true;
+            btnSave.Enabled = false;
+            MyUserInfo.SendMessageStatus = 1;
+            MyUserInfo.SendMessageText = txtSendMessage.Text;
+            //检查发送状态
+            CheckSendStatus();
         }
-
 
         /// <summary>
-        /// 数字
+        /// 设置发送状态
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
-        private void TextBoxNumber_KeyPress(object sender, KeyPressEventArgs e)
+        /// <param name="text"></param>
+        private void SetSendStatuTip(string text)
         {
-            TextBox t = sender as TextBox;
-            if (!Char.IsNumber(e.KeyChar) && !Char.IsControl(e.KeyChar))
+            if (lbSendStatus.InvokeRequired)
             {
-                e.Handled = true;//消除不合适字符  
+                this.Invoke(new Action<string>(SetSendStatuTip), new object[] { text });
+            }
+            else
+            {
+                lbSendStatus.Text = text;
+                if (MyUserInfo.SendMessageStatus == 2)
+                {
+                    txtSendMessage.ReadOnly = false;
+                    btnSave.Enabled = true;
+                }
             }
         }
-    }
 
+        /// <summary>
+        /// 检查发送状态
+        /// </summary>
+        private void CheckSendStatus()
+        {
+            if (MyUserInfo.SendMessageStatus != 0)
+            {
+                if (MyUserInfo.SendMessageStatus == 1)
+                    SetSendStatuTip("正在发送中,请稍后...");
+                new Thread(() =>
+                {
+                    while (MyUserInfo.SendMessageStatus == 1) { }
+
+                    if (MyUserInfo.SendMessageStatus == 2)
+                        SetSendStatuTip("发送完成");
+                })
+                { IsBackground = true }.Start();
+            }
+            else
+                SetSendStatuTip("");
+        }
+    }
 }

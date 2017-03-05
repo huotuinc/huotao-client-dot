@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using WwChatHttpCore.HTTP;
@@ -242,7 +243,12 @@ namespace HotTao
                 LoadMyContact(contact_result);
                 isStartTask = true;
             }
+
+            //执行任务转发
             ExcuteTask();
+            //检查主动发送消息
+            CheckActiveSendMessage();
+
             string sync_flag = "";
             JObject sync_result;
             while (true)
@@ -264,12 +270,12 @@ namespace HotTao
                         {
                             foreach (JObject m in sync_result["AddMsgList"])
                             {
-                                SyncMsgHandle(wxs, m, sync_result);
+                                SyncMsgHandle(wxs, m);
                             }
                         }
                     }
                 }
-                System.Threading.Thread.Sleep(10);
+                System.Threading.Thread.Sleep(100);
             }
         }
 
@@ -348,7 +354,7 @@ namespace HotTao
         /// </summary>
         /// <param name="service">The service.</param>
         /// <param name="m">The m.</param>
-        private void SyncMsgHandle(WXService service, JObject m, JObject sync_result)
+        private void SyncMsgHandle(WXService service, JObject m)
         {
             //用户退出或任务停止时
             if (MyUserInfo.currentUserId == 0 || !isStartTask) return;
@@ -368,18 +374,19 @@ namespace HotTao
                 WXUser user = contact_all.Find((WXUser obj) => { return obj.UserName == from; });
                 if (user == null) return;
 
-                string nickName = string.Empty, msgSendUser = string.Empty;
+                string nickName = string.Empty, msgSendUser = string.Empty, messageContent = string.Empty;
                 switch (msgtype)
                 {
                     case (int)WxMsgType.文本消息:
                         //获取发送者标识id;
                         msgSendUser = content.Split(':')[0];
+                        messageContent = content.Split(':')[1];
                         //获取当前发送方的昵称
                         nickName = GetCurrentMessageUserNickName(service, msgSendUser);
                         //自动回复
-                        AutoReplyChatroom(service, user.ShowName, from, content, nickName);
+                        AutoReplyChatroom(service, user.ShowName, from, messageContent, nickName);
                         //自动踢人
-                        RemoveChatroom(service, user, msgSendUser, from, nickName);
+                        RemoveChatroom(service, user, msgSendUser, from, nickName, msgtype, messageContent);
                         break;
                     case (int)WxMsgType.图片消息:
                     case (int)WxMsgType.分享链接:
@@ -389,7 +396,7 @@ namespace HotTao
                         //获取当前发送方的昵称
                         nickName = GetCurrentMessageUserNickName(service, msgSendUser);
                         //自动踢人
-                        RemoveChatroom(service, user, msgSendUser, from, nickName);
+                        RemoveChatroom(service, user, msgSendUser, from, nickName, msgtype, messageContent);
                         break;
                     case (int)WxMsgType.系统消息:
 
@@ -481,20 +488,64 @@ namespace HotTao
             }
         }
 
+        private Dictionary<string, int> _chatKey = new Dictionary<string, int>();
+
         /// <summary>
         /// 将目标移除群聊(当前用户必须是群主)
         /// </summary>
         /// <param name="service">The service.</param>
         /// <param name="to">To.</param>
         /// <param name="from">From.</param>
-        private void RemoveChatroom(WXService service, WXUser user, string to, string from, string nickName)
+        private void RemoveChatroom(WXService service, WXUser user, string to, string from, string nickName, int msgtype, string messageContent)
         {
             if (MyUserInfo.currentUserId == 0 || !isStartTask) return;
             if (user == null) return;
             if (user.IsOwner == 1)
             {
-                if (hotForm.myConfig != null && hotForm.myConfig.enable_autoremove == 1 && weChatGroupList != null && weChatGroupList.Count() > 00)
+                if (hotForm.myConfig != null && hotForm.myConfig.enable_autoremove == 1 && weChatGroupList != null && weChatGroupList.Count() > 0)
                 {
+                    //获取踢人条件配置
+                    ConfigWhereModel cfgWhere = string.IsNullOrEmpty(hotForm.myConfig.where_config) ? null : JsonConvert.DeserializeObject<ConfigWhereModel>(hotForm.myConfig.where_config);
+                    if (cfgWhere == null || string.IsNullOrEmpty(cfgWhere.auto_remove_user_where)) return;
+                    AutoRemoveUserWhereModel auto_remove = JsonConvert.DeserializeObject<AutoRemoveUserWhereModel>(cfgWhere.auto_remove_user_where);
+                    if (auto_remove == null) return;
+
+                    bool isRemoveRoomUser = false;
+                    string regularexpression = @"https?://(\w*:\w*@)?[-\w.]+(:\d+)?(/([\w/_.]*(\?\S+)?)?)?";
+                    switch (msgtype)
+                    {
+                        case (int)WxMsgType.文本消息:
+                            if (auto_remove.enable_share_link == 1)
+                            {
+                                Regex regex = new Regex("<br/>");
+                                messageContent = regex.Replace(messageContent, "");
+                                isRemoveRoomUser = auto_remove.send_text_lenght <= messageContent.Length;
+                                //如果为false，则判断内容里是否包含连接
+                                if (!isRemoveRoomUser)
+                                {
+                                    regex = new Regex(regularexpression);
+                                    Match mc = regex.Match(messageContent);
+                                    if (mc != null)
+                                    {
+                                        isRemoveRoomUser = mc.Success;
+                                    }
+                                }
+                            }
+                            break;
+                        case (int)WxMsgType.图片消息:
+                            isRemoveRoomUser = IsRemoveRoomUserToSendImageType(service, nickName, from, auto_remove, to);
+                            break;
+                        case (int)WxMsgType.共享名片:
+                            isRemoveRoomUser = auto_remove.enable_share_card == 1;
+                            break;
+                        case (int)WxMsgType.分享链接:
+                            isRemoveRoomUser = auto_remove.enable_share_link == 1;
+                            break;
+                        default:
+                            break;
+                    }
+                    if (!isRemoveRoomUser) return;
+
                     //查找回复目标群是否存在
                     bool b = weChatGroupList.Exists((group) => { return group.handleType == 1 && group.wechattitle == user.ShowName; });
                     if (!b) return;
@@ -507,6 +558,46 @@ namespace HotTao
             }
         }
 
+
+
+        /// <summary>
+        /// 发送图片消息是否踢出群
+        /// </summary>
+        /// <param name="auto_remove"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        private bool IsRemoveRoomUserToSendImageType(WXService service, string nickName, string from, AutoRemoveUserWhereModel auto_remove, string to)
+        {
+            bool isRemoveRoomUser = false;
+            if (auto_remove == null) return isRemoveRoomUser;
+
+            if (auto_remove.enable_send_image == 1)
+            {
+                isRemoveRoomUser = auto_remove.send_image_count <= 1;
+                if (!isRemoveRoomUser)
+                {
+                    int count = 1;
+                    if (!_chatKey.ContainsKey(to))
+                        _chatKey.Add(to, 1);
+                    else
+                    {
+                        int c = count = _chatKey[to];
+                        if (auto_remove.send_image_count > c + 1)
+                        {
+                            _chatKey[to] = c + 1;
+                            count += 1;
+                        }
+                        else
+                            isRemoveRoomUser = true;
+                    }
+
+                    if (!isRemoveRoomUser && count >= auto_remove.send_image_count - 1)
+                        service.SendMsg("@" + nickName + " 请撤回内容，如有下次，直接踢出群！谢谢配合。", _me.UserName, from, 1);
+
+                }
+            }
+            return isRemoveRoomUser;
+        }
 
 
 
@@ -620,6 +711,42 @@ namespace HotTao
             {
                 log.Error(ex);
             }
+        }
+
+        /// <summary>
+        /// 检查主动发送消息
+        /// </summary>
+        private void CheckActiveSendMessage()
+        {
+            new Thread(() =>
+            {
+                while (true)
+                {
+                    if (MyUserInfo.SendMessageStatus == 1 && !string.IsNullOrEmpty(MyUserInfo.SendMessageText) && isStartTask && MyUserInfo.currentUserId > 0)
+                    {
+                        WXService wxs = new WXService();
+                        if (weChatGroupList != null && weChatGroupList.Count() > 0)
+                        {
+                            var data = weChatGroupList.FindAll((item) =>
+                              {
+                                  return item.handleType == 0;
+                              });
+                            foreach (var item in data)
+                            {
+                                WXUser user = contact_all.Find((WXUser obj) => { return obj.ShowName.Contains(item.wechattitle); });
+                                if (user == null) continue;
+                                if (!string.IsNullOrEmpty(MyUserInfo.SendMessageText))
+                                    wxs.SendMsg(MyUserInfo.SendMessageText, _me.UserName, user.UserName, 1);
+
+                                System.Threading.Thread.Sleep(2000);
+                            }
+                        }
+                        MyUserInfo.SendMessageStatus = 2;
+                    }
+                    System.Threading.Thread.Sleep(2000);
+                }
+            })
+            { IsBackground = true }.Start();
         }
     }
 }

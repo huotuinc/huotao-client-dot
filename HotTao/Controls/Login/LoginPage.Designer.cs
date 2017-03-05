@@ -63,6 +63,7 @@
             // ckbAutoLogin
             // 
             this.ckbAutoLogin.AutoSize = true;
+            this.ckbAutoLogin.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ckbAutoLogin.Location = new System.Drawing.Point(132, 175);
             this.ckbAutoLogin.Name = "ckbAutoLogin";
             this.ckbAutoLogin.Size = new System.Drawing.Size(72, 16);
@@ -74,6 +75,7 @@
             // btnLogin
             // 
             this.btnLogin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnLogin.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLogin.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
             this.btnLogin.FlatAppearance.BorderSize = 0;
             this.btnLogin.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
@@ -91,6 +93,7 @@
             // ckbSavePwd
             // 
             this.ckbSavePwd.AutoSize = true;
+            this.ckbSavePwd.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ckbSavePwd.Location = new System.Drawing.Point(19, 175);
             this.ckbSavePwd.Name = "ckbSavePwd";
             this.ckbSavePwd.Size = new System.Drawing.Size(72, 16);

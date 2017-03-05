@@ -208,6 +208,12 @@
     <Compile Include="Controls\module\HotPanel.Designer.cs">
       <DependentUpon>HotPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SendMessage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SendMessage.Designer.cs">
+      <DependentUpon>SendMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SetAutoRemoveChatroom.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -340,6 +346,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\MessageConfirm.resx">
       <DependentUpon>MessageConfirm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SendMessage.resx">
+      <DependentUpon>SendMessage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SetAutoRemoveChatroom.resx">
       <DependentUpon>SetAutoRemoveChatroom.cs</DependentUpon>

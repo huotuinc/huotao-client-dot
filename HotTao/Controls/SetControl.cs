@@ -117,6 +117,10 @@ namespace HotTao.Controls
                     openControl(new SetAutoRemoveChatroom(hotForm));
                     SetSaveButtonVisible(false);
                     break;
+                case 7://主动发内容
+                    openControl(new SendMessage(hotForm));
+                    SetSaveButtonVisible(false);
+                    break;
                 default:
                     break;
             }

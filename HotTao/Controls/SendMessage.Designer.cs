@@ -1,6 +1,6 @@
 ﻿namespace HotTao.Controls
 {
-    partial class SetAutoRemoveChatroom
+    partial class SendMessage
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -29,22 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.label8 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtSendTextLenght = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtSendImageCount = new System.Windows.Forms.TextBox();
-            this.ckbSendLink = new System.Windows.Forms.CheckBox();
-            this.ckbSendCard = new System.Windows.Forms.CheckBox();
-            this.ckbSendMessage = new System.Windows.Forms.CheckBox();
-            this.ckbSendImage = new System.Windows.Forms.CheckBox();
+            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.txtSendMessage = new System.Windows.Forms.RichTextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
@@ -54,9 +46,10 @@
             this.wechattitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.deleteWechat = new System.Windows.Forms.DataGridViewImageColumn();
             this.btnAddChat = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.ckbAutoRemove = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lbSendStatus = new System.Windows.Forms.Label();
             this.hotGroupBox1.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -67,78 +60,21 @@
             // 
             this.hotGroupBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
             this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox1.Controls.Add(this.lbSendStatus);
+            this.hotGroupBox1.Controls.Add(this.label4);
+            this.hotGroupBox1.Controls.Add(this.btnSave);
             this.hotGroupBox1.Controls.Add(this.hotGroupBox2);
+            this.hotGroupBox1.Controls.Add(this.label3);
             this.hotGroupBox1.Controls.Add(this.label1);
             this.hotGroupBox1.Controls.Add(this.panel1);
             this.hotGroupBox1.Controls.Add(this.dgvChatRoom);
             this.hotGroupBox1.Controls.Add(this.btnAddChat);
-            this.hotGroupBox1.Controls.Add(this.label3);
-            this.hotGroupBox1.Controls.Add(this.ckbAutoRemove);
             this.hotGroupBox1.Controls.Add(this.label9);
             this.hotGroupBox1.Location = new System.Drawing.Point(11, 13);
             this.hotGroupBox1.Name = "hotGroupBox1";
             this.hotGroupBox1.Size = new System.Drawing.Size(729, 498);
-            this.hotGroupBox1.TabIndex = 2;
+            this.hotGroupBox1.TabIndex = 3;
             this.hotGroupBox1.TabStop = false;
-            // 
-            // hotGroupBox2
-            // 
-            this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
-            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox2.Controls.Add(this.label8);
-            this.hotGroupBox2.Controls.Add(this.label5);
-            this.hotGroupBox2.Controls.Add(this.label6);
-            this.hotGroupBox2.Controls.Add(this.txtSendTextLenght);
-            this.hotGroupBox2.Controls.Add(this.btnSave);
-            this.hotGroupBox2.Controls.Add(this.label4);
-            this.hotGroupBox2.Controls.Add(this.txtSendImageCount);
-            this.hotGroupBox2.Controls.Add(this.ckbSendLink);
-            this.hotGroupBox2.Controls.Add(this.ckbSendCard);
-            this.hotGroupBox2.Controls.Add(this.ckbSendMessage);
-            this.hotGroupBox2.Controls.Add(this.ckbSendImage);
-            this.hotGroupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.hotGroupBox2.Location = new System.Drawing.Point(14, 52);
-            this.hotGroupBox2.Name = "hotGroupBox2";
-            this.hotGroupBox2.Size = new System.Drawing.Size(700, 173);
-            this.hotGroupBox2.TabIndex = 45;
-            this.hotGroupBox2.TabStop = false;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(153, 23);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(77, 12);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "字，直接踢掉";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(153, 48);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(77, 12);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "次，直接踢掉";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(82, 22);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(29, 12);
-            this.label6.TabIndex = 3;
-            this.label6.Text = "超过";
-            // 
-            // txtSendTextLenght
-            // 
-            this.txtSendTextLenght.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.txtSendTextLenght.Location = new System.Drawing.Point(112, 18);
-            this.txtSendTextLenght.Name = "txtSendTextLenght";
-            this.txtSendTextLenght.Size = new System.Drawing.Size(36, 21);
-            this.txtSendTextLenght.TabIndex = 2;
-            this.txtSendTextLenght.Text = "20";
-            this.txtSendTextLenght.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
             // 
             // btnSave
             // 
@@ -148,86 +84,58 @@
             this.btnSave.FlatAppearance.BorderSize = 0;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(19, 137);
+            this.btnSave.Location = new System.Drawing.Point(633, 175);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(78, 27);
             this.btnSave.TabIndex = 41;
-            this.btnSave.Text = "应用";
+            this.btnSave.Text = "发送";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // label4
+            // hotGroupBox2
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(82, 47);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(29, 12);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "超过";
+            this.hotGroupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
+            this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox2.Controls.Add(this.txtSendMessage);
+            this.hotGroupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.hotGroupBox2.Location = new System.Drawing.Point(14, 41);
+            this.hotGroupBox2.Name = "hotGroupBox2";
+            this.hotGroupBox2.Size = new System.Drawing.Size(700, 128);
+            this.hotGroupBox2.TabIndex = 45;
+            this.hotGroupBox2.TabStop = false;
             // 
-            // txtSendImageCount
+            // txtSendMessage
             // 
-            this.txtSendImageCount.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.txtSendImageCount.Location = new System.Drawing.Point(112, 43);
-            this.txtSendImageCount.Name = "txtSendImageCount";
-            this.txtSendImageCount.Size = new System.Drawing.Size(36, 21);
-            this.txtSendImageCount.TabIndex = 2;
-            this.txtSendImageCount.Text = "1";
-            this.txtSendImageCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
+            this.txtSendMessage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
+            this.txtSendMessage.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtSendMessage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtSendMessage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            this.txtSendMessage.Location = new System.Drawing.Point(3, 17);
+            this.txtSendMessage.Name = "txtSendMessage";
+            this.txtSendMessage.Size = new System.Drawing.Size(694, 108);
+            this.txtSendMessage.TabIndex = 0;
+            this.txtSendMessage.Text = "";
             // 
-            // ckbSendLink
+            // label3
             // 
-            this.ckbSendLink.AutoSize = true;
-            this.ckbSendLink.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ckbSendLink.Location = new System.Drawing.Point(19, 96);
-            this.ckbSendLink.Name = "ckbSendLink";
-            this.ckbSendLink.Size = new System.Drawing.Size(201, 16);
-            this.ckbSendLink.TabIndex = 1;
-            this.ckbSendLink.Text = "分享链接直接踢掉(只要包含连接)";
-            this.ckbSendLink.UseVisualStyleBackColor = true;
-            // 
-            // ckbSendCard
-            // 
-            this.ckbSendCard.AutoSize = true;
-            this.ckbSendCard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ckbSendCard.Location = new System.Drawing.Point(19, 70);
-            this.ckbSendCard.Name = "ckbSendCard";
-            this.ckbSendCard.Size = new System.Drawing.Size(117, 16);
-            this.ckbSendCard.TabIndex = 1;
-            this.ckbSendCard.Text = "共享名片直接踢掉";
-            this.ckbSendCard.UseVisualStyleBackColor = true;
-            // 
-            // ckbSendMessage
-            // 
-            this.ckbSendMessage.AutoSize = true;
-            this.ckbSendMessage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ckbSendMessage.Location = new System.Drawing.Point(19, 20);
-            this.ckbSendMessage.Name = "ckbSendMessage";
-            this.ckbSendMessage.Size = new System.Drawing.Size(57, 16);
-            this.ckbSendMessage.TabIndex = 0;
-            this.ckbSendMessage.Text = "发消息";
-            this.ckbSendMessage.UseVisualStyleBackColor = true;
-            // 
-            // ckbSendImage
-            // 
-            this.ckbSendImage.AutoSize = true;
-            this.ckbSendImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ckbSendImage.Location = new System.Drawing.Point(19, 45);
-            this.ckbSendImage.Name = "ckbSendImage";
-            this.ckbSendImage.Size = new System.Drawing.Size(57, 16);
-            this.ckbSendImage.TabIndex = 0;
-            this.ckbSendImage.Text = "发图片";
-            this.ckbSendImage.UseVisualStyleBackColor = true;
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(12, 26);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 12);
+            this.label3.TabIndex = 44;
+            this.label3.Text = "群发内容";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(311, 251);
+            this.label1.Location = new System.Drawing.Point(13, 251);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(101, 12);
+            this.label1.Size = new System.Drawing.Size(113, 12);
             this.label1.TabIndex = 44;
-            this.label1.Text = "添加自动踢人的群";
+            this.label1.Text = "此群既是自动回复群";
             // 
             // panel1
             // 
@@ -280,19 +188,19 @@
             this.dgvChatRoom.Location = new System.Drawing.Point(14, 315);
             this.dgvChatRoom.Name = "dgvChatRoom";
             this.dgvChatRoom.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.InfoText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvChatRoom.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.InfoText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvChatRoom.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.dgvChatRoom.RowHeadersVisible = false;
             this.dgvChatRoom.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
-            this.dgvChatRoom.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
+            this.dgvChatRoom.RowsDefaultCellStyle = dataGridViewCellStyle9;
             this.dgvChatRoom.RowTemplate.Height = 23;
             this.dgvChatRoom.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvChatRoom.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -314,9 +222,9 @@
             // 
             this.wechattitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.wechattitle.DataPropertyName = "wechattitle";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.wechattitle.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.wechattitle.DefaultCellStyle = dataGridViewCellStyle7;
             this.wechattitle.HeaderText = "群昵称";
             this.wechattitle.Name = "wechattitle";
             this.wechattitle.ReadOnly = true;
@@ -347,27 +255,6 @@
             this.btnAddChat.UseVisualStyleBackColor = false;
             this.btnAddChat.Click += new System.EventHandler(this.btnAddChat_Click);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label3.Location = new System.Drawing.Point(109, 32);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(125, 12);
-            this.label3.TabIndex = 40;
-            this.label3.Text = "踢人操作必须群主身份";
-            // 
-            // ckbAutoRemove
-            // 
-            this.ckbAutoRemove.AutoSize = true;
-            this.ckbAutoRemove.Location = new System.Drawing.Point(15, 30);
-            this.ckbAutoRemove.Name = "ckbAutoRemove";
-            this.ckbAutoRemove.Size = new System.Drawing.Size(96, 16);
-            this.ckbAutoRemove.TabIndex = 35;
-            this.ckbAutoRemove.Text = "开启自动踢人";
-            this.ckbAutoRemove.UseVisualStyleBackColor = true;
-            this.ckbAutoRemove.CheckedChanged += new System.EventHandler(this.ckbAutoRemove_CheckedChanged);
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -376,23 +263,48 @@
             this.label9.Location = new System.Drawing.Point(323, -1);
             this.label9.Name = "label9";
             this.label9.Padding = new System.Windows.Forms.Padding(5);
-            this.label9.Size = new System.Drawing.Size(93, 22);
+            this.label9.Size = new System.Drawing.Size(80, 22);
             this.label9.TabIndex = 34;
-            this.label9.Text = "自动踢人设置";
+            this.label9.Text = "发送群消息";
             // 
-            // SetAutoRemoveChatroom
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.HeaderText = "删除";
+            this.dataGridViewImageColumn1.Image = global::HotTao.Properties.Resources.icon_delete;
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewImageColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(15, 182);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 12);
+            this.label4.TabIndex = 46;
+            this.label4.Text = "发送状态：";
+            // 
+            // lbSendStatus
+            // 
+            this.lbSendStatus.AutoSize = true;
+            this.lbSendStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.lbSendStatus.Location = new System.Drawing.Point(77, 182);
+            this.lbSendStatus.Name = "lbSendStatus";
+            this.lbSendStatus.Size = new System.Drawing.Size(0, 12);
+            this.lbSendStatus.TabIndex = 46;
+            // 
+            // SendMessage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.hotGroupBox1);
-            this.Name = "SetAutoRemoveChatroom";
+            this.Name = "SendMessage";
             this.Size = new System.Drawing.Size(750, 514);
-            this.Load += new System.EventHandler(this.SetAutoRemoveChatroom_Load);
+            this.Load += new System.EventHandler(this.SendMessage_Load);
             this.hotGroupBox1.ResumeLayout(false);
             this.hotGroupBox1.PerformLayout();
             this.hotGroupBox2.ResumeLayout(false);
-            this.hotGroupBox2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvChatRoom)).EndInit();
@@ -403,29 +315,22 @@
         #endregion
 
         private module.HotGroupBox hotGroupBox1;
+        private module.HotGroupBox hotGroupBox2;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dgvChatRoom;
-        private System.Windows.Forms.Button btnAddChat;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckBox ckbAutoRemove;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.DataGridViewTextBoxColumn groupid;
         private System.Windows.Forms.DataGridViewTextBoxColumn wechattitle;
         private System.Windows.Forms.DataGridViewImageColumn deleteWechat;
-        private module.HotGroupBox hotGroupBox2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox ckbSendCard;
-        private System.Windows.Forms.CheckBox ckbSendImage;
-        private System.Windows.Forms.CheckBox ckbSendLink;
-        private System.Windows.Forms.CheckBox ckbSendMessage;
-        private System.Windows.Forms.TextBox txtSendImageCount;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnAddChat;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
+        private System.Windows.Forms.RichTextBox txtSendMessage;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lbSendStatus;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtSendTextLenght;
-        private System.Windows.Forms.Button btnSave;
     }
 }

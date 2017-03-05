@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace HotTao
 {
     /// <summary>
-    /// 用户信息
+    /// 用户相关的全局数据类
     /// </summary>
     public class MyUserInfo
     {
@@ -73,6 +73,15 @@ namespace HotTao
         /// </summary>
         public static string TaobaoName = "";
 
+
+        /// <summary>
+        /// 发送消息状态，0未发送，1发送中 2 发送完成
+        /// </summary>
+        public static int SendMessageStatus = 0;
+        /// <summary>
+        /// 发送的消息文本
+        /// </summary>
+        public static string SendMessageText = "";
 
 
     }

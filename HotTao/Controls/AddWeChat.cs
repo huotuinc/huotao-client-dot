@@ -118,6 +118,7 @@ namespace HotTao.Controls
             Loading ld = new Loading();
             SetAutoReplyControl replyControl = hotAutoForm as SetAutoReplyControl;
             SetAutoRemoveChatroom autoRemoveControl = hotAutoForm as SetAutoRemoveChatroom;
+            SendMessage sendControl = hotAutoForm as SendMessage;
             ((Action)(delegate ()
             {
                 int flag = 0;
@@ -130,10 +131,11 @@ namespace HotTao.Controls
                         flag = 1;
                     }
                 }
-                else if (replyControl != null)
+                else if (replyControl != null|| sendControl != null)
                     flag = LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, txtWeChatTitle.Text, 0);
                 else if (autoRemoveControl != null)
                     flag = LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, txtWeChatTitle.Text, 1);
+                
 
                 if (flag > 0)
                 {
@@ -156,6 +158,8 @@ namespace HotTao.Controls
                                 replyControl.LoadDgvChatRoom();
                             else if (autoRemoveControl != null)
                                 autoRemoveControl.LoadDgvChatRoom();
+                            else if (sendControl != null)
+                                sendControl.LoadDgvChatRoom();
                         }
                         this.Close();
                     }

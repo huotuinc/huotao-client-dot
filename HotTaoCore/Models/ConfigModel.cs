@@ -52,7 +52,7 @@ namespace HotTaoCore.Models
     }
 
     /// <summary>
-    /// 群发条件过滤
+    /// 条件过滤
     /// </summary>
     public class ConfigWhereModel
     {
@@ -98,6 +98,12 @@ namespace HotTaoCore.Models
         /// <value>The minimum goods price.</value>
         public decimal maxGoodsPrice { get; set; }
         public int filterGoodsEnable { get; set; }
+
+        /// <summary>
+        /// 自动踢人条件
+        /// </summary>
+        public string auto_remove_user_where { get; set; }
+
     }
     /// <summary>
     /// 发送时间配置
@@ -126,5 +132,39 @@ namespace HotTaoCore.Models
         /// </summary>
         /// <value>The taskinterval.</value>
         public int taskinterval { get; set; }
+    }
+
+    /// <summary>
+    /// 踢人条件
+    /// </summary>
+    public class AutoRemoveUserWhereModel
+    {
+        /// <summary>
+        /// 启动发图片踢人
+        /// </summary>
+        public int enable_send_image { get; set; }
+        /// <summary>
+        /// 发送图片次数，默认2次
+        /// </summary>
+        public int send_image_count { get; set; }
+
+        /// <summary>
+        /// 启动发文本消息踢人
+        /// </summary>
+        public int enable_send_text { get; set; }
+
+        /// <summary>
+        /// 发送文本长度，默认最长20字
+        /// </summary>
+        public int send_text_lenght { get; set; }
+        /// <summary>
+        /// 启动分享连接踢人
+        /// </summary>
+        public int enable_share_link { get; set; }
+
+        /// <summary>
+        /// 启动分享名片踢人
+        /// </summary>
+        public int enable_share_card { get; set; }
     }
 }
