@@ -57,6 +57,7 @@
             this.lkRegister.TabIndex = 12;
             this.lkRegister.TabStop = true;
             this.lkRegister.Text = "注册";
+            this.lkRegister.Visible = false;
             this.lkRegister.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(127)))), ((int)(((byte)(105)))));
             this.lkRegister.Click += new System.EventHandler(this.lkRegister_Click);
             // 
