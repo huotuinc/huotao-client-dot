@@ -245,7 +245,10 @@ namespace HotTao
             openControl(new CustomServiceControl(this));
         }
 
-
+        /// <summary>
+        /// 设置当前选中tab的背景图片
+        /// </summary>
+        /// <param name="sender">The sender.</param>
         private void SetSelectedBackgroundImage(object sender)
         {
             foreach (var item in HotContainer.Panel1.Controls)
@@ -338,10 +341,7 @@ namespace HotTao
             btnHome.Parent.BackgroundImage = Properties.Resources.icon_bg;
             btnHome.Parent.BackColor = Color.Transparent;
         }
-        /// <summary>
-        /// 当前登陆用户ID
-        /// </summary>
-        //public  int currentUserId { get; set; }        
+   
         public bool LoginSync = false;
 
         /// <summary>

@@ -170,7 +170,7 @@ namespace HotTao.Controls
                         int.TryParse(row.Cells["ExecStatus"].Value.ToString(), out eCode);
                         if (result == 0 && eCode == 0)
                             StartTaskTpwd(row);
-                    }                    
+                    }
                 })).BeginInvoke(null, null);
             }
         }
@@ -183,9 +183,15 @@ namespace HotTao.Controls
         {
             if (hotForm.wxlogin == null)
             {
-                hotForm.wxlogin = new wxLogin(hotForm, this);
-                hotForm.wxlogin.ShowDialog(this);
-     
+                //hotForm.wxlogin = new wxLogin(hotForm, this);
+                //hotForm.wxlogin.ShowDialog(this);
+                MessageConfirm confirm = new MessageConfirm("您还没有微信授权，是否马上微信授权?");
+                confirm.CallBack += () =>
+                {
+                    hotForm.wxlogin = new wxLogin(hotForm, this);
+                    hotForm.wxlogin.ShowDialog(this);
+                };
+                confirm.ShowDialog(this);
             }
             else
             {

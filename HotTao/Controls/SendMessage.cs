@@ -22,18 +22,43 @@ namespace HotTao.Controls
             hotForm = mainWin;
         }
 
+
+
+        System.Windows.Forms.Timer checkSendTime = new System.Windows.Forms.Timer();
+
         private void SendMessage_Load(object sender, EventArgs e)
         {
             if (MyUserInfo.currentUserId > 0)
             {
                 LoadDgvChatRoom();
                 //检查发送状态
-                CheckSendStatus();
+                //CheckSendStatus();
                 txtSendMessage.Text = MyUserInfo.SendMessageText;
+                checkSendTime.Interval = 1000;
+                checkSendTime.Tick += CheckSendStatus;
+                if (MyUserInfo.SendMessageStatus == 1)
+                {
+                    checkSendTime.Start();
+                    SetSendStatuTip("正在发送中,请稍后...");
+                }
                 dgvChatRoom.MouseWheel += DgvData_MouseWheel;
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));
+        }
+
+        private void CheckSendStatus(object sender, EventArgs e)
+        {
+            if (MyUserInfo.SendMessageStatus != 0)
+            {
+                if (MyUserInfo.SendMessageStatus == 1)
+                    SetSendStatuTip("正在发送中,请稍后...");
+
+                if (MyUserInfo.SendMessageStatus == 2)
+                    SetSendStatuTip("发送完成");
+            }
+            else
+                SetSendStatuTip("");
         }
 
         /// <summary>
@@ -192,12 +217,29 @@ namespace HotTao.Controls
             {
                 return;
             }
-            txtSendMessage.ReadOnly = true;
-            btnSave.Enabled = false;
             MyUserInfo.SendMessageStatus = 1;
             MyUserInfo.SendMessageText = txtSendMessage.Text;
-            //检查发送状态
-            CheckSendStatus();
+            //检查发送状态            
+            checkSendTime.Start();
+            SetSendStatuTip("正在发送中,请稍后...");
+            if (hotForm.wxlogin != null && !hotForm.wxlogin.isCloseWinForm)
+                hotForm.wxlogin.LoadAutoHandleData();
+            else
+            {
+                MessageConfirm confirm = new MessageConfirm("您还没有微信授权，是否马上微信授权?");
+                confirm.CallBack += () =>
+                {
+                    if (hotForm.wxlogin.isCloseWinForm)
+                        hotForm.wxlogin.ShowWx();
+                    else
+                    {
+                        hotForm.wxlogin = new wxLogin(hotForm);
+                        hotForm.wxlogin.ShowDialog(this);                        
+                    }
+                    hotForm.wxlogin.isStartTask = false;
+                };
+                confirm.ShowDialog(this);
+            }
         }
 
         /// <summary>
@@ -218,29 +260,12 @@ namespace HotTao.Controls
                     txtSendMessage.ReadOnly = false;
                     btnSave.Enabled = true;
                 }
-            }
-        }
-
-        /// <summary>
-        /// 检查发送状态
-        /// </summary>
-        private void CheckSendStatus()
-        {
-            if (MyUserInfo.SendMessageStatus != 0)
-            {
                 if (MyUserInfo.SendMessageStatus == 1)
-                    SetSendStatuTip("正在发送中,请稍后...");
-                new Thread(() =>
                 {
-                    while (MyUserInfo.SendMessageStatus == 1) { }
-
-                    if (MyUserInfo.SendMessageStatus == 2)
-                        SetSendStatuTip("发送完成");
-                })
-                { IsBackground = true }.Start();
+                    txtSendMessage.ReadOnly = true;
+                    btnSave.Enabled = false;
+                }
             }
-            else
-                SetSendStatuTip("");
         }
     }
 }

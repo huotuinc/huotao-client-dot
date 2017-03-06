@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvTaskPlan = new System.Windows.Forms.DataGridView();
             this.taskid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskStatusText = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -102,9 +102,9 @@
             this.dgvTaskPlan.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgvTaskPlan.RowHeadersVisible = false;
             this.dgvTaskPlan.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle35.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            dataGridViewCellStyle35.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
-            this.dgvTaskPlan.RowsDefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle30.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            dataGridViewCellStyle30.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
+            this.dgvTaskPlan.RowsDefaultCellStyle = dataGridViewCellStyle30;
             this.dgvTaskPlan.RowTemplate.Height = 23;
             this.dgvTaskPlan.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvTaskPlan.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -116,8 +116,8 @@
             // taskid
             // 
             this.taskid.DataPropertyName = "id";
-            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.taskid.DefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.taskid.DefaultCellStyle = dataGridViewCellStyle26;
             this.taskid.HeaderText = "ID";
             this.taskid.MinimumWidth = 100;
             this.taskid.Name = "taskid";
@@ -126,8 +126,8 @@
             // taskStatusText
             // 
             this.taskStatusText.DataPropertyName = "statusText";
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.taskStatusText.DefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.taskStatusText.DefaultCellStyle = dataGridViewCellStyle27;
             this.taskStatusText.HeaderText = "执行状态";
             this.taskStatusText.MinimumWidth = 80;
             this.taskStatusText.Name = "taskStatusText";
@@ -157,9 +157,9 @@
             // 
             this.taskTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.taskTitle.DataPropertyName = "title";
-            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle33.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.taskTitle.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle28.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.taskTitle.DefaultCellStyle = dataGridViewCellStyle28;
             this.taskTitle.HeaderText = "任务标题";
             this.taskTitle.Name = "taskTitle";
             this.taskTitle.ReadOnly = true;
@@ -186,8 +186,8 @@
             // TpwdText
             // 
             this.TpwdText.DataPropertyName = "TpwdText";
-            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.TpwdText.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.TpwdText.DefaultCellStyle = dataGridViewCellStyle29;
             this.TpwdText.HeaderText = "转链结果";
             this.TpwdText.Name = "TpwdText";
             this.TpwdText.ReadOnly = true;
@@ -248,6 +248,7 @@
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.label4);
+            this.panel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.panel2.Location = new System.Drawing.Point(12, 49);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(895, 36);
@@ -257,7 +258,6 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
             this.label6.Location = new System.Drawing.Point(766, 11);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(59, 13);
@@ -268,7 +268,6 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
             this.label2.Location = new System.Drawing.Point(482, 11);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 13);
@@ -279,7 +278,6 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
             this.label3.Location = new System.Drawing.Point(189, 11);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 13);
@@ -290,7 +288,6 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 9.7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
             this.label1.Location = new System.Drawing.Point(22, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 13);
@@ -301,7 +298,6 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("宋体", 9.7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
             this.label4.Location = new System.Drawing.Point(124, 11);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(33, 13);
@@ -361,34 +357,34 @@
             // 
             // label7
             // 
-            this.label7.Font = new System.Drawing.Font("新宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label7.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label7.Location = new System.Drawing.Point(410, 16);
+            this.label7.Location = new System.Drawing.Point(492, 21);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(291, 18);
+            this.label7.Size = new System.Drawing.Size(209, 18);
             this.label7.TabIndex = 18;
             this.label7.Text = "只针对待执行和进行中的任务进行转链";
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("新宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label14.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label14.Location = new System.Drawing.Point(10, 15);
+            this.label14.Location = new System.Drawing.Point(10, 22);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(103, 15);
+            this.label14.Size = new System.Drawing.Size(77, 12);
             this.label14.TabIndex = 18;
             this.label14.Text = "任务计划列表";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnStartTpwd
             // 
-            this.btnStartTpwd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(188)))), ((int)(((byte)(60)))));
+            this.btnStartTpwd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
             this.btnStartTpwd.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnStartTpwd.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(188)))), ((int)(((byte)(60)))));
+            this.btnStartTpwd.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
             this.btnStartTpwd.FlatAppearance.BorderSize = 0;
-            this.btnStartTpwd.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(188)))), ((int)(((byte)(60)))));
-            this.btnStartTpwd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(167)))), ((int)(((byte)(0)))));
+            this.btnStartTpwd.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.btnStartTpwd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(177)))));
             this.btnStartTpwd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStartTpwd.ForeColor = System.Drawing.Color.White;
             this.btnStartTpwd.Location = new System.Drawing.Point(707, 10);

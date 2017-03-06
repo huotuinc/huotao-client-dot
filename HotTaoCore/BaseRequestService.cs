@@ -71,7 +71,7 @@ namespace HotTaoCore
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                log.Error(reqName +" "+ ex.ToString());
                 ResultModel result = new ResultModel();
                 result.resultMsg = "连接服务器失败";
                 result.resultCode = 500;
@@ -99,7 +99,7 @@ namespace HotTaoCore
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                log.Error(reqName + " " + ex.ToString());
                 ResultModel result = new ResultModel();
                 result.resultMsg = "连接服务器失败";
                 result.resultCode = 500;
@@ -134,7 +134,7 @@ namespace HotTaoCore
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                log.Error(reqName + " " + ex.ToString());
                 ResultModel result = new ResultModel();
                 result.resultMsg = "连接服务器失败";
                 result.resultCode = 500;

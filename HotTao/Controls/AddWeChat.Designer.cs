@@ -33,7 +33,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.txtWeChatTitle = new System.Windows.Forms.TextBox();
-            this.btnClose = new System.Windows.Forms.Button();
             this.panel7 = new System.Windows.Forms.Panel();
             this.lbTitle = new System.Windows.Forms.Label();
             this.pbClose = new System.Windows.Forms.PictureBox();
@@ -66,9 +65,9 @@
             this.btnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(68, 93);
+            this.btnSave.Location = new System.Drawing.Point(94, 94);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(78, 32);
+            this.btnSave.Size = new System.Drawing.Size(94, 32);
             this.btnSave.TabIndex = 8;
             this.btnSave.Text = "保存";
             this.btnSave.UseVisualStyleBackColor = false;
@@ -82,22 +81,6 @@
             this.txtWeChatTitle.Name = "txtWeChatTitle";
             this.txtWeChatTitle.Size = new System.Drawing.Size(153, 14);
             this.txtWeChatTitle.TabIndex = 7;
-            // 
-            // btnClose
-            // 
-            this.btnClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
-            this.btnClose.FlatAppearance.BorderSize = 0;
-            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClose.ForeColor = System.Drawing.Color.White;
-            this.btnClose.Location = new System.Drawing.Point(158, 92);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(78, 32);
-            this.btnClose.TabIndex = 8;
-            this.btnClose.Text = "取消";
-            this.btnClose.UseVisualStyleBackColor = false;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // panel7
             // 
@@ -153,7 +136,6 @@
             this.hotPanel1.Controls.Add(this.panel7);
             this.hotPanel1.Controls.Add(this.label1);
             this.hotPanel1.Controls.Add(this.hotGroupBox2);
-            this.hotPanel1.Controls.Add(this.btnClose);
             this.hotPanel1.Controls.Add(this.btnSave);
             this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.hotPanel1.Location = new System.Drawing.Point(0, 0);
@@ -191,7 +173,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.TextBox txtWeChatTitle;
-        private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Label lbTitle;
         private System.Windows.Forms.PictureBox pbClose;

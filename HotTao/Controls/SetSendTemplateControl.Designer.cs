@@ -83,9 +83,9 @@
             this.btnDefaultTemplate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
             this.btnDefaultTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDefaultTemplate.ForeColor = System.Drawing.Color.White;
-            this.btnDefaultTemplate.Location = new System.Drawing.Point(631, 127);
+            this.btnDefaultTemplate.Location = new System.Drawing.Point(614, 128);
             this.btnDefaultTemplate.Name = "btnDefaultTemplate";
-            this.btnDefaultTemplate.Size = new System.Drawing.Size(75, 23);
+            this.btnDefaultTemplate.Size = new System.Drawing.Size(92, 28);
             this.btnDefaultTemplate.TabIndex = 35;
             this.btnDefaultTemplate.Text = "恢复默认";
             this.btnDefaultTemplate.UseVisualStyleBackColor = false;

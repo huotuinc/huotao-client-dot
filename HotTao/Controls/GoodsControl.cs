@@ -43,7 +43,7 @@ namespace HotTao.Controls
                 isSubmit = false;
                 new Thread(() =>
                 {
-                    string url = ApiConst.Url + "/goods/goodListPage?token=" + MyUserInfo.LoginToken;
+                    string url =ApiConst.Url + "/goods/goodListPage?token=" + MyUserInfo.LoginToken;
                     if (browser != null)
                     {
                         try
@@ -63,8 +63,8 @@ namespace HotTao.Controls
                         LocalStorage = CefState.Enabled,
                         Javascript = CefState.Enabled,                        
                     };
-                    
-                    browser.Dock = DockStyle.None;
+
+                    //browser.Dock = DockStyle.Fill;
                     browser.Size = new Size(920, 607);
                     browser.Location = new Point(1, 0);
                     SetBrowserPanel(browser);
@@ -129,7 +129,14 @@ namespace HotTao.Controls
             //网页调该方法            
             isSubmit = true;
         }
-
+        /// <summary>
+        /// 打开外部浏览器
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        public void OpenExternalBrowser(string url)
+        {
+            System.Diagnostics.Process.Start(url);
+        }
 
         /// <summary>
         /// 获取token

@@ -94,6 +94,13 @@ namespace HotTao
         private List<WXUser> contact_all = new List<WXUser>();
 
 
+
+        public wxLogin(Main mainWin)
+        {
+            InitializeComponent();
+            hotForm = mainWin;            
+        }
+
         public wxLogin(Main mainWin, HistoryControl history)
         {
             InitializeComponent();
@@ -185,7 +192,8 @@ namespace HotTao
                             this.BeginInvoke((Action)delegate ()
                                 {
                                     this.Hide();
-                                    historyForm.ShowStartButtonText("暂停任务");
+                                    if (historyForm != null)
+                                        historyForm.ShowStartButtonText("暂停任务");
                                 });
                             break;
                         }
@@ -511,7 +519,7 @@ namespace HotTao
                     if (auto_remove == null) return;
 
                     bool isRemoveRoomUser = false;
-                    string regularexpression = @"https?://(\w*:\w*@)?[-\w.]+(:\d+)?(/([\w/_.]*(\?\S+)?)?)?";
+                    //string regularexpression = @"https?://(\w*:\w*@)?[-\w.]+(:\d+)?(/([\w/_.]*(\?\S+)?)?)?";
                     switch (msgtype)
                     {
                         case (int)WxMsgType.文本消息:
@@ -523,12 +531,12 @@ namespace HotTao
                                 //如果为false，则判断内容里是否包含连接
                                 if (!isRemoveRoomUser)
                                 {
-                                    regex = new Regex(regularexpression);
-                                    Match mc = regex.Match(messageContent);
-                                    if (mc != null)
-                                    {
-                                        isRemoveRoomUser = mc.Success;
-                                    }
+                                    //regex = new Regex(regularexpression);
+                                    //Match mc = regex.Match(messageContent);
+                                    //if (mc != null)
+                                    //{
+                                    //    isRemoveRoomUser = mc.Success;
+                                    //}
                                 }
                             }
                             break;
@@ -678,6 +686,11 @@ namespace HotTao
 
 
         /// <summary>
+        /// 商品图片缓存
+        /// </summary>
+        private Dictionary<int, string> _goodsImageCache = new Dictionary<int, string>();
+
+        /// <summary>
         /// 开始发送
         /// </summary>
         /// <param name="wxs">The WXS.</param>
@@ -687,24 +700,44 @@ namespace HotTao
         /// <param name="imageTextSort">图文发送顺序，0是先图后文</param>
         private void Send(WXService wxs, ReplyResponeModel item, string to, int handleTimeout, int imageTextSort)
         {
+
+            string mediaid = string.Empty;
+            if (_goodsImageCache.ContainsKey(item.goodsid))
+                _goodsImageCache.TryGetValue(item.goodsid, out mediaid);
+
             //发送图片给指定用户
             try
             {
-                if (imageTextSort == 0)
+                if (imageTextSort == 0)//先发图片，后发文本
                 {
-                    wxs.SendImageToUserName(to, item.logo);
-                    //发完图片后，间隔2秒再发文本
-                    System.Threading.Thread.Sleep(handleTimeout);
+                    if (string.IsNullOrEmpty(mediaid))
+                        mediaid = wxs.GetImageMediaId(to, item.logo);
+                    if (!string.IsNullOrEmpty(mediaid))
+                    {
+                        _goodsImageCache[item.goodsid] = mediaid;
+                        wxs.SendPic(mediaid, _me.UserName, to);
+                        //发完图片后，间隔2秒再发文本
+                        System.Threading.Thread.Sleep(handleTimeout);
+                    }
                     if (!string.IsNullOrEmpty(item.text))
                         wxs.SendMsg(item.text, _me.UserName, to, 1);
                 }
-                else
+                else //先发文字，后发图片
                 {
                     if (!string.IsNullOrEmpty(item.text))
+                    {
                         wxs.SendMsg(item.text, _me.UserName, to, 1);
-                    //发完文本后，间隔2秒再发图片
-                    System.Threading.Thread.Sleep(handleTimeout);
-                    wxs.SendImageToUserName(to, item.logo);
+                        //发完文本后，间隔2秒再发图片
+                        System.Threading.Thread.Sleep(handleTimeout);
+                    }
+
+                    if (string.IsNullOrEmpty(mediaid))
+                        mediaid = wxs.GetImageMediaId(to, item.logo);
+                    if (!string.IsNullOrEmpty(mediaid))
+                    {
+                        _goodsImageCache[item.goodsid] = mediaid;
+                        wxs.SendPic(mediaid, _me.UserName, to);
+                    }
                 }
             }
             catch (Exception ex)
@@ -722,7 +755,7 @@ namespace HotTao
             {
                 while (true)
                 {
-                    if (MyUserInfo.SendMessageStatus == 1 && !string.IsNullOrEmpty(MyUserInfo.SendMessageText) && isStartTask && MyUserInfo.currentUserId > 0)
+                    if (MyUserInfo.SendMessageStatus == 1 && !string.IsNullOrEmpty(MyUserInfo.SendMessageText) && MyUserInfo.currentUserId > 0)
                     {
                         WXService wxs = new WXService();
                         if (weChatGroupList != null && weChatGroupList.Count() > 0)
