@@ -91,12 +91,12 @@ namespace HotTao
         {
             ((Action)(delegate ()
             {
-                string sendtemplate = LogicUser.Instance.GetUserSendTemplate(MyUserInfo.LoginToken);
+                MyUserInfo.sendtemplate = LogicUser.Instance.GetUserSendTemplate(MyUserInfo.LoginToken);
                 if (string.IsNullOrEmpty(MyUserInfo.sendtemplate))
                 {
                     if (LogicUser.Instance.AddUserSendTemplate(MyUserInfo.LoginToken, MyUserInfo.defaultSendTempateText))
                         MyUserInfo.sendtemplate = MyUserInfo.defaultSendTempateText;
-                }
+                }                
             })).BeginInvoke(null, null);
         }
 

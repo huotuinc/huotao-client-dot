@@ -29,10 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.lbSendStatus = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.txtSendMessage = new System.Windows.Forms.RichTextBox();
@@ -48,8 +50,6 @@
             this.btnAddChat = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.label4 = new System.Windows.Forms.Label();
-            this.lbSendStatus = new System.Windows.Forms.Label();
             this.hotGroupBox1.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -58,7 +58,7 @@
             // 
             // hotGroupBox1
             // 
-            this.hotGroupBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.hotGroupBox1.BorderColor = System.Drawing.Color.Gainsboro;
             this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
             this.hotGroupBox1.Controls.Add(this.lbSendStatus);
             this.hotGroupBox1.Controls.Add(this.label4);
@@ -75,6 +75,24 @@
             this.hotGroupBox1.Size = new System.Drawing.Size(729, 498);
             this.hotGroupBox1.TabIndex = 3;
             this.hotGroupBox1.TabStop = false;
+            // 
+            // lbSendStatus
+            // 
+            this.lbSendStatus.AutoSize = true;
+            this.lbSendStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.lbSendStatus.Location = new System.Drawing.Point(77, 182);
+            this.lbSendStatus.Name = "lbSendStatus";
+            this.lbSendStatus.Size = new System.Drawing.Size(0, 12);
+            this.lbSendStatus.TabIndex = 46;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(15, 182);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 12);
+            this.label4.TabIndex = 46;
+            this.label4.Text = "发送状态：";
             // 
             // btnSave
             // 
@@ -188,19 +206,19 @@
             this.dgvChatRoom.Location = new System.Drawing.Point(14, 315);
             this.dgvChatRoom.Name = "dgvChatRoom";
             this.dgvChatRoom.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.InfoText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvChatRoom.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.InfoText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvChatRoom.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvChatRoom.RowHeadersVisible = false;
             this.dgvChatRoom.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
-            this.dgvChatRoom.RowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
+            this.dgvChatRoom.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvChatRoom.RowTemplate.Height = 23;
             this.dgvChatRoom.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvChatRoom.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -222,9 +240,9 @@
             // 
             this.wechattitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.wechattitle.DataPropertyName = "wechattitle";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.wechattitle.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.wechattitle.DefaultCellStyle = dataGridViewCellStyle1;
             this.wechattitle.HeaderText = "群昵称";
             this.wechattitle.Name = "wechattitle";
             this.wechattitle.ReadOnly = true;
@@ -274,24 +292,6 @@
             this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
             this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewImageColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 182);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 12);
-            this.label4.TabIndex = 46;
-            this.label4.Text = "发送状态：";
-            // 
-            // lbSendStatus
-            // 
-            this.lbSendStatus.AutoSize = true;
-            this.lbSendStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.lbSendStatus.Location = new System.Drawing.Point(77, 182);
-            this.lbSendStatus.Name = "lbSendStatus";
-            this.lbSendStatus.Size = new System.Drawing.Size(0, 12);
-            this.lbSendStatus.TabIndex = 46;
             // 
             // SendMessage
             // 

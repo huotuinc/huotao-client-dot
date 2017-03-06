@@ -71,7 +71,7 @@
             // 
             // hotGroupBox1
             // 
-            this.hotGroupBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.hotGroupBox1.BorderColor = System.Drawing.Color.Gainsboro;
             this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
             this.hotGroupBox1.Controls.Add(this.button2);
             this.hotGroupBox1.Controls.Add(this.panel2);
