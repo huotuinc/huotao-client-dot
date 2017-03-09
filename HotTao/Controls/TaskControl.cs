@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using System.Threading;
 using Newtonsoft.Json;
-using Alimama;
 
 namespace HotTao.Controls
 {
@@ -71,6 +66,7 @@ namespace HotTao.Controls
                         {
                             dvc = dataGridView1.Rows[ri - c].Cells[ci];
                             dataGridView1.CurrentCell = dvc;
+
                         }
                     }
                     else
@@ -132,10 +128,18 @@ namespace HotTao.Controls
                 dgvPid.Rows[i - 1].Cells["shareid"].Value = data[j].id.ToString();
                 dgvPid.Rows[i - 1].Cells["sharetitle"].Value = data[j].wechattitle.ToString();
                 dgvPid.Rows[i - 1].Cells["pid"].Value = data[j].pid.ToString();
+
                 if (i % 2 == 0)
+                {
                     dgvPid.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                    dgvPid.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                }
                 else
+                {
                     dgvPid.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+                    dgvPid.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
+                }
+
 
                 dgvPid.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                 dgvPid.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
@@ -159,9 +163,17 @@ namespace HotTao.Controls
                 dgvPid.Rows[i - 1].Cells["sharetitle"].Value = model.wechattitle.ToString();
                 dgvPid.Rows[i - 1].Cells["pid"].Value = model.pid.ToString();
                 if (i % 2 == 0)
+                {
                     dgvPid.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                    dgvPid.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                }
                 else
+                {
                     dgvPid.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+                    dgvPid.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
+                }
+
+
                 dgvPid.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                 dgvPid.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
             }
@@ -207,10 +219,18 @@ namespace HotTao.Controls
                 dgvTaskPlan.Rows[i - 1].Cells["goodsText"].Value = taskData[j].goodsText.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["pidsText"].Value = taskData[j].pidsText.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["ExecStatus"].Value = taskData[j].status.ToString();
+
                 if (i % 2 == 0)
+                {
                     dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                }
                 else
+                {
                     dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
+                }
+
 
                 dgvTaskPlan.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                 dgvTaskPlan.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
@@ -243,10 +263,17 @@ namespace HotTao.Controls
                 dgvTaskPlan.Rows[i - 1].Cells["goodsText"].Value = model.goodsText.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["pidsText"].Value = model.pidsText.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["ExecStatus"].Value = model.ExecStatus.ToString();
+
                 if (i % 2 == 0)
+                {
                     dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                }
                 else
+                {
                     dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
+                }
 
                 dgvTaskPlan.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                 dgvTaskPlan.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
@@ -313,9 +340,15 @@ namespace HotTao.Controls
 
 
                     if (i % 2 == 0)
+                    {
                         obj.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                        obj.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                    }
                     else
+                    {
                         obj.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+                        obj.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
+                    }
                     obj.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                     obj.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
                 }
@@ -329,16 +362,6 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="ScrollEventArgs"/> instance containing the event data.</param>
         private void dgvData_Scroll(object sender, ScrollEventArgs e)
         {
-            //if (e.OldValue < e.NewValue && dgvData.RowCount < e.NewValue + 16)
-            //{
-            //    CurrentShowRowNumber++;
-            //    var goodsData = LogicGoods.Instance.getGoodsList(CurrentShowRowNumber, PageRowCount);
-            //    if (goodsData != null)
-            //    {
-            //        //data.AddRange(goodsData);
-            //        SetGoodsGridViewData(dgvData, goodsData);
-            //    }
-            //}
         }
 
         /// <summary>
@@ -555,8 +578,97 @@ namespace HotTao.Controls
             {
                 UpdateTask(cells, cells["edittask"].RowIndex);
             }
+            else
+            {
+                SetPIDGridViewSelected();
+                SetGoodsGridViewSelected();
+            }
 
         }
+
+        /// <summary>
+        /// 设置商品数据默认选中
+        /// </summary>
+        public void SetGoodsGridViewSelected()
+        {
+            //判断任务计划数据是否为空
+            if (this.dgvTaskPlan.Rows != null && this.dgvTaskPlan.Rows.Count > 0)
+            {
+                //获取当前选择行数据
+                DataGridViewCellCollection currentRow = this.dgvTaskPlan.CurrentRow.Cells;
+                if (currentRow != null)
+                {
+                    //设置推广商品和推广位为未选中状态
+                    foreach (DataGridViewRow row in dgvData.Rows)
+                    {
+                        row.Cells[0].Value = 0;
+                        row.Selected = false;
+                    }
+                    //根据任务计划之前的选择，将商品和推广位设为选中状态
+                    string goodsText = currentRow["goodsText"].Value.ToString();
+                    if (!string.IsNullOrEmpty(goodsText))
+                    {
+                        List<GoodsTaskModel> goodsIds = JsonConvert.DeserializeObject<List<GoodsTaskModel>>(goodsText);
+                        goodsIds.ForEach(item =>
+                        {
+                            foreach (DataGridViewRow row in dgvData.Rows)
+                            {
+                                int result = 0;
+                                int.TryParse(row.Cells["gid"].Value.ToString(), out result);
+                                if (result == item.id)
+                                {
+                                    row.Cells[0].Value = result;
+                                    row.Selected = true;
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 设置pid数据默认选中
+        /// </summary>
+        public void SetPIDGridViewSelected()
+        {
+            //判断任务计划数据是否为空
+            if (this.dgvPid.Rows != null && this.dgvPid.Rows.Count > 0)
+            {
+                //获取当前选择行数据
+                DataGridViewCellCollection currentRow = this.dgvTaskPlan.CurrentRow.Cells;
+                if (currentRow != null)
+                {
+                    foreach (DataGridViewRow row in dgvPid.Rows)
+                    {
+                        row.Cells[0].Value = 0;
+                        row.Selected = false;
+                    }
+
+                    //根据任务计划之前的选择，将商品和推广位设为选中状态
+                    string pidsText = currentRow["pidsText"].Value.ToString();
+                    if (!string.IsNullOrEmpty(pidsText))
+                    {
+                        List<UserPidTaskModel> pIds = JsonConvert.DeserializeObject<List<UserPidTaskModel>>(pidsText);
+                        pIds.ForEach(item =>
+                        {
+                            foreach (DataGridViewRow row in dgvPid.Rows)
+                            {
+                                int result = 0;
+                                int.TryParse(row.Cells["shareid"].Value.ToString(), out result);
+                                if (result == item.id)
+                                {
+                                    row.Cells[0].Value = result;
+                                    row.Selected = true;
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+
 
         private void toolTaskUpdate_Click(object sender, EventArgs e)
         {
@@ -621,6 +733,21 @@ namespace HotTao.Controls
                 };
                 confirm.ShowDialog(this);
             }
+            else
+            {
+                if (this.dgvData.Rows.Count > 0)
+                {
+                    DataGridViewCellCollection row = this.dgvData.Rows[e.RowIndex].Cells;
+                    if (row != null)
+                    {
+                        int result = 0;
+                        if (!(bool)row[0].EditedFormattedValue == true)
+                            int.TryParse(row["gid"].Value.ToString(), out result);
+                        if (result > 0)
+                            this.dgvData.Rows[e.RowIndex].Cells[0].Value = result;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -649,12 +776,14 @@ namespace HotTao.Controls
                     foreach (var win in wins)
                     {
                         LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, 0, win.szWindowName);
-                        this.BeginInvoke((Action)(delegate ()
-                        {
-                            ShowAlert("采集完成");
-                        }));
+
                     }
                     ld.CloseForm();
+                    this.BeginInvoke((Action)(delegate ()
+                    {
+                        ShowAlert("采集完成");
+                    }));
+
                 })).BeginInvoke(null, null);
                 ld.ShowDialog(hotForm);
             }
@@ -700,6 +829,21 @@ namespace HotTao.Controls
                 add.editId = result;
                 add.weChatTitle = this.dgvPid.CurrentRow.Cells["sharetitle"].Value.ToString();
                 add.ShowDialog(this);
+            }
+            else
+            {
+                if (this.dgvPid.Rows.Count > 0)
+                {
+                    DataGridViewCellCollection row = this.dgvPid.Rows[e.RowIndex].Cells;
+                    if (row != null)
+                    {
+                        int result = 0;
+                        if (!(bool)row[0].EditedFormattedValue == true)
+                            int.TryParse(row["shareid"].Value.ToString(), out result);
+                        if (result > 0)
+                            this.dgvPid.Rows[e.RowIndex].Cells[0].Value = result;
+                    }
+                }
             }
         }
 
@@ -758,6 +902,11 @@ namespace HotTao.Controls
         }
         private int MouseCurrentRowIndex = 0;
 
+        /// <summary>
+        /// 淘宝登录成功状态
+        /// </summary>
+        private bool LoginTaobaoSuccess = false;
+
         private void toolWeChatSetPid_Click(object sender, EventArgs e)
         {
             if (MyUserInfo.currentUserId == 0) return;
@@ -781,8 +930,53 @@ namespace HotTao.Controls
             }
             else
             {
-                ShowAlert("请先登录淘宝账号");
+                bool isOK = false;
+                MessageConfirm confirm = new MessageConfirm("您还没登录淘宝账号，是否前往登录？");
+                confirm.CallBack += () =>
+                {
+                    isOK = true;
+                };
+                confirm.ShowDialog(this);
+                if (isOK)
+                {
+                    LoginTaobao();
+                    if (LoginTaobaoSuccess)
+                    {
+                        Loading ld = new Loading();
+                        ld.SetTimerClose(5000);
+                        ld.ShowDialog(this);
+                        if (!string.IsNullOrEmpty(MyUserInfo.TaobaoName))
+                            ShowAlert("登录成功!您可以设置PID了");                        
+                        else
+                            ShowAlert("登录失败!请从新登录");
+                    }
+                }
             }
+        }
+
+
+        private void LoginTaobao()
+        {
+            tbLogin tblg = new tbLogin();
+            tblg.LoginSuccessHandle += (jsons) =>
+            {
+                tblg.Close();                
+                LoginTaobaoSuccess = true;
+                MyUserInfo.TaobaoLoginCookies = JsonConvert.SerializeObject(jsons);
+                ((Action)(delegate ()
+                {
+                    MyUserInfo.TaobaoName = LogicUser.Instance.GetTaobaoUsername(MyUserInfo.LoginToken, MyUserInfo.TaobaoLoginCookies);
+
+                })).BeginInvoke(null, null);
+            };
+            tblg.ShowDialog(this);
+            ((Action)(delegate ()
+            {
+                if (!string.IsNullOrEmpty(MyUserInfo.TaobaoLoginCookies))
+                {
+                    MyUserInfo.MyPidList = LogicUser.Instance.GetPids(MyUserInfo.LoginToken, MyUserInfo.TaobaoLoginCookies);
+                }
+            })).BeginInvoke(null, null);
         }
 
 
@@ -811,6 +1005,33 @@ namespace HotTao.Controls
         private void dgvTaskPlan_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
         {
             MouseCurrentRowIndex = e.RowIndex;
+        }
+
+        /// <summary>
+        /// 全选
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void ckbGoodsAllSelected_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dgvData.Rows != null && dgvData.Rows.Count > 0)
+            {
+                foreach (DataGridViewRow row in dgvData.Rows)
+                {
+                    int result = 0;
+                    int.TryParse(row.Cells["gid"].Value.ToString(), out result);
+                    if (ckbGoodsAllSelected.Checked)
+                    {
+                        row.Cells[0].Value = result;
+                        row.Selected = true;
+                    }
+                    else
+                    {
+                        row.Cells[0].Value = 0;
+                        row.Selected = false;
+                    }
+                }
+            }
         }
     }
 }

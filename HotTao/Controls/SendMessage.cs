@@ -100,9 +100,16 @@ namespace HotTao.Controls
                 dgvChatRoom.Rows[i - 1].Cells["wechattitle"].Value = data[j].wechattitle.ToString();
 
                 if (i % 2 == 0)
+                {
                     dgvChatRoom.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                    dgvChatRoom.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                }
                 else
+                {
                     dgvChatRoom.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+                    dgvChatRoom.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
+                }
+
 
                 dgvChatRoom.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                 dgvChatRoom.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
@@ -217,29 +224,42 @@ namespace HotTao.Controls
             {
                 return;
             }
-            MyUserInfo.SendMessageStatus = 1;
-            MyUserInfo.SendMessageText = txtSendMessage.Text;
-            //检查发送状态            
-            checkSendTime.Start();
-            SetSendStatuTip("正在发送中,请稍后...");
             if (hotForm.wxlogin != null && !hotForm.wxlogin.isCloseWinForm)
+            {
                 hotForm.wxlogin.LoadAutoHandleData();
+                StartSend();
+            }
             else
             {
                 MessageConfirm confirm = new MessageConfirm("您还没有微信授权，是否马上微信授权?");
                 confirm.CallBack += () =>
                 {
-                    if (hotForm.wxlogin.isCloseWinForm)
-                        hotForm.wxlogin.ShowWx();
-                    else
+                    if (hotForm.wxlogin == null)
                     {
                         hotForm.wxlogin = new wxLogin(hotForm);
-                        hotForm.wxlogin.ShowDialog(this);                        
+                        hotForm.wxlogin.ShowDialog(this);
                     }
-                    hotForm.wxlogin.isStartTask = false;
+                    else
+                    {
+                        if (hotForm.wxlogin.isCloseWinForm)
+                            hotForm.wxlogin.ShowWx();
+                    }
                 };
                 confirm.ShowDialog(this);
             }
+        }
+
+        /// <summary>
+        /// 开始发送
+        /// </summary>
+        private void StartSend()
+        {
+            MyUserInfo.SendMessageStatus = 1;
+            MyUserInfo.SendMessageText = txtSendMessage.Text;
+            //检查发送状态            
+            checkSendTime.Start();
+            SetSendStatuTip("正在发送中,请稍后...");
+
         }
 
         /// <summary>

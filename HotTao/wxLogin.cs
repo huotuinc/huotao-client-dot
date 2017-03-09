@@ -98,7 +98,7 @@ namespace HotTao
         public wxLogin(Main mainWin)
         {
             InitializeComponent();
-            hotForm = mainWin;            
+            hotForm = mainWin;
         }
 
         public wxLogin(Main mainWin, HistoryControl history)
@@ -193,7 +193,10 @@ namespace HotTao
                                 {
                                     this.Hide();
                                     if (historyForm != null)
+                                    {
                                         historyForm.ShowStartButtonText("暂停任务");
+                                        isStartTask = true;
+                                    }
                                 });
                             break;
                         }
@@ -236,7 +239,7 @@ namespace HotTao
         /// </summary>
         public void DoMainLogic()
         {
-            isStartTask = false;
+            //isStartTask = false;
             WXService wxs = new WXService();
             JObject init_result = wxs.WxInit();  //初始化
             contact_all.Clear();
@@ -249,7 +252,7 @@ namespace HotTao
             if (contact_result != null)
             {
                 LoadMyContact(contact_result);
-                isStartTask = true;
+                //isStartTask = true;
             }
 
             //执行任务转发
@@ -365,7 +368,7 @@ namespace HotTao
         private void SyncMsgHandle(WXService service, JObject m)
         {
             //用户退出或任务停止时
-            if (MyUserInfo.currentUserId == 0 || !isStartTask) return;
+            if (MyUserInfo.currentUserId == 0) return;
 
             //自己发消息时，from为自己的id，否则为群id
             string from = m["FromUserName"].ToString();
@@ -473,7 +476,17 @@ namespace HotTao
         /// <param name="content">The content.</param>
         private void AutoReplyChatroom(WXService service, string ShowName, string to, string content, string nickName)
         {
-            if (MyUserInfo.currentUserId == 0 || !isStartTask) return;
+            if (MyUserInfo.currentUserId == 0) return;
+
+            //是否过滤当前用户操作
+            if (!string.IsNullOrEmpty(nickName) && !string.IsNullOrEmpty(MyUserInfo.filterUserGroups))
+            {
+                bool isExist = MyUserInfo.filterUserGroups.Contains("[" + nickName + "]");
+                if (isExist)
+                    return;
+            }
+
+
 
             //判断是否自动回复
             if (hotForm.myConfig != null && hotForm.myConfig.enable_autoreply == 1 && weChatGroupList != null && weChatGroupList.Count() > 0)
@@ -506,7 +519,16 @@ namespace HotTao
         /// <param name="from">From.</param>
         private void RemoveChatroom(WXService service, WXUser user, string to, string from, string nickName, int msgtype, string messageContent)
         {
-            if (MyUserInfo.currentUserId == 0 || !isStartTask) return;
+            if (MyUserInfo.currentUserId == 0) return;
+
+            //是否过滤当前用户操作
+            if (!string.IsNullOrEmpty(nickName) && !string.IsNullOrEmpty(MyUserInfo.filterUserGroups))
+            {
+                bool isExist = MyUserInfo.filterUserGroups.Contains("[" + nickName + "]");
+                if (isExist)
+                    return;
+            }
+
             if (user == null) return;
             if (user.IsOwner == 1)
             {
@@ -519,7 +541,7 @@ namespace HotTao
                     if (auto_remove == null) return;
 
                     bool isRemoveRoomUser = false;
-                    //string regularexpression = @"https?://(\w*:\w*@)?[-\w.]+(:\d+)?(/([\w/_.]*(\?\S+)?)?)?";
+
                     switch (msgtype)
                     {
                         case (int)WxMsgType.文本消息:
@@ -531,12 +553,7 @@ namespace HotTao
                                 //如果为false，则判断内容里是否包含连接
                                 if (!isRemoveRoomUser)
                                 {
-                                    //regex = new Regex(regularexpression);
-                                    //Match mc = regex.Match(messageContent);
-                                    //if (mc != null)
-                                    //{
-                                    //    isRemoveRoomUser = mc.Success;
-                                    //}
+                                    //TODO:判断消息体中是否包含网址                 
                                 }
                             }
                             break;

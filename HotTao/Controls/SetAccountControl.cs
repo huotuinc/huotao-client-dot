@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using HotTaoCore.Logic;
 using HotCoreUtils.Helper;
-using HotTaoCore.Models;
 using HotTaoCore;
-using Alimama;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 
 namespace HotTao.Controls
 {
@@ -91,8 +80,7 @@ namespace HotTao.Controls
                 }
                 RememberPassword(pwdStr);
                 if (isUpdate)
-                    hotForm.SetLoginData(null);
-                //hotForm.SetTaobaoAccount(txtTaobaoNo.Text, txtTaobaoPwd.Text);
+                    hotForm.SetLoginData(null);                
                 ShowAlert("保存成功");
             }
             catch (Exception ex)
@@ -110,7 +98,7 @@ namespace HotTao.Controls
         {
             try
             {
-                string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.dbpath + "/lp.hot");
+                string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.dbpath + ConstConfig.conf_user);
                 if (File.Exists(filePath))
                 {
                     FileStream aFile = new FileStream(filePath, FileMode.Open);
@@ -140,7 +128,7 @@ namespace HotTao.Controls
             string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.dbpath);
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
-            filePath += "/lp.hot";
+            filePath += ConstConfig.conf_user;
             if (!File.Exists(filePath))
                 File.Create(filePath).Dispose();
             StreamWriter sw = new StreamWriter(@filePath, false);
@@ -160,31 +148,5 @@ namespace HotTao.Controls
             MessageAlert alert = new MessageAlert(content);
             alert.ShowDialog(this);
         }
-
-        private void btnLoginTaobao_Click(object sender, EventArgs e)
-        {
-            LoginWindow tblg = new LoginWindow();
-            tblg.LoginSuccessHandle += (jsons) =>
-            {
-                MyUserInfo.TaobaoLoginCookies = JsonConvert.SerializeObject(jsons);
-                ((Action)(delegate ()
-                {
-                    MyUserInfo.TaobaoName = LogicUser.Instance.GetTaobaoUsername(MyUserInfo.LoginToken, MyUserInfo.TaobaoLoginCookies);
-
-                })).BeginInvoke(null, null);
-            };
-            tblg.ShowDialog(this);
-            ((Action)(delegate ()
-            {
-                if (!string.IsNullOrEmpty(MyUserInfo.TaobaoLoginCookies))
-                {
-                    MyUserInfo.MyPidList = LogicUser.Instance.GetPids(MyUserInfo.LoginToken, MyUserInfo.TaobaoLoginCookies);
-                }
-            })).BeginInvoke(null, null);
-
-            if (!string.IsNullOrEmpty(MyUserInfo.TaobaoLoginCookies))
-                ShowAlert("登录成功!");            
-        }
-
     }
 }

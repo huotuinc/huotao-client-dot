@@ -148,10 +148,18 @@ namespace HotTao.Controls
                 dgvUserPid.Rows[i - 1].Cells["id"].Value = data[j].id.ToString();
                 dgvUserPid.Rows[i - 1].Cells["title"].Value = data[j].title.ToString();
                 dgvUserPid.Rows[i - 1].Cells["pid"].Value = data[j].pid.ToString();
+
                 if (i % 2 == 0)
+                {
                     dgvUserPid.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                    dgvUserPid.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                }
                 else
+                {
                     dgvUserPid.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+                    dgvUserPid.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
+                }
+
 
                 dgvUserPid.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                 dgvUserPid.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
@@ -215,20 +223,26 @@ namespace HotTao.Controls
                 DataGridViewCellCollection row = this.dgvUserPid.Rows[e.RowIndex].Cells;
                 if (row != null)
                 {
-                    if ((bool)row["chkPid"].EditedFormattedValue == true)
-                    {
-                        this.dgvUserPid.Rows[e.RowIndex].Cells["chkPid"].Value = 0;
-                        this.dgvUserPid.Rows[e.RowIndex].Selected = false;
-                        SelectedRow = null;
-                    }
-                    else
-                    {
-                        int result = 0;
+                    //if ((bool)row["chkPid"].EditedFormattedValue == true)
+                    //{
+                    //    this.dgvUserPid.Rows[e.RowIndex].Cells["chkPid"].Value = 0;
+                    //    this.dgvUserPid.Rows[e.RowIndex].Selected = false;
+                    //    SelectedRow = null;
+                    //}
+                    //else
+                    //{
+                    //    int result = 0;
+                    //    int.TryParse(row["id"].Value.ToString(), out result);
+                    //    this.dgvUserPid.Rows[e.RowIndex].Cells["chkPid"].Value = result;
+                    //    this.dgvUserPid.Rows[e.RowIndex].Selected = true;
+                    //    SelectedRow = row;
+                    //}
+                    int result = 0;
+                    if (!(bool)row[0].EditedFormattedValue == true)
                         int.TryParse(row["id"].Value.ToString(), out result);
-                        this.dgvUserPid.Rows[e.RowIndex].Cells["chkPid"].Value = result;
-                        this.dgvUserPid.Rows[e.RowIndex].Selected = true;
-                        SelectedRow = row;
-                    }
+                    this.dgvUserPid.Rows[e.RowIndex].Cells["chkPid"].Value = result;
+                    this.dgvUserPid.Rows[e.RowIndex].Selected = result > 0;
+                    SelectedRow = result > 0 ? row : null;
                 }
             }
         }

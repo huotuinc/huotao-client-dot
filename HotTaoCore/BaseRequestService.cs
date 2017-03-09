@@ -71,7 +71,7 @@ namespace HotTaoCore
             }
             catch (Exception ex)
             {
-                log.Error(reqName +" "+ ex.ToString());
+                log.Error(reqName + " " + ex.ToString());
                 ResultModel result = new ResultModel();
                 result.resultMsg = "连接服务器失败";
                 result.resultCode = 500;
@@ -196,6 +196,12 @@ namespace HotTaoCore
                         ResultModel result = JsonConvert.DeserializeObject<ResultModel>(respone);
                         if (result != null && result.resultCode == 200)
                         {
+                            if (result.data != null && !string.IsNullOrEmpty(result.data.ToString()))
+                            {
+                                bool success = false;
+                                bool.TryParse(result.data.ToString(), out success);
+                                return success;
+                            }
                             return true;
                         }
                         else

@@ -155,11 +155,21 @@ namespace HotTao.Controls
                         else
                         {
                             if (replyControl != null)
+                            {
                                 replyControl.LoadDgvChatRoom();
+                                if (hotForm.wxlogin != null)
+                                    hotForm.wxlogin.LoadAutoHandleData();
+                            }
                             else if (autoRemoveControl != null)
+                            {
                                 autoRemoveControl.LoadDgvChatRoom();
+                            }
                             else if (sendControl != null)
+                            {
                                 sendControl.LoadDgvChatRoom();
+                                if (hotForm.wxlogin != null)
+                                    hotForm.wxlogin.LoadAutoHandleData();
+                            }
                         }
                         this.Close();
                     }

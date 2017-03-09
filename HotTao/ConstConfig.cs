@@ -22,6 +22,14 @@ namespace HotTao
     public class ConstConfig
     {
 
+
+
+
+        public const string conf_user = "/conf_user.ini";
+        public const string conf_filter = "/conf_filter.ini";
+
+
+
         #region Top 
 
 

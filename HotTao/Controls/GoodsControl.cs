@@ -107,7 +107,6 @@ namespace HotTao.Controls
 
             }
         }
-
         private void SetBrowserPanel(ChromiumWebBrowser data)
         {
             if (hotPanel2.InvokeRequired)

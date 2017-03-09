@@ -100,9 +100,9 @@ namespace HotTao.Controls
                 case 1: //软件账户设置
                     openControl(new SetAccountControl(hotForm));
                     break;
-                case 2://淘宝账号设置
-                    openControl(new SetAccountControl(hotForm));
-                    break;
+                //case 2://淘宝账号设置
+                //    openControl(new SetAccountControl(hotForm));
+                //    break;
                 case 3://文案设置
                     openControl(new SetSendTemplateControl(hotForm));
                     break;
@@ -119,6 +119,10 @@ namespace HotTao.Controls
                     break;
                 case 7://主动发内容
                     openControl(new SendMessage(hotForm));
+                    SetSaveButtonVisible(false);
+                    break;
+                case 8://用户过滤设置
+                    openControl(new SetUserfilterControl(hotForm));
                     SetSaveButtonVisible(false);
                     break;
                 default:

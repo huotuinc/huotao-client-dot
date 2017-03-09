@@ -149,6 +149,7 @@
             this.pid});
             this.dgvUserPid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.dgvUserPid.Location = new System.Drawing.Point(1, 64);
+            this.dgvUserPid.MultiSelect = false;
             this.dgvUserPid.Name = "dgvUserPid";
             this.dgvUserPid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -161,8 +162,8 @@
             this.dgvUserPid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvUserPid.RowHeadersVisible = false;
             this.dgvUserPid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(191)))), ((int)(((byte)(191)))));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
             this.dgvUserPid.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvUserPid.RowTemplate.Height = 23;
             this.dgvUserPid.ScrollBars = System.Windows.Forms.ScrollBars.None;

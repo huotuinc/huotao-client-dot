@@ -200,7 +200,7 @@ namespace HotTao.Controls.Login
         {
             try
             {
-                string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.dbpath + "/lp.hot");
+                string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.dbpath + ConstConfig.conf_user);
                 if (File.Exists(filePath))
                 {
                     FileStream aFile = new FileStream(filePath, FileMode.Open);
@@ -229,7 +229,7 @@ namespace HotTao.Controls.Login
             string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.dbpath);
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
-            filePath += "/lp.hot";
+            filePath += ConstConfig.conf_user;
             if (!File.Exists(filePath))
                 File.Create(filePath).Dispose();
             StreamWriter sw = new StreamWriter(@filePath, false);

@@ -51,7 +51,7 @@ namespace HotTao
         /// <summary>
         /// 默认文案
         /// </summary>
-        public static string defaultSendTempateText = "【[来源]】[商品标题]\n[分隔符]\n【原价】：[商品价格]元\n【券后】：[券后价格]元\n【口令】：[二合一淘口令]\n[分隔符]\n购买方式：复制这条信息，打开『手" +
+        public static string defaultSendTempateText = "[商品标题]\n[分隔符]\n【原价】：[商品价格]元\n【券后】：[券后价格]元\n【口令】：[二合一淘口令]\n[分隔符]\n购买方式：复制这条信息，打开『手" +
     "机淘宝』即可看到商品和优惠券，先领券再下单哦\n[分隔符]\n本群都是内部优惠券，敬请大家关注每天特价产品。\n";
 
 
@@ -82,6 +82,12 @@ namespace HotTao
         /// 发送的消息文本
         /// </summary>
         public static string SendMessageText = "";
+
+
+        /// <summary>
+        /// 过滤用户(微信昵称)，每个用户使用[]隔开
+        /// </summary>
+        public static string filterUserGroups = string.Empty;
 
 
     }

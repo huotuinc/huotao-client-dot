@@ -25,7 +25,7 @@ namespace HotTao
         {
             try
             {
-                string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.dbpath + "/lp.hot");
+                string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.dbpath +ConstConfig.conf_user);
                 if (File.Exists(filePath))
                 {
                     FileStream aFile = new FileStream(filePath, FileMode.Open);

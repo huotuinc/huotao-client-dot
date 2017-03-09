@@ -18,10 +18,7 @@ namespace HotTao.Controls
         /// 鼠标当前所在行索引
         /// </summary>
         private int MouseCurrentRowIndex = 0;
-        /// <summary>
-        /// 转链成功的任务id集合
-        /// </summary>
-        private List<int> lstSuccessTaskId { get; set; }
+        
         private Main hotForm { get; set; }
         public HistoryControl(Main mainWin)
         {
@@ -139,10 +136,18 @@ namespace HotTao.Controls
                 dgvTaskPlan.Rows[i - 1].Cells["ExecStatus"].Value = taskData[j].status.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["isTpwd"].Value = taskData[j].isTpwd.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["TpwdText"].Value = taskData[j].isTpwd == 1 ? "OK" : "";
+
                 if (i % 2 == 0)
+                {
                     dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                }
                 else
+                {
                     dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
+                }
+
 
                 dgvTaskPlan.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                 dgvTaskPlan.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
@@ -158,20 +163,28 @@ namespace HotTao.Controls
         /// <param name="e"></param>
         private void btnStartTpwd_Click(object sender, EventArgs e)
         {
-            lstSuccessTaskId = new List<int>();
+            bool isOK = false;
+            MessageConfirm confirm = new MessageConfirm("请确保任务已经设置了PID");
+            confirm.CallBack += () =>
+            {
+                isOK = true;
+            };
+            confirm.ShowDialog(this);
+            if (!isOK) return;            
             if (dgvTaskPlan.Rows != null)
             {
-                ((Action)(delegate ()
+
+                foreach (DataGridViewRow row in dgvTaskPlan.Rows)
                 {
-                    foreach (DataGridViewRow row in dgvTaskPlan.Rows)
+                    ((Action)(delegate ()
                     {
                         int result = 0, eCode = 0;
                         int.TryParse(row.Cells["isTpwd"].Value.ToString(), out result);
                         int.TryParse(row.Cells["ExecStatus"].Value.ToString(), out eCode);
                         if (result == 0 && eCode == 0)
                             StartTaskTpwd(row);
-                    }
-                })).BeginInvoke(null, null);
+                    })).BeginInvoke(null, null);
+                }
             }
         }
         /// <summary>
@@ -183,15 +196,18 @@ namespace HotTao.Controls
         {
             if (hotForm.wxlogin == null)
             {
-                //hotForm.wxlogin = new wxLogin(hotForm, this);
-                //hotForm.wxlogin.ShowDialog(this);
+                bool isOK = false;
                 MessageConfirm confirm = new MessageConfirm("您还没有微信授权，是否马上微信授权?");
                 confirm.CallBack += () =>
                 {
-                    hotForm.wxlogin = new wxLogin(hotForm, this);
-                    hotForm.wxlogin.ShowDialog(this);
+                    isOK = true;
                 };
                 confirm.ShowDialog(this);
+                if (isOK)
+                {
+                    hotForm.wxlogin = new wxLogin(hotForm, this);
+                    hotForm.wxlogin.ShowDialog(this);
+                }
             }
             else
             {
@@ -259,7 +275,15 @@ namespace HotTao.Controls
         /// <param name="e"></param>
         private void toolsTaskTpwd_Click(object sender, EventArgs e)
         {
-            lstSuccessTaskId = new List<int>();
+            bool isOK = false;
+            MessageConfirm confirm = new MessageConfirm("请确保任务已经设置了PID");
+            confirm.CallBack += () =>
+            {
+                isOK = true;
+            };
+            confirm.ShowDialog(this);
+            if (!isOK) return;
+
             DataGridViewRow row = this.dgvTaskPlan.Rows[MouseCurrentRowIndex];
             if (row != null)
             {
@@ -268,21 +292,21 @@ namespace HotTao.Controls
                 int.TryParse(row.Cells["ExecStatus"].Value.ToString(), out eCode);
                 if (eCode == 0)
                 {
-                    ((Action)(delegate ()
-                    {
-                        if (result > 0)
-                        {
-                            MessageConfirm confirm = new MessageConfirm("确定重新转链");
-                            confirm.CallBack += () =>
-                            {
-                                StartTaskTpwd(row);
-                            };
-                            confirm.ShowDialog(this);
-                        }
-                        else
-                            StartTaskTpwd(row);
 
-                    })).BeginInvoke(null, null);
+                    if (result > 0)
+                    {
+                        MessageConfirm confirm2 = new MessageConfirm("确定重新转链");
+                        confirm2.CallBack += () =>
+                        {
+                            ((Action)(delegate () { StartTaskTpwd(row); })).BeginInvoke(null, null);
+                        };
+                        confirm2.ShowDialog(this);
+                    }
+                    else
+                        ((Action)(delegate () { StartTaskTpwd(row); })).BeginInvoke(null, null);
+
+
+                    ShowAlert("正在进行转链，请耐心等待。");
                 }
                 else
                 {
@@ -303,8 +327,7 @@ namespace HotTao.Controls
             if (LogicTaskPlan.Instance.StartTaskTpwd(MyUserInfo.LoginToken, result))
             {
                 row.Cells["TpwdText"].Value = "OK";
-                row.Cells["isTpwd"].Value = 1;
-                lstSuccessTaskId.Add(result);
+                row.Cells["isTpwd"].Value = 1;                
             }
             else
             {

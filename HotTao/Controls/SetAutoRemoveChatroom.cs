@@ -75,10 +75,18 @@ namespace HotTao.Controls
                 dgvChatRoom.Rows[i - 1].Cells["groupid"].Value = data[j].id.ToString();
                 dgvChatRoom.Rows[i - 1].Cells["wechattitle"].Value = data[j].wechattitle.ToString();
 
+
                 if (i % 2 == 0)
+                {
                     dgvChatRoom.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                    dgvChatRoom.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                }
                 else
+                {
                     dgvChatRoom.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+                    dgvChatRoom.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
+                }
+
 
                 dgvChatRoom.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                 dgvChatRoom.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;

@@ -267,7 +267,12 @@ namespace HotTaoCore.Logic
             data["send_time_config"] = model.send_time_config;
             data["enable_autoreply"] = model.enable_autoreply.ToString();
             data["enable_autoremove"] = model.enable_autoremove.ToString();
-            return BaseRequestService.Post(ApiConst.saveHotUserConfig, data) ? 1 : 0;
+            var myConfig = BaseRequestService.Post<ConfigModel>(ApiConst.saveHotUserConfig, data);
+            if (myConfig != null)
+                return 1;
+
+            return 0;
+
         }
         /// <summary>
         /// 获取配置
