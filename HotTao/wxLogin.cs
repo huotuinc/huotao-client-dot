@@ -192,12 +192,13 @@ namespace HotTao
                             this.BeginInvoke((Action)delegate ()
                                 {
                                     this.Hide();
-                                    if (historyForm != null)
-                                    {
-                                        historyForm.ShowStartButtonText("暂停任务");
-                                        isStartTask = true;
-                                    }
                                 });
+
+                            if (historyForm != null)
+                            {
+                                historyForm.ShowStartButtonText("暂停计划");
+                                isStartTask = true;
+                            }
                             break;
                         }
                     }
@@ -277,6 +278,19 @@ namespace HotTao
                     //在此次进行判断自动回复或踢人操作
                     if (sync_result != null)
                     {
+
+                        //判断是否掉线
+                        if (sync_result["BaseResponse"]["Ret"].ToObject<int>() > 0)
+                        {
+                            isStartTask = false;
+                            isLoginCheck = false;
+                            isCloseWinForm = true;
+
+                            if (historyForm != null)
+                                historyForm.ShowStartButtonText("启动计划");
+                            hotForm.LogoutTip();
+                            break;
+                        }
                         if (sync_result["AddMsgCount"] != null && sync_result["AddMsgCount"].ToString() != "0")
                         {
                             foreach (JObject m in sync_result["AddMsgList"])
@@ -286,7 +300,7 @@ namespace HotTao
                         }
                     }
                 }
-                System.Threading.Thread.Sleep(100);
+                Thread.Sleep(100);
             }
         }
 
@@ -652,6 +666,7 @@ namespace HotTao
                 //获取执行的任务
                 while (true)
                 {
+                    if (isCloseWinForm) break;
                     if (MyUserInfo.currentUserId == 0 || !isStartTask) continue;
                     WXService wxs = new WXService();
                     //获取要执行的数据

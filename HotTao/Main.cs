@@ -92,7 +92,7 @@ namespace HotTao
         private void Main_Load(object sender, EventArgs e)
         {
 
-            SetWinFormTaskbarSystemMenu();            
+            SetWinFormTaskbarSystemMenu();
             try
             {
                 CheckAutoLogin(this, user =>
@@ -128,8 +128,8 @@ namespace HotTao
         {
             ((Action)(delegate ()
             {
-                myConfig = LogicUser.Instance.GetConfigModel(MyUserInfo.LoginToken);         
-                
+                myConfig = LogicUser.Instance.GetConfigModel(MyUserInfo.LoginToken);
+
             })).BeginInvoke(null, null);
         }
 
@@ -341,7 +341,7 @@ namespace HotTao
             btnHome.Parent.BackgroundImage = Properties.Resources.icon_bg;
             btnHome.Parent.BackColor = Color.Transparent;
         }
-   
+
         public bool LoginSync = false;
 
         /// <summary>
@@ -431,6 +431,11 @@ namespace HotTao
         {
             About about = new About();
             about.ShowDialog(this);
+        }
+
+        public void LogoutTip()
+        {            
+            MessageBox.Show("微信掉线，请重新授权登录", "提示");
         }
     }
 }

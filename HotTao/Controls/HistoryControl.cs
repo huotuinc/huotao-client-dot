@@ -232,7 +232,14 @@ namespace HotTao.Controls
 
         public void ShowStartButtonText(string text)
         {
-            btnStartTask.Text = text;
+            if (btnStartTask.InvokeRequired)
+            {
+                this.Invoke(new Action<string>(ShowStartButtonText), new object[] { text });
+            }
+            else
+            {
+                btnStartTask.Text = text;
+            }
         }
 
         /// <summary>
