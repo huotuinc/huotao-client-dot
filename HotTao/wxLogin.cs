@@ -667,8 +667,13 @@ namespace HotTao
                 while (true)
                 {
                     if (isCloseWinForm) break;
-                    if (MyUserInfo.currentUserId == 0 || !isStartTask) continue;
-                    WXService wxs = new WXService();
+                    if (MyUserInfo.currentUserId == 0 || !isStartTask)
+                    {
+                        //如果当前没有获取到执行任务数据，则暂停1分钟重新获取
+                        System.Threading.Thread.Sleep(taskTimeout);
+                        WXService wxs = new WXService();
+                        continue;
+                    }
                     //获取要执行的数据
                     //数据数量=任务的商品数量*任务的群数
                     //数据顺序：根据商品排序
@@ -691,6 +696,7 @@ namespace HotTao
                             WXUser user = contact_all.Find((WXUser obj) => { return obj.ShowName.Contains(item.title); });
                             if (user != null)
                             {
+                                WXService wxs = new WXService();
                                 Send(wxs, item, user.UserName, handleTimeout, imageTextSort);
 
                                 if (lst.IndexOf(item) != len)

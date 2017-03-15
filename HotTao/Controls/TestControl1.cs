@@ -84,17 +84,17 @@ namespace HotTao.Controls
         /// <param name="e"></param>
         private void SeachBoxTimer_Tick(object sender, EventArgs e)
         {
-            count = WinApi.mouseAnimation(endPosition, MousePosition, count, isMouseLeftUp, (p =>
-            {
-                if (!isMouseLeftUp)
-                {
-                    WinApi.mouse_event(WinApi.MouseEventFlag.LeftUp, 0, 0, 0, UIntPtr.Zero);
-                }
-                seachBoxTimer.Stop();
-                seachBoxTimer = null;
-                //搜索对象
-                SeachTarget();
-            }));
+            //count = WinApi.mouseAnimation(endPosition, MousePosition, count, isMouseLeftUp, (p =>
+            //{
+            //    if (!isMouseLeftUp)
+            //    {
+            //        WinApi.mouse_event(WinApi.MouseEventFlag.LeftUp, 0, 0, 0, UIntPtr.Zero);
+            //    }
+            //    seachBoxTimer.Stop();
+            //    seachBoxTimer = null;
+            //    //搜索对象
+            //    SeachTarget();
+            //}));
         }
         /// <summary>
         /// 复制文本到搜索框中

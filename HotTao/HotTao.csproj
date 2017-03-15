@@ -313,6 +313,12 @@
     <Compile Include="MyUserInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StartTask.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartTask.Designer.cs">
+      <DependentUpon>StartTask.cs</DependentUpon>
+    </Compile>
     <Compile Include="tbLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -426,6 +432,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="StartTask.resx">
+      <DependentUpon>StartTask.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="tbLogin.resx">
       <DependentUpon>tbLogin.cs</DependentUpon>
     </EmbeddedResource>

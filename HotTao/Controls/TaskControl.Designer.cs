@@ -299,6 +299,7 @@
             this.ExecStatus});
             this.dgvTaskPlan.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.dgvTaskPlan.Location = new System.Drawing.Point(417, 77);
+            this.dgvTaskPlan.MultiSelect = false;
             this.dgvTaskPlan.Name = "dgvTaskPlan";
             this.dgvTaskPlan.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgvTaskPlan.RowHeadersVisible = false;

@@ -566,6 +566,7 @@ namespace HotTao.Controls
 
         }
 
+        public bool TaskPlanSelected = false;
         /// <summary>
         /// 修改任务计划
         /// </summary>
@@ -580,8 +581,16 @@ namespace HotTao.Controls
             }
             else
             {
-                SetPIDGridViewSelected();
-                SetGoodsGridViewSelected();
+                if (!TaskPlanSelected)
+                    TaskPlanSelected = true;
+                else
+                {
+                    TaskPlanSelected = false;
+                    cells[0].Selected = TaskPlanSelected;
+                }
+                SetPIDGridViewSelected(TaskPlanSelected);
+                SetGoodsGridViewSelected(TaskPlanSelected);
+
             }
 
         }
@@ -589,7 +598,7 @@ namespace HotTao.Controls
         /// <summary>
         /// 设置商品数据默认选中
         /// </summary>
-        public void SetGoodsGridViewSelected()
+        public void SetGoodsGridViewSelected(bool isSelected)
         {
             //判断任务计划数据是否为空
             if (this.dgvTaskPlan.Rows != null && this.dgvTaskPlan.Rows.Count > 0)
@@ -604,24 +613,27 @@ namespace HotTao.Controls
                         row.Cells[0].Value = 0;
                         row.Selected = false;
                     }
-                    //根据任务计划之前的选择，将商品和推广位设为选中状态
-                    string goodsText = currentRow["goodsText"].Value.ToString();
-                    if (!string.IsNullOrEmpty(goodsText))
+                    if (isSelected)
                     {
-                        List<GoodsTaskModel> goodsIds = JsonConvert.DeserializeObject<List<GoodsTaskModel>>(goodsText);
-                        goodsIds.ForEach(item =>
+                        //根据任务计划之前的选择，将商品和推广位设为选中状态
+                        string goodsText = currentRow["goodsText"].Value.ToString();
+                        if (!string.IsNullOrEmpty(goodsText))
                         {
-                            foreach (DataGridViewRow row in dgvData.Rows)
+                            List<GoodsTaskModel> goodsIds = JsonConvert.DeserializeObject<List<GoodsTaskModel>>(goodsText);
+                            goodsIds.ForEach(item =>
                             {
-                                int result = 0;
-                                int.TryParse(row.Cells["gid"].Value.ToString(), out result);
-                                if (result == item.id)
+                                foreach (DataGridViewRow row in dgvData.Rows)
                                 {
-                                    row.Cells[0].Value = result;
-                                    row.Selected = true;
+                                    int result = 0;
+                                    int.TryParse(row.Cells["gid"].Value.ToString(), out result);
+                                    if (result == item.id)
+                                    {
+                                        row.Cells[0].Value = result;
+                                        row.Selected = true;
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                 }
             }
@@ -630,7 +642,7 @@ namespace HotTao.Controls
         /// <summary>
         /// 设置pid数据默认选中
         /// </summary>
-        public void SetPIDGridViewSelected()
+        public void SetPIDGridViewSelected(bool isSelected)
         {
             //判断任务计划数据是否为空
             if (this.dgvPid.Rows != null && this.dgvPid.Rows.Count > 0)
@@ -644,25 +656,27 @@ namespace HotTao.Controls
                         row.Cells[0].Value = 0;
                         row.Selected = false;
                     }
-
-                    //根据任务计划之前的选择，将商品和推广位设为选中状态
-                    string pidsText = currentRow["pidsText"].Value.ToString();
-                    if (!string.IsNullOrEmpty(pidsText))
+                    if (isSelected)
                     {
-                        List<UserPidTaskModel> pIds = JsonConvert.DeserializeObject<List<UserPidTaskModel>>(pidsText);
-                        pIds.ForEach(item =>
+                        //根据任务计划之前的选择，将商品和推广位设为选中状态
+                        string pidsText = currentRow["pidsText"].Value.ToString();
+                        if (!string.IsNullOrEmpty(pidsText))
                         {
-                            foreach (DataGridViewRow row in dgvPid.Rows)
+                            List<UserPidTaskModel> pIds = JsonConvert.DeserializeObject<List<UserPidTaskModel>>(pidsText);
+                            pIds.ForEach(item =>
                             {
-                                int result = 0;
-                                int.TryParse(row.Cells["shareid"].Value.ToString(), out result);
-                                if (result == item.id)
+                                foreach (DataGridViewRow row in dgvPid.Rows)
                                 {
-                                    row.Cells[0].Value = result;
-                                    row.Selected = true;
+                                    int result = 0;
+                                    int.TryParse(row.Cells["shareid"].Value.ToString(), out result);
+                                    if (result == item.id)
+                                    {
+                                        row.Cells[0].Value = result;
+                                        row.Selected = true;
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                 }
             }
@@ -946,7 +960,7 @@ namespace HotTao.Controls
                         ld.SetTimerClose(5000);
                         ld.ShowDialog(this);
                         if (!string.IsNullOrEmpty(MyUserInfo.TaobaoName))
-                            ShowAlert("登录成功!您可以设置PID了");                        
+                            ShowAlert("登录成功!您可以设置PID了");
                         else
                             ShowAlert("登录失败!请从新登录");
                     }
@@ -960,7 +974,7 @@ namespace HotTao.Controls
             tbLogin tblg = new tbLogin();
             tblg.LoginSuccessHandle += (jsons) =>
             {
-                tblg.Close();                
+                tblg.Close();
                 LoginTaobaoSuccess = true;
                 MyUserInfo.TaobaoLoginCookies = JsonConvert.SerializeObject(jsons);
                 ((Action)(delegate ()

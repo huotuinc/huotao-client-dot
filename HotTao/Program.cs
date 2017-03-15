@@ -55,8 +55,6 @@ namespace HotTao
             {
                 Exception ex = (Exception)e.ExceptionObject;
                 log.Error(ex);
-                MessageAlert alert = new MessageAlert("系统异常，请及时联系客户！", "错误提示");
-                alert.ShowDialog();
             }
             catch
             {
@@ -71,9 +69,7 @@ namespace HotTao
         {
             try
             {
-                log.Error(e.Exception);
-                MessageAlert alert = new MessageAlert("系统异常，请及时联系客户！", "错误提示");
-                alert.ShowDialog();
+                log.Error(e.Exception);                
             }
             catch(Exception ex)
             {
