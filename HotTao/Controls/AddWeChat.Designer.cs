@@ -38,10 +38,14 @@
             this.pbClose = new System.Windows.Forms.PictureBox();
             this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
+            this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.txtPid = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
             this.hotGroupBox2.SuspendLayout();
             this.hotPanel1.SuspendLayout();
+            this.hotGroupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -49,7 +53,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label1.Location = new System.Drawing.Point(29, 54);
+            this.label1.Location = new System.Drawing.Point(29, 46);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 6;
@@ -65,7 +69,7 @@
             this.btnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(94, 94);
+            this.btnSave.Location = new System.Drawing.Point(93, 114);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(94, 32);
             this.btnSave.TabIndex = 8;
@@ -123,7 +127,7 @@
             this.hotGroupBox2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
             this.hotGroupBox2.Controls.Add(this.txtWeChatTitle);
-            this.hotGroupBox2.Location = new System.Drawing.Point(87, 37);
+            this.hotGroupBox2.Location = new System.Drawing.Point(87, 31);
             this.hotGroupBox2.Name = "hotGroupBox2";
             this.hotGroupBox2.Size = new System.Drawing.Size(172, 35);
             this.hotGroupBox2.TabIndex = 12;
@@ -134,7 +138,9 @@
             this.hotPanel1.BackColor = System.Drawing.Color.White;
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.hotPanel1.Controls.Add(this.panel7);
+            this.hotPanel1.Controls.Add(this.label2);
             this.hotPanel1.Controls.Add(this.label1);
+            this.hotPanel1.Controls.Add(this.hotGroupBox1);
             this.hotPanel1.Controls.Add(this.hotGroupBox2);
             this.hotPanel1.Controls.Add(this.btnSave);
             this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -142,6 +148,38 @@
             this.hotPanel1.Name = "hotPanel1";
             this.hotPanel1.Size = new System.Drawing.Size(284, 153);
             this.hotPanel1.TabIndex = 14;
+            // 
+            // hotGroupBox1
+            // 
+            this.hotGroupBox1.BackColor = System.Drawing.Color.White;
+            this.hotGroupBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox1.Controls.Add(this.txtPid);
+            this.hotGroupBox1.Location = new System.Drawing.Point(87, 70);
+            this.hotGroupBox1.Name = "hotGroupBox1";
+            this.hotGroupBox1.Size = new System.Drawing.Size(172, 35);
+            this.hotGroupBox1.TabIndex = 12;
+            this.hotGroupBox1.TabStop = false;
+            // 
+            // txtPid
+            // 
+            this.txtPid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtPid.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.txtPid.Location = new System.Drawing.Point(6, 15);
+            this.txtPid.Name = "txtPid";
+            this.txtPid.Size = new System.Drawing.Size(153, 14);
+            this.txtPid.TabIndex = 7;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
+            this.label2.Location = new System.Drawing.Point(56, 85);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(23, 12);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "PID";
             // 
             // AddWeChat
             // 
@@ -164,6 +202,8 @@
             this.hotGroupBox2.PerformLayout();
             this.hotPanel1.ResumeLayout(false);
             this.hotPanel1.PerformLayout();
+            this.hotGroupBox1.ResumeLayout(false);
+            this.hotGroupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -178,5 +218,8 @@
         private System.Windows.Forms.PictureBox pbClose;
         private module.HotGroupBox hotGroupBox2;
         private module.HotPanel hotPanel1;
+        private System.Windows.Forms.Label label2;
+        private module.HotGroupBox hotGroupBox1;
+        private System.Windows.Forms.TextBox txtPid;
     }
 }

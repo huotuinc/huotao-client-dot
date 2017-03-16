@@ -429,9 +429,9 @@ namespace HotTao
         /// <param name="isRelease">是否释放Ctrl键</param>
         public static void Paste(IntPtr handle, bool isRelease = false)
         {
-            WinApi.keybd_event(Keys.LControlKey, 0, 0, 0);
-            System.Threading.Thread.Sleep(100);
-            WinApi.PostMessage(handle, 0x0100, 0x56, 0x002F0001);
+            keybd_event(Keys.LControlKey, 0, 0, 0);
+            System.Threading.Thread.Sleep(50);
+            SendMessage(handle, 0x0100, 0x56, 0x002F0001);
             System.Threading.Thread.Sleep(100);
             if (isRelease)
                 ReleaseControlKey();

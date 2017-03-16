@@ -90,5 +90,10 @@ namespace HotTao
         public static string filterUserGroups = string.Empty;
 
 
+        /// <summary>
+        /// 发送模式 默认0窗口模式
+        /// </summary>
+        public static int sendmode = 0;
+
     }
 }

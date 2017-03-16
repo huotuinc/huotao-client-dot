@@ -13,12 +13,16 @@ using HotTaoCore.Models;
 using CefSharp.WinForms;
 using CefSharp;
 using System.Threading;
+using Newtonsoft.Json;
+using System.IO;
+using System.Drawing.Imaging;
+using HotTaoCore.Logic;
 
 namespace HotTao.Controls
 {
     public partial class GoodsControl : UserControl
     {
-
+        NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
         private Main hotForm { get; set; }
 
         public GoodsControl(Main mainWin)
@@ -43,7 +47,7 @@ namespace HotTao.Controls
                 isSubmit = false;
                 new Thread(() =>
                 {
-                    string url =ApiConst.Url + "/goods/goodListPage?token=" + MyUserInfo.LoginToken;
+                    string url = ApiConst.Url + "/goods/goodListPage?token=" + MyUserInfo.LoginToken;
                     if (browser != null)
                     {
                         try
@@ -61,7 +65,7 @@ namespace HotTao.Controls
                     BrowserSettings settings = new BrowserSettings()
                     {
                         LocalStorage = CefState.Enabled,
-                        Javascript = CefState.Enabled,                        
+                        Javascript = CefState.Enabled,
                     };
 
                     //browser.Dock = DockStyle.Fill;
@@ -128,6 +132,81 @@ namespace HotTao.Controls
             //网页调该方法            
             isSubmit = true;
         }
+
+        /// <summary>
+        /// 提交选择的商品json数据字符串
+        /// </summary>
+        /// <param name="json_goods_result">The json_goods_result.</param>
+        public void SubmitGoods(string json_goods_result)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(json_goods_result))
+                {
+                    List<GoodsSelectedModel> goodsData = JsonConvert.DeserializeObject<List<GoodsSelectedModel>>(json_goods_result);
+
+                    if (goodsData != null)
+                    {
+                        foreach (var item in goodsData)
+                        {
+                            try
+                            {
+                                GoodsModel goods = new GoodsModel()
+                                {
+                                    userid = MyUserInfo.currentUserId,
+                                    goodsId = item.goodsId,
+                                    goodsName = item.goodsName,
+                                    goodsIntro = item.goodsIntro,
+                                    goodsMainImgUrl = item.goodsImageUrl,
+                                    goodsDetailUrl = item.goodsDetailUrl,
+                                    goodsSupplier = "淘宝",
+                                    goodsComsRate = item.goodsComsRate,
+                                    goodsPrice = item.goodsPrice,
+                                    goodsSalesAmount = item.goodsSalesAmount,
+                                    endTime = Convert.ToDateTime(item.endTime),
+                                    couponUrl = item.couponUrl,
+                                    couponId = item.couponId,
+                                    couponPrice = item.couponPrice
+                                };
+                                string fileName = Environment.CurrentDirectory + "\\temp\\img";
+                                if (!Directory.Exists(fileName))
+                                    Directory.CreateDirectory(fileName);
+                                fileName += "\\" + EncryptHelper.MD5(goods.goodsId) + ".jpg";
+                                //判断文件是否存在
+                                if (!File.Exists(fileName))
+                                {
+                                    byte[] data = BaseRequestService.GetNetWorkImageData(goods.goodsMainImgUrl);
+                                    if (data != null)
+                                    {
+                                        MemoryStream ms = new MemoryStream(data);
+                                        Bitmap img = new Bitmap(ms);
+                                        img.Save(fileName, ImageFormat.Jpeg);
+                                        ms.Dispose();
+                                        ms = null;
+                                        img.Dispose();
+                                        img = null;
+                                    }
+                                    else continue;
+                                }
+                                goods.goodslocatImgPath = fileName;
+                                LogicHotTao.Instance.AddUserGoods(goods);
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Error(ex);
+                            }
+                        }
+                    }                    
+                    //网页调该方法            
+                    isSubmit = true;
+                }                
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+
         /// <summary>
         /// 打开外部浏览器
         /// </summary>

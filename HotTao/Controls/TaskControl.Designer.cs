@@ -29,22 +29,23 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvPid = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.groupindex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.shareid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sharetitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pid = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -96,7 +97,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.ckbGoodsAllSelected = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
@@ -110,6 +110,7 @@
             this.toolWeChatUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.toolWeChatDel = new System.Windows.Forms.ToolStripMenuItem();
             this.toolWeChatSetPid = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsBatchImport = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsTaskMeun = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.添加计划ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTaskUpdate = new System.Windows.Forms.ToolStripMenuItem();
@@ -121,6 +122,8 @@
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.label15 = new System.Windows.Forms.Label();
             this.btnAddTask = new System.Windows.Forms.Button();
+            this.btnImportLocatGoods = new System.Windows.Forms.Button();
+            this.btnStartTask = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPid)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTaskPlan)).BeginInit();
@@ -145,6 +148,7 @@
             this.dgvPid.ColumnHeadersVisible = false;
             this.dgvPid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
+            this.groupindex,
             this.shareid,
             this.sharetitle,
             this.pid,
@@ -153,19 +157,19 @@
             this.dgvPid.Location = new System.Drawing.Point(9, 77);
             this.dgvPid.Name = "dgvPid";
             this.dgvPid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.InfoText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvPid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle32.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle32.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle32.ForeColor = System.Drawing.SystemColors.InfoText;
+            dataGridViewCellStyle32.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle32.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvPid.RowHeadersDefaultCellStyle = dataGridViewCellStyle32;
             this.dgvPid.RowHeadersVisible = false;
             this.dgvPid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvPid.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle33.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle33.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvPid.RowsDefaultCellStyle = dataGridViewCellStyle33;
             this.dgvPid.RowTemplate.Height = 23;
             this.dgvPid.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvPid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -176,10 +180,10 @@
             // 
             // Column1
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.NullValue = false;
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle29.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle29.NullValue = false;
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle29;
             this.Column1.FalseValue = "0";
             this.Column1.HeaderText = "全选";
             this.Column1.IndeterminateValue = "0";
@@ -190,20 +194,28 @@
             this.Column1.TrueValue = "id";
             this.Column1.Width = 25;
             // 
+            // groupindex
+            // 
+            this.groupindex.HeaderText = "groupindex";
+            this.groupindex.MinimumWidth = 50;
+            this.groupindex.Name = "groupindex";
+            this.groupindex.Width = 50;
+            // 
             // shareid
             // 
             this.shareid.HeaderText = "id";
             this.shareid.MinimumWidth = 50;
             this.shareid.Name = "shareid";
             this.shareid.ReadOnly = true;
+            this.shareid.Visible = false;
             this.shareid.Width = 50;
             // 
             // sharetitle
             // 
             this.sharetitle.DataPropertyName = "title";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.sharetitle.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle30.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.sharetitle.DefaultCellStyle = dataGridViewCellStyle30;
             this.sharetitle.HeaderText = "群昵称";
             this.sharetitle.Name = "sharetitle";
             this.sharetitle.ReadOnly = true;
@@ -215,9 +227,9 @@
             // 
             this.pid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.pid.DataPropertyName = "pid";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.pid.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle31.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.pid.DefaultCellStyle = dataGridViewCellStyle31;
             this.pid.HeaderText = "推广位ID";
             this.pid.Name = "pid";
             this.pid.ReadOnly = true;
@@ -304,15 +316,16 @@
             this.dgvTaskPlan.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgvTaskPlan.RowHeadersVisible = false;
             this.dgvTaskPlan.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvTaskPlan.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle36.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle36.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvTaskPlan.RowsDefaultCellStyle = dataGridViewCellStyle36;
             this.dgvTaskPlan.RowTemplate.Height = 23;
             this.dgvTaskPlan.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvTaskPlan.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTaskPlan.Size = new System.Drawing.Size(496, 150);
             this.dgvTaskPlan.TabIndex = 2;
             this.dgvTaskPlan.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTaskPlan_CellClick);
+            this.dgvTaskPlan.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvTaskPlan_CellMouseDoubleClick);
             this.dgvTaskPlan.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvTaskPlan_CellMouseMove);
             // 
             // Column3
@@ -331,8 +344,8 @@
             // taskid
             // 
             this.taskid.DataPropertyName = "id";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.taskid.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.taskid.DefaultCellStyle = dataGridViewCellStyle34;
             this.taskid.HeaderText = "ID";
             this.taskid.MinimumWidth = 60;
             this.taskid.Name = "taskid";
@@ -343,9 +356,9 @@
             // 
             this.taskTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.taskTitle.DataPropertyName = "title";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.taskTitle.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle35.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.taskTitle.DefaultCellStyle = dataGridViewCellStyle35;
             this.taskTitle.HeaderText = "任务标题";
             this.taskTitle.Name = "taskTitle";
             this.taskTitle.ReadOnly = true;
@@ -514,20 +527,20 @@
             this.dgvData.Location = new System.Drawing.Point(7, 303);
             this.dgvData.Name = "dgvData";
             this.dgvData.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvData.RowHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle41.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle41.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle41.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle41.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle41.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle41.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvData.RowHeadersDefaultCellStyle = dataGridViewCellStyle41;
             this.dgvData.RowHeadersVisible = false;
             this.dgvData.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvData.RowsDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle42.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            dataGridViewCellStyle42.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle42.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvData.RowsDefaultCellStyle = dataGridViewCellStyle42;
             this.dgvData.RowTemplate.Height = 23;
             this.dgvData.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -537,8 +550,8 @@
             // 
             // cbselect
             // 
-            dataGridViewCellStyle9.NullValue = false;
-            this.cbselect.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle37.NullValue = false;
+            this.cbselect.DefaultCellStyle = dataGridViewCellStyle37;
             this.cbselect.FalseValue = "0";
             this.cbselect.HeaderText = "全选";
             this.cbselect.IndeterminateValue = "0";
@@ -550,8 +563,8 @@
             // rowIndex
             // 
             this.rowIndex.DataPropertyName = "rowIndex";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.rowIndex.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.rowIndex.DefaultCellStyle = dataGridViewCellStyle38;
             this.rowIndex.HeaderText = "编号";
             this.rowIndex.MinimumWidth = 30;
             this.rowIndex.Name = "rowIndex";
@@ -571,9 +584,9 @@
             // 
             this.goodsId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.goodsId.DataPropertyName = "goodsId";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.goodsId.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle39.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.goodsId.DefaultCellStyle = dataGridViewCellStyle39;
             this.goodsId.HeaderText = "商品ID";
             this.goodsId.Name = "goodsId";
             this.goodsId.ReadOnly = true;
@@ -602,8 +615,8 @@
             // goodsSupplier
             // 
             this.goodsSupplier.DataPropertyName = "goodsSupplier";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.goodsSupplier.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.goodsSupplier.DefaultCellStyle = dataGridViewCellStyle40;
             this.goodsSupplier.HeaderText = "所属";
             this.goodsSupplier.MinimumWidth = 50;
             this.goodsSupplier.Name = "goodsSupplier";
@@ -644,6 +657,7 @@
             this.goodsCommission.MinimumWidth = 50;
             this.goodsCommission.Name = "goodsCommission";
             this.goodsCommission.ReadOnly = true;
+            this.goodsCommission.Visible = false;
             this.goodsCommission.Width = 50;
             // 
             // couponPrice
@@ -733,7 +747,6 @@
             this.panel3.Controls.Add(this.label9);
             this.panel3.Controls.Add(this.ckbGoodsAllSelected);
             this.panel3.Controls.Add(this.label12);
-            this.panel3.Controls.Add(this.label11);
             this.panel3.Controls.Add(this.label6);
             this.panel3.Controls.Add(this.label7);
             this.panel3.Controls.Add(this.label18);
@@ -748,7 +761,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label10.Location = new System.Drawing.Point(620, 11);
+            this.label10.Location = new System.Drawing.Point(663, 11);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(33, 13);
             this.label10.TabIndex = 2;
@@ -758,7 +771,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label9.Location = new System.Drawing.Point(518, 11);
+            this.label9.Location = new System.Drawing.Point(566, 11);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(33, 13);
             this.label9.TabIndex = 2;
@@ -787,21 +800,11 @@
             this.label12.TabIndex = 2;
             this.label12.Text = "优惠金额";
             // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label11.Location = new System.Drawing.Point(741, 11);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(33, 13);
-            this.label11.TabIndex = 2;
-            this.label11.Text = "佣金";
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label6.Location = new System.Drawing.Point(668, 11);
+            this.label6.Location = new System.Drawing.Point(714, 11);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(67, 13);
             this.label6.TabIndex = 2;
@@ -811,7 +814,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label7.Location = new System.Drawing.Point(567, 11);
+            this.label7.Location = new System.Drawing.Point(618, 11);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(33, 13);
             this.label7.TabIndex = 2;
@@ -874,9 +877,9 @@
             this.label16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
             this.label16.Location = new System.Drawing.Point(6, 242);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(91, 13);
+            this.label16.Size = new System.Drawing.Size(63, 13);
             this.label16.TabIndex = 4;
-            this.label16.Text = "已选商品列表";
+            this.label16.Text = "我的商品";
             // 
             // btnAddGoods
             // 
@@ -902,37 +905,45 @@
             this.添加ToolStripMenuItem,
             this.toolWeChatUpdate,
             this.toolWeChatDel,
-            this.toolWeChatSetPid});
+            this.toolWeChatSetPid,
+            this.toolsBatchImport});
             this.cmsWeChatMenu.Name = "cmsWeChatMenu";
-            this.cmsWeChatMenu.Size = new System.Drawing.Size(121, 92);
+            this.cmsWeChatMenu.Size = new System.Drawing.Size(125, 114);
             // 
             // 添加ToolStripMenuItem
             // 
             this.添加ToolStripMenuItem.Name = "添加ToolStripMenuItem";
-            this.添加ToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.添加ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.添加ToolStripMenuItem.Text = "添加";
             this.添加ToolStripMenuItem.Click += new System.EventHandler(this.btnAddWeChatGroup_Click);
             // 
             // toolWeChatUpdate
             // 
             this.toolWeChatUpdate.Name = "toolWeChatUpdate";
-            this.toolWeChatUpdate.Size = new System.Drawing.Size(120, 22);
+            this.toolWeChatUpdate.Size = new System.Drawing.Size(124, 22);
             this.toolWeChatUpdate.Text = "修改";
             this.toolWeChatUpdate.Click += new System.EventHandler(this.toolWeChatUpdate_Click);
             // 
             // toolWeChatDel
             // 
             this.toolWeChatDel.Name = "toolWeChatDel";
-            this.toolWeChatDel.Size = new System.Drawing.Size(120, 22);
+            this.toolWeChatDel.Size = new System.Drawing.Size(124, 22);
             this.toolWeChatDel.Text = "删除";
             this.toolWeChatDel.Click += new System.EventHandler(this.toolWeChatDel_Click);
             // 
             // toolWeChatSetPid
             // 
             this.toolWeChatSetPid.Name = "toolWeChatSetPid";
-            this.toolWeChatSetPid.Size = new System.Drawing.Size(120, 22);
+            this.toolWeChatSetPid.Size = new System.Drawing.Size(124, 22);
             this.toolWeChatSetPid.Text = "设置PID";
             this.toolWeChatSetPid.Click += new System.EventHandler(this.toolWeChatSetPid_Click);
+            // 
+            // toolsBatchImport
+            // 
+            this.toolsBatchImport.Name = "toolsBatchImport";
+            this.toolsBatchImport.Size = new System.Drawing.Size(124, 22);
+            this.toolsBatchImport.Text = "批量导入";
+            this.toolsBatchImport.Click += new System.EventHandler(this.toolsBatchImport_Click);
             // 
             // cmsTaskMeun
             // 
@@ -1017,6 +1028,8 @@
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.hotPanel1.Controls.Add(this.label15);
             this.hotPanel1.Controls.Add(this.btnAddTask);
+            this.hotPanel1.Controls.Add(this.btnImportLocatGoods);
+            this.hotPanel1.Controls.Add(this.btnStartTask);
             this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.hotPanel1.Location = new System.Drawing.Point(0, 0);
             this.hotPanel1.Name = "hotPanel1";
@@ -1051,6 +1064,42 @@
             this.btnAddTask.Text = "添加";
             this.btnAddTask.UseVisualStyleBackColor = false;
             this.btnAddTask.Click += new System.EventHandler(this.btnAddTask_Click);
+            // 
+            // btnImportLocatGoods
+            // 
+            this.btnImportLocatGoods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnImportLocatGoods.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnImportLocatGoods.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnImportLocatGoods.FlatAppearance.BorderSize = 0;
+            this.btnImportLocatGoods.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnImportLocatGoods.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
+            this.btnImportLocatGoods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnImportLocatGoods.ForeColor = System.Drawing.Color.White;
+            this.btnImportLocatGoods.Location = new System.Drawing.Point(718, 562);
+            this.btnImportLocatGoods.Name = "btnImportLocatGoods";
+            this.btnImportLocatGoods.Size = new System.Drawing.Size(108, 32);
+            this.btnImportLocatGoods.TabIndex = 3;
+            this.btnImportLocatGoods.Text = "导入本地商品";
+            this.btnImportLocatGoods.UseVisualStyleBackColor = false;
+            this.btnImportLocatGoods.Click += new System.EventHandler(this.btnImportLocatGoods_Click);
+            // 
+            // btnStartTask
+            // 
+            this.btnStartTask.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnStartTask.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnStartTask.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnStartTask.FlatAppearance.BorderSize = 0;
+            this.btnStartTask.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnStartTask.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
+            this.btnStartTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStartTask.ForeColor = System.Drawing.Color.White;
+            this.btnStartTask.Location = new System.Drawing.Point(785, 10);
+            this.btnStartTask.Name = "btnStartTask";
+            this.btnStartTask.Size = new System.Drawing.Size(61, 23);
+            this.btnStartTask.TabIndex = 3;
+            this.btnStartTask.Text = "开始任务";
+            this.btnStartTask.UseVisualStyleBackColor = false;
+            this.btnStartTask.Click += new System.EventHandler(this.btnStartTask_Click);
             // 
             // TaskControl
             // 
@@ -1111,7 +1160,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button btnAddWeChatGroup;
@@ -1131,11 +1179,6 @@
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn3;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn shareid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sharetitle;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pid;
-        private System.Windows.Forms.DataGridViewImageColumn editwechat;
         private System.Windows.Forms.ToolStripMenuItem toolWeChatUpdate;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column3;
@@ -1149,6 +1192,8 @@
         private System.Windows.Forms.DataGridViewImageColumn edittask;
         private System.Windows.Forms.DataGridViewTextBoxColumn ExecStatus;
         private module.HotPanel hotPanel1;
+        private System.Windows.Forms.CheckBox ckbGoodsAllSelected;
+        private System.Windows.Forms.Button btnImportLocatGoods;
         private System.Windows.Forms.DataGridViewCheckBoxColumn cbselect;
         private System.Windows.Forms.DataGridViewTextBoxColumn rowIndex;
         private System.Windows.Forms.DataGridViewTextBoxColumn gid;
@@ -1169,6 +1214,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn couponUrl;
         private System.Windows.Forms.DataGridViewTextBoxColumn shareLink;
         private System.Windows.Forms.DataGridViewTextBoxColumn goodsMainImgUrl;
-        private System.Windows.Forms.CheckBox ckbGoodsAllSelected;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn groupindex;
+        private System.Windows.Forms.DataGridViewTextBoxColumn shareid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sharetitle;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pid;
+        private System.Windows.Forms.DataGridViewImageColumn editwechat;
+        private System.Windows.Forms.ToolStripMenuItem toolsBatchImport;
+        private System.Windows.Forms.Button btnStartTask;
     }
 }

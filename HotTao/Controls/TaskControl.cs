@@ -25,6 +25,19 @@ namespace HotTao.Controls
         {
             if (MyUserInfo.currentUserId > 0)
             {
+
+                if (MyUserInfo.sendmode == 1)
+                {
+                    if (hotForm.wxlogin != null && hotForm.wxlogin.isStartTask)
+                        ShowStartButtonText("暂停计划");
+                }
+                else
+                {
+                    if (hotForm.winTask != null && hotForm.winTask.isStartTask)
+                        ShowStartButtonText("暂停计划");
+                }
+
+
                 CurrentShowRowNumber = 1;
                 LoadGoodsGridView();
                 loadUserPidGridView();
@@ -95,54 +108,63 @@ namespace HotTao.Controls
         /// </summary>
         public void loadUserPidGridView()
         {
-            //是否自动添加属性字段
-            this.dgvPid.AutoGenerateColumns = false;
-            this.dgvPid.Rows.Clear();
-            ((Action)(delegate ()
-            {
-                var pidData = LogicUser.Instance.GetUserWeChatList(MyUserInfo.LoginToken);
-                if (pidData != null)
-                {
-                    this.BeginInvoke((Action)(delegate ()  //等待结束
-                    {
-                        SetPidView(pidData);
-                        if (this.dgvPid.Rows.Count > 0)
-                        {
-                            dgvPid.Rows[0].Selected = false;
-                            dgvPid.ContextMenuStrip = cmsWeChatMenu;
-                        }
-                    }));
-                }
 
-            })).BeginInvoke(null, null);
+            new Thread(() =>
+           {
+               //是否自动添加属性字段
+               this.dgvPid.AutoGenerateColumns = false;
+
+               //var data = LogicGoods.Instance.getGoodsList(MyUserInfo.LoginToken);
+               var pidData = LogicHotTao.Instance.GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);
+               if (pidData != null)
+               {
+                   SetPidView(pidData);
+                   if (this.dgvPid.Rows.Count > 0)
+                   {
+                       dgvPid.Rows[0].Selected = false;
+                       dgvPid.ContextMenuStrip = cmsWeChatMenu;
+                   }
+               }
+           })
+            { IsBackground = true }.Start();
+
         }
 
 
         public void SetPidView(List<UserWechatListModel> data)
         {
-            int i = dgvPid.Rows.Count;
-            for (int j = 0; j < data.Count(); j++)
+            if (dgvPid.InvokeRequired)
             {
-                dgvPid.Rows.Add();
-                ++i;
-                dgvPid.Rows[i - 1].Cells["shareid"].Value = data[j].id.ToString();
-                dgvPid.Rows[i - 1].Cells["sharetitle"].Value = data[j].wechattitle.ToString();
-                dgvPid.Rows[i - 1].Cells["pid"].Value = data[j].pid.ToString();
-
-                if (i % 2 == 0)
+                this.Invoke(new Action<List<UserWechatListModel>>(SetPidView), new object[] { data });
+            }
+            else
+            {
+                this.dgvPid.Rows.Clear();
+                int i = dgvPid.Rows.Count;
+                for (int j = 0; j < data.Count(); j++)
                 {
-                    dgvPid.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
-                    dgvPid.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
-                }
-                else
-                {
-                    dgvPid.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
-                    dgvPid.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
-                }
+                    dgvPid.Rows.Add();
+                    ++i;
+                    dgvPid.Rows[i - 1].Cells["groupindex"].Value = i.ToString();
+                    dgvPid.Rows[i - 1].Cells["shareid"].Value = data[j].id.ToString();
+                    dgvPid.Rows[i - 1].Cells["sharetitle"].Value = data[j].wechattitle.ToString();
+                    dgvPid.Rows[i - 1].Cells["pid"].Value = data[j].pid.ToString();
+
+                    if (i % 2 == 0)
+                    {
+                        dgvPid.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                        dgvPid.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                    }
+                    else
+                    {
+                        dgvPid.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+                        dgvPid.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
+                    }
 
 
-                dgvPid.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
-                dgvPid.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
+                    dgvPid.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
+                    dgvPid.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
+                }
             }
         }
 
@@ -159,6 +181,7 @@ namespace HotTao.Controls
                 int i = dgvPid.Rows.Count;
                 dgvPid.Rows.Add();
                 ++i;
+                dgvPid.Rows[i - 1].Cells["groupindex"].Value = i.ToString();
                 dgvPid.Rows[i - 1].Cells["shareid"].Value = model.id.ToString();
                 dgvPid.Rows[i - 1].Cells["sharetitle"].Value = model.wechattitle.ToString();
                 dgvPid.Rows[i - 1].Cells["pid"].Value = model.pid.ToString();
@@ -182,58 +205,66 @@ namespace HotTao.Controls
 
         public void LoadTaskPlanGridView()
         {
-            //是否自动添加属性字段
-            this.dgvTaskPlan.AutoGenerateColumns = false;
-            this.dgvTaskPlan.Rows.Clear();
-            ((Action)(delegate ()
+            new Thread(() =>
             {
-                var taskData = LogicTaskPlan.Instance.getTaskPlanList(MyUserInfo.LoginToken);
+                //是否自动添加属性字段
+                this.dgvTaskPlan.AutoGenerateColumns = false;
+                //var data = LogicGoods.Instance.getGoodsList(MyUserInfo.LoginToken);
+                var taskData = LogicHotTao.Instance.FindByUserTaskPlanList(MyUserInfo.currentUserId);
                 if (taskData != null)
                 {
-                    this.BeginInvoke((Action)(delegate ()  //等待结束
+                    SetTaskView(taskData);
+                    if (this.dgvTaskPlan.Rows.Count > 0)
                     {
-                        SetTaskView(taskData);
-                        if (this.dgvTaskPlan.Rows.Count > 0)
-                        {
-                            dgvTaskPlan.Rows[0].Selected = false;
-                            dgvTaskPlan.ContextMenuStrip = cmsTaskMeun;
-                        }
-                    }));
+                        dgvTaskPlan.Rows[0].Selected = false;
+                        dgvTaskPlan.ContextMenuStrip = cmsTaskMeun;
+                    }
                 }
+            })
+            { IsBackground = true }.Start();
 
-            })).BeginInvoke(null, null);
+
         }
 
         private void SetTaskView(List<TaskPlanModel> taskData)
         {
-            int i = dgvTaskPlan.Rows.Count;
-            for (int j = 0; j < taskData.Count(); j++)
+            if (dgvTaskPlan.InvokeRequired)
             {
-                dgvTaskPlan.Rows.Add();
-                ++i;
-                dgvTaskPlan.Rows[i - 1].Cells["taskid"].Value = taskData[j].id.ToString();
-                dgvTaskPlan.Rows[i - 1].Cells["taskTitle"].Value = taskData[j].title.ToString();
-                dgvTaskPlan.Rows[i - 1].Cells["taskStartTime"].Value = taskData[j].startTime.ToString();
-                dgvTaskPlan.Rows[i - 1].Cells["taskEndTime"].Value = taskData[j].endTime.ToString();
-                dgvTaskPlan.Rows[i - 1].Cells["taskStatusText"].Value = taskData[j].statusText.ToString();
-                dgvTaskPlan.Rows[i - 1].Cells["goodsText"].Value = taskData[j].goodsText.ToString();
-                dgvTaskPlan.Rows[i - 1].Cells["pidsText"].Value = taskData[j].pidsText.ToString();
-                dgvTaskPlan.Rows[i - 1].Cells["ExecStatus"].Value = taskData[j].status.ToString();
+                this.Invoke(new Action<List<TaskPlanModel>>(SetTaskView), new object[] { taskData });
+            }
+            else
+            {
 
-                if (i % 2 == 0)
+                this.dgvTaskPlan.Rows.Clear();
+                int i = dgvTaskPlan.Rows.Count;
+                for (int j = 0; j < taskData.Count(); j++)
                 {
-                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
-                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
-                }
-                else
-                {
-                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
-                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
-                }
+                    dgvTaskPlan.Rows.Add();
+                    ++i;
+                    dgvTaskPlan.Rows[i - 1].Cells["taskid"].Value = taskData[j].id.ToString();
+                    dgvTaskPlan.Rows[i - 1].Cells["taskTitle"].Value = taskData[j].title.ToString();
+                    dgvTaskPlan.Rows[i - 1].Cells["taskStartTime"].Value = taskData[j].startTime.ToString();
+                    dgvTaskPlan.Rows[i - 1].Cells["taskEndTime"].Value = taskData[j].endTime.ToString();
+                    dgvTaskPlan.Rows[i - 1].Cells["taskStatusText"].Value = taskData[j].statusText.ToString();
+                    dgvTaskPlan.Rows[i - 1].Cells["goodsText"].Value = taskData[j].goodsText.ToString();
+                    dgvTaskPlan.Rows[i - 1].Cells["pidsText"].Value = taskData[j].pidsText.ToString();
+                    dgvTaskPlan.Rows[i - 1].Cells["ExecStatus"].Value = taskData[j].status.ToString();
+
+                    if (i % 2 == 0)
+                    {
+                        dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                        dgvTaskPlan.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                    }
+                    else
+                    {
+                        dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+                        dgvTaskPlan.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
+                    }
 
 
-                dgvTaskPlan.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
-                dgvTaskPlan.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
+                    dgvTaskPlan.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
+                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
+                }
             }
         }
 
@@ -277,6 +308,7 @@ namespace HotTao.Controls
 
                 dgvTaskPlan.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                 dgvTaskPlan.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
+                dgvTaskPlan.ContextMenuStrip = cmsTaskMeun;
             }
         }
 
@@ -285,13 +317,14 @@ namespace HotTao.Controls
         /// <summary>
         /// 加载商品数据
         /// </summary>
-        private void LoadGoodsGridView()
+        public void LoadGoodsGridView()
         {
             new Thread(() =>
             {
                 //是否自动添加属性字段
                 this.dgvData.AutoGenerateColumns = false;
-                var data = LogicGoods.Instance.getGoodsList(MyUserInfo.LoginToken);
+                //var data = LogicGoods.Instance.getGoodsList(MyUserInfo.LoginToken);
+                var data = LogicHotTao.Instance.FindByUserGoodsList(MyUserInfo.currentUserId);
                 if (data != null)
                 {
                     SetGoodsGridViewData(dgvData, data);
@@ -319,25 +352,14 @@ namespace HotTao.Controls
                 {
                     obj.Rows.Add();
                     ++i;
-                    obj.Rows[i - 1].Cells["rowIndex"].Value = data[j].rowIndex.ToString();
+                    obj.Rows[i - 1].Cells["rowIndex"].Value = i;
                     obj.Rows[i - 1].Cells["gid"].Value = data[j].id.ToString();
-                    //obj.Rows[i - 1].Cells["goodsId"].Value = data[j].goodsId.ToString();
-                    //obj.Rows[i - 1].Cells["goodsDetailUrl"].Value = data[j].goodsDetailUrl.ToString();
                     obj.Rows[i - 1].Cells["goodsName"].Value = data[j].goodsName.ToString();
                     obj.Rows[i - 1].Cells["goodsSupplier"].Value = data[j].goodsSupplier.ToString();
                     obj.Rows[i - 1].Cells["goodsPrice"].Value = data[j].goodsPrice.ToString();
                     obj.Rows[i - 1].Cells["goodsSalesAmount"].Value = data[j].goodsSalesAmount.ToString();
                     obj.Rows[i - 1].Cells["goodsComsRate"].Value = data[j].goodsComsRate.ToString();
-                    obj.Rows[i - 1].Cells["goodsCommission"].Value = data[j].goodsCommission.ToString();
                     obj.Rows[i - 1].Cells["couponPrice"].Value = data[j].couponPrice.ToString();
-                    //obj.Rows[i - 1].Cells["updateTime"].Value = data[j].updateTime.ToString();
-                    //obj.Rows[i - 1].Cells["startTime"].Value = data[j].startTime.ToString();
-                    //obj.Rows[i - 1].Cells["endTime"].Value = data[j].endTime.ToString();
-                    //obj.Rows[i - 1].Cells["createTime"].Value = data[j].createTime.ToString();
-                    //obj.Rows[i - 1].Cells["couponUrl"].Value = data[j].couponUrl.ToString();
-                    //obj.Rows[i - 1].Cells["shareLink"].Value = data[j].shareLink.ToString();
-                    //obj.Rows[i - 1].Cells["goodsMainImgUrl"].Value = data[j].goodsMainImgUrl.ToString();
-
 
                     if (i % 2 == 0)
                     {
@@ -354,14 +376,6 @@ namespace HotTao.Controls
                 }
 
             }
-        }
-        /// <summary>
-        /// 商品数据滚动加载
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="ScrollEventArgs"/> instance containing the event data.</param>
-        private void dgvData_Scroll(object sender, ScrollEventArgs e)
-        {
         }
 
         /// <summary>
@@ -425,23 +439,13 @@ namespace HotTao.Controls
                 int taskid = Convert.ToInt32(row.Cells["taskid"].Value);
                 int eCode = 0;
                 int.TryParse(row.Cells["ExecStatus"].Value.ToString(), out eCode);
-                if (eCode != 2)
+                if (eCode != 1)
                 {
                     MessageConfirm confirm = new MessageConfirm("您确认要删除计划【" + taskid + "】吗？");
                     confirm.CallBack += () =>
                     {
-                        var taskidList = new List<GoodsTaskModel>();
-                        taskidList.Add(new GoodsTaskModel()
-                        {
-                            id = taskid
-                        });
-                        string taskids = JsonConvert.SerializeObject(taskidList);
+                        LogicHotTao.Instance.DeleteUserTaskPlan(taskid);
                         dgvTaskPlan.Rows.Remove(row);
-                        ((Action)(delegate ()
-                        {
-                            LogicTaskPlan.Instance.deleteTaskPlan(MyUserInfo.LoginToken, taskids);
-                        })).BeginInvoke(null, null);
-
                     };
                     confirm.ShowDialog(this);
                 }
@@ -498,6 +502,7 @@ namespace HotTao.Controls
         private void toolWeChatDel_Click(object sender, EventArgs e)
         {
             List<UserPidTaskModel> pidList = new List<UserPidTaskModel>();
+            List<int> ids = new List<int>();
             List<DataGridViewRow> rows = new List<DataGridViewRow>();
             foreach (DataGridViewRow item in dgvPid.Rows)
             {
@@ -508,8 +513,12 @@ namespace HotTao.Controls
                     if (result > 0 && pidList.FindIndex(r => { return r.id == result; }) < 0)
                     {
                         pidList.Add(new UserPidTaskModel() { id = result });
+                        ids.Add(result);
                         rows.Add(item);
                     }
+
+
+
                 }
             }
             if (pidList != null && pidList.Count() > 0)
@@ -519,10 +528,11 @@ namespace HotTao.Controls
                 confirm.CallBack += () =>
                 {
                     Loading ld = new Loading();
-                    string ids = JsonConvert.SerializeObject(pidList);
+                    string idsStr = JsonConvert.SerializeObject(pidList);
                     ((Action)(delegate ()
                     {
-                        if (LogicUser.Instance.DeleteUserWeChat(MyUserInfo.LoginToken, ids))
+                        //LogicUser.Instance.DeleteUserWeChat(MyUserInfo.LoginToken, idsStr)
+                        if (LogicHotTao.Instance.DeleteUserWeChatGroup(ids))
                         {
                             this.BeginInvoke((Action)(delegate ()
                             {
@@ -548,11 +558,13 @@ namespace HotTao.Controls
                     confirm.CallBack += () =>
                     {
                         pidList.Add(new UserPidTaskModel() { id = result });
-                        string ids = JsonConvert.SerializeObject(pidList);
+                        ids.Add(result);
+                        string idsStr = JsonConvert.SerializeObject(pidList);
                         this.dgvPid.Rows.Remove(row);
                         ((Action)(delegate ()
                         {
-                            LogicUser.Instance.DeleteUserWeChat(MyUserInfo.LoginToken, ids);
+                            //LogicUser.Instance.DeleteUserWeChat(MyUserInfo.LoginToken, idsStr);
+                            LogicHotTao.Instance.DeleteUserWeChatGroup(ids);
                         })).BeginInvoke(null, null);
 
 
@@ -575,23 +587,24 @@ namespace HotTao.Controls
         private void dgvTaskPlan_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewCellCollection cells = this.dgvTaskPlan.CurrentRow.Cells;
-            if (cells != null && cells["edittask"].ColumnIndex == e.ColumnIndex)
+
+            if (cells == null) return;
+
+            if (!TaskPlanSelected)
+                TaskPlanSelected = true;
+            else
+            {
+                TaskPlanSelected = false;
+                cells[0].Selected = TaskPlanSelected;
+            }
+            SetPIDGridViewSelected(TaskPlanSelected);
+            SetGoodsGridViewSelected(TaskPlanSelected);
+
+            if (cells["edittask"].ColumnIndex == e.ColumnIndex)
             {
                 UpdateTask(cells, cells["edittask"].RowIndex);
             }
-            else
-            {
-                if (!TaskPlanSelected)
-                    TaskPlanSelected = true;
-                else
-                {
-                    TaskPlanSelected = false;
-                    cells[0].Selected = TaskPlanSelected;
-                }
-                SetPIDGridViewSelected(TaskPlanSelected);
-                SetGoodsGridViewSelected(TaskPlanSelected);
 
-            }
 
         }
 
@@ -739,7 +752,8 @@ namespace HotTao.Controls
                 {
                     ((Action)(delegate ()
                     {
-                        LogicGoods.Instance.DeleteGoods(MyUserInfo.LoginToken, deleteId);
+                        //LogicGoods.Instance.DeleteGoods(MyUserInfo.LoginToken, deleteId);
+                        LogicHotTao.Instance.DeleteGoods(deleteId);
                     })).BeginInvoke(null, null);
 
                     this.dgvData.Rows.RemoveAt(cell.RowIndex);
@@ -771,16 +785,20 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnWeChatWinGet_Click(object sender, EventArgs e)
         {
+            bool isOk = false;
             MessageConfirm confirm = new MessageConfirm();
             confirm.Message = "请确保采集的群聊都单独拖出来";
-            confirm.CallBack += GetWeChatWinHandler;
+            confirm.CallBack += () => { isOk = true; };
             confirm.ShowDialog(this);
+            if (isOk)
+                GetWeChatWinHandler();
         }
         /// <summary>
         /// 采集微信聊天窗口
         /// </summary>
         private void GetWeChatWinHandler()
         {
+
             var wins = WinApi.GetAllDesktopWindows();
             if (wins != null && wins.Count() > 0)
             {
@@ -789,15 +807,18 @@ namespace HotTao.Controls
                 {
                     foreach (var win in wins)
                     {
-                        LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, 0, win.szWindowName);
-
+                        LogicHotTao.Instance.AddUserWeChatGroup(new SQLiteEntitysModel.weChatGroupModel()
+                        {
+                            title = win.szWindowName,
+                            userid = MyUserInfo.currentUserId
+                        });
                     }
                     ld.CloseForm();
                     this.BeginInvoke((Action)(delegate ()
                     {
+                        loadUserPidGridView();
                         ShowAlert("采集完成");
                     }));
-
                 })).BeginInvoke(null, null);
                 ld.ShowDialog(hotForm);
             }
@@ -842,6 +863,7 @@ namespace HotTao.Controls
                 int.TryParse(this.dgvPid.CurrentRow.Cells["shareid"].Value.ToString(), out result);
                 add.editId = result;
                 add.weChatTitle = this.dgvPid.CurrentRow.Cells["sharetitle"].Value.ToString();
+                add.weChatPid = this.dgvPid.CurrentRow.Cells["pid"].Value.ToString();
                 add.ShowDialog(this);
             }
             else
@@ -1045,6 +1067,126 @@ namespace HotTao.Controls
                         row.Selected = false;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// 导入本地商品
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnImportLocatGoods_Click(object sender, EventArgs e)
+        {
+            ImportGoods import = new ImportGoods(this);
+            import.ImportType = "goods";
+            import.ShowDialog(this);
+        }
+
+        /// <summary>
+        /// 批量导入PID
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void toolsBatchImport_Click(object sender, EventArgs e)
+        {
+            ImportGoods import = new ImportGoods(this);
+            import.ImportType = "pid";
+            import.ShowDialog(this);
+        }
+        private void dgvTaskPlan_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+
+            DataGridViewCellCollection cells = this.dgvTaskPlan.CurrentRow.Cells;
+            if (cells == null) return;
+
+            if (cells["edittask"].ColumnIndex != e.ColumnIndex)
+            {
+                int eCode = 0;
+                int.TryParse(cells["ExecStatus"].Value.ToString(), out eCode);
+                if (eCode == 0)
+                {
+                    BuildShareText build = new BuildShareText(this);
+                    int result = 0;
+                    int.TryParse(cells["taskid"].Value.ToString(), out result);
+                    build.taskid = result;
+                    build.ShowDialog(this);
+                }
+            }
+        }
+
+        private void btnStartTask_Click(object sender, EventArgs e)
+        {
+            bool isOK = false;
+            if (MyUserInfo.sendmode == 1)
+            {
+                if (hotForm.wxlogin == null)
+                {
+                    MessageConfirm confirm = new MessageConfirm("您还没有微信授权，是否马上微信授权?");
+                    confirm.CallBack += () =>
+                    {
+                        isOK = true;
+                    };
+                    confirm.ShowDialog(this);
+                    if (isOK)
+                    {
+                        hotForm.wxlogin = new wxLogin(hotForm, this);
+                        hotForm.wxlogin.ShowDialog(this);
+                    }
+                }
+                else
+                {
+                    if (hotForm.wxlogin.isCloseWinForm)
+                        hotForm.wxlogin.ShowWx();
+                    else
+                    {
+                        if (hotForm.wxlogin.isStartTask)
+                        {
+                            hotForm.wxlogin.StopWx();
+                            ShowStartButtonText("启动计划");
+                        }
+                        else
+                        {
+                            hotForm.wxlogin.StartWx();
+                            ShowStartButtonText("暂停计划");
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                if (hotForm.winTask == null)
+                {
+
+                    MessageConfirm confirm = new MessageConfirm("是否开始执行任务?");
+                    confirm.CallBack += () =>
+                    {
+                        isOK = true;
+                    };
+                    confirm.ShowDialog(this);
+                    if (isOK)
+                    {
+                        hotForm.winTask = new StartTask(hotForm, this);
+                        hotForm.winTask.OK();
+                    }
+                }
+                else
+                {
+                    hotForm.winTask.Close();
+                    hotForm.winTask = null;
+                    ShowStartButtonText("启动计划");
+                }
+            }
+        }
+        public void ShowStartButtonText(string text)
+        {
+            if (btnStartTask.InvokeRequired)
+            {
+                this.Invoke(new Action<string>(ShowStartButtonText), new object[] { text });
+            }
+            else
+            {
+                btnStartTask.Text = text;
             }
         }
     }

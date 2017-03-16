@@ -39,12 +39,6 @@ namespace HotTaoCore
     {
         static NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
 
-        private static readonly HttpClientHandler clientHandler = new HttpClientHandler();
-        /// <summary>
-        /// HTTP请求发送者
-        /// </summary>
-        private static readonly HttpClient client = new HttpClient(clientHandler);
-
         /// <summary>
         /// 向服务器发送post请求 返回服务器数据
         /// </summary>
@@ -241,7 +235,36 @@ namespace HotTaoCore
         }
 
 
-
+        /// <summary>
+        /// 获取网络图片数据
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns>System.Byte[].</returns>
+        public static byte[] GetNetWorkImageData(string url)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "get";
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                Stream response_stream = response.GetResponseStream();
+                int count = (int)response.ContentLength;
+                int offset = 0;
+                byte[] buf = new byte[count];
+                while (count > 0)  //读取返回数据
+                {
+                    int n = response_stream.Read(buf, offset, count);
+                    if (n == 0) break;
+                    count -= n;
+                    offset += n;
+                }
+                return buf;
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
 
         /// <summary>

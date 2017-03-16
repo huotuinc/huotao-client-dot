@@ -94,11 +94,13 @@ namespace HotTao.Controls
         public int editId { get; set; }
 
         public string weChatTitle { get; set; }
+        public string weChatPid { get; set; }
 
 
         private void AddWeChat_Load(object sender, EventArgs e)
         {
             txtWeChatTitle.Text = weChatTitle;
+            txtPid.Text = weChatPid;
             if (!string.IsNullOrEmpty(Title))
             {
                 lbTitle.Text = Title;
@@ -119,23 +121,28 @@ namespace HotTao.Controls
             SetAutoReplyControl replyControl = hotAutoForm as SetAutoReplyControl;
             SetAutoRemoveChatroom autoRemoveControl = hotAutoForm as SetAutoRemoveChatroom;
             SendMessage sendControl = hotAutoForm as SendMessage;
+            string groupTitle = txtWeChatTitle.Text;
+            string groupPid = txtPid.Text;
             ((Action)(delegate ()
             {
                 int flag = 0;
                 UserWechatListModel data = new UserWechatListModel();
                 if (hotTask != null)
                 {
-                    data = LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, editId, txtWeChatTitle.Text);
-                    if (data != null)
+                    //data = LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, editId, txtWeChatTitle.Text);
+
+                    if (LogicHotTao.Instance.UpdateUserWeChatTitle(MyUserInfo.currentUserId, editId, groupTitle, groupPid))
                     {
+                        data.pid = groupPid;
+                        data.wechattitle = groupTitle;
                         flag = 1;
                     }
                 }
-                else if (replyControl != null|| sendControl != null)
+                else if (replyControl != null || sendControl != null)
                     flag = LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, txtWeChatTitle.Text, 0);
                 else if (autoRemoveControl != null)
                     flag = LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, txtWeChatTitle.Text, 1);
-                
+
 
                 if (flag > 0)
                 {
@@ -151,7 +158,10 @@ namespace HotTao.Controls
                     if (flag > 0)
                     {
                         if (hotTask != null)
-                            hotTask.SetPidView(data, editId > 0 ? CurrentRowIndex : -1);
+                        {
+                            //hotTask.SetPidView(data, editId > 0 ? CurrentRowIndex : -1);
+                            hotTask.loadUserPidGridView();
+                        }
                         else
                         {
                             if (replyControl != null)

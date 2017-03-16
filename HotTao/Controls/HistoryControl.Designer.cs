@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvTaskPlan = new System.Windows.Forms.DataGridView();
             this.taskid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskStatusText = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -65,7 +65,6 @@
             this.label14 = new System.Windows.Forms.Label();
             this.btnStartTpwd = new System.Windows.Forms.Button();
             this.btnStartTask = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTaskPlan)).BeginInit();
             this.panel2.SuspendLayout();
             this.cmsTask.SuspendLayout();
@@ -104,22 +103,23 @@
             this.dgvTaskPlan.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgvTaskPlan.RowHeadersVisible = false;
             this.dgvTaskPlan.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvTaskPlan.RowsDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvTaskPlan.RowsDefaultCellStyle = dataGridViewCellStyle10;
             this.dgvTaskPlan.RowTemplate.Height = 23;
             this.dgvTaskPlan.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvTaskPlan.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTaskPlan.Size = new System.Drawing.Size(895, 500);
             this.dgvTaskPlan.TabIndex = 4;
             this.dgvTaskPlan.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTaskPlan_CellClick);
+            this.dgvTaskPlan.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvTaskPlan_CellMouseDoubleClick);
             this.dgvTaskPlan.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvTaskPlan_CellMouseMove);
             // 
             // taskid
             // 
             this.taskid.DataPropertyName = "id";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.taskid.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.taskid.DefaultCellStyle = dataGridViewCellStyle6;
             this.taskid.HeaderText = "ID";
             this.taskid.MinimumWidth = 100;
             this.taskid.Name = "taskid";
@@ -128,8 +128,8 @@
             // taskStatusText
             // 
             this.taskStatusText.DataPropertyName = "statusText";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.taskStatusText.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.taskStatusText.DefaultCellStyle = dataGridViewCellStyle7;
             this.taskStatusText.HeaderText = "执行状态";
             this.taskStatusText.MinimumWidth = 80;
             this.taskStatusText.Name = "taskStatusText";
@@ -159,9 +159,9 @@
             // 
             this.taskTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.taskTitle.DataPropertyName = "title";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.taskTitle.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.taskTitle.DefaultCellStyle = dataGridViewCellStyle8;
             this.taskTitle.HeaderText = "任务标题";
             this.taskTitle.Name = "taskTitle";
             this.taskTitle.ReadOnly = true;
@@ -188,8 +188,8 @@
             // TpwdText
             // 
             this.TpwdText.DataPropertyName = "TpwdText";
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.TpwdText.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.TpwdText.DefaultCellStyle = dataGridViewCellStyle9;
             this.TpwdText.HeaderText = "转链结果";
             this.TpwdText.Name = "TpwdText";
             this.TpwdText.ReadOnly = true;
@@ -314,7 +314,7 @@
             this.toolsTaskTpwd,
             this.toolsTaskDelete});
             this.cmsTask.Name = "cmsTask";
-            this.cmsTask.Size = new System.Drawing.Size(125, 92);
+            this.cmsTask.Size = new System.Drawing.Size(153, 114);
             // 
             // toolsTaskUpdate
             // 
@@ -333,8 +333,9 @@
             // toolsTaskTpwd
             // 
             this.toolsTaskTpwd.Name = "toolsTaskTpwd";
-            this.toolsTaskTpwd.Size = new System.Drawing.Size(124, 22);
+            this.toolsTaskTpwd.Size = new System.Drawing.Size(152, 22);
             this.toolsTaskTpwd.Text = "一键转链";
+            this.toolsTaskTpwd.Visible = false;
             this.toolsTaskTpwd.Click += new System.EventHandler(this.toolsTaskTpwd_Click);
             // 
             // toolsTaskDelete
@@ -347,7 +348,6 @@
             // hotPanel1
             // 
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.hotPanel1.Controls.Add(this.label5);
             this.hotPanel1.Controls.Add(this.label7);
             this.hotPanel1.Controls.Add(this.label14);
             this.hotPanel1.Controls.Add(this.btnStartTpwd);
@@ -362,11 +362,11 @@
             // 
             this.label7.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label7.Location = new System.Drawing.Point(492, 8);
+            this.label7.Location = new System.Drawing.Point(380, 17);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(209, 18);
+            this.label7.Size = new System.Drawing.Size(321, 18);
             this.label7.TabIndex = 18;
-            this.label7.Text = "只针对待执行未转链的任务进行转链";
+            this.label7.Text = "双击数据行，进行转链操作，只能操待执行和待转链的任务";
             // 
             // label14
             // 
@@ -396,6 +396,7 @@
             this.btnStartTpwd.TabIndex = 17;
             this.btnStartTpwd.Text = "开始转链";
             this.btnStartTpwd.UseVisualStyleBackColor = false;
+            this.btnStartTpwd.Visible = false;
             this.btnStartTpwd.Click += new System.EventHandler(this.btnStartTpwd_Click);
             // 
             // btnStartTask
@@ -415,16 +416,6 @@
             this.btnStartTask.Text = "启动计划";
             this.btnStartTask.UseVisualStyleBackColor = false;
             this.btnStartTask.Click += new System.EventHandler(this.btnStartTask_Click);
-            // 
-            // label5
-            // 
-            this.label5.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label5.Location = new System.Drawing.Point(492, 28);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(209, 18);
-            this.label5.TabIndex = 18;
-            this.label5.Text = "转链前，先确认是否设置PID";
             // 
             // HistoryControl
             // 
@@ -480,6 +471,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn taskStartTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn taskEndTime;
         private System.Windows.Forms.DataGridViewImageColumn edittask;
-        private System.Windows.Forms.Label label5;
     }
 }

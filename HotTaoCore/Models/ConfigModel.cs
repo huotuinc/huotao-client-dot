@@ -128,6 +128,12 @@ namespace HotTaoCore.Models
         public int imagetextsort { get; set; }
 
         /// <summary>
+        /// 发送模式 0窗口模式  1网络请求模式  默认0
+        /// </summary>
+        /// <value>The sendmode.</value>
+        public int sendmode { get; set; }
+
+        /// <summary>
         /// 任务之间的间隔时间
         /// </summary>
         /// <value>The taskinterval.</value>

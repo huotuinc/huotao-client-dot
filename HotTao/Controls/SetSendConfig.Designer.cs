@@ -68,8 +68,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.rdSendRequest = new System.Windows.Forms.RadioButton();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.rdSendWindows = new System.Windows.Forms.RadioButton();
+            this.label22 = new System.Windows.Forms.Label();
             this.hotGroupBox3.SuspendLayout();
             this.hotGroupBox1.SuspendLayout();
+            this.hotGroupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // hotGroupBox3
@@ -100,9 +107,10 @@
             this.hotGroupBox3.Controls.Add(this.ckbMonthSales);
             this.hotGroupBox3.Controls.Add(this.ckbCoupon);
             this.hotGroupBox3.Controls.Add(this.label6);
-            this.hotGroupBox3.Location = new System.Drawing.Point(13, 176);
+            this.hotGroupBox3.Enabled = false;
+            this.hotGroupBox3.Location = new System.Drawing.Point(13, 249);
             this.hotGroupBox3.Name = "hotGroupBox3";
-            this.hotGroupBox3.Size = new System.Drawing.Size(725, 287);
+            this.hotGroupBox3.Size = new System.Drawing.Size(725, 240);
             this.hotGroupBox3.TabIndex = 2;
             this.hotGroupBox3.TabStop = false;
             // 
@@ -366,9 +374,9 @@
             this.hotGroupBox1.Controls.Add(this.label3);
             this.hotGroupBox1.Controls.Add(this.label1);
             this.hotGroupBox1.Controls.Add(this.label9);
-            this.hotGroupBox1.Location = new System.Drawing.Point(13, 13);
+            this.hotGroupBox1.Location = new System.Drawing.Point(13, 80);
             this.hotGroupBox1.Name = "hotGroupBox1";
-            this.hotGroupBox1.Size = new System.Drawing.Size(725, 144);
+            this.hotGroupBox1.Size = new System.Drawing.Size(725, 155);
             this.hotGroupBox1.TabIndex = 0;
             this.hotGroupBox1.TabStop = false;
             // 
@@ -378,7 +386,7 @@
             this.rbWtSort.Cursor = System.Windows.Forms.Cursors.Hand;
             this.rbWtSort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.rbWtSort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.rbWtSort.Location = new System.Drawing.Point(199, 83);
+            this.rbWtSort.Location = new System.Drawing.Point(199, 86);
             this.rbWtSort.Name = "rbWtSort";
             this.rbWtSort.Size = new System.Drawing.Size(70, 16);
             this.rbWtSort.TabIndex = 38;
@@ -392,7 +400,7 @@
             this.rbTwSort.Cursor = System.Windows.Forms.Cursors.Hand;
             this.rbTwSort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.rbTwSort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.rbTwSort.Location = new System.Drawing.Point(117, 83);
+            this.rbTwSort.Location = new System.Drawing.Point(117, 86);
             this.rbTwSort.Name = "rbTwSort";
             this.rbTwSort.Size = new System.Drawing.Size(70, 16);
             this.rbTwSort.TabIndex = 38;
@@ -404,18 +412,18 @@
             // 
             this.label4.AutoSize = true;
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.label4.Location = new System.Drawing.Point(180, 56);
+            this.label4.Location = new System.Drawing.Point(180, 59);
             this.label4.Margin = new System.Windows.Forms.Padding(0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(113, 12);
+            this.label4.Size = new System.Drawing.Size(245, 12);
             this.label4.TabIndex = 37;
-            this.label4.Text = "默认40秒(最少35秒)";
+            this.label4.Text = "默认40秒(最少35秒)，请合理的设置间隔时间";
             // 
             // label20
             // 
             this.label20.AutoSize = true;
             this.label20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.label20.Location = new System.Drawing.Point(180, 112);
+            this.label20.Location = new System.Drawing.Point(180, 115);
             this.label20.Margin = new System.Windows.Forms.Padding(0);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(329, 12);
@@ -426,17 +434,17 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.label2.Location = new System.Drawing.Point(180, 28);
+            this.label2.Location = new System.Drawing.Point(180, 31);
             this.label2.Margin = new System.Windows.Forms.Padding(0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(47, 12);
             this.label2.TabIndex = 37;
-            this.label2.Text = "默认2秒";
+            this.label2.Text = "默认1秒";
             // 
             // txtgoodsinterval
             // 
             this.txtgoodsinterval.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.txtgoodsinterval.Location = new System.Drawing.Point(113, 51);
+            this.txtgoodsinterval.Location = new System.Drawing.Point(113, 54);
             this.txtgoodsinterval.Name = "txtgoodsinterval";
             this.txtgoodsinterval.Size = new System.Drawing.Size(60, 21);
             this.txtgoodsinterval.TabIndex = 2;
@@ -446,7 +454,7 @@
             // txtTaskInterval
             // 
             this.txtTaskInterval.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.txtTaskInterval.Location = new System.Drawing.Point(113, 108);
+            this.txtTaskInterval.Location = new System.Drawing.Point(113, 111);
             this.txtTaskInterval.Name = "txtTaskInterval";
             this.txtTaskInterval.Size = new System.Drawing.Size(60, 21);
             this.txtTaskInterval.TabIndex = 1;
@@ -456,17 +464,17 @@
             // txthandleInterval
             // 
             this.txthandleInterval.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.txthandleInterval.Location = new System.Drawing.Point(113, 24);
+            this.txthandleInterval.Location = new System.Drawing.Point(113, 27);
             this.txthandleInterval.Name = "txthandleInterval";
             this.txthandleInterval.Size = new System.Drawing.Size(60, 21);
             this.txthandleInterval.TabIndex = 1;
-            this.txthandleInterval.Text = "2";
+            this.txthandleInterval.Text = "1";
             this.txthandleInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(54, 84);
+            this.label5.Location = new System.Drawing.Point(54, 87);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(53, 12);
             this.label5.TabIndex = 35;
@@ -475,7 +483,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(54, 112);
+            this.label19.Location = new System.Drawing.Point(54, 115);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(53, 12);
             this.label19.TabIndex = 35;
@@ -484,7 +492,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(54, 56);
+            this.label3.Location = new System.Drawing.Point(54, 59);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 35;
@@ -493,11 +501,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(54, 28);
+            this.label1.Location = new System.Drawing.Point(54, 31);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 35;
-            this.label1.Text = "图文间隔";
+            this.label1.Text = "操作间隔";
             // 
             // label9
             // 
@@ -511,12 +519,88 @@
             this.label9.TabIndex = 34;
             this.label9.Text = "转发等待时间设置（单位：秒）";
             // 
+            // hotGroupBox2
+            // 
+            this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox2.Controls.Add(this.rdSendRequest);
+            this.hotGroupBox2.Controls.Add(this.label30);
+            this.hotGroupBox2.Controls.Add(this.label21);
+            this.hotGroupBox2.Controls.Add(this.rdSendWindows);
+            this.hotGroupBox2.Controls.Add(this.label22);
+            this.hotGroupBox2.Location = new System.Drawing.Point(13, 13);
+            this.hotGroupBox2.Name = "hotGroupBox2";
+            this.hotGroupBox2.Size = new System.Drawing.Size(725, 57);
+            this.hotGroupBox2.TabIndex = 0;
+            this.hotGroupBox2.TabStop = false;
+            // 
+            // rdSendRequest
+            // 
+            this.rdSendRequest.AutoSize = true;
+            this.rdSendRequest.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdSendRequest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rdSendRequest.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.rdSendRequest.Location = new System.Drawing.Point(199, 24);
+            this.rdSendRequest.Name = "rdSendRequest";
+            this.rdSendRequest.Size = new System.Drawing.Size(70, 16);
+            this.rdSendRequest.TabIndex = 38;
+            this.rdSendRequest.Text = "网络模式";
+            this.rdSendRequest.UseVisualStyleBackColor = true;
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label30.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.label30.Location = new System.Drawing.Point(327, -2);
+            this.label30.Name = "label30";
+            this.label30.Padding = new System.Windows.Forms.Padding(5);
+            this.label30.Size = new System.Drawing.Size(67, 22);
+            this.label30.TabIndex = 34;
+            this.label30.Text = "发送模式";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(54, 25);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(53, 12);
+            this.label21.TabIndex = 35;
+            this.label21.Text = "发送模式";
+            // 
+            // rdSendWindows
+            // 
+            this.rdSendWindows.AutoSize = true;
+            this.rdSendWindows.Checked = true;
+            this.rdSendWindows.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdSendWindows.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rdSendWindows.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.rdSendWindows.Location = new System.Drawing.Point(117, 24);
+            this.rdSendWindows.Name = "rdSendWindows";
+            this.rdSendWindows.Size = new System.Drawing.Size(70, 16);
+            this.rdSendWindows.TabIndex = 38;
+            this.rdSendWindows.TabStop = true;
+            this.rdSendWindows.Text = "窗口模式";
+            this.rdSendWindows.UseVisualStyleBackColor = true;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.label22.Location = new System.Drawing.Point(279, 26);
+            this.label22.Margin = new System.Windows.Forms.Padding(0);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(257, 12);
+            this.label22.TabIndex = 37;
+            this.label22.Text = "窗口模式下，尽量不要操作键盘，以免发单出错";
+            // 
             // SetSendConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.hotGroupBox3);
+            this.Controls.Add(this.hotGroupBox2);
             this.Controls.Add(this.hotGroupBox1);
             this.Name = "SetSendConfig";
             this.Size = new System.Drawing.Size(750, 510);
@@ -525,6 +609,8 @@
             this.hotGroupBox3.PerformLayout();
             this.hotGroupBox1.ResumeLayout(false);
             this.hotGroupBox1.PerformLayout();
+            this.hotGroupBox2.ResumeLayout(false);
+            this.hotGroupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -570,5 +656,11 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox txtTaskInterval;
         private System.Windows.Forms.Label label19;
+        private module.HotGroupBox hotGroupBox2;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.RadioButton rdSendRequest;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.RadioButton rdSendWindows;
+        private System.Windows.Forms.Label label22;
     }
 }

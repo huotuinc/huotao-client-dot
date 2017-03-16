@@ -125,6 +125,10 @@ namespace HotTao.Controls
                 if (hotPidsText == null)
                     hotPidsText = new List<UserPidTaskModel>();
             }
+            if (taskid == 0)
+            {
+                txtEndTime.Text = DateTime.Now.AddHours(5).ToString("yyyy-MM-dd HH:mm:ss");
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -164,7 +168,8 @@ namespace HotTao.Controls
             Loading ld = new Loading();
             ((Action)(delegate ()
             {
-                TaskPlanModel data = LogicTaskPlan.Instance.addTaskPlan(MyUserInfo.LoginToken, model);
+                //TaskPlanModel data = LogicTaskPlan.Instance.addTaskPlan(MyUserInfo.LoginToken, model);
+                TaskPlanModel data = LogicHotTao.Instance.AddUserTaskPlan(model);
                 ld.CloseForm();
                 if (data != null)
                 {

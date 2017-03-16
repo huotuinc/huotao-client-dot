@@ -1,6 +1,7 @@
 ﻿using HotTao.Controls;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
+using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -72,6 +73,12 @@ namespace HotTao
         public wxLogin wxlogin { get; set; }
 
         /// <summary>
+        /// 任务窗口
+        /// </summary>
+        /// <value>The win task.</value>
+        public StartTask winTask { get; set; }
+
+        /// <summary>
         /// 我的配置信息
         /// </summary>
         /// <value>My configuration.</value>
@@ -91,7 +98,6 @@ namespace HotTao
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Main_Load(object sender, EventArgs e)
         {
-
             SetWinFormTaskbarSystemMenu();
             try
             {
@@ -130,6 +136,15 @@ namespace HotTao
             {
                 myConfig = LogicUser.Instance.GetConfigModel(MyUserInfo.LoginToken);
 
+
+                if (myConfig != null)
+                {
+                    ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(myConfig.send_time_config) ? null : JsonConvert.DeserializeObject<ConfigSendTimeModel>(myConfig.send_time_config);
+                    if (cfgTime != null)
+                    {
+                        MyUserInfo.sendmode = cfgTime.sendmode;
+                    }
+                }
             })).BeginInvoke(null, null);
         }
 
@@ -434,7 +449,7 @@ namespace HotTao
         }
 
         public void LogoutTip()
-        {            
+        {
             MessageBox.Show("微信掉线，请重新授权登录", "提示");
         }
     }

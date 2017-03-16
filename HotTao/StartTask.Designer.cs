@@ -31,12 +31,12 @@
             this.components = new System.ComponentModel.Container();
             this.panel7 = new System.Windows.Forms.Panel();
             this.lbTitle = new System.Windows.Forms.Label();
+            this.pbClose = new System.Windows.Forms.PictureBox();
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.lbContent = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
-            this.pbClose = new System.Windows.Forms.PictureBox();
             this.panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
             this.SuspendLayout();
@@ -61,6 +61,18 @@
             this.lbTitle.Size = new System.Drawing.Size(29, 12);
             this.lbTitle.TabIndex = 6;
             this.lbTitle.Text = "提示";
+            // 
+            // pbClose
+            // 
+            this.pbClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbClose.Image = global::HotTao.Properties.Resources.icon_close;
+            this.pbClose.Location = new System.Drawing.Point(264, 7);
+            this.pbClose.Name = "pbClose";
+            this.pbClose.Size = new System.Drawing.Size(13, 13);
+            this.pbClose.TabIndex = 5;
+            this.pbClose.TabStop = false;
+            this.toolTip1.SetToolTip(this.pbClose, "关闭");
+            this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
             // 
             // hotPanel1
             // 
@@ -118,18 +130,6 @@
             this.btnOk.UseVisualStyleBackColor = false;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
-            // pbClose
-            // 
-            this.pbClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbClose.Image = global::HotTao.Properties.Resources.icon_close;
-            this.pbClose.Location = new System.Drawing.Point(264, 7);
-            this.pbClose.Name = "pbClose";
-            this.pbClose.Size = new System.Drawing.Size(13, 13);
-            this.pbClose.TabIndex = 5;
-            this.pbClose.TabStop = false;
-            this.toolTip1.SetToolTip(this.pbClose, "关闭");
-            this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
-            // 
             // StartTask
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -142,7 +142,9 @@
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "StartTask";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "StartTask";
+            this.Load += new System.EventHandler(this.StartTask_Load);
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();

@@ -25,10 +25,8 @@ namespace HotTao.Controls
 
                 if (string.IsNullOrEmpty(MyUserInfo.sendtemplate))
                     MyUserInfo.sendtemplate = MyUserInfo.defaultSendTempateText;
-                else
-                {
-                    txtTempText.Text = MyUserInfo.sendtemplate;
-                }
+                txtTempText.Text = MyUserInfo.sendtemplate;
+
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));

@@ -25,7 +25,7 @@ namespace HotTao
         {
             try
             {
-                string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.dbpath +ConstConfig.conf_user);
+                string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.dbpath + ConstConfig.conf_user);
                 if (File.Exists(filePath))
                 {
                     FileStream aFile = new FileStream(filePath, FileMode.Open);
@@ -94,9 +94,9 @@ namespace HotTao
                 MyUserInfo.sendtemplate = LogicUser.Instance.GetUserSendTemplate(MyUserInfo.LoginToken);
                 if (string.IsNullOrEmpty(MyUserInfo.sendtemplate))
                 {
-                    if (LogicUser.Instance.AddUserSendTemplate(MyUserInfo.LoginToken, MyUserInfo.defaultSendTempateText))
-                        MyUserInfo.sendtemplate = MyUserInfo.defaultSendTempateText;
-                }                
+                    LogicUser.Instance.AddUserSendTemplate(MyUserInfo.LoginToken, MyUserInfo.defaultSendTempateText);
+                    MyUserInfo.sendtemplate = MyUserInfo.defaultSendTempateText;
+                }
             })).BeginInvoke(null, null);
         }
 

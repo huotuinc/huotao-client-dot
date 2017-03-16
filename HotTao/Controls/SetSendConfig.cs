@@ -48,8 +48,10 @@ namespace HotTao.Controls
                     rbTwSort.Checked = cfgTime.imagetextsort == 0;
                     rbWtSort.Checked = cfgTime.imagetextsort == 1;
                     txtTaskInterval.Text = cfgTime.taskinterval > 0 ? cfgTime.taskinterval.ToString() : "30";
+                    rdSendWindows.Checked = cfgTime.sendmode == 0;
+                    rdSendRequest.Checked = cfgTime.sendmode == 1;
                 }
-                
+
                 ConfigWhereModel cfgWhere = string.IsNullOrEmpty(hotForm.myConfig.where_config) ? null : JsonConvert.DeserializeObject<ConfigWhereModel>(hotForm.myConfig.where_config);
                 if (cfgWhere != null)
                 {
@@ -92,7 +94,7 @@ namespace HotTao.Controls
 
             //商品间隔
             int.TryParse(txtgoodsinterval.Text, out result);
-            cfgTime.goodsinterval = result < 35 ? 35 : result;
+            cfgTime.goodsinterval = result < 0 ? 35 : result;
 
             //图文间隔
             int.TryParse(txthandleInterval.Text, out result);
@@ -103,6 +105,11 @@ namespace HotTao.Controls
             cfgTime.taskinterval = result == 0 ? 30 : result;
             //图文顺序
             cfgTime.imagetextsort = rbTwSort.Checked ? 0 : 1;
+
+            //发送模式
+            cfgTime.sendmode = rdSendWindows.Checked ? 0 : 1;
+
+            MyUserInfo.sendmode = cfgTime.sendmode;
 
             //过滤条件
             ConfigWhereModel cfgWhere = string.IsNullOrEmpty(hotForm.myConfig.where_config) ? new ConfigWhereModel() : JsonConvert.DeserializeObject<ConfigWhereModel>(hotForm.myConfig.where_config);

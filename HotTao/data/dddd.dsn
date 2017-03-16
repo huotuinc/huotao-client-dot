@@ -1,0 +1,17 @@
+[ODBC]
+DRIVER=SQLite3 ODBC Driver
+JDConv=0
+BigInt=0
+LoadExt=
+OEMCP=0
+JournalMode=
+FKSupport=0
+NoWCHAR=1
+NoCreat=0
+LongNames=0
+ShortNames=0
+Timeout=
+NoTXN=0
+SyncPragma=
+StepAPI=0
+Database=J:\HOT\CODE\huotao-client-dot\HotTao\data\hottao.db

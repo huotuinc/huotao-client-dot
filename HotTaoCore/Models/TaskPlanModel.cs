@@ -11,12 +11,16 @@ namespace HotTaoCore.Models
     /// </summary>
     public class TaskPlanModel
     {
-        public int id { get; set; }
+        public long id { get; set; }
 
         public int userid { get; set; }
 
         public string title { get; set; }
 
+        /// <summary>
+        /// 0 待执行  1进行中， 2已完成 3已过期
+        /// </summary>
+        /// <value>The status.</value>
         public int status { get; set; }
 
         /// <summary>

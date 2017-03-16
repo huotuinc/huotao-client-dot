@@ -12,12 +12,14 @@ namespace HotTaoCore.Models
     public class GoodsModel
     {
 
+        public int userid { get; set; }
+
         public long rowIndex { get; set; }
 
         /// <summary>
         /// 商品编号(自增)
         /// </summary>
-        public int id { get; set; }
+        public long id { get; set; }
 
         /// <summary>
         /// 商品ID
@@ -28,6 +30,12 @@ namespace HotTaoCore.Models
         /// 商品名称
         /// </summary>
         public string goodsName { get; set; }
+
+        /// <summary>
+        /// 本地图片路径
+        /// </summary>
+        /// <value>The goodslocat img path.</value>
+        public string goodslocatImgPath { get; set; }
 
         /// <summary>
         /// 商品主图地址
@@ -89,6 +97,9 @@ namespace HotTaoCore.Models
         /// </summary>
         public string couponUrl { get; set; }
 
+
+        public string couponId { get; set; }
+
         /// <summary>
         /// 推广链接
         /// </summary>
@@ -104,11 +115,57 @@ namespace HotTaoCore.Models
         /// </summary>
         public DateTime createTime { get; set; }
 
+        /// <summary>
+        /// 商品简介
+        /// </summary>
+        /// <value>The goods intro.</value>
+        public string goodsIntro { get; set; }
+
     }
 
 
     public class GoodsTaskModel
     {
         public int id { get; set; }
+    }
+
+
+
+
+    public class GoodsSelectedModel
+    {
+        public string goodsId { get; set; }
+
+
+
+        public string couponUrl { get; set; }
+
+        
+        public string updateTime { get; set; }
+
+        public string couponId { get; set; }
+
+        public string goodsDetailUrl { get; set; }
+
+
+        public string goodsIntro { get; set; }
+
+        public decimal goodsPrice { get; set; }
+
+        public string goodsImageUrl { get; set; }
+
+        public int goodsSalesAmount { get; set; }
+
+
+        public decimal couponPrice { get; set; }
+
+
+        public decimal goodsComsRate { get; set; }
+
+        public string endTime { get; set; }
+
+        public string goodsName { get; set; }
+
+
     }
 }

@@ -63,6 +63,9 @@ namespace HotTao
         private Main hotForm { get; set; }
         private HistoryControl historyForm { get; set; }
 
+
+        private TaskControl taskForm { get; set; }
+
         /// <summary>
         /// 是否开始任务
         /// </summary>
@@ -101,12 +104,21 @@ namespace HotTao
             hotForm = mainWin;
         }
 
-        public wxLogin(Main mainWin, HistoryControl history)
+        public wxLogin(Main mainWin, HistoryControl control)
         {
             InitializeComponent();
             hotForm = mainWin;
-            historyForm = history;
+            historyForm = control;
         }
+
+        public wxLogin(Main mainWin, TaskControl control)
+        {
+            InitializeComponent();
+            hotForm = mainWin;
+            taskForm = control;
+        }
+
+
         private void wxLogin_Load(object sender, EventArgs e)
         {
             login_redirect_url = string.Empty;
@@ -194,11 +206,13 @@ namespace HotTao
                                     this.Hide();
                                 });
 
+                            isStartTask = true;
                             if (historyForm != null)
-                            {
                                 historyForm.ShowStartButtonText("暂停计划");
-                                isStartTask = true;
-                            }
+                            if (taskForm != null)
+                                taskForm.ShowStartButtonText("暂停计划");
+
+
                             break;
                         }
                     }
@@ -288,6 +302,9 @@ namespace HotTao
 
                             if (historyForm != null)
                                 historyForm.ShowStartButtonText("启动计划");
+                            if (taskForm != null)
+                                taskForm.ShowStartButtonText("启动计划");
+
                             hotForm.LogoutTip();
                             break;
                         }

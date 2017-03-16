@@ -11,6 +11,12 @@ namespace HotTaoCore
     {
 
         public const string dbpath = "db";
+
+        /// <summary>
+        /// 优惠券地址
+        /// </summary>
+        public const string couponUrl = "https://uland.taobao.com/coupon/edetail";
+
         /// <summary>
         /// 微信消息类型
         /// </summary>
