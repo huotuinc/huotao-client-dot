@@ -272,16 +272,14 @@ namespace HotTao
                             {
                                 //更新修改状态
                                 LogicHotTao.Instance.UpdateUserShareTextStatus(item.id);
-                            }
-                            //暂停一下
-                            SleepImage(1);
+                            }                            
                         }
                     }
                     catch (Exception ex)
                     {
                         if (!imageResult.Contains(item.title))
                             textResult.Add(item.title);
-                        
+
                         if (!isImageText)
                         {
                             //更新修改状态
@@ -318,6 +316,7 @@ namespace HotTao
                         //设置微信为输入焦点
                         WinApi.SetActiveWin(win.hWnd);
                         WinApi.Paste(win.hWnd);
+                        WinApi.InputStr(win.hWnd, item.text);
                         WinApi.Enter(win.hWnd);
                         Clipboard.Clear();
 
@@ -329,9 +328,6 @@ namespace HotTao
                             //更新修改状态
                             LogicHotTao.Instance.UpdateUserShareTextStatus(item.id);
                         }
-                        
-                        //暂停一下
-                        SleepImage(1);
                     }
                 }
                 catch (Exception ex)
