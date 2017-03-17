@@ -60,7 +60,7 @@ namespace HotTao
         }
 
 
-        Timer startTaskTimer = new Timer();
+        System.Windows.Forms.Timer startTaskTimer = new System.Windows.Forms.Timer();
 
 
 
@@ -143,7 +143,8 @@ namespace HotTao
 
             foreach (var item in taskdata)
             {
-
+                textResult.Clear();
+                imageResult.Clear();
                 if (!isStartTask || MyUserInfo.currentUserId == 0) break;
 
                 int taskid = Convert.ToInt32(item.id);
@@ -188,12 +189,24 @@ namespace HotTao
         /// <param name="lst">The LST.</param>
         private void SendGoods(List<GoodsModel> goodslist, int taskid, List<WindowInfo> wins)
         {
+
+            var data = LogicHotTao.Instance.FindByUserWechatShareTextList(MyUserInfo.currentUserId);
+            if (data == null) return;
             foreach (var goods in goodslist)
             {
+                textResult.Clear();
+                imageResult.Clear();
+
                 if (!isStartTask || MyUserInfo.currentUserId == 0) break;
 
                 int goodsId = Convert.ToInt32(goods.id);
-                var shareData = LogicHotTao.Instance.FindByUserWechatShareTextList(MyUserInfo.currentUserId, taskid, goodsId);
+
+                var shareData = data.FindAll(share =>
+                  {
+                      return share.goodsid == goodsId && share.taskid == taskid;
+                  });
+
+                //var shareData = LogicHotTao.Instance.FindByUserWechatShareTextList(MyUserInfo.currentUserId, taskid, goodsId);
                 if (shareData == null)
                     continue;
                 SendWeChatGroupShareText(shareData, goods, wins);
@@ -266,30 +279,46 @@ namespace HotTao
                             WinApi.Enter(win.hWnd);
 
                             if (!imageResult.Contains(item.title))
-                                textResult.Add(item.title);
+                                imageResult.Add(item.title);
 
                             if (!isImageText)
                             {
                                 //更新修改状态
-                                LogicHotTao.Instance.UpdateUserShareTextStatus(item.id);
-                            }                            
+                                UpdateShareTextStatus(item.id);
+                            }
                         }
                     }
                     catch (Exception ex)
                     {
                         if (!imageResult.Contains(item.title))
-                            textResult.Add(item.title);
+                            imageResult.Add(item.title);
+
+                        AddErrorLog(item, 0);
 
                         if (!isImageText)
                         {
                             //更新修改状态
-                            LogicHotTao.Instance.UpdateUserShareTextStatus(item.id);
+                            UpdateShareTextStatus(item.id);
                         }
                         log.Error(ex);
                     }
                 }
                 Clipboard.Clear();
             }
+        }
+
+
+        /// <summary>
+        /// 更新分享状态
+        /// </summary>
+        /// <param name="shareid"></param>
+        private void UpdateShareTextStatus(long shareid)
+        {
+            new System.Threading.Thread(() =>
+            {
+                LogicHotTao.Instance.UpdateUserShareTextStatus(shareid);
+            })
+            { IsBackground = true }.Start();
         }
 
 
@@ -316,7 +345,7 @@ namespace HotTao
                         //设置微信为输入焦点
                         WinApi.SetActiveWin(win.hWnd);
                         WinApi.Paste(win.hWnd);
-                        WinApi.InputStr(win.hWnd, item.text);
+                        //WinApi.InputStr(win.hWnd, item.text);
                         WinApi.Enter(win.hWnd);
                         Clipboard.Clear();
 
@@ -326,7 +355,7 @@ namespace HotTao
                         if (isImageText)
                         {
                             //更新修改状态
-                            LogicHotTao.Instance.UpdateUserShareTextStatus(item.id);
+                            UpdateShareTextStatus(item.id);
                         }
                     }
                 }
@@ -336,22 +365,56 @@ namespace HotTao
                         textResult.Add(item.title);
 
                     //添加错误日志
-                    LogicHotTao.Instance.AddUserWeChatError(new weChatUserWechatErrorModel()
-                    {
-                        userid = item.userid,
-                        title = item.title,
-                        shareText = item.text,
-                        createtime = DateTime.Now
-                    });
+                    AddErrorLog(item, 1);
                     if (isImageText)
                     {
                         //更新修改状态
-                        LogicHotTao.Instance.UpdateUserShareTextStatus(item.id);
+                        UpdateShareTextStatus(item.id);
                     }
                     log.Error(ex);
                 }
             }
         }
+
+
+        /// <summary>
+        /// 添加错误日志  
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="errorType">0 图片 1 文本</param>
+        public void AddErrorLog(weChatShareTextModel item, int errorType)
+        {
+            //添加错误日志
+            LogicHotTao.Instance.AddUserWeChatError(new weChatUserWechatErrorModel()
+            {
+                userid = item.userid,
+                title = item.title,
+                shareText = item.text,
+                createtime = DateTime.Now,
+                errorType = errorType
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// 暂停休息一下

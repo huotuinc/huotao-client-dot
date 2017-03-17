@@ -544,8 +544,10 @@
             this.rdSendRequest.Name = "rdSendRequest";
             this.rdSendRequest.Size = new System.Drawing.Size(70, 16);
             this.rdSendRequest.TabIndex = 38;
+            this.rdSendRequest.Tag = "1";
             this.rdSendRequest.Text = "网络模式";
             this.rdSendRequest.UseVisualStyleBackColor = true;
+            this.rdSendRequest.CheckedChanged += new System.EventHandler(this.rdSendRequest_CheckedChanged);
             // 
             // label30
             // 
@@ -580,8 +582,10 @@
             this.rdSendWindows.Size = new System.Drawing.Size(70, 16);
             this.rdSendWindows.TabIndex = 38;
             this.rdSendWindows.TabStop = true;
+            this.rdSendWindows.Tag = "0";
             this.rdSendWindows.Text = "窗口模式";
             this.rdSendWindows.UseVisualStyleBackColor = true;
+            this.rdSendWindows.CheckedChanged += new System.EventHandler(this.rdSendRequest_CheckedChanged);
             // 
             // label22
             // 

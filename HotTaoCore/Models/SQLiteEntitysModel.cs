@@ -86,6 +86,12 @@ namespace HotTaoCore.Models
             /// </summary>
             /// <value>The craetetime.</value>
             public DateTime createtime { get; set; }
+
+            /// <summary>
+            /// 错误类型
+            /// </summary>
+            /// <value>The type of the error.</value>
+            public int errorType { get; set; }
         }
     }
 }

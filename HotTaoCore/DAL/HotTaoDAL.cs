@@ -291,28 +291,28 @@ namespace HotTaoCore.DAL
                 item.statusText = "待执行";
                 if (item.status == 1)
                 {
+                    item.statusText = "进行中";
+                    item.ExecStatus = 1;
+                }
+                else if (item.status == 2)
+                {
                     item.statusText = "已完成";
                     item.ExecStatus = 2;
                 }
-                else
+                else if (item.endTime.CompareTo(DateTime.Now) < 0)
                 {
-                    if (item.endTime.CompareTo(DateTime.Now) < 0)
-                    {
-                        item.statusText = "已过期";
-                        item.ExecStatus = 3;
-                    }
-
-                    if (item.startTime.CompareTo(DateTime.Now) < 0)
-                    {
-                        item.statusText = "进行中";
-                        item.ExecStatus = 1;
-                    }
+                    item.statusText = "已过期";
+                    item.ExecStatus = 3;
+                    item.status = 3;
                 }
+
                 if (item.isTpwd == 0)
                 {
                     item.statusText = "待转链,双击进行转链";
                     item.ExecStatus = 0;
+                    item.status = 0;
                 }
+
                 item.startTimeText = item.startTime.ToString("yyyy年MM月dd日 HH时mm分ss秒");
             }
 
@@ -435,8 +435,7 @@ namespace HotTaoCore.DAL
                         item.statusText = "已完成";
                         item.ExecStatus = 2;
                     }
-
-                    if (item.endTime.CompareTo(DateTime.Now) < 0)
+                    else if (item.endTime.CompareTo(DateTime.Now) < 0)
                     {
                         item.statusText = "已过期";
                         item.ExecStatus = 3;
@@ -516,12 +515,13 @@ namespace HotTaoCore.DAL
         /// <returns>System.Int32.</returns>
         public int AddUserWeChatError(weChatUserWechatErrorModel model)
         {
-            string strSql = "INSERT INTO user_wechat_error(userid,title,shareText,createtime) values(@userid,@title,@shareText,@createtime);select last_insert_rowid();";
+            string strSql = "INSERT INTO user_wechat_error(userid,title,shareText,createtime,errorType) values(@userid,@title,@shareText,@createtime,@errorType);select last_insert_rowid();";
             var param = new[] {
                     new SQLiteParameter("@userid",model.userid),
                     new SQLiteParameter("@title",model.title),
                     new SQLiteParameter("@goodsName",model.shareText),
-                    new SQLiteParameter("@createtime",model.createtime)
+                    new SQLiteParameter("@createtime",model.createtime),
+                    new SQLiteParameter("@errorType",model.errorType)
                 };
             return DBSqliteHelper.ExecuteSql(strSql, param);
 
@@ -560,6 +560,20 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@taskid",taskid),
                     new SQLiteParameter("@userid",userid),
                     new SQLiteParameter("@goodsid",goodsid)
+            };
+            var data = DBSqliteHelper.ExecQueryList<weChatShareTextModel>(strSql, param);
+            return data;
+        }
+        /// <summary>
+        /// 获取发送内容列表
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <returns>List&lt;weChatShareTextModel&gt;.</returns>
+        public List<weChatShareTextModel> FindByUserWechatShareTextList(int userid)
+        {
+            string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd from user_wechat_sharetext where userid=@userid  and status=0 ;";
+            var param = new[] {
+                    new SQLiteParameter("@userid",userid)
             };
             var data = DBSqliteHelper.ExecQueryList<weChatShareTextModel>(strSql, param);
             return data;

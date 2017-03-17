@@ -15,10 +15,14 @@ namespace HotTao.Controls
     public partial class SetSendConfig : UserControl
     {
         private Main hotForm { get; set; }
-        public SetSendConfig(Main mainWin)
+
+        private SetControl setForm { get; set; }
+
+        public SetSendConfig(Main mainWin, SetControl control)
         {
             InitializeComponent();
             hotForm = mainWin;
+            setForm = control;
         }
         private void SetSendConfig_Load(object sender, EventArgs e)
         {
@@ -80,6 +84,7 @@ namespace HotTao.Controls
                     ckbfilterGoods.Checked = cfgWhere.filterGoodsEnable == 1;
                 }
             }
+            rdSendRequest.Checked = setForm.sendRequest;
 
         }
 
@@ -209,5 +214,16 @@ namespace HotTao.Controls
             }
         }
 
+        private void rdSendRequest_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton rb = sender as RadioButton;
+            if (rb.Checked)
+            {
+                int tag = Convert.ToInt32(rb.Tag.ToString());
+                setForm.SetPancelVisible(tag == 1);
+
+                setForm.sendRequest = rdSendRequest.Checked;
+            }
+        }
     }
 }

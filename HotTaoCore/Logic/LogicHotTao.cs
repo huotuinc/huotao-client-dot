@@ -331,6 +331,17 @@ namespace HotTaoCore.Logic
         }
 
         /// <summary>
+        /// 获取发送内容列表
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <returns>List&lt;weChatShareTextModel&gt;.</returns>
+        public List<weChatShareTextModel> FindByUserWechatShareTextList(int userid)
+        {
+            return dal.FindByUserWechatShareTextList(userid);
+        }
+
+
+        /// <summary>
         /// 生成淘口令
         /// </summary>
         /// <param name="userid">The userid.</param>

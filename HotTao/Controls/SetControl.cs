@@ -29,6 +29,9 @@ namespace HotTao.Controls
             hotForm = mainWin;
         }
 
+        public bool sendRequest = false;
+
+
         private void SetControl_Load(object sender, EventArgs e)
         {
             if (MyUserInfo.currentUserId > 0)
@@ -107,7 +110,7 @@ namespace HotTao.Controls
                     openControl(new SetSendTemplateControl(hotForm));
                     break;
                 case 4://群发设置
-                    openControl(new SetSendConfig(hotForm));
+                    openControl(new SetSendConfig(hotForm, this));
                     break;
                 case 5://自动回复设置
                     openControl(new SetAutoReplyControl(hotForm));
@@ -169,6 +172,19 @@ namespace HotTao.Controls
                 lp.Parent.BackColor = ConstConfig.SetLeftSelectedBackColor;
                 lp.ForeColor = Color.White;
             }
+        }
+
+        /// <summary>
+        /// 显示隐藏
+        /// </summary>
+        /// <param name="visible">if set to true [visible].</param>
+        public void SetPancelVisible(bool visible)
+        {
+            panel2.Visible = visible;
+            panel3.Visible = visible;
+            panel4.Visible = visible;
+            plSet5.Visible = visible;
+            panel6.Visible = visible;
         }
 
     }
