@@ -1,4 +1,7 @@
-﻿using HotTao.Controls;
+﻿using CefSharp;
+using CefSharp.WinForms;
+using HotTao.Controls;
+using HotTaoCore;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using Newtonsoft.Json;
@@ -84,7 +87,7 @@ namespace HotTao
         /// <value>My configuration.</value>
         public ConfigModel myConfig { get; set; }
 
-
+        public ChromiumWebBrowser browser;
         public Main()
         {
             InitializeComponent();
@@ -99,6 +102,8 @@ namespace HotTao
         private void Main_Load(object sender, EventArgs e)
         {
             SetWinFormTaskbarSystemMenu();
+            InitDataBase();
+            InitBrowser();
             try
             {
                 CheckAutoLogin(this, user =>
@@ -128,6 +133,35 @@ namespace HotTao
         }
 
         /// <summary>
+        /// 初始化数据库
+        /// </summary>
+        /// <returns>BuildDataBase.</returns>
+        public void InitDataBase()
+        {
+            string sourceFileName = System.Environment.CurrentDirectory + "\\data\\hottao.db";
+            if (!System.IO.File.Exists(sourceFileName))
+            {
+                MessageAlert alert = new MessageAlert("系统初始化失败");
+                alert.CallBack += () =>
+                {
+                    this.Close();
+                };
+                alert.ShowDialog(this);
+            }
+            string dbpath = System.Environment.CurrentDirectory + "\\data\\" + MyUserInfo.currentUserId;
+            if (!System.IO.Directory.Exists(dbpath))
+                System.IO.Directory.CreateDirectory(dbpath);
+
+            dbpath += "\\hottao.db";
+
+            if (!System.IO.File.Exists(dbpath))
+            {
+                System.IO.File.Copy(sourceFileName, dbpath);
+            }
+        }
+
+
+        /// <summary>
         /// 加载用户配置信息
         /// </summary>
         public void LoadMyConfig()
@@ -148,6 +182,28 @@ namespace HotTao
             })).BeginInvoke(null, null);
         }
 
+        public bool IsBrowserLoad = false;
+
+        /// <summary>
+        /// 初始化商品库
+        /// </summary>
+        public void InitBrowser()
+        {
+            new System.Threading.Thread(() =>
+            {
+                string url = ApiConst.Url + "/goods/goodListPage?token=" + MyUserInfo.LoginToken;
+                browser = new ChromiumWebBrowser(url);
+                browser.RegisterJsObject("jsGoods", new GoodsControl(this), false);
+                BrowserSettings settings = new BrowserSettings()
+                {
+                    LocalStorage = CefState.Enabled,
+                    Javascript = CefState.Enabled,
+                };
+                browser.Size = new Size(920, 607);
+                browser.Location = new Point(1, 0);
+            })
+            { IsBackground = true }.Start();
+        }
 
         /// <summary>
         /// 无边框样式的winform窗口，需要单独设置，才能启用任务栏的系统菜单功能，
@@ -373,6 +429,7 @@ namespace HotTao
                 MyUserInfo.currentUserId = user.userid;
                 LoadMyConfig();
                 GetDefaultTemplateText();
+                InitDataBase();
                 ((Action)(delegate ()
                 {
                     while (LoginSync)
@@ -386,11 +443,7 @@ namespace HotTao
 
         private void pbClose_Click(object sender, EventArgs e)
         {
-            this.Dispose();
             this.Close();
-            Process.GetCurrentProcess().Kill();
-            Application.ExitThread();
-            Environment.Exit(Environment.ExitCode);
         }
 
         private void pbMin_Click(object sender, EventArgs e)
@@ -451,6 +504,26 @@ namespace HotTao
         public void LogoutTip()
         {
             MessageBox.Show("微信掉线，请重新授权登录", "提示");
+        }
+
+        private void Main_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (this.wxlogin != null)
+            {
+                wxlogin.isStartTask = false;
+                wxlogin.isCloseWinForm = true;
+                wxlogin.Close();
+                wxlogin = null;
+            }
+            if (this.winTask != null)
+            {
+                winTask.isStartTask = false;
+                winTask.Close();
+                winTask = null;
+            }
+            Application.ExitThread();            
+            Process.GetCurrentProcess().Kill();
+
         }
     }
 }

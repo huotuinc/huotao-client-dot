@@ -115,7 +115,7 @@ namespace HotTao.Controls
                 //是否自动添加属性字段
                 this.dgvShareText.AutoGenerateColumns = false;
                 this.dgvShareText.Rows.Clear();
-                var data = LogicHotTao.Instance.FindByUserWechatShareTextList(MyUserInfo.currentUserId, taskid);
+                var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserWechatShareTextList(MyUserInfo.currentUserId, taskid);
                 if (data != null)
                 {
                     SetView(data);
@@ -187,6 +187,8 @@ namespace HotTao.Controls
                 }
                 dgvShareText.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                 dgvShareText.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
+
+                dgvShareText.CurrentCell = dgvShareText.Rows[dgvShareText.Rows.Count - 1].Cells[dgvShareText.CurrentCell.ColumnIndex];
             }
         }
 
@@ -286,7 +288,7 @@ namespace HotTao.Controls
             this.dgvShareText.Rows.Clear();
             new Thread(() =>
             {
-                LogicHotTao.Instance.BuildTaskTpwd(MyUserInfo.currentUserId, taskid, tempText, (share) =>
+                LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTaskTpwd(MyUserInfo.currentUserId, taskid, tempText, (share) =>
                 {
                     SetView(share);
                 });

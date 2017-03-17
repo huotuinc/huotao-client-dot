@@ -115,7 +115,7 @@ namespace HotTao.Controls
                this.dgvPid.AutoGenerateColumns = false;
 
                //var data = LogicGoods.Instance.getGoodsList(MyUserInfo.LoginToken);
-               var pidData = LogicHotTao.Instance.GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);
+               var pidData = LogicHotTao.Instance(MyUserInfo.currentUserId).GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);
                if (pidData != null)
                {
                    SetPidView(pidData);
@@ -164,7 +164,7 @@ namespace HotTao.Controls
 
                     dgvPid.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                     dgvPid.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
-                }
+                }                
             }
         }
 
@@ -198,7 +198,7 @@ namespace HotTao.Controls
 
 
                 dgvPid.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
-                dgvPid.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
+                dgvPid.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;                
             }
         }
 
@@ -210,7 +210,7 @@ namespace HotTao.Controls
                 //是否自动添加属性字段
                 this.dgvTaskPlan.AutoGenerateColumns = false;
                 //var data = LogicGoods.Instance.getGoodsList(MyUserInfo.LoginToken);
-                var taskData = LogicHotTao.Instance.FindByUserTaskPlanList(MyUserInfo.currentUserId);
+                var taskData = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserTaskPlanList(MyUserInfo.currentUserId);
                 if (taskData != null)
                 {
                     SetTaskView(taskData);
@@ -263,7 +263,7 @@ namespace HotTao.Controls
 
 
                     dgvTaskPlan.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
-                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
+                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;                    
                 }
             }
         }
@@ -308,7 +308,7 @@ namespace HotTao.Controls
 
                 dgvTaskPlan.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                 dgvTaskPlan.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
-                dgvTaskPlan.ContextMenuStrip = cmsTaskMeun;
+                dgvTaskPlan.ContextMenuStrip = cmsTaskMeun;                
             }
         }
 
@@ -324,7 +324,7 @@ namespace HotTao.Controls
                 //是否自动添加属性字段
                 this.dgvData.AutoGenerateColumns = false;
                 //var data = LogicGoods.Instance.getGoodsList(MyUserInfo.LoginToken);
-                var data = LogicHotTao.Instance.FindByUserGoodsList(MyUserInfo.currentUserId);
+                var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(MyUserInfo.currentUserId);
                 if (data != null)
                 {
                     SetGoodsGridViewData(dgvData, data);
@@ -444,7 +444,7 @@ namespace HotTao.Controls
                     MessageConfirm confirm = new MessageConfirm("您确认要删除计划【" + taskid + "】吗？");
                     confirm.CallBack += () =>
                     {
-                        LogicHotTao.Instance.DeleteUserTaskPlan(taskid);
+                        LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteUserTaskPlan(taskid);
                         dgvTaskPlan.Rows.Remove(row);
                     };
                     confirm.ShowDialog(this);
@@ -516,9 +516,6 @@ namespace HotTao.Controls
                         ids.Add(result);
                         rows.Add(item);
                     }
-
-
-
                 }
             }
             if (pidList != null && pidList.Count() > 0)
@@ -532,7 +529,7 @@ namespace HotTao.Controls
                     ((Action)(delegate ()
                     {
                         //LogicUser.Instance.DeleteUserWeChat(MyUserInfo.LoginToken, idsStr)
-                        if (LogicHotTao.Instance.DeleteUserWeChatGroup(ids))
+                        if (LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteUserWeChatGroup(ids))
                         {
                             this.BeginInvoke((Action)(delegate ()
                             {
@@ -564,7 +561,7 @@ namespace HotTao.Controls
                         ((Action)(delegate ()
                         {
                             //LogicUser.Instance.DeleteUserWeChat(MyUserInfo.LoginToken, idsStr);
-                            LogicHotTao.Instance.DeleteUserWeChatGroup(ids);
+                            LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteUserWeChatGroup(ids);
                         })).BeginInvoke(null, null);
 
 
@@ -753,7 +750,7 @@ namespace HotTao.Controls
                     ((Action)(delegate ()
                     {
                         //LogicGoods.Instance.DeleteGoods(MyUserInfo.LoginToken, deleteId);
-                        LogicHotTao.Instance.DeleteGoods(deleteId);
+                        LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteGoods(deleteId);
                     })).BeginInvoke(null, null);
 
                     this.dgvData.Rows.RemoveAt(cell.RowIndex);
@@ -807,7 +804,7 @@ namespace HotTao.Controls
                 {
                     foreach (var win in wins)
                     {
-                        LogicHotTao.Instance.AddUserWeChatGroup(new SQLiteEntitysModel.weChatGroupModel()
+                        LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserWeChatGroup(new SQLiteEntitysModel.weChatGroupModel()
                         {
                             title = win.szWindowName,
                             userid = MyUserInfo.currentUserId
@@ -981,10 +978,7 @@ namespace HotTao.Controls
                         Loading ld = new Loading();
                         ld.SetTimerClose(5000);
                         ld.ShowDialog(this);
-                        if (!string.IsNullOrEmpty(MyUserInfo.TaobaoName))
-                            ShowAlert("登录成功!您可以设置PID了");
-                        else
-                            ShowAlert("登录失败!请从新登录");
+                        ShowAlert("登录成功!您可以设置PID了");
                     }
                 }
             }
@@ -1013,6 +1007,7 @@ namespace HotTao.Controls
                     MyUserInfo.MyPidList = LogicUser.Instance.GetPids(MyUserInfo.LoginToken, MyUserInfo.TaobaoLoginCookies);
                 }
             })).BeginInvoke(null, null);
+
         }
 
 
@@ -1172,6 +1167,7 @@ namespace HotTao.Controls
                 }
                 else
                 {
+                    hotForm.winTask.isStartTask = false;
                     hotForm.winTask.Close();
                     hotForm.winTask = null;
                     ShowStartButtonText("启动计划");

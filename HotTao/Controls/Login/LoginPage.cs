@@ -169,8 +169,6 @@ namespace HotTao.Controls.Login
         /// <param name="data"></param>
         private void loginResult(UserModel data)
         {
-            string loginToken = EncryptHelper.MD5(StringHelper.CreateCheckCodeWithNum(10));
-
             //判断是否记住密码
             if (this.ckbSavePwd.Checked || ckbAutoLogin.Checked)
             {

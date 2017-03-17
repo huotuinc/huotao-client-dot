@@ -21,6 +21,12 @@ namespace HotTaoCore.DAL
 {
     public class HotTaoDAL
     {
+        
+        private static DBSqliteHelper DBHelper;
+        public HotTaoDAL(int userid)
+        {
+            DBHelper = new DBSqliteHelper(userid);
+        }
 
         #region 微信群相关操作
         /// <summary>
@@ -35,7 +41,7 @@ namespace HotTaoCore.DAL
                 new SQLiteParameter("@title",title),
                 new SQLiteParameter("@userid",userid)
             };
-            return DBSqliteHelper.ExecQueryEntity<weChatGroupModel>(strSql, param);
+            return DBHelper.ExecQueryEntity<weChatGroupModel>(strSql, param);
         }
 
 
@@ -51,7 +57,7 @@ namespace HotTaoCore.DAL
             var param = new[] {
                 new SQLiteParameter("@userid",userid)
             };
-            return DBSqliteHelper.ExecQueryList<weChatGroupModel>(strSql, param);
+            return DBHelper.ExecQueryList<weChatGroupModel>(strSql, param);
         }
 
 
@@ -83,7 +89,7 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@pid",model.pid),
                     new SQLiteParameter("@id",id)
                 };
-            return DBSqliteHelper.ExecuteSql(strSql, param);
+            return DBHelper.ExecuteSql(strSql, param);
         }
 
         /// <summary>
@@ -100,8 +106,27 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@pid",model.pid),
                     new SQLiteParameter("@id",model.id)
                 };
-            return DBSqliteHelper.ExecuteSql(strSql, param) > 0;
+            return DBHelper.ExecuteSql(strSql, param) > 0;
         }
+        /// <summary>
+        /// 修改微信pid
+        /// </summary>
+        /// <param name="groupid">The groupid.</param>
+        /// <param name="pid">The pid.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool UpdateUserWeChatGroup(int groupid,string pid)
+        {
+            string strSql = @"UPDATE user_wechat_group SET  pid =@pid WHERE id = @id;";
+            var param = new[] {                    
+                    new SQLiteParameter("@pid",pid),
+                    new SQLiteParameter("@id",groupid)
+                };
+            return DBHelper.ExecuteSql(strSql, param) > 0;
+        }
+
+
+
+
 
         /// <summary>
         /// 删除微信群
@@ -111,7 +136,7 @@ namespace HotTaoCore.DAL
         public bool DeleteUserWeChatGroup(List<int> ids)
         {
             string strSql = string.Format("DELETE FROM user_wechat_group WHERE id in ({0});", string.Join(",", ids));
-            return DBSqliteHelper.ExecuteSql(strSql) > 0;
+            return DBHelper.ExecuteSql(strSql) > 0;
         }
 
 
@@ -126,7 +151,7 @@ namespace HotTaoCore.DAL
             var param = new[] {
                 new SQLiteParameter("@userid",userid),
             };
-            return DBSqliteHelper.ExecQueryList<weChatGroupModel>(strSql, param);
+            return DBHelper.ExecQueryList<weChatGroupModel>(strSql, param);
         }
 
         #endregion
@@ -149,7 +174,7 @@ namespace HotTaoCore.DAL
                 new SQLiteParameter("@goodsId",goodsId),
                 new SQLiteParameter("@userid",userid)
             };
-            return DBSqliteHelper.ExecQueryEntity<GoodsModel>(strSql, param);
+            return DBHelper.ExecQueryEntity<GoodsModel>(strSql, param);
         }
 
         /// <summary>
@@ -163,7 +188,7 @@ namespace HotTaoCore.DAL
             var param = new[] {
                 new SQLiteParameter("@id",gid),
             };
-            return DBSqliteHelper.ExecQueryEntity<GoodsModel>(strSql, param);
+            return DBHelper.ExecQueryEntity<GoodsModel>(strSql, param);
         }
 
         /// <summary>
@@ -177,7 +202,7 @@ namespace HotTaoCore.DAL
             var param = new[] {
                 new SQLiteParameter("@userid",userid),
             };
-            return DBSqliteHelper.ExecQueryList<GoodsModel>(strSql, param);
+            return DBHelper.ExecQueryList<GoodsModel>(strSql, param);
         }
 
         /// <summary>
@@ -192,7 +217,7 @@ namespace HotTaoCore.DAL
             var param = new[] {
                 new SQLiteParameter("@userid",userid),
             };
-            return DBSqliteHelper.ExecQueryList<GoodsModel>(strSql, param);
+            return DBHelper.ExecQueryList<GoodsModel>(strSql, param);
         }
 
 
@@ -207,7 +232,7 @@ namespace HotTaoCore.DAL
             var param = new[] {
                     new SQLiteParameter("@id",gid)
                 };
-            return DBSqliteHelper.ExecuteSql(strSql, param) > 0;
+            return DBHelper.ExecuteSql(strSql, param) > 0;
         }
 
 
@@ -241,7 +266,7 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@goodsIntro",model.goodsIntro),
                     new SQLiteParameter("@updateTime",DateTime.Now)
                 };
-                return DBSqliteHelper.ExecuteSql(strSql, param);
+                return DBHelper.ExecuteSql(strSql, param);
             }
             else
             {
@@ -258,7 +283,7 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@goodsIntro",model.goodsIntro),
                     new SQLiteParameter("@updateTime",DateTime.Now)
                 };
-                return DBSqliteHelper.ExecuteSql(strSql, param);
+                return DBHelper.ExecuteSql(strSql, param);
             }
 
 
@@ -285,7 +310,7 @@ namespace HotTaoCore.DAL
                 new SQLiteParameter("@id",taskid),
                 new SQLiteParameter("@userid",userid)
             };
-            var item = DBSqliteHelper.ExecQueryEntity<TaskPlanModel>(strSql, param);
+            var item = DBHelper.ExecQueryEntity<TaskPlanModel>(strSql, param);
             if (item != null)
             {
                 item.statusText = "待执行";
@@ -338,7 +363,7 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@goodsText",model.goodsText),
                     new SQLiteParameter("@pidsText",model.pidsText)
                 };
-            return DBSqliteHelper.ExecuteSql(strSql, param);
+            return DBHelper.ExecuteSql(strSql, param);
         }
 
         /// <summary>
@@ -358,7 +383,7 @@ namespace HotTaoCore.DAL
                     //new SQLiteParameter("@goodsText",model.goodsText),
                     //new SQLiteParameter("@pidsText",model.pidsText)
                 };
-            return DBSqliteHelper.ExecuteSql(strSql, param);
+            return DBHelper.ExecuteSql(strSql, param);
         }
 
 
@@ -375,7 +400,7 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@status",status),
                     new SQLiteParameter("@id",taskid)
                 };
-            return DBSqliteHelper.ExecuteSql(strSql, param) > 0;
+            return DBHelper.ExecuteSql(strSql, param) > 0;
         }
 
         /// <summary>
@@ -389,7 +414,7 @@ namespace HotTaoCore.DAL
             var param = new[] {
                     new SQLiteParameter("@id",taskid)
                 };
-            return DBSqliteHelper.ExecuteSql(strSql, param) > 0;
+            return DBHelper.ExecuteSql(strSql, param) > 0;
         }
 
 
@@ -404,7 +429,7 @@ namespace HotTaoCore.DAL
             var param = new[] {
                     new SQLiteParameter("@id",taskid)
                 };
-            return DBSqliteHelper.ExecuteSql(strSql, param) > 0;
+            return DBHelper.ExecuteSql(strSql, param) > 0;
         }
 
         /// <summary>
@@ -418,7 +443,7 @@ namespace HotTaoCore.DAL
             var param = new[] {
                 new SQLiteParameter("@userid",userid),
             };
-            var data = DBSqliteHelper.ExecQueryList<TaskPlanModel>(strSql, param);
+            var data = DBHelper.ExecQueryList<TaskPlanModel>(strSql, param);
 
             if (data != null)
             {
@@ -474,7 +499,7 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@status",model.status),
                     new SQLiteParameter("@tpwd",model.tpwd)
                 };
-            return DBSqliteHelper.ExecuteSql(strSql, param);
+            return DBHelper.ExecuteSql(strSql, param);
         }
 
         /// <summary>
@@ -490,7 +515,7 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@taskid",taskid),
                     new SQLiteParameter("@userid",userid)
                 };
-            return DBSqliteHelper.ExecuteSql(strSql, param) > 0;
+            return DBHelper.ExecuteSql(strSql, param) > 0;
         }
 
         /// <summary>
@@ -504,7 +529,7 @@ namespace HotTaoCore.DAL
             var param = new[] {
                     new SQLiteParameter("@id",shareid)
                 };
-            return DBSqliteHelper.ExecuteSql(strSql, param) > 0;
+            return DBHelper.ExecuteSql(strSql, param) > 0;
         }
 
 
@@ -523,7 +548,7 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@createtime",model.createtime),
                     new SQLiteParameter("@errorType",model.errorType)
                 };
-            return DBSqliteHelper.ExecuteSql(strSql, param);
+            return DBHelper.ExecuteSql(strSql, param);
 
         }
 
@@ -543,7 +568,7 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@taskid",taskid),
                     new SQLiteParameter("@userid",userid)
             };
-            var data = DBSqliteHelper.ExecQueryList<weChatShareTextModel>(strSql, param);
+            var data = DBHelper.ExecQueryList<weChatShareTextModel>(strSql, param);
             return data;
         }
         /// <summary>
@@ -553,7 +578,7 @@ namespace HotTaoCore.DAL
         /// <param name="taskid">The taskid.</param>
         /// <param name="goodsid">The goodsid.</param>
         /// <returns>List&lt;weChatShareTextModel&gt;.</returns>
-        public List<weChatShareTextModel> FindByUserWechatShareTextList(int userid, int taskid,int goodsid)
+        public List<weChatShareTextModel> FindByUserWechatShareTextList(int userid, int taskid, int goodsid)
         {
             string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd from user_wechat_sharetext where userid=@userid and taskid=@taskid and goodsid=@goodsid and status=0 ;";
             var param = new[] {
@@ -561,7 +586,7 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@userid",userid),
                     new SQLiteParameter("@goodsid",goodsid)
             };
-            var data = DBSqliteHelper.ExecQueryList<weChatShareTextModel>(strSql, param);
+            var data = DBHelper.ExecQueryList<weChatShareTextModel>(strSql, param);
             return data;
         }
         /// <summary>
@@ -575,7 +600,7 @@ namespace HotTaoCore.DAL
             var param = new[] {
                     new SQLiteParameter("@userid",userid)
             };
-            var data = DBSqliteHelper.ExecQueryList<weChatShareTextModel>(strSql, param);
+            var data = DBHelper.ExecQueryList<weChatShareTextModel>(strSql, param);
             return data;
         }
 

@@ -469,7 +469,7 @@
             this.txthandleInterval.Size = new System.Drawing.Size(60, 21);
             this.txthandleInterval.TabIndex = 1;
             this.txthandleInterval.Text = "1";
-            this.txthandleInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
+            this.txthandleInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxFloat_KeyPress);
             // 
             // label5
             // 

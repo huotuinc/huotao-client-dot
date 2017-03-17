@@ -169,7 +169,7 @@ namespace HotTao.Controls
             ((Action)(delegate ()
             {
                 //TaskPlanModel data = LogicTaskPlan.Instance.addTaskPlan(MyUserInfo.LoginToken, model);
-                TaskPlanModel data = LogicHotTao.Instance.AddUserTaskPlan(model);
+                TaskPlanModel data = LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserTaskPlan(model);
                 ld.CloseForm();
                 if (data != null)
                 {

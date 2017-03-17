@@ -26,29 +26,48 @@ namespace HotTaoCore.DAL
     public class DBSqliteHelper
     {
 
-        private static string connStr = "Data Source=" + System.Environment.CurrentDirectory + "\\data\\hottao.db;Version=3;Pooling=true";
+        private string connStr = "";
+
+        private static SQLiteConnection conn;
+
+        public DBSqliteHelper(int userid)
+        {
+            connStr = "Data Source=" + System.Environment.CurrentDirectory + "\\data\\" + userid.ToString() + "\\hottao.db;Version=3;Pooling=true";
+            conn = new SQLiteConnection(connStr);
+            conn.Open();
+        }
+
+        /// <summary>
+        /// 检查数据库连接状态
+        /// </summary>
+        private void CheckConnectionState()
+        {
+            if (conn.State == ConnectionState.Closed)
+                conn.Open();
+            else if (conn.State == ConnectionState.Broken)
+            {
+                conn.Clone();
+                conn.Open();
+            }
+        }
 
         //执行Sql语句
-        public static int ExecuteSql(string sqlStr, params SQLiteParameter[] parameters)
+        public int ExecuteSql(string sqlStr, params SQLiteParameter[] parameters)
         {
+            CheckConnectionState();
             int affectedRows = 0;
-            using (DbConnection conn = new SQLiteConnection(connStr))
+            DbCommand comm = conn.CreateCommand();
+            comm.CommandText = sqlStr;
+            comm.CommandType = CommandType.Text;
+            if (parameters != null)
             {
-                conn.Open();
-                DbCommand comm = conn.CreateCommand();
-                comm.CommandText = sqlStr;
-                comm.CommandType = CommandType.Text;
-                if (parameters != null)
-                {
-                    comm.Parameters.AddRange(parameters);
-                }
-                if (sqlStr.IndexOf("insert") != -1)
-                    affectedRows = Convert.ToInt32(comm.ExecuteScalar());
-                else
-                    affectedRows = comm.ExecuteNonQuery();
-                conn.Close();
-                conn.Dispose();
+                comm.Parameters.AddRange(parameters);
             }
+            if (sqlStr.IndexOf("insert") != -1)
+                affectedRows = Convert.ToInt32(comm.ExecuteScalar());
+            else
+                affectedRows = comm.ExecuteNonQuery();
+            comm.Dispose();
             return affectedRows;
         }
         /// <summary>
@@ -57,29 +76,24 @@ namespace HotTaoCore.DAL
         /// <typeparam name="T"></typeparam>
         /// <param name="sqlStr">The SQL string.</param>
         /// <returns>List&lt;T&gt;.</returns>
-        public static List<T> ExecQueryList<T>(string sqlStr, SQLiteParameter[] parameters) where T : new()
+        public List<T> ExecQueryList<T>(string sqlStr, SQLiteParameter[] parameters) where T : new()
         {
+            CheckConnectionState();
             List<T> data = null;
-            using (DbConnection conn = new SQLiteConnection(connStr))
+            DbCommand comm = conn.CreateCommand();
+            comm.CommandText = sqlStr;
+            comm.CommandType = CommandType.Text;
+            if (parameters != null)
             {
-                conn.Open();
-                DbCommand comm = conn.CreateCommand();
-                comm.CommandText = sqlStr;
-                comm.CommandType = CommandType.Text;
-                if (parameters != null)
-                {
-                    comm.Parameters.AddRange(parameters);
-                }
-
-                using (IDataReader reader = comm.ExecuteReader())
-                {
-                    data = GetEntityList<T>(reader);
-                    comm.Dispose();
-                }
-                conn.Close();
-                conn.Dispose();
+                comm.Parameters.AddRange(parameters);
             }
 
+            using (IDataReader reader = comm.ExecuteReader())
+            {
+                data = GetEntityList<T>(reader);
+                comm.Dispose();
+            }
+            comm.Dispose();
             return data;
         }
         /// <summary>
@@ -88,27 +102,23 @@ namespace HotTaoCore.DAL
         /// <typeparam name="T"></typeparam>
         /// <param name="sqlStr">The SQL string.</param>
         /// <returns>T.</returns>
-        public static T ExecQueryEntity<T>(string sqlStr, SQLiteParameter[] parameters) where T : new()
+        public T ExecQueryEntity<T>(string sqlStr, SQLiteParameter[] parameters) where T : new()
         {
+            CheckConnectionState();
             T data = default(T);
-            using (DbConnection conn = new SQLiteConnection(connStr))
+            DbCommand comm = conn.CreateCommand();
+            comm.CommandText = sqlStr;
+            comm.CommandType = CommandType.Text;
+            if (parameters != null)
             {
-                conn.Open();
-                DbCommand comm = conn.CreateCommand();
-                comm.CommandText = sqlStr;
-                comm.CommandType = CommandType.Text;
-                if (parameters != null)
-                {
-                    comm.Parameters.AddRange(parameters);
-                }
-                using (IDataReader reader = comm.ExecuteReader())
-                {
-                    data = GetEntity<T>(reader);
-                    comm.Dispose();
-                }
-                conn.Close();
-                conn.Dispose();
+                comm.Parameters.AddRange(parameters);
             }
+            using (IDataReader reader = comm.ExecuteReader())
+            {
+                data = GetEntity<T>(reader);
+                comm.Dispose();
+            }
+            comm.Dispose();
             return data;
         }
 
@@ -118,7 +128,7 @@ namespace HotTaoCore.DAL
         /// <typeparam name="T">需要一个对象有一个无参数的实例化方法</typeparam>   
         /// <param name="dr">table数据源</param>   
         /// <returns>返回整理好了集合</returns>           
-        private static List<T> GetEntityList<T>(IDataReader dr) where T : new()
+        private List<T> GetEntityList<T>(IDataReader dr) where T : new()
         {
             List<T> entityList = new List<T>();
 
@@ -166,7 +176,7 @@ namespace HotTaoCore.DAL
         /// <typeparam name="T"></typeparam>
         /// <param name="dr"></param>
         /// <returns></returns>
-        private static T GetEntity<T>(IDataReader dr) where T : new()
+        private T GetEntity<T>(IDataReader dr) where T : new()
         {
             T entity = default(T);
 

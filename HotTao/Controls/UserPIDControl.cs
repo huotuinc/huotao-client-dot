@@ -185,7 +185,7 @@ namespace HotTao.Controls
                 Loading ld = new Loading();
                 ((Action)(delegate ()
                 {
-                    if (LogicUser.Instance.UpdateUserWeChatPid(MyUserInfo.LoginToken, WeChatId, result))
+                    if (LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserWeChatGroup(WeChatId, pidText))
                     {
                         pidText = result > 0 ? pidText : "";
                     }

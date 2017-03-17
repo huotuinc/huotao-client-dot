@@ -190,7 +190,7 @@ namespace HotTao
                             pid = row[1].ToString(),
                             userid = MyUserInfo.currentUserId
                         };
-                        int flag = LogicHotTao.Instance.AddUserWeChatGroup(model);
+                        int flag = LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserWeChatGroup(model);
                         if (flag > 0)
                             SetText("微信群：" + model.title + "导入成功...");
                         else
@@ -258,7 +258,7 @@ namespace HotTao
                             else continue;
                         }
                         goods.goodslocatImgPath = fileName;
-                        if (LogicHotTao.Instance.AddUserGoods(goods) > 0)
+                        if (LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserGoods(goods) > 0)
                             SetText("商品：" + goods.goodsId.ToString() + "导入成功...");
                         else
                             SetText("商品：" + goods.goodsId.ToString() + "导入失败...");

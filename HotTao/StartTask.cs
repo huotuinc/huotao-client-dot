@@ -125,7 +125,7 @@ namespace HotTao
                 return;
             }
             //获取任务数据
-            var taskdata = LogicHotTao.Instance.FindByUserTaskPlanList(MyUserInfo.currentUserId);
+            var taskdata = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserTaskPlanList(MyUserInfo.currentUserId);
             if (taskdata == null)
             {
                 return;
@@ -154,7 +154,7 @@ namespace HotTao
                 //如果群数据和商品数据都为空时
                 if (lst == null)
                 {
-                    LogicHotTao.Instance.UpdateUserTaskPlanExecStatus(taskid, 2);
+                    LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
                     continue;
                 }
 
@@ -164,17 +164,17 @@ namespace HotTao
                         ids.Add(it.id);
                 });
                 //获取商品数据
-                var goodslist = LogicHotTao.Instance.FindByUserGoodsList(MyUserInfo.currentUserId, ids);
+                var goodslist = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(MyUserInfo.currentUserId, ids);
                 if (goodslist == null)
                 {
-                    LogicHotTao.Instance.UpdateUserTaskPlanExecStatus(taskid, 2);
+                    LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
                     continue;
                 }
                 //发送商品数据
                 SendGoods(goodslist, taskid, wins);
 
 
-                LogicHotTao.Instance.UpdateUserTaskPlanExecStatus(taskid, 2);
+                LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
                 //每个任务之间，休息一下
                 SleepTask();
             }
@@ -190,7 +190,7 @@ namespace HotTao
         private void SendGoods(List<GoodsModel> goodslist, int taskid, List<WindowInfo> wins)
         {
 
-            var data = LogicHotTao.Instance.FindByUserWechatShareTextList(MyUserInfo.currentUserId);
+            var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserWechatShareTextList(MyUserInfo.currentUserId);
             if (data == null) return;
             foreach (var goods in goodslist)
             {
@@ -205,8 +205,6 @@ namespace HotTao
                   {
                       return share.goodsid == goodsId && share.taskid == taskid;
                   });
-
-                //var shareData = LogicHotTao.Instance.FindByUserWechatShareTextList(MyUserInfo.currentUserId, taskid, goodsId);
                 if (shareData == null)
                     continue;
                 SendWeChatGroupShareText(shareData, goods, wins);
@@ -277,7 +275,7 @@ namespace HotTao
                             WinApi.SetActiveWin(win.hWnd);
                             WinApi.Paste(win.hWnd);
                             WinApi.Enter(win.hWnd);
-
+                            SleepImage(0.5m);
                             if (!imageResult.Contains(item.title))
                                 imageResult.Add(item.title);
 
@@ -316,7 +314,7 @@ namespace HotTao
         {
             new System.Threading.Thread(() =>
             {
-                LogicHotTao.Instance.UpdateUserShareTextStatus(shareid);
+                LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserShareTextStatus(shareid);
             })
             { IsBackground = true }.Start();
         }
@@ -337,6 +335,7 @@ namespace HotTao
                     if (textResult.Contains(item.title)) continue;
 
                     if (!isStartTask || MyUserInfo.currentUserId == 0) break;
+
                     bool b = wins.Exists(win => { return win.szWindowName == item.title; });
                     if (b)
                     {
@@ -348,7 +347,7 @@ namespace HotTao
                         //WinApi.InputStr(win.hWnd, item.text);
                         WinApi.Enter(win.hWnd);
                         Clipboard.Clear();
-
+                        SleepImage(0.5m);
                         if (!textResult.Contains(item.title))
                             textResult.Add(item.title);
 
@@ -384,15 +383,19 @@ namespace HotTao
         /// <param name="errorType">0 图片 1 文本</param>
         public void AddErrorLog(weChatShareTextModel item, int errorType)
         {
-            //添加错误日志
-            LogicHotTao.Instance.AddUserWeChatError(new weChatUserWechatErrorModel()
+            new System.Threading.Thread(() =>
             {
-                userid = item.userid,
-                title = item.title,
-                shareText = item.text,
-                createtime = DateTime.Now,
-                errorType = errorType
-            });
+                //添加错误日志
+                LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserWeChatError(new weChatUserWechatErrorModel()
+                {
+                    userid = item.userid,
+                    title = item.title,
+                    shareText = item.text,
+                    createtime = DateTime.Now,
+                    errorType = errorType
+                });
+            })
+            { IsBackground = true }.Start();
         }
 
 
@@ -428,13 +431,13 @@ namespace HotTao
                 System.Threading.Thread.Sleep(60 * 1000);
         }
 
-        private void SleepImage(int interval)
+        private void SleepImage(decimal interval)
         {
             //没发一张图片，暂停休息一下
             if (cfgTime != null)
-                System.Threading.Thread.Sleep(cfgTime.handleInterval > 0 ? cfgTime.handleInterval * 1000 : interval * 1000);
+                System.Threading.Thread.Sleep(cfgTime.hdInterval > 0 ? Convert.ToInt32(cfgTime.hdInterval * 1000) : Convert.ToInt32(interval * 1000));
             else
-                System.Threading.Thread.Sleep(2 * 1000);
+                System.Threading.Thread.Sleep(Convert.ToInt32(0.5 * 1000));
         }
 
 

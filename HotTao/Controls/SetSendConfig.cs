@@ -48,7 +48,7 @@ namespace HotTao.Controls
                 if (cfgTime != null)
                 {
                     txtgoodsinterval.Text = cfgTime.goodsinterval > 0 ? cfgTime.goodsinterval.ToString() : "35";
-                    txthandleInterval.Text = cfgTime.handleInterval > 0 ? cfgTime.handleInterval.ToString() : "2";
+                    txthandleInterval.Text = cfgTime.hdInterval > 0 ? cfgTime.hdInterval.ToString() : "1";
                     rbTwSort.Checked = cfgTime.imagetextsort == 0;
                     rbWtSort.Checked = cfgTime.imagetextsort == 1;
                     txtTaskInterval.Text = cfgTime.taskinterval > 0 ? cfgTime.taskinterval.ToString() : "30";
@@ -101,9 +101,10 @@ namespace HotTao.Controls
             int.TryParse(txtgoodsinterval.Text, out result);
             cfgTime.goodsinterval = result < 0 ? 35 : result;
 
-            //图文间隔
-            int.TryParse(txthandleInterval.Text, out result);
-            cfgTime.handleInterval = result == 0 ? 2 : result;
+            //操作间隔
+            decimal result3 = 0;
+            decimal.TryParse(txthandleInterval.Text, out result3);
+            cfgTime.hdInterval = result3 == 0 ? 1 : result3;
 
             //任务间隔
             int.TryParse(txtTaskInterval.Text, out result);

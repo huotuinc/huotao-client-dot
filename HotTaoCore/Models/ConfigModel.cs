@@ -115,6 +115,13 @@ namespace HotTaoCore.Models
         /// </summary>
         /// <value>The handle interval.</value>
         public int handleInterval { get; set; }
+
+        /// <summary>
+        /// 发送间隔
+        /// </summary>
+        /// <value>The hd interval.</value>
+        public decimal hdInterval { get; set; }
+
         /// <summary>
         /// 发送商品间隔 单位秒
         /// </summary>

@@ -45,6 +45,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.hotGroupBox1.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -58,6 +59,7 @@
             this.hotGroupBox1.Controls.Add(this.label9);
             this.hotGroupBox1.Controls.Add(this.label11);
             this.hotGroupBox1.Controls.Add(this.label10);
+            this.hotGroupBox1.Controls.Add(this.label13);
             this.hotGroupBox1.Controls.Add(this.label8);
             this.hotGroupBox1.Controls.Add(this.label7);
             this.hotGroupBox1.Controls.Add(this.label6);
@@ -144,7 +146,7 @@
             this.label10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
             this.label10.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(303, 91);
+            this.label10.Location = new System.Drawing.Point(264, 91);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(58, 25);
             this.label10.TabIndex = 29;
@@ -157,7 +159,7 @@
             this.label8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
             this.label8.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(367, 91);
+            this.label8.Location = new System.Drawing.Point(328, 91);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(53, 25);
             this.label8.TabIndex = 29;
@@ -209,7 +211,7 @@
             this.label4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
             this.label4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(201, 91);
+            this.label4.Location = new System.Drawing.Point(162, 91);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(96, 25);
             this.label4.TabIndex = 29;
@@ -265,6 +267,19 @@
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label1.Click += new System.EventHandler(this.SetTag_Click);
             // 
+            // label13
+            // 
+            this.label13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
+            this.label13.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label13.ForeColor = System.Drawing.Color.White;
+            this.label13.Location = new System.Drawing.Point(387, 91);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(68, 25);
+            this.label13.TabIndex = 29;
+            this.label13.Text = "[简介描述]";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label13.Click += new System.EventHandler(this.SetTag_Click);
+            // 
             // SetSendTemplateControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -298,5 +313,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label13;
     }
 }

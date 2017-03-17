@@ -108,7 +108,7 @@ namespace HotTao.Controls
                 //是否自动添加属性字段
                 this.dgvTaskPlan.AutoGenerateColumns = false;
                 this.dgvTaskPlan.Rows.Clear();
-                var taskData = LogicHotTao.Instance.FindByUserTaskPlanList(MyUserInfo.currentUserId);
+                var taskData = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserTaskPlanList(MyUserInfo.currentUserId);
                 if (taskData != null)
                 {
                     SetTaskView(taskData);
@@ -263,6 +263,7 @@ namespace HotTao.Controls
                 }
                 else
                 {
+                    hotForm.winTask.isStartTask = false;
                     hotForm.winTask.Close();
                     hotForm.winTask = null;
                     ShowStartButtonText("启动计划");
@@ -402,7 +403,7 @@ namespace HotTao.Controls
                     MessageConfirm confirm = new MessageConfirm("您确认要删除计划【" + taskid + "】吗？");
                     confirm.CallBack += () =>
                     {
-                        LogicHotTao.Instance.DeleteUserTaskPlan(taskid);
+                        LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteUserTaskPlan(taskid);
                         dgvTaskPlan.Rows.Remove(row);
                         //var taskidList = new List<GoodsTaskModel>();
                         //taskidList.Add(new GoodsTaskModel()

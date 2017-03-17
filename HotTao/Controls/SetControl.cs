@@ -34,10 +34,12 @@ namespace HotTao.Controls
 
         private void SetControl_Load(object sender, EventArgs e)
         {
-            if (MyUserInfo.currentUserId > 0)
+            if (MyUserInfo.currentUserId > 0) 
                 openControl(new SetAccountControl(hotForm));
             else
                 hotForm.openControl(new LoginControl(hotForm));
+             
+            SetPancelVisible(MyUserInfo.sendmode == 1);
 
         }
 

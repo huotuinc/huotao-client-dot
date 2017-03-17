@@ -117,7 +117,8 @@ namespace HotTao
             InitializeComponent();
         }
 
-        public ChromiumWebBrowser browser;
+        private WebBrowser browser;
+
         /// <summary>
         /// 登录成功的回调事件
         /// </summary>
@@ -125,38 +126,52 @@ namespace HotTao
 
         private void tbLogin_Load(object sender, EventArgs e)
         {
-            string url = "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=true&css_style=alimama&from=alimama";
-            browser = new ChromiumWebBrowser(url);
-            BrowserSettings settings = new BrowserSettings()
-            {
-                LocalStorage = CefState.Enabled,
-                Javascript = CefState.Enabled,
-                JavascriptAccessClipboard = CefState.Enabled
-            };
-            browser.TitleChanged += Browser_TitleChanged;
+            string url = "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=true&css_style=alimama&from=alimama";            
+            browser = new WebBrowser();
             browser.Dock = DockStyle.Fill;
+            browser.Navigate(url);
+            browser.ScriptErrorsSuppressed = false;
+            browser.ScrollBarsEnabled = false;            
+            browser.DocumentTitleChanged += Browser2_DocumentTitleChanged;
             tbPanel.Controls.Add(browser);
         }
         private bool isLogin = false;
-        private void Browser_TitleChanged(object sender, TitleChangedEventArgs e)
+        private void Browser2_DocumentTitleChanged(object sender, EventArgs e)
         {
-
-            if (e.Title.Contains("阿里妈妈") || e.Title.Contains("淘宝联盟"))
-            {                
+            if (browser.DocumentTitle.Contains("阿里妈妈"))
+            {                                
                 if (!isLogin)
-                {
-                    isLogin = true;
-                    Thread.Sleep(2000);
+                {                    
                     loginSuccess();
                 }
             }
         }
+        
+        /// <summary>
+        /// 打开连接
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        public void GoUrl(string url)
+        {
+            //browser.Load(url);
+            //this.Show();
+        }
+
+        public void SetInit()
+        {
+            if (Cef.IsInitialized)
+                return;
+            Cef.Initialize(new CefSettings() { PersistSessionCookies = true });
+        }
+
 
         private void loginSuccess()
         {
-            CookieContainer cookies = GetUriCookieContainer(new Uri("http://pub.alimama.com"));
+            CookieContainer cookies = GetUriCookieContainer(browser.Url);
+            if (cookies == null) return;
+            isLogin = true;
             JArray jsons = new JArray();
-            foreach (System.Net.Cookie cookie in cookies.GetCookies(new Uri("http://pub.alimama.com")))
+            foreach (System.Net.Cookie cookie in cookies.GetCookies(browser.Url))
             {
                 JObject json = new JObject();
                 json["name"] = cookie.Name;
@@ -165,7 +180,7 @@ namespace HotTao
                 json["value"] = cookie.Value;
                 jsons.Add(json);
             }
-            LoginSuccessHandle?.Invoke(jsons);            
+            LoginSuccessHandle?.Invoke(jsons);
         }
 
         private void pbClose_Click(object sender, EventArgs e)

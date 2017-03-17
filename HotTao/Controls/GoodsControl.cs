@@ -31,8 +31,6 @@ namespace HotTao.Controls
             hotForm = mainWin;
 
         }
-
-        public static ChromiumWebBrowser browser;
         private static bool isSubmit = false;
         /// <summary>
         /// 定时器，定时去检查网页操作是否完成,如果完成，则跳转到微信群发页面
@@ -45,36 +43,34 @@ namespace HotTao.Controls
             if (MyUserInfo.currentUserId > 0)
             {
                 isSubmit = false;
-                new Thread(() =>
+                string url = ApiConst.Url + "/goods/goodListPage?token=" + MyUserInfo.LoginToken;
+                new System.Threading.Thread(() =>
                 {
-                    string url = ApiConst.Url + "/goods/goodListPage?token=" + MyUserInfo.LoginToken;
-                    if (browser != null)
+                    if (hotForm.browser == null)
                     {
-                        try
+                        hotForm.IsBrowserLoad = true;
+                        hotForm.browser = new ChromiumWebBrowser(url);
+                        hotForm.browser.RegisterJsObject("jsGoods", new GoodsControl(hotForm), false);
+                        BrowserSettings settings = new BrowserSettings()
                         {
-                            browser.Dispose();
-                            browser = null;
-                        }
-                        catch (Exception)
+                            LocalStorage = CefState.Enabled,
+                            Javascript = CefState.Enabled,
+                        };
+                        hotForm.browser.Size = new Size(920, 607);
+                        hotForm.browser.Location = new Point(1, 0);
+                    }
+                    else
+                    {
+                        if (!hotForm.IsBrowserLoad)
                         {
-                            browser = null;
+                            hotForm.IsBrowserLoad = true;
+                            hotForm.browser.Load(url);
                         }
                     }
-                    browser = new ChromiumWebBrowser(url);
-                    browser.RegisterJsObject("jsGoods", new GoodsControl(hotForm), false);
-                    BrowserSettings settings = new BrowserSettings()
-                    {
-                        LocalStorage = CefState.Enabled,
-                        Javascript = CefState.Enabled,
-                    };
-
-                    //browser.Dock = DockStyle.Fill;
-                    browser.Size = new Size(920, 607);
-                    browser.Location = new Point(1, 0);
-                    SetBrowserPanel(browser);
-
+                    SetBrowserPanel(hotForm.browser);
                 })
                 { IsBackground = true }.Start();
+
 
                 if (timer != null)
                 {
@@ -151,6 +147,8 @@ namespace HotTao.Controls
                         {
                             try
                             {
+                                if (item.couponPrice <= 0 || item.goodsPrice - item.couponPrice <= 0) continue;
+
                                 GoodsModel goods = new GoodsModel()
                                 {
                                     userid = MyUserInfo.currentUserId,
@@ -189,17 +187,17 @@ namespace HotTao.Controls
                                     else continue;
                                 }
                                 goods.goodslocatImgPath = fileName;
-                                LogicHotTao.Instance.AddUserGoods(goods);
+                                LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserGoods(goods);
                             }
                             catch (Exception ex)
                             {
                                 log.Error(ex);
                             }
                         }
-                    }                    
+                    }
                     //网页调该方法            
                     isSubmit = true;
-                }                
+                }
             }
             catch (Exception ex)
             {

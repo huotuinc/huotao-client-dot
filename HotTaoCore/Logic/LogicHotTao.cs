@@ -23,14 +23,20 @@ namespace HotTaoCore.Logic
 {
     public class LogicHotTao
     {
-        private static LogicHotTao _instance = new LogicHotTao();
-        private static HotTaoDAL dal = new HotTaoDAL();
-        public static LogicHotTao Instance
+        private static LogicHotTao _instance = null;
+        private static HotTaoDAL dal;
+
+        private LogicHotTao(int userid)
         {
-            get
-            {
-                return _instance;
-            }
+            dal = new HotTaoDAL(userid);
+        }
+
+        public static LogicHotTao Instance(int userid)
+        {
+
+            if (_instance == null)
+                _instance = new LogicHotTao(userid);
+            return _instance;
         }
 
 
@@ -53,6 +59,16 @@ namespace HotTaoCore.Logic
         public bool UpdateUserWeChatGroup(weChatGroupModel model)
         {
             return dal.UpdateUserWeChatGroup(model);
+        }
+        /// <summary>
+        /// 修改微信pid
+        /// </summary>
+        /// <param name="groupid">The groupid.</param>
+        /// <param name="pid">The pid.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool UpdateUserWeChatGroup(int groupid, string pid)
+        {
+            return dal.UpdateUserWeChatGroup(groupid, pid);
         }
 
         public bool UpdateUserWeChatTitle(int userid, int groupid, string title, string pid)
@@ -441,6 +457,8 @@ namespace HotTaoCore.Logic
                         text = text.Replace("[优惠券价格]", item.couponPrice.ToString());
                     while (text.Contains("[分隔符]"))
                         text = text.Replace("[分隔符]", "-----------------");
+                    while (text.Contains("[简介描述]"))
+                        text = text.Replace("[分隔符]", string.IsNullOrEmpty(item.goodsIntro) ? "" : item.goodsIntro);
 
                 }
                 else

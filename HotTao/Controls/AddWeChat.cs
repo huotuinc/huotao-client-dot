@@ -99,6 +99,20 @@ namespace HotTao.Controls
 
         private void AddWeChat_Load(object sender, EventArgs e)
         {
+
+            SetAutoReplyControl replyControl = hotAutoForm as SetAutoReplyControl;
+            SetAutoRemoveChatroom autoRemoveControl = hotAutoForm as SetAutoRemoveChatroom;
+            SendMessage sendControl = hotAutoForm as SendMessage;
+
+            if (replyControl == null || autoRemoveControl == null || sendControl == null)
+            {
+                hotGroupBox1.Visible = false;
+                label2.Visible = false;
+                hotGroupBox2.Location = new Point(87, 41);
+                label1.Location = new Point(29, 56);
+                btnSave.Location = new Point(93, 100);
+            }
+
             txtWeChatTitle.Text = weChatTitle;
             txtPid.Text = weChatPid;
             if (!string.IsNullOrEmpty(Title))
@@ -131,7 +145,7 @@ namespace HotTao.Controls
                 {
                     //data = LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, editId, txtWeChatTitle.Text);
 
-                    if (LogicHotTao.Instance.UpdateUserWeChatTitle(MyUserInfo.currentUserId, editId, groupTitle, groupPid))
+                    if (LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserWeChatTitle(MyUserInfo.currentUserId, editId, groupTitle, groupPid))
                     {
                         data.pid = groupPid;
                         data.wechattitle = groupTitle;

@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using WwChatHttpCore.HTTP;
 using WwChatHttpCore.Objects;
 using static HotTaoCore.GlobalConfig;
+using static HotTaoCore.Models.SQLiteEntitysModel;
 
 namespace HotTao
 {
@@ -271,7 +272,11 @@ namespace HotTao
             }
 
             //执行任务转发
-            ExcuteTask();
+            //ExcuteTask();
+
+            //执行本地任务转发
+            Send();
+
             //检查主动发送消息
             CheckActiveSendMessage();
 
@@ -660,7 +665,7 @@ namespace HotTao
 
 
         /// <summary>
-        /// 执行任务
+        /// 执行网络任务数据
         /// </summary>
         private void ExcuteTask()
         {
@@ -733,6 +738,7 @@ namespace HotTao
                     {
                         //如果当前没有获取到执行任务数据，则暂停1分钟重新获取
                         System.Threading.Thread.Sleep(60 * 1000);
+                        WXService wxs = new WXService();
                     }
                 }
             })
@@ -810,6 +816,7 @@ namespace HotTao
             {
                 while (true)
                 {
+                    if (MyUserInfo.currentUserId == 0) break;
                     if (MyUserInfo.SendMessageStatus == 1 && !string.IsNullOrEmpty(MyUserInfo.SendMessageText) && MyUserInfo.currentUserId > 0)
                     {
                         WXService wxs = new WXService();
@@ -835,6 +842,326 @@ namespace HotTao
                 }
             })
             { IsBackground = true }.Start();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 执行本地任务数据
+        /// </summary>
+        private void Send()
+        {
+            new Thread(() =>
+            {
+                loadConfig();
+                while (true)
+                {
+                    if (isCloseWinForm) break;
+                    if (MyUserInfo.currentUserId == 0 || !isStartTask)
+                    {
+                        //如果当前没有获取到执行任务数据，则暂停1分钟重新获取
+                        System.Threading.Thread.Sleep(60 * 1000);
+                        WXService wxs = new WXService();
+                        continue;
+                    }
+                    StartSend();
+                }
+            })
+            { IsBackground = true }.Start();
+        }
+
+
+        /// <summary>
+        /// 开始执行发送
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="image">The image.</param>
+        private void StartSend()
+        {
+            //获取任务数据
+            var taskdata = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserTaskPlanList(MyUserInfo.currentUserId);
+            if (taskdata == null)
+            { //休息一下
+                SleepTask();
+                WXService wxs = new WXService();
+                return;
+            }
+
+            //获取待执行的任务数据
+            taskdata = taskdata.FindAll(item => { return item.status == 0 && item.isTpwd == 1; }).OrderBy(x => x.startTime).ToList();
+
+            if (taskdata == null)
+            {
+                //休息一下
+                SleepTask();
+                WXService wxs = new WXService();
+                return;
+            }
+            //排序
+            taskdata = taskdata.OrderBy(x => x.startTime).ToList();
+
+            foreach (var item in taskdata)
+            {
+                WXService wxs = new WXService();
+                if (!isStartTask || MyUserInfo.currentUserId == 0) break;
+
+                int taskid = Convert.ToInt32(item.id);
+
+                List<UserPidTaskModel> lst = JsonConvert.DeserializeObject<List<UserPidTaskModel>>(item.goodsText);
+                List<int> ids = new List<int>();
+                //如果群数据和商品数据都为空时
+                if (lst == null)
+                {
+                    LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
+                    continue;
+                }
+
+                lst.ForEach(it =>
+                {
+                    if (!ids.Contains(it.id))
+                        ids.Add(it.id);
+                });
+                //获取商品数据
+                var goodslist = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(MyUserInfo.currentUserId, ids);
+                if (goodslist == null)
+                {
+                    LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
+                    continue;
+                }
+                //发送商品数据
+                SendGoods(goodslist, taskid);
+
+                LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
+                //每个任务之间，休息一下
+                SleepTask();
+            }
+
+        }
+
+        /// <summary>
+        /// 发送任务商品
+        /// </summary>
+        /// <param name="goodslist">The goodslist.</param>
+        /// <param name="taskid">The taskid.</param>
+        /// <param name="lst">The LST.</param>
+        private void SendGoods(List<GoodsModel> goodslist, int taskid)
+        {
+
+            var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserWechatShareTextList(MyUserInfo.currentUserId);
+            if (data == null) return;
+            foreach (var goods in goodslist)
+            {
+                WXService wxs = new WXService();
+                if (!isStartTask || MyUserInfo.currentUserId == 0) break;
+
+                int goodsId = Convert.ToInt32(goods.id);
+
+                var shareData = data.FindAll(share =>
+                {
+                    return share.goodsid == goodsId && share.taskid == taskid;
+                });
+                if (shareData == null)
+                    continue;
+                SendWeChatGroupShareText(shareData, goods);
+                SleepGoods();
+            }
+
+        }
+
+        /// <summary>
+        /// 将商品发送到相应的群
+        /// </summary>
+        /// <param name="shareData">The share data.</param>
+        /// <param name="goods">The goods.</param>
+        /// <param name="lst">The LST.</param>
+        private void SendWeChatGroupShareText(List<weChatShareTextModel> shareData, GoodsModel goods)
+        {
+            foreach (var item in shareData)
+            {
+                WXService wxs = new WXService();
+                WXUser user = contact_all.Find((WXUser obj) => { return obj.ShowName.Contains(item.title); });
+                if (user == null) continue;
+
+                string to = user.UserName;
+
+              
+                string mediaid = string.Empty;
+                if (_goodsImageCache.ContainsKey(item.goodsid))
+                    _goodsImageCache.TryGetValue(item.goodsid, out mediaid);
+
+                //发送图片给指定用户
+                try
+                {
+                    if (isImageText())//先发图片，后发文本
+                    {
+                        if (string.IsNullOrEmpty(mediaid))
+                            mediaid = wxs.GetImageMediaId(to, goods.goodsMainImgUrl);
+                        if (!string.IsNullOrEmpty(mediaid))
+                        {
+                            _goodsImageCache[item.goodsid] = mediaid;
+                            wxs.SendPic(mediaid, _me.UserName, to);
+                            //发完图片后，间隔2秒再发文本
+                            SleepImage(2);
+                        }
+                        if (!string.IsNullOrEmpty(item.text))
+                            wxs.SendMsg(item.text, _me.UserName, to, 1);
+                    }
+                    else //先发文字，后发图片
+                    {
+                        if (!string.IsNullOrEmpty(item.text))
+                        {
+                            wxs.SendMsg(item.text, _me.UserName, to, 1);
+                            //发完文本后，间隔2秒再发图片
+                            SleepImage(2);
+                        }
+
+                        if (string.IsNullOrEmpty(mediaid))
+                            mediaid = wxs.GetImageMediaId(to, goods.goodsMainImgUrl);
+                        if (!string.IsNullOrEmpty(mediaid))
+                        {
+                            _goodsImageCache[item.goodsid] = mediaid;
+                            wxs.SendPic(mediaid, _me.UserName, to);
+                        }
+                    }
+                    //更新修改状态
+                    UpdateShareTextStatus(item.id);
+
+                    SleepGoods();
+                }
+                catch (Exception ex)
+                {
+                    AddErrorLog(item, 0);
+                    log.Error(ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新分享状态
+        /// </summary>
+        /// <param name="shareid"></param>
+        private void UpdateShareTextStatus(long shareid)
+        {
+            new System.Threading.Thread(() =>
+            {
+                LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserShareTextStatus(shareid);
+            })
+            { IsBackground = true }.Start();
+        }
+
+        /// <summary>
+        /// 添加错误日志  
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="errorType">0 图片 1 文本</param>
+        public void AddErrorLog(weChatShareTextModel item, int errorType)
+        {
+            new System.Threading.Thread(() =>
+            {
+                //添加错误日志
+                LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserWeChatError(new weChatUserWechatErrorModel()
+                {
+                    userid = item.userid,
+                    title = item.title,
+                    shareText = item.text,
+                    createtime = DateTime.Now,
+                    errorType = errorType
+                });
+            })
+            { IsBackground = true }.Start();
+        }
+
+        public ConfigSendTimeModel cfgTime { get; set; }
+
+        private void loadConfig()
+        {
+            if (hotForm.myConfig == null)
+                hotForm.myConfig = new ConfigModel();
+            else
+            {
+                cfgTime = string.IsNullOrEmpty(hotForm.myConfig.send_time_config) ? null : JsonConvert.DeserializeObject<ConfigSendTimeModel>(hotForm.myConfig.send_time_config);
+
+            }
+        }
+
+
+
+        /// <summary>
+        /// 任务之间的间隔
+        /// </summary>
+        private void SleepTask()
+        {
+            //完成一个任务，暂停休息一下
+            if (cfgTime != null)
+                System.Threading.Thread.Sleep(cfgTime.taskinterval > 0 ? cfgTime.taskinterval * 1000 : 60 * 1000);
+            else
+                System.Threading.Thread.Sleep(60 * 1000);
+        }
+        /// <summary>
+        /// 图文间隔
+        /// </summary>
+        /// <param name="interval">The interval.</param>
+        private void SleepImage(int interval)
+        {
+            //没发一张图片，暂停休息一下
+            if (cfgTime != null)
+                System.Threading.Thread.Sleep(cfgTime.hdInterval > 0 ? Convert.ToInt32(cfgTime.hdInterval * 1000) : interval * 1000);
+            else
+                System.Threading.Thread.Sleep(2 * 1000);
+        }
+
+        /// <summary>
+        ///商品间隔
+        /// </summary>
+        private void SleepGoods()
+        {
+            //每发一个商品，暂停休息一下
+            if (cfgTime != null)
+                System.Threading.Thread.Sleep(cfgTime.goodsinterval > 0 ? cfgTime.goodsinterval * 1000 : 60 * 1000);
+            else
+                System.Threading.Thread.Sleep(40 * 1000);
+        }
+
+        /// <summary>
+        /// 是否先图后文
+        /// </summary>
+        /// <returns>true if [is image text]; otherwise, false.</returns>
+        private bool isImageText()
+        {
+            if (cfgTime != null)
+                return cfgTime.imagetextsort == 0;
+            return true;
         }
     }
 }
