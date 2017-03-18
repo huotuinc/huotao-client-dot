@@ -105,6 +105,8 @@ namespace HotTao
         {
             while (isStartTask)
             {
+                if (!isStartTask || MyUserInfo.currentUserId == 0) break;
+
                 textResult.Clear();
                 imageResult.Clear();
                 StartSend();
@@ -143,9 +145,10 @@ namespace HotTao
 
             foreach (var item in taskdata)
             {
-                textResult.Clear();
-                imageResult.Clear();
                 if (!isStartTask || MyUserInfo.currentUserId == 0) break;
+
+                textResult.Clear();
+                imageResult.Clear();               
 
                 int taskid = Convert.ToInt32(item.id);
 
@@ -264,10 +267,11 @@ namespace HotTao
                 {
                     try
                     {
+                        if (!isStartTask || MyUserInfo.currentUserId == 0) break;
+
                         //如果当前微信已经发送，则结束本循环
                         if (imageResult.Contains(item.title)) continue;
-
-                        if (!isStartTask || MyUserInfo.currentUserId == 0) break;
+                     
                         bool b = wins.Exists(win => { return win.szWindowName == item.title; });
                         if (b)
                         {
@@ -331,10 +335,10 @@ namespace HotTao
             {
                 try
                 {
-                    //如果当前微信已经发送，则结束本循环
-                    if (textResult.Contains(item.title)) continue;
-
                     if (!isStartTask || MyUserInfo.currentUserId == 0) break;
+
+                    //如果当前微信已经发送，则结束本循环
+                    if (textResult.Contains(item.title)) continue;                    
 
                     bool b = wins.Exists(win => { return win.szWindowName == item.title; });
                     if (b)

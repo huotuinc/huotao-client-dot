@@ -925,6 +925,7 @@ namespace HotTao.Controls
                     add.Title = "修改微信群";
                     add.CurrentRowIndex = MouseCurrentRowIndex;
                     add.weChatTitle = row["sharetitle"].Value.ToString();
+                    add.weChatPid = row["pid"].Value.ToString();
                     add.ShowDialog(this);
                 }
                 else

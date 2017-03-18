@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImportGoods));
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.lktemplate = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
@@ -219,6 +220,7 @@
             this.ClientSize = new System.Drawing.Size(561, 350);
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ImportGoods";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ImportGoods";

@@ -156,6 +156,11 @@ namespace HotTaoCore.Models
 
         public int goodsSalesAmount { get; set; }
 
+        /// <summary>
+        /// 商品平台
+        /// </summary>
+        /// <value>The goods supplier.</value>
+        public string goodsPlatform { get; set; }
 
         public decimal couponPrice { get; set; }
 

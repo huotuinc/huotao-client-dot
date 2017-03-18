@@ -103,8 +103,7 @@ namespace HotTao.Controls
             SetAutoReplyControl replyControl = hotAutoForm as SetAutoReplyControl;
             SetAutoRemoveChatroom autoRemoveControl = hotAutoForm as SetAutoRemoveChatroom;
             SendMessage sendControl = hotAutoForm as SendMessage;
-
-            if (replyControl == null || autoRemoveControl == null || sendControl == null)
+            if (hotTask == null)
             {
                 hotGroupBox1.Visible = false;
                 label2.Visible = false;
@@ -131,7 +130,7 @@ namespace HotTao.Controls
                 return;
             }
             MessageAlert alert = new MessageAlert();
-            Loading ld = new Loading();
+            //Loading ld = new Loading();
             SetAutoReplyControl replyControl = hotAutoForm as SetAutoReplyControl;
             SetAutoRemoveChatroom autoRemoveControl = hotAutoForm as SetAutoRemoveChatroom;
             SendMessage sendControl = hotAutoForm as SendMessage;
@@ -165,7 +164,7 @@ namespace HotTao.Controls
                 else
                     alert.Message = "保存失败，请检查是否重复";
 
-                ld.CloseForm();
+                //ld.CloseForm();
                 this.BeginInvoke((Action)(delegate ()
                 {
                     alert.ShowDialog(this);
@@ -200,7 +199,7 @@ namespace HotTao.Controls
                 }));
 
             })).BeginInvoke(null, null);
-            ld.ShowDialog(hotForm);
+            //ld.ShowDialog(hotForm);
         }
 
         private void btnClose_Click(object sender, EventArgs e)

@@ -34,7 +34,9 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BuildShareText));
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
+            this.label15 = new System.Windows.Forms.Label();
             this.btnBuildShareText = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label11 = new System.Windows.Forms.Label();
@@ -60,7 +62,6 @@
             this.bgPanel = new System.Windows.Forms.Panel();
             this.lbTitle = new System.Windows.Forms.Label();
             this.pbClose = new System.Windows.Forms.PictureBox();
-            this.label15 = new System.Windows.Forms.Label();
             this.hotPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShareText)).BeginInit();
@@ -94,6 +95,19 @@
             this.hotPanel1.Name = "hotPanel1";
             this.hotPanel1.Size = new System.Drawing.Size(520, 668);
             this.hotPanel1.TabIndex = 0;
+            // 
+            // label15
+            // 
+            this.label15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
+            this.label15.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label15.ForeColor = System.Drawing.Color.White;
+            this.label15.Location = new System.Drawing.Point(306, 67);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(68, 25);
+            this.label15.TabIndex = 56;
+            this.label15.Text = "[简介描述]";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label15.Click += new System.EventHandler(this.SetTag_Click);
             // 
             // btnBuildShareText
             // 
@@ -428,19 +442,6 @@
             this.pbClose.TabStop = false;
             this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
             // 
-            // label15
-            // 
-            this.label15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
-            this.label15.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label15.ForeColor = System.Drawing.Color.White;
-            this.label15.Location = new System.Drawing.Point(306, 67);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(68, 25);
-            this.label15.TabIndex = 56;
-            this.label15.Text = "[简介描述]";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label15.Click += new System.EventHandler(this.SetTag_Click);
-            // 
             // BuildShareText
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -449,6 +450,7 @@
             this.ClientSize = new System.Drawing.Size(520, 668);
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "BuildShareText";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "BuildShareText";

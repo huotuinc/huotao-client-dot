@@ -102,6 +102,8 @@ namespace HotTao.Controls
                     timer.Stop();
                     timer = null;
                 }
+                string url = ApiConst.Url + "/goods/goodListPage?token=" + MyUserInfo.LoginToken;
+                hotForm.browser.Load(url);
                 hotForm.SetWeChatTabSelected();
                 hotForm.openControl(new TaskControl(hotForm));
 
@@ -139,64 +141,72 @@ namespace HotTao.Controls
             {
                 if (!string.IsNullOrEmpty(json_goods_result))
                 {
+
                     List<GoodsSelectedModel> goodsData = JsonConvert.DeserializeObject<List<GoodsSelectedModel>>(json_goods_result);
 
                     if (goodsData != null)
                     {
-                        foreach (var item in goodsData)
+                        Loading ld = new Loading();
+                        new Thread(() =>
                         {
-                            try
+                            foreach (var item in goodsData)
                             {
-                                if (item.couponPrice <= 0 || item.goodsPrice - item.couponPrice <= 0) continue;
+                                try
+                                {
+                                    if (item.couponPrice <= 0 || item.goodsPrice - item.couponPrice <= 0) continue;
 
-                                GoodsModel goods = new GoodsModel()
-                                {
-                                    userid = MyUserInfo.currentUserId,
-                                    goodsId = item.goodsId,
-                                    goodsName = item.goodsName,
-                                    goodsIntro = item.goodsIntro,
-                                    goodsMainImgUrl = item.goodsImageUrl,
-                                    goodsDetailUrl = item.goodsDetailUrl,
-                                    goodsSupplier = "淘宝",
-                                    goodsComsRate = item.goodsComsRate,
-                                    goodsPrice = item.goodsPrice,
-                                    goodsSalesAmount = item.goodsSalesAmount,
-                                    endTime = Convert.ToDateTime(item.endTime),
-                                    couponUrl = item.couponUrl,
-                                    couponId = item.couponId,
-                                    couponPrice = item.couponPrice
-                                };
-                                string fileName = Environment.CurrentDirectory + "\\temp\\img";
-                                if (!Directory.Exists(fileName))
-                                    Directory.CreateDirectory(fileName);
-                                fileName += "\\" + EncryptHelper.MD5(goods.goodsId) + ".jpg";
-                                //判断文件是否存在
-                                if (!File.Exists(fileName))
-                                {
-                                    byte[] data = BaseRequestService.GetNetWorkImageData(goods.goodsMainImgUrl);
-                                    if (data != null)
+                                    GoodsModel goods = new GoodsModel()
                                     {
-                                        MemoryStream ms = new MemoryStream(data);
-                                        Bitmap img = new Bitmap(ms);
-                                        img.Save(fileName, ImageFormat.Jpeg);
-                                        ms.Dispose();
-                                        ms = null;
-                                        img.Dispose();
-                                        img = null;
+                                        userid = MyUserInfo.currentUserId,
+                                        goodsId = item.goodsId,
+                                        goodsName = item.goodsName,
+                                        goodsIntro = item.goodsIntro,
+                                        goodsMainImgUrl = item.goodsImageUrl,
+                                        goodsDetailUrl = item.goodsDetailUrl,
+                                        goodsSupplier = string.IsNullOrEmpty(item.goodsPlatform) ? "淘宝" : item.goodsPlatform,
+                                        goodsComsRate = item.goodsComsRate,
+                                        goodsPrice = item.goodsPrice,
+                                        goodsSalesAmount = item.goodsSalesAmount,
+                                        endTime = Convert.ToDateTime(item.endTime),
+                                        couponUrl = item.couponUrl,
+                                        couponId = item.couponId,
+                                        couponPrice = item.couponPrice
+                                    };
+                                    string fileName = Environment.CurrentDirectory + "\\temp\\img";
+                                    if (!Directory.Exists(fileName))
+                                        Directory.CreateDirectory(fileName);
+                                    fileName += "\\" + EncryptHelper.MD5(goods.goodsId) + ".jpg";
+                                    //判断文件是否存在
+                                    if (!File.Exists(fileName))
+                                    {
+                                        byte[] data = BaseRequestService.GetNetWorkImageData(goods.goodsMainImgUrl);
+                                        if (data != null)
+                                        {
+                                            MemoryStream ms = new MemoryStream(data);
+                                            Bitmap img = new Bitmap(ms);
+                                            img.Save(fileName, ImageFormat.Jpeg);
+                                            ms.Dispose();
+                                            ms = null;
+                                            img.Dispose();
+                                            img = null;
+                                        }
+                                        else continue;
                                     }
-                                    else continue;
+                                    goods.goodslocatImgPath = fileName;
+                                    LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserGoods(goods);
                                 }
-                                goods.goodslocatImgPath = fileName;
-                                LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserGoods(goods);
+                                catch (Exception ex)
+                                {
+                                    log.Error(ex);
+                                }
                             }
-                            catch (Exception ex)
-                            {
-                                log.Error(ex);
-                            }
-                        }
+                            ld.CloseForm();
+                            //网页调该方法            
+                            isSubmit = true;
+                        })
+                        { IsBackground = true }.Start();
+                        ld.ShowDialog(hotForm);
                     }
-                    //网页调该方法            
-                    isSubmit = true;
                 }
             }
             catch (Exception ex)
@@ -204,7 +214,6 @@ namespace HotTao.Controls
                 log.Error(ex);
             }
         }
-
         /// <summary>
         /// 打开外部浏览器
         /// </summary>

@@ -45,10 +45,20 @@ namespace HotTao
         /// </summary>
         public void CloseForm()
         {
-            this.BeginInvoke((Action)(delegate ()  //等待结束
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(CloseForm), new object[] {  });
+            }
+            else
             {
                 this.Close();
-            }));
+            }
+
+
+            //this.BeginInvoke((Action)(delegate ()  //等待结束
+            //{
+            //    this.Close();
+            //}));
         }
     }
 }
