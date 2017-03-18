@@ -118,53 +118,15 @@ namespace HotTao
             hotForm = mainWin;
             taskForm = control;
         }
-
-
-        System.Windows.Forms.Timer CheckActiveSendTimer = new System.Windows.Forms.Timer();
+        
 
         private void wxLogin_Load(object sender, EventArgs e)
         {
             login_redirect_url = string.Empty;
             isCloseWinForm = false;
-            //CheckActiveSendTimer.Interval = 5000;
-            //CheckActiveSendTimer.Tick += CheckActiveSendTimer_Tick;
-            //CheckActiveSendTimer.Start();
             DoLogin();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CheckActiveSendTimer_Tick(object sender, EventArgs e)
-        {
-            if (!loginClose)
-            {
-                if (CheckActiveSendTimer != null)
-                    CheckActiveSendTimer.Stop();
-                //检查主动发送消息
-                CheckActiveSendMessage();
-            }
-        }
-
-        /// <summary>
-        /// 重置定时器
-        /// </summary>
-        private void ResetTimer()
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(ResetTimer), new object[] { });
-            }
-            else
-            {
-                if (CheckActiveSendTimer != null)
-                {
-                    CheckActiveSendTimer.Start();                    
-                }
-            }
-        }
 
         /// <summary>
         /// 返回二维码页面
@@ -249,9 +211,6 @@ namespace HotTao
                             {
                                 wxcontactsForm = new wxContacts(this, headImg);
                                 wxcontactsForm.Show();
-  
-                                CheckActiveSendTimer.Start();
-
                                 this.Hide();
                             });
                             isStartTask = true;
@@ -909,18 +868,21 @@ namespace HotTao
         /// <summary>
         /// 检查主动发送消息
         /// </summary>
-        private void CheckActiveSendMessage()
+        public void CheckActiveSendMessage()
         {
             new Thread(() =>
             {
-                //while (true)
-                //{
                 if (isCloseWinForm)
                     return;
                 if (MyUserInfo.currentUserId == 0)
                     return;
                 if (MyUserInfo.SendMessageStatus == 1 && !string.IsNullOrEmpty(MyUserInfo.SendMessageText) && MyUserInfo.currentUserId > 0)
                 {
+                    //回复微信群列表
+                    weChatGroupList = LogicUser.Instance.GetUserReplyWeChatList(MyUserInfo.LoginToken, -1);
+                    //回复关键字
+                    keyList = LogicUser.Instance.GetUserReplyKeywordList(MyUserInfo.LoginToken);
+
                     WXService wxs = new WXService();
                     if (weChatGroupList != null && weChatGroupList.Count() > 0)
                     {
@@ -942,9 +904,6 @@ namespace HotTao
                     }
                     MyUserInfo.SendMessageStatus = 2;
                 }
-                //ResetTimer();
-                CheckActiveSendTimer.Start();
-                //}
             })
             { IsBackground = true }.Start();
         }

@@ -112,6 +112,7 @@ namespace HotTao.Controls.Login
                                 lbTipMsg.Text = "登录成功，请稍后...";
                             }));
                             loginResult(data);
+                            hotForm.ReloadBrowser(data.loginToken);
                         }
                         else
                         {
@@ -183,7 +184,7 @@ namespace HotTao.Controls.Login
             this.BeginInvoke((Action)(delegate ()  //等待结束
             {
                 //设置登陆状态,必须先设置登录状态
-                hotForm.SetLoginData(data);                
+                hotForm.SetLoginData(data);
                 hotForm.SetHomeTabSelected();
                 hotForm.openControl(new GoodsControl(hotForm));
             }));

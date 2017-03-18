@@ -31,10 +31,12 @@
             this.components = new System.ComponentModel.Container();
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.tbPanel = new System.Windows.Forms.Panel();
+            this.browser = new System.Windows.Forms.WebBrowser();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbTitle = new System.Windows.Forms.Label();
             this.pbClose = new System.Windows.Forms.PictureBox();
             this.hotPanel1.SuspendLayout();
+            this.tbPanel.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
             this.SuspendLayout();
@@ -52,10 +54,21 @@
             // 
             // tbPanel
             // 
+            this.tbPanel.Controls.Add(this.browser);
             this.tbPanel.Location = new System.Drawing.Point(1, 30);
             this.tbPanel.Name = "tbPanel";
             this.tbPanel.Size = new System.Drawing.Size(526, 393);
             this.tbPanel.TabIndex = 8;
+            // 
+            // browser
+            // 
+            this.browser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.browser.Location = new System.Drawing.Point(0, 0);
+            this.browser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.browser.Name = "browser";
+            this.browser.ScrollBarsEnabled = false;
+            this.browser.Size = new System.Drawing.Size(526, 393);
+            this.browser.TabIndex = 0;
             // 
             // panel1
             // 
@@ -105,6 +118,7 @@
             this.Text = "tbLogin";
             this.Load += new System.EventHandler(this.tbLogin_Load);
             this.hotPanel1.ResumeLayout(false);
+            this.tbPanel.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
@@ -119,5 +133,6 @@
         private System.Windows.Forms.PictureBox pbClose;
         private System.Windows.Forms.Panel tbPanel;
         private System.Windows.Forms.Label lbTitle;
+        private System.Windows.Forms.WebBrowser browser;
     }
 }

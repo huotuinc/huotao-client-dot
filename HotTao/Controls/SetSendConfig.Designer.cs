@@ -415,9 +415,9 @@
             this.label4.Location = new System.Drawing.Point(180, 59);
             this.label4.Margin = new System.Windows.Forms.Padding(0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(245, 12);
+            this.label4.Size = new System.Drawing.Size(185, 12);
             this.label4.TabIndex = 37;
-            this.label4.Text = "默认40秒(最少35秒)，请合理的设置间隔时间";
+            this.label4.Text = "最少35秒，请合理的设置间隔时间";
             // 
             // label20
             // 
@@ -448,7 +448,7 @@
             this.txtgoodsinterval.Name = "txtgoodsinterval";
             this.txtgoodsinterval.Size = new System.Drawing.Size(60, 21);
             this.txtgoodsinterval.TabIndex = 2;
-            this.txtgoodsinterval.Text = "40";
+            this.txtgoodsinterval.Text = "600";
             this.txtgoodsinterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
             // 
             // txtTaskInterval

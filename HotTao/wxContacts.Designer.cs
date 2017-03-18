@@ -107,6 +107,7 @@
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.Gray;
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Location = new System.Drawing.Point(860, 14);
@@ -141,6 +142,7 @@
             this.txtSearch.Size = new System.Drawing.Size(216, 20);
             this.txtSearch.TabIndex = 26;
             this.txtSearch.Text = "";
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             this.txtSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyUp);
             // 
             // picClose

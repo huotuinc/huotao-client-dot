@@ -109,7 +109,7 @@
             this.hotGroupBox2.Location = new System.Drawing.Point(161, 41);
             this.hotGroupBox2.Name = "hotGroupBox2";
             this.hotGroupBox2.Size = new System.Drawing.Size(283, 35);
-            this.hotGroupBox2.TabIndex = 13;
+            this.hotGroupBox2.TabIndex = 1;
             this.hotGroupBox2.TabStop = false;
             // 
             // txtTaskTitle
@@ -119,7 +119,7 @@
             this.txtTaskTitle.Location = new System.Drawing.Point(6, 15);
             this.txtTaskTitle.Name = "txtTaskTitle";
             this.txtTaskTitle.Size = new System.Drawing.Size(271, 14);
-            this.txtTaskTitle.TabIndex = 7;
+            this.txtTaskTitle.TabIndex = 1;
             // 
             // btnSave
             // 
@@ -134,7 +134,7 @@
             this.btnSave.Location = new System.Drawing.Point(189, 201);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(163, 32);
-            this.btnSave.TabIndex = 5;
+            this.btnSave.TabIndex = 4;
             this.btnSave.Text = "保存";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -156,7 +156,7 @@
             this.txtEndTime.Location = new System.Drawing.Point(161, 153);
             this.txtEndTime.Name = "txtEndTime";
             this.txtEndTime.Size = new System.Drawing.Size(283, 21);
-            this.txtEndTime.TabIndex = 2;
+            this.txtEndTime.TabIndex = 3;
             // 
             // label3
             // 

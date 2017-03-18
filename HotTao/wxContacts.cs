@@ -97,9 +97,10 @@ namespace HotTao
                     int c = 0;
                     if (e.Delta > 0)//向上
                     {
-                        if (ri - 3 > 0)
-                            c = 3;
-                        else if (ri > 0)
+                        //if (ri - 3 > 0)
+                        //    c = 3;
+                        //else 
+                        if (ri > 0)
                             c = 1;
                         if (c > 0)
                         {
@@ -109,9 +110,10 @@ namespace HotTao
                     }
                     else
                     {
-                        if (ri < dataGridView1.Rows.Count - 3)
-                            c = 3;
-                        else if (ri < dataGridView1.Rows.Count - 1)
+                        //if (ri < dataGridView1.Rows.Count - 3)
+                        //    c = 3;
+                        //else 
+                        if (ri < dataGridView1.Rows.Count - 1)
                             c = 1;
                         if (c > 0)
                         {
@@ -161,7 +163,7 @@ namespace HotTao
             else
             {
                 if (showTime)
-                    this.txtSendLog.AppendText(">>>" + DateTime.Now.ToString("HH:mm:ss") + " " + text + "\r\n");
+                    this.txtSendLog.AppendText(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + text + "\r\n");
                 else
                 {
                     this.txtSendLog.AppendText(text + "\r\n");
@@ -257,11 +259,7 @@ namespace HotTao
         private void txtSearch_KeyUp(object sender, KeyEventArgs e)
         {
 
-            var data = wxlg.contact_all.FindAll(item =>
-            {
-                return item.ShowName.Contains(txtSearch.Text);
-            });
-            SetSearhContactsView(data);
+           
         }
 
         /// <summary>
@@ -272,6 +270,15 @@ namespace HotTao
         private void toolsRefresh_Click(object sender, EventArgs e)
         {
             wxlg.ReloadContact();            
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            var data = wxlg.contact_all.FindAll(item =>
+            {
+                return item.ShowName.Contains(txtSearch.Text);
+            });
+            SetSearhContactsView(data);
         }
     }
 }

@@ -71,6 +71,7 @@
             this.ckbAutoLogin.TabIndex = 5;
             this.ckbAutoLogin.Text = "自动登录";
             this.ckbAutoLogin.UseVisualStyleBackColor = true;
+            this.ckbAutoLogin.Visible = false;
             this.ckbAutoLogin.CheckedChanged += new System.EventHandler(this.ckbAutoLogin_CheckedChanged);
             // 
             // btnLogin
