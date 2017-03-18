@@ -34,9 +34,9 @@
             this.btnLogin = new System.Windows.Forms.Button();
             this.ckbSavePwd = new System.Windows.Forms.CheckBox();
             this.loginPwd = new System.Windows.Forms.TextBox();
-            this.loginName = new System.Windows.Forms.TextBox();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.lbLoginName = new System.Windows.Forms.Label();
+            this.loginName = new System.Windows.Forms.ComboBox();
             this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.lbLoginPwd = new System.Windows.Forms.Label();
             this.lbTipMsg = new System.Windows.Forms.Label();
@@ -117,19 +117,6 @@
             this.loginPwd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.loginPwd_KeyDown);
             this.loginPwd.KeyUp += new System.Windows.Forms.KeyEventHandler(this.loginPwd_KeyDown);
             // 
-            // loginName
-            // 
-            this.loginName.BackColor = System.Drawing.Color.White;
-            this.loginName.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.loginName.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.loginName.Location = new System.Drawing.Point(4, 12);
-            this.loginName.Margin = new System.Windows.Forms.Padding(10);
-            this.loginName.Name = "loginName";
-            this.loginName.Size = new System.Drawing.Size(219, 16);
-            this.loginName.TabIndex = 0;
-            this.loginName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.loginName_KeyDown);
-            this.loginName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.loginName_KeyDown);
-            // 
             // hotGroupBox1
             // 
             this.hotGroupBox1.BackColor = System.Drawing.Color.White;
@@ -154,6 +141,23 @@
             this.lbLoginName.Text = "请输入手机号码";
             this.lbLoginName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbLoginName.Click += new System.EventHandler(this.lbLoginName_Click);
+            // 
+            // loginName
+            // 
+            this.loginName.Cursor = System.Windows.Forms.Cursors.Default;
+            this.loginName.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.loginName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.loginName.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.loginName.FormattingEnabled = true;
+            this.loginName.ItemHeight = 20;
+            this.loginName.Location = new System.Drawing.Point(2, 6);
+            this.loginName.Name = "loginName";
+            this.loginName.Size = new System.Drawing.Size(226, 26);
+            this.loginName.TabIndex = 14;
+            this.loginName.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.loginName_DrawItem);
+            this.loginName.SelectedIndexChanged += new System.EventHandler(this.loginName_SelectedIndexChanged);
+            this.loginName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.loginName_KeyDown);
+            this.loginName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.loginName_KeyDown);
             // 
             // hotGroupBox2
             // 
@@ -204,7 +208,6 @@
             this.Size = new System.Drawing.Size(270, 241);
             this.Load += new System.EventHandler(this.LoginPage_Load);
             this.hotGroupBox1.ResumeLayout(false);
-            this.hotGroupBox1.PerformLayout();
             this.hotGroupBox2.ResumeLayout(false);
             this.hotGroupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -218,11 +221,11 @@
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.CheckBox ckbSavePwd;
         private System.Windows.Forms.TextBox loginPwd;
-        private System.Windows.Forms.TextBox loginName;
         private module.HotGroupBox hotGroupBox1;
         private module.HotGroupBox hotGroupBox2;
         private System.Windows.Forms.Label lbLoginName;
         private System.Windows.Forms.Label lbLoginPwd;
         private System.Windows.Forms.Label lbTipMsg;
+        private System.Windows.Forms.ComboBox loginName;
     }
 }
