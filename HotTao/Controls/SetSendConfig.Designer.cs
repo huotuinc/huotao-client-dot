@@ -537,6 +537,7 @@
             // rdSendRequest
             // 
             this.rdSendRequest.AutoSize = true;
+            this.rdSendRequest.Checked = true;
             this.rdSendRequest.Cursor = System.Windows.Forms.Cursors.Hand;
             this.rdSendRequest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.rdSendRequest.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
@@ -544,6 +545,7 @@
             this.rdSendRequest.Name = "rdSendRequest";
             this.rdSendRequest.Size = new System.Drawing.Size(70, 16);
             this.rdSendRequest.TabIndex = 38;
+            this.rdSendRequest.TabStop = true;
             this.rdSendRequest.Tag = "1";
             this.rdSendRequest.Text = "网络模式";
             this.rdSendRequest.UseVisualStyleBackColor = true;
@@ -573,7 +575,6 @@
             // rdSendWindows
             // 
             this.rdSendWindows.AutoSize = true;
-            this.rdSendWindows.Checked = true;
             this.rdSendWindows.Cursor = System.Windows.Forms.Cursors.Hand;
             this.rdSendWindows.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.rdSendWindows.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
@@ -581,7 +582,6 @@
             this.rdSendWindows.Name = "rdSendWindows";
             this.rdSendWindows.Size = new System.Drawing.Size(70, 16);
             this.rdSendWindows.TabIndex = 38;
-            this.rdSendWindows.TabStop = true;
             this.rdSendWindows.Tag = "0";
             this.rdSendWindows.Text = "窗口模式";
             this.rdSendWindows.UseVisualStyleBackColor = true;

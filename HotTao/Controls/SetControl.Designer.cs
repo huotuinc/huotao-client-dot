@@ -133,7 +133,6 @@
             this.panel4.Size = new System.Drawing.Size(166, 30);
             this.panel4.TabIndex = 4;
             this.panel4.Tag = "7";
-            this.panel4.Visible = false;
             this.panel4.Click += new System.EventHandler(this.SwitchControl_Click);
             // 
             // label10
@@ -157,7 +156,6 @@
             this.panel3.Size = new System.Drawing.Size(166, 30);
             this.panel3.TabIndex = 3;
             this.panel3.Tag = "6";
-            this.panel3.Visible = false;
             this.panel3.Click += new System.EventHandler(this.SwitchControl_Click);
             // 
             // label9
@@ -181,7 +179,6 @@
             this.panel6.Size = new System.Drawing.Size(166, 30);
             this.panel6.TabIndex = 3;
             this.panel6.Tag = "8";
-            this.panel6.Visible = false;
             this.panel6.Click += new System.EventHandler(this.SwitchControl_Click);
             // 
             // label11
@@ -205,7 +202,6 @@
             this.plSet5.Size = new System.Drawing.Size(166, 30);
             this.plSet5.TabIndex = 3;
             this.plSet5.Tag = "5";
-            this.plSet5.Visible = false;
             this.plSet5.Click += new System.EventHandler(this.SwitchControl_Click);
             // 
             // label8
@@ -334,7 +330,6 @@
             this.panel2.Size = new System.Drawing.Size(166, 30);
             this.panel2.TabIndex = 0;
             this.panel2.Tag = "0";
-            this.panel2.Visible = false;
             // 
             // pictureBox3
             // 

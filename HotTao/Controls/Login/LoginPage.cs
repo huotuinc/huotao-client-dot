@@ -327,7 +327,7 @@ namespace HotTao.Controls.Login
         /// <param name="e"></param>
         private void loginName_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            lbLoginName.Visible = false;
         }
     }
 }

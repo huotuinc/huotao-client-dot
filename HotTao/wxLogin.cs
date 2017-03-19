@@ -1098,8 +1098,8 @@ namespace HotTao
 
                             wxcontactsForm.SetLog(user.ShowName + ":图片发送完成");
 
-                            //发完图片后，间隔2秒再发文本
-                            SleepImage(2);
+                            //发完图片后，间隔n秒再发文本
+                            SleepImage(1);
                         }
                         else
                             wxcontactsForm.SetLog(user.ShowName + ":图片发送失败");
@@ -1120,8 +1120,8 @@ namespace HotTao
                             wxs.SendMsg(item.text, _me.UserName, to, 1);
 
                             wxcontactsForm.SetLog(user.ShowName + ":文字发送完成");
-                            //发完文本后，间隔2秒再发图片
-                            SleepImage(2);
+                            //发完文本后，间隔n秒再发图片
+                            SleepImage(1);
                         }
                         else
                             wxcontactsForm.SetLog(user.ShowName + ":文字发送失败");
@@ -1140,7 +1140,7 @@ namespace HotTao
                     //更新修改状态
                     UpdateShareTextStatus(item.id);
 
-                    SleepGoods();
+                    SleepImage(1);
                 }
                 catch (Exception ex)
                 {

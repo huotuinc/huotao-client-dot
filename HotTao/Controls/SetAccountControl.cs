@@ -41,7 +41,11 @@ namespace HotTao.Controls
                 var arr = lp.Split('|');
                 if (arr.Length > 2)
                 {
-                    loginName.Text = _tempLoginName = arr[0];
+                    loginName.Text = MyUserInfo.userData.loginName;
+                    loginName.ReadOnly = true;
+                    loginPwd.ReadOnly = true;
+                    _tempLoginName = arr[0];
+                    // loginPwd.Text = MyUserInfo.userData.loginPwd;
                     loginPwd.Text = _tempPassword = arr[1];
                     int isAutoLogin = 0;
                     int.TryParse(arr[2], out isAutoLogin);
@@ -80,7 +84,7 @@ namespace HotTao.Controls
                 }
                 RememberPassword(pwdStr);
                 if (isUpdate)
-                    hotForm.SetLoginData(null);                
+                    hotForm.SetLoginData(null);
                 ShowAlert("保存成功");
             }
             catch (Exception ex)

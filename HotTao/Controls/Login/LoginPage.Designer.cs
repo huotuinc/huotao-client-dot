@@ -33,15 +33,15 @@
             this.ckbAutoLogin = new System.Windows.Forms.CheckBox();
             this.btnLogin = new System.Windows.Forms.Button();
             this.ckbSavePwd = new System.Windows.Forms.CheckBox();
+            this.lbTipMsg = new System.Windows.Forms.Label();
+            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.lbLoginPwd = new System.Windows.Forms.Label();
             this.loginPwd = new System.Windows.Forms.TextBox();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.lbLoginName = new System.Windows.Forms.Label();
             this.loginName = new System.Windows.Forms.ComboBox();
-            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.lbLoginPwd = new System.Windows.Forms.Label();
-            this.lbTipMsg = new System.Windows.Forms.Label();
-            this.hotGroupBox1.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
+            this.hotGroupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lkRegister
@@ -103,6 +103,40 @@
             this.ckbSavePwd.Text = "记住密码";
             this.ckbSavePwd.UseVisualStyleBackColor = true;
             // 
+            // lbTipMsg
+            // 
+            this.lbTipMsg.ForeColor = System.Drawing.Color.Red;
+            this.lbTipMsg.Location = new System.Drawing.Point(16, 194);
+            this.lbTipMsg.Name = "lbTipMsg";
+            this.lbTipMsg.Size = new System.Drawing.Size(233, 31);
+            this.lbTipMsg.TabIndex = 13;
+            this.lbTipMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // hotGroupBox2
+            // 
+            this.hotGroupBox2.BackColor = System.Drawing.Color.White;
+            this.hotGroupBox2.BorderColor = System.Drawing.Color.White;
+            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox2.Controls.Add(this.lbLoginPwd);
+            this.hotGroupBox2.Controls.Add(this.loginPwd);
+            this.hotGroupBox2.Location = new System.Drawing.Point(16, 72);
+            this.hotGroupBox2.Name = "hotGroupBox2";
+            this.hotGroupBox2.Size = new System.Drawing.Size(233, 35);
+            this.hotGroupBox2.TabIndex = 2;
+            this.hotGroupBox2.TabStop = false;
+            // 
+            // lbLoginPwd
+            // 
+            this.lbLoginPwd.BackColor = System.Drawing.Color.Transparent;
+            this.lbLoginPwd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
+            this.lbLoginPwd.Location = new System.Drawing.Point(6, 8);
+            this.lbLoginPwd.Name = "lbLoginPwd";
+            this.lbLoginPwd.Size = new System.Drawing.Size(65, 22);
+            this.lbLoginPwd.TabIndex = 15;
+            this.lbLoginPwd.Text = "请输入密码";
+            this.lbLoginPwd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbLoginPwd.Click += new System.EventHandler(this.lbLoginPwd_Click);
+            // 
             // loginPwd
             // 
             this.loginPwd.BackColor = System.Drawing.Color.White;
@@ -159,40 +193,6 @@
             this.loginName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.loginName_KeyDown);
             this.loginName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.loginName_KeyDown);
             // 
-            // hotGroupBox2
-            // 
-            this.hotGroupBox2.BackColor = System.Drawing.Color.White;
-            this.hotGroupBox2.BorderColor = System.Drawing.Color.White;
-            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox2.Controls.Add(this.lbLoginPwd);
-            this.hotGroupBox2.Controls.Add(this.loginPwd);
-            this.hotGroupBox2.Location = new System.Drawing.Point(16, 72);
-            this.hotGroupBox2.Name = "hotGroupBox2";
-            this.hotGroupBox2.Size = new System.Drawing.Size(233, 35);
-            this.hotGroupBox2.TabIndex = 2;
-            this.hotGroupBox2.TabStop = false;
-            // 
-            // lbLoginPwd
-            // 
-            this.lbLoginPwd.BackColor = System.Drawing.Color.Transparent;
-            this.lbLoginPwd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
-            this.lbLoginPwd.Location = new System.Drawing.Point(6, 8);
-            this.lbLoginPwd.Name = "lbLoginPwd";
-            this.lbLoginPwd.Size = new System.Drawing.Size(65, 22);
-            this.lbLoginPwd.TabIndex = 15;
-            this.lbLoginPwd.Text = "请输入密码";
-            this.lbLoginPwd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbLoginPwd.Click += new System.EventHandler(this.lbLoginPwd_Click);
-            // 
-            // lbTipMsg
-            // 
-            this.lbTipMsg.ForeColor = System.Drawing.Color.Red;
-            this.lbTipMsg.Location = new System.Drawing.Point(16, 194);
-            this.lbTipMsg.Name = "lbTipMsg";
-            this.lbTipMsg.Size = new System.Drawing.Size(233, 31);
-            this.lbTipMsg.TabIndex = 13;
-            this.lbTipMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // LoginPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -207,9 +207,9 @@
             this.Name = "LoginPage";
             this.Size = new System.Drawing.Size(270, 241);
             this.Load += new System.EventHandler(this.LoginPage_Load);
-            this.hotGroupBox1.ResumeLayout(false);
             this.hotGroupBox2.ResumeLayout(false);
             this.hotGroupBox2.PerformLayout();
+            this.hotGroupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
