@@ -103,7 +103,7 @@ namespace HotTao
         {
             SetWinFormTaskbarSystemMenu();
             InitDataBase();
-            InitBrowser(MyUserInfo.LoginToken);
+            InitBrowser("");
             try
             {
                 CheckAutoLogin(this, user =>
@@ -187,7 +187,7 @@ namespace HotTao
         /// </summary>
         public void InitBrowser(string token)
         {
-            browser = new ChromiumWebBrowser(ApiConst.Url + "/goods/goodListPage?token=" + token);
+            browser = new ChromiumWebBrowser(token);
             browser.RegisterJsObject("jsGoods", new GoodsControl(this), false);
             BrowserSettings settings = new BrowserSettings()
             {
@@ -216,7 +216,7 @@ namespace HotTao
             if (browser != null)
                 browser.Load(ApiConst.Url + "/goods/goodListPage?token=" + token);
             else
-                InitBrowser(MyUserInfo.LoginToken);
+                InitBrowser(ApiConst.Url + "/goods/goodListPage?token=" + token);
         }
 
 

@@ -48,7 +48,7 @@ namespace HotTao.Controls
                 {
                     if (hotForm.browser == null)
                     {
-                        hotForm.InitBrowser(MyUserInfo.LoginToken);
+                        hotForm.InitBrowser(url);
                     }
                     SetBrowserPanel(hotForm.browser);
                 })
