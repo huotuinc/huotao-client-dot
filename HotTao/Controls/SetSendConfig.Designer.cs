@@ -54,6 +54,12 @@
             this.ckbMonthSales = new System.Windows.Forms.CheckBox();
             this.ckbCoupon = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.rdSendRequest = new System.Windows.Forms.RadioButton();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.rdSendWindows = new System.Windows.Forms.RadioButton();
+            this.label22 = new System.Windows.Forms.Label();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.rbWtSort = new System.Windows.Forms.RadioButton();
             this.rbTwSort = new System.Windows.Forms.RadioButton();
@@ -68,15 +74,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.rdSendRequest = new System.Windows.Forms.RadioButton();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.rdSendWindows = new System.Windows.Forms.RadioButton();
-            this.label22 = new System.Windows.Forms.Label();
             this.hotGroupBox3.SuspendLayout();
-            this.hotGroupBox1.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
+            this.hotGroupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // hotGroupBox3
@@ -357,6 +357,85 @@
             this.label6.TabIndex = 34;
             this.label6.Text = "过滤条件";
             // 
+            // hotGroupBox2
+            // 
+            this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox2.Controls.Add(this.rdSendRequest);
+            this.hotGroupBox2.Controls.Add(this.label30);
+            this.hotGroupBox2.Controls.Add(this.label21);
+            this.hotGroupBox2.Controls.Add(this.rdSendWindows);
+            this.hotGroupBox2.Controls.Add(this.label22);
+            this.hotGroupBox2.Location = new System.Drawing.Point(13, 13);
+            this.hotGroupBox2.Name = "hotGroupBox2";
+            this.hotGroupBox2.Size = new System.Drawing.Size(725, 57);
+            this.hotGroupBox2.TabIndex = 0;
+            this.hotGroupBox2.TabStop = false;
+            // 
+            // rdSendRequest
+            // 
+            this.rdSendRequest.AutoSize = true;
+            this.rdSendRequest.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdSendRequest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rdSendRequest.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.rdSendRequest.Location = new System.Drawing.Point(199, 24);
+            this.rdSendRequest.Name = "rdSendRequest";
+            this.rdSendRequest.Size = new System.Drawing.Size(70, 16);
+            this.rdSendRequest.TabIndex = 38;
+            this.rdSendRequest.Tag = "1";
+            this.rdSendRequest.Text = "网络模式";
+            this.rdSendRequest.UseVisualStyleBackColor = true;
+            this.rdSendRequest.CheckedChanged += new System.EventHandler(this.rdSendRequest_CheckedChanged);
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label30.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.label30.Location = new System.Drawing.Point(327, -2);
+            this.label30.Name = "label30";
+            this.label30.Padding = new System.Windows.Forms.Padding(5);
+            this.label30.Size = new System.Drawing.Size(67, 22);
+            this.label30.TabIndex = 34;
+            this.label30.Text = "发送模式";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(54, 25);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(53, 12);
+            this.label21.TabIndex = 35;
+            this.label21.Text = "发送模式";
+            // 
+            // rdSendWindows
+            // 
+            this.rdSendWindows.AutoSize = true;
+            this.rdSendWindows.Checked = true;
+            this.rdSendWindows.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdSendWindows.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rdSendWindows.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.rdSendWindows.Location = new System.Drawing.Point(117, 24);
+            this.rdSendWindows.Name = "rdSendWindows";
+            this.rdSendWindows.Size = new System.Drawing.Size(70, 16);
+            this.rdSendWindows.TabIndex = 38;
+            this.rdSendWindows.TabStop = true;
+            this.rdSendWindows.Tag = "0";
+            this.rdSendWindows.Text = "窗口模式";
+            this.rdSendWindows.UseVisualStyleBackColor = true;
+            this.rdSendWindows.CheckedChanged += new System.EventHandler(this.rdSendRequest_CheckedChanged);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.label22.Location = new System.Drawing.Point(279, 26);
+            this.label22.Margin = new System.Windows.Forms.Padding(0);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(257, 12);
+            this.label22.TabIndex = 37;
+            this.label22.Text = "窗口模式下，尽量不要操作键盘，以免发单出错";
+            // 
             // hotGroupBox1
             // 
             this.hotGroupBox1.BorderColor = System.Drawing.Color.Gainsboro;
@@ -519,85 +598,6 @@
             this.label9.TabIndex = 34;
             this.label9.Text = "转发等待时间设置（单位：秒）";
             // 
-            // hotGroupBox2
-            // 
-            this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
-            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox2.Controls.Add(this.rdSendRequest);
-            this.hotGroupBox2.Controls.Add(this.label30);
-            this.hotGroupBox2.Controls.Add(this.label21);
-            this.hotGroupBox2.Controls.Add(this.rdSendWindows);
-            this.hotGroupBox2.Controls.Add(this.label22);
-            this.hotGroupBox2.Location = new System.Drawing.Point(13, 13);
-            this.hotGroupBox2.Name = "hotGroupBox2";
-            this.hotGroupBox2.Size = new System.Drawing.Size(725, 57);
-            this.hotGroupBox2.TabIndex = 0;
-            this.hotGroupBox2.TabStop = false;
-            // 
-            // rdSendRequest
-            // 
-            this.rdSendRequest.AutoSize = true;
-            this.rdSendRequest.Checked = true;
-            this.rdSendRequest.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.rdSendRequest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rdSendRequest.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.rdSendRequest.Location = new System.Drawing.Point(199, 24);
-            this.rdSendRequest.Name = "rdSendRequest";
-            this.rdSendRequest.Size = new System.Drawing.Size(70, 16);
-            this.rdSendRequest.TabIndex = 38;
-            this.rdSendRequest.TabStop = true;
-            this.rdSendRequest.Tag = "1";
-            this.rdSendRequest.Text = "网络模式";
-            this.rdSendRequest.UseVisualStyleBackColor = true;
-            this.rdSendRequest.CheckedChanged += new System.EventHandler(this.rdSendRequest_CheckedChanged);
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label30.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.label30.Location = new System.Drawing.Point(327, -2);
-            this.label30.Name = "label30";
-            this.label30.Padding = new System.Windows.Forms.Padding(5);
-            this.label30.Size = new System.Drawing.Size(67, 22);
-            this.label30.TabIndex = 34;
-            this.label30.Text = "发送模式";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(54, 25);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(53, 12);
-            this.label21.TabIndex = 35;
-            this.label21.Text = "发送模式";
-            // 
-            // rdSendWindows
-            // 
-            this.rdSendWindows.AutoSize = true;
-            this.rdSendWindows.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.rdSendWindows.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rdSendWindows.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.rdSendWindows.Location = new System.Drawing.Point(117, 24);
-            this.rdSendWindows.Name = "rdSendWindows";
-            this.rdSendWindows.Size = new System.Drawing.Size(70, 16);
-            this.rdSendWindows.TabIndex = 38;
-            this.rdSendWindows.Tag = "0";
-            this.rdSendWindows.Text = "窗口模式";
-            this.rdSendWindows.UseVisualStyleBackColor = true;
-            this.rdSendWindows.CheckedChanged += new System.EventHandler(this.rdSendRequest_CheckedChanged);
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.label22.Location = new System.Drawing.Point(279, 26);
-            this.label22.Margin = new System.Windows.Forms.Padding(0);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(257, 12);
-            this.label22.TabIndex = 37;
-            this.label22.Text = "窗口模式下，尽量不要操作键盘，以免发单出错";
-            // 
             // SetSendConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -611,10 +611,10 @@
             this.Load += new System.EventHandler(this.SetSendConfig_Load);
             this.hotGroupBox3.ResumeLayout(false);
             this.hotGroupBox3.PerformLayout();
-            this.hotGroupBox1.ResumeLayout(false);
-            this.hotGroupBox1.PerformLayout();
             this.hotGroupBox2.ResumeLayout(false);
             this.hotGroupBox2.PerformLayout();
+            this.hotGroupBox1.ResumeLayout(false);
+            this.hotGroupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }

@@ -28,6 +28,14 @@ namespace HotTaoCore.DAL
             DBHelper = new DBSqliteHelper(userid);
         }
 
+
+        public void CloseConnection()
+        {
+            DBHelper.CloseConnection();
+        }
+
+
+
         #region 微信群相关操作
         /// <summary>
         /// 获取微信群信息

@@ -73,7 +73,15 @@ namespace HotTaoCore.Logic
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
-            return BaseRequestService.Post(ApiConst.checkToken, data);
+            bool result = false;
+            int errorCode = 0;
+            result = BaseRequestService.Post(ApiConst.checkToken, data, (error =>
+            {
+                errorCode = error.resultCode;
+            }));
+            if (errorCode == 500)
+                result = true;
+            return result;
         }
 
         /// <summary>

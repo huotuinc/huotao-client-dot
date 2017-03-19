@@ -187,28 +187,28 @@ namespace HotTao
         /// </summary>
         public void InitBrowser(string token)
         {
-            browser = new ChromiumWebBrowser(token);
-            browser.RegisterJsObject("jsGoods", new GoodsControl(this), false);
-            BrowserSettings settings = new BrowserSettings()
-            {
-                LocalStorage = CefState.Enabled,
-                Javascript = CefState.Enabled,
-            };
-            browser.Size = new Size(920, 607);
-            browser.Location = new Point(1, 0);
-            //new System.Threading.Thread(() =>
+            //browser = new ChromiumWebBrowser(token);
+            //browser.RegisterJsObject("jsGoods", new GoodsControl(this), false);
+            //BrowserSettings settings = new BrowserSettings()
             //{
-            //    browser = new ChromiumWebBrowser("");
-            //    browser.RegisterJsObject("jsGoods", new GoodsControl(this), false);
-            //    BrowserSettings settings = new BrowserSettings()
-            //    {
-            //        LocalStorage = CefState.Enabled,
-            //        Javascript = CefState.Enabled,
-            //    };
-            //    browser.Size = new Size(920, 607);
-            //    browser.Location = new Point(1, 0);
-            //})
-            //{ IsBackground = true }.Start();
+            //    LocalStorage = CefState.Enabled,
+            //    Javascript = CefState.Enabled,
+            //};
+            //browser.Size = new Size(920, 607);
+            //browser.Location = new Point(1, 0);
+            new System.Threading.Thread(() =>
+            {
+                browser = new ChromiumWebBrowser(token);
+                browser.RegisterJsObject("jsGoods", new GoodsControl(this), false);
+                BrowserSettings settings = new BrowserSettings()
+                {
+                    LocalStorage = CefState.Enabled,
+                    Javascript = CefState.Enabled,
+                };
+                browser.Size = new Size(920, 607);
+                browser.Location = new Point(1, 0);
+            })
+            { IsBackground = true }.Start();
         }
 
         public void ReloadBrowser(string token)
@@ -263,6 +263,19 @@ namespace HotTao
                 {
                     MyUserInfo my = new MyUserInfo();
                     my.SetUserData(null);
+                    if (wxlogin != null)
+                    {
+                        wxlogin.isStartTask = false;
+                        wxlogin.isCloseWinForm = true;
+                        wxlogin.Close();
+                        wxlogin = null;
+                    }
+                    if (winTask != null)
+                    {
+                        winTask.isStartTask = false;
+                        winTask.Close();
+                        winTask = null;
+                    }
                     openControl(new LoginControl(this));
                 }));
 
@@ -549,6 +562,8 @@ namespace HotTao
                 winTask.Close();
                 winTask = null;
             }
+            //关闭数据库连接
+            LogicHotTao.Instance(MyUserInfo.currentUserId).CloseConnection();
             Application.ExitThread();
             Process.GetCurrentProcess().Kill();
 

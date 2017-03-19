@@ -38,6 +38,19 @@ namespace HotTaoCore.DAL
         }
 
         /// <summary>
+        /// 关闭连接
+        /// </summary>
+        public void CloseConnection()
+        {
+            if (conn != null && conn.State != ConnectionState.Closed)
+            {
+                conn.Clone();
+                conn.Dispose();
+            }
+        }
+
+
+        /// <summary>
         /// 检查数据库连接状态
         /// </summary>
         private void CheckConnectionState()

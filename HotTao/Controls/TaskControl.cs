@@ -6,6 +6,7 @@ using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using System.Threading;
 using Newtonsoft.Json;
+using HotTaoCore;
 
 namespace HotTao.Controls
 {
@@ -164,7 +165,7 @@ namespace HotTao.Controls
 
                     dgvPid.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                     dgvPid.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
-                }                
+                }
             }
         }
 
@@ -198,7 +199,7 @@ namespace HotTao.Controls
 
 
                 dgvPid.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
-                dgvPid.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;                
+                dgvPid.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
             }
         }
 
@@ -263,7 +264,7 @@ namespace HotTao.Controls
 
 
                     dgvTaskPlan.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
-                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;                    
+                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
                 }
             }
         }
@@ -308,7 +309,7 @@ namespace HotTao.Controls
 
                 dgvTaskPlan.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
                 dgvTaskPlan.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
-                dgvTaskPlan.ContextMenuStrip = cmsTaskMeun;                
+                dgvTaskPlan.ContextMenuStrip = cmsTaskMeun;
             }
         }
 
@@ -1184,6 +1185,19 @@ namespace HotTao.Controls
             else
             {
                 btnStartTask.Text = text;
+            }
+        }
+
+        private void toolsExport_Click(object sender, EventArgs e)
+        {
+            if (saveFile.ShowDialog() == DialogResult.OK)
+            {
+                string filepath = saveFile.FileName;
+                //var groupData = LogicHotTao.Instance(MyUserInfo.currentUserId).GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);
+                //if (groupData != null)
+                //{
+                //    //ExcelHelper
+                //}
             }
         }
     }
