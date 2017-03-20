@@ -20,6 +20,21 @@ namespace HotTaoCore.Models
     {
 
         /// <summary>
+        /// 用户名列表，用于记住用户密码
+        /// </summary>
+        public class LoginNameModel
+        {
+
+            public int userid { get; set; }
+            public string login_name { get; set; }
+
+            public string login_password { get; set; }
+
+            public int is_save_pwd { get; set; }
+        }
+
+
+        /// <summary>
         /// 微信群
         /// </summary>
         public class weChatGroupModel

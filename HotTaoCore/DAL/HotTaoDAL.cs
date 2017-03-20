@@ -21,7 +21,7 @@ namespace HotTaoCore.DAL
 {
     public class HotTaoDAL
     {
-        
+
         private static DBSqliteHelper DBHelper;
         public HotTaoDAL(int userid)
         {
@@ -114,10 +114,10 @@ namespace HotTaoCore.DAL
         /// <param name="groupid">The groupid.</param>
         /// <param name="pid">The pid.</param>
         /// <returns>true if XXXX, false otherwise.</returns>
-        public bool UpdateUserWeChatGroup(int groupid,string pid)
+        public bool UpdateUserWeChatGroup(int groupid, string pid)
         {
             string strSql = @"UPDATE user_wechat_group SET  pid =@pid WHERE id = @id;";
-            var param = new[] {                    
+            var param = new[] {
                     new SQLiteParameter("@pid",pid),
                     new SQLiteParameter("@id",groupid)
                 };
@@ -606,5 +606,28 @@ namespace HotTaoCore.DAL
 
 
         #endregion
+
+
+
+
+        public List<LoginNameModel> GetLoginNameList()
+        {
+            string strSql = "select userid,login_name,login_password,is_save_pwd from user_list;";
+            return DBSqliteHelper.GetLoginNameList<LoginNameModel>(strSql);
+        }
+
+
+        public int AddLoginName(LoginNameModel model)
+        {
+            string strSql = "INSERT INTO user_list(userid,login_name,login_password,is_save_pwd) values(@userid,@login_name,@login_password,@is_save_pwd);select last_insert_rowid();";
+            var param = new[] {
+                    new SQLiteParameter("@userid",model.userid),
+                    new SQLiteParameter("@title",model.login_name),
+                    new SQLiteParameter("@goodsName",model.login_password),
+                    new SQLiteParameter("@createtime",model.is_save_pwd)
+                };
+            return DBSqliteHelper.ExecuteSqlLoginName(strSql, param);
+        }
+
     }
 }
