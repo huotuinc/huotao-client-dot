@@ -143,11 +143,13 @@ namespace HotTao
                     }
                     catch (Exception ex)
                     {
+                        ImportStart = false;
                         SetText(ex.Message);
                     }
                 }
                 else
                 {
+                    ImportStart = false;
                     SetText("数据源不存在");
                 }
             })

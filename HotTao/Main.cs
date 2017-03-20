@@ -103,7 +103,7 @@ namespace HotTao
         {
             SetWinFormTaskbarSystemMenu();
             InitDataBase();
-            InitBrowser();
+            InitBrowser("");
             try
             {
                 CheckAutoLogin(this, user =>
@@ -113,6 +113,7 @@ namespace HotTao
                      if (user != null)
                      {
                          SetLoginData(user);
+                         ReloadBrowser(user.loginToken);
                          openControl(new GoodsControl(this));
                      }
                      else
@@ -181,18 +182,23 @@ namespace HotTao
                 }
             })).BeginInvoke(null, null);
         }
-
-        public bool IsBrowserLoad = false;
-
         /// <summary>
         /// 初始化商品库
         /// </summary>
-        public void InitBrowser()
+        public void InitBrowser(string token)
         {
+            //browser = new ChromiumWebBrowser(token);
+            //browser.RegisterJsObject("jsGoods", new GoodsControl(this), false);
+            //BrowserSettings settings = new BrowserSettings()
+            //{
+            //    LocalStorage = CefState.Enabled,
+            //    Javascript = CefState.Enabled,
+            //};
+            //browser.Size = new Size(920, 607);
+            //browser.Location = new Point(1, 0);
             new System.Threading.Thread(() =>
             {
-                string url = ApiConst.Url + "/goods/goodListPage?token=" + MyUserInfo.LoginToken;
-                browser = new ChromiumWebBrowser(url);
+                browser = new ChromiumWebBrowser(token);
                 browser.RegisterJsObject("jsGoods", new GoodsControl(this), false);
                 BrowserSettings settings = new BrowserSettings()
                 {
@@ -205,17 +211,38 @@ namespace HotTao
             { IsBackground = true }.Start();
         }
 
+        public void ReloadBrowser(string token)
+        {
+            if (browser != null)
+                browser.Load(ApiConst.Url + "/goods/goodListPage?token=" + token);
+            else
+                InitBrowser(ApiConst.Url + "/goods/goodListPage?token=" + token);
+        }
+
+
+        //无标题窗体右键菜单
+        private const int WS_SYSMENU = 0x00080000; // 系统菜单
+        private const int WS_MINIMIZEBOX = 0x20000; // 最大最小化按钮
+
+        //下面几个是设置窗口阴影
+        private const int CS_DropSHADOW = 0x20000;
+        private const int GCL_STYLE = (-26);
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int SetClassLong(IntPtr hwnd, int nIndex, int dwNewLong);
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetClassLong(IntPtr hwnd, int nIndex);
+
         /// <summary>
         /// 无边框样式的winform窗口，需要单独设置，才能启用任务栏的系统菜单功能，
         /// </summary>
         private void SetWinFormTaskbarSystemMenu()
         {
-            //无标题窗体右键菜单
-            int WS_SYSMENU = 0x00080000; // 系统菜单
-            int WS_MINIMIZEBOX = 0x20000; // 最大最小化按钮
             int windowLong = (WinApi.GetWindowLong(new HandleRef(this, this.Handle), -16));
             WinApi.SetWindowLong(new HandleRef(this, this.Handle), -16, windowLong | WS_SYSMENU | WS_MINIMIZEBOX);
+            //设置阴影
+            SetClassLong(this.Handle, GCL_STYLE, GetClassLong(this.Handle, GCL_STYLE) | CS_DropSHADOW);
         }
+
 
         /// <summary>
         /// 检查登录状态
@@ -236,6 +263,19 @@ namespace HotTao
                 {
                     MyUserInfo my = new MyUserInfo();
                     my.SetUserData(null);
+                    if (wxlogin != null)
+                    {
+                        wxlogin.isStartTask = false;
+                        wxlogin.isCloseWinForm = true;
+                        wxlogin.Close();
+                        wxlogin = null;
+                    }
+                    if (winTask != null)
+                    {
+                        winTask.isStartTask = false;
+                        winTask.Close();
+                        winTask = null;
+                    }
                     openControl(new LoginControl(this));
                 }));
 
@@ -427,6 +467,7 @@ namespace HotTao
             {
                 LoginSync = true;
                 MyUserInfo.currentUserId = user.userid;
+
                 LoadMyConfig();
                 GetDefaultTemplateText();
                 InitDataBase();
@@ -521,7 +562,9 @@ namespace HotTao
                 winTask.Close();
                 winTask = null;
             }
-            Application.ExitThread();            
+            //关闭数据库连接
+            LogicHotTao.Instance(MyUserInfo.currentUserId).CloseConnection();
+            Application.ExitThread();
             Process.GetCurrentProcess().Kill();
 
         }

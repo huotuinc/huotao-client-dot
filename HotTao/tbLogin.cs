@@ -116,9 +116,6 @@ namespace HotTao
         {
             InitializeComponent();
         }
-
-        private WebBrowser browser;
-
         /// <summary>
         /// 登录成功的回调事件
         /// </summary>
@@ -126,9 +123,7 @@ namespace HotTao
 
         private void tbLogin_Load(object sender, EventArgs e)
         {
-            string url = "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=true&css_style=alimama&from=alimama";            
-            browser = new WebBrowser();
-            browser.Dock = DockStyle.Fill;
+            string url = "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=true&css_style=alimama&from=alimama";
             browser.Navigate(url);
             browser.ScriptErrorsSuppressed = false;
             browser.ScrollBarsEnabled = false;            

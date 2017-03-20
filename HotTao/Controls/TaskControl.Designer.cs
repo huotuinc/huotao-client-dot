@@ -50,6 +50,12 @@
             this.sharetitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.editwechat = new System.Windows.Forms.DataGridViewImageColumn();
+            this.cmsWeChatMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.添加ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolWeChatUpdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolWeChatDel = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolWeChatSetPid = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsBatchImport = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -105,12 +111,6 @@
             this.btnAddWeChatGroup = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.btnAddGoods = new System.Windows.Forms.Button();
-            this.cmsWeChatMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.添加ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolWeChatUpdate = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolWeChatDel = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolWeChatSetPid = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolsBatchImport = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsTaskMeun = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.添加计划ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTaskUpdate = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,18 +119,20 @@
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.toolsExport = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFile = new System.Windows.Forms.SaveFileDialog();
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.label15 = new System.Windows.Forms.Label();
             this.btnAddTask = new System.Windows.Forms.Button();
             this.btnImportLocatGoods = new System.Windows.Forms.Button();
             this.btnStartTask = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPid)).BeginInit();
+            this.cmsWeChatMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTaskPlan)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvData)).BeginInit();
             this.panel3.SuspendLayout();
-            this.cmsWeChatMenu.SuspendLayout();
             this.cmsTaskMeun.SuspendLayout();
             this.hotPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -241,6 +243,53 @@
             this.editwechat.Image = global::HotTao.Properties.Resources.icon_edit;
             this.editwechat.Name = "editwechat";
             this.editwechat.Width = 50;
+            // 
+            // cmsWeChatMenu
+            // 
+            this.cmsWeChatMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.添加ToolStripMenuItem,
+            this.toolWeChatUpdate,
+            this.toolWeChatDel,
+            this.toolWeChatSetPid,
+            this.toolsBatchImport,
+            this.toolsExport});
+            this.cmsWeChatMenu.Name = "cmsWeChatMenu";
+            this.cmsWeChatMenu.Size = new System.Drawing.Size(125, 136);
+            // 
+            // 添加ToolStripMenuItem
+            // 
+            this.添加ToolStripMenuItem.Name = "添加ToolStripMenuItem";
+            this.添加ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.添加ToolStripMenuItem.Text = "添加";
+            this.添加ToolStripMenuItem.Click += new System.EventHandler(this.btnAddWeChatGroup_Click);
+            // 
+            // toolWeChatUpdate
+            // 
+            this.toolWeChatUpdate.Name = "toolWeChatUpdate";
+            this.toolWeChatUpdate.Size = new System.Drawing.Size(124, 22);
+            this.toolWeChatUpdate.Text = "修改";
+            this.toolWeChatUpdate.Click += new System.EventHandler(this.toolWeChatUpdate_Click);
+            // 
+            // toolWeChatDel
+            // 
+            this.toolWeChatDel.Name = "toolWeChatDel";
+            this.toolWeChatDel.Size = new System.Drawing.Size(124, 22);
+            this.toolWeChatDel.Text = "删除";
+            this.toolWeChatDel.Click += new System.EventHandler(this.toolWeChatDel_Click);
+            // 
+            // toolWeChatSetPid
+            // 
+            this.toolWeChatSetPid.Name = "toolWeChatSetPid";
+            this.toolWeChatSetPid.Size = new System.Drawing.Size(124, 22);
+            this.toolWeChatSetPid.Text = "设置PID";
+            this.toolWeChatSetPid.Click += new System.EventHandler(this.toolWeChatSetPid_Click);
+            // 
+            // toolsBatchImport
+            // 
+            this.toolsBatchImport.Name = "toolsBatchImport";
+            this.toolsBatchImport.Size = new System.Drawing.Size(124, 22);
+            this.toolsBatchImport.Text = "批量导入";
+            this.toolsBatchImport.Click += new System.EventHandler(this.toolsBatchImport_Click);
             // 
             // panel1
             // 
@@ -899,52 +948,6 @@
             this.btnAddGoods.UseVisualStyleBackColor = false;
             this.btnAddGoods.Click += new System.EventHandler(this.btnAddGoods_Click);
             // 
-            // cmsWeChatMenu
-            // 
-            this.cmsWeChatMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.添加ToolStripMenuItem,
-            this.toolWeChatUpdate,
-            this.toolWeChatDel,
-            this.toolWeChatSetPid,
-            this.toolsBatchImport});
-            this.cmsWeChatMenu.Name = "cmsWeChatMenu";
-            this.cmsWeChatMenu.Size = new System.Drawing.Size(125, 114);
-            // 
-            // 添加ToolStripMenuItem
-            // 
-            this.添加ToolStripMenuItem.Name = "添加ToolStripMenuItem";
-            this.添加ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.添加ToolStripMenuItem.Text = "添加";
-            this.添加ToolStripMenuItem.Click += new System.EventHandler(this.btnAddWeChatGroup_Click);
-            // 
-            // toolWeChatUpdate
-            // 
-            this.toolWeChatUpdate.Name = "toolWeChatUpdate";
-            this.toolWeChatUpdate.Size = new System.Drawing.Size(124, 22);
-            this.toolWeChatUpdate.Text = "修改";
-            this.toolWeChatUpdate.Click += new System.EventHandler(this.toolWeChatUpdate_Click);
-            // 
-            // toolWeChatDel
-            // 
-            this.toolWeChatDel.Name = "toolWeChatDel";
-            this.toolWeChatDel.Size = new System.Drawing.Size(124, 22);
-            this.toolWeChatDel.Text = "删除";
-            this.toolWeChatDel.Click += new System.EventHandler(this.toolWeChatDel_Click);
-            // 
-            // toolWeChatSetPid
-            // 
-            this.toolWeChatSetPid.Name = "toolWeChatSetPid";
-            this.toolWeChatSetPid.Size = new System.Drawing.Size(124, 22);
-            this.toolWeChatSetPid.Text = "设置PID";
-            this.toolWeChatSetPid.Click += new System.EventHandler(this.toolWeChatSetPid_Click);
-            // 
-            // toolsBatchImport
-            // 
-            this.toolsBatchImport.Name = "toolsBatchImport";
-            this.toolsBatchImport.Size = new System.Drawing.Size(124, 22);
-            this.toolsBatchImport.Text = "批量导入";
-            this.toolsBatchImport.Click += new System.EventHandler(this.toolsBatchImport_Click);
-            // 
             // cmsTaskMeun
             // 
             this.cmsTaskMeun.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1022,6 +1025,17 @@
             this.dataGridViewImageColumn3.Name = "dataGridViewImageColumn3";
             this.dataGridViewImageColumn3.ToolTipText = "删除";
             this.dataGridViewImageColumn3.Width = 50;
+            // 
+            // toolsExport
+            // 
+            this.toolsExport.Name = "toolsExport";
+            this.toolsExport.Size = new System.Drawing.Size(124, 22);
+            this.toolsExport.Text = "导出";
+            this.toolsExport.Click += new System.EventHandler(this.toolsExport_Click);
+            // 
+            // saveFile
+            // 
+            this.saveFile.Filter = "Excel文件|*.xls|Excel文件|*.xlsx";
             // 
             // hotPanel1
             // 
@@ -1122,6 +1136,7 @@
             this.Size = new System.Drawing.Size(920, 606);
             this.Load += new System.EventHandler(this.HomeControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPid)).EndInit();
+            this.cmsWeChatMenu.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTaskPlan)).EndInit();
@@ -1130,7 +1145,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvData)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            this.cmsWeChatMenu.ResumeLayout(false);
             this.cmsTaskMeun.ResumeLayout(false);
             this.hotPanel1.ResumeLayout(false);
             this.hotPanel1.PerformLayout();
@@ -1222,5 +1236,7 @@
         private System.Windows.Forms.DataGridViewImageColumn editwechat;
         private System.Windows.Forms.ToolStripMenuItem toolsBatchImport;
         private System.Windows.Forms.Button btnStartTask;
+        private System.Windows.Forms.ToolStripMenuItem toolsExport;
+        private System.Windows.Forms.SaveFileDialog saveFile;
     }
 }

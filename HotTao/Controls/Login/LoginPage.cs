@@ -58,17 +58,22 @@ namespace HotTao.Controls.Login
                 _isLogining = value;
             }
         }
+        private bool SavePwd { get; set; }
+        private bool AutoLogin { get; set; }
 
+        private string lgpwd = string.Empty;
+        private string lgname = string.Empty;
         public void Login()
         {
             try
             {
                 if (isLogining)
                     return;
+
                 if (string.IsNullOrEmpty(loginName.Text))
                 {
                     lbTipMsg.Text = "请输入登录账户!";
-                    loginName.Focus();
+                    //loginName1.Focus();
                     return;
                 }
                 if (string.IsNullOrEmpty(loginPwd.Text))
@@ -77,14 +82,16 @@ namespace HotTao.Controls.Login
                     loginPwd.Focus();
                     return;
                 }
-
+                SavePwd = this.ckbSavePwd.Checked;
+                AutoLogin = ckbAutoLogin.Checked;
                 string pwd = string.Empty;
                 if (this.IsRememberPassword && _tempPassword == loginPwd.Text && _tempLoginName == loginName.Text)
                     pwd = loginPwd.Text;
                 else
                     pwd = EncryptHelper.MD5(loginPwd.Text);
 
-                string lgname = loginName.Text;
+                lgname = loginName.Text;
+                lgpwd = loginPwd.Text;
                 loginSuccess = false;
                 isLogining = true;
                 ((Action)(delegate ()
@@ -112,6 +119,7 @@ namespace HotTao.Controls.Login
                                 lbTipMsg.Text = "登录成功，请稍后...";
                             }));
                             loginResult(data);
+                            hotForm.ReloadBrowser(data.loginToken);
                         }
                         else
                         {
@@ -170,11 +178,11 @@ namespace HotTao.Controls.Login
         private void loginResult(UserModel data)
         {
             //判断是否记住密码
-            if (this.ckbSavePwd.Checked || ckbAutoLogin.Checked)
+            if (SavePwd || AutoLogin)
             {
-                if (_tempPassword != loginPwd.Text || _tempLoginName != loginName.Text)
+                if (_tempPassword != lgpwd || _tempLoginName != lgname)
                 {
-                    string pwdStr = loginName.Text + "|" + EncryptHelper.MD5(loginPwd.Text) + "|" + (ckbAutoLogin.Checked ? "1" : "0");// ;
+                    string pwdStr = lgname + "|" + EncryptHelper.MD5(lgpwd) + "|" + (AutoLogin ? "1" : "0");// ;
                     RememberPassword(pwdStr);
                 }
             }
@@ -183,7 +191,7 @@ namespace HotTao.Controls.Login
             this.BeginInvoke((Action)(delegate ()  //等待结束
             {
                 //设置登陆状态,必须先设置登录状态
-                hotForm.SetLoginData(data);                
+                hotForm.SetLoginData(data);
                 hotForm.SetHomeTabSelected();
                 hotForm.openControl(new GoodsControl(hotForm));
             }));
@@ -283,6 +291,7 @@ namespace HotTao.Controls.Login
                 if (arr.Length > 2)
                 {
                     loginName.Text = _tempLoginName = arr[0];
+                    loginName.Items.Add(_tempLoginName = arr[0]);
                     loginPwd.Text = _tempPassword = arr[1];
                     int isAutoLogin = 0;
                     int.TryParse(arr[2], out isAutoLogin);
@@ -298,6 +307,27 @@ namespace HotTao.Controls.Login
         private void lkRegister_Click(object sender, EventArgs e)
         {
             loginForm.openControl(new RegisterPage(hotForm, loginForm));
+        }
+
+        private void loginName_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0)
+            {
+                return;
+            }
+            e.DrawBackground();
+            e.DrawFocusRectangle();
+            e.Graphics.DrawString(loginName.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds.X, e.Bounds.Y + 3);
+        }
+
+        /// <summary>
+        /// 切换账号时触发
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void loginName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lbLoginName.Visible = false;
         }
     }
 }

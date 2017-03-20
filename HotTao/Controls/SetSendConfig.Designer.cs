@@ -54,6 +54,12 @@
             this.ckbMonthSales = new System.Windows.Forms.CheckBox();
             this.ckbCoupon = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.rdSendRequest = new System.Windows.Forms.RadioButton();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.rdSendWindows = new System.Windows.Forms.RadioButton();
+            this.label22 = new System.Windows.Forms.Label();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.rbWtSort = new System.Windows.Forms.RadioButton();
             this.rbTwSort = new System.Windows.Forms.RadioButton();
@@ -68,15 +74,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.rdSendRequest = new System.Windows.Forms.RadioButton();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.rdSendWindows = new System.Windows.Forms.RadioButton();
-            this.label22 = new System.Windows.Forms.Label();
             this.hotGroupBox3.SuspendLayout();
-            this.hotGroupBox1.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
+            this.hotGroupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // hotGroupBox3
@@ -357,168 +357,6 @@
             this.label6.TabIndex = 34;
             this.label6.Text = "过滤条件";
             // 
-            // hotGroupBox1
-            // 
-            this.hotGroupBox1.BorderColor = System.Drawing.Color.Gainsboro;
-            this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox1.Controls.Add(this.rbWtSort);
-            this.hotGroupBox1.Controls.Add(this.rbTwSort);
-            this.hotGroupBox1.Controls.Add(this.label4);
-            this.hotGroupBox1.Controls.Add(this.label20);
-            this.hotGroupBox1.Controls.Add(this.label2);
-            this.hotGroupBox1.Controls.Add(this.txtgoodsinterval);
-            this.hotGroupBox1.Controls.Add(this.txtTaskInterval);
-            this.hotGroupBox1.Controls.Add(this.txthandleInterval);
-            this.hotGroupBox1.Controls.Add(this.label5);
-            this.hotGroupBox1.Controls.Add(this.label19);
-            this.hotGroupBox1.Controls.Add(this.label3);
-            this.hotGroupBox1.Controls.Add(this.label1);
-            this.hotGroupBox1.Controls.Add(this.label9);
-            this.hotGroupBox1.Location = new System.Drawing.Point(13, 80);
-            this.hotGroupBox1.Name = "hotGroupBox1";
-            this.hotGroupBox1.Size = new System.Drawing.Size(725, 155);
-            this.hotGroupBox1.TabIndex = 0;
-            this.hotGroupBox1.TabStop = false;
-            // 
-            // rbWtSort
-            // 
-            this.rbWtSort.AutoSize = true;
-            this.rbWtSort.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.rbWtSort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rbWtSort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.rbWtSort.Location = new System.Drawing.Point(199, 86);
-            this.rbWtSort.Name = "rbWtSort";
-            this.rbWtSort.Size = new System.Drawing.Size(70, 16);
-            this.rbWtSort.TabIndex = 38;
-            this.rbWtSort.Text = "先文后图";
-            this.rbWtSort.UseVisualStyleBackColor = true;
-            // 
-            // rbTwSort
-            // 
-            this.rbTwSort.AutoSize = true;
-            this.rbTwSort.Checked = true;
-            this.rbTwSort.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.rbTwSort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rbTwSort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.rbTwSort.Location = new System.Drawing.Point(117, 86);
-            this.rbTwSort.Name = "rbTwSort";
-            this.rbTwSort.Size = new System.Drawing.Size(70, 16);
-            this.rbTwSort.TabIndex = 38;
-            this.rbTwSort.TabStop = true;
-            this.rbTwSort.Text = "先图后文";
-            this.rbTwSort.UseVisualStyleBackColor = true;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.label4.Location = new System.Drawing.Point(180, 59);
-            this.label4.Margin = new System.Windows.Forms.Padding(0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(245, 12);
-            this.label4.TabIndex = 37;
-            this.label4.Text = "默认40秒(最少35秒)，请合理的设置间隔时间";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.label20.Location = new System.Drawing.Point(180, 115);
-            this.label20.Margin = new System.Windows.Forms.Padding(0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(329, 12);
-            this.label20.TabIndex = 37;
-            this.label20.Text = "默认30秒（即上个任务执行完成后，间隔多久执行下个任务）";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.label2.Location = new System.Drawing.Point(180, 31);
-            this.label2.Margin = new System.Windows.Forms.Padding(0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 12);
-            this.label2.TabIndex = 37;
-            this.label2.Text = "默认1秒";
-            // 
-            // txtgoodsinterval
-            // 
-            this.txtgoodsinterval.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.txtgoodsinterval.Location = new System.Drawing.Point(113, 54);
-            this.txtgoodsinterval.Name = "txtgoodsinterval";
-            this.txtgoodsinterval.Size = new System.Drawing.Size(60, 21);
-            this.txtgoodsinterval.TabIndex = 2;
-            this.txtgoodsinterval.Text = "40";
-            this.txtgoodsinterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
-            // 
-            // txtTaskInterval
-            // 
-            this.txtTaskInterval.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.txtTaskInterval.Location = new System.Drawing.Point(113, 111);
-            this.txtTaskInterval.Name = "txtTaskInterval";
-            this.txtTaskInterval.Size = new System.Drawing.Size(60, 21);
-            this.txtTaskInterval.TabIndex = 1;
-            this.txtTaskInterval.Text = "30";
-            this.txtTaskInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
-            // 
-            // txthandleInterval
-            // 
-            this.txthandleInterval.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.txthandleInterval.Location = new System.Drawing.Point(113, 27);
-            this.txthandleInterval.Name = "txthandleInterval";
-            this.txthandleInterval.Size = new System.Drawing.Size(60, 21);
-            this.txthandleInterval.TabIndex = 1;
-            this.txthandleInterval.Text = "1";
-            this.txthandleInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxFloat_KeyPress);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(54, 87);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 12);
-            this.label5.TabIndex = 35;
-            this.label5.Text = "图文顺序";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(54, 115);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(53, 12);
-            this.label19.TabIndex = 35;
-            this.label19.Text = "任务间隔";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(54, 59);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 12);
-            this.label3.TabIndex = 35;
-            this.label3.Text = "商品间隔";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(54, 31);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
-            this.label1.TabIndex = 35;
-            this.label1.Text = "操作间隔";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.label9.Location = new System.Drawing.Point(271, -2);
-            this.label9.Name = "label9";
-            this.label9.Padding = new System.Windows.Forms.Padding(5);
-            this.label9.Size = new System.Drawing.Size(197, 22);
-            this.label9.TabIndex = 34;
-            this.label9.Text = "转发等待时间设置（单位：秒）";
-            // 
             // hotGroupBox2
             // 
             this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
@@ -598,6 +436,168 @@
             this.label22.TabIndex = 37;
             this.label22.Text = "窗口模式下，尽量不要操作键盘，以免发单出错";
             // 
+            // hotGroupBox1
+            // 
+            this.hotGroupBox1.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox1.Controls.Add(this.rbWtSort);
+            this.hotGroupBox1.Controls.Add(this.rbTwSort);
+            this.hotGroupBox1.Controls.Add(this.label4);
+            this.hotGroupBox1.Controls.Add(this.label20);
+            this.hotGroupBox1.Controls.Add(this.label2);
+            this.hotGroupBox1.Controls.Add(this.txtgoodsinterval);
+            this.hotGroupBox1.Controls.Add(this.txtTaskInterval);
+            this.hotGroupBox1.Controls.Add(this.txthandleInterval);
+            this.hotGroupBox1.Controls.Add(this.label5);
+            this.hotGroupBox1.Controls.Add(this.label19);
+            this.hotGroupBox1.Controls.Add(this.label3);
+            this.hotGroupBox1.Controls.Add(this.label1);
+            this.hotGroupBox1.Controls.Add(this.label9);
+            this.hotGroupBox1.Location = new System.Drawing.Point(13, 80);
+            this.hotGroupBox1.Name = "hotGroupBox1";
+            this.hotGroupBox1.Size = new System.Drawing.Size(725, 155);
+            this.hotGroupBox1.TabIndex = 0;
+            this.hotGroupBox1.TabStop = false;
+            // 
+            // rbWtSort
+            // 
+            this.rbWtSort.AutoSize = true;
+            this.rbWtSort.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rbWtSort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rbWtSort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.rbWtSort.Location = new System.Drawing.Point(199, 86);
+            this.rbWtSort.Name = "rbWtSort";
+            this.rbWtSort.Size = new System.Drawing.Size(70, 16);
+            this.rbWtSort.TabIndex = 38;
+            this.rbWtSort.Text = "先文后图";
+            this.rbWtSort.UseVisualStyleBackColor = true;
+            // 
+            // rbTwSort
+            // 
+            this.rbTwSort.AutoSize = true;
+            this.rbTwSort.Checked = true;
+            this.rbTwSort.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rbTwSort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rbTwSort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.rbTwSort.Location = new System.Drawing.Point(117, 86);
+            this.rbTwSort.Name = "rbTwSort";
+            this.rbTwSort.Size = new System.Drawing.Size(70, 16);
+            this.rbTwSort.TabIndex = 38;
+            this.rbTwSort.TabStop = true;
+            this.rbTwSort.Text = "先图后文";
+            this.rbTwSort.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.label4.Location = new System.Drawing.Point(180, 59);
+            this.label4.Margin = new System.Windows.Forms.Padding(0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(185, 12);
+            this.label4.TabIndex = 37;
+            this.label4.Text = "最少35秒，请合理的设置间隔时间";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.label20.Location = new System.Drawing.Point(180, 115);
+            this.label20.Margin = new System.Windows.Forms.Padding(0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(329, 12);
+            this.label20.TabIndex = 37;
+            this.label20.Text = "默认30秒（即上个任务执行完成后，间隔多久执行下个任务）";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.label2.Location = new System.Drawing.Point(180, 31);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(47, 12);
+            this.label2.TabIndex = 37;
+            this.label2.Text = "默认1秒";
+            // 
+            // txtgoodsinterval
+            // 
+            this.txtgoodsinterval.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.txtgoodsinterval.Location = new System.Drawing.Point(113, 54);
+            this.txtgoodsinterval.Name = "txtgoodsinterval";
+            this.txtgoodsinterval.Size = new System.Drawing.Size(60, 21);
+            this.txtgoodsinterval.TabIndex = 2;
+            this.txtgoodsinterval.Text = "600";
+            this.txtgoodsinterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
+            // 
+            // txtTaskInterval
+            // 
+            this.txtTaskInterval.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.txtTaskInterval.Location = new System.Drawing.Point(113, 111);
+            this.txtTaskInterval.Name = "txtTaskInterval";
+            this.txtTaskInterval.Size = new System.Drawing.Size(60, 21);
+            this.txtTaskInterval.TabIndex = 1;
+            this.txtTaskInterval.Text = "30";
+            this.txtTaskInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
+            // 
+            // txthandleInterval
+            // 
+            this.txthandleInterval.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.txthandleInterval.Location = new System.Drawing.Point(113, 27);
+            this.txthandleInterval.Name = "txthandleInterval";
+            this.txthandleInterval.Size = new System.Drawing.Size(60, 21);
+            this.txthandleInterval.TabIndex = 1;
+            this.txthandleInterval.Text = "1";
+            this.txthandleInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxFloat_KeyPress);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(54, 87);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.TabIndex = 35;
+            this.label5.Text = "图文顺序";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(54, 115);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(53, 12);
+            this.label19.TabIndex = 35;
+            this.label19.Text = "任务间隔";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(54, 59);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 12);
+            this.label3.TabIndex = 35;
+            this.label3.Text = "商品间隔";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(54, 31);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.TabIndex = 35;
+            this.label1.Text = "操作间隔";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.label9.Location = new System.Drawing.Point(271, -2);
+            this.label9.Name = "label9";
+            this.label9.Padding = new System.Windows.Forms.Padding(5);
+            this.label9.Size = new System.Drawing.Size(197, 22);
+            this.label9.TabIndex = 34;
+            this.label9.Text = "转发等待时间设置（单位：秒）";
+            // 
             // SetSendConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -611,10 +611,10 @@
             this.Load += new System.EventHandler(this.SetSendConfig_Load);
             this.hotGroupBox3.ResumeLayout(false);
             this.hotGroupBox3.PerformLayout();
-            this.hotGroupBox1.ResumeLayout(false);
-            this.hotGroupBox1.PerformLayout();
             this.hotGroupBox2.ResumeLayout(false);
             this.hotGroupBox2.PerformLayout();
+            this.hotGroupBox1.ResumeLayout(false);
+            this.hotGroupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }

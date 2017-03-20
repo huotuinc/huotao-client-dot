@@ -118,53 +118,15 @@ namespace HotTao
             hotForm = mainWin;
             taskForm = control;
         }
-
-
-        System.Windows.Forms.Timer CheckActiveSendTimer = new System.Windows.Forms.Timer();
+        
 
         private void wxLogin_Load(object sender, EventArgs e)
         {
             login_redirect_url = string.Empty;
             isCloseWinForm = false;
-            //CheckActiveSendTimer.Interval = 5000;
-            //CheckActiveSendTimer.Tick += CheckActiveSendTimer_Tick;
-            //CheckActiveSendTimer.Start();
             DoLogin();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CheckActiveSendTimer_Tick(object sender, EventArgs e)
-        {
-            if (!loginClose)
-            {
-                if (CheckActiveSendTimer != null)
-                    CheckActiveSendTimer.Stop();
-                //检查主动发送消息
-                CheckActiveSendMessage();
-            }
-        }
-
-        /// <summary>
-        /// 重置定时器
-        /// </summary>
-        private void ResetTimer()
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(ResetTimer), new object[] { });
-            }
-            else
-            {
-                if (CheckActiveSendTimer != null)
-                {
-                    CheckActiveSendTimer.Start();                    
-                }
-            }
-        }
 
         /// <summary>
         /// 返回二维码页面
@@ -249,9 +211,6 @@ namespace HotTao
                             {
                                 wxcontactsForm = new wxContacts(this, headImg);
                                 wxcontactsForm.Show();
-  
-                                CheckActiveSendTimer.Start();
-
                                 this.Hide();
                             });
                             isStartTask = true;
@@ -909,18 +868,21 @@ namespace HotTao
         /// <summary>
         /// 检查主动发送消息
         /// </summary>
-        private void CheckActiveSendMessage()
+        public void CheckActiveSendMessage()
         {
             new Thread(() =>
             {
-                //while (true)
-                //{
                 if (isCloseWinForm)
                     return;
                 if (MyUserInfo.currentUserId == 0)
                     return;
                 if (MyUserInfo.SendMessageStatus == 1 && !string.IsNullOrEmpty(MyUserInfo.SendMessageText) && MyUserInfo.currentUserId > 0)
                 {
+                    //回复微信群列表
+                    weChatGroupList = LogicUser.Instance.GetUserReplyWeChatList(MyUserInfo.LoginToken, -1);
+                    //回复关键字
+                    keyList = LogicUser.Instance.GetUserReplyKeywordList(MyUserInfo.LoginToken);
+
                     WXService wxs = new WXService();
                     if (weChatGroupList != null && weChatGroupList.Count() > 0)
                     {
@@ -942,9 +904,6 @@ namespace HotTao
                     }
                     MyUserInfo.SendMessageStatus = 2;
                 }
-                //ResetTimer();
-                CheckActiveSendTimer.Start();
-                //}
             })
             { IsBackground = true }.Start();
         }
@@ -1139,8 +1098,8 @@ namespace HotTao
 
                             wxcontactsForm.SetLog(user.ShowName + ":图片发送完成");
 
-                            //发完图片后，间隔2秒再发文本
-                            SleepImage(2);
+                            //发完图片后，间隔n秒再发文本
+                            SleepImage(1);
                         }
                         else
                             wxcontactsForm.SetLog(user.ShowName + ":图片发送失败");
@@ -1161,8 +1120,8 @@ namespace HotTao
                             wxs.SendMsg(item.text, _me.UserName, to, 1);
 
                             wxcontactsForm.SetLog(user.ShowName + ":文字发送完成");
-                            //发完文本后，间隔2秒再发图片
-                            SleepImage(2);
+                            //发完文本后，间隔n秒再发图片
+                            SleepImage(1);
                         }
                         else
                             wxcontactsForm.SetLog(user.ShowName + ":文字发送失败");
@@ -1181,7 +1140,7 @@ namespace HotTao
                     //更新修改状态
                     UpdateShareTextStatus(item.id);
 
-                    SleepGoods();
+                    SleepImage(1);
                 }
                 catch (Exception ex)
                 {

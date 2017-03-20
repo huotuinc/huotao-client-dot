@@ -40,6 +40,13 @@ namespace HotTaoCore.Logic
         }
 
 
+        public void CloseConnection()
+        {
+            dal.CloseConnection();
+        }
+
+
+
         #region 微信群操作
         /// <summary>
         /// 添加用户微信群

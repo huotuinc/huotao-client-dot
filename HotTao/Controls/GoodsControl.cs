@@ -48,24 +48,7 @@ namespace HotTao.Controls
                 {
                     if (hotForm.browser == null)
                     {
-                        hotForm.IsBrowserLoad = true;
-                        hotForm.browser = new ChromiumWebBrowser(url);
-                        hotForm.browser.RegisterJsObject("jsGoods", new GoodsControl(hotForm), false);
-                        BrowserSettings settings = new BrowserSettings()
-                        {
-                            LocalStorage = CefState.Enabled,
-                            Javascript = CefState.Enabled,
-                        };
-                        hotForm.browser.Size = new Size(920, 607);
-                        hotForm.browser.Location = new Point(1, 0);
-                    }
-                    else
-                    {
-                        if (!hotForm.IsBrowserLoad)
-                        {
-                            hotForm.IsBrowserLoad = true;
-                            hotForm.browser.Load(url);
-                        }
+                        hotForm.InitBrowser(url);
                     }
                     SetBrowserPanel(hotForm.browser);
                 })

@@ -60,10 +60,6 @@ namespace HotTao
         }
 
 
-        System.Windows.Forms.Timer startTaskTimer = new System.Windows.Forms.Timer();
-
-
-
         public bool isStartTask { get; set; }
 
         public ConfigSendTimeModel cfgTime { get; set; }
@@ -148,7 +144,7 @@ namespace HotTao
                 if (!isStartTask || MyUserInfo.currentUserId == 0) break;
 
                 textResult.Clear();
-                imageResult.Clear();               
+                imageResult.Clear();
 
                 int taskid = Convert.ToInt32(item.id);
 
@@ -157,6 +153,7 @@ namespace HotTao
                 //如果群数据和商品数据都为空时
                 if (lst == null)
                 {
+                    if (!isStartTask || MyUserInfo.currentUserId == 0) break;
                     LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
                     continue;
                 }
@@ -170,6 +167,7 @@ namespace HotTao
                 var goodslist = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(MyUserInfo.currentUserId, ids);
                 if (goodslist == null)
                 {
+                    if (!isStartTask || MyUserInfo.currentUserId == 0) break;
                     LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
                     continue;
                 }
@@ -177,6 +175,7 @@ namespace HotTao
                 SendGoods(goodslist, taskid, wins);
 
 
+                if (!isStartTask || MyUserInfo.currentUserId == 0) break;
                 LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
                 //每个任务之间，休息一下
                 SleepTask();
@@ -271,7 +270,7 @@ namespace HotTao
 
                         //如果当前微信已经发送，则结束本循环
                         if (imageResult.Contains(item.title)) continue;
-                     
+
                         bool b = wins.Exists(win => { return win.szWindowName == item.title; });
                         if (b)
                         {
@@ -338,7 +337,7 @@ namespace HotTao
                     if (!isStartTask || MyUserInfo.currentUserId == 0) break;
 
                     //如果当前微信已经发送，则结束本循环
-                    if (textResult.Contains(item.title)) continue;                    
+                    if (textResult.Contains(item.title)) continue;
 
                     bool b = wins.Exists(win => { return win.szWindowName == item.title; });
                     if (b)

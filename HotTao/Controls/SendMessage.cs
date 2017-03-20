@@ -226,8 +226,9 @@ namespace HotTao.Controls
             }
             if (hotForm.wxlogin != null && !hotForm.wxlogin.isCloseWinForm)
             {
-                hotForm.wxlogin.LoadAutoHandleData();
+                //hotForm.wxlogin.LoadAutoHandleData();
                 StartSend();
+                hotForm.wxlogin.CheckActiveSendMessage();
             }
             else
             {
@@ -259,6 +260,7 @@ namespace HotTao.Controls
             //检查发送状态            
             checkSendTime.Start();
             SetSendStatuTip("正在发送中,请稍后...");
+            
 
         }
 
