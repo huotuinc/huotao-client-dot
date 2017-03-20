@@ -188,23 +188,25 @@ namespace HotTao.Controls.Login
             //}
             //else
             //    RememberPassword("");
-            if (data != null)
-            {
-                LogicHotTao.Instance(data.userid).AddLoginName(new SQLiteEntitysModel.LoginNameModel()
-                {
-                    userid = data.userid,
-                    login_name = data.loginName,
-                    login_password = lgpwd,
-                    is_save_pwd = SavePwd ? 1 : 0
-                });
-            }
             this.BeginInvoke((Action)(delegate ()  //等待结束
             {
                 //设置登陆状态,必须先设置登录状态
                 hotForm.SetLoginData(data);
+
+                if (data != null)
+                {
+                    LogicHotTao.Instance(data.userid).AddLoginName(new SQLiteEntitysModel.LoginNameModel()
+                    {
+                        userid = data.userid,
+                        login_name = data.loginName,
+                        login_password = lgpwd,
+                        is_save_pwd = SavePwd ? 1 : 0
+                    });
+                }
                 hotForm.SetHomeTabSelected();
                 hotForm.openControl(new GoodsControl(hotForm));
             }));
+
         }
 
 
