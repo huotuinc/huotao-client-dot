@@ -126,22 +126,22 @@ namespace HotTao
             string url = "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=true&css_style=alimama&from=alimama";
             browser.Navigate(url);
             browser.ScriptErrorsSuppressed = false;
-            browser.ScrollBarsEnabled = false;            
+            browser.ScrollBarsEnabled = false;
             browser.DocumentTitleChanged += Browser2_DocumentTitleChanged;
-            tbPanel.Controls.Add(browser);
+            //tbPanel.Controls.Add(browser);
         }
         private bool isLogin = false;
         private void Browser2_DocumentTitleChanged(object sender, EventArgs e)
         {
             if (browser.DocumentTitle.Contains("阿里妈妈"))
-            {                                
+            {
                 if (!isLogin)
-                {                    
+                {
                     loginSuccess();
                 }
             }
         }
-        
+
         /// <summary>
         /// 打开连接
         /// </summary>

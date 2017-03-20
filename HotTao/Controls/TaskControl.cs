@@ -946,6 +946,7 @@ namespace HotTao.Controls
         {
             if (MyUserInfo.currentUserId == 0) return;
 
+            
             if (!string.IsNullOrEmpty(MyUserInfo.TaobaoName))
             {
                 if (this.dgvPid.Rows.Count > MouseCurrentRowIndex)
@@ -978,7 +979,7 @@ namespace HotTao.Controls
                     if (LoginTaobaoSuccess)
                     {
                         Loading ld = new Loading();
-                        ld.SetTimerClose(5000);
+                        ld.SetTimerClose(8000);
                         ld.ShowDialog(this);
                         ShowAlert("登录成功!您可以设置PID了");
                     }
