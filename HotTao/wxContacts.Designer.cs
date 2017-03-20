@@ -40,7 +40,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.txtSearch = new System.Windows.Forms.RichTextBox();
-            this.picClose = new System.Windows.Forms.PictureBox();
+            this.picMin = new System.Windows.Forms.PictureBox();
             this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.txtSendLog = new System.Windows.Forms.RichTextBox();
             this.dgvWeChatList = new System.Windows.Forms.DataGridView();
@@ -48,14 +48,16 @@
             this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolsRefresh = new System.Windows.Forms.ToolStripMenuItem();
+            this.picClose = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHeadImg)).BeginInit();
             this.hotPanel1.SuspendLayout();
             this.hotGroupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picClose)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picMin)).BeginInit();
             this.hotGroupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWeChatList)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picClose)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -93,9 +95,10 @@
             // 
             this.hotPanel1.BackColor = System.Drawing.Color.White;
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Controls.Add(this.picClose);
             this.hotPanel1.Controls.Add(this.button1);
             this.hotPanel1.Controls.Add(this.hotGroupBox1);
-            this.hotPanel1.Controls.Add(this.picClose);
+            this.hotPanel1.Controls.Add(this.picMin);
             this.hotPanel1.Controls.Add(this.hotGroupBox2);
             this.hotPanel1.Controls.Add(this.dgvWeChatList);
             this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -110,7 +113,7 @@
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(860, 14);
+            this.button1.Location = new System.Drawing.Point(837, 14);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(16, 3);
             this.button1.TabIndex = 42;
@@ -145,16 +148,16 @@
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             this.txtSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyUp);
             // 
-            // picClose
+            // picMin
             // 
-            this.picClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picClose.Location = new System.Drawing.Point(858, 5);
-            this.picClose.Name = "picClose";
-            this.picClose.Size = new System.Drawing.Size(20, 20);
-            this.picClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picClose.TabIndex = 27;
-            this.picClose.TabStop = false;
-            this.picClose.Click += new System.EventHandler(this.picClose_Click);
+            this.picMin.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picMin.Location = new System.Drawing.Point(835, 5);
+            this.picMin.Name = "picMin";
+            this.picMin.Size = new System.Drawing.Size(20, 20);
+            this.picMin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picMin.TabIndex = 27;
+            this.picMin.TabStop = false;
+            this.picMin.Click += new System.EventHandler(this.picMin_Click);
             // 
             // hotGroupBox2
             // 
@@ -255,6 +258,18 @@
             this.toolsRefresh.Text = "刷新通讯录";
             this.toolsRefresh.Click += new System.EventHandler(this.toolsRefresh_Click);
             // 
+            // picClose
+            // 
+            this.picClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picClose.Image = global::HotTao.Properties.Resources.icon_close1;
+            this.picClose.Location = new System.Drawing.Point(863, 5);
+            this.picClose.Name = "picClose";
+            this.picClose.Size = new System.Drawing.Size(20, 20);
+            this.picClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picClose.TabIndex = 43;
+            this.picClose.TabStop = false;
+            this.picClose.Click += new System.EventHandler(this.picClose_Click);
+            // 
             // wxContacts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -272,10 +287,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbHeadImg)).EndInit();
             this.hotPanel1.ResumeLayout(false);
             this.hotGroupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picClose)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picMin)).EndInit();
             this.hotGroupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvWeChatList)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picClose)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -288,7 +304,7 @@
         private System.Windows.Forms.DataGridView dgvWeChatList;
         private Controls.module.HotGroupBox hotGroupBox2;
         private System.Windows.Forms.RichTextBox txtSendLog;
-        private System.Windows.Forms.PictureBox picClose;
+        private System.Windows.Forms.PictureBox picMin;
         private Controls.module.HotGroupBox hotGroupBox1;
         private System.Windows.Forms.RichTextBox txtSearch;
         private System.Windows.Forms.DataGridViewTextBoxColumn ShowName;
@@ -297,5 +313,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolsRefresh;
         private System.Windows.Forms.Label txtNickName;
+        private System.Windows.Forms.PictureBox picClose;
     }
 }

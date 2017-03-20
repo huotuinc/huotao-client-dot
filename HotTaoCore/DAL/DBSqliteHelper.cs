@@ -28,15 +28,18 @@ namespace HotTaoCore.DAL
 
         private string connStr = "";
 
-        private static string _connStrLogin= "Data Source=" + System.Environment.CurrentDirectory + "\\data\\0\\hottao.db;Version=3;Pooling=true";
+        private static string _connStrLogin = "Data Source=" + System.Environment.CurrentDirectory + "\\data\\0\\hottao.db;Version=3;Pooling=true";
 
         private static SQLiteConnection conn;
 
         public DBSqliteHelper(int userid)
         {
             connStr = "Data Source=" + System.Environment.CurrentDirectory + "\\data\\" + userid.ToString() + "\\hottao.db;Version=3;Pooling=true";
-            conn = new SQLiteConnection(connStr);
-            conn.Open();
+            if (userid > 0)
+            {
+                conn = new SQLiteConnection(connStr);
+                conn.Open();
+            }
         }
 
         /// <summary>
@@ -57,11 +60,19 @@ namespace HotTaoCore.DAL
         /// </summary>
         private void CheckConnectionState()
         {
-            if (conn.State == ConnectionState.Closed)
-                conn.Open();
-            else if (conn.State == ConnectionState.Broken)
+            if (conn != null)
             {
-                conn.Clone();
+                if (conn.State == ConnectionState.Closed)
+                    conn.Open();
+                else if (conn.State == ConnectionState.Broken)
+                {
+                    conn.Clone();
+                    conn.Open();
+                }
+            }
+            else
+            {
+                conn = new SQLiteConnection(connStr);
                 conn.Open();
             }
         }
@@ -106,7 +117,6 @@ namespace HotTaoCore.DAL
             using (IDataReader reader = comm.ExecuteReader())
             {
                 data = GetEntityList<T>(reader);
-                comm.Dispose();
             }
             comm.Dispose();
             return data;
@@ -125,7 +135,8 @@ namespace HotTaoCore.DAL
         public static List<T> GetLoginNameList<T>(string sqlStr, params SQLiteParameter[] parameters) where T : new()
         {
             using (SQLiteConnection _conn = new SQLiteConnection(_connStrLogin))
-            {                
+            {
+                _conn.Open();
                 List<T> data = null;
                 DbCommand comm = _conn.CreateCommand();
                 comm.CommandText = sqlStr;
@@ -138,7 +149,6 @@ namespace HotTaoCore.DAL
                 using (IDataReader reader = comm.ExecuteReader())
                 {
                     data = GetEntityList<T>(reader);
-                    comm.Dispose();
                 }
                 comm.Dispose();
                 return data;
@@ -150,6 +160,7 @@ namespace HotTaoCore.DAL
         {
             using (SQLiteConnection _conn = new SQLiteConnection(_connStrLogin))
             {
+                _conn.Open();
                 int affectedRows = 0;
                 DbCommand comm = _conn.CreateCommand();
                 comm.CommandText = sqlStr;

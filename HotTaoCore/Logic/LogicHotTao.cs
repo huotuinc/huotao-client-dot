@@ -26,23 +26,27 @@ namespace HotTaoCore.Logic
         private static LogicHotTao _instance = null;
         private static HotTaoDAL dal;
 
-        private LogicHotTao(int userid)
+        private static HotTaoDAL lnDal = new HotTaoDAL(0);
+
+        private LogicHotTao()
         {
-            dal = new HotTaoDAL(userid);
+
         }
 
         public static LogicHotTao Instance(int userid)
         {
-
             if (_instance == null)
-                _instance = new LogicHotTao(userid);
+                _instance = new LogicHotTao();
+            if (dal == null && userid > 0)
+                dal = new HotTaoDAL(userid);
             return _instance;
         }
 
 
         public void CloseConnection()
         {
-            dal.CloseConnection();
+            if (dal != null)
+                dal.CloseConnection();
         }
 
 
@@ -479,6 +483,43 @@ namespace HotTaoCore.Logic
             return true;
         }
 
+
+        #endregion
+
+
+
+        #region 记住账号
+
+
+        /// <summary>
+        /// 添加记住用户
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>System.Int32.</returns>
+        public int AddLoginName(LoginNameModel model)
+        {
+            return lnDal.AddLoginName(model);
+        }
+
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <param name="loginName">Name of the login.</param>
+        /// <returns>LoginNameModel.</returns>
+        public LoginNameModel GetLoginName(string loginName)
+        {
+            return lnDal.GetLoginName(loginName);
+        }
+
+
+        /// <summary>
+        /// 获取账号列表
+        /// </summary>
+        /// <returns>List&lt;LoginNameModel&gt;.</returns>
+        public List<LoginNameModel> GetLoginNameList()
+        {
+            return lnDal.GetLoginNameList();
+        }
 
         #endregion
     }

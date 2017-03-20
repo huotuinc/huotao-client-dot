@@ -51,6 +51,22 @@ namespace HotTao
         /// <param name="callback">The callback.</param>
         public void CheckAutoLogin(Main hotForm, Action<UserModel> callback)
         {
+
+            //var data = LogicHotTao.Instance(MyUserInfo.currentUserId).GetLoginName(MyUserInfo.userData.loginName);
+            //if (data != null)
+            //{
+            //    string loginName = data.login_name;
+            //    string loginPwd = arr[1];                
+            //    if (!string.IsNullOrEmpty(data.login_password) && data.is_save_pwd == 1)
+            //    {
+            //        loginPwd= data.login_password;
+            //    }
+            //}
+
+
+
+
+
             string lp = LoadLoginNameAndPwd();
             if (!string.IsNullOrEmpty(lp))
             {

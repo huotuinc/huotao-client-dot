@@ -133,7 +133,13 @@ namespace HotTao
 
         private void picClose_Click(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Minimized;
+            wxlg.isCloseWinForm = true;
+            wxlg.isStartTask = false;
+            if (wxlg.taskForm != null)
+                wxlg.taskForm.ShowStartButtonText("开始计划");
+            if (wxlg.historyForm != null)
+                wxlg.historyForm.ShowStartButtonText("开始计划");
+            this.Close();
         }
 
 
@@ -279,6 +285,11 @@ namespace HotTao
                 return item.ShowName.Contains(txtSearch.Text);
             });
             SetSearhContactsView(data);
+        }
+
+        private void picMin_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }

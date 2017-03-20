@@ -56,6 +56,7 @@
             this.toolWeChatDel = new System.Windows.Forms.ToolStripMenuItem();
             this.toolWeChatSetPid = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsBatchImport = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsExport = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -119,7 +120,6 @@
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.toolsExport = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.label15 = new System.Windows.Forms.Label();
@@ -291,6 +291,13 @@
             this.toolsBatchImport.Text = "批量导入";
             this.toolsBatchImport.Click += new System.EventHandler(this.toolsBatchImport_Click);
             // 
+            // toolsExport
+            // 
+            this.toolsExport.Name = "toolsExport";
+            this.toolsExport.Size = new System.Drawing.Size(124, 22);
+            this.toolsExport.Text = "导出";
+            this.toolsExport.Click += new System.EventHandler(this.toolsExport_Click);
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
@@ -369,7 +376,6 @@
             dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
             this.dgvTaskPlan.RowsDefaultCellStyle = dataGridViewCellStyle8;
             this.dgvTaskPlan.RowTemplate.Height = 23;
-            this.dgvTaskPlan.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvTaskPlan.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTaskPlan.Size = new System.Drawing.Size(496, 150);
             this.dgvTaskPlan.TabIndex = 2;
@@ -591,7 +597,6 @@
             dataGridViewCellStyle14.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
             this.dgvData.RowsDefaultCellStyle = dataGridViewCellStyle14;
             this.dgvData.RowTemplate.Height = 23;
-            this.dgvData.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvData.Size = new System.Drawing.Size(907, 253);
             this.dgvData.TabIndex = 2;
@@ -1025,13 +1030,6 @@
             this.dataGridViewImageColumn3.Name = "dataGridViewImageColumn3";
             this.dataGridViewImageColumn3.ToolTipText = "删除";
             this.dataGridViewImageColumn3.Width = 50;
-            // 
-            // toolsExport
-            // 
-            this.toolsExport.Name = "toolsExport";
-            this.toolsExport.Size = new System.Drawing.Size(124, 22);
-            this.toolsExport.Text = "导出";
-            this.toolsExport.Click += new System.EventHandler(this.toolsExport_Click);
             // 
             // saveFile
             // 

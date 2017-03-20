@@ -138,6 +138,7 @@
             this.ckbAutoLogin.TabIndex = 13;
             this.ckbAutoLogin.Text = "自动登录";
             this.ckbAutoLogin.UseVisualStyleBackColor = true;
+            this.ckbAutoLogin.Visible = false;
             this.ckbAutoLogin.CheckedChanged += new System.EventHandler(this.ckbAutoLogin_CheckedChanged);
             // 
             // label7

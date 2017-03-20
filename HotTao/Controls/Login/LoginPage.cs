@@ -85,10 +85,10 @@ namespace HotTao.Controls.Login
                 SavePwd = this.ckbSavePwd.Checked;
                 AutoLogin = ckbAutoLogin.Checked;
                 string pwd = string.Empty;
-                if (this.IsRememberPassword && _tempPassword == loginPwd.Text && _tempLoginName == loginName.Text)
-                    pwd = loginPwd.Text;
-                else
-                    pwd = EncryptHelper.MD5(loginPwd.Text);
+                //if (this.IsRememberPassword && _tempPassword == loginPwd.Text && _tempLoginName == loginName.Text)
+                //    pwd = loginPwd.Text;
+                //else
+                pwd = EncryptHelper.MD5(loginPwd.Text);
 
                 lgname = loginName.Text;
                 lgpwd = loginPwd.Text;
@@ -178,16 +178,26 @@ namespace HotTao.Controls.Login
         private void loginResult(UserModel data)
         {
             //判断是否记住密码
-            if (SavePwd || AutoLogin)
+            //if (SavePwd || AutoLogin)
+            //{
+            //    if (_tempPassword != lgpwd || _tempLoginName != lgname)
+            //    {
+            //        string pwdStr = lgname + "|" + EncryptHelper.MD5(lgpwd) + "|" + (AutoLogin ? "1" : "0");// ;
+            //        RememberPassword(pwdStr);
+            //    }
+            //}
+            //else
+            //    RememberPassword("");
+            if (data != null)
             {
-                if (_tempPassword != lgpwd || _tempLoginName != lgname)
+                LogicHotTao.Instance(data.userid).AddLoginName(new SQLiteEntitysModel.LoginNameModel()
                 {
-                    string pwdStr = lgname + "|" + EncryptHelper.MD5(lgpwd) + "|" + (AutoLogin ? "1" : "0");// ;
-                    RememberPassword(pwdStr);
-                }
+                    userid = data.userid,
+                    login_name = data.loginName,
+                    login_password = lgpwd,
+                    is_save_pwd = SavePwd ? 1 : 0
+                });
             }
-            else
-                RememberPassword("");
             this.BeginInvoke((Action)(delegate ()  //等待结束
             {
                 //设置登陆状态,必须先设置登录状态
@@ -284,23 +294,44 @@ namespace HotTao.Controls.Login
         private void LoginPage_Load(object sender, EventArgs e)
         {
             loginName.Focus();
-            string lp = LoadLoginNameAndPwd();
-            if (!string.IsNullOrEmpty(lp))
+            //string lp = LoadLoginNameAndPwd();
+            //if (!string.IsNullOrEmpty(lp))
+            //{
+            //    var arr = lp.Split('|');
+            //    if (arr.Length > 2)
+            //    {
+            //        loginName.Text = _tempLoginName = arr[0];
+            //        loginName.Items.Add(_tempLoginName = arr[0]);
+            //        loginPwd.Text = _tempPassword = arr[1];
+            //        int isAutoLogin = 0;
+            //        int.TryParse(arr[2], out isAutoLogin);
+            //        this.ckbSavePwd.Checked = true;
+            //        this.ckbAutoLogin.Checked = isAutoLogin == 1 ? true : false;
+            //        this.IsRememberPassword = true;
+            //        lbLoginName.Visible = false;
+            //        lbLoginPwd.Visible = false;
+            //    }
+            //}
+
+
+            var data = LogicHotTao.Instance(MyUserInfo.currentUserId).GetLoginNameList();
+            if (data != null && data.Count() > 0)
             {
-                var arr = lp.Split('|');
-                if (arr.Length > 2)
+                loginName.Text = data[0].login_name;
+                this.ckbSavePwd.Checked = true;
+                this.ckbAutoLogin.Checked = false;
+                this.IsRememberPassword = true;
+                lbLoginName.Visible = false;
+                if (!string.IsNullOrEmpty(data[0].login_password) && data[0].is_save_pwd == 1)
                 {
-                    loginName.Text = _tempLoginName = arr[0];
-                    loginName.Items.Add(_tempLoginName = arr[0]);
-                    loginPwd.Text = _tempPassword = arr[1];
-                    int isAutoLogin = 0;
-                    int.TryParse(arr[2], out isAutoLogin);
-                    this.ckbSavePwd.Checked = true;
-                    this.ckbAutoLogin.Checked = isAutoLogin == 1 ? true : false;
-                    this.IsRememberPassword = true;
-                    lbLoginName.Visible = false;
+                    loginPwd.Text = data[0].login_password;
+
                     lbLoginPwd.Visible = false;
                 }
+                data.ForEach(item =>
+                {
+                    loginName.Items.Add(item.login_name);
+                });
             }
         }
 
@@ -328,6 +359,20 @@ namespace HotTao.Controls.Login
         private void loginName_SelectedIndexChanged(object sender, EventArgs e)
         {
             lbLoginName.Visible = false;
+
+            ComboBox cb = sender as ComboBox;
+
+            var data = LogicHotTao.Instance(MyUserInfo.currentUserId).GetLoginName(cb.Text);
+
+            if (data != null)
+            {
+                if (!string.IsNullOrEmpty(data.login_password) && data.is_save_pwd == 1)
+                {
+                    loginPwd.Text = data.login_password;
+                    lbLoginPwd.Visible = false;
+                }
+            }
+
         }
     }
 }

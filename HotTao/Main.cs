@@ -104,32 +104,33 @@ namespace HotTao
             SetWinFormTaskbarSystemMenu();
             InitDataBase();
             InitBrowser("");
-            try
-            {
-                CheckAutoLogin(this, user =>
-                 {
-                     if (LoadingShow != null)
-                         LoadingShow.CloseForm();
-                     if (user != null)
-                     {
-                         SetLoginData(user);
-                         ReloadBrowser(user.loginToken);
-                         openControl(new GoodsControl(this));
-                     }
-                     else
-                         openControl(new LoginControl(this));
-                 });
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-                MessageAlert alert = new MessageAlert("系统初始化失败");
-                alert.CallBack += () =>
-                {
-                    this.Close();
-                };
-                alert.ShowDialog(this);
-            }
+            openControl(new LoginControl(this));
+            //try
+            //{
+            //    CheckAutoLogin(this, user =>
+            //     {
+            //         if (LoadingShow != null)
+            //             LoadingShow.CloseForm();
+            //         if (user != null)
+            //         {
+            //             SetLoginData(user);
+            //             ReloadBrowser(user.loginToken);
+            //             openControl(new GoodsControl(this));
+            //         }
+            //         else
+            //             openControl(new LoginControl(this));
+            //     });
+            //}
+            //catch (Exception ex)
+            //{
+            //    log.Error(ex);
+            //    MessageAlert alert = new MessageAlert("系统初始化失败");
+            //    alert.CallBack += () =>
+            //    {
+            //        this.Close();
+            //    };
+            //    alert.ShowDialog(this);
+            //}
 
         }
 
@@ -563,7 +564,8 @@ namespace HotTao
                 winTask = null;
             }
             //关闭数据库连接
-            LogicHotTao.Instance(MyUserInfo.currentUserId).CloseConnection();
+            if (MyUserInfo.currentUserId > 0)
+                LogicHotTao.Instance(MyUserInfo.currentUserId).CloseConnection();
             Application.ExitThread();
             Process.GetCurrentProcess().Kill();
 

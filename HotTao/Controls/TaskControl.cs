@@ -47,9 +47,9 @@ namespace HotTao.Controls
             else
                 hotForm.openControl(new LoginControl(hotForm));
 
-            dgvData.MouseWheel += DgvData_MouseWheel;
-            dgvPid.MouseWheel += DgvData_MouseWheel;
-            dgvTaskPlan.MouseWheel += DgvData_MouseWheel;
+            //dgvData.MouseWheel += DgvData_MouseWheel;
+            //dgvPid.MouseWheel += DgvData_MouseWheel;
+            //dgvTaskPlan.MouseWheel += DgvData_MouseWheel;
 
         }
 

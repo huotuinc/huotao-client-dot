@@ -3,7 +3,8 @@ using System.Windows.Forms;
 using System.IO;
 using HotCoreUtils.Helper;
 using HotTaoCore;
-
+using HotTaoCore.Logic;
+using System.Linq;
 namespace HotTao.Controls
 {
     /// <summary>
@@ -35,23 +36,38 @@ namespace HotTao.Controls
         private void SetAccountControl_Load(object sender, EventArgs e)
         {
             this.IsRememberPassword = false;
-            string lp = LoadLoginNameAndPwd();
-            if (!string.IsNullOrEmpty(lp))
+            //string lp = LoadLoginNameAndPwd();
+            //if (!string.IsNullOrEmpty(lp))
+            //{
+            //    var arr = lp.Split('|');
+            //    if (arr.Length > 2)
+            //    {
+            //        loginName.Text = MyUserInfo.userData.loginName;
+            //        loginName.ReadOnly = true;
+            //        loginPwd.ReadOnly = true;
+            //        _tempLoginName = arr[0];
+            //        // loginPwd.Text = MyUserInfo.userData.loginPwd;
+            //        loginPwd.Text = _tempPassword = arr[1];
+            //        int isAutoLogin = 0;
+            //        int.TryParse(arr[2], out isAutoLogin);
+            //        this.ckbSavePwd.Checked = true;
+            //        this.ckbAutoLogin.Checked = isAutoLogin == 1 ? true : false;
+            //        this.IsRememberPassword = true;
+            //    }
+            //}
+
+
+
+            var data = LogicHotTao.Instance(MyUserInfo.currentUserId).GetLoginName(MyUserInfo.userData.loginName);
+            if (data != null)
             {
-                var arr = lp.Split('|');
-                if (arr.Length > 2)
+                loginName.Text = data.login_name;
+                this.ckbSavePwd.Checked = data.is_save_pwd == 1;
+                this.ckbAutoLogin.Checked = false;
+                this.IsRememberPassword = true;
+                if (!string.IsNullOrEmpty(data.login_password) && data.is_save_pwd == 1)
                 {
-                    loginName.Text = MyUserInfo.userData.loginName;
-                    loginName.ReadOnly = true;
-                    loginPwd.ReadOnly = true;
-                    _tempLoginName = arr[0];
-                    // loginPwd.Text = MyUserInfo.userData.loginPwd;
-                    loginPwd.Text = _tempPassword = arr[1];
-                    int isAutoLogin = 0;
-                    int.TryParse(arr[2], out isAutoLogin);
-                    this.ckbSavePwd.Checked = true;
-                    this.ckbAutoLogin.Checked = isAutoLogin == 1 ? true : false;
-                    this.IsRememberPassword = true;
+                    loginPwd.Text = data.login_password;
                 }
             }
         }
@@ -64,27 +80,37 @@ namespace HotTao.Controls
         {
             try
             {
-                string pwdStr = string.Empty;
-                bool isUpdate = false;
-                //判断是否记住密码
-                if (this.ckbSavePwd.Checked || ckbAutoLogin.Checked)
+                //string pwdStr = string.Empty;
+                //bool isUpdate = false;
+                ////判断是否记住密码
+                //if (this.ckbSavePwd.Checked || ckbAutoLogin.Checked)
+                //{
+                //    if (!string.IsNullOrEmpty(loginName.Text) && !string.IsNullOrEmpty(loginPwd.Text))
+                //    {
+                //        if (_tempPassword != loginPwd.Text || _tempLoginName != loginName.Text)
+                //        {
+                //            pwdStr = loginName.Text + "|" + EncryptHelper.MD5(loginPwd.Text) + "|" + (ckbAutoLogin.Checked ? "1" : "0");// ;       
+                //            isUpdate = true;
+                //        }
+                //        else
+                //        {
+                //            pwdStr = _tempLoginName + "|" + _tempPassword + "|" + (ckbAutoLogin.Checked ? "1" : "0");// ;          
+                //        }
+                //    }
+                //}
+                //RememberPassword(pwdStr);
+                //if (isUpdate)
+                //    hotForm.SetLoginData(null);
+
+
+                LogicHotTao.Instance(MyUserInfo.currentUserId).AddLoginName(new HotTaoCore.Models.SQLiteEntitysModel.LoginNameModel()
                 {
-                    if (!string.IsNullOrEmpty(loginName.Text) && !string.IsNullOrEmpty(loginPwd.Text))
-                    {
-                        if (_tempPassword != loginPwd.Text || _tempLoginName != loginName.Text)
-                        {
-                            pwdStr = loginName.Text + "|" + EncryptHelper.MD5(loginPwd.Text) + "|" + (ckbAutoLogin.Checked ? "1" : "0");// ;       
-                            isUpdate = true;
-                        }
-                        else
-                        {
-                            pwdStr = _tempLoginName + "|" + _tempPassword + "|" + (ckbAutoLogin.Checked ? "1" : "0");// ;          
-                        }
-                    }
-                }
-                RememberPassword(pwdStr);
-                if (isUpdate)
-                    hotForm.SetLoginData(null);
+                    userid = MyUserInfo.currentUserId,
+                    login_name = loginName.Text,
+                    login_password = loginPwd.Text,
+                    is_save_pwd = this.ckbSavePwd.Checked ? 1 : 0
+                });
+
                 ShowAlert("保存成功");
             }
             catch (Exception ex)

@@ -617,25 +617,68 @@ namespace HotTaoCore.DAL
 
 
 
-
+        #region 记住账号密码
+        /// <summary>
+        /// 获取账号列表
+        /// </summary>
+        /// <returns>List&lt;LoginNameModel&gt;.</returns>
         public List<LoginNameModel> GetLoginNameList()
         {
             string strSql = "select userid,login_name,login_password,is_save_pwd from user_list;";
             return DBSqliteHelper.GetLoginNameList<LoginNameModel>(strSql);
         }
 
-
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <param name="loginName">Name of the login.</param>
+        /// <returns>LoginNameModel.</returns>
+        public LoginNameModel GetLoginName(string loginName)
+        {
+            string strSql = "select userid,login_name,login_password,is_save_pwd from user_list where login_name=@loginName;";
+            var param = new[] {
+                new SQLiteParameter("@loginName",loginName)
+            };
+            var data = DBSqliteHelper.GetLoginNameList<LoginNameModel>(strSql, param);
+            if (data != null && data.Count() > 0)
+                return data[0];
+            return null;
+        }
+        /// <summary>
+        /// 添加记住用户
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>System.Int32.</returns>
         public int AddLoginName(LoginNameModel model)
         {
-            string strSql = "INSERT INTO user_list(userid,login_name,login_password,is_save_pwd) values(@userid,@login_name,@login_password,@is_save_pwd);select last_insert_rowid();";
-            var param = new[] {
+            var data = GetLoginName(model.login_name);
+            string strSql = string.Empty;
+            if (data == null)
+            {
+                strSql = "INSERT INTO user_list(userid,login_name,login_password,is_save_pwd) values(@userid,@login_name,@login_password,@is_save_pwd);select last_insert_rowid();";
+                var param = new[] {
                     new SQLiteParameter("@userid",model.userid),
-                    new SQLiteParameter("@title",model.login_name),
-                    new SQLiteParameter("@goodsName",model.login_password),
-                    new SQLiteParameter("@createtime",model.is_save_pwd)
+                    new SQLiteParameter("@login_name",model.login_name),
+                    new SQLiteParameter("@login_password",model.login_password),
+                    new SQLiteParameter("@is_save_pwd",model.is_save_pwd)
                 };
-            return DBSqliteHelper.ExecuteSqlLoginName(strSql, param);
+                return DBSqliteHelper.ExecuteSqlLoginName(strSql, param);
+            }
+            else
+            {
+                strSql = "update user_list set is_save_pwd=@is_save_pwd where userid=@userid";
+                var param = new[] {
+                    new SQLiteParameter("@userid",model.userid),
+                    new SQLiteParameter("@is_save_pwd",model.is_save_pwd)
+                };
+                return DBSqliteHelper.ExecuteSqlLoginName(strSql, param);
+            }
         }
+        #endregion
+
+
+
+
 
     }
 }

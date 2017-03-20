@@ -62,10 +62,10 @@ namespace HotTao
         #endregion
 
         private Main hotForm { get; set; }
-        private HistoryControl historyForm { get; set; }
+        public HistoryControl historyForm { get; set; }
 
 
-        private TaskControl taskForm { get; set; }
+        public TaskControl taskForm { get; set; }
 
         /// <summary>
         /// 是否开始任务
@@ -152,7 +152,7 @@ namespace HotTao
             isStartTask = false;
             isLoginCheck = false;
             loginClose = true;
-            isCloseWinForm = true;
+            isCloseWinForm = true;            
             this.Hide();
         }
 
