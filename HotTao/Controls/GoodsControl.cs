@@ -32,6 +32,7 @@ namespace HotTao.Controls
 
         }
         private static bool isSubmit = false;
+
         /// <summary>
         /// 定时器，定时去检查网页操作是否完成,如果完成，则跳转到微信群发页面
         /// </summary>
@@ -39,21 +40,16 @@ namespace HotTao.Controls
 
         private void GoodsControl_Load(object sender, EventArgs e)
         {
-
             if (MyUserInfo.currentUserId > 0)
             {
                 isSubmit = false;
                 string url = ApiConst.Url + "/goods/goodListPage?token=" + MyUserInfo.LoginToken;
-                new System.Threading.Thread(() =>
-                {
-                    if (hotForm.browser == null)
-                    {
-                        hotForm.InitBrowser(url);
-                    }
-                    SetBrowserPanel(hotForm.browser);
-                })
-                { IsBackground = true }.Start();
 
+                if (hotForm.browser == null)
+                {
+                    hotForm.InitBrowser(url);
+                }
+                SetBrowserPanel(hotForm.browser);
 
                 if (timer != null)
                 {
@@ -122,14 +118,12 @@ namespace HotTao.Controls
         {
             try
             {
+                isSubmit = false;
                 if (!string.IsNullOrEmpty(json_goods_result))
                 {
-
                     List<GoodsSelectedModel> goodsData = JsonConvert.DeserializeObject<List<GoodsSelectedModel>>(json_goods_result);
-
-                    if (goodsData != null)
+                    if (goodsData != null && goodsData.Count() > 0)
                     {
-                        Loading ld = new Loading();
                         new Thread(() =>
                         {
                             foreach (var item in goodsData)
@@ -137,7 +131,6 @@ namespace HotTao.Controls
                                 try
                                 {
                                     if (item.couponPrice <= 0 || item.goodsPrice - item.couponPrice <= 0) continue;
-
                                     GoodsModel goods = new GoodsModel()
                                     {
                                         userid = MyUserInfo.currentUserId,
@@ -183,12 +176,9 @@ namespace HotTao.Controls
                                     log.Error(ex);
                                 }
                             }
-                            ld.CloseForm();
-                            //网页调该方法            
                             isSubmit = true;
                         })
                         { IsBackground = true }.Start();
-                        ld.ShowDialog(hotForm);
                     }
                 }
             }

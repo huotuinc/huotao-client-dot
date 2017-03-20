@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TBSyncControlPanel));
             this.hotPanel1 = new TBSync.HotPanel(this.components);
             this.btnAsyncGoods = new System.Windows.Forms.Button();
             this.btnLoginTaobao = new System.Windows.Forms.Button();
@@ -131,6 +132,7 @@
             this.pbMin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pbMin.TabIndex = 8;
             this.pbMin.TabStop = false;
+            this.pbMin.Click += new System.EventHandler(this.pbMin_Click);
             // 
             // lbTitle
             // 
@@ -189,6 +191,7 @@
             this.ClientSize = new System.Drawing.Size(800, 507);
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TBSyncControlPanel";
             this.Text = "控制面板";
             this.hotPanel1.ResumeLayout(false);

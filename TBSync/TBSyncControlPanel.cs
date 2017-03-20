@@ -160,5 +160,10 @@ namespace TBSync
                 MessageBox.Show("正在同步中，请先暂停同步");
             }
         }
+
+        private void pbMin_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
     }
 }

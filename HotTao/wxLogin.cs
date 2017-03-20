@@ -1140,7 +1140,7 @@ namespace HotTao
                     //更新修改状态
                     UpdateShareTextStatus(item.id);
 
-                    SleepImage(1);
+                    SleepGoods();
                 }
                 catch (Exception ex)
                 {

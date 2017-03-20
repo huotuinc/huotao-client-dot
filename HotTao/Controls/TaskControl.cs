@@ -361,6 +361,7 @@ namespace HotTao.Controls
                     obj.Rows[i - 1].Cells["goodsSalesAmount"].Value = data[j].goodsSalesAmount.ToString();
                     obj.Rows[i - 1].Cells["goodsComsRate"].Value = data[j].goodsComsRate.ToString();
                     obj.Rows[i - 1].Cells["couponPrice"].Value = data[j].couponPrice.ToString();
+                    obj.Rows[i - 1].Cells["updateTime"].Value = data[j].updateTime.ToString();
 
                     if (i % 2 == 0)
                     {
@@ -946,7 +947,7 @@ namespace HotTao.Controls
         {
             if (MyUserInfo.currentUserId == 0) return;
 
-            
+
             if (!string.IsNullOrEmpty(MyUserInfo.TaobaoName))
             {
                 if (this.dgvPid.Rows.Count > MouseCurrentRowIndex)
@@ -1199,6 +1200,28 @@ namespace HotTao.Controls
                 //{
                 //    //ExcelHelper
                 //}
+            }
+        }
+
+        /// <summary>
+        /// 一键清空我的商品
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnClearAllGoods_Click(object sender, EventArgs e)
+        {
+            bool isOK = false;
+            MessageConfirm confirm = new MessageConfirm("您确定要清空我的商品数据？");
+            confirm.CallBack += () =>
+            {
+                isOK = true;
+            };
+            confirm.ShowDialog(this);
+            if (isOK)
+            {
+                bool flag = LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteAllGoods(MyUserInfo.currentUserId);
+                if (flag)
+                    LoadGoodsGridView();
             }
         }
     }

@@ -47,14 +47,12 @@ namespace HotTao
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new Action(CloseForm), new object[] {  });
+                this.Invoke(new Action(CloseForm), new object[] { });
             }
             else
             {
                 this.Close();
             }
-
-
             //this.BeginInvoke((Action)(delegate ()  //等待结束
             //{
             //    this.Close();

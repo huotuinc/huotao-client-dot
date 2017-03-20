@@ -183,20 +183,14 @@ namespace HotTao
                 }
             })).BeginInvoke(null, null);
         }
+
+
+
         /// <summary>
         /// 初始化商品库
         /// </summary>
         public void InitBrowser(string token)
         {
-            //browser = new ChromiumWebBrowser(token);
-            //browser.RegisterJsObject("jsGoods", new GoodsControl(this), false);
-            //BrowserSettings settings = new BrowserSettings()
-            //{
-            //    LocalStorage = CefState.Enabled,
-            //    Javascript = CefState.Enabled,
-            //};
-            //browser.Size = new Size(920, 607);
-            //browser.Location = new Point(1, 0);
             new System.Threading.Thread(() =>
             {
                 browser = new ChromiumWebBrowser(token);

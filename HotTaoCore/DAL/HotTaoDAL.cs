@@ -206,7 +206,7 @@ namespace HotTaoCore.DAL
         /// <returns>List&lt;GoodsModel&gt;.</returns>
         public List<GoodsModel> FindByUserGoodsList(int userid)
         {
-            string strSql = @"select id,userid,goodsId,goodsName,goodsMainImgUrl,goodsIntro,goodslocatImgPath,goodsDetailUrl,goodsSupplier,goodsSalesAmount,goodsComsRate,goodsPrice,couponPrice,endTime,couponUrl,couponId,updateTime from user_goods_list where userid=@userid;";
+            string strSql = @"select id,userid,goodsId,goodsName,goodsMainImgUrl,goodsIntro,goodslocatImgPath,goodsDetailUrl,goodsSupplier,goodsSalesAmount,goodsComsRate,goodsPrice,couponPrice,endTime,couponUrl,couponId,updateTime from user_goods_list where userid=@userid order by updatetime desc;";
             var param = new[] {
                 new SQLiteParameter("@userid",userid),
             };
@@ -221,7 +221,7 @@ namespace HotTaoCore.DAL
         /// <returns>List&lt;GoodsModel&gt;.</returns>
         public List<GoodsModel> FindByUserGoodsList(int userid, List<int> ids)
         {
-            string strSql = string.Format(@"select id,userid,goodsId,goodsName,goodsMainImgUrl,goodsIntro,goodslocatImgPath,goodsDetailUrl,goodsSupplier,goodsSalesAmount,goodsComsRate,goodsPrice,couponPrice,endTime,couponUrl,couponId,updateTime from user_goods_list where userid=@userid and id in ({0});", string.Join(",", ids));
+            string strSql = string.Format(@"select id,userid,goodsId,goodsName,goodsMainImgUrl,goodsIntro,goodslocatImgPath,goodsDetailUrl,goodsSupplier,goodsSalesAmount,goodsComsRate,goodsPrice,couponPrice,endTime,couponUrl,couponId,updateTime from user_goods_list where userid=@userid and id in ({0})  order by updatetime desc;", string.Join(",", ids));
             var param = new[] {
                 new SQLiteParameter("@userid",userid),
             };
@@ -242,6 +242,21 @@ namespace HotTaoCore.DAL
                 };
             return DBHelper.ExecuteSql(strSql, param) > 0;
         }
+
+        /// <summary>
+        /// 删除所有本地商品
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool DeleteAllGoods(int userid)
+        {
+            string strSql = "delete from user_goods_list where userid=@userid;";
+            var param = new[] {
+                    new SQLiteParameter("@userid",userid)
+                };
+            return DBHelper.ExecuteSql(strSql, param) > 0;
+        }
+
 
 
         /// <summary>
@@ -394,6 +409,9 @@ namespace HotTaoCore.DAL
             return DBHelper.ExecuteSql(strSql, param);
         }
 
+              
+
+
 
         /// <summary>
         /// 修改用户计划任务执行状态
@@ -447,7 +465,7 @@ namespace HotTaoCore.DAL
         /// <returns>List&lt;GoodsModel&gt;.</returns>
         public List<TaskPlanModel> FindByUserTaskPlanList(int userid)
         {
-            string strSql = @"select id,userid,title,startTime,endTime,goodsText,pidsText,isTpwd,status from user_task_plan where userid=@userid;";
+            string strSql = @"select id,userid,title,startTime,endTime,goodsText,pidsText,isTpwd,status from user_task_plan where userid=@userid  order by status asc,startTime asc;";
             var param = new[] {
                 new SQLiteParameter("@userid",userid),
             };
