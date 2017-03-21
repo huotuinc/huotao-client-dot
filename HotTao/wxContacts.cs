@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotTao.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -130,16 +131,32 @@ namespace HotTao
         }
 
 
-
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void picClose_Click(object sender, EventArgs e)
         {
-            wxlg.isCloseWinForm = true;
-            wxlg.isStartTask = false;
-            if (wxlg.taskForm != null)
-                wxlg.taskForm.ShowStartButtonText("开始计划");
-            if (wxlg.historyForm != null)
-                wxlg.historyForm.ShowStartButtonText("开始计划");
-            this.Close();
+            bool isOk = false;
+            MessageConfirm confirm = new MessageConfirm("退出后任务计划将停止，确定要退出吗？");
+            confirm.CallBack += () =>
+            {
+                isOk = true;
+            };
+            confirm.ShowDialog(this);
+            if (isOk)
+            {                
+                wxlg.isCloseWinForm = true;
+                wxlg.isStartTask = false;
+                if (wxlg.taskForm != null)
+                    wxlg.taskForm.ShowStartButtonText("开始计划");
+                if (wxlg.historyForm != null)
+                    wxlg.historyForm.ShowStartButtonText("开始计划");
+
+                wxlg.wxcontactsForm = null;
+                this.Close();
+            }
         }
 
 
@@ -162,7 +179,7 @@ namespace HotTao
         /// <param name="text">The text.</param>
         public void SetLog(string text, bool showTime = true)
         {
-            if (this.InvokeRequired)
+            if (this.txtSendLog.InvokeRequired)
             {
                 this.Invoke(new Action<string, bool>(SetLog), new object[] { text, showTime });
             }
@@ -243,7 +260,7 @@ namespace HotTao
                         dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
                     }
                     dgvWeChatList.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
-                    dgvWeChatList.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;                    
+                    dgvWeChatList.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
                 }
             }
         }
@@ -265,7 +282,7 @@ namespace HotTao
         private void txtSearch_KeyUp(object sender, KeyEventArgs e)
         {
 
-           
+
         }
 
         /// <summary>
@@ -275,7 +292,7 @@ namespace HotTao
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void toolsRefresh_Click(object sender, EventArgs e)
         {
-            wxlg.ReloadContact();            
+            wxlg.ReloadContact();
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)

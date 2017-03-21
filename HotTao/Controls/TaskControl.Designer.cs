@@ -122,6 +122,9 @@
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
+            this.pgoods = new System.Windows.Forms.Panel();
+            this.pwechat = new System.Windows.Forms.Panel();
+            this.ptask = new System.Windows.Forms.Panel();
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.label15 = new System.Windows.Forms.Label();
             this.btnAddTask = new System.Windows.Forms.Button();
@@ -178,7 +181,7 @@
             this.dgvPid.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvPid.RowTemplate.Height = 23;
             this.dgvPid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPid.Size = new System.Drawing.Size(392, 150);
+            this.dgvPid.Size = new System.Drawing.Size(390, 150);
             this.dgvPid.TabIndex = 0;
             this.dgvPid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPid_CellClick);
             this.dgvPid.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvPid_CellMouseMove);
@@ -311,7 +314,7 @@
             this.panel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.panel1.Location = new System.Drawing.Point(9, 41);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(392, 36);
+            this.panel1.Size = new System.Drawing.Size(391, 36);
             this.panel1.TabIndex = 1;
             // 
             // label2
@@ -602,7 +605,7 @@
             this.dgvData.RowsDefaultCellStyle = dataGridViewCellStyle14;
             this.dgvData.RowTemplate.Height = 23;
             this.dgvData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvData.Size = new System.Drawing.Size(907, 253);
+            this.dgvData.Size = new System.Drawing.Size(906, 253);
             this.dgvData.TabIndex = 2;
             this.dgvData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
             // 
@@ -812,7 +815,7 @@
             this.panel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.panel3.Location = new System.Drawing.Point(7, 267);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(907, 36);
+            this.panel3.Size = new System.Drawing.Size(906, 36);
             this.panel3.TabIndex = 1;
             // 
             // label10
@@ -1049,6 +1052,31 @@
             // 
             this.saveFile.Filter = "Excel文件|*.xls|Excel文件|*.xlsx";
             // 
+            // pgoods
+            // 
+            this.pgoods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.pgoods.Location = new System.Drawing.Point(912, 303);
+            this.pgoods.Name = "pgoods";
+            this.pgoods.Size = new System.Drawing.Size(8, 257);
+            this.pgoods.TabIndex = 7;
+            this.pgoods.Visible = false;
+            // 
+            // pwechat
+            // 
+            this.pwechat.Location = new System.Drawing.Point(400, 77);
+            this.pwechat.Name = "pwechat";
+            this.pwechat.Size = new System.Drawing.Size(13, 150);
+            this.pwechat.TabIndex = 8;
+            this.pwechat.Visible = false;
+            // 
+            // ptask
+            // 
+            this.ptask.Location = new System.Drawing.Point(911, 77);
+            this.ptask.Name = "ptask";
+            this.ptask.Size = new System.Drawing.Size(8, 150);
+            this.ptask.TabIndex = 9;
+            this.ptask.Visible = false;
+            // 
             // hotPanel1
             // 
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
@@ -1171,17 +1199,20 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.ptask);
+            this.Controls.Add(this.pwechat);
+            this.Controls.Add(this.pgoods);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.btnAddGoods);
             this.Controls.Add(this.btnWeChatWinGet);
             this.Controls.Add(this.btnAddWeChatGroup);
             this.Controls.Add(this.label14);
-            this.Controls.Add(this.dgvData);
             this.Controls.Add(this.dgvTaskPlan);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.dgvPid);
+            this.Controls.Add(this.dgvData);
             this.Controls.Add(this.hotPanel1);
             this.Name = "TaskControl";
             this.Size = new System.Drawing.Size(920, 606);
@@ -1292,5 +1323,8 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnClearAllGoods;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel pgoods;
+        private System.Windows.Forms.Panel pwechat;
+        private System.Windows.Forms.Panel ptask;
     }
 }

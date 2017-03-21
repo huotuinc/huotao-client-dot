@@ -570,7 +570,7 @@ namespace HotTaoCore.DAL
             var param = new[] {
                     new SQLiteParameter("@userid",model.userid),
                     new SQLiteParameter("@title",model.title),
-                    new SQLiteParameter("@goodsName",model.shareText),
+                    new SQLiteParameter("@shareText",model.shareText),
                     new SQLiteParameter("@createtime",model.createtime),
                     new SQLiteParameter("@errorType",model.errorType)
                 };

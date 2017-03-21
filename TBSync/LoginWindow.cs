@@ -28,6 +28,11 @@ namespace TBSync
     /// </summary>
     public delegate void SubmitSuccessEventHandler();
 
+    /// <summary>
+    /// 登录页面加载完成事件方法
+    /// </summary>
+    public delegate void LoginPageLoadSuccessEventHandler(bool success);
+
     public partial class LoginWindow : Form
     {
         public LoginWindow()
@@ -44,6 +49,11 @@ namespace TBSync
         /// 提交申请完成
         /// </summary>
         public event SubmitSuccessEventHandler SubmitSuccessHandle;
+
+        /// <summary>
+        /// 登录页面加载完成
+        /// </summary>
+        public event LoginPageLoadSuccessEventHandler LoadSuccessHandle;
 
         public ChromiumWebBrowser browser;
 
@@ -62,7 +72,7 @@ namespace TBSync
             OpenTaobao();
         }
 
-        private void OpenTaobao()
+        public void OpenTaobao()
         {
             browser = new ChromiumWebBrowser(LoginUrl);
             BrowserSettings settings = new BrowserSettings()
@@ -77,21 +87,44 @@ namespace TBSync
         }
 
         private bool isLoadCompleted = false;
+        private bool isLoginCompleted = false;
+        private bool isLoadPlanCompleted = false;
+
+
+        /// <summary>
+        /// 是否登录成功
+        /// </summary>
+        private bool isLoginSuccess = false;
 
         /// <summary>
         /// 页面加载完成
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="FrameLoadEndEventArgs"/> instance containing the event data.</param>
-        private  void Browser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
+        private void Browser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
         {
-            //登录成功后的页面
-            if (e.Url == LoginSuccessUrl)
+
+            if (e.Url == LoginUrl)
             {
-                this.Hide();
                 if (!isLoadCompleted)
                 {
                     isLoadCompleted = true;
+                    new Thread(() =>
+                    {
+                        //页面加载完成回调
+                        LoadSuccessHandle?.Invoke(true);
+                    })
+                    { IsBackground = true }.Start();
+                }
+            }
+            //登录成功后的页面
+            else if (e.Url == LoginSuccessUrl)
+            {
+                isLoginSuccess = true;
+                this.Hide();
+                if (!isLoginCompleted)
+                {
+                    isLoginCompleted = true;
                     new Thread(() =>
                     {
                         //页面加载完成回调
@@ -102,9 +135,9 @@ namespace TBSync
             }
             else if (e.Url == planUrl)
             {
-                if (!isLoadCompleted)
+                if (!isLoadPlanCompleted)
                 {
-                    isLoadCompleted = true;
+                    isLoadPlanCompleted = true;
                     new Thread(() =>
                     {
                         ClickCampaignElement();
@@ -123,7 +156,7 @@ namespace TBSync
         /// <param name="url">The URL.</param>
         public void GoPlanPage(string url)
         {
-            isLoadCompleted = false;
+            isLoadPlanCompleted = false;
             planUrl = url;
             browser.Load(url);
 
@@ -143,8 +176,7 @@ namespace TBSync
             Thread.Sleep(100);
             //提交推广
             browser.ExecuteScriptAsync("document.getElementsByClassName('form-auth').item(0).getElementsByTagName('li').item(1).getElementsByTagName('a').item(0).click();");
-            Thread.Sleep(100);
-
+            Thread.Sleep(100);            
             new Thread(() =>
             {
                 Thread.Sleep(100);
@@ -153,6 +185,51 @@ namespace TBSync
             })
             { IsBackground = true }.Start();
         }
+
+
+
+
+
+        public void InputAccount(string loginname, string loginpwd)
+        {
+            isLoginSuccess = false;
+            Thread.Sleep(1000);
+            //输入账号名
+            browser.ExecuteScriptAsync("document.getElementById('TPL_username_1').value='" + loginname + "';");
+            Thread.Sleep(100);
+            browser.ExecuteScriptAsync("document.getElementById('TPL_password_1').value='" + loginname + "';");
+            Thread.Sleep(100);
+            browser.ExecuteScriptAsync("document.getElementById('J_SubmitStatic').click();");
+            new Thread(() =>
+            {                
+                Thread.Sleep(5000);
+                if (!isLoginSuccess)
+                {
+                    //提交完成
+                    LoadSuccessHandle?.Invoke(false);
+                }
+            })
+            { IsBackground = true }.Start();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private void pbClose_Click(object sender, EventArgs e)
         {

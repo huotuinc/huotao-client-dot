@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -69,15 +70,50 @@ namespace TBSync
         /// </summary>
         private bool isStartAsync = false;
 
+
+        private string loginname = string.Empty;
+        private string loginpwd = string.Empty;
+
         private void btnLoginTaobao_Click(object sender, EventArgs e)
         {
             if (lw == null)
             {
+                loginname = txtloginname.Text;
+                loginpwd = txtloginpwd.Text;
+                if (string.IsNullOrEmpty(loginname) && string.IsNullOrEmpty(loginpwd))
+                {
+                    return;
+                }                
                 lw = new LoginWindow();
                 lw.LoginSuccessHandle += Lw_LoginSuccessHandle;
                 lw.SubmitSuccessHandle += Lw_SubmitSuccessHandle;
+                lw.LoadSuccessHandle += Lw_LoadSuccessHandle;
                 lw.Show();
             }
+        }
+
+        /// <summary>
+        /// 登录页面加载完成后
+        /// </summary>
+        /// <param name="success">if set to true [success].</param>
+        /// <exception cref="System.NotImplementedException"></exception>
+        private void Lw_LoadSuccessHandle(bool success)
+        {
+            if (success && !string.IsNullOrEmpty(loginname) && !string.IsNullOrEmpty(loginpwd))
+            {
+                Thread.Sleep(1000);
+                if (lw != null)
+                {
+                    lw.InputAccount(loginname, loginpwd);
+                    SetText("登录中...");
+                }
+            }
+            else
+            {
+                if (lw != null)
+                    lw.Show();
+            }
+
         }
 
         /// <summary>
@@ -94,7 +130,7 @@ namespace TBSync
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
         private void Lw_LoginSuccessHandle()
-        {
+        {            
             SetText("登录成功!");
             SetbtnLoginTaobao(false);
         }
@@ -124,12 +160,15 @@ namespace TBSync
             {
                 btnLoginTaobao.Enabled = enabled;
                 btnAsyncGoods.Enabled = true;
+
+                txtloginname.ReadOnly = true;
+                txtloginpwd.ReadOnly = true;
             }
         }
 
         private void btnAsyncGoods_Click(object sender, EventArgs e)
         {
-            if (!isStartAsync)
+            if (!isStartAsync && lw != null)
             {
                 isStartAsync = true;
                 lw.GoPlanPage(textBox1.Text);
@@ -137,11 +176,15 @@ namespace TBSync
                 SetText("启动同步");
                 SetText("开始申请定向计划");
             }
-            else
+            else if (isStartAsync)
             {
                 isStartAsync = false;
                 SetText("停止同步");
                 btnAsyncGoods.Text = "开启同步";
+            }
+            else
+            {
+                SetText("请先登录淘宝");
             }
         }
 

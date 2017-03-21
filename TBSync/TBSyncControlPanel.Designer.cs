@@ -31,6 +31,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TBSyncControlPanel));
             this.hotPanel1 = new TBSync.HotPanel(this.components);
+            this.txtloginpwd = new System.Windows.Forms.TextBox();
+            this.txtloginname = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnAsyncGoods = new System.Windows.Forms.Button();
             this.btnLoginTaobao = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.RichTextBox();
@@ -51,6 +55,10 @@
             // 
             this.hotPanel1.BackColor = System.Drawing.Color.White;
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Controls.Add(this.txtloginpwd);
+            this.hotPanel1.Controls.Add(this.txtloginname);
+            this.hotPanel1.Controls.Add(this.label2);
+            this.hotPanel1.Controls.Add(this.label1);
             this.hotPanel1.Controls.Add(this.btnAsyncGoods);
             this.hotPanel1.Controls.Add(this.btnLoginTaobao);
             this.hotPanel1.Controls.Add(this.textBox1);
@@ -62,6 +70,39 @@
             this.hotPanel1.Size = new System.Drawing.Size(800, 507);
             this.hotPanel1.TabIndex = 6;
             // 
+            // txtloginpwd
+            // 
+            this.txtloginpwd.Location = new System.Drawing.Point(69, 103);
+            this.txtloginpwd.Name = "txtloginpwd";
+            this.txtloginpwd.Size = new System.Drawing.Size(104, 21);
+            this.txtloginpwd.TabIndex = 14;
+            this.txtloginpwd.UseSystemPasswordChar = true;
+            // 
+            // txtloginname
+            // 
+            this.txtloginname.Location = new System.Drawing.Point(67, 62);
+            this.txtloginname.Name = "txtloginname";
+            this.txtloginname.Size = new System.Drawing.Size(104, 21);
+            this.txtloginname.TabIndex = 14;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 106);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 12);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "label1";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 65);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 12);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "label1";
+            // 
             // btnAsyncGoods
             // 
             this.btnAsyncGoods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
@@ -72,7 +113,7 @@
             this.btnAsyncGoods.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
             this.btnAsyncGoods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAsyncGoods.ForeColor = System.Drawing.Color.White;
-            this.btnAsyncGoods.Location = new System.Drawing.Point(96, 68);
+            this.btnAsyncGoods.Location = new System.Drawing.Point(96, 178);
             this.btnAsyncGoods.Name = "btnAsyncGoods";
             this.btnAsyncGoods.Size = new System.Drawing.Size(75, 32);
             this.btnAsyncGoods.TabIndex = 12;
@@ -90,7 +131,7 @@
             this.btnLoginTaobao.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(177)))));
             this.btnLoginTaobao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoginTaobao.ForeColor = System.Drawing.Color.White;
-            this.btnLoginTaobao.Location = new System.Drawing.Point(15, 68);
+            this.btnLoginTaobao.Location = new System.Drawing.Point(15, 178);
             this.btnLoginTaobao.Name = "btnLoginTaobao";
             this.btnLoginTaobao.Size = new System.Drawing.Size(75, 32);
             this.btnLoginTaobao.TabIndex = 11;
@@ -102,9 +143,9 @@
             // 
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
             this.textBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            this.textBox1.Location = new System.Drawing.Point(12, 114);
+            this.textBox1.Location = new System.Drawing.Point(256, 51);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(756, 50);
+            this.textBox1.Size = new System.Drawing.Size(532, 121);
             this.textBox1.TabIndex = 10;
             this.textBox1.Text = "";
             // 
@@ -164,7 +205,7 @@
             this.hotGroupBox1.Controls.Add(this.txtMsgTip);
             this.hotGroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.hotGroupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.hotGroupBox1.Location = new System.Drawing.Point(12, 195);
+            this.hotGroupBox1.Location = new System.Drawing.Point(12, 216);
             this.hotGroupBox1.Name = "hotGroupBox1";
             this.hotGroupBox1.Size = new System.Drawing.Size(776, 281);
             this.hotGroupBox1.TabIndex = 5;
@@ -195,6 +236,7 @@
             this.Name = "TBSyncControlPanel";
             this.Text = "控制面板";
             this.hotPanel1.ResumeLayout(false);
+            this.hotPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbMin)).EndInit();
@@ -215,5 +257,9 @@
         private System.Windows.Forms.RichTextBox textBox1;
         private System.Windows.Forms.Button btnAsyncGoods;
         private System.Windows.Forms.Button btnLoginTaobao;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtloginpwd;
+        private System.Windows.Forms.TextBox txtloginname;
+        private System.Windows.Forms.Label label2;
     }
 }

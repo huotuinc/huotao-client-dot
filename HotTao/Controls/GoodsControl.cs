@@ -50,7 +50,6 @@ namespace HotTao.Controls
                     hotForm.InitBrowser(url);
                 }
                 SetBrowserPanel(hotForm.browser);
-
                 if (timer != null)
                 {
                     timer.Stop();
@@ -81,6 +80,7 @@ namespace HotTao.Controls
                     timer.Stop();
                     timer = null;
                 }
+                ld.CloseForm();
                 string url = ApiConst.Url + "/goods/goodListPage?token=" + MyUserInfo.LoginToken;
                 hotForm.browser.Load(url);
                 hotForm.SetWeChatTabSelected();
@@ -110,6 +110,8 @@ namespace HotTao.Controls
             isSubmit = true;
         }
 
+        private Loading ld = new Loading();
+
         /// <summary>
         /// 提交选择的商品json数据字符串
         /// </summary>
@@ -123,7 +125,7 @@ namespace HotTao.Controls
                 {
                     List<GoodsSelectedModel> goodsData = JsonConvert.DeserializeObject<List<GoodsSelectedModel>>(json_goods_result);
                     if (goodsData != null && goodsData.Count() > 0)
-                    {
+                    {                      
                         new Thread(() =>
                         {
                             foreach (var item in goodsData)
@@ -176,9 +178,10 @@ namespace HotTao.Controls
                                     log.Error(ex);
                                 }
                             }
-                            isSubmit = true;
+                            LoadClose();
                         })
                         { IsBackground = true }.Start();
+                        ld.ShowDialog();
                     }
                 }
             }
@@ -187,6 +190,21 @@ namespace HotTao.Controls
                 log.Error(ex);
             }
         }
+
+        private void LoadClose()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(LoadClose), new object[] {  });
+            }
+            else
+            {
+                ld.Close();
+                isSubmit = true;
+            }
+        }
+
+
         /// <summary>
         /// 打开外部浏览器
         /// </summary>

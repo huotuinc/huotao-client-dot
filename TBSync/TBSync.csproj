@@ -137,6 +137,12 @@
     <Content Include="icon_close.png" />
     <Content Include="icon_min.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HotTaoCore\HotTaoCore.csproj">
+      <Project>{850f7582-733e-4a00-9d30-8c977e4f01b9}</Project>
+      <Name>HotTaoCore</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\cef.redist.x64.3.2623.1401\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2623.1401\build\cef.redist.x64.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

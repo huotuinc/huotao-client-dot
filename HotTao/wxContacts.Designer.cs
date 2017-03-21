@@ -37,6 +37,7 @@
             this.txtNickName = new System.Windows.Forms.Label();
             this.pbHeadImg = new System.Windows.Forms.PictureBox();
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
+            this.picClose = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.txtSearch = new System.Windows.Forms.RichTextBox();
@@ -48,16 +49,15 @@
             this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolsRefresh = new System.Windows.Forms.ToolStripMenuItem();
-            this.picClose = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHeadImg)).BeginInit();
             this.hotPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picClose)).BeginInit();
             this.hotGroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picMin)).BeginInit();
             this.hotGroupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWeChatList)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picClose)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -106,6 +106,21 @@
             this.hotPanel1.Name = "hotPanel1";
             this.hotPanel1.Size = new System.Drawing.Size(889, 640);
             this.hotPanel1.TabIndex = 3;
+            this.hotPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
+            this.hotPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
+            this.hotPanel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
+            // 
+            // picClose
+            // 
+            this.picClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picClose.Image = global::HotTao.Properties.Resources.icon_close1;
+            this.picClose.Location = new System.Drawing.Point(863, 5);
+            this.picClose.Name = "picClose";
+            this.picClose.Size = new System.Drawing.Size(20, 20);
+            this.picClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picClose.TabIndex = 43;
+            this.picClose.TabStop = false;
+            this.picClose.Click += new System.EventHandler(this.picClose_Click);
             // 
             // button1
             // 
@@ -118,7 +133,7 @@
             this.button1.Size = new System.Drawing.Size(16, 3);
             this.button1.TabIndex = 42;
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.picClose_Click);
+            this.button1.Click += new System.EventHandler(this.picMin_Click);
             // 
             // hotGroupBox1
             // 
@@ -258,18 +273,6 @@
             this.toolsRefresh.Text = "刷新通讯录";
             this.toolsRefresh.Click += new System.EventHandler(this.toolsRefresh_Click);
             // 
-            // picClose
-            // 
-            this.picClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picClose.Image = global::HotTao.Properties.Resources.icon_close1;
-            this.picClose.Location = new System.Drawing.Point(863, 5);
-            this.picClose.Name = "picClose";
-            this.picClose.Size = new System.Drawing.Size(20, 20);
-            this.picClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picClose.TabIndex = 43;
-            this.picClose.TabStop = false;
-            this.picClose.Click += new System.EventHandler(this.picClose_Click);
-            // 
             // wxContacts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -286,12 +289,12 @@
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbHeadImg)).EndInit();
             this.hotPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picClose)).EndInit();
             this.hotGroupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picMin)).EndInit();
             this.hotGroupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvWeChatList)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picClose)).EndInit();
             this.ResumeLayout(false);
 
         }
