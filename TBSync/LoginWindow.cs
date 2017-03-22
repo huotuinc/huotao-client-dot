@@ -74,17 +74,38 @@ namespace TBSync
 
         public void OpenTaobao()
         {
-            browser = new ChromiumWebBrowser(LoginUrl);
-            BrowserSettings settings = new BrowserSettings()
+            if (browser == null)
             {
-                LocalStorage = CefState.Enabled,
-                Javascript = CefState.Enabled,
-            };
-            browser.Size = new Size(920, 607);
-            browser.Location = new Point(1, 0);
-            browser.FrameLoadEnd += Browser_FrameLoadEnd;
-            this.tbPanel.Controls.Add(browser);
+                new Thread(() =>
+                {
+                    browser = new ChromiumWebBrowser(LoginUrl);
+                    BrowserSettings settings = new BrowserSettings()
+                    {
+                        LocalStorage = CefState.Enabled,
+                        Javascript = CefState.Enabled,
+                    };
+                    browser.Size = new Size(920, 607);
+                    browser.Location = new Point(1, 0);
+                    browser.FrameLoadEnd += Browser_FrameLoadEnd;
+                    SetBrowser(browser);
+                })
+                { IsBackground = true }.Start();
+            }
         }
+
+        private void SetBrowser(ChromiumWebBrowser data)
+        {
+            if (this.tbPanel.InvokeRequired)
+            {
+                this.Invoke(new Action<ChromiumWebBrowser>(SetBrowser), new object[] { data });
+            }
+            else
+            {
+                this.tbPanel.Controls.Add(data);                
+            }
+        }
+
+
 
         private bool isLoadCompleted = false;
         private bool isLoginCompleted = false;
@@ -121,7 +142,7 @@ namespace TBSync
             else if (e.Url == LoginSuccessUrl)
             {
                 isLoginSuccess = true;
-                this.Hide();
+                HideWindow();
                 if (!isLoginCompleted)
                 {
                     isLoginCompleted = true;
@@ -160,6 +181,19 @@ namespace TBSync
             planUrl = url;
             browser.Load(url);
 
+        }
+
+
+        private void HideWindow()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(HideWindow), new object[] { });
+            }
+            else
+            {
+                this.Hide();
+            }
         }
 
         /// <summary>

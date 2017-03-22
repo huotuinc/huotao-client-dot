@@ -193,7 +193,16 @@ namespace HotTaoCore.Logic
         {
             return dal.DeleteAllGoods(userid);
         }
-
+        /// <summary>
+        /// 删除选中的本地商品
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <param name="ids">The ids.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool DeleteAllGoods(int userid, List<int> ids)
+        {
+            return dal.DeleteAllGoods(userid, ids);
+        }
 
         /// <summary>
         /// 根据商品自增ID，获取商品信息

@@ -150,9 +150,9 @@ namespace HotTao
                 wxlg.isCloseWinForm = true;
                 wxlg.isStartTask = false;
                 if (wxlg.taskForm != null)
-                    wxlg.taskForm.ShowStartButtonText("开始计划");
+                    wxlg.taskForm.ShowStartButtonText("启动计划");
                 if (wxlg.historyForm != null)
-                    wxlg.historyForm.ShowStartButtonText("开始计划");
+                    wxlg.historyForm.ShowStartButtonText("启动计划");
 
                 wxlg.wxcontactsForm = null;
                 this.Close();

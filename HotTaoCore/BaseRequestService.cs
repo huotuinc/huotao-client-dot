@@ -138,6 +138,46 @@ namespace HotTaoCore
         }
 
 
+        /// <summary>
+        /// 返回Data int
+        /// </summary>
+        /// <param name="reqName">Name of the req.</param>
+        /// <param name="formFields">The form fields.</param>
+        /// <param name="OnError">The on error.</param>
+        /// <returns>System.String.</returns>
+        public static int PostToInt32(string reqName, Dictionary<string, string> formFields, Action<ResultModel> OnError = null)
+        {
+            try
+            {
+                if (formFields == null)
+                    formFields = new Dictionary<string, string>();
+                formFields["timestamp"] = StringHelper.GetTimeStamp();
+                //获取签名
+                formFields["signature"] = SignatureHelper.BuildSign(formFields, ApiConst.SecretKey);
+                byte[] request_body = Encoding.UTF8.GetBytes(PrepareRequestBody(formFields));
+
+                var request = CreateRequest(ApiConst.Url + reqName, request_body);
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    return GetResponseToInt32(response, OnError);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(reqName + " " + ex.ToString());
+                ResultModel result = new ResultModel();
+                result.resultMsg = "连接服务器失败";
+                result.resultCode = 500;
+                OnError?.Invoke(result);
+                return 0;
+            }
+        }
+
+
+
+
+
+
         private static HttpWebRequest CreateRequest(string url, byte[] request_body)
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
@@ -233,6 +273,35 @@ namespace HotTaoCore
             }
             return string.Empty;
         }
+
+
+        private static int GetResponseToInt32(HttpWebResponse response, Action<ResultModel> OnError)
+        {
+            using (Stream response_stream = response.GetResponseStream())
+            {
+                using (StreamReader sr = new StreamReader(response_stream, Encoding.UTF8))
+                {
+                    string respone = sr.ReadToEnd().Trim();
+                    if (!string.IsNullOrEmpty(respone))
+                    {
+                        ResultModel result = JsonConvert.DeserializeObject<ResultModel>(respone);
+                        if (result != null && result.resultCode == 200)
+                        {
+                            if (!string.IsNullOrEmpty(result.data.ToString()))
+                                return Convert.ToInt32(result.data.ToString());
+                            return 0;
+                        }
+                        else
+                        {
+                            log.Debug(respone);
+                            OnError?.Invoke(result);
+                        }
+                    }
+                }
+            }
+            return 0;
+        }
+
 
 
         /// <summary>

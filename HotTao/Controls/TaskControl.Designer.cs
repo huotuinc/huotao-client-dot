@@ -125,10 +125,12 @@
             this.pgoods = new System.Windows.Forms.Panel();
             this.pwechat = new System.Windows.Forms.Panel();
             this.ptask = new System.Windows.Forms.Panel();
+            this.cmsGoodsMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolsDeleteSelectedGoods = new System.Windows.Forms.ToolStripMenuItem();
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.label15 = new System.Windows.Forms.Label();
             this.btnAddTask = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnApply = new System.Windows.Forms.Button();
             this.btnClearAllGoods = new System.Windows.Forms.Button();
             this.btnImportLocatGoods = new System.Windows.Forms.Button();
             this.btnStartTask = new System.Windows.Forms.Button();
@@ -140,6 +142,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvData)).BeginInit();
             this.panel3.SuspendLayout();
             this.cmsTaskMeun.SuspendLayout();
+            this.cmsGoodsMenu.SuspendLayout();
             this.hotPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -1073,16 +1076,30 @@
             // 
             this.ptask.Location = new System.Drawing.Point(911, 77);
             this.ptask.Name = "ptask";
-            this.ptask.Size = new System.Drawing.Size(8, 150);
+            this.ptask.Size = new System.Drawing.Size(9, 150);
             this.ptask.TabIndex = 9;
             this.ptask.Visible = false;
+            // 
+            // cmsGoodsMenu
+            // 
+            this.cmsGoodsMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolsDeleteSelectedGoods});
+            this.cmsGoodsMenu.Name = "cmsGoodsMenu";
+            this.cmsGoodsMenu.Size = new System.Drawing.Size(149, 26);
+            // 
+            // toolsDeleteSelectedGoods
+            // 
+            this.toolsDeleteSelectedGoods.Name = "toolsDeleteSelectedGoods";
+            this.toolsDeleteSelectedGoods.Size = new System.Drawing.Size(148, 22);
+            this.toolsDeleteSelectedGoods.Text = "删除选中数据";
+            this.toolsDeleteSelectedGoods.Click += new System.EventHandler(this.toolsDeleteSelectedGoods_Click);
             // 
             // hotPanel1
             // 
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.hotPanel1.Controls.Add(this.label15);
             this.hotPanel1.Controls.Add(this.btnAddTask);
-            this.hotPanel1.Controls.Add(this.button1);
+            this.hotPanel1.Controls.Add(this.btnApply);
             this.hotPanel1.Controls.Add(this.btnClearAllGoods);
             this.hotPanel1.Controls.Add(this.btnImportLocatGoods);
             this.hotPanel1.Controls.Add(this.btnStartTask);
@@ -1121,24 +1138,24 @@
             this.btnAddTask.UseVisualStyleBackColor = false;
             this.btnAddTask.Click += new System.EventHandler(this.btnAddTask_Click);
             // 
-            // button1
+            // btnApply
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(121, 562);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(108, 32);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "同步商品";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Visible = false;
-            this.button1.Click += new System.EventHandler(this.btnClearAllGoods_Click);
+            this.btnApply.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnApply.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnApply.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnApply.FlatAppearance.BorderSize = 0;
+            this.btnApply.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnApply.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
+            this.btnApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnApply.ForeColor = System.Drawing.Color.White;
+            this.btnApply.Location = new System.Drawing.Point(121, 562);
+            this.btnApply.Name = "btnApply";
+            this.btnApply.Size = new System.Drawing.Size(108, 32);
+            this.btnApply.TabIndex = 3;
+            this.btnApply.Text = "申请定向佣金";
+            this.btnApply.UseVisualStyleBackColor = false;
+            this.btnApply.Visible = false;
+            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // btnClearAllGoods
             // 
@@ -1190,7 +1207,7 @@
             this.btnStartTask.Name = "btnStartTask";
             this.btnStartTask.Size = new System.Drawing.Size(61, 23);
             this.btnStartTask.TabIndex = 3;
-            this.btnStartTask.Text = "开始任务";
+            this.btnStartTask.Text = "启动计划";
             this.btnStartTask.UseVisualStyleBackColor = false;
             this.btnStartTask.Click += new System.EventHandler(this.btnStartTask_Click);
             // 
@@ -1228,6 +1245,7 @@
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.cmsTaskMeun.ResumeLayout(false);
+            this.cmsGoodsMenu.ResumeLayout(false);
             this.hotPanel1.ResumeLayout(false);
             this.hotPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -1322,9 +1340,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn goodsMainImgUrl;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnClearAllGoods;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.Panel pgoods;
         private System.Windows.Forms.Panel pwechat;
         private System.Windows.Forms.Panel ptask;
+        private System.Windows.Forms.ContextMenuStrip cmsGoodsMenu;
+        private System.Windows.Forms.ToolStripMenuItem toolsDeleteSelectedGoods;
     }
 }

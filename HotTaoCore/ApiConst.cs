@@ -190,6 +190,27 @@ namespace HotTaoCore
 
 
 
+        /// <summary>
+        /// 获取需要同步的商品数量
+        /// </summary>
+        public const string countForApplyGoods = "/api/countForApplyGoods";
+
+        /// <summary>
+        /// 获取需要同步的商品地址列表
+        /// </summary>
+        public const string listForApplyGoods = "/api/listForApplyGoods";
+
+
+        /// <summary>
+        /// 确认最后商品同步时间
+        /// </summary>
+        public const string confirmForApplyGoods = "/api/confirmForApplyGoods";
+
+        /// <summary>
+        /// 绑定淘宝帐号
+        /// </summary>
+        public const string bindTaobao = "/api/bindTaobao";
+
         #endregion
     }
 }

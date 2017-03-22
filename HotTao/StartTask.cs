@@ -124,7 +124,7 @@ namespace HotTao
             }
             //获取任务数据
             var taskdata = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserTaskPlanList(MyUserInfo.currentUserId);
-            if (taskdata == null)
+            if (taskdata == null|| taskdata.Count()==0)
             {
                 return;
             }
@@ -132,7 +132,7 @@ namespace HotTao
             //获取待执行的任务数据
             taskdata = taskdata.FindAll(item => { return item.status == 0 && item.isTpwd == 1; }).OrderBy(x => x.startTime).ToList();
 
-            if (taskdata == null)
+            if (taskdata == null || taskdata.Count() == 0)
             {
                 return;
             }
@@ -151,7 +151,7 @@ namespace HotTao
                 List<UserPidTaskModel> lst = JsonConvert.DeserializeObject<List<UserPidTaskModel>>(item.goodsText);
                 List<int> ids = new List<int>();
                 //如果群数据和商品数据都为空时
-                if (lst == null)
+                if (lst == null|| lst.Count()==0)
                 {
                     if (!isStartTask || MyUserInfo.currentUserId == 0) break;
                     LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
@@ -165,20 +165,24 @@ namespace HotTao
                 });
                 //获取商品数据
                 var goodslist = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(MyUserInfo.currentUserId, ids);
-                if (goodslist == null)
+                if (goodslist == null|| goodslist.Count()==0)
                 {
                     if (!isStartTask || MyUserInfo.currentUserId == 0) break;
                     LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
                     continue;
                 }
                 //发送商品数据
-                SendGoods(goodslist, taskid, wins);
+                var result = SendGoods(goodslist, taskid, wins);
 
-
-                if (!isStartTask || MyUserInfo.currentUserId == 0) break;
-                LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
-                //每个任务之间，休息一下
-                SleepTask();
+                if (result)
+                {
+                    if (!isStartTask || MyUserInfo.currentUserId == 0) break;
+                    LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
+                    //每个任务之间，休息一下
+                    SleepTask();
+                }
+                else
+                    break;
             }
 
         }
@@ -189,31 +193,34 @@ namespace HotTao
         /// <param name="goodslist">The goodslist.</param>
         /// <param name="taskid">The taskid.</param>
         /// <param name="lst">The LST.</param>
-        private void SendGoods(List<GoodsModel> goodslist, int taskid, List<WindowInfo> wins)
+        private bool SendGoods(List<GoodsModel> goodslist, int taskid, List<WindowInfo> wins)
         {
-
+            bool result = false;
             var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserWechatShareTextList(MyUserInfo.currentUserId);
-            if (data == null) return;
+            if (data == null|| data.Count()==0) return true;
             foreach (var goods in goodslist)
             {
                 textResult.Clear();
                 imageResult.Clear();
 
-                if (!isStartTask || MyUserInfo.currentUserId == 0) break;
-
+                if (!isStartTask || MyUserInfo.currentUserId == 0)
+                {
+                    result = false;
+                    break;
+                }
+                result = true;
                 int goodsId = Convert.ToInt32(goods.id);
 
                 var shareData = data.FindAll(share =>
                   {
                       return share.goodsid == goodsId && share.taskid == taskid;
                   });
-                if (shareData == null)
+                if (shareData == null|| shareData.Count()==0)
                     continue;
                 SendWeChatGroupShareText(shareData, goods, wins);
-
                 SleepGoods();
             }
-
+            return result;
         }
 
 

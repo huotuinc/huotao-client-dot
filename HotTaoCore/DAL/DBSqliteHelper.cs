@@ -42,6 +42,16 @@ namespace HotTaoCore.DAL
             }
         }
 
+        public DBSqliteHelper(int userid, string databaseName)
+        {
+            connStr = "Data Source=" + System.Environment.CurrentDirectory + "\\data\\" + userid.ToString() + "\\" + databaseName + ".db;Version=3;Pooling=true";
+            if (userid > 0)
+            {
+                conn = new SQLiteConnection(connStr);
+                conn.Open();
+            }
+        }
+
         /// <summary>
         /// 关闭连接
         /// </summary>

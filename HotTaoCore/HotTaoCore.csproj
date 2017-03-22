@@ -109,11 +109,13 @@
     <Compile Include="BaseRequestService.cs" />
     <Compile Include="DAL\DBSqliteHelper.cs" />
     <Compile Include="DAL\HotTaoDAL.cs" />
+    <Compile Include="DAL\SyncGoodsDAL.cs" />
     <Compile Include="ExcelHelper.cs" />
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="HotTaoApiService.cs" />
     <Compile Include="Logic\LogicGoods.cs" />
     <Compile Include="Logic\LogicHotTao.cs" />
+    <Compile Include="Logic\LogicSyncGoods.cs" />
     <Compile Include="Logic\LogicTaskPlan.cs" />
     <Compile Include="Logic\LogicUser.cs" />
     <Compile Include="Logic\LogicUserPid.cs" />
@@ -121,6 +123,7 @@
     <Compile Include="Models\GoodsModel.cs" />
     <Compile Include="Models\ReplyResponeModel.cs" />
     <Compile Include="Models\SQLiteEntitysModel.cs" />
+    <Compile Include="Models\SyncGoodsModel.cs" />
     <Compile Include="Models\TaskPlanModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserPidModel.cs" />

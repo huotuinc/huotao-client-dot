@@ -70,7 +70,7 @@ namespace HotTao.Controls
         {
             InitializeComponent();
             Message = message;
-            Title = title;
+            Title = title;            
         }
 
 
@@ -128,6 +128,22 @@ namespace HotTao.Controls
             }
             lbContent.Text = Message;
             lbTitle.Text = string.IsNullOrEmpty(Title) ? "提示" : Title;
+        }
+
+        private void MessageConfirm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;   //将Handled设置为true，指示已经处理过KeyPress事件  
+                this.Close();
+                CallBack?.Invoke();
+            }
+        }
+
+        private void MessageConfirm_Enter(object sender, EventArgs e)
+        {                        
+            this.Close();
+            CallBack?.Invoke();
         }
     }
 }

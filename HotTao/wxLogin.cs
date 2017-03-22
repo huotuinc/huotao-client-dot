@@ -969,7 +969,9 @@ namespace HotTao
                         continue;
                     }
                     if (contact_all != null && contact_all.Count() > 0)
+                    {
                         StartSend();
+                    }
                     else
                         System.Threading.Thread.Sleep(10 * 1000);
                 }
@@ -987,7 +989,7 @@ namespace HotTao
         {
             //获取任务数据
             var taskdata = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserTaskPlanList(MyUserInfo.currentUserId);
-            if (taskdata == null)
+            if (taskdata == null|| taskdata.Count()==0)
             { //休息一下
                 SleepTask();
                 WXService wxs = new WXService();
@@ -997,7 +999,7 @@ namespace HotTao
             //获取待执行的任务数据
             taskdata = taskdata.FindAll(item => { return item.status == 0 && item.isTpwd == 1; }).OrderBy(x => x.startTime).ToList();
 
-            if (taskdata == null)
+            if (taskdata == null|| taskdata.Count()==0)
             {
                 //休息一下
                 SleepTask();
@@ -1006,18 +1008,16 @@ namespace HotTao
             }
             //排序
             taskdata = taskdata.OrderBy(x => x.startTime).ToList();
-
             foreach (var item in taskdata)
             {
                 WXService wxs = new WXService();
                 if (!isStartTask || MyUserInfo.currentUserId == 0) break;
-
                 int taskid = Convert.ToInt32(item.id);
 
                 List<UserPidTaskModel> lst = JsonConvert.DeserializeObject<List<UserPidTaskModel>>(item.goodsText);
                 List<int> ids = new List<int>();
                 //如果群数据和商品数据都为空时
-                if (lst == null)
+                if (lst == null|| lst.Count()==0)
                 {
                     LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
                     continue;
@@ -1030,17 +1030,22 @@ namespace HotTao
                 });
                 //获取商品数据
                 var goodslist = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(MyUserInfo.currentUserId, ids);
-                if (goodslist == null)
+                if (goodslist == null|| goodslist.Count()==0)
                 {
                     LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
                     continue;
                 }
                 //发送商品数据
-                SendGoods(goodslist, taskid);
-
-                LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
-                //每个任务之间，休息一下
-                SleepTask();
+                var result = SendGoods(goodslist, taskid);
+                if (result)
+                {
+                    if (!isStartTask || MyUserInfo.currentUserId == 0) break;
+                    LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
+                    //每个任务之间，休息一下
+                    SleepTask();
+                }
+                else
+                    break;
             }
 
         }
@@ -1051,27 +1056,33 @@ namespace HotTao
         /// <param name="goodslist">The goodslist.</param>
         /// <param name="taskid">The taskid.</param>
         /// <param name="lst">The LST.</param>
-        private void SendGoods(List<GoodsModel> goodslist, int taskid)
+        private bool SendGoods(List<GoodsModel> goodslist, int taskid)
         {
-
+            bool result = false;
             var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserWechatShareTextList(MyUserInfo.currentUserId);
-            if (data == null) return;
+            if (data == null) return true;
             foreach (var goods in goodslist)
             {
                 WXService wxs = new WXService();
-                if (!isStartTask || MyUserInfo.currentUserId == 0) break;
-
+                if (!isStartTask || MyUserInfo.currentUserId == 0)
+                {
+                    result = false;
+                    break;
+                }
+                result = true;
                 int goodsId = Convert.ToInt32(goods.id);
 
                 var shareData = data.FindAll(share =>
                 {
                     return share.goodsid == goodsId && share.taskid == taskid;
                 });
-                if (shareData == null)
+                if (shareData == null || shareData.Count() == 0)
                     continue;
-                SendWeChatGroupShareText(shareData, goods);
-               // SleepGoods();
+                result = SendWeChatGroupShareText(shareData, goods);
+                if (!result)
+                    break;                
             }
+            return result;
 
         }
 
@@ -1081,11 +1092,20 @@ namespace HotTao
         /// <param name="shareData">The share data.</param>
         /// <param name="goods">The goods.</param>
         /// <param name="lst">The LST.</param>
-        private void SendWeChatGroupShareText(List<weChatShareTextModel> shareData, GoodsModel goods)
+        private bool SendWeChatGroupShareText(List<weChatShareTextModel> shareData, GoodsModel goods)
         {
+            bool flag = false;
             foreach (var item in shareData)
             {
                 WXService wxs = new WXService();
+
+                if (!isStartTask || MyUserInfo.currentUserId == 0)
+                {
+                    flag = false;
+                    break;
+                }
+                flag = true;
+
                 WXUser user = contact_all.Find((WXUser obj) => { return obj.ShowName.Contains(item.title); });
                 if (user == null) continue;
 
@@ -1178,6 +1198,7 @@ namespace HotTao
                     log.Error(ex);
                 }
             }
+            return flag;
         }
 
 

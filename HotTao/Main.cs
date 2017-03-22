@@ -140,6 +140,7 @@ namespace HotTao
         /// <returns>BuildDataBase.</returns>
         public void InitDataBase()
         {
+            //初始化用户本地数据库
             string sourceFileName = System.Environment.CurrentDirectory + "\\data\\hottao.db";
             if (!System.IO.File.Exists(sourceFileName))
             {
@@ -160,7 +161,30 @@ namespace HotTao
             {
                 System.IO.File.Copy(sourceFileName, dbpath);
             }
+
+            //初始化商品同步数据库
+            sourceFileName = System.Environment.CurrentDirectory + "\\data\\syncgoods.db";
+            if (!System.IO.File.Exists(sourceFileName))
+            {
+                MessageAlert alert = new MessageAlert("系统初始化失败");
+                alert.CallBack += () =>
+                {
+                    this.Close();
+                };
+                alert.ShowDialog(this);
+            }
+            dbpath = System.Environment.CurrentDirectory + "\\data\\" + MyUserInfo.currentUserId;
+            if (!System.IO.Directory.Exists(dbpath))
+                System.IO.Directory.CreateDirectory(dbpath);
+
+            dbpath += "\\syncgoods.db";
+            if (!System.IO.File.Exists(dbpath))
+            {
+                System.IO.File.Copy(sourceFileName, dbpath);
+            }
         }
+
+
 
 
         /// <summary>

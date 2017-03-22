@@ -8,6 +8,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using HotTaoCore;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace HotTao.Controls
 {
@@ -23,6 +24,13 @@ namespace HotTao.Controls
             InitializeComponent();
             hotForm = mainWin;
         }
+
+        /// <summary>
+        /// 自动刷新任务数据
+        /// </summary>
+        System.Windows.Forms.Timer autoRefreshTask;
+
+
         private void HomeControl_Load(object sender, EventArgs e)
         {
             if (MyUserInfo.currentUserId > 0)
@@ -44,6 +52,14 @@ namespace HotTao.Controls
                 LoadGoodsGridView();
                 loadUserPidGridView();
                 LoadTaskPlanGridView();
+
+                if (autoRefreshTask == null)
+                    autoRefreshTask = new System.Windows.Forms.Timer();
+
+                autoRefreshTask.Interval = 1000 * 60 * 2;
+                autoRefreshTask.Tick += AutoRefreshTask_Tick;
+                autoRefreshTask.Stop();
+
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));
@@ -54,6 +70,16 @@ namespace HotTao.Controls
 
         }
 
+        /// <summary>
+        /// 自动刷新任务数据
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void AutoRefreshTask_Tick(object sender, EventArgs e)
+        {
+            LoadTaskPlanGridView();
+        }
 
         /// <summary>
         /// 鼠标滚动事件
@@ -364,7 +390,10 @@ namespace HotTao.Controls
                 {
                     SetGoodsGridViewData(dgvData, data);
                     if (this.dgvData.Rows.Count > 0)
+                    {
                         dgvData.Rows[0].Selected = false;
+                        dgvData.ContextMenuStrip = cmsGoodsMenu;
+                    }
                 }
             })
             { IsBackground = true }.Start();
@@ -1195,6 +1224,11 @@ namespace HotTao.Controls
             }
         }
 
+        /// <summary>
+        ///启动计划
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnStartTask_Click(object sender, EventArgs e)
         {
             bool isOK = false;
@@ -1260,6 +1294,8 @@ namespace HotTao.Controls
                 }
             }
         }
+
+
         public void ShowStartButtonText(string text)
         {
             if (btnStartTask.InvokeRequired)
@@ -1271,6 +1307,7 @@ namespace HotTao.Controls
                 btnStartTask.Text = text;
             }
         }
+
 
         private void toolsExport_Click(object sender, EventArgs e)
         {
@@ -1307,31 +1344,58 @@ namespace HotTao.Controls
             }
         }
 
+        /// <summary>
+        /// 删除选中的商品数据
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void toolsDeleteSelectedGoods_Click(object sender, EventArgs e)
+        {
+            List<int> ids = new List<int>();
+            List<DataGridViewRow> rows = new List<DataGridViewRow>();
+            foreach (DataGridViewRow item in dgvData.Rows)
+            {
+                if ((bool)item.Cells[0].EditedFormattedValue == true)
+                {
+                    int result = 0;
+                    int.TryParse(item.Cells["gid"].Value.ToString(), out result);
+                    if (result > 0 && !ids.Contains(result))
+                    {
+                        ids.Add(result);
+                        rows.Add(item);
+                    }
+                }
+            }
+            if (ids.Count() > 0)
+            {
+                bool isOk = false;
+                MessageConfirm confirm = new MessageConfirm();
+                confirm.Message = "您确定要删除勾选的商品数据？";
+                confirm.CallBack += () =>
+                {
+                    isOk = true;
+                };
+                confirm.ShowDialog(this);
+                if (isOk)
+                {
+                    bool flag = LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteAllGoods(MyUserInfo.currentUserId, ids);
+                    if (flag)
+                    {
+                        int c = rows.Count();
+                        for (int i = c - 1; i >= 0; i--)
+                        {
+                            this.dgvData.Rows.Remove(rows[i]);
+                        }                        
+                    }
+                }
+            }
+        }
 
-        //private void InitScrollBar()
-        //{
-        //    int count = dgvData.Rows.Count;
-        //    int gridHeight = 0;
-        //    for (int k = 0; k < count; k++)
-        //    {
-        //        gridHeight += dgvData.Rows[k].Height;
-        //    }
-        //    // 关键代码位置
-        //    vScrollBar1.Maximum = gridHeight;
-        //    vScrollBar1.Minimum = 0;
-        //    vScrollBar1.SmallChange = gridHeight / count;
-        //    vScrollBar1.LargeChange = dgvData.Height - 5;//微调这里的 5  
-        //    this.dgvData.ScrollBars = ScrollBars.Vertical;            
-        //    this.vScrollBar1.Scroll += VScrollBar1_Scroll;
-
-        //}
-
-        //private void VScrollBar1_Scroll(object sender, ScrollEventArgs e)
-        //{
-        //    //关键代码位置  
-        //    //this.dgvData.VerticalS
-        //    //this.dgvData.VerticalScrollingOffset = vScrollBar1.Value;
-        //    Application.DoEvents();
-        //}
+        private void btnApply_Click(object sender, EventArgs e)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo("TBSync.exe", MyUserInfo.LoginToken);
+            startInfo.WindowStyle = ProcessWindowStyle.Minimized;
+            Process.Start(startInfo);
+        }
     }
 }

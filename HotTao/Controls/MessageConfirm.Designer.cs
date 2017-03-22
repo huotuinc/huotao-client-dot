@@ -103,7 +103,7 @@
             this.btnOk.Location = new System.Drawing.Point(61, 98);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(78, 32);
-            this.btnOk.TabIndex = 12;
+            this.btnOk.TabIndex = 0;
             this.btnOk.Text = "确定";
             this.btnOk.UseVisualStyleBackColor = false;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -147,10 +147,13 @@
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "MessageConfirm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "提示";
             this.Load += new System.EventHandler(this.MessageConfirm_Load);
+            this.Enter += new System.EventHandler(this.MessageConfirm_Enter);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MessageConfirm_KeyDown);
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();

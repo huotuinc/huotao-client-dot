@@ -256,7 +256,20 @@ namespace HotTaoCore.DAL
                 };
             return DBHelper.ExecuteSql(strSql, param) > 0;
         }
-
+        /// <summary>
+        /// 删除选中的本地商品
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <param name="ids">The ids.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool DeleteAllGoods(int userid, List<int> ids)
+        {
+            string strSql = string.Format(@"delete from user_goods_list where userid=@userid and id in ({0});", string.Join(",", ids));
+            var param = new[] {
+                    new SQLiteParameter("@userid",userid)
+                };
+            return DBHelper.ExecuteSql(strSql, param) > 0;
+        }
 
 
         /// <summary>
@@ -409,7 +422,7 @@ namespace HotTaoCore.DAL
             return DBHelper.ExecuteSql(strSql, param);
         }
 
-              
+
 
 
 
