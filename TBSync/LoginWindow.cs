@@ -1,5 +1,6 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
+using HotTaoCore.Models;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace TBSync
     /// <summary>
     /// 提交申请完成
     /// </summary>
-    public delegate void SubmitSuccessEventHandler();
+    public delegate void SubmitSuccessEventHandler(SyncGoodsList data);
 
     /// <summary>
     /// 登录页面加载完成事件方法
@@ -171,15 +172,17 @@ namespace TBSync
 
         public string planUrl { get; set; }
 
+        public SyncGoodsList goods { get; set; }
         /// <summary>
         /// 打开计划页面
         /// </summary>
         /// <param name="url">The URL.</param>
-        public void GoPlanPage(string url)
+        public void GoPlanPage(SyncGoodsList item)
         {
+            goods = item;
             isLoadPlanCompleted = false;
-            planUrl = url;
-            browser.Load(url);
+            planUrl = item.url;
+            browser.Load(planUrl);
 
         }
 
@@ -215,7 +218,7 @@ namespace TBSync
             {
                 Thread.Sleep(100);
                 //提交完成
-                SubmitSuccessHandle?.Invoke();
+                SubmitSuccessHandle?.Invoke(goods);
             })
             { IsBackground = true }.Start();
         }

@@ -1385,7 +1385,7 @@ namespace HotTao.Controls
                         for (int i = c - 1; i >= 0; i--)
                         {
                             this.dgvData.Rows.Remove(rows[i]);
-                        }                        
+                        }
                     }
                 }
             }
@@ -1393,7 +1393,7 @@ namespace HotTao.Controls
 
         private void btnApply_Click(object sender, EventArgs e)
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo("TBSync.exe", MyUserInfo.LoginToken);
+            ProcessStartInfo startInfo = new ProcessStartInfo("TBSync.exe", string.Format("{0} {1}", MyUserInfo.LoginToken, MyUserInfo.currentUserId));
             startInfo.WindowStyle = ProcessWindowStyle.Minimized;
             Process.Start(startInfo);
         }

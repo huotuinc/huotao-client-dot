@@ -59,13 +59,14 @@ namespace TBSync
 
 
         static string LoginToken;
-        static string TaoBaoNo;
+        static int currentUserId;
         public TBSyncControlPanel(string[] args)
         {
             InitializeComponent();
             if (args.Length > 0)
             {
                 LoginToken = args[0];
+                currentUserId = Convert.ToInt32(args[1]);
             }
 
 
@@ -141,11 +142,20 @@ namespace TBSync
                 }
                 lw = new LoginWindow();
                 lw.LoginSuccessHandle += Lw_LoginSuccessHandle;
-                lw.SubmitSuccessHandle += Lw_SubmitSuccessHandle;
+                lw.SubmitSuccessHandle += Lw_SubmitSuccessHandle; ;
                 lw.LoadSuccessHandle += Lw_LoadSuccessHandle;
                 lw.Show();
                 lw.Hide();
             }
+        }
+        /// <summary>
+        /// 定向计划申请完成
+        /// </summary>
+        /// <param name="data"></param>
+        private void Lw_SubmitSuccessHandle(SyncGoodsList data)
+        {
+            SetText(string.Format("{0} 计划申请成功.", data.goodsId));
+            LogicSyncGoods.In(currentUserId).DeleteUserSyncGoods(data.goodsId, currentUserId, data.taobaousername);
         }
 
         /// <summary>
@@ -188,16 +198,6 @@ namespace TBSync
             }
         }
 
-
-        /// <summary>
-        /// 定向计划申请完成
-        /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
-        private void Lw_SubmitSuccessHandle()
-        {
-            SetText("计划申请成功");
-        }
-
         /// <summary>
         /// 登录成功回调
         /// </summary>
@@ -235,28 +235,65 @@ namespace TBSync
         {
             new Thread(() =>
             {
-                SetText("正在获取同步的商品数据!");
+                SetText("正在获取同步的商品数据...");
                 //页面加载完成回调
                 syncGoods = LogicSyncGoods.Instance.GetListForApplyGoods(LoginToken);
-
                 SetText("平台 更新商品成功，本次共更新 " + SyncGoodsCount + " 条商品!");
-
-
+                StorageSyncGoods();
+                //确认时间
+                LogicSyncGoods.In(currentUserId).GetConfirmForApplyGoods(LoginToken, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             })
             { IsBackground = true }.Start();
         }
 
 
-        private void StorageSyncGoods(SyncGoodsModel goods)
+        /// <summary>
+        /// 将同步商品存在本地数据库
+        /// </summary>
+        /// <param name="goods"></param>
+        private void StorageSyncGoods()
         {
-            if (goods == null) return;
+            if (syncGoods == null) return;
 
             //同步商品大于o
-            if (goods.list != null && goods.list.Count() > 0)
+            if (syncGoods.list != null && syncGoods.list.Count() > 0)
             {
+                SetText("准备同步数据...");
 
+                syncGoods.list.ForEach(item =>
+                {
+                    item.userid = currentUserId;
+                    item.taobaousername = loginname;
+                    item.id = LogicSyncGoods.In(currentUserId).AddUserSyncGoods(item);
+                });
+
+                SetText("准备完成!");
             }
         }
+
+
+        private void StartSync()
+        {
+            isStartAsync = true;
+            btnAsyncGoods.Text = "暂停同步";
+            if (syncGoods != null && syncGoods.list != null && syncGoods.list.Count() > 0)
+            {
+                SetText("开始申请计划...");
+                syncGoods.list.ForEach(item =>
+                {
+                    lw.GoPlanPage(item);
+                });
+            }
+
+            //lw.GoPlanPage(textBox1.Text);
+
+            SetText("启动同步");
+
+        }
+
+
+
+
 
 
 
@@ -299,11 +336,7 @@ namespace TBSync
         {
             if (!isStartAsync && lw != null)
             {
-                isStartAsync = true;
-                //lw.GoPlanPage(textBox1.Text);
-                btnAsyncGoods.Text = "暂停同步";
-                SetText("启动同步");
-                SetText("开始申请定向计划");
+                StartSync();
             }
             else if (isStartAsync)
             {
