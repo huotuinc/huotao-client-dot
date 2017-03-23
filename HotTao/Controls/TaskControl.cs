@@ -56,9 +56,9 @@ namespace HotTao.Controls
                 if (autoRefreshTask == null)
                     autoRefreshTask = new System.Windows.Forms.Timer();
 
-                autoRefreshTask.Interval = 1000 * 60 * 2;
+                autoRefreshTask.Interval = 1000 * 60;
                 autoRefreshTask.Tick += AutoRefreshTask_Tick;
-                autoRefreshTask.Stop();
+                autoRefreshTask.Start();
 
             }
             else

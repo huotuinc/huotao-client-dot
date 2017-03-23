@@ -36,7 +36,7 @@ namespace HotTaoCore.Models
 
     public class SyncGoodsList
     {
-        public int id { get; set; }
+        public long id { get; set; }
 
         public int userid { get; set; }
 
@@ -50,5 +50,28 @@ namespace HotTaoCore.Models
 
         public string url { get; set; }
         
+    }
+
+
+    public class SyncAccountModel
+    {
+        public long id { get; set; }
+
+        public int userid { get; set; }
+
+        /// <summary>
+        /// 登录名
+        /// </summary>
+        /// <value>The loginname.</value>
+        public string loginname { get; set; }
+
+        /// <summary>
+        /// 登录密码
+        /// </summary>
+        /// <value>The loginpwd.</value>
+        public string loginpwd { get; set; }
+
+
+
     }
 }

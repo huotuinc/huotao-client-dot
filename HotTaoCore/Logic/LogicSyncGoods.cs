@@ -154,5 +154,17 @@ namespace HotTaoCore.Logic
         {
             return dal.FindByUserSyncGoodsList(userid, taobaoname);
         }
+
+
+        /// <summary>
+        /// 添加同步商品到本地数据库
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>System.Int32.</returns>
+        public int AddUserSyncAccount(SyncAccountModel model)
+        {
+            return dal.AddUserSyncAccount(model);
+        }
+
     }
 }

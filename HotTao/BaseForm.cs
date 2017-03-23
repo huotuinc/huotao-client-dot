@@ -45,6 +45,39 @@ namespace HotTao
             }
         }
 
+
+        /// <summary>
+        /// 获取当前版本
+        /// </summary>
+        /// <returns>System.Int32.</returns>
+        public int GetCurrentClientVersion()
+        {
+            int v = 0;
+            try
+            {
+                string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.datapath + ConstConfig.v_version);
+                if (File.Exists(filePath))
+                {
+                    FileStream aFile = new FileStream(filePath, FileMode.Open);
+                    StreamReader sr = new StreamReader(aFile);
+                    string str = sr.ReadToEnd();
+                    sr.Close();
+                    sr.Dispose();
+                    aFile.Close();
+                    aFile.Dispose();
+                    int.TryParse(str, out v);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return v;
+        }
+
+
+
+
         /// <summary>
         /// 检查登录
         /// </summary>

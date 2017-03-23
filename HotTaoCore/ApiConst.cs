@@ -29,6 +29,10 @@ namespace HotTaoCore
         /// </summary>
         public const string Url = "http://112.74.23.122:8080";
 
+
+        public const string CheckUpdateUrl = "http://120.24.54.54:8084";
+
+
         #region 接口常量
 
         public const string login = "/huotao/login";
@@ -210,6 +214,12 @@ namespace HotTaoCore
         /// 绑定淘宝帐号
         /// </summary>
         public const string bindTaobao = "/api/bindTaobao";
+
+        /// <summary>
+        /// 生成短链
+        /// </summary>
+        public const string buildShortUrl = "/api/buildShortUrl";
+
 
         #endregion
     }

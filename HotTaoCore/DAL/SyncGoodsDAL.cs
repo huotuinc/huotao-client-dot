@@ -119,6 +119,53 @@ namespace HotTaoCore.DAL
             return DBHelper.ExecQueryList<GoodsModel>(strSql, param);
         }
 
+        /// <summary>
+        /// 获取用户绑定的淘宝淘宝账号
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <returns>GoodsModel.</returns>
+        public GoodsModel FindByUserSyncAccount(int userid)
+        {
+            string strSql = @"select id,userid,loginname,loginpwd from sync_account where userid=@userid limit 1;";
+            var param = new[] {
+                new SQLiteParameter("@userid",userid)
+            };
+            return DBHelper.ExecQueryEntity<GoodsModel>(strSql, param);
+        }
+
+        /// <summary>
+        /// 添加同步商品到本地数据库
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>System.Int32.</returns>
+        public int AddUserSyncAccount(SyncAccountModel model)
+        {
+            //查找用户当前淘宝账号是否存在指定的商品未同步
+            //存在则更新，否则添加
+            var data = FindByUserSyncAccount(model.userid);
+            string strSql = "";
+            if (data == null)
+            {
+                strSql = @"insert into sync_account(userid,loginname,loginpwd) values(@userid,@loginname,@loginpwd);select last_insert_rowid();";
+                var param = new[] {
+                    new SQLiteParameter("@userid",model.userid),
+                    new SQLiteParameter("@loginname",model.loginname),
+                    new SQLiteParameter("@loginpwd",model.loginpwd)
+                };
+                return DBHelper.ExecuteSql(strSql, param);
+            }
+            else
+            {
+                strSql = @"UPDATE sync_account SET loginname=@loginname,loginpwd=@loginpwd WHERE id = @id;";
+                var param = new[] {
+                    new SQLiteParameter("@id",data.id),
+                    new SQLiteParameter("@loginname",model.loginname),
+                    new SQLiteParameter("@loginpwd",model.loginpwd)
+                };
+                return DBHelper.ExecuteSql(strSql, param);
+            }
+        }
+
 
     }
 }

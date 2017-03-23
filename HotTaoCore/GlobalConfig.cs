@@ -12,6 +12,8 @@ namespace HotTaoCore
 
         public const string dbpath = "db";
 
+        public const string datapath = "data";
+
         /// <summary>
         /// 优惠券地址
         /// </summary>

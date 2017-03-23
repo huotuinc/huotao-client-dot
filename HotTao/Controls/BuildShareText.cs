@@ -288,13 +288,15 @@ namespace HotTao.Controls
             this.dgvShareText.Rows.Clear();
             new Thread(() =>
             {
-                LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTaskTpwd(MyUserInfo.currentUserId, taskid, tempText, (share) =>
+                LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTaskTpwd(MyUserInfo.LoginToken, MyUserInfo.currentUserId, taskid, tempText, (share) =>
                 {
                     SetView(share);
                 });
-                taskControl.LoadTaskPlanGridView();
+                if (taskControl != null)
+                    taskControl.LoadTaskPlanGridView();
+                if (historyControl != null)
+                    historyControl.LoadTaskPlanGridView();
                 BuildStart = false;
-
                 ShowAlert("生成完成");
 
             })

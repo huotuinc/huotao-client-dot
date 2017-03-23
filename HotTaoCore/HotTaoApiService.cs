@@ -1,9 +1,11 @@
 ﻿using HotCoreUtils.Helper;
+using HotTaoCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Top.Api;
 using Top.Api.Request;
 using Top.Api.Response;
@@ -93,5 +95,43 @@ namespace HotTaoCore
             }
             return "";
         }
+
+
+        /// <summary>
+        /// 生成短链
+        /// </summary>
+        /// <param name="loginToken">The login token.</param>
+        /// <param name="taoCode">淘口令</param>
+        /// <param name="url">推广链</param>
+        /// <param name="goodsName">商品名称</param>
+        /// <param name="goodsImageUrl">商品图片.</param>
+        /// <returns>System.String.</returns>
+        public string buildShortUrl(string loginToken, string taoCode, string url, string goodsName, string goodsImageUrl)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["taoCode"] = taoCode;
+            data["url"] = url;
+            data["goodsName"] = goodsName;
+            data["goodsImageUrl"] = goodsImageUrl;
+            return BaseRequestService.PostToString(ApiConst.buildShortUrl, data);
+        }
+
+        /// <summary>
+        /// 检查更新
+        /// </summary>
+        /// <param name="version">The version.</param>
+        /// <returns>VersionModel.</returns>
+        public VersionModel CheckVersion(int v)
+        {
+            var result = BaseRequestService.CheckUpdate();
+            //服务器版本号，大于本地版本号,则更新
+            if (result != null && result.version > v)
+            {
+                return result;
+            }
+            return null;
+        }
+
     }
 }

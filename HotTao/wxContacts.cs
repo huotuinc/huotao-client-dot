@@ -292,6 +292,7 @@ namespace HotTao
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void toolsRefresh_Click(object sender, EventArgs e)
         {
+            this.dgvWeChatList.Rows.Clear();
             wxlg.ReloadContact();
         }
 

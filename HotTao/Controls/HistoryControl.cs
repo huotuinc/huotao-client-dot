@@ -107,7 +107,6 @@ namespace HotTao.Controls
             {
                 //是否自动添加属性字段
                 this.dgvTaskPlan.AutoGenerateColumns = false;
-                this.dgvTaskPlan.Rows.Clear();
                 var taskData = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserTaskPlanList(MyUserInfo.currentUserId);
                 if (taskData != null)
                 {

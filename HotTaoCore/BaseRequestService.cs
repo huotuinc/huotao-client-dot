@@ -9,6 +9,7 @@
 
 
 using HotCoreUtils.Helper;
+using HotTaoCore.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Web;
 
 namespace HotTaoCore
 {
@@ -73,6 +75,40 @@ namespace HotTaoCore
                 return default(T);
             }
         }
+
+        public static VersionModel CheckUpdate()
+        {
+            try
+            {
+                var request = CreateRequest(ApiConst.CheckUpdateUrl);
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (Stream response_stream = response.GetResponseStream())
+                    {
+                        using (StreamReader sr = new StreamReader(response_stream, Encoding.UTF8))
+                        {
+                            string respone = sr.ReadToEnd().Trim();
+                            if (!string.IsNullOrEmpty(respone))
+                            {
+                                return Resolve<VersionModel>(respone);
+                            }
+                            return null;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("CheckUpdate: " + ex.ToString());
+                return null;
+            }
+        }
+
+
+
+
+
+
 
         public static bool Post(string reqName, Dictionary<string, string> formFields, Action<ResultModel> OnError = null)
         {
@@ -173,11 +209,6 @@ namespace HotTaoCore
             }
         }
 
-
-
-
-
-
         private static HttpWebRequest CreateRequest(string url, byte[] request_body)
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
@@ -190,6 +221,15 @@ namespace HotTaoCore
             }
             return request;
         }
+
+        private static HttpWebRequest CreateRequest(string url)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "Get";
+            request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
+            return request;
+        }
+
 
 
         private static T GetResponse<T>(HttpWebResponse response, Action<ResultModel> OnError)
@@ -366,7 +406,7 @@ namespace HotTaoCore
                     requestBody.Append("&");
                 }
 
-                requestBody.Append(string.Format("{0}={1}", item.Key, item.Value));
+                requestBody.Append(string.Format("{0}={1}", item.Key, HttpUtility.UrlEncode(item.Value)));
             }
 
             return requestBody.ToString();

@@ -60,6 +60,48 @@ namespace TBSync
 
         static string LoginToken;
         static int currentUserId;
+
+        /// <summary>
+        /// 登录对象
+        /// </summary>
+        private LoginWindow lw;
+        /// <summary>
+        /// 是否已开始同步
+        /// </summary>
+        private bool isStartAsync = false;
+        /// <summary>
+        /// 是否登录成功
+        /// </summary>
+        private bool isLoginSuccess = false;
+
+        /// <summary>
+        /// 是否已完成
+        /// </summary>
+        /// <value>true if this instance is completed; otherwise, false.</value>
+        private bool isCompleted { get; set; }
+
+
+        private string loginname = string.Empty;
+        private string loginpwd = string.Empty;
+
+        /// <summary>
+        /// 同步的商品数量
+        /// </summary>
+        private int SyncGoodsCount { get; set; }
+        /// <summary>
+        /// 上次未同步完的商品数量
+        /// </summary>
+        /// <value>The last not synchronize goods count.</value>
+        private int lastNotSyncGoodsCount { get; set; }
+
+
+        private SyncGoodsModel syncGoods { get; set; }
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TBSyncControlPanel"/> class.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
         public TBSyncControlPanel(string[] args)
         {
             InitializeComponent();
@@ -69,23 +111,24 @@ namespace TBSync
                 currentUserId = Convert.ToInt32(args[1]);
             }
 
-
+            //如果token或userid为空，则关闭应用
+            if (string.IsNullOrEmpty(LoginToken) || currentUserId == 0)
+                this.Close();
         }
 
         private void TBSyncControlPanel_Load(object sender, EventArgs e)
         {
-
             new Thread(() =>
             {
-                for (int i = 1; i <= 500; i++)
+                int len = lastNotSyncGoodsCount + SyncGoodsCount;
+                for (int i = 1; i <= len; i++)
                 {
-                    Thread.Sleep(500);
-                    SetPos(100 * i / 500);
+                    Thread.Sleep(len);
+                    SetPos(len * i / len);
                 }
             })
             { IsBackground = true }.Start();
-            //if (string.IsNullOrEmpty(LoginToken))
-            //    this.Close();
+
         }
 
 
@@ -107,29 +150,6 @@ namespace TBSync
         }
 
 
-        /// <summary>
-        /// 登录对象
-        /// </summary>
-        private LoginWindow lw;
-        /// <summary>
-        /// 是否已开始同步
-        /// </summary>
-        private bool isStartAsync = false;
-        /// <summary>
-        /// 是否登录成功
-        /// </summary>
-        private bool isLoginSuccess = false;
-
-        private string loginname = string.Empty;
-        private string loginpwd = string.Empty;
-
-        /// <summary>
-        /// 同步的商品数量
-        /// </summary>
-        private int SyncGoodsCount { get; set; }
-
-
-        private SyncGoodsModel syncGoods { get; set; }
 
 
         private void btnLoginTaobao_Click(object sender, EventArgs e)
@@ -156,6 +176,7 @@ namespace TBSync
         {
             SetText(string.Format("{0} 计划申请成功.", data.goodsId));
             LogicSyncGoods.In(currentUserId).DeleteUserSyncGoods(data.goodsId, currentUserId, data.taobaousername);
+            isCompleted = true;
         }
 
         /// <summary>
@@ -276,24 +297,52 @@ namespace TBSync
         {
             isStartAsync = true;
             btnAsyncGoods.Text = "暂停同步";
-            if (syncGoods != null && syncGoods.list != null && syncGoods.list.Count() > 0)
-            {
-                SetText("开始申请计划...");
-                syncGoods.list.ForEach(item =>
-                {
-                    lw.GoPlanPage(item);
-                });
-            }
-
-            //lw.GoPlanPage(textBox1.Text);
-
             SetText("启动同步");
+            new Thread(() =>
+            {
+                if (syncGoods != null && syncGoods.list != null && syncGoods.list.Count() > 0)
+                {
+                    SetText("开始申请计划...");
+                    isCompleted = true;
+                    bool isFinish = true;
+                    foreach (var item in syncGoods.list)
+                    {
+                        if (isStartAsync)
+                        {
+                            GoPlanPage(item);
+                            while (!isCompleted) { }
+                        }
+                        else
+                        {
+                            isFinish = false;
+                            break;
+                        }
+                    }
+                    if (isFinish)
+                        SetText("同步完成!");
+                    else
+                        SetText("已暂停同步!");
+                }
+            })
+            { IsBackground = true }.Start();
 
         }
 
 
-
-
+        /// <summary>
+        /// 打开申请计划请求
+        /// </summary>
+        /// <param name="item">The item.</param>
+        private void GoPlanPage(SyncGoodsList item)
+        {
+            new Thread(() =>
+            {
+                //打开计划
+                if (isStartAsync)
+                    lw.GoPlanPage(item);
+            })
+            { IsBackground = true }.Start();
+        }
 
 
 

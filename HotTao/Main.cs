@@ -102,7 +102,11 @@ namespace HotTao
         private void Main_Load(object sender, EventArgs e)
         {
             SetWinFormTaskbarSystemMenu();
+            //检查更新
+            CheckVersion();
+            //初始化数据库
             InitDataBase();
+
             InitBrowser("");
             openControl(new LoginControl(this));
             //try
@@ -133,6 +137,51 @@ namespace HotTao
             //}
 
         }
+
+        /// <summary>
+        /// Checks the version.
+        /// </summary>
+        private void CheckVersion()
+        {
+            new System.Threading.Thread(() =>
+            {
+                int v = this.GetCurrentClientVersion();
+                if (v > 0)
+                {
+                    var version = HotTaoApiService.Instance.CheckVersion(v);
+                    if (version != null)
+                        ShowConfirm(version);
+                }
+            })
+            { IsBackground = true }.Start();
+        }
+
+
+        private void ShowConfirm(VersionModel version)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<VersionModel>(ShowConfirm), new object[] { version });
+            }
+            else
+            {
+                bool isUpdate = false;
+                MessageConfirm cfr = new MessageConfirm("发现新版本，是否马上下载更新?");
+                cfr.CallBack += () =>
+                {
+                    isUpdate = true;
+                };
+                cfr.StartPosition = FormStartPosition.CenterScreen;
+                cfr.ShowDialog();
+                if (isUpdate)
+                {
+                    Process.Start(version.url);
+                }
+            }
+        }
+
+
+
 
         /// <summary>
         /// 初始化数据库
