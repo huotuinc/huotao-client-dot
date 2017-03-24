@@ -33,7 +33,6 @@
             this.hotPanel1 = new TBSync.HotPanel(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.lbprogress = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.SyncGoodsProgress = new System.Windows.Forms.ProgressBar();
             this.label1 = new System.Windows.Forms.Label();
@@ -65,7 +64,6 @@
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.hotPanel1.Controls.Add(this.label4);
             this.hotPanel1.Controls.Add(this.label3);
-            this.hotPanel1.Controls.Add(this.lbprogress);
             this.hotPanel1.Controls.Add(this.label2);
             this.hotPanel1.Controls.Add(this.SyncGoodsProgress);
             this.hotPanel1.Controls.Add(this.label1);
@@ -101,15 +99,6 @@
             this.label3.TabIndex = 15;
             this.label3.Text = "2017-03-22 14:56:22";
             // 
-            // lbprogress
-            // 
-            this.lbprogress.AutoSize = true;
-            this.lbprogress.Location = new System.Drawing.Point(766, 166);
-            this.lbprogress.Name = "lbprogress";
-            this.lbprogress.Size = new System.Drawing.Size(17, 12);
-            this.lbprogress.TabIndex = 15;
-            this.lbprogress.Text = "0%";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -125,9 +114,10 @@
             this.SyncGoodsProgress.ForeColor = System.Drawing.Color.Lime;
             this.SyncGoodsProgress.Location = new System.Drawing.Point(12, 165);
             this.SyncGoodsProgress.Name = "SyncGoodsProgress";
-            this.SyncGoodsProgress.Size = new System.Drawing.Size(747, 15);
+            this.SyncGoodsProgress.Size = new System.Drawing.Size(778, 15);
             this.SyncGoodsProgress.Step = 1;
             this.SyncGoodsProgress.TabIndex = 14;
+            this.SyncGoodsProgress.Visible = false;
             // 
             // label1
             // 
@@ -167,7 +157,7 @@
             this.btnBindTaobao.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(177)))));
             this.btnBindTaobao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBindTaobao.ForeColor = System.Drawing.Color.White;
-            this.btnBindTaobao.Location = new System.Drawing.Point(407, 68);
+            this.btnBindTaobao.Location = new System.Drawing.Point(521, 70);
             this.btnBindTaobao.Name = "btnBindTaobao";
             this.btnBindTaobao.Size = new System.Drawing.Size(50, 32);
             this.btnBindTaobao.TabIndex = 11;
@@ -185,7 +175,7 @@
             this.btnLoginTaobao.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(177)))));
             this.btnLoginTaobao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoginTaobao.ForeColor = System.Drawing.Color.White;
-            this.btnLoginTaobao.Location = new System.Drawing.Point(630, 67);
+            this.btnLoginTaobao.Location = new System.Drawing.Point(406, 68);
             this.btnLoginTaobao.Name = "btnLoginTaobao";
             this.btnLoginTaobao.Size = new System.Drawing.Size(75, 32);
             this.btnLoginTaobao.TabIndex = 11;
@@ -366,6 +356,5 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnBindTaobao;
         private System.Windows.Forms.TextBox txtLoginPwd;
-        private System.Windows.Forms.Label lbprogress;
     }
 }

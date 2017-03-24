@@ -324,7 +324,7 @@ namespace HotTao
                             if (wxcontactsForm != null)
                                 CloseMyContact();
 
-                            hotForm.LogoutTip();
+                            hotForm.AlertTip("微信掉线，请重新授权登录");
                             break;
                         }
                         if (sync_result["AddMsgCount"] != null && sync_result["AddMsgCount"].ToString() != "0")

@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Drawing.Imaging;
 using HotTaoCore.Logic;
+using System.Text.RegularExpressions;
 
 namespace HotTao.Controls
 {
@@ -92,7 +93,7 @@ namespace HotTao.Controls
         {
             if (hotPanel2.InvokeRequired)
             {
-                this.Invoke(new Action<ChromiumWebBrowser>(SetBrowserPanel), new object[] { data });
+                this.hotPanel2.Invoke(new Action<ChromiumWebBrowser>(SetBrowserPanel), new object[] { data });
             }
             else
             {
@@ -101,17 +102,9 @@ namespace HotTao.Controls
             }
         }
 
-        /// <summary>
-        /// 网页通知客户端操作完成
-        /// </summary>
-        public void Finish()
-        {
-            //网页调该方法            
-            isSubmit = true;
-        }
+
 
         private Loading ld = new Loading();
-
         /// <summary>
         /// 提交选择的商品json数据字符串
         /// </summary>
@@ -128,6 +121,7 @@ namespace HotTao.Controls
                     {
                         new Thread(() =>
                         {
+                            Regex regs = new Regex("&activityId=[^&]*", RegexOptions.IgnoreCase);
                             foreach (var item in goodsData)
                             {
                                 try
@@ -150,6 +144,16 @@ namespace HotTao.Controls
                                         couponId = item.couponId,
                                         couponPrice = item.couponPrice
                                     };
+
+                                    if (string.IsNullOrEmpty(goods.couponId))
+                                    {
+                                        Match m = regs.Match(item.couponUrl);
+                                        if (m.Success)
+                                        {
+                                            goods.couponId = m.Value.Replace("&activityId=", "");
+                                        }
+                                    }
+
                                     string fileName = Environment.CurrentDirectory + "\\temp\\img";
                                     if (!Directory.Exists(fileName))
                                         Directory.CreateDirectory(fileName);
@@ -179,8 +183,9 @@ namespace HotTao.Controls
                                 }
                             }
                             LoadClose();
+                            //ShowAlert("提交成功");
                         })
-                        { IsBackground = true }.Start();
+                        { IsBackground = true }.Start();        
                         ld.StartPosition = FormStartPosition.CenterParent;
                         ld.ShowDialog(hotForm);
                     }
@@ -201,11 +206,19 @@ namespace HotTao.Controls
             else
             {
                 ld.Close();
-                isSubmit = true;
+                isSubmit = true;                
             }
         }
 
-
+        #region 网页JS调用函数
+        /// <summary>
+        /// 网页通知客户端操作完成
+        /// </summary>
+        public void Finish()
+        {
+            //网页调该方法            
+            isSubmit = true;
+        }
         /// <summary>
         /// 打开外部浏览器
         /// </summary>
@@ -216,12 +229,13 @@ namespace HotTao.Controls
         }
 
         /// <summary>
-        /// 获取token
+        /// 网页获取token
         /// </summary>
         /// <returns>System.String.</returns>
         public string getToken()
         {
             return MyUserInfo.LoginToken;
-        }
+        } 
+        #endregion
     }
 }

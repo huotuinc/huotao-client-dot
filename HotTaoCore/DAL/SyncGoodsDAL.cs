@@ -109,32 +109,33 @@ namespace HotTaoCore.DAL
         /// <param name="userid">The userid.</param>
         /// <param name="taobaoname">The taobaoname.</param>
         /// <returns>List&lt;GoodsModel&gt;.</returns>
-        public List<GoodsModel> FindByUserSyncGoodsList(int userid, string taobaoname)
+        public List<SyncGoodsList> FindByUserSyncGoodsList(int userid, string taobaoname)
         {
             string strSql = @"select id,userid,taobaousername,goodsId,url from sync_goods_list where userid=@userid and taobaousername=@taobaousername";
             var param = new[] {
                 new SQLiteParameter("@userid",userid),
                 new SQLiteParameter("@taobaousername",taobaoname)
             };
-            return DBHelper.ExecQueryList<GoodsModel>(strSql, param);
+            return DBHelper.ExecQueryList<SyncGoodsList>(strSql, param);
         }
+
 
         /// <summary>
         /// 获取用户绑定的淘宝淘宝账号
         /// </summary>
         /// <param name="userid">The userid.</param>
         /// <returns>GoodsModel.</returns>
-        public GoodsModel FindByUserSyncAccount(int userid)
+        public SyncAccountModel FindByUserSyncAccount(int userid)
         {
             string strSql = @"select id,userid,loginname,loginpwd from sync_account where userid=@userid limit 1;";
             var param = new[] {
                 new SQLiteParameter("@userid",userid)
             };
-            return DBHelper.ExecQueryEntity<GoodsModel>(strSql, param);
+            return DBHelper.ExecQueryEntity<SyncAccountModel>(strSql, param);
         }
 
         /// <summary>
-        /// 添加同步商品到本地数据库
+        /// 添加账号到本地
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns>System.Int32.</returns>
@@ -165,6 +166,8 @@ namespace HotTaoCore.DAL
                 return DBHelper.ExecuteSql(strSql, param);
             }
         }
+
+
 
 
     }

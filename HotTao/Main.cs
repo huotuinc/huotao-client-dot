@@ -610,22 +610,48 @@ namespace HotTao
             about.ShowDialog(this);
         }
 
-        public void LogoutTip()
+        public void AlertTip(string text)
         {
-            //MessageBox.Show("微信掉线，请重新授权登录", "提示");
-
             if (this.InvokeRequired)
             {
-                this.Invoke(new Action(LogoutTip), new object[] { });
+                this.Invoke(new Action<string>(AlertTip), new object[] { text });
             }
             else
             {
-                MessageAlert alert = new MessageAlert("微信掉线，请重新授权登录", "提示");
-                alert.StartPosition = FormStartPosition.CenterScreen;                
+                MessageAlert alert = new MessageAlert(text, "提示");
+                alert.StartPosition = FormStartPosition.CenterScreen;
                 alert.Show();
-                //wxcontactsForm.Close();
             }
         }
+        /// <summary>
+        /// 确认提示
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="title"></param>
+        /// <param name="callback"></param>
+        public void AlertConfirm(string text, string title, Action callback)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string, string, Action>(AlertConfirm), new object[] { text, title, callback });
+            }
+            else
+            {
+                bool isOk = false;
+                MessageConfirm alert = new MessageConfirm(text, title);
+                alert.StartPosition = FormStartPosition.CenterScreen;
+                alert.CallBack += () =>
+                {
+                    isOk = true;
+                };
+                alert.ShowDialog();
+                if (isOk)
+                    callback?.Invoke();
+            }
+        }
+
+
+
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -649,5 +675,85 @@ namespace HotTao
             Process.GetCurrentProcess().Kill();
 
         }
+
+
+        #region 登录淘宝相关操作
+
+        TBSync.LoginWindow lw;
+        /// <summary>
+        /// 登录淘宝
+        /// </summary>
+        public void LoginTaoBao()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(LoginTaoBao), new object[] { });
+            }
+            else
+            {
+                lw = new TBSync.LoginWindow();
+                lw.LoginSuccessHandle += Lw_LoginSuccessHandle;
+                lw.CloseWindowHandle += Lw_CloseWindowHandle;
+                lw.StartPosition = FormStartPosition.CenterScreen;
+                lw.ShowDialog(this);
+            }
+        }
+
+        /// <summary>
+        /// 关闭窗口
+        /// </summary>
+        private void Lw_CloseWindowHandle()
+        {
+            loginWindowsClose();
+        }
+
+        private void Lw_LoginSuccessHandle(Newtonsoft.Json.Linq.JArray jsons)
+        {
+            string cookieJson = JsonConvert.SerializeObject(jsons);            
+            //老接口            
+            ((Action)(delegate ()
+            {
+                MyUserInfo.TaobaoName = LogicUser.Instance.GetTaobaoUsername(MyUserInfo.LoginToken, cookieJson);
+            })).BeginInvoke(null, null);
+            loginWindowsClose();
+
+
+            ////绑定淘宝账号 新接口
+            //var result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, false);
+            //if (result.resultCode == 200)
+            //    MyUserInfo.TaobaoName = result.data.ToString();
+            //else if (result.resultCode == 511)
+            //{
+            //    AlertConfirm("当前登录淘宝账号与上次不匹配，是否切换?", "提示", () =>
+            //    {
+            //        loginWindowsClose();
+            //        LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, true);
+            //    });
+            //}
+            //else
+            //{
+            //    loginWindowsClose();
+            //    AlertConfirm("数据读取失败,请重新登录!", "提示", () =>
+            //    {
+            //        LoginTaoBao();
+            //    });
+            //}
+        }
+
+        private void loginWindowsClose()
+        {
+            if (lw == null) return;
+            if (lw.InvokeRequired)
+            {
+                this.lw.Invoke(new Action(loginWindowsClose), new object[] { });
+            }
+            else
+            {
+                if (lw != null)
+                    lw.Close();
+                lw = null;
+            }
+        }
+        #endregion
     }
 }

@@ -34,10 +34,6 @@ namespace HotTao.Controls.Login
         {
             this.loginPwd.Focus();
         }
-        private void lbVerifyCode_Click(object sender, EventArgs e)
-        {
-            this.txtVerifyCode.Focus();
-        }
         private void loginName_KeyDown(object sender, KeyEventArgs e)
         {
             if (!string.IsNullOrEmpty(loginName.Text))
@@ -45,13 +41,7 @@ namespace HotTao.Controls.Login
             else
                 lbLoginName.Visible = true;
         }
-        private void txtVerifyCode_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(txtVerifyCode.Text))
-                lbVerifyCode.Visible = false;
-            else
-                lbVerifyCode.Visible = true;
-        }
+ 
         private void loginPwd_KeyDown(object sender, KeyEventArgs e)
         {
             if (!string.IsNullOrEmpty(loginPwd.Text))
@@ -89,12 +79,6 @@ namespace HotTao.Controls.Login
                     loginName.Focus();
                     return;
                 }
-                if (string.IsNullOrEmpty(txtVerifyCode.Text))
-                {
-                    lbTipMsg.Text = "请输入验证码!";
-                    txtVerifyCode.Focus();
-                    return;
-                }
                 if (string.IsNullOrEmpty(loginPwd.Text))
                 {
                     lbTipMsg.Text = "请输入登录密码!";
@@ -103,7 +87,7 @@ namespace HotTao.Controls.Login
                 }
                 string lgname = loginName.Text;
                 string pwd = EncryptHelper.MD5(loginPwd.Text);
-                string verifyCode = txtVerifyCode.Text;
+                string verifyCode ="";
                 Loading ld = new Loading();
                 ((Action)(delegate ()
                 {

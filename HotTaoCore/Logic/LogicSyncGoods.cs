@@ -56,11 +56,10 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="loginToken">The login token.</param>
         /// <returns>System.String.</returns>
-        public int GetCountForApplyGoods(string loginToken, string taobaono)
+        public int GetCountForApplyGoods(string loginToken)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
-            data["token"] = loginToken;
-            data["taobaoUsername"] = taobaono;
+            data["token"] = loginToken;            
             return BaseRequestService.PostToInt32(ApiConst.countForApplyGoods, data);
         }
 
@@ -82,11 +81,11 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="loginToken">The login token.</param>
         /// <returns>SyncGoodsModel.</returns>
-        public void GetConfirmForApplyGoods(string loginToken, string datetime)
+        public void GetConfirmForApplyGoods(string loginToken)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
-            data["dateTime"] = datetime;
+            data["dateTime"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             BaseRequestService.Post(ApiConst.confirmForApplyGoods, data);
         }
 
@@ -95,17 +94,28 @@ namespace HotTaoCore.Logic
         /// 绑定淘宝帐号
         /// </summary>
         /// <param name="loginToken">The login token.</param>
-        /// <param name="taobaoUsername">The taobao username.</param>
-        /// <param name="taobaoPassword">可选参数；只有传入该值，并且设置为true的时候 才会更改绑定（而非初次绑定） 也就是意味着 直接绑定可能会给出错误，表示当前已绑定</param>
-        /// <param name="confirm">if set to true [confirm].</param>
-        public void BindTaobao(string loginToken, string taobaoUsername, string taobaoPassword, bool confirm)
+        /// <param name="cookies">The cookies.</param>
+        /// <param name="confirm">可选参数；只有传入该值，并且设置为true的时候 才会更改绑定（而非初次绑定） 也就是意味着 直接绑定可能会给出错误，表示当前已绑定</param>
+        public ResultModel BindTaobao(string loginToken, string cookies, bool confirm)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
-            data["taobaoUsername"] = taobaoUsername;
-            data["taobaoPassword"] = taobaoPassword;
-            data["confirm"] = confirm.ToString();
-            BaseRequestService.Post(ApiConst.bindTaobao, data);
+            data["cookies"] = cookies;
+            if (confirm)
+                data["confirm"] = confirm.ToString();
+            ResultModel result = new ResultModel();
+            result.resultCode = 0;
+            string taobaoname = BaseRequestService.PostToString(ApiConst.bindTaobao, data, (error =>
+            {
+                result = error;
+            }));
+            if (result.resultCode == 0)
+            {
+                result.resultCode = 200;
+                result.data = taobaoname;
+                result.resultMsg = "OK";
+            }
+            return result;
         }
 
 
@@ -150,7 +160,7 @@ namespace HotTaoCore.Logic
         /// <param name="userid">The userid.</param>
         /// <param name="taobaoname">The taobaoname.</param>
         /// <returns>List&lt;GoodsModel&gt;.</returns>
-        public List<GoodsModel> FindByUserSyncGoodsList(int userid, string taobaoname)
+        public List<SyncGoodsList> FindByUserSyncGoodsList(int userid, string taobaoname)
         {
             return dal.FindByUserSyncGoodsList(userid, taobaoname);
         }
@@ -165,6 +175,14 @@ namespace HotTaoCore.Logic
         {
             return dal.AddUserSyncAccount(model);
         }
-
+        /// <summary>
+        /// 获取用户绑定的淘宝淘宝账号
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <returns>GoodsModel.</returns>
+        public SyncAccountModel FindByUserSyncAccount(int userid)
+        {
+            return dal.FindByUserSyncAccount(userid);
+        }
     }
 }

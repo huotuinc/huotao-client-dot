@@ -360,9 +360,7 @@ namespace TBSync
             }
         }
 
-        /// <summary>
-        /// 开始同步
-        /// </summary>
+
         private void StartSync()
         {
             isStartAsync = true;
@@ -371,22 +369,18 @@ namespace TBSync
             SyncGoodsProgressVisible(true);
             new Thread(() =>
             {
-                if (lastNotSyncGoodsList == null && lastNotSyncGoodsList.Count == 0)
-                    lastNotSyncGoodsList = new List<SyncGoodsList>();
+
+
 
                 if (syncGoods != null && syncGoods.list != null && syncGoods.list.Count() > 0)
-                    lastNotSyncGoodsList.AddRange(syncGoods.list);
-
-                if (lastNotSyncGoodsList != null && lastNotSyncGoodsList.Count() > 0)
                 {
                     SetText("开始申请计划...");
-
-                    bool isFinish = true;
-                    var data = lastNotSyncGoodsList;
+                    isCompleted = true;
+                    bool isFinish = true;                    
+                    var data = syncGoods.list;
                     int len = lastNotSyncGoodsCount + SyncGoodsCount;
                     for (int i = 0; i < len; i++)
                     {
-                        isCompleted = true;
                         if (isStartAsync)
                         {
                             GoPlanPage(data[i]);

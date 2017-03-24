@@ -37,14 +37,9 @@
             this.lbLoginName = new System.Windows.Forms.Label();
             this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.lbLoginPwd = new System.Windows.Forms.Label();
-            this.hotGroupBox3 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.label2 = new System.Windows.Forms.Label();
-            this.lbVerifyCode = new System.Windows.Forms.Label();
-            this.txtVerifyCode = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.hotGroupBox1.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
-            this.hotGroupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbTipMsg
@@ -64,7 +59,7 @@
             this.btnRegister.FlatAppearance.BorderSize = 0;
             this.btnRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRegister.ForeColor = System.Drawing.Color.White;
-            this.btnRegister.Location = new System.Drawing.Point(18, 169);
+            this.btnRegister.Location = new System.Drawing.Point(18, 163);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(233, 41);
             this.btnRegister.TabIndex = 16;
@@ -107,7 +102,7 @@
             this.hotGroupBox1.Controls.Add(this.lbLoginName);
             this.hotGroupBox1.Controls.Add(this.loginName);
             this.hotGroupBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.hotGroupBox1.Location = new System.Drawing.Point(18, 41);
+            this.hotGroupBox1.Location = new System.Drawing.Point(18, 62);
             this.hotGroupBox1.Name = "hotGroupBox1";
             this.hotGroupBox1.Size = new System.Drawing.Size(233, 35);
             this.hotGroupBox1.TabIndex = 14;
@@ -134,7 +129,7 @@
             this.hotGroupBox2.Controls.Add(this.lbLoginPwd);
             this.hotGroupBox2.Controls.Add(this.loginPwd);
             this.hotGroupBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.hotGroupBox2.Location = new System.Drawing.Point(18, 121);
+            this.hotGroupBox2.Location = new System.Drawing.Point(18, 109);
             this.hotGroupBox2.Name = "hotGroupBox2";
             this.hotGroupBox2.Size = new System.Drawing.Size(233, 35);
             this.hotGroupBox2.TabIndex = 16;
@@ -153,64 +148,11 @@
             this.lbLoginPwd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbLoginPwd.Click += new System.EventHandler(this.lbLoginPwd_Click);
             // 
-            // hotGroupBox3
-            // 
-            this.hotGroupBox3.BackColor = System.Drawing.Color.White;
-            this.hotGroupBox3.BorderColor = System.Drawing.Color.White;
-            this.hotGroupBox3.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox3.Controls.Add(this.label2);
-            this.hotGroupBox3.Controls.Add(this.lbVerifyCode);
-            this.hotGroupBox3.Controls.Add(this.txtVerifyCode);
-            this.hotGroupBox3.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.hotGroupBox3.Location = new System.Drawing.Point(18, 82);
-            this.hotGroupBox3.Name = "hotGroupBox3";
-            this.hotGroupBox3.Size = new System.Drawing.Size(233, 35);
-            this.hotGroupBox3.TabIndex = 15;
-            this.hotGroupBox3.TabStop = false;
-            // 
-            // label2
-            // 
-            this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(193)))), ((int)(((byte)(247)))));
-            this.label2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(145, 8);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(85, 23);
-            this.label2.TabIndex = 16;
-            this.label2.Text = "发送验证码";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbVerifyCode
-            // 
-            this.lbVerifyCode.BackColor = System.Drawing.Color.Transparent;
-            this.lbVerifyCode.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.lbVerifyCode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
-            this.lbVerifyCode.Location = new System.Drawing.Point(6, 8);
-            this.lbVerifyCode.Name = "lbVerifyCode";
-            this.lbVerifyCode.Size = new System.Drawing.Size(80, 22);
-            this.lbVerifyCode.TabIndex = 15;
-            this.lbVerifyCode.Text = "请输入验证码";
-            this.lbVerifyCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbVerifyCode.Click += new System.EventHandler(this.lbVerifyCode_Click);
-            // 
-            // txtVerifyCode
-            // 
-            this.txtVerifyCode.BackColor = System.Drawing.Color.White;
-            this.txtVerifyCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtVerifyCode.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtVerifyCode.Location = new System.Drawing.Point(4, 12);
-            this.txtVerifyCode.Margin = new System.Windows.Forms.Padding(10);
-            this.txtVerifyCode.Name = "txtVerifyCode";
-            this.txtVerifyCode.Size = new System.Drawing.Size(130, 16);
-            this.txtVerifyCode.TabIndex = 1;
-            this.txtVerifyCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtVerifyCode_KeyDown);
-            this.txtVerifyCode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtVerifyCode_KeyDown);
-            // 
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("宋体", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
-            this.label3.Location = new System.Drawing.Point(14, 3);
+            this.label3.Location = new System.Drawing.Point(14, 14);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(148, 33);
             this.label3.TabIndex = 21;
@@ -225,7 +167,6 @@
             this.Controls.Add(this.lbTipMsg);
             this.Controls.Add(this.btnRegister);
             this.Controls.Add(this.hotGroupBox1);
-            this.Controls.Add(this.hotGroupBox3);
             this.Controls.Add(this.hotGroupBox2);
             this.Name = "RegisterPage";
             this.Size = new System.Drawing.Size(270, 251);
@@ -233,8 +174,6 @@
             this.hotGroupBox1.PerformLayout();
             this.hotGroupBox2.ResumeLayout(false);
             this.hotGroupBox2.PerformLayout();
-            this.hotGroupBox3.ResumeLayout(false);
-            this.hotGroupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -249,10 +188,6 @@
         private System.Windows.Forms.Label lbLoginName;
         private module.HotGroupBox hotGroupBox2;
         private System.Windows.Forms.Label lbLoginPwd;
-        private module.HotGroupBox hotGroupBox3;
-        private System.Windows.Forms.Label lbVerifyCode;
-        private System.Windows.Forms.TextBox txtVerifyCode;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
     }
 }

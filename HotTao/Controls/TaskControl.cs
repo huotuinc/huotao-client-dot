@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using HotTaoCore;
 using System.Drawing;
 using System.Diagnostics;
+using System.IO;
+using System.Data;
 
 namespace HotTao.Controls
 {
@@ -1313,12 +1315,25 @@ namespace HotTao.Controls
         {
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
-                string filepath = saveFile.FileName;
-                //var groupData = LogicHotTao.Instance(MyUserInfo.currentUserId).GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);
-                //if (groupData != null)
-                //{
-                //    //ExcelHelper
-                //}                
+                string filepath = saveFile.FileName;                
+                var groupData = LogicHotTao.Instance(MyUserInfo.currentUserId).GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);
+                if (groupData != null && groupData.Count() > 0)
+                {
+                    DataTable dt = new DataTable();
+                    dt.Columns.Add("昵称", typeof(string));
+                    dt.Columns.Add("PID", typeof(string));
+                    DataRow newRow;
+                    foreach (var item in groupData)
+                    {
+                        newRow = dt.NewRow();
+                        newRow[0] = item.wechattitle;
+                        newRow[1] = item.pid;
+                        dt.Rows.Add(newRow);
+                    }
+
+                    ExcelHelper.ExportDT(dt, filepath);                    
+                    ShowAlert("数据导出成功!");
+                }
             }
         }
 

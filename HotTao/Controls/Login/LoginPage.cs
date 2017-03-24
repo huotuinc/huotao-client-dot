@@ -202,9 +202,10 @@ namespace HotTao.Controls.Login
                         login_password = lgpwd,
                         is_save_pwd = SavePwd ? 1 : 0
                     });
-                }
+                }                                
                 hotForm.SetHomeTabSelected();
                 hotForm.openControl(new GoodsControl(hotForm));
+                hotForm.LoginTaoBao();
             }));
 
         }

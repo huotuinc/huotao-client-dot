@@ -260,49 +260,48 @@
             this.toolsBatchImport,
             this.toolsExport});
             this.cmsWeChatMenu.Name = "cmsWeChatMenu";
-            this.cmsWeChatMenu.Size = new System.Drawing.Size(125, 136);
+            this.cmsWeChatMenu.Size = new System.Drawing.Size(161, 158);
             // 
             // 添加ToolStripMenuItem
             // 
             this.添加ToolStripMenuItem.Name = "添加ToolStripMenuItem";
-            this.添加ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.添加ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.添加ToolStripMenuItem.Text = "添加";
             this.添加ToolStripMenuItem.Click += new System.EventHandler(this.btnAddWeChatGroup_Click);
             // 
             // toolWeChatUpdate
             // 
             this.toolWeChatUpdate.Name = "toolWeChatUpdate";
-            this.toolWeChatUpdate.Size = new System.Drawing.Size(124, 22);
+            this.toolWeChatUpdate.Size = new System.Drawing.Size(160, 22);
             this.toolWeChatUpdate.Text = "修改";
             this.toolWeChatUpdate.Click += new System.EventHandler(this.toolWeChatUpdate_Click);
             // 
             // toolWeChatDel
             // 
             this.toolWeChatDel.Name = "toolWeChatDel";
-            this.toolWeChatDel.Size = new System.Drawing.Size(124, 22);
+            this.toolWeChatDel.Size = new System.Drawing.Size(160, 22);
             this.toolWeChatDel.Text = "删除";
             this.toolWeChatDel.Click += new System.EventHandler(this.toolWeChatDel_Click);
             // 
             // toolWeChatSetPid
             // 
             this.toolWeChatSetPid.Name = "toolWeChatSetPid";
-            this.toolWeChatSetPid.Size = new System.Drawing.Size(124, 22);
+            this.toolWeChatSetPid.Size = new System.Drawing.Size(160, 22);
             this.toolWeChatSetPid.Text = "设置PID";
             this.toolWeChatSetPid.Click += new System.EventHandler(this.toolWeChatSetPid_Click);
             // 
             // toolsBatchImport
             // 
             this.toolsBatchImport.Name = "toolsBatchImport";
-            this.toolsBatchImport.Size = new System.Drawing.Size(124, 22);
+            this.toolsBatchImport.Size = new System.Drawing.Size(160, 22);
             this.toolsBatchImport.Text = "批量导入";
             this.toolsBatchImport.Click += new System.EventHandler(this.toolsBatchImport_Click);
             // 
             // toolsExport
             // 
             this.toolsExport.Name = "toolsExport";
-            this.toolsExport.Size = new System.Drawing.Size(124, 22);
-            this.toolsExport.Text = "导出";
-            this.toolsExport.Visible = false;
+            this.toolsExport.Size = new System.Drawing.Size(160, 22);
+            this.toolsExport.Text = "导出全部微信群";
             this.toolsExport.Click += new System.EventHandler(this.toolsExport_Click);
             // 
             // panel1
@@ -1050,7 +1049,7 @@
             // 
             // saveFile
             // 
-            this.saveFile.Filter = "Excel文件|*.xls|Excel文件|*.xlsx";
+            this.saveFile.Filter = "Excel文件|*.xls";
             // 
             // cmsGoodsMenu
             // 

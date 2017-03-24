@@ -22,7 +22,7 @@ namespace TBSync
     /// 表示登录完成事件的方法
     /// </summary>
     /// <param name="user"></param>
-    public delegate void LoginSuccessEventHandler();
+    public delegate void LoginSuccessEventHandler(JArray jsons);
 
     /// <summary>
     /// 提交申请完成
@@ -33,6 +33,11 @@ namespace TBSync
     /// 登录页面加载完成事件方法
     /// </summary>
     public delegate void LoginPageLoadSuccessEventHandler(bool success);
+
+    /// <summary>
+    /// 关闭事件
+    /// </summary>
+    public delegate void CloseEventHandler();
 
     public partial class LoginWindow : Form
     {
@@ -56,6 +61,11 @@ namespace TBSync
         /// </summary>
         public event LoginPageLoadSuccessEventHandler LoadSuccessHandle;
 
+        /// <summary>
+        /// 关闭窗口
+        /// </summary>
+        public event CloseEventHandler CloseWindowHandle;
+
         public ChromiumWebBrowser browser;
 
         /// <summary>
@@ -77,35 +87,18 @@ namespace TBSync
         {
             if (browser == null)
             {
-                new Thread(() =>
+                browser = new ChromiumWebBrowser(LoginUrl);
+                BrowserSettings settings = new BrowserSettings()
                 {
-                    browser = new ChromiumWebBrowser(LoginUrl);
-                    BrowserSettings settings = new BrowserSettings()
-                    {
-                        LocalStorage = CefState.Enabled,
-                        Javascript = CefState.Enabled,
-                    };
-                    browser.Size = new Size(920, 607);
-                    browser.Location = new Point(1, 0);
-                    browser.FrameLoadEnd += Browser_FrameLoadEnd;
-                    SetBrowser(browser);
-                })
-                { IsBackground = true }.Start();
+                    LocalStorage = CefState.Enabled,
+                    Javascript = CefState.Enabled,
+                };
+                browser.Size = new Size(920, 607);
+                browser.Location = new Point(1, 0);
+                browser.FrameLoadEnd += Browser_FrameLoadEnd;
+                this.tbPanel.Controls.Add(browser);
             }
         }
-
-        private void SetBrowser(ChromiumWebBrowser data)
-        {
-            if (this.tbPanel.InvokeRequired)
-            {
-                this.Invoke(new Action<ChromiumWebBrowser>(SetBrowser), new object[] { data });
-            }
-            else
-            {
-                this.tbPanel.Controls.Add(data);                
-            }
-        }
-
 
 
         private bool isLoadCompleted = false;
@@ -149,8 +142,7 @@ namespace TBSync
                     isLoginCompleted = true;
                     new Thread(() =>
                     {
-                        //页面加载完成回调
-                        LoginSuccessHandle?.Invoke();
+                        LoginSuccess();
                     })
                     { IsBackground = true }.Start();
                 }
@@ -213,7 +205,7 @@ namespace TBSync
             Thread.Sleep(100);
             //提交推广
             browser.ExecuteScriptAsync("document.getElementsByClassName('form-auth').item(0).getElementsByTagName('li').item(1).getElementsByTagName('a').item(0).click();");
-            Thread.Sleep(100);            
+            Thread.Sleep(100);
             new Thread(() =>
             {
                 Thread.Sleep(100);
@@ -238,7 +230,7 @@ namespace TBSync
             Thread.Sleep(100);
             browser.ExecuteScriptAsync("document.getElementById('J_SubmitStatic').click();");
             new Thread(() =>
-            {                
+            {
                 Thread.Sleep(5000);
                 if (!isLoginSuccess)
                 {
@@ -258,8 +250,24 @@ namespace TBSync
 
 
 
-
-
+        public void LoginSuccess()
+        {
+            var visitor = new CookieMonster();
+            if (Cef.GetGlobalCookieManager().VisitUrlCookies(LoginSuccessUrl, true, visitor))
+                visitor.WaitForAllCookies();
+            JArray jsons = new JArray();
+            foreach (System.Net.Cookie cookie in visitor.NamesValues)
+            {
+                JObject json = new JObject();
+                json["name"] = cookie.Name;
+                json["path"] = cookie.Path;
+                json["domain"] = cookie.Domain;
+                json["value"] = cookie.Value;
+                jsons.Add(json);
+            }
+            //页面加载完成回调
+            LoginSuccessHandle?.Invoke(jsons);
+        }
 
 
 
@@ -270,7 +278,25 @@ namespace TBSync
 
         private void pbClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            if (CloseWindowHandle != null)
+                CloseWindowHandle?.Invoke();
+            else
+                CloseWindow();
+        }
+        /// <summary>
+        /// 关闭窗口
+        /// </summary>
+        private void CloseWindow()
+        {
+
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(CloseWindow), new object[] { });
+            }
+            else
+            {
+                this.Close();
+            }
         }
 
 
@@ -316,4 +342,42 @@ namespace TBSync
         }
         #endregion
     }
+
+
+    /// <summary>
+    /// 获取Cefsharp cookie
+    /// </summary>
+    /// <seealso cref="CefSharp.ICookieVisitor" />
+    class CookieMonster : ICookieVisitor
+    {
+        readonly List<System.Net.Cookie> cookies = new List<System.Net.Cookie>();
+        readonly ManualResetEvent gotAllCookies = new ManualResetEvent(false);
+
+        public bool Visit(CefSharp.Cookie cookie, int count, int total, ref bool deleteCookie)
+        {
+            cookies.Add(new System.Net.Cookie()
+            {
+                Name = cookie.Name,
+                Path = cookie.Path,
+                Domain = cookie.Domain,
+                Value = cookie.Value
+            });
+
+            if (count == total - 1)
+                gotAllCookies.Set();
+
+            return true;
+        }
+
+        public void WaitForAllCookies()
+        {
+            gotAllCookies.WaitOne();
+        }
+
+        public IEnumerable<System.Net.Cookie> NamesValues
+        {
+            get { return cookies; }
+        }
+    }
+
 }
