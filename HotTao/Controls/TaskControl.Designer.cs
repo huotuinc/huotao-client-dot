@@ -122,9 +122,6 @@
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
-            this.pgoods = new System.Windows.Forms.Panel();
-            this.pwechat = new System.Windows.Forms.Panel();
-            this.ptask = new System.Windows.Forms.Panel();
             this.cmsGoodsMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolsDeleteSelectedGoods = new System.Windows.Forms.ToolStripMenuItem();
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
@@ -387,7 +384,7 @@
             this.dgvTaskPlan.RowsDefaultCellStyle = dataGridViewCellStyle8;
             this.dgvTaskPlan.RowTemplate.Height = 23;
             this.dgvTaskPlan.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTaskPlan.Size = new System.Drawing.Size(496, 150);
+            this.dgvTaskPlan.Size = new System.Drawing.Size(495, 150);
             this.dgvTaskPlan.TabIndex = 2;
             this.dgvTaskPlan.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTaskPlan_CellClick);
             this.dgvTaskPlan.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvTaskPlan_CellMouseDoubleClick);
@@ -608,7 +605,7 @@
             this.dgvData.RowsDefaultCellStyle = dataGridViewCellStyle14;
             this.dgvData.RowTemplate.Height = 23;
             this.dgvData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvData.Size = new System.Drawing.Size(906, 253);
+            this.dgvData.Size = new System.Drawing.Size(905, 253);
             this.dgvData.TabIndex = 2;
             this.dgvData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
             // 
@@ -1055,31 +1052,6 @@
             // 
             this.saveFile.Filter = "Excel文件|*.xls|Excel文件|*.xlsx";
             // 
-            // pgoods
-            // 
-            this.pgoods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-            this.pgoods.Location = new System.Drawing.Point(912, 303);
-            this.pgoods.Name = "pgoods";
-            this.pgoods.Size = new System.Drawing.Size(8, 257);
-            this.pgoods.TabIndex = 7;
-            this.pgoods.Visible = false;
-            // 
-            // pwechat
-            // 
-            this.pwechat.Location = new System.Drawing.Point(400, 77);
-            this.pwechat.Name = "pwechat";
-            this.pwechat.Size = new System.Drawing.Size(13, 150);
-            this.pwechat.TabIndex = 8;
-            this.pwechat.Visible = false;
-            // 
-            // ptask
-            // 
-            this.ptask.Location = new System.Drawing.Point(911, 77);
-            this.ptask.Name = "ptask";
-            this.ptask.Size = new System.Drawing.Size(9, 150);
-            this.ptask.TabIndex = 9;
-            this.ptask.Visible = false;
-            // 
             // cmsGoodsMenu
             // 
             this.cmsGoodsMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1216,9 +1188,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.ptask);
-            this.Controls.Add(this.pwechat);
-            this.Controls.Add(this.pgoods);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.btnAddGoods);
             this.Controls.Add(this.btnWeChatWinGet);
@@ -1341,9 +1310,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnClearAllGoods;
         private System.Windows.Forms.Button btnApply;
-        private System.Windows.Forms.Panel pgoods;
-        private System.Windows.Forms.Panel pwechat;
-        private System.Windows.Forms.Panel ptask;
         private System.Windows.Forms.ContextMenuStrip cmsGoodsMenu;
         private System.Windows.Forms.ToolStripMenuItem toolsDeleteSelectedGoods;
     }

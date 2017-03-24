@@ -125,7 +125,7 @@ namespace HotTao.Controls
                 {
                     List<GoodsSelectedModel> goodsData = JsonConvert.DeserializeObject<List<GoodsSelectedModel>>(json_goods_result);
                     if (goodsData != null && goodsData.Count() > 0)
-                    {                      
+                    {
                         new Thread(() =>
                         {
                             foreach (var item in goodsData)
@@ -181,7 +181,8 @@ namespace HotTao.Controls
                             LoadClose();
                         })
                         { IsBackground = true }.Start();
-                        ld.ShowDialog();
+                        ld.StartPosition = FormStartPosition.CenterParent;
+                        ld.ShowDialog(hotForm);
                     }
                 }
             }
@@ -195,7 +196,7 @@ namespace HotTao.Controls
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new Action(LoadClose), new object[] {  });
+                this.Invoke(new Action(LoadClose), new object[] { });
             }
             else
             {

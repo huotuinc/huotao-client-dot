@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using static HotTaoCore.Models.SQLiteEntitysModel;
 
 namespace HotTaoCore.Logic
@@ -473,8 +474,8 @@ namespace HotTaoCore.Logic
                 if (text.Contains("[短链接]"))
                 {
                     shortUrl = HotTaoApiService.Instance.buildShortUrl(loginToken, tpwd, url, item.goodsName, item.goodsMainImgUrl);
-                    if(string.IsNullOrEmpty(shortUrl))
-                        shortUrl= HotTaoApiService.Instance.taobao_tbk_spread_get(item.shareLink);
+                    if (string.IsNullOrEmpty(shortUrl))
+                        shortUrl = HotTaoApiService.Instance.taobao_tbk_spread_get(item.shareLink);
                 }
 
                 if (!string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(tpwd))

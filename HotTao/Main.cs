@@ -612,7 +612,19 @@ namespace HotTao
 
         public void LogoutTip()
         {
-            MessageBox.Show("微信掉线，请重新授权登录", "提示");
+            //MessageBox.Show("微信掉线，请重新授权登录", "提示");
+
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(LogoutTip), new object[] { });
+            }
+            else
+            {
+                MessageAlert alert = new MessageAlert("微信掉线，请重新授权登录", "提示");
+                alert.StartPosition = FormStartPosition.CenterScreen;                
+                alert.Show();
+                //wxcontactsForm.Close();
+            }
         }
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)

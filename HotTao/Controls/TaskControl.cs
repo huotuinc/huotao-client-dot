@@ -173,16 +173,16 @@ namespace HotTao.Controls
                 {
                     dgvPid.Rows.Add();
                     ++i;
-                    if (i == 4)
-                    {
-                        this.dgvPid.Width += 14;
-                        pwechat.Visible = true;
-                    }
-                    if (i < 4)
-                    {
-                        this.dgvPid.Width = 390;
-                        pwechat.Visible = false;
-                    }
+                    //if (i == 4)
+                    //{
+                    //    this.dgvPid.Width += 14;
+                    //    pwechat.Visible = true;
+                    //}
+                    //if (i < 4)
+                    //{
+                    //    this.dgvPid.Width = 390;
+                    //    pwechat.Visible = false;
+                    //}
 
                     dgvPid.Rows[i - 1].Cells["groupindex"].Value = i.ToString();
                     dgvPid.Rows[i - 1].Cells["shareid"].Value = data[j].id.ToString();
@@ -280,16 +280,16 @@ namespace HotTao.Controls
                 {
                     dgvTaskPlan.Rows.Add();
                     ++i;
-                    if (i == 4)
-                    {
-                        this.dgvTaskPlan.Width += 11;
-                        ptask.Visible = true;
-                    }
-                    if (i < 4)
-                    {
-                        this.dgvTaskPlan.Width = 496;
-                        ptask.Visible = false;
-                    }
+                    //if (i == 4)
+                    //{
+                    //    this.dgvTaskPlan.Width += 11;
+                    //    ptask.Visible = true;
+                    //}
+                    //if (i < 4)
+                    //{
+                    //    this.dgvTaskPlan.Width = 496;
+                    //    ptask.Visible = false;
+                    //}
 
 
                     dgvTaskPlan.Rows[i - 1].Cells["taskid"].Value = taskData[j].id.ToString();
@@ -337,16 +337,16 @@ namespace HotTao.Controls
                 int i = dgvTaskPlan.Rows.Count;
                 dgvTaskPlan.Rows.Add();
                 ++i;
-                if (i == 4)
-                {
-                    this.dgvTaskPlan.Width += 11;
-                    ptask.Visible = true;
-                }
-                if (i < 4)
-                {
-                    this.dgvTaskPlan.Width = 496;
-                    ptask.Visible = false;
-                }
+                //if (i == 4)
+                //{
+                //    this.dgvTaskPlan.Width += 11;
+                //    ptask.Visible = true;
+                //}
+                //if (i < 4)
+                //{
+                //    this.dgvTaskPlan.Width = 496;
+                //    ptask.Visible = false;
+                //}
                 dgvTaskPlan.Rows[i - 1].Cells["taskid"].Value = model.id.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["taskTitle"].Value = model.title.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["taskStartTime"].Value = model.startTime.ToString();
@@ -416,16 +416,16 @@ namespace HotTao.Controls
                 {
                     obj.Rows.Add();
                     ++i;
-                    if (i == 7)
-                    {
-                        obj.Width += 12;
-                        pgoods.Visible = true;
-                    }
-                    if (i < 7)
-                    {
-                        obj.Width = 906;
-                        pgoods.Visible = false;
-                    }
+                    //if (i == 7)
+                    //{
+                    //    obj.Width += 12;
+                    //    pgoods.Visible = true;
+                    //}
+                    //if (i < 7)
+                    //{
+                    //    obj.Width = 906;
+                    //    pgoods.Visible = false;
+                    //}
                     obj.Rows[i - 1].Cells["rowIndex"].Value = i;
                     obj.Rows[i - 1].Cells["gid"].Value = data[j].id.ToString();
                     obj.Rows[i - 1].Cells["goodsName"].Value = data[j].goodsName.ToString();
@@ -522,17 +522,17 @@ namespace HotTao.Controls
                     {
                         LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteUserTaskPlan(taskid);
                         dgvTaskPlan.Rows.Remove(row);
-                        var i = dgvTaskPlan.Rows.Count;
-                        if (i == 4)
-                        {
-                            this.dgvTaskPlan.Width += 11;
-                            ptask.Visible = true;
-                        }
-                        if (i < 4)
-                        {
-                            this.dgvTaskPlan.Width = 496;
-                            ptask.Visible = false;
-                        }
+                        //var i = dgvTaskPlan.Rows.Count;
+                        //if (i == 4)
+                        //{
+                        //    this.dgvTaskPlan.Width += 11;
+                        //    ptask.Visible = true;
+                        //}
+                        //if (i < 4)
+                        //{
+                        //    this.dgvTaskPlan.Width = 496;
+                        //    ptask.Visible = false;
+                        //}
 
                     };
                     confirm.ShowDialog(this);
@@ -647,17 +647,17 @@ namespace HotTao.Controls
                         string idsStr = JsonConvert.SerializeObject(pidList);
                         this.dgvPid.Rows.Remove(row);
 
-                        var i = this.dgvPid.Rows.Count;
-                        if (i == 4)
-                        {
-                            this.dgvPid.Width += 14;
-                            pwechat.Visible = true;
-                        }
-                        if (i < 4)
-                        {
-                            this.dgvPid.Width = 390;
-                            pwechat.Visible = false;
-                        }
+                        //var i = this.dgvPid.Rows.Count;
+                        //if (i == 4)
+                        //{
+                        //    this.dgvPid.Width += 14;
+                        //    pwechat.Visible = true;
+                        //}
+                        //if (i < 4)
+                        //{
+                        //    this.dgvPid.Width = 390;
+                        //    pwechat.Visible = false;
+                        //}
 
                         ((Action)(delegate ()
                         {
@@ -855,17 +855,17 @@ namespace HotTao.Controls
                     })).BeginInvoke(null, null);
 
                     this.dgvData.Rows.RemoveAt(cell.RowIndex);
-                    var i = this.dgvData.Rows.Count;
-                    if (i == 7)
-                    {
-                        this.dgvData.Width += 12;
-                        pgoods.Visible = true;
-                    }
-                    if (i < 7)
-                    {
-                        this.dgvData.Width = 906;
-                        pgoods.Visible = false;
-                    }
+                    //var i = this.dgvData.Rows.Count;
+                    //if (i == 7)
+                    //{
+                    //    this.dgvData.Width += 12;
+                    //    pgoods.Visible = true;
+                    //}
+                    //if (i < 7)
+                    //{
+                    //    this.dgvData.Width = 906;
+                    //    pgoods.Visible = false;
+                    //}
 
                     ShowAlert("删除成功");
                 };

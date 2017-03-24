@@ -321,6 +321,9 @@ namespace HotTao
                             if (taskForm != null)
                                 taskForm.ShowStartButtonText("启动计划");
 
+                            if (wxcontactsForm != null)
+                                CloseMyContact();
+
                             hotForm.LogoutTip();
                             break;
                         }
@@ -354,6 +357,20 @@ namespace HotTao
             })
             { IsBackground = true }.Start();
 
+        }
+
+
+
+        private void CloseMyContact()
+        {
+            if (this.wxcontactsForm.InvokeRequired)
+            {
+                this.wxcontactsForm.Invoke(new Action(CloseMyContact), new object[] { });
+            }
+            else
+            {
+                wxcontactsForm.Close();
+            }
         }
 
 
@@ -435,7 +452,7 @@ namespace HotTao
                         {
                             item.NickName = user.NickName;
                             if (wxcontactsForm != null)
-                                wxcontactsForm.SetContactsView(user);                            
+                                wxcontactsForm.SetContactsView(user);
                         }
                     });
                 }
