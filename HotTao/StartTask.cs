@@ -124,7 +124,7 @@ namespace HotTao
             }
             //获取任务数据
             var taskdata = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserTaskPlanList(MyUserInfo.currentUserId);
-            if (taskdata == null|| taskdata.Count()==0)
+            if (taskdata == null || taskdata.Count() == 0)
             {
                 return;
             }
@@ -151,7 +151,7 @@ namespace HotTao
                 List<UserPidTaskModel> lst = JsonConvert.DeserializeObject<List<UserPidTaskModel>>(item.goodsText);
                 List<int> ids = new List<int>();
                 //如果群数据和商品数据都为空时
-                if (lst == null|| lst.Count()==0)
+                if (lst == null || lst.Count() == 0)
                 {
                     if (!isStartTask || MyUserInfo.currentUserId == 0) break;
                     LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
@@ -165,7 +165,7 @@ namespace HotTao
                 });
                 //获取商品数据
                 var goodslist = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(MyUserInfo.currentUserId, ids);
-                if (goodslist == null|| goodslist.Count()==0)
+                if (goodslist == null || goodslist.Count() == 0)
                 {
                     if (!isStartTask || MyUserInfo.currentUserId == 0) break;
                     LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);
@@ -197,7 +197,7 @@ namespace HotTao
         {
             bool result = false;
             var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserWechatShareTextList(MyUserInfo.currentUserId);
-            if (data == null|| data.Count()==0) return true;
+            if (data == null || data.Count() == 0) return true;
             foreach (var goods in goodslist)
             {
                 textResult.Clear();
@@ -215,7 +215,7 @@ namespace HotTao
                   {
                       return share.goodsid == goodsId && share.taskid == taskid;
                   });
-                if (shareData == null|| shareData.Count()==0)
+                if (shareData == null || shareData.Count() == 0)
                     continue;
                 SendWeChatGroupShareText(shareData, goods, wins);
                 SleepGoods();
@@ -235,11 +235,21 @@ namespace HotTao
             try
             {
                 Image image = null;
-                using (Stream stream = new FileStream(goods.goodslocatImgPath, FileMode.Open))
+                bool isSendImage = isImageText();
+                try
                 {
-                    image = Image.FromStream(stream);
+                    using (Stream stream = new FileStream(goods.goodslocatImgPath, FileMode.Open))
+                    {
+                        image = Image.FromStream(stream);
+                    }
                 }
-                if (isImageText())
+                catch (Exception ex)
+                {
+                    image = null;
+                    isSendImage = true;
+                    log.Error(ex);
+                }
+                if (isSendImage)
                 {
                     SendImage(image, shareData, wins, true);
                     SendText(shareData, wins, true);

@@ -11,6 +11,7 @@ using HotCoreUtils.Helper;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using HotTaoCore;
+using System.Threading;
 
 namespace HotTao.Controls.Login
 {
@@ -120,6 +121,15 @@ namespace HotTao.Controls.Login
                             }));
                             loginResult(data);
                             hotForm.ReloadBrowser(data.loginToken);
+
+                            
+                            new Thread(() =>
+                            {
+                                Thread.Sleep(2000);
+                                hotForm.LoginTaoBao();
+                            })
+                            { IsBackground = true }.Start();
+
                         }
                         else
                         {
@@ -177,17 +187,6 @@ namespace HotTao.Controls.Login
         /// <param name="data"></param>
         private void loginResult(UserModel data)
         {
-            //判断是否记住密码
-            //if (SavePwd || AutoLogin)
-            //{
-            //    if (_tempPassword != lgpwd || _tempLoginName != lgname)
-            //    {
-            //        string pwdStr = lgname + "|" + EncryptHelper.MD5(lgpwd) + "|" + (AutoLogin ? "1" : "0");// ;
-            //        RememberPassword(pwdStr);
-            //    }
-            //}
-            //else
-            //    RememberPassword("");
             this.BeginInvoke((Action)(delegate ()  //等待结束
             {
                 //设置登陆状态,必须先设置登录状态
@@ -205,7 +204,6 @@ namespace HotTao.Controls.Login
                 }                                
                 hotForm.SetHomeTabSelected();
                 hotForm.openControl(new GoodsControl(hotForm));
-                hotForm.LoginTaoBao();
             }));
 
         }

@@ -130,7 +130,7 @@ namespace HotTao.Controls
                                     GoodsModel goods = new GoodsModel()
                                     {
                                         userid = MyUserInfo.currentUserId,
-                                        goodsId = item.goodsId,
+                                        goodsId = item.goodsId.Replace("=",""),
                                         goodsName = item.goodsName,
                                         goodsIntro = item.goodsIntro,
                                         goodsMainImgUrl = item.goodsImageUrl,
@@ -206,7 +206,13 @@ namespace HotTao.Controls
             else
             {
                 ld.Close();
-                isSubmit = true;                
+               
+                new Thread(() =>
+                {
+                    Thread.Sleep(500);
+                    isSubmit = true;
+                })
+                { IsBackground = true }.Start();
             }
         }
 

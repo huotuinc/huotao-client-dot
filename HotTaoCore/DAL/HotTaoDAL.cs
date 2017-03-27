@@ -146,7 +146,33 @@ namespace HotTaoCore.DAL
             string strSql = string.Format("DELETE FROM user_wechat_group WHERE id in ({0});", string.Join(",", ids));
             return DBHelper.ExecuteSql(strSql) > 0;
         }
+        /// <summary>
+        /// 根据微信群删除微信群分享内容
+        /// </summary>
+        /// <param name="title">The title.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool DeleteWeChatShareText(string title)
+        {
+            string strSql = "delete from user_wechat_sharetext where title=@title;";
+            var param = new[] {
+                    new SQLiteParameter("@title",title)
+                };
+            return DBHelper.ExecuteSql(strSql, param) > 0;
+        }
 
+        /// <summary>
+        /// 删除分享文本
+        /// </summary>
+        /// <param name="taskid">The taskid.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool DeleteShareText(int taskid)
+        {
+            string strSql = "delete from user_wechat_sharetext where taskid=@taskid;";
+            var param = new[] {
+                    new SQLiteParameter("@taskid",taskid)
+                };
+            return DBHelper.ExecuteSql(strSql, param) > 0;
+        }
 
         /// <summary>
         /// 根据用户id，获取微信群

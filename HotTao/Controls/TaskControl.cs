@@ -418,16 +418,6 @@ namespace HotTao.Controls
                 {
                     obj.Rows.Add();
                     ++i;
-                    //if (i == 7)
-                    //{
-                    //    obj.Width += 12;
-                    //    pgoods.Visible = true;
-                    //}
-                    //if (i < 7)
-                    //{
-                    //    obj.Width = 906;
-                    //    pgoods.Visible = false;
-                    //}
                     obj.Rows[i - 1].Cells["rowIndex"].Value = i;
                     obj.Rows[i - 1].Cells["gid"].Value = data[j].id.ToString();
                     obj.Rows[i - 1].Cells["goodsName"].Value = data[j].goodsName.ToString();
@@ -436,6 +426,8 @@ namespace HotTao.Controls
                     obj.Rows[i - 1].Cells["goodsSalesAmount"].Value = data[j].goodsSalesAmount.ToString();
                     obj.Rows[i - 1].Cells["goodsComsRate"].Value = data[j].goodsComsRate.ToString();
                     obj.Rows[i - 1].Cells["couponPrice"].Value = data[j].couponPrice.ToString();
+                    obj.Rows[i - 1].Cells["couponId"].Value = data[j].couponId;
+                    obj.Rows[i - 1].Cells["goodsId"].Value = data[j].goodsId;
                     obj.Rows[i - 1].Cells["updateTime"].Value = data[j].updateTime.ToString();
 
                     if (i % 2 == 0)
@@ -522,20 +514,11 @@ namespace HotTao.Controls
                     MessageConfirm confirm = new MessageConfirm("您确认要删除计划【" + taskid + "】吗？");
                     confirm.CallBack += () =>
                     {
-                        LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteUserTaskPlan(taskid);
-                        dgvTaskPlan.Rows.Remove(row);
-                        //var i = dgvTaskPlan.Rows.Count;
-                        //if (i == 4)
-                        //{
-                        //    this.dgvTaskPlan.Width += 11;
-                        //    ptask.Visible = true;
-                        //}
-                        //if (i < 4)
-                        //{
-                        //    this.dgvTaskPlan.Width = 496;
-                        //    ptask.Visible = false;
-                        //}
-
+                        if (LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteUserTaskPlan(taskid))
+                        {
+                            LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteShareText(taskid);
+                            dgvTaskPlan.Rows.Remove(row);
+                        }
                     };
                     confirm.ShowDialog(this);
                 }
@@ -593,6 +576,7 @@ namespace HotTao.Controls
         {
             List<UserPidTaskModel> pidList = new List<UserPidTaskModel>();
             List<int> ids = new List<int>();
+            List<string> titles = new List<string>();
             List<DataGridViewRow> rows = new List<DataGridViewRow>();
             foreach (DataGridViewRow item in dgvPid.Rows)
             {
@@ -606,6 +590,11 @@ namespace HotTao.Controls
                         ids.Add(result);
                         rows.Add(item);
                     }
+                    string text = item.Cells["sharetitle"].Value.ToString();
+                    if (!string.IsNullOrEmpty(text) && !titles.Contains(text))
+                    {
+                        titles.Add(text);
+                    }
                 }
             }
             if (pidList != null && pidList.Count() > 0)
@@ -618,9 +607,14 @@ namespace HotTao.Controls
                     string idsStr = JsonConvert.SerializeObject(pidList);
                     ((Action)(delegate ()
                     {
-                        //LogicUser.Instance.DeleteUserWeChat(MyUserInfo.LoginToken, idsStr)
                         if (LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteUserWeChatGroup(ids))
                         {
+                            //TODO:待优化
+                            foreach (var title in titles)
+                            {
+                                //删除微信群的分享内容
+                                LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteWeChatShareText(title);
+                            }
                             this.BeginInvoke((Action)(delegate ()
                             {
                                 loadUserPidGridView();
@@ -648,23 +642,10 @@ namespace HotTao.Controls
                         ids.Add(result);
                         string idsStr = JsonConvert.SerializeObject(pidList);
                         this.dgvPid.Rows.Remove(row);
-
-                        //var i = this.dgvPid.Rows.Count;
-                        //if (i == 4)
-                        //{
-                        //    this.dgvPid.Width += 14;
-                        //    pwechat.Visible = true;
-                        //}
-                        //if (i < 4)
-                        //{
-                        //    this.dgvPid.Width = 390;
-                        //    pwechat.Visible = false;
-                        //}
-
                         ((Action)(delegate ()
                         {
-                            //LogicUser.Instance.DeleteUserWeChat(MyUserInfo.LoginToken, idsStr);
-                            LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteUserWeChatGroup(ids);
+                            if (LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteUserWeChatGroup(ids))
+                                LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteWeChatShareText(sharetitle);
                         })).BeginInvoke(null, null);
 
 
@@ -840,10 +821,10 @@ namespace HotTao.Controls
         private void dgvData_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //
-            DataGridViewCell cell = this.dgvData.CurrentRow.Cells["editgoods"];
-            if (cell != null && cell.ColumnIndex == e.ColumnIndex)
+            DataGridViewCellCollection cells = this.dgvData.CurrentRow.Cells;
+            if (cells != null && cells["editgoods"].ColumnIndex == e.ColumnIndex)
             {
-                DataGridViewCellCollection cells = this.dgvData.CurrentRow.Cells;
+                // DataGridViewCellCollection cells = this.dgvData.CurrentRow.Cells;
                 int deleteId = 0;
                 int.TryParse(cells["gid"].Value.ToString(), out deleteId);
                 MessageConfirm confirm = new MessageConfirm();
@@ -852,26 +833,22 @@ namespace HotTao.Controls
                 {
                     ((Action)(delegate ()
                     {
-                        //LogicGoods.Instance.DeleteGoods(MyUserInfo.LoginToken, deleteId);
                         LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteGoods(deleteId);
                     })).BeginInvoke(null, null);
 
-                    this.dgvData.Rows.RemoveAt(cell.RowIndex);
-                    //var i = this.dgvData.Rows.Count;
-                    //if (i == 7)
-                    //{
-                    //    this.dgvData.Width += 12;
-                    //    pgoods.Visible = true;
-                    //}
-                    //if (i < 7)
-                    //{
-                    //    this.dgvData.Width = 906;
-                    //    pgoods.Visible = false;
-                    //}
+                    this.dgvData.Rows.RemoveAt(cells[0].RowIndex);
 
                     ShowAlert("删除成功");
                 };
                 confirm.ShowDialog(this);
+            }
+            else if (cells != null && cells["shareLink"].ColumnIndex == e.ColumnIndex)
+            {
+                string url = GlobalConfig.couponUrl;
+                url += "?src=ht_hot&activityId=" + cells["couponId"].Value;
+                url += "&itemId=" + cells["goodsId"].Value;
+                url += "&pid=mm_33648229_22032774_73500078";
+                Process.Start(url);
             }
             else
             {
@@ -1315,7 +1292,7 @@ namespace HotTao.Controls
         {
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
-                string filepath = saveFile.FileName;                
+                string filepath = saveFile.FileName;
                 var groupData = LogicHotTao.Instance(MyUserInfo.currentUserId).GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);
                 if (groupData != null && groupData.Count() > 0)
                 {
@@ -1331,7 +1308,7 @@ namespace HotTao.Controls
                         dt.Rows.Add(newRow);
                     }
 
-                    ExcelHelper.ExportDT(dt, filepath);                    
+                    ExcelHelper.ExportDT(dt, filepath);
                     ShowAlert("数据导出成功!");
                 }
             }

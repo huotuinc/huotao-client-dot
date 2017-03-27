@@ -328,6 +328,12 @@
     <Compile Include="Controls\UserPIDControl.Designer.cs">
       <DependentUpon>UserPIDControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\VerifyCoupon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\VerifyCoupon.Designer.cs">
+      <DependentUpon>VerifyCoupon.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImportGoods.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -460,6 +466,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\UserPIDControl.resx">
       <DependentUpon>UserPIDControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\VerifyCoupon.resx">
+      <DependentUpon>VerifyCoupon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImportGoods.resx">
       <DependentUpon>ImportGoods.cs</DependentUpon>

@@ -109,6 +109,24 @@ namespace HotTaoCore.Logic
         }
 
         /// <summary>
+        /// 根据微信群删除对应的分享内容
+        /// </summary>
+        /// <param name="title">The title.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool DeleteWeChatShareText(string title)
+        {
+            return dal.DeleteWeChatShareText(title);
+        }
+        /// <summary>
+        /// 删除分享文本
+        /// </summary>
+        /// <param name="taskid">The taskid.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool DeleteShareText(int taskid)
+        {
+            return dal.DeleteShareText(taskid);
+        }
+        /// <summary>
         /// 获取微信群信息
         /// </summary>
         /// <param name="title">The title.</param>
@@ -465,7 +483,7 @@ namespace HotTaoCore.Logic
                 if (item.goodsPrice - item.couponPrice <= 0) continue;
                 string url = GlobalConfig.couponUrl;
                 url += "?src=ht_hot&activityId=" + item.couponId;
-                url += "&itemId=" + item.goodsId;
+                url += "&itemId=" + item.goodsId.Replace("=", "");
                 url += "&pid=" + (string.IsNullOrEmpty(group.pid) ? "mm_33648229_22032774_73500078" : group.pid);
                 item.shareLink = url;
                 string shortUrl = string.Empty;
