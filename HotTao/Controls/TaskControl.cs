@@ -846,7 +846,7 @@ namespace HotTao.Controls
             {
                 string url = GlobalConfig.couponUrl;
                 url += "?src=ht_hot&activityId=" + cells["couponId"].Value;
-                url += "&itemId=" + cells["goodsId"].Value;
+                url += "&itemId=" + cells["goodsId"].Value.ToString().Replace("=", "");
                 url += "&pid=mm_33648229_22032774_73500078";
                 Process.Start(url);
             }
