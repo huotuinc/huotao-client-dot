@@ -55,7 +55,7 @@
             // 
             this.tbPanel.Location = new System.Drawing.Point(1, 30);
             this.tbPanel.Name = "tbPanel";
-            this.tbPanel.Size = new System.Drawing.Size(526, 393);
+            this.tbPanel.Size = new System.Drawing.Size(528, 393);
             this.tbPanel.TabIndex = 9;
             // 
             // panel1

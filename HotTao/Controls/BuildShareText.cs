@@ -1,4 +1,6 @@
 ﻿using HotTaoCore.Logic;
+using HotTaoCore.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -67,6 +69,8 @@ namespace HotTao.Controls
 
         private HistoryControl historyControl { get; set; }
 
+        private Main hotForm { get; set; }
+
         /// <summary>
         /// 任务ID
         /// </summary>
@@ -76,15 +80,18 @@ namespace HotTao.Controls
         private bool BuildStart { get; set; }
 
 
-        public BuildShareText(TaskControl control)
+        public BuildShareText(Main mainWin, TaskControl control)
         {
             InitializeComponent();
             taskControl = control;
+            hotForm = mainWin;
+
         }
-        public BuildShareText(HistoryControl control)
+        public BuildShareText(Main mainWin, HistoryControl control)
         {
             InitializeComponent();
             historyControl = control;
+            hotForm = mainWin;
         }
 
         private void BuildShareText_Load(object sender, EventArgs e)
@@ -286,12 +293,26 @@ namespace HotTao.Controls
             BuildStart = true;
             string tempText = txtTemplateText.Text;
             this.dgvShareText.Rows.Clear();
+
             new Thread(() =>
             {
-                LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTaskTpwd(MyUserInfo.LoginToken, MyUserInfo.currentUserId, taskid, tempText, (share) =>
+                string appkey = string.Empty, appsecret = string.Empty;
+
+                if (hotForm.myConfig == null)
+                    hotForm.myConfig = new ConfigModel();
+                else
                 {
-                    SetView(share);
-                });
+                    ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(hotForm.myConfig.send_time_config) ? null : JsonConvert.DeserializeObject<ConfigSendTimeModel>(hotForm.myConfig.send_time_config);
+                    if (cfgTime != null)
+                    {
+                        appkey = cfgTime.appkey;
+                        appsecret = cfgTime.appsecret;
+                    }
+                }
+                LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTaskTpwd(MyUserInfo.LoginToken, MyUserInfo.currentUserId, taskid, tempText, appkey, appsecret, (share) =>
+                  {
+                      SetView(share);
+                  });
                 if (taskControl != null)
                     taskControl.LoadTaskPlanGridView();
                 if (historyControl != null)

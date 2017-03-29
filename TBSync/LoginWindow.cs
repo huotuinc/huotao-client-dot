@@ -27,7 +27,7 @@ namespace TBSync
     /// <summary>
     /// 提交申请完成
     /// </summary>
-    public delegate void SubmitSuccessEventHandler(SyncGoodsList data);
+    public delegate void SubmitSuccessEventHandler(bool success, SyncGoodsList data);
 
     /// <summary>
     /// 登录页面加载完成事件方法
@@ -41,6 +41,7 @@ namespace TBSync
 
     public partial class LoginWindow : Form
     {
+        NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
         public LoginWindow()
         {
             InitializeComponent();
@@ -71,11 +72,14 @@ namespace TBSync
         /// <summary>
         /// The login URL
         /// </summary>
-        private const string LoginUrl = "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=true&css_style=alimama&from=alimama";
+        private const string LoginUrl = "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=false&css_style=alimama&from=alimama";
         /// <summary>
         /// 登录成功的页面
         /// </summary>
         private const string LoginSuccessUrl = "http://www.alimama.com/index.htm";
+
+
+        private const string MyunionOverview = "http://pub.alimama.com/myunion.htm#!/myunion/overview";
 
 
         private void LoginWindow_Load(object sender, EventArgs e)
@@ -92,6 +96,7 @@ namespace TBSync
                 {
                     LocalStorage = CefState.Enabled,
                     Javascript = CefState.Enabled,
+                    WebSecurity = CefState.Enabled
                 };
                 browser.Size = new Size(920, 607);
                 browser.Location = new Point(1, 0);
@@ -135,8 +140,8 @@ namespace TBSync
             //登录成功后的页面
             else if (e.Url == LoginSuccessUrl)
             {
-                isLoginSuccess = true;
                 HideWindow();
+                isLoginSuccess = true;
                 if (!isLoginCompleted)
                 {
                     isLoginCompleted = true;
@@ -160,9 +165,14 @@ namespace TBSync
 
                 }
             }
+            else if (e.Url == MyunionOverview)
+            {
+                if (!string.IsNullOrEmpty(planUrl))
+                    browser.Load(planUrl);
+            }
         }
 
-        public string planUrl { get; set; }
+        private string planUrl { get; set; }
 
         public SyncGoodsList goods { get; set; }
         /// <summary>
@@ -171,10 +181,20 @@ namespace TBSync
         /// <param name="url">The URL.</param>
         public void GoPlanPage(SyncGoodsList item)
         {
-            goods = item;
-            isLoadPlanCompleted = false;
-            planUrl = item.url;
-            browser.Load(planUrl);
+            if (!string.IsNullOrEmpty(item.url))
+            {
+                goods = item;
+                isLoadPlanCompleted = false;
+                planUrl = item.url.Trim();
+                browser.Load(planUrl);
+
+            }
+            else
+            {
+                isLoadPlanCompleted = true;
+                //提交完成
+                SubmitSuccessHandle?.Invoke(false, goods);
+            }
 
         }
 
@@ -197,41 +217,62 @@ namespace TBSync
         private void ClickCampaignElement()
         {
             Thread.Sleep(1000);
-            //点击申请推广         
-            browser.ExecuteScriptAsync("document.getElementsByClassName('campaign-commission').item(0).getElementsByTagName('a').item(0).click();");
-            Thread.Sleep(100);
-            //输入推广理由
-            browser.ExecuteScriptAsync("document.getElementById('J_applyReason').innerText='1';");
-            Thread.Sleep(100);
-            //提交推广
-            browser.ExecuteScriptAsync("document.getElementsByClassName('form-auth').item(0).getElementsByTagName('li').item(1).getElementsByTagName('a').item(0).click();");
-            Thread.Sleep(100);
+            bool result = false;
+            //获取当前按钮文本
+            try
+            {
+                object response = EvaluateScript(browser, "document.getElementsByClassName('campaign-commission').item(0).getElementsByTagName('a').item(0).innerHTML;");
+                if (!string.IsNullOrEmpty(response.ToString()))
+                    result = response.ToString().Contains("申请推广");
+                if (result)
+                {
+                    //点击申请推广         
+                    browser.ExecuteScriptAsync("document.getElementsByClassName('campaign-commission').item(0).getElementsByTagName('a').item(0).click();");
+                    Thread.Sleep(100);
+                    //输入推广理由
+                    browser.ExecuteScriptAsync("document.getElementById('J_applyReason').innerText='1';");
+                    Thread.Sleep(100);
+                    //提交推广
+                    browser.ExecuteScriptAsync("document.getElementsByClassName('form-auth').item(0).getElementsByTagName('li').item(1).getElementsByTagName('a').item(0).click();");
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
             new Thread(() =>
             {
-                Thread.Sleep(100);
+                Thread.Sleep(1000);
+                browser.Load("http://pro.taobao.com/index.htm");
                 //提交完成
-                SubmitSuccessHandle?.Invoke(goods);
+                SubmitSuccessHandle?.Invoke(result, goods);
             })
             { IsBackground = true }.Start();
         }
 
-
+        static object EvaluateScript(ChromiumWebBrowser b, string script)
+        {
+            var task = b.EvaluateScriptAsync(script);
+            task.Wait();
+            JavascriptResponse response = task.Result;
+            return response.Success ? (response.Result ?? "") : response.Message;
+        }
 
 
 
         public void InputAccount(string loginname, string loginpwd)
         {
             isLoginSuccess = false;
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             //输入账号名
             browser.ExecuteScriptAsync("document.getElementById('TPL_username_1').value='" + loginname + "';");
-            Thread.Sleep(100);
+            Thread.Sleep(500);
             browser.ExecuteScriptAsync("document.getElementById('TPL_password_1').value='" + loginname + "';");
-            Thread.Sleep(100);
+            Thread.Sleep(500);
             browser.ExecuteScriptAsync("document.getElementById('J_SubmitStatic').click();");
             new Thread(() =>
             {
-                Thread.Sleep(5000);
+                Thread.Sleep(1000);
                 if (!isLoginSuccess)
                 {
                     //提交完成

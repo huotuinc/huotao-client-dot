@@ -125,7 +125,7 @@ namespace HotTao.Controls.Login
                             
                             new Thread(() =>
                             {
-                                Thread.Sleep(2000);
+                                Thread.Sleep(3000);
                                 hotForm.LoginTaoBao();
                             })
                             { IsBackground = true }.Start();

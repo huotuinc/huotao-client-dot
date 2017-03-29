@@ -54,6 +54,8 @@ namespace HotTao.Controls
                     txtTaskInterval.Text = cfgTime.taskinterval > 0 ? cfgTime.taskinterval.ToString() : "30";
                     rdSendWindows.Checked = cfgTime.sendmode == 0;
                     rdSendRequest.Checked = cfgTime.sendmode == 1;
+                    txtTaoAppKey.Text = cfgTime.appkey;
+                    txtTaoAppSecret.Text = cfgTime.appsecret;
                 }
 
                 ConfigWhereModel cfgWhere = string.IsNullOrEmpty(hotForm.myConfig.where_config) ? null : JsonConvert.DeserializeObject<ConfigWhereModel>(hotForm.myConfig.where_config);
@@ -95,6 +97,11 @@ namespace HotTao.Controls
             hotForm.myConfig.userid = MyUserInfo.currentUserId;
             ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(hotForm.myConfig.send_time_config) ? new ConfigSendTimeModel() : JsonConvert.DeserializeObject<ConfigSendTimeModel>(hotForm.myConfig.send_time_config);
             cfgTime = cfgTime == null ? new ConfigSendTimeModel() : cfgTime;
+
+
+            //淘宝API
+            cfgTime.appkey = txtTaoAppKey.Text;
+            cfgTime.appsecret = txtTaoAppSecret.Text;
 
 
             //商品间隔

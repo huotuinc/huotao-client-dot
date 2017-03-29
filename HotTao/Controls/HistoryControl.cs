@@ -492,7 +492,7 @@ namespace HotTao.Controls
                 int.TryParse(cells["ExecStatus"].Value.ToString(), out eCode);
                 if (eCode == 0)
                 {
-                    BuildShareText build = new BuildShareText(this);
+                    BuildShareText build = new BuildShareText(hotForm,this);
                     int result = 0;
                     int.TryParse(cells["taskid"].Value.ToString(), out result);
                     build.taskid = result;

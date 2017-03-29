@@ -76,6 +76,9 @@ namespace TBSync
         /// </summary>
         private bool isLoginSuccess = false;
 
+
+        private bool IsRefreshLogin { get; set; }
+
         /// <summary>
         /// 是否已完成
         /// </summary>
@@ -85,6 +88,9 @@ namespace TBSync
 
         private string loginname = string.Empty;
         private string loginpwd = string.Empty;
+
+
+        private string cookieJson { get; set; }
 
         /// <summary>
         /// 同步的商品数量
@@ -121,8 +127,8 @@ namespace TBSync
                 LoginToken = args[0];
                 currentUserId = Convert.ToInt32(args[1]);
             }
-            LoginToken = "aa55112e-01a6-4873-8fb5-f54f2737ab47";
-            currentUserId = 1;
+            //LoginToken = "1a96e54f-decf-4109-894e-02f54505dd97";
+            //currentUserId = 2;
             //如果token或userid为空，则关闭应用
             if (string.IsNullOrEmpty(LoginToken) || currentUserId == 0)
                 this.Close();
@@ -172,26 +178,36 @@ namespace TBSync
 
             if (lw == null || !isLoginSuccess)
             {
+                SetbtnLoginTaobaoText("登录淘宝");
                 if (!BindTaobao())
                 {
                     MessageBox.Show("请输入淘宝账号和密码", "提示");
                     return;
                 }
+                IsRefreshLogin = false;
                 lw = new LoginWindow();
                 lw.LoginSuccessHandle += Lw_LoginSuccessHandle;
                 lw.SubmitSuccessHandle += Lw_SubmitSuccessHandle;
                 lw.LoadSuccessHandle += Lw_LoadSuccessHandle;
                 lw.Show();
-                lw.Hide();
+                SetText("登录中...");
+
+            }
+            else if (IsRefreshLogin)
+            {
+                VerifyCookies();
             }
         }
         /// <summary>
         /// 定向计划申请完成
         /// </summary>
-        /// <param name="data"></param>
-        private void Lw_SubmitSuccessHandle(SyncGoodsList data)
+        /// <param name="success">if set to true [success].</param>
+        /// <param name="data">The data.</param>
+        private void Lw_SubmitSuccessHandle(bool success, SyncGoodsList data)
         {
-            SetText(string.Format("{0} 计划申请成功.", data.goodsId));
+            if (success)
+                SetText(string.Format("{0} 计划申请成功.", data.goodsId));
+
             LogicSyncGoods.In(currentUserId).DeleteUserSyncGoods(data.goodsId, currentUserId, data.taobaousername);
             isCompleted = true;
         }
@@ -205,20 +221,14 @@ namespace TBSync
         {
             if (success && !string.IsNullOrEmpty(loginname) && !string.IsNullOrEmpty(loginpwd))
             {
-                Thread.Sleep(1000);
                 if (lw != null)
                 {
                     lw.InputAccount(loginname, loginpwd);
-                    SetText("登录中...");
                 }
             }
             else
             {
                 SetText("自动登录失败，请手动登录...");
-                if (lw != null)
-                {
-                    loginWindow();
-                }
             }
 
         }
@@ -255,20 +265,85 @@ namespace TBSync
         }
 
         /// <summary>
+        /// 设置最后更新时间
+        /// </summary>
+        /// <param name="text">The text.</param>
+        private void LastSyncTime(string text)
+        {
+            if (lblastSyncTime.InvokeRequired)
+            {
+                this.lblastSyncTime.Invoke(new Action<string>(LastSyncTime), new object[] { text });
+            }
+            else
+            {
+                lblastSyncTime.Text = text;
+            }
+        }
+
+        /// <summary>
+        /// 设置未同步商品
+        /// </summary>
+        /// <param name="count">The count.</param>
+        private void SetNotSyncGoodsCount(int count)
+        {
+            if (lbSyncGoodsCount.InvokeRequired)
+            {
+                this.lbSyncGoodsCount.Invoke(new Action<int>(SetNotSyncGoodsCount), new object[] { count });
+            }
+            else
+            {
+                lbSyncGoodsCount.Text = string.Format("剩余{0}件商品未同步", count);
+            }
+        }
+
+        /// <summary>
         /// 登录成功回调
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
         private void Lw_LoginSuccessHandle(JArray jsons)
         {
-            string cookieJson = JsonConvert.SerializeObject(jsons);
+            SetText("登录成功!");
+
+            //
+            LogicSyncGoods.In(currentUserId).AddUserSyncAccount(new SyncAccountModel()
+            {
+                loginname = loginname,
+                loginpwd = loginpwd,
+                userid = currentUserId
+            });
+
+            var lastSyncTime = LogicSyncGoods.In(currentUserId).FindByUserLastSyncTime(currentUserId, loginname);
+            if (lastSyncTime != null)
+                LastSyncTime(lastSyncTime.datetime);
+            else
+                LastSyncTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+
+            cookieJson = JsonConvert.SerializeObject(jsons);
+            VerifyCookies();
+        }
+
+        /// <summary>
+        /// 校验cookie
+        /// </summary>
+        private void VerifyCookies()
+        {
+            SetText("正在校验...");
             //绑定淘宝账号
             var result = LogicSyncGoods.Instance.BindTaobao(LoginToken, cookieJson, false);
-            if (result.resultCode == 200)
+            if (result.resultCode == 200 || result.resultCode == 510)
             {
-                isLoginSuccess = true;
-                SetText("登录成功!");
+                //没有绑定过淘宝，则直接绑定
+                if (result.resultCode == 510)
+                {
+                    new Thread(() =>
+                    {
+                        LogicSyncGoods.Instance.BindTaobao(LoginToken, cookieJson, true);
+                    })
+                    { IsBackground = true }.Start();
+                }
                 //设置按钮文字
-                SetbtnLoginTaobaoText();
+                SetbtnLoginTaobaoText("已登录");
 
                 //获取需要同步的数据
                 GetSyncGoodsCount();
@@ -281,11 +356,11 @@ namespace TBSync
             }
             else
             {
-                SetText("登录失败，重新登录！");
-                loginWindowsClose();
+                SetText("登录失败，重新登录！请刷新状态!");
+                IsRefreshLogin = true;
+                //设置按钮文字
+                SetbtnLoginTaobaoText("刷新状态");
             }
-
-
         }
 
 
@@ -304,14 +379,14 @@ namespace TBSync
                 if (lastNotSyncGoodsList != null && lastNotSyncGoodsList.Count() > 0)
                 {
                     lastNotSyncGoodsCount = lastNotSyncGoodsList.Count();
-                    SetText("提醒：上次还剩余 " + lastNotSyncGoodsCount + " 条商品未同步!");
+                    SetText("上次剩余 " + lastNotSyncGoodsCount + " 条商品未同步!");
                 }
 
                 //页面加载完成回调
                 SyncGoodsCount = LogicSyncGoods.Instance.GetCountForApplyGoods(LoginToken);
-                SetText("查询完成，本次需同步 " + SyncGoodsCount + " 条商品!");
-                if (SyncGoodsCount > 0)
-                    GetSyncGoodsList();
+                SetText("查询完成，本次更新 " + SyncGoodsCount + " 条商品!");
+                //if (SyncGoodsCount > 0)
+                GetSyncGoodsList();
             })
             { IsBackground = true }.Start();
         }
@@ -322,15 +397,19 @@ namespace TBSync
         {
             new Thread(() =>
             {
-                SetText("正在获取同步数据...");
-                //页面加载完成回调
-                syncGoods = LogicSyncGoods.Instance.GetListForApplyGoods(LoginToken);
-
-                //更新商品入库
-                StorageSyncGoods();
+                if (SyncGoodsCount > 0)
+                {
+                    SetText("正在获取同步数据...");
+                    //页面加载完成回调
+                    syncGoods = LogicSyncGoods.Instance.GetListForApplyGoods(LoginToken);
+                    //更新商品入库
+                    StorageSyncGoods();
+                }
 
                 //确认时间
                 LogicSyncGoods.In(currentUserId).GetConfirmForApplyGoods(LoginToken);
+
+                isLoginSuccess = true;
             })
             { IsBackground = true }.Start();
         }
@@ -351,9 +430,12 @@ namespace TBSync
 
                 syncGoods.list.ForEach(item =>
                 {
-                    item.userid = currentUserId;
-                    item.taobaousername = loginname;
-                    item.id = LogicSyncGoods.In(currentUserId).AddUserSyncGoods(item);
+                    if (!string.IsNullOrEmpty(item.url) && item.url.Length > 80 && !item.url.Contains("detail.tmall.com") && !item.url.Contains("item.taobao.com"))
+                    {
+                        item.userid = currentUserId;
+                        item.taobaousername = loginname;
+                        item.id = LogicSyncGoods.In(currentUserId).AddUserSyncGoods(item);
+                    }
                 });
 
                 SetText("准备完成!");
@@ -369,29 +451,44 @@ namespace TBSync
             btnAsyncGoods.Text = "暂停同步";
             SetText("启动同步");
             SyncGoodsProgressVisible(true);
+
+            //添加最后更新时间
+            LogicSyncGoods.In(currentUserId).AddUserLastSyncTime(new LastSyncTimeModel()
+            {
+                userid = currentUserId,
+                datetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                taobaousername = loginname
+            });
+
+            lastNotSyncGoodsList = LogicSyncGoods.In(currentUserId).FindByUserSyncGoodsList(currentUserId, loginname);
+            if (lastNotSyncGoodsList != null)
+                SetNotSyncGoodsCount(lastNotSyncGoodsList.Count());
+
+            var data = lastNotSyncGoodsList;
+            int len = data.Count();
+            SyncGoodsProgress.Maximum = len;
             new Thread(() =>
             {
-                if (lastNotSyncGoodsList == null && lastNotSyncGoodsList.Count == 0)
-                    lastNotSyncGoodsList = new List<SyncGoodsList>();
-
-                if (syncGoods != null && syncGoods.list != null && syncGoods.list.Count() > 0)
-                    lastNotSyncGoodsList.AddRange(syncGoods.list);
-
                 if (lastNotSyncGoodsList != null && lastNotSyncGoodsList.Count() > 0)
                 {
                     SetText("开始申请计划...");
 
                     bool isFinish = true;
-                    var data = lastNotSyncGoodsList;
-                    int len = lastNotSyncGoodsCount + SyncGoodsCount;
                     for (int i = 0; i < len; i++)
                     {
-                        isCompleted = true;
+                        isCompleted = false;
                         if (isStartAsync)
                         {
-                            GoPlanPage(data[i]);
-                            SetPos(len * (i + 1) / len);
-                            while (!isCompleted) { }
+                            if (lw == null)
+                                break;
+                            if (!string.IsNullOrEmpty(data[i].url))
+                            {
+                                //申请计划                                
+                                lw.GoPlanPage(data[i]);
+                                SetPos(i + 1);
+                                while (!isCompleted && isStartAsync) { }
+                                SetNotSyncGoodsCount(len - (i + 1));
+                            }
                         }
                         else
                         {
@@ -405,31 +502,11 @@ namespace TBSync
                         SyncGoodsProgressVisible(false);
                         SetText("同步完成!");
                     }
-                    else
-                        SetText("已暂停同步!");
                 }
             })
             { IsBackground = true }.Start();
 
         }
-
-
-        /// <summary>
-        /// 打开申请计划请求
-        /// </summary>
-        /// <param name="item">The item.</param>
-        private void GoPlanPage(SyncGoodsList item)
-        {
-            new Thread(() =>
-            {
-                //打开计划
-                if (isStartAsync)
-                    lw.GoPlanPage(item);
-            })
-            { IsBackground = true }.Start();
-        }
-
-
 
         /// <summary>
         /// 文本输出
@@ -439,7 +516,7 @@ namespace TBSync
         {
             if (txtMsgTip.InvokeRequired)
             {
-                this.Invoke(new Action<string>(SetText), new object[] { text });
+                this.txtMsgTip.Invoke(new Action<string>(SetText), new object[] { text });
             }
             else
             {
@@ -470,15 +547,15 @@ namespace TBSync
         /// 设置登录按钮文字为已登录
         /// </summary>
         /// <param name="enabled"></param>
-        public void SetbtnLoginTaobaoText()
+        public void SetbtnLoginTaobaoText(string text)
         {
             if (btnLoginTaobao.InvokeRequired)
             {
-                this.btnLoginTaobao.Invoke(new Action(SetbtnLoginTaobaoText), new object[] { });
+                this.btnLoginTaobao.Invoke(new Action<string>(SetbtnLoginTaobaoText), new object[] { text });
             }
             else
             {
-                btnLoginTaobao.Text = "已登录";
+                btnLoginTaobao.Text = text;
             }
         }
 
@@ -549,6 +626,22 @@ namespace TBSync
             }
             return false;
         }
-
+        static bool isShow = false;
+        private void toolsIsShowWindow_Click(object sender, EventArgs e)
+        {
+            if (lw != null)
+            {
+                if (!isShow)
+                {
+                    isShow = true;
+                    lw.Show();
+                }
+                else
+                {
+                    isShow = false;
+                    lw.Hide();
+                }
+            }
+        }
     }
 }

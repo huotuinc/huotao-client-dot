@@ -29,6 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.hotGroupBox4 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.label26 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.txtTaoAppSecret = new System.Windows.Forms.TextBox();
+            this.txtTaoAppKey = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.hotGroupBox3 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.label15 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -74,10 +81,82 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.hotGroupBox4.SuspendLayout();
             this.hotGroupBox3.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
             this.hotGroupBox1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // hotGroupBox4
+            // 
+            this.hotGroupBox4.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox4.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox4.Controls.Add(this.label26);
+            this.hotGroupBox4.Controls.Add(this.label23);
+            this.hotGroupBox4.Controls.Add(this.label25);
+            this.hotGroupBox4.Controls.Add(this.txtTaoAppSecret);
+            this.hotGroupBox4.Controls.Add(this.txtTaoAppKey);
+            this.hotGroupBox4.Controls.Add(this.label24);
+            this.hotGroupBox4.Location = new System.Drawing.Point(13, 249);
+            this.hotGroupBox4.Name = "hotGroupBox4";
+            this.hotGroupBox4.Size = new System.Drawing.Size(304, 239);
+            this.hotGroupBox4.TabIndex = 3;
+            this.hotGroupBox4.TabStop = false;
+            // 
+            // label26
+            // 
+            this.label26.ForeColor = System.Drawing.Color.Red;
+            this.label26.Location = new System.Drawing.Point(7, 138);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(288, 98);
+            this.label26.TabIndex = 36;
+            this.label26.Text = "建议设置成用自己的阿里联盟API，稳定、速度快！如果全部留空，则不会转淘口令（我们转的链接也是可以在微信上打开并跳转淘宝的）";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.label23.Location = new System.Drawing.Point(5, -3);
+            this.label23.Name = "label23";
+            this.label23.Padding = new System.Windows.Forms.Padding(5);
+            this.label23.Size = new System.Drawing.Size(93, 22);
+            this.label23.TabIndex = 34;
+            this.label23.Text = "淘宝接口配置";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(8, 97);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(59, 12);
+            this.label25.TabIndex = 35;
+            this.label25.Text = "AppSecret";
+            // 
+            // txtTaoAppSecret
+            // 
+            this.txtTaoAppSecret.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.txtTaoAppSecret.Location = new System.Drawing.Point(79, 94);
+            this.txtTaoAppSecret.Name = "txtTaoAppSecret";
+            this.txtTaoAppSecret.Size = new System.Drawing.Size(193, 21);
+            this.txtTaoAppSecret.TabIndex = 1;
+            // 
+            // txtTaoAppKey
+            // 
+            this.txtTaoAppKey.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.txtTaoAppKey.Location = new System.Drawing.Point(79, 51);
+            this.txtTaoAppKey.Name = "txtTaoAppKey";
+            this.txtTaoAppKey.Size = new System.Drawing.Size(193, 21);
+            this.txtTaoAppKey.TabIndex = 1;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(26, 54);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(41, 12);
+            this.label24.TabIndex = 35;
+            this.label24.Text = "AppKey";
             // 
             // hotGroupBox3
             // 
@@ -108,9 +187,9 @@
             this.hotGroupBox3.Controls.Add(this.ckbCoupon);
             this.hotGroupBox3.Controls.Add(this.label6);
             this.hotGroupBox3.Enabled = false;
-            this.hotGroupBox3.Location = new System.Drawing.Point(13, 249);
+            this.hotGroupBox3.Location = new System.Drawing.Point(324, 249);
             this.hotGroupBox3.Name = "hotGroupBox3";
-            this.hotGroupBox3.Size = new System.Drawing.Size(725, 240);
+            this.hotGroupBox3.Size = new System.Drawing.Size(414, 240);
             this.hotGroupBox3.TabIndex = 2;
             this.hotGroupBox3.TabStop = false;
             // 
@@ -350,7 +429,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.label6.Location = new System.Drawing.Point(333, -3);
+            this.label6.Location = new System.Drawing.Point(6, -3);
             this.label6.Name = "label6";
             this.label6.Padding = new System.Windows.Forms.Padding(5);
             this.label6.Size = new System.Drawing.Size(67, 22);
@@ -603,12 +682,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.hotGroupBox4);
             this.Controls.Add(this.hotGroupBox3);
             this.Controls.Add(this.hotGroupBox2);
             this.Controls.Add(this.hotGroupBox1);
             this.Name = "SetSendConfig";
             this.Size = new System.Drawing.Size(750, 510);
             this.Load += new System.EventHandler(this.SetSendConfig_Load);
+            this.hotGroupBox4.ResumeLayout(false);
+            this.hotGroupBox4.PerformLayout();
             this.hotGroupBox3.ResumeLayout(false);
             this.hotGroupBox3.PerformLayout();
             this.hotGroupBox2.ResumeLayout(false);
@@ -666,5 +748,12 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.RadioButton rdSendWindows;
         private System.Windows.Forms.Label label22;
+        private module.HotGroupBox hotGroupBox4;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.TextBox txtTaoAppKey;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.TextBox txtTaoAppSecret;
+        private System.Windows.Forms.Label label26;
     }
 }

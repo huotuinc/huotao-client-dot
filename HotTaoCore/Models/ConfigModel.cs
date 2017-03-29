@@ -103,7 +103,6 @@ namespace HotTaoCore.Models
         /// 自动踢人条件
         /// </summary>
         public string auto_remove_user_where { get; set; }
-
     }
     /// <summary>
     /// 发送时间配置
@@ -145,6 +144,16 @@ namespace HotTaoCore.Models
         /// </summary>
         /// <value>The taskinterval.</value>
         public int taskinterval { get; set; }
+
+
+
+        public string appkey { get; set; }
+        /// <summary>
+        /// Gets or sets the appsecret.
+        /// </summary>
+        /// <value>The appsecret.</value>
+        public string appsecret { get; set; }
+
     }
 
     /// <summary>

@@ -59,7 +59,7 @@ namespace HotTaoCore.Logic
         public int GetCountForApplyGoods(string loginToken)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
-            data["token"] = loginToken;            
+            data["token"] = loginToken;
             return BaseRequestService.PostToInt32(ApiConst.countForApplyGoods, data);
         }
 
@@ -184,5 +184,27 @@ namespace HotTaoCore.Logic
         {
             return dal.FindByUserSyncAccount(userid);
         }
+
+        /// <summary>
+        /// 获取用户最后同步时间
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <param name="taobaousername">The taobaousername.</param>
+        /// <returns>LastSyncTimeModel.</returns>
+        public LastSyncTimeModel FindByUserLastSyncTime(int userid, string taobaousername)
+        {
+            return dal.FindByUserLastSyncTime(userid, taobaousername);
+        }
+
+        /// <summary>
+        /// 修改同步时间
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>System.Int32.</returns>
+        public int AddUserLastSyncTime(LastSyncTimeModel model)
+        {
+            return dal.AddUserLastSyncTime(model);
+        }
+
     }
 }

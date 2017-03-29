@@ -1194,7 +1194,7 @@ namespace HotTao.Controls
                 int.TryParse(cells["ExecStatus"].Value.ToString(), out eCode);
                 if (eCode == 0)
                 {
-                    BuildShareText build = new BuildShareText(this);
+                    BuildShareText build = new BuildShareText(hotForm, this);
                     int result = 0;
                     int.TryParse(cells["taskid"].Value.ToString(), out result);
                     build.taskid = result;
@@ -1388,6 +1388,60 @@ namespace HotTao.Controls
             ProcessStartInfo startInfo = new ProcessStartInfo("TBSync.exe", string.Format("{0} {1}", MyUserInfo.LoginToken, MyUserInfo.currentUserId));
             startInfo.WindowStyle = ProcessWindowStyle.Minimized;
             Process.Start(startInfo);
+        }
+
+        private void toolsExportGoods_Click(object sender, EventArgs e)
+        {
+            if (saveFile.ShowDialog() == DialogResult.OK)
+            {
+                string filepath = saveFile.FileName;
+                var goodsData = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(MyUserInfo.currentUserId);
+                if (goodsData != null && goodsData.Count() > 0)
+                {
+                    DataTable dt = new DataTable();
+                    dt.Columns.Add("商品id", typeof(string));
+                    dt.Columns.Add("商品名称", typeof(string));
+                    dt.Columns.Add("商品简介", typeof(string));
+                    dt.Columns.Add("商品主图", typeof(string));
+                    dt.Columns.Add("商品详情页链接地址", typeof(string));
+                    dt.Columns.Add("商品价格", typeof(string));
+                    dt.Columns.Add("商品月销量", typeof(string));
+                    dt.Columns.Add("收入比率(%)", typeof(string));
+                    dt.Columns.Add("卖家id", typeof(string));
+                    dt.Columns.Add("平台类型", typeof(string));
+                    dt.Columns.Add("优惠券id", typeof(string));
+                    dt.Columns.Add("优惠券总量", typeof(string));
+                    dt.Columns.Add("优惠券剩余量", typeof(string));
+                    dt.Columns.Add("优惠券面额(单位元)", typeof(string));
+                    dt.Columns.Add("优惠券结束时间", typeof(string));
+                    dt.Columns.Add("优惠券链接", typeof(string));
+                    DataRow newRow;
+                    foreach (var item in goodsData)
+                    {
+                        newRow = dt.NewRow();
+                        newRow["商品id"] = item.goodsId.ToString();
+                        newRow["商品名称"] = item.goodsName.ToString();
+                        newRow["商品简介"] = item.goodsIntro.ToString();
+                        newRow["商品主图"] = item.goodsMainImgUrl.ToString();
+                        newRow["商品详情页链接地址"] = item.goodsDetailUrl.ToString();
+                        newRow["商品价格"] = item.goodsPrice.ToString();
+                        newRow["商品月销量"] = item.goodsSalesAmount.ToString();
+                        newRow["收入比率(%)"] = item.goodsComsRate.ToString();
+                        newRow["卖家id"] = "";
+                        newRow["优惠券总量"] = "";
+                        newRow["优惠券剩余量"] = "";
+                        newRow["平台类型"] = item.goodsSupplier.ToString();
+                        newRow["优惠券id"] = item.couponId.ToString();
+                        newRow["优惠券面额(单位元)"] = item.couponPrice.ToString();
+                        newRow["优惠券结束时间"] = item.endTime.ToString();
+                        newRow["优惠券链接"] = item.couponUrl.ToString();
+                        dt.Rows.Add(newRow);
+                    }
+
+                    ExcelHelper.ExportDT(dt, filepath);
+                    ShowAlert("数据导出成功!");
+                }
+            }
         }
     }
 }

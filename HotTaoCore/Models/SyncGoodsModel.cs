@@ -49,7 +49,7 @@ namespace HotTaoCore.Models
         public string goodsId { get; set; }
 
         public string url { get; set; }
-        
+
     }
 
 
@@ -71,7 +71,29 @@ namespace HotTaoCore.Models
         /// <value>The loginpwd.</value>
         public string loginpwd { get; set; }
 
-
-
     }
+
+    /// <summary>
+    /// 最后同步时间
+    /// </summary>
+    public class LastSyncTimeModel
+    {
+        /// <summary>
+        /// 淘宝账号
+        /// </summary>
+        /// <value>The taobaousername.</value>
+        public string taobaousername { get; set; }
+
+        /// <summary>
+        /// 用户ID
+        /// </summary>
+        /// <value>The userid.</value>
+        public int userid { get; set; }
+        /// <summary>
+        /// 最后同步时间
+        /// </summary>
+        /// <value>The datetime.</value>
+        public string datetime { get; set; }
+    }
+
 }

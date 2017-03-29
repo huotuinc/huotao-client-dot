@@ -417,7 +417,7 @@ namespace HotTaoCore.Logic
         /// <param name="templateText">文案</param>
         /// <param name="result">The result.</param>
         /// <returns>true if XXXX, false otherwise.</returns>
-        public bool BuildTaskTpwd(string loginToken, int userid, int taskid, string templateText, Action<weChatShareTextModel> result = null)
+        public bool BuildTaskTpwd(string loginToken, int userid, int taskid, string templateText, string appkey, string appsecret, Action<weChatShareTextModel> result = null)
         {
             var taskData = FindByUserTaskPlanInfo(userid, taskid);
             if (taskData == null || taskData.ExecStatus != 0) return false;
@@ -452,7 +452,7 @@ namespace HotTaoCore.Logic
             foreach (var group in wechatlist)
             {
                 //生成商品分享文本
-                BuildShareText(loginToken, userid, taskid, templateText, goodslist, group, result);
+                BuildShareText(loginToken, userid, taskid, templateText, goodslist, group, appkey, appsecret, result);
             }
             UpdateUserTaskPlanIsTpwd(taskid);
             return true;
@@ -468,7 +468,7 @@ namespace HotTaoCore.Logic
         /// <param name="data">The data.</param>
         /// <param name="group">The group.</param>
         /// <returns>true if XXXX, false otherwise.</returns>
-        private bool BuildShareText(string loginToken, int userid, int taskid, string templateText, List<GoodsModel> data, weChatGroupModel group, Action<weChatShareTextModel> result = null)
+        private bool BuildShareText(string loginToken, int userid, int taskid, string templateText, List<GoodsModel> data, weChatGroupModel group, string appkey, string appsecret, Action<weChatShareTextModel> result = null)
         {
             if (data == null) return false;
             weChatShareTextModel share = new weChatShareTextModel()
@@ -487,13 +487,13 @@ namespace HotTaoCore.Logic
                 url += "&pid=" + (string.IsNullOrEmpty(group.pid) ? "mm_33648229_22032774_73500078" : group.pid);
                 item.shareLink = url;
                 string shortUrl = string.Empty;
-                string tpwd = HotTaoApiService.Instance.taobao_wireless_share_tpwd_create(item.goodsMainImgUrl, item.shareLink, item.goodsName);
+                string tpwd = HotTaoApiService.Instance.taobao_wireless_share_tpwd_create(item.goodsMainImgUrl, item.shareLink, item.goodsName, appkey, appsecret);
                 string text = templateText;
                 if (text.Contains("[短链接]"))
                 {
                     shortUrl = HotTaoApiService.Instance.buildShortUrl(loginToken, tpwd, url, item.goodsName, item.goodsMainImgUrl);
                     if (string.IsNullOrEmpty(shortUrl))
-                        shortUrl = HotTaoApiService.Instance.taobao_tbk_spread_get(item.shareLink);
+                        shortUrl = HotTaoApiService.Instance.taobao_tbk_spread_get(item.shareLink, appkey, appsecret);
                 }
 
                 if (!string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(tpwd))

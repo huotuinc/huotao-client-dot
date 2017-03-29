@@ -34,11 +34,11 @@ namespace HotTaoCore
         /// </summary>
         /// <param name="sourceUrl">原始的链接</param>
         /// <returns></returns>
-        public string taobao_tbk_spread_get(string sourceUrl)
+        public string taobao_tbk_spread_get(string sourceUrl, string _appkey, string _appsecret)
         {
             try
             {
-                ITopClient client = new DefaultTopClient(url, appkey, appsecret);
+                ITopClient client = new DefaultTopClient(url, string.IsNullOrEmpty(_appkey) ? appkey : _appkey, string.IsNullOrEmpty(_appsecret) ? appsecret : _appsecret);
                 TbkSpreadGetRequest req = new TbkSpreadGetRequest();
 
                 List<TbkSpreadGetRequest.TbkSpreadRequestDomain> requests = new List<TbkSpreadGetRequest.TbkSpreadRequestDomain>();
@@ -69,11 +69,11 @@ namespace HotTaoCore
         /// <param name="goodsUrl"></param>
         /// <param name="goodsName"></param>
         /// <returns></returns>
-        public string taobao_wireless_share_tpwd_create(string logo, string goodsUrl, string goodsName)
+        public string taobao_wireless_share_tpwd_create(string logo, string goodsUrl, string goodsName, string _appkey, string _appsecret)
         {
             try
             {
-                ITopClient client = new DefaultTopClient(url, appkey, appsecret);
+                ITopClient client = new DefaultTopClient(url, string.IsNullOrEmpty(_appkey) ? appkey : _appkey, string.IsNullOrEmpty(_appsecret) ? appsecret : _appsecret);
                 WirelessShareTpwdCreateRequest req = new WirelessShareTpwdCreateRequest();
                 IsvTpwdInfoDomain obj1 = new IsvTpwdInfoDomain();
                 obj1.Logo = logo;

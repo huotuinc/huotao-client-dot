@@ -189,47 +189,55 @@ namespace HotTao
         /// <returns>BuildDataBase.</returns>
         public void InitDataBase()
         {
-            //初始化用户本地数据库
-            string sourceFileName = System.Environment.CurrentDirectory + "\\data\\hottao.db";
-            if (!System.IO.File.Exists(sourceFileName))
+            try
             {
-                MessageAlert alert = new MessageAlert("系统初始化失败");
-                alert.CallBack += () =>
+                //初始化用户本地数据库
+                string sourceFileName = System.Environment.CurrentDirectory + "\\data\\hottao.db";
+                if (!System.IO.File.Exists(sourceFileName))
                 {
-                    this.Close();
-                };
-                alert.ShowDialog(this);
-            }
-            string dbpath = System.Environment.CurrentDirectory + "\\data\\" + MyUserInfo.currentUserId;
-            if (!System.IO.Directory.Exists(dbpath))
-                System.IO.Directory.CreateDirectory(dbpath);
+                    MessageAlert alert = new MessageAlert("系统初始化失败");
+                    alert.CallBack += () =>
+                    {
+                        this.Close();
+                    };
+                    alert.ShowDialog(this);
+                }
+                string dbpath = System.Environment.CurrentDirectory + "\\data\\" + MyUserInfo.currentUserId;
+                if (!System.IO.Directory.Exists(dbpath))
+                    System.IO.Directory.CreateDirectory(dbpath);
 
-            dbpath += "\\hottao.db";
+                dbpath += "\\hottao.db";
 
-            if (!System.IO.File.Exists(dbpath))
-            {
-                System.IO.File.Copy(sourceFileName, dbpath);
-            }
-
-            //初始化商品同步数据库
-            sourceFileName = System.Environment.CurrentDirectory + "\\data\\syncgoods.db";
-            if (!System.IO.File.Exists(sourceFileName))
-            {
-                MessageAlert alert = new MessageAlert("系统初始化失败");
-                alert.CallBack += () =>
+                if (!System.IO.File.Exists(dbpath))
                 {
-                    this.Close();
-                };
-                alert.ShowDialog(this);
-            }
-            dbpath = System.Environment.CurrentDirectory + "\\data\\" + MyUserInfo.currentUserId;
-            if (!System.IO.Directory.Exists(dbpath))
-                System.IO.Directory.CreateDirectory(dbpath);
+                    System.IO.File.Copy(sourceFileName, dbpath);
+                }
 
-            dbpath += "\\syncgoods.db";
-            if (!System.IO.File.Exists(dbpath))
+                //初始化商品同步数据库
+                sourceFileName = System.Environment.CurrentDirectory + "\\data\\syncgoods.db";
+                if (!System.IO.File.Exists(sourceFileName))
+                {
+                    //MessageBox.Show("系统初始化失败", "错误");
+                    MessageAlert alert = new MessageAlert("系统初始化失败");
+                    alert.CallBack += () =>
+                    {
+                        this.Close();
+                    };
+                    alert.ShowDialog(this);
+                }
+                dbpath = System.Environment.CurrentDirectory + "\\data\\" + MyUserInfo.currentUserId;
+                if (!System.IO.Directory.Exists(dbpath))
+                    System.IO.Directory.CreateDirectory(dbpath);
+
+                dbpath += "\\syncgoods.db";
+                if (!System.IO.File.Exists(dbpath))
+                {
+                    System.IO.File.Copy(sourceFileName, dbpath);
+                }
+            }
+            catch (Exception ex)
             {
-                System.IO.File.Copy(sourceFileName, dbpath);
+                log.Error(ex);
             }
         }
 
@@ -709,7 +717,7 @@ namespace HotTao
 
         private void Lw_LoginSuccessHandle(Newtonsoft.Json.Linq.JArray jsons)
         {
-            string cookieJson = JsonConvert.SerializeObject(jsons);            
+            string cookieJson = JsonConvert.SerializeObject(jsons);
             //老接口            
             ((Action)(delegate ()
             {

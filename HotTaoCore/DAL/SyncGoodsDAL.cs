@@ -134,6 +134,7 @@ namespace HotTaoCore.DAL
             return DBHelper.ExecQueryEntity<SyncAccountModel>(strSql, param);
         }
 
+
         /// <summary>
         /// 添加账号到本地
         /// </summary>
@@ -167,8 +168,44 @@ namespace HotTaoCore.DAL
             }
         }
 
+        /// <summary>
+        /// Finds the by user last synchronize time.
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <param name="taobaousername">The taobaousername.</param>
+        /// <returns>LastSyncTimeModel.</returns>
+        public LastSyncTimeModel FindByUserLastSyncTime(int userid, string taobaousername)
+        {
+            string strSql = @"select taobaousername,userid,datetime from sync_datetime where userid=@userid and taobaousername=@taobaousername limit 1;";
+            var param = new[] {
+                new SQLiteParameter("@userid",userid),
+                new SQLiteParameter("@taobaousername",taobaousername)
+            };
+            return DBHelper.ExecQueryEntity<LastSyncTimeModel>(strSql, param);
+        }
 
+        /// <summary>
+        /// 修改同步时间
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>System.Int32.</returns>
+        public int AddUserLastSyncTime(LastSyncTimeModel model)
+        {
+            //查找用户当前淘宝账号是否存在指定的商品未同步
+            //存在则更新，否则添加
+            var data = FindByUserLastSyncTime(model.userid, model.taobaousername);
+            string strSql = "";
+            if (data == null)
+                strSql = @"insert into sync_datetime(taobaousername,userid,datetime) values(@taobaousername,@userid,@datetime);select last_insert_rowid();";
+            else
+                strSql = @"UPDATE sync_datetime SET datetime=@datetime WHERE  userid=@userid and taobaousername=@taobaousername;";
 
-
+            var param = new[] {
+                    new SQLiteParameter("@userid",model.userid),
+                    new SQLiteParameter("@taobaousername",model.taobaousername),
+                    new SQLiteParameter("@datetime",model.datetime)
+                };
+            return DBHelper.ExecuteSql(strSql, param);
+        }
     }
 }
