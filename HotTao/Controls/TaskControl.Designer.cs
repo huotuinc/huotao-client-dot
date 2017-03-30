@@ -1149,6 +1149,7 @@
             this.btnApply.TabIndex = 3;
             this.btnApply.Text = "申请定向佣金";
             this.btnApply.UseVisualStyleBackColor = false;
+            this.btnApply.Visible = false;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // btnClearAllGoods
