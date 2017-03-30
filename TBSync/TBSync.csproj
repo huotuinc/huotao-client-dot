@@ -131,6 +131,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WinApi.cs" />
     <EmbeddedResource Include="TBSyncControlPanel.resx">
       <DependentUpon>TBSyncControlPanel.cs</DependentUpon>
     </EmbeddedResource>

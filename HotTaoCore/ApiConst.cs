@@ -27,7 +27,7 @@ namespace HotTaoCore
         /// <summary>
         /// 接口地址
         /// </summary>
-        public const string Url = "http://112.74.23.122:8080";
+        public const string Url = "http://112.74.23.122:8080";//112.74.23.122
 
 
         public const string CheckUpdateUrl = "http://120.24.54.54:8084";

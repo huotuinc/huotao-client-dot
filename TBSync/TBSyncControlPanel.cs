@@ -83,7 +83,7 @@ namespace TBSync
         /// 是否已完成
         /// </summary>
         /// <value>true if this instance is completed; otherwise, false.</value>
-        private bool isCompleted { get; set; }
+        private static bool isCompleted { get; set; }
 
 
         private string loginname = string.Empty;
@@ -127,8 +127,8 @@ namespace TBSync
                 LoginToken = args[0];
                 currentUserId = Convert.ToInt32(args[1]);
             }
-            //LoginToken = "1a96e54f-decf-4109-894e-02f54505dd97";
-            //currentUserId = 2;
+            LoginToken = "1a96e54f-decf-4109-894e-02f54505dd97";
+            currentUserId = 2;
             //如果token或userid为空，则关闭应用
             if (string.IsNullOrEmpty(LoginToken) || currentUserId == 0)
                 this.Close();
@@ -189,6 +189,7 @@ namespace TBSync
                 lw.LoginSuccessHandle += Lw_LoginSuccessHandle;
                 lw.SubmitSuccessHandle += Lw_SubmitSuccessHandle;
                 lw.LoadSuccessHandle += Lw_LoadSuccessHandle;
+                lw.CloseWindowHandle += Lw_CloseWindowHandle;
                 lw.Show();
                 SetText("登录中...");
 
@@ -198,6 +199,12 @@ namespace TBSync
                 VerifyCookies();
             }
         }
+
+        private void Lw_CloseWindowHandle()
+        {
+            lw.HideWindow();
+        }
+
         /// <summary>
         /// 定向计划申请完成
         /// </summary>
@@ -205,9 +212,7 @@ namespace TBSync
         /// <param name="data">The data.</param>
         private void Lw_SubmitSuccessHandle(bool success, SyncGoodsList data)
         {
-            if (success)
-                SetText(string.Format("{0} 计划申请成功.", data.goodsId));
-
+            SetText(string.Format("{0} 计划申请成功.", data.goodsId));
             LogicSyncGoods.In(currentUserId).DeleteUserSyncGoods(data.goodsId, currentUserId, data.taobaousername);
             isCompleted = true;
         }
@@ -223,6 +228,9 @@ namespace TBSync
             {
                 if (lw != null)
                 {
+                    //获取淘宝登录窗口
+                    //IntPtr hWin = WinApi.GetTaobaoLoginWindowEx();
+                    //WinApi.SetActiveWin(hWin);
                     lw.InputAccount(loginname, loginpwd);
                 }
             }

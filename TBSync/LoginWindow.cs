@@ -14,7 +14,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 namespace TBSync
 {
 
@@ -80,6 +79,9 @@ namespace TBSync
 
 
         private const string MyunionOverview = "http://pub.alimama.com/myunion.htm#!/myunion/overview";
+
+
+        private const string callback = "http://pro.taobao.com/index.htm";
 
 
         private void LoginWindow_Load(object sender, EventArgs e)
@@ -152,7 +154,7 @@ namespace TBSync
                     { IsBackground = true }.Start();
                 }
             }
-            else if (e.Url == planUrl)
+            else if (!string.IsNullOrEmpty(planUrl)&&e.Url.Contains(planUrl))
             {
                 if (!isLoadPlanCompleted)
                 {
@@ -165,10 +167,10 @@ namespace TBSync
 
                 }
             }
-            else if (e.Url == MyunionOverview)
+            else if (e.Url == callback)
             {
-                if (!string.IsNullOrEmpty(planUrl))
-                    browser.Load(planUrl);
+                //提交完成
+                SubmitSuccessHandle?.Invoke(true, goods);
             }
         }
 
@@ -199,7 +201,7 @@ namespace TBSync
         }
 
 
-        private void HideWindow()
+        public void HideWindow()
         {
             if (this.InvokeRequired)
             {
@@ -216,7 +218,7 @@ namespace TBSync
         /// </summary>
         private void ClickCampaignElement()
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             bool result = false;
             //获取当前按钮文本
             try
@@ -234,26 +236,31 @@ namespace TBSync
                     Thread.Sleep(100);
                     //提交推广
                     browser.ExecuteScriptAsync("document.getElementsByClassName('form-auth').item(0).getElementsByTagName('li').item(1).getElementsByTagName('a').item(0).click();");
+
                 }
             }
             catch (Exception ex)
             {
                 log.Error(ex);
             }
+
             new Thread(() =>
             {
-                Thread.Sleep(1000);
-                browser.Load("http://pro.taobao.com/index.htm");
-                //提交完成
-                SubmitSuccessHandle?.Invoke(result, goods);
+                browser.Load(callback);
             })
             { IsBackground = true }.Start();
         }
 
+        /// <summary>
+        /// 执行js脚步，等待返回，timeout 15秒
+        /// </summary>
+        /// <param name="b">The b.</param>
+        /// <param name="script">The script.</param>
+        /// <returns>System.Object.</returns>
         static object EvaluateScript(ChromiumWebBrowser b, string script)
         {
             var task = b.EvaluateScriptAsync(script);
-            task.Wait();
+            task.Wait(15000);
             JavascriptResponse response = task.Result;
             return response.Success ? (response.Result ?? "") : response.Message;
         }
@@ -382,6 +389,18 @@ namespace TBSync
 
         }
         #endregion
+
+
+        //protected override CreateParams CreateParams
+        //{
+        //    get
+        //    {
+        //        CreateParams createParams = base.CreateParams;
+        //        createParams.ClassName = "LoginTaobaoWind"; //这就是我想要的窗体类名。
+        //        return createParams;
+        //    }
+        //}
+
     }
 
 
