@@ -274,8 +274,6 @@ namespace TBSync
             return response.Success ? (response.Result ?? "") : response.Message;
         }
 
-
-
         public void InputAccount(string loginname, string loginpwd)
         {
             isLoginSuccess = false;

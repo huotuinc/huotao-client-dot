@@ -76,27 +76,20 @@ namespace TBSync
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
         public static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
-        /// <summary>
-        /// 获取淘宝登录窗口
-        /// </summary>
-        /// <returns></returns>
-        public static IntPtr GetTaobaoLoginWindowEx()
-        {
-            return FindWindow("WindowsForms10.Window.8.app.0.141b42a_r14_ad1", null);
-        }
 
         /// <summary>
         /// 激活窗口
         /// </summary>
         /// <param name="handle">The handle.</param>
-        public static RECT SetActiveWin(IntPtr handle)
+        public static RECT SetActiveWin(IntPtr handle, int size)
         {
             RECT rc = new RECT();
             GetWindowRect(handle, ref rc);
 
-            int h = rc.Top;
-            //定位微信坐标       
-            IntPtr lParam = (IntPtr)((h + 45 << 16) | 160);// The coordinates    
+            int h = rc.Bottom - rc.Top;
+            int w = rc.Right - rc.Left;
+            //定位坐标       
+            IntPtr lParam = (IntPtr)((h - size << 16) | 165);// The coordinates    
 
             SetInputFocus(handle, lParam);
 
@@ -108,9 +101,10 @@ namespace TBSync
         /// </summary>
         /// <param name="rc">The rc.</param>
         public static void SetInputFocus(IntPtr handle, IntPtr lParam)
-        {       
+        {
             //发送点击鼠标左键
             SendMessage(handle, downCode, IntPtr.Zero, lParam); // Mouse button down 
+
             //发送释放鼠标左键
             SendMessage(handle, upCode, IntPtr.Zero, lParam); // Mouse button up  
         }

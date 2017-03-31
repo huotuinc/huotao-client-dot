@@ -114,6 +114,7 @@ namespace TBSync
         /// <value>The last not synchronize goods list.</value>
         private List<SyncGoodsList> lastNotSyncGoodsList { get; set; }
 
+        private IntPtr LoginWinHandle { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TBSyncControlPanel"/> class.
@@ -178,6 +179,7 @@ namespace TBSync
 
             if (lw == null || !isLoginSuccess)
             {
+                LoginWinHandle = IntPtr.Zero;
                 SetbtnLoginTaobaoText("登录淘宝");
                 if (!BindTaobao())
                 {
@@ -202,7 +204,10 @@ namespace TBSync
 
         private void Lw_CloseWindowHandle()
         {
-            lw.HideWindow();
+            if (isLoginSuccess)
+                lw.HideWindow();
+            else
+                loginWindowsClose();
         }
 
         /// <summary>
@@ -228,10 +233,16 @@ namespace TBSync
             {
                 if (lw != null)
                 {
-                    //获取淘宝登录窗口
-                    //IntPtr hWin = WinApi.GetTaobaoLoginWindowEx();
-                    //WinApi.SetActiveWin(hWin);
+                    //Thread.Sleep(1500);
+                    ////这种窗口句柄
+                    //GetLoginWinHandle();
+                    ////获取淘宝登录窗口
+                    //while (LoginWinHandle == IntPtr.Zero) { }
+                    ////账号
+                    //WinApi.SetActiveWin(LoginWinHandle,350);
                     lw.InputAccount(loginname, loginpwd);
+
+                    //WinApi.SetActiveWin(LoginWinHandle, 299);
                 }
             }
             else
@@ -240,6 +251,21 @@ namespace TBSync
             }
 
         }
+        /// <summary>
+        /// 设置窗口句柄
+        /// </summary>
+        private void GetLoginWinHandle()
+        {
+            if (lw.InvokeRequired)
+            {
+                this.lw.Invoke(new Action(GetLoginWinHandle));
+            }
+            else
+            {
+                LoginWinHandle = lw.Handle;
+            }
+        }
+
         /// <summary>
         /// 显示登录页面
         /// </summary>
@@ -269,6 +295,7 @@ namespace TBSync
                 lw = null;
                 isLoginSuccess = false;
                 isStartAsync = false;
+                LoginWinHandle = IntPtr.Zero;
             }
         }
 

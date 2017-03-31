@@ -573,9 +573,9 @@
             this.label4.Location = new System.Drawing.Point(180, 59);
             this.label4.Margin = new System.Windows.Forms.Padding(0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(185, 12);
+            this.label4.Size = new System.Drawing.Size(317, 12);
             this.label4.TabIndex = 37;
-            this.label4.Text = "最少35秒，请合理的设置间隔时间";
+            this.label4.Text = "最少35秒，请合理的设置间隔时间(网络模式下，建议40秒)";
             // 
             // label20
             // 
@@ -595,9 +595,9 @@
             this.label2.Location = new System.Drawing.Point(180, 31);
             this.label2.Margin = new System.Windows.Forms.Padding(0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 12);
+            this.label2.Size = new System.Drawing.Size(353, 12);
             this.label2.TabIndex = 37;
-            this.label2.Text = "默认1秒";
+            this.label2.Text = "默认1秒(网络模式下，建议2秒，速度过快，会导致图片发送失败)";
             // 
             // txtgoodsinterval
             // 
