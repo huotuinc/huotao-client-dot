@@ -279,5 +279,23 @@ namespace HotTao.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   查找类似 23614674 的本地化字符串。
+        /// </summary>
+        internal static string taobaoappkey {
+            get {
+                return ResourceManager.GetString("taobaoappkey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 30182c9b940e88d983c61aad2a991f7e 的本地化字符串。
+        /// </summary>
+        internal static string taobaoappsecret {
+            get {
+                return ResourceManager.GetString("taobaoappsecret", resourceCulture);
+            }
+        }
     }
 }

@@ -16,8 +16,8 @@ namespace HotTaoCore
     public class HotTaoApiService
     {
         private const string url = "http://gw.api.taobao.com/router/rest";
-        private const string appkey = "23614674";
-        private const string appsecret = "30182c9b940e88d983c61aad2a991f7e";
+        private const string appkey = "";
+        private const string appsecret = "";
 
         private static HotTaoApiService _instance = new HotTaoApiService();
 

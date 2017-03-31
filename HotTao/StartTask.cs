@@ -4,6 +4,7 @@ using HotTaoCore.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -276,7 +277,7 @@ namespace HotTao
         {
             if (image != null)
             {
-                Clipboard.SetImage(image);
+                Clipboard.SetImage(image);                
                 System.Threading.Thread.Sleep(1000);
                 //粘贴图片       
                 foreach (var item in shareData)

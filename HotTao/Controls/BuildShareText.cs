@@ -1,4 +1,5 @@
-﻿using HotTaoCore.Logic;
+﻿using HotTao.Properties;
+using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using Newtonsoft.Json;
 using System;
@@ -296,8 +297,8 @@ namespace HotTao.Controls
 
             new Thread(() =>
             {
-                string appkey = string.Empty, appsecret = string.Empty;
-
+                string appkey = string.Empty;
+                string appsecret = string.Empty;
                 if (hotForm.myConfig == null)
                     hotForm.myConfig = new ConfigModel();
                 else
@@ -309,6 +310,14 @@ namespace HotTao.Controls
                         appsecret = cfgTime.appsecret;
                     }
                 }
+
+                if (string.IsNullOrEmpty(appkey) && string.IsNullOrEmpty(appsecret))
+                {
+                    appkey = Resources.taobaoappkey;
+                    appsecret = Resources.taobaoappsecret;
+                }
+
+
                 LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTaskTpwd(MyUserInfo.LoginToken, MyUserInfo.currentUserId, taskid, tempText, appkey, appsecret, (share) =>
                   {
                       SetView(share);

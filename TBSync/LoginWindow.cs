@@ -83,6 +83,11 @@ namespace TBSync
 
         private const string callback = "http://pro.taobao.com/index.htm";
 
+        /// <summary>
+        /// 受限url
+        /// </summary>
+        private const string denyUrl = "http://alisec.alimama.com/deny.html";
+
 
         private void LoginWindow_Load(object sender, EventArgs e)
         {
@@ -125,7 +130,7 @@ namespace TBSync
         /// <param name="e">The <see cref="FrameLoadEndEventArgs"/> instance containing the event data.</param>
         private void Browser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
         {
-
+            log.Debug(e.Url);
             if (e.Url == LoginUrl)
             {
                 if (!isLoadCompleted)
@@ -154,7 +159,7 @@ namespace TBSync
                     { IsBackground = true }.Start();
                 }
             }
-            else if (!string.IsNullOrEmpty(planUrl)&&e.Url.Contains(planUrl))
+            else if (!string.IsNullOrEmpty(planUrl) && e.Url.Contains(planUrl))
             {
                 if (!isLoadPlanCompleted)
                 {
@@ -167,10 +172,14 @@ namespace TBSync
 
                 }
             }
-            else if (e.Url == callback)
+            else if (e.Url == callback || e.Url.Contains("alisec.alimama.com/deny.html"))
             {
-                //提交完成
-                SubmitSuccessHandle?.Invoke(true, goods);
+                new Thread(() =>
+                {
+                    //提交完成
+                     SubmitSuccessHandle?.Invoke(true, goods);
+                })
+                { IsBackground = true }.Start();
             }
         }
 
@@ -276,17 +285,17 @@ namespace TBSync
             Thread.Sleep(500);
             browser.ExecuteScriptAsync("document.getElementById('TPL_password_1').value='" + loginname + "';");
             Thread.Sleep(500);
-            browser.ExecuteScriptAsync("document.getElementById('J_SubmitStatic').click();");
-            new Thread(() =>
-            {
-                Thread.Sleep(1000);
-                if (!isLoginSuccess)
-                {
-                    //提交完成
-                    LoadSuccessHandle?.Invoke(false);
-                }
-            })
-            { IsBackground = true }.Start();
+            //browser.ExecuteScriptAsync("document.getElementById('J_SubmitStatic').click();");
+            //new Thread(() =>
+            //{
+            //    Thread.Sleep(1000);
+            //    if (!isLoginSuccess)
+            //    {
+            //        //提交完成
+            //        LoadSuccessHandle?.Invoke(false);
+            //    }
+            //})
+            //{ IsBackground = true }.Start();
         }
 
 
