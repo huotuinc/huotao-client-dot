@@ -131,7 +131,11 @@ namespace HotTao
             }
 
             //获取待执行的任务数据
-            taskdata = taskdata.FindAll(item => { return item.status == 0 && item.isTpwd == 1; }).OrderBy(x => x.startTime).ToList();
+            taskdata = taskdata.FindAll(item =>
+            {
+                return item.status == 0 && item.isTpwd == 1 && item.startTime.CompareTo(DateTime.Now) < 0;
+
+            }).OrderBy(x => x.startTime).ToList();
 
             if (taskdata == null || taskdata.Count() == 0)
             {
@@ -277,7 +281,7 @@ namespace HotTao
         {
             if (image != null)
             {
-                Clipboard.SetImage(image);                
+                Clipboard.SetImage(image);
                 System.Threading.Thread.Sleep(1000);
                 //粘贴图片       
                 foreach (var item in shareData)

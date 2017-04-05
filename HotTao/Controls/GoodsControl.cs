@@ -44,7 +44,7 @@ namespace HotTao.Controls
             if (MyUserInfo.currentUserId > 0)
             {
                 isSubmit = false;
-                string url = ApiConst.Url + "/goods/goodListPage?token=" + MyUserInfo.LoginToken;
+                string url = ApiConst.Url + "/goods/goodListPage?viewMode=2&token=" + MyUserInfo.LoginToken;
 
                 if (hotForm.browser == null)
                 {
@@ -82,7 +82,7 @@ namespace HotTao.Controls
                     timer = null;
                 }
                 ld.CloseForm();
-                string url = ApiConst.Url + "/goods/goodListPage?token=" + MyUserInfo.LoginToken;
+                string url = ApiConst.Url + "/goods/goodListPage?viewMode=2&token=" + MyUserInfo.LoginToken;
                 hotForm.browser.Load(url);
                 hotForm.SetWeChatTabSelected();
                 hotForm.openControl(new TaskControl(hotForm));

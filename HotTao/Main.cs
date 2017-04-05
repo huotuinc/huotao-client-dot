@@ -290,9 +290,9 @@ namespace HotTao
         public void ReloadBrowser(string token)
         {
             if (browser != null)
-                browser.Load(ApiConst.Url + "/goods/goodListPage?token=" + token);
+                browser.Load(ApiConst.Url + "/goods/goodListPage?viewMode=2&token=" + token);
             else
-                InitBrowser(ApiConst.Url + "/goods/goodListPage?token=" + token);
+                InitBrowser(ApiConst.Url + "/goods/goodListPage?viewMode=2&token=" + token);
         }
 
 
