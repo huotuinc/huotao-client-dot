@@ -148,6 +148,8 @@ namespace HotTao
             {
                 if (!isStartTask || MyUserInfo.currentUserId == 0) break;
 
+                if (item.endTime.CompareTo(DateTime.Now) < 0) break;
+
                 textResult.Clear();
                 imageResult.Clear();
 
@@ -177,7 +179,7 @@ namespace HotTao
                     continue;
                 }
                 //发送商品数据
-                var result = SendGoods(goodslist, taskid, wins);
+                var result = SendGoods(goodslist, item, wins);
 
                 if (result)
                 {
@@ -198,7 +200,7 @@ namespace HotTao
         /// <param name="goodslist">The goodslist.</param>
         /// <param name="taskid">The taskid.</param>
         /// <param name="lst">The LST.</param>
-        private bool SendGoods(List<GoodsModel> goodslist, int taskid, List<WindowInfo> wins)
+        private bool SendGoods(List<GoodsModel> goodslist, TaskPlanModel taskModel, List<WindowInfo> wins)
         {
             bool result = false;
             var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserWechatShareTextList(MyUserInfo.currentUserId);
@@ -213,17 +215,54 @@ namespace HotTao
                     result = false;
                     break;
                 }
+                if (taskModel.endTime.CompareTo(DateTime.Now) < 0)
+                {
+                    result = false;
+                    break;
+                }
+
                 result = true;
                 int goodsId = Convert.ToInt32(goods.id);
 
                 var shareData = data.FindAll(share =>
                   {
-                      return share.goodsid == goodsId && share.taskid == taskid;
+                      return share.goodsid == goodsId && share.taskid == taskModel.id;
                   });
                 if (shareData == null || shareData.Count() == 0)
                     continue;
+
+                
                 SendWeChatGroupShareText(shareData, goods, wins);
+
+
                 SleepGoods();
+            }
+            return result;
+        }
+
+
+        /// <summary>
+        /// 判断剪切板状态
+        /// </summary>
+        /// <returns>true if [is clipboard status]; otherwise, false.</returns>
+        private bool IsClipboardStatus()
+        {
+            bool result = false;
+            int code = 0;
+            StringCollection colles = Clipboard.GetFileDropList();
+            if (colles == null || colles.Count == 0)
+            {
+                colles.Add("1");
+                Clipboard.SetFileDropList(colles);
+                result = false;
+            }
+            else
+            {
+                int.TryParse(colles[0], out code);
+                if (code == 1)
+                {
+                    result = IsClipboardStatus();
+                }
             }
             return result;
         }

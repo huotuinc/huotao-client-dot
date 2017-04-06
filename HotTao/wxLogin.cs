@@ -1045,6 +1045,9 @@ namespace HotTao
             {
                 WXService wxs = new WXService();
                 if (!isStartTask || MyUserInfo.currentUserId == 0) break;
+
+                if (item.endTime.CompareTo(DateTime.Now) < 0) break;
+
                 int taskid = Convert.ToInt32(item.id);
 
                 List<UserPidTaskModel> lst = JsonConvert.DeserializeObject<List<UserPidTaskModel>>(item.goodsText);
@@ -1069,7 +1072,7 @@ namespace HotTao
                     continue;
                 }
                 //发送商品数据
-                var result = SendGoods(goodslist, taskid);
+                var result = SendGoods(goodslist, item);
                 if (result)
                 {
                     if (!isStartTask || MyUserInfo.currentUserId == 0) break;
@@ -1089,7 +1092,7 @@ namespace HotTao
         /// <param name="goodslist">The goodslist.</param>
         /// <param name="taskid">The taskid.</param>
         /// <param name="lst">The LST.</param>
-        private bool SendGoods(List<GoodsModel> goodslist, int taskid)
+        private bool SendGoods(List<GoodsModel> goodslist, TaskPlanModel taskModel)
         {
             bool result = false;
             var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserWechatShareTextList(MyUserInfo.currentUserId);
@@ -1102,12 +1105,15 @@ namespace HotTao
                     result = false;
                     break;
                 }
+
+                if (taskModel.endTime.CompareTo(DateTime.Now) < 0) break;
+
                 result = true;
                 int goodsId = Convert.ToInt32(goods.id);
 
                 var shareData = data.FindAll(share =>
                 {
-                    return share.goodsid == goodsId && share.taskid == taskid;
+                    return share.goodsid == goodsId && share.taskid == taskModel.id;
                 });
                 if (shareData == null || shareData.Count() == 0)
                     continue;

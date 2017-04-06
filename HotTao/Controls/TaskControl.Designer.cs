@@ -1029,7 +1029,7 @@
             this.btnWeChatWinGet.Name = "btnWeChatWinGet";
             this.btnWeChatWinGet.Size = new System.Drawing.Size(102, 23);
             this.btnWeChatWinGet.TabIndex = 3;
-            this.btnWeChatWinGet.Text = "获取微信句柄";
+            this.btnWeChatWinGet.Text = "采集微信窗口";
             this.btnWeChatWinGet.UseVisualStyleBackColor = false;
             this.btnWeChatWinGet.Click += new System.EventHandler(this.btnWeChatWinGet_Click);
             // 
