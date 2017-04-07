@@ -553,7 +553,7 @@ namespace HotTaoCore.Logic
         /// <param name="item">The item.</param>
         /// <param name="appkey">The appkey.</param>
         /// <param name="appsecret">The appsecret.</param>
-        public void BuildTpwd(int currentUserId, string LoginToken, GoodsModel goods, weChatShareTextModel item, string appkey, string appsecret)
+        public bool BuildTpwd(int currentUserId, string LoginToken, GoodsModel goods, weChatShareTextModel item, string appkey, string appsecret)
         {
             if (item.status == -1)
             {
@@ -577,8 +577,12 @@ namespace HotTaoCore.Logic
                         item.text = item.text.Replace("[短链接]", shortUrl);
                     item.status = 0;
                     Instance(currentUserId).UpdateUserShareTextStatus(item.id, item.text, tpwd);
+                    return true;
                 }
+                else
+                    return false;
             }
+            return true;
         }
         #endregion
 

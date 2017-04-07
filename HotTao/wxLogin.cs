@@ -1163,10 +1163,12 @@ namespace HotTao
                     {
                         if (item.status == -1)
                         {
-                            LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTpwd(MyUserInfo.currentUserId, MyUserInfo.LoginToken, goods, item, appkey, appsecret);
+                            bool flag = LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTpwd(MyUserInfo.currentUserId, MyUserInfo.LoginToken, goods, item, appkey, appsecret);
+                            if (flag)
+                                item.status = 0;
                         }
                     });
-
+                    shareData = shareData.FindAll(share => { return share.status == 0; });
                     result = SendWeChatGroupShareText(shareData, goods);
                     if (!result)
                         break;
