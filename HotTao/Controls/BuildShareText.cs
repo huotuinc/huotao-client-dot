@@ -130,7 +130,6 @@ namespace HotTao.Controls
                 }
             })
             { IsBackground = true }.Start();
-
         }
         public void SetView(List<weChatShareTextModel> data)
         {
@@ -146,7 +145,7 @@ namespace HotTao.Controls
                     dgvShareText.Rows.Add();
                     ++i;
                     dgvShareText.Rows[i - 1].Cells["sharetitle"].Value = data[j].title.ToString();
-                    dgvShareText.Rows[i - 1].Cells["tpwd"].Value = data[j].tpwd.ToString();
+                    dgvShareText.Rows[i - 1].Cells["tpwd"].Value = data[j].status == 1 ? data[j].tpwd.ToString() : "[二合一淘口令]";
                     dgvShareText.Rows[i - 1].Cells["shareText"].Value = data[j].text.ToString();
 
                     if (i % 2 == 0)
@@ -181,7 +180,7 @@ namespace HotTao.Controls
                 dgvShareText.Rows.Add();
                 ++i;
                 dgvShareText.Rows[i - 1].Cells["sharetitle"].Value = model.title;
-                dgvShareText.Rows[i - 1].Cells["tpwd"].Value = model.tpwd.ToString();
+                dgvShareText.Rows[i - 1].Cells["tpwd"].Value ="[二合一淘口令]";
                 dgvShareText.Rows[i - 1].Cells["shareText"].Value = model.text.ToString();
                 if (i % 2 == 0)
                 {

@@ -1,4 +1,5 @@
 ﻿using HotTao.Controls;
+using HotTao.Properties;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using Newtonsoft.Json;
@@ -1086,6 +1087,42 @@ namespace HotTao
 
         }
 
+        private string appkey { get; set; }
+        private string appsecret { get; set; }
+
+        /// <summary>
+        /// 加载appkey 和 secret
+        /// </summary>
+        private bool LoadAppkeyAndSecret()
+        {
+            if (string.IsNullOrEmpty(appkey) || string.IsNullOrEmpty(appsecret))
+            {
+                if (hotForm.myConfig == null)
+                    hotForm.myConfig = new ConfigModel();
+                else
+                {
+                    ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(hotForm.myConfig.send_time_config) ? null : JsonConvert.DeserializeObject<ConfigSendTimeModel>(hotForm.myConfig.send_time_config);
+                    if (cfgTime != null)
+                    {
+                        appkey = cfgTime.appkey;
+                        appsecret = cfgTime.appsecret;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(appkey) && string.IsNullOrEmpty(appsecret))
+                {
+                    appkey = Resources.taobaoappkey;
+                    appsecret = Resources.taobaoappsecret;
+                    return true;
+                }
+            }
+            else
+                return true;
+
+            return false;
+        }
+
+
         /// <summary>
         /// 发送任务商品
         /// </summary>
@@ -1117,9 +1154,23 @@ namespace HotTao
                 });
                 if (shareData == null || shareData.Count() == 0)
                     continue;
-                result = SendWeChatGroupShareText(shareData, goods);
-                if (!result)
-                    break;
+
+                //加载appkey，判断是否存在，如果不存在，则不发商品
+                if (LoadAppkeyAndSecret())
+                {
+                    //发送当前商品时，进行淘口令生产
+                    shareData.ForEach(item =>
+                    {
+                        if (item.status == -1)
+                        {
+                            LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTpwd(MyUserInfo.currentUserId, MyUserInfo.LoginToken, goods, item, appkey, appsecret);
+                        }
+                    });
+
+                    result = SendWeChatGroupShareText(shareData, goods);
+                    if (!result)
+                        break;
+                }
             }
             return result;
 

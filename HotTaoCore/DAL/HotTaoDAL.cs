@@ -597,6 +597,26 @@ namespace HotTaoCore.DAL
             return DBHelper.ExecuteSql(strSql, param) > 0;
         }
 
+        /// <summary>
+        /// 修改发送状态
+        /// </summary>
+        /// <param name="shareid">The shareid.</param>
+        /// <param name="text">The text.</param>
+        /// <param name="tpwd">The TPWD.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool UpdateUserShareTextStatus(long shareid,string text,string tpwd)
+        {
+            string strSql = @"UPDATE user_wechat_sharetext SET status=0,text=@text,tpwd=@tpwd WHERE id = @id ;";
+            var param = new[] {
+                    new SQLiteParameter("@id",shareid),
+                    new SQLiteParameter("@text",text),
+                    new SQLiteParameter("@tpwd",tpwd)
+                };
+            return DBHelper.ExecuteSql(strSql, param) > 0;
+        }
+
+
+
 
         /// <summary>
         /// 添加微信发送失败数据
@@ -661,7 +681,7 @@ namespace HotTaoCore.DAL
         /// <returns>List&lt;weChatShareTextModel&gt;.</returns>
         public List<weChatShareTextModel> FindByUserWechatShareTextList(int userid)
         {
-            string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd from user_wechat_sharetext where userid=@userid  and status=0 ;";
+            string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd from user_wechat_sharetext where userid=@userid  and status in (0,-1);";
             var param = new[] {
                     new SQLiteParameter("@userid",userid)
             };
