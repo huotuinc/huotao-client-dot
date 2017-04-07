@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Files>
+    <!--
+  Key             键值
+  URL             文件保存路径 以"/"结尾 {$CityCode}：citycode，{$CompanyID}：企业ID
+  IsImg           是否是图片   【true/false】
+  FileNamePrefix  文件名的前缀 如：company******.jpg
+  FileExt         允许上传的文件后缀 "|"分隔 如：.png|.jpg|.gif|.bmp
+  MaxSize         允许上传文件大小 单位：KB 0：不受限制  
+  ToThumbnail     是否生成缩略图  【true/false】
+  Width           缩略图的宽度
+  Height          缩略图的高度
+  ThumbnailMode   缩略图方式 【HW,W,H,Cut,Ration,Fill】
+  OtherThumbnail  其他缩略图 多组"|"分隔，【缩略图前缀，缩略图宽度，缩略图高度，缩略图方式(同ThumbnailMode)】如：s,200,100,Fill|abc,200,100,Fill
+  MaxModeSize     按照最大尺度（高度或者宽度）生成缩略图  0：表示不按照最大尺度生成缩略图
+  MaxMode         最大尺度方式（高度或者宽度） 【H/W】
+  ToWater         是否打水印  【true/false】
+  WaterPosition   水印位置 【LeftTop,RightTop,Middle,LeftBottom,RightBottom】
+  -->
+    <!--本地生活 包打听专题图片-->
+    <File Key="Test" URL="/upload/test/"
+               IsImg="true" FileNamePrefix="" FileExt="*.jpg;*.jpeg;*.gif;*.png;" MaxSize="500"
+               ToThumbnail="true" Width="100" Height="100" ThumbnailMode="Fill" 
+                MaxModeSize="400" MaxMode="W"
+               ToWater="false" WaterPosition="LeftBottom"></File>
+    <File Key="Test2" URL="/upload/test/"
+                  IsImg="true" FileNamePrefix="" FileExt="*.jpg;*.jpeg;*.gif;*.png;" MaxSize="500"
+                  ToThumbnail="false" Width="100" Height="100" ThumbnailMode="H" MaxModeSize="0" MaxMode=""
+                  ToWater="false" WaterPosition=""></File>
+</Files>
