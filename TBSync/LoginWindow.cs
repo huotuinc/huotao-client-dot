@@ -71,7 +71,7 @@ namespace TBSync
         /// <summary>
         /// The login URL
         /// </summary>
-        private const string LoginUrl = "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=false&css_style=alimama&from=alimama";
+        private const string LoginUrl = "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=true&css_style=alimama&from=alimama";
         /// <summary>
         /// 登录成功的页面
         /// </summary>

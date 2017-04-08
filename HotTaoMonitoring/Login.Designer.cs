@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.hotPanel1 = new HotTaoMonitoring.module.HotPanel(this.components);
             this.lbTipMsg = new System.Windows.Forms.Label();
             this.picClose = new System.Windows.Forms.PictureBox();
@@ -97,7 +98,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(154, 24);
             this.label1.TabIndex = 109;
-            this.label1.Text = "登录群管系统";
+            this.label1.Text = "登录客服系统";
             // 
             // ckbSavePwd
             // 
@@ -144,7 +145,7 @@
             // 
             this.lbLoginPwd.BackColor = System.Drawing.Color.Transparent;
             this.lbLoginPwd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
-            this.lbLoginPwd.Location = new System.Drawing.Point(7, 15);
+            this.lbLoginPwd.Location = new System.Drawing.Point(10, 13);
             this.lbLoginPwd.Name = "lbLoginPwd";
             this.lbLoginPwd.Size = new System.Drawing.Size(65, 22);
             this.lbLoginPwd.TabIndex = 103;
@@ -183,7 +184,7 @@
             // 
             this.lbLoginName.BackColor = System.Drawing.Color.Transparent;
             this.lbLoginName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
-            this.lbLoginName.Location = new System.Drawing.Point(6, 14);
+            this.lbLoginName.Location = new System.Drawing.Point(11, 13);
             this.lbLoginName.Name = "lbLoginName";
             this.lbLoginName.Size = new System.Drawing.Size(90, 22);
             this.lbLoginName.TabIndex = 104;
@@ -215,6 +216,7 @@
             this.ClientSize = new System.Drawing.Size(284, 402);
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "登录群管系统";

@@ -29,28 +29,38 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvWeChatList = new System.Windows.Forms.DataGridView();
-            this.hotGroupBox1 = new HotTaoMonitoring.module.HotGroupBox(this.components);
-            this.txtSearch = new System.Windows.Forms.RichTextBox();
+            this.ckbGroup = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ShowName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolsRefresh = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsAllSelected = new System.Windows.Forms.ToolStripMenuItem();
             this.dataContent = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
-            this.ShowName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hotGroupBox1 = new HotTaoMonitoring.module.HotGroupBox(this.components);
+            this.txtSearch = new System.Windows.Forms.RichTextBox();
+            this.MsgContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MsgSendUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MsgStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MsgText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MsgNickName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.edit = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.MsgUserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWeChatList)).BeginInit();
-            this.hotGroupBox1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataContent)).BeginInit();
             this.panel2.SuspendLayout();
+            this.hotGroupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvWeChatList
@@ -65,55 +75,80 @@
             this.dgvWeChatList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvWeChatList.ColumnHeadersVisible = false;
             this.dgvWeChatList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ShowName});
+            this.ckbGroup,
+            this.ShowName,
+            this.UserName});
+            this.dgvWeChatList.ContextMenuStrip = this.contextMenuStrip1;
             this.dgvWeChatList.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.dgvWeChatList.Location = new System.Drawing.Point(5, 46);
             this.dgvWeChatList.MultiSelect = false;
             this.dgvWeChatList.Name = "dgvWeChatList";
             this.dgvWeChatList.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle23.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.InfoText;
-            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvWeChatList.RowHeadersDefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.InfoText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvWeChatList.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvWeChatList.RowHeadersVisible = false;
             this.dgvWeChatList.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvWeChatList.RowsDefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvWeChatList.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvWeChatList.RowTemplate.Height = 23;
-            this.dgvWeChatList.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvWeChatList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvWeChatList.Size = new System.Drawing.Size(225, 557);
+            this.dgvWeChatList.Size = new System.Drawing.Size(184, 557);
             this.dgvWeChatList.TabIndex = 11;
             // 
-            // hotGroupBox1
+            // ckbGroup
             // 
-            this.hotGroupBox1.BorderColor = System.Drawing.Color.Gainsboro;
-            this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox1.Controls.Add(this.txtSearch);
-            this.hotGroupBox1.Location = new System.Drawing.Point(2, 2);
-            this.hotGroupBox1.Name = "hotGroupBox1";
-            this.hotGroupBox1.Size = new System.Drawing.Size(227, 38);
-            this.hotGroupBox1.TabIndex = 12;
-            this.hotGroupBox1.TabStop = false;
+            this.ckbGroup.HeaderText = "ckbGroup";
+            this.ckbGroup.Name = "ckbGroup";
+            this.ckbGroup.TrueValue = "UserName";
+            this.ckbGroup.Width = 30;
             // 
-            // txtSearch
+            // ShowName
             // 
-            this.txtSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
-            this.txtSearch.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            this.txtSearch.Location = new System.Drawing.Point(3, 17);
-            this.txtSearch.Multiline = false;
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.txtSearch.Size = new System.Drawing.Size(221, 18);
-            this.txtSearch.TabIndex = 27;
-            this.txtSearch.Text = "";
+            this.ShowName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ShowName.DataPropertyName = "ShowName";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(5);
+            this.ShowName.DefaultCellStyle = dataGridViewCellStyle1;
+            this.ShowName.HeaderText = "ShowName";
+            this.ShowName.MinimumWidth = 50;
+            this.ShowName.Name = "ShowName";
+            this.ShowName.ReadOnly = true;
+            // 
+            // UserName
+            // 
+            this.UserName.HeaderText = "UserName";
+            this.UserName.Name = "UserName";
+            this.UserName.ReadOnly = true;
+            this.UserName.Visible = false;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolsRefresh,
+            this.toolsAllSelected});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 48);
+            // 
+            // toolsRefresh
+            // 
+            this.toolsRefresh.Name = "toolsRefresh";
+            this.toolsRefresh.Size = new System.Drawing.Size(124, 22);
+            this.toolsRefresh.Text = "刷新列表";
+            this.toolsRefresh.Click += new System.EventHandler(this.toolsRefresh_Click);
+            // 
+            // toolsAllSelected
+            // 
+            this.toolsAllSelected.Name = "toolsAllSelected";
+            this.toolsAllSelected.Size = new System.Drawing.Size(124, 22);
+            this.toolsAllSelected.Text = "全选";
+            this.toolsAllSelected.Click += new System.EventHandler(this.toolsAllSelected_Click);
             // 
             // dataContent
             // 
@@ -127,32 +162,36 @@
             this.dataContent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataContent.ColumnHeadersVisible = false;
             this.dataContent.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.UserName});
+            this.MsgContent,
+            this.MsgSendUser,
+            this.MsgStatus,
+            this.MsgText,
+            this.MsgNickName,
+            this.edit,
+            this.MsgUserName});
             this.dataContent.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.dataContent.Location = new System.Drawing.Point(232, 46);
+            this.dataContent.Location = new System.Drawing.Point(195, 46);
             this.dataContent.MultiSelect = false;
             this.dataContent.Name = "dataContent";
             this.dataContent.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle27.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle27.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle27.ForeColor = System.Drawing.SystemColors.InfoText;
-            dataGridViewCellStyle27.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle27.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataContent.RowHeadersDefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.InfoText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataContent.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataContent.RowHeadersVisible = false;
             this.dataContent.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle28.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle28.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dataContent.RowsDefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dataContent.RowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dataContent.RowTemplate.Height = 23;
-            this.dataContent.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dataContent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataContent.Size = new System.Drawing.Size(552, 557);
+            this.dataContent.Size = new System.Drawing.Size(589, 557);
             this.dataContent.TabIndex = 11;
+            this.dataContent.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataContent_CellClick);
             // 
             // panel2
             // 
@@ -160,16 +199,16 @@
             this.panel2.Controls.Add(this.label5);
             this.panel2.Controls.Add(this.label19);
             this.panel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.panel2.Location = new System.Drawing.Point(233, 8);
+            this.panel2.Location = new System.Drawing.Point(194, 8);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(553, 36);
+            this.panel2.Size = new System.Drawing.Size(592, 36);
             this.panel2.TabIndex = 13;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label5.Location = new System.Drawing.Point(504, 10);
+            this.label5.Location = new System.Drawing.Point(549, 10);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(33, 13);
             this.label5.TabIndex = 2;
@@ -185,47 +224,89 @@
             this.label19.TabIndex = 2;
             this.label19.Text = "内容";
             // 
-            // ShowName
+            // hotGroupBox1
             // 
-            this.ShowName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ShowName.DataPropertyName = "ShowName";
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle22.Padding = new System.Windows.Forms.Padding(5);
-            this.ShowName.DefaultCellStyle = dataGridViewCellStyle22;
-            this.ShowName.HeaderText = "ShowName";
-            this.ShowName.MinimumWidth = 50;
-            this.ShowName.Name = "ShowName";
-            this.ShowName.ReadOnly = true;
+            this.hotGroupBox1.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox1.Controls.Add(this.txtSearch);
+            this.hotGroupBox1.Location = new System.Drawing.Point(2, 2);
+            this.hotGroupBox1.Name = "hotGroupBox1";
+            this.hotGroupBox1.Size = new System.Drawing.Size(187, 38);
+            this.hotGroupBox1.TabIndex = 12;
+            this.hotGroupBox1.TabStop = false;
             // 
-            // dataGridViewTextBoxColumn1
+            // txtSearch
             // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle25.Padding = new System.Windows.Forms.Padding(5);
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle25;
-            this.dataGridViewTextBoxColumn1.HeaderText = "内容";
-            this.dataGridViewTextBoxColumn1.MinimumWidth = 50;
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.txtSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
+            this.txtSearch.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtSearch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            this.txtSearch.Location = new System.Drawing.Point(3, 17);
+            this.txtSearch.Multiline = false;
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txtSearch.Size = new System.Drawing.Size(181, 18);
+            this.txtSearch.TabIndex = 27;
+            this.txtSearch.Text = "";
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
-            // dataGridViewTextBoxColumn2
+            // MsgContent
             // 
-            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle26.NullValue = "回复";
-            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle26;
-            this.dataGridViewTextBoxColumn2.HeaderText = "回复";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dataGridViewTextBoxColumn2.Text = "回复";
-            this.dataGridViewTextBoxColumn2.Width = 50;
+            this.MsgContent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(5);
+            this.MsgContent.DefaultCellStyle = dataGridViewCellStyle4;
+            this.MsgContent.HeaderText = "内容";
+            this.MsgContent.MinimumWidth = 50;
+            this.MsgContent.Name = "MsgContent";
+            this.MsgContent.ReadOnly = true;
             // 
-            // UserName
+            // MsgSendUser
             // 
-            this.UserName.HeaderText = "UserName";
-            this.UserName.Name = "UserName";
-            this.UserName.Visible = false;
+            this.MsgSendUser.HeaderText = "MsgSendUser";
+            this.MsgSendUser.Name = "MsgSendUser";
+            this.MsgSendUser.ReadOnly = true;
+            this.MsgSendUser.Visible = false;
+            // 
+            // MsgStatus
+            // 
+            this.MsgStatus.HeaderText = "MsgStatus";
+            this.MsgStatus.Name = "MsgStatus";
+            this.MsgStatus.ReadOnly = true;
+            this.MsgStatus.Width = 50;
+            // 
+            // MsgText
+            // 
+            this.MsgText.HeaderText = "MsgText";
+            this.MsgText.Name = "MsgText";
+            this.MsgText.ReadOnly = true;
+            this.MsgText.Visible = false;
+            // 
+            // MsgNickName
+            // 
+            this.MsgNickName.HeaderText = "MsgNickName";
+            this.MsgNickName.Name = "MsgNickName";
+            this.MsgNickName.ReadOnly = true;
+            this.MsgNickName.Visible = false;
+            // 
+            // edit
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.NullValue = "回复";
+            this.edit.DefaultCellStyle = dataGridViewCellStyle5;
+            this.edit.HeaderText = "回复";
+            this.edit.Name = "edit";
+            this.edit.ReadOnly = true;
+            this.edit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.edit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.edit.Text = "回复";
+            this.edit.Width = 50;
+            // 
+            // MsgUserName
+            // 
+            this.MsgUserName.HeaderText = "MsgUserName";
+            this.MsgUserName.Name = "MsgUserName";
+            this.MsgUserName.Visible = false;
             // 
             // ListenForm
             // 
@@ -240,10 +321,11 @@
             this.Size = new System.Drawing.Size(791, 607);
             this.Load += new System.EventHandler(this.ListenForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvWeChatList)).EndInit();
-            this.hotGroupBox1.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataContent)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.hotGroupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -257,9 +339,18 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolsRefresh;
+        private System.Windows.Forms.ToolStripMenuItem toolsAllSelected;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ckbGroup;
         private System.Windows.Forms.DataGridViewTextBoxColumn ShowName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewLinkColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn UserName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MsgContent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MsgSendUser;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MsgStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MsgText;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MsgNickName;
+        private System.Windows.Forms.DataGridViewLinkColumn edit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MsgUserName;
     }
 }

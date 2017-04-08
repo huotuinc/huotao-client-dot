@@ -103,6 +103,7 @@
             // 
             // hotGroupBox2
             // 
+            this.hotGroupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
             this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
             this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
             this.hotGroupBox2.Controls.Add(this.txtUserfilter);

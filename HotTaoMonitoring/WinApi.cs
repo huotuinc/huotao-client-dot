@@ -18,6 +18,12 @@ using System.Windows.Forms;
 
 namespace HotTaoMonitoring
 {
+    public struct WindowInfo
+    {
+        public IntPtr hWnd;
+        public string szWindowName;
+        public string szClassName;
+    }
     public class WinApi
     {
 
@@ -38,6 +44,51 @@ namespace HotTaoMonitoring
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern int GetClassLong(IntPtr hwnd, int nIndex);
 
+
+
+        /// <summary>
+        /// EnumWindows函数，EnumWindowsProc 为处理函数
+        /// </summary>
+        /// <param name="ewp">The ewp.</param>
+        /// <param name="lParam">The l parameter.</param>
+        /// <returns>System.Int32.</returns>
+        [DllImport("user32.dll")]
+        private static extern int EnumWindows(EnumWindowsProc ewp, int lParam);
+
+        public delegate bool EnumWindowsProc(IntPtr hWnd, int lParam);
+
+
+
+        /// <summary>
+        /// 获取窗口标题
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="lpString"></param>
+        /// <param name="nMaxCount"></param>
+        /// <returns></returns>
+        [DllImport("user32", SetLastError = true)]
+        private static extern int GetWindowText(
+            IntPtr hWnd,//窗口句柄
+            StringBuilder lpString,//标题
+            int nMaxCount //最大值
+            );
+
+
+        /// <summary>
+        /// 获取类的名字
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="lpString"></param>
+        /// <param name="nMaxCount"></param>
+        /// <returns></returns>
+        [DllImport("user32.dll")]
+        private static extern int GetClassName(
+            IntPtr hWnd,//句柄
+            StringBuilder lpString, //类名
+            int nMaxCount //最大值
+            );
+
+
         /// <summary>
         /// 无边框样式的winform窗口，需要单独设置，才能启用任务栏的系统菜单功能，
         /// </summary>
@@ -48,5 +99,37 @@ namespace HotTaoMonitoring
             //设置阴影
             SetClassLong(from.Handle, GCL_STYLE, GetClassLong(from.Handle, GCL_STYLE) | CS_DropSHADOW);
         }
+
+
+
+        /// <summary>
+        /// 寻找系统的全部窗口
+        /// </summary>
+        /// <param name="classname">ChatWnd</param>
+        /// <returns>List&lt;WindowInfo&gt;.</returns>
+        public static List<WindowInfo> GetAllDesktopWindows(string classname = "ChatWnd")
+        {
+            List<WindowInfo> wndList = new List<WindowInfo>();
+            EnumWindows(delegate (IntPtr hWin, int p)
+            {
+                StringBuilder sb = new StringBuilder(256);
+                GetClassName(hWin, sb, sb.Capacity);
+                if (classname == sb.ToString())
+                {
+                    WindowInfo wnd = new WindowInfo();
+                    wnd.hWnd = hWin;
+                    wnd.szClassName = sb.ToString();
+                    GetWindowText(hWin, sb, sb.Capacity);
+                    wnd.szWindowName = sb.ToString();
+
+                    if (!wndList.Exists(item => { return item.szWindowName == wnd.szWindowName; }))
+                        wndList.Add(wnd);
+                }
+                return true;
+            }, 0);
+            return wndList;
+        }
+
+
     }
 }

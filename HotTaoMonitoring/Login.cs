@@ -63,11 +63,12 @@ namespace HotTaoMonitoring
         public Login()
         {
             InitializeComponent();
+            InitDataBase();
         }
 
         private void picClose_Click(object sender, EventArgs e)
         {
-            
+
             this.Close();
         }
 
@@ -78,7 +79,7 @@ namespace HotTaoMonitoring
 
         private void lbLoginPwd_Click(object sender, EventArgs e)
         {
-            this.lbLoginPwd.Focus();
+            this.loginPwd.Focus();
         }
 
         private void loginName_KeyDown(object sender, KeyEventArgs e)
@@ -311,6 +312,59 @@ namespace HotTaoMonitoring
             Application.ExitThread();
             Process.GetCurrentProcess().Kill();
         }
+
+
+
+        /// <summary>
+        /// 初始化数据库
+        /// </summary>
+        /// <returns>BuildDataBase.</returns>
+        public void InitDataBase()
+        {
+            try
+            {
+                //初始化用户本地数据库
+                string sourceFileName = System.Environment.CurrentDirectory + "\\data\\hottao.db";
+                if (!System.IO.File.Exists(sourceFileName))
+                {
+                    MessageBox.Show("系统初始化失败", "错误");
+                    this.Close();
+                }
+                string dbpath = System.Environment.CurrentDirectory + "\\data\\" + MyUserInfo.currentUserId;
+                if (!System.IO.Directory.Exists(dbpath))
+                    System.IO.Directory.CreateDirectory(dbpath);
+
+                dbpath += "\\hottao.db";
+
+                if (!System.IO.File.Exists(dbpath))
+                {
+                    System.IO.File.Copy(sourceFileName, dbpath);
+                }
+
+                //初始化商品同步数据库
+                sourceFileName = System.Environment.CurrentDirectory + "\\data\\syncgoods.db";
+                if (!System.IO.File.Exists(sourceFileName))
+                {
+                    MessageBox.Show("系统初始化失败", "错误");
+                    this.Close();
+                }
+                dbpath = System.Environment.CurrentDirectory + "\\data\\" + MyUserInfo.currentUserId;
+                if (!System.IO.Directory.Exists(dbpath))
+                    System.IO.Directory.CreateDirectory(dbpath);
+
+                dbpath += "\\syncgoods.db";
+                if (!System.IO.File.Exists(dbpath))
+                {
+                    System.IO.File.Copy(sourceFileName, dbpath);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+
+
 
     }
 }

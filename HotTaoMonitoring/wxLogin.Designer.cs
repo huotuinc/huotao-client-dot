@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(wxLogin));
             this.hotPanel1 = new HotTaoMonitoring.module.HotPanel(this.components);
             this.picClose = new System.Windows.Forms.PictureBox();
             this.lblTip = new System.Windows.Forms.Label();
@@ -62,6 +63,7 @@
             this.picClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picClose.TabIndex = 19;
             this.picClose.TabStop = false;
+            this.picClose.Click += new System.EventHandler(this.picClose_Click);
             // 
             // lblTip
             // 
@@ -102,6 +104,7 @@
             this.ClientSize = new System.Drawing.Size(284, 402);
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "wxLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "wxLogin";

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -76,14 +77,6 @@ namespace HotTaoMonitoring
         /// </summary>
         private WXUser _me;
 
-        /// <summary>
-        /// 当前用户的所用联系人
-        /// </summary>
-        public List<WXUser> contact_all = new List<WXUser>();
-
-
-
-
         public wxLogin(MainForm form)
         {
             InitializeComponent();
@@ -140,20 +133,12 @@ namespace HotTaoMonitoring
                             //访问登录跳转URL
                             ls.GetSidUid(login_result as string);
 
-                            ////打开主界面
-                            //this.BeginInvoke((Action)delegate ()
-                            //{
-                            //    wxcontactsForm = new wxContacts(this, headImg);
-                            //    wxcontactsForm.Show();
-                            //    this.Hide();
-                            //});
-                            //isStartTask = true;
-                            //if (historyForm != null)
-                            //    historyForm.ShowStartButtonText("暂停计划");
-                            //if (taskForm != null)
-                            //    taskForm.ShowStartButtonText("暂停计划");
-
-
+                            //打开主界面
+                            this.BeginInvoke((Action)delegate ()
+                            {
+                                mainForm.ShowListen(UserControlsOpts.listen);
+                                this.Hide();
+                            });
                             break;
                         }
                     }
@@ -172,10 +157,9 @@ namespace HotTaoMonitoring
         /// </summary>
         public void DoMainLogic()
         {
-            //isStartTask = false;
             WXService wxs = new WXService();
             JObject init_result = wxs.WxInit();  //初始化
-            contact_all.Clear();
+            mainForm.contact_all.Clear();
             if (init_result != null)
             {
                 InitCurrentUserData(init_result);
@@ -185,7 +169,6 @@ namespace HotTaoMonitoring
             if (contact_result != null)
             {
                 LoadMyContact(contact_result);
-                //isStartTask = true;
             }
 
             string sync_flag = "";
@@ -207,22 +190,14 @@ namespace HotTaoMonitoring
                     //在此次进行判断自动回复或踢人操作
                     if (sync_result != null)
                     {
-
                         //判断是否掉线
                         if (sync_result["BaseResponse"]["Ret"].ToObject<int>() > 0)
                         {
                             isLoginCheck = false;
                             isCloseWinForm = true;
 
-                            //if (historyForm != null)
-                            //    historyForm.ShowStartButtonText("启动计划");
-                            //if (taskForm != null)
-                            //    taskForm.ShowStartButtonText("启动计划");
-
-                            //if (wxcontactsForm != null)
-                            //    CloseMyContact();
-
-                            //hotForm.AlertTip("微信掉线，请重新授权登录");
+                            mainForm.CloseMyContact();
+                            mainForm.AlertTip("微信掉线，请重新授权登录");
                             break;
                         }
                         if (sync_result["AddMsgCount"] != null && sync_result["AddMsgCount"].ToString() != "0")
@@ -234,7 +209,7 @@ namespace HotTaoMonitoring
                         }
                     }
                 }
-                Thread.Sleep(2000);
+                Thread.Sleep(500);
             }
         }
 
@@ -260,19 +235,24 @@ namespace HotTaoMonitoring
 
             foreach (JObject contact in init_result["ContactList"])  //部分好友名单
             {
-                WXUser user = new WXUser();
-                user.UserName = contact["UserName"].ToString();
-                user.City = contact["City"].ToString();
-                user.HeadImgUrl = contact["HeadImgUrl"].ToString();
-                user.NickName = contact["NickName"].ToString();
-                user.Province = contact["Province"].ToString();
-                user.PYQuanPin = contact["PYQuanPin"].ToString();
-                user.RemarkName = contact["RemarkName"].ToString();
-                user.RemarkPYQuanPin = contact["RemarkPYQuanPin"].ToString();
-                user.Sex = contact["Sex"].ToString();
-                user.Signature = contact["Signature"].ToString();
-                user.IsOwner = Convert.ToInt32(contact["IsOwner"].ToString());
-                contact_all.Add(user);
+                if (contact["UserName"].ToString().Contains("@@"))
+                {
+                    WXUser user = new WXUser();
+                    user.UserName = contact["UserName"].ToString();
+                    user.City = contact["City"].ToString();
+                    user.HeadImgUrl = contact["HeadImgUrl"].ToString();
+                    user.NickName = contact["NickName"].ToString();
+                    user.Province = contact["Province"].ToString();
+                    user.PYQuanPin = contact["PYQuanPin"].ToString();
+                    user.RemarkName = contact["RemarkName"].ToString();
+                    user.RemarkPYQuanPin = contact["RemarkPYQuanPin"].ToString();
+                    user.Sex = contact["Sex"].ToString();
+                    user.Signature = contact["Signature"].ToString();
+                    user.IsOwner = Convert.ToInt32(contact["IsOwner"].ToString());
+                    mainForm.contact_all.Add(user);
+                    if (mainForm.listenForm != null)
+                        mainForm.listenForm.SetContactsView(user);
+                }
             }
 
         }
@@ -286,36 +266,39 @@ namespace HotTaoMonitoring
         {
             foreach (JObject contact in contact_result["MemberList"])  //完整好友名单
             {
-                WXUser user = new WXUser();
-                user.UserName = contact["UserName"].ToString();
-                user.City = contact["City"].ToString();
-                user.HeadImgUrl = contact["HeadImgUrl"].ToString();
-                user.NickName = contact["NickName"].ToString();
-                user.Province = contact["Province"].ToString();
-                user.PYQuanPin = contact["PYQuanPin"].ToString();
-                user.RemarkName = contact["RemarkName"].ToString();
-                user.RemarkPYQuanPin = contact["RemarkPYQuanPin"].ToString();
-                user.Sex = contact["Sex"].ToString();
-                user.Signature = contact["Signature"].ToString();
-                user.IsOwner = Convert.ToInt32(contact["IsOwner"].ToString());
-                //判断是否存在重复
-                if (!contact_all.Exists((item) => { return item.UserName == user.UserName; }))
+                if (contact["UserName"].ToString().Contains("@@"))
                 {
-                    contact_all.Add(user);
-                    //if (wxcontactsForm != null)
-                    //    wxcontactsForm.SetContactsView(user);
-                }
-                else
-                {
-                    contact_all.ForEach(item =>
+                    WXUser user = new WXUser();
+                    user.UserName = contact["UserName"].ToString();
+                    user.City = contact["City"].ToString();
+                    user.HeadImgUrl = contact["HeadImgUrl"].ToString();
+                    user.NickName = contact["NickName"].ToString();
+                    user.Province = contact["Province"].ToString();
+                    user.PYQuanPin = contact["PYQuanPin"].ToString();
+                    user.RemarkName = contact["RemarkName"].ToString();
+                    user.RemarkPYQuanPin = contact["RemarkPYQuanPin"].ToString();
+                    user.Sex = contact["Sex"].ToString();
+                    user.Signature = contact["Signature"].ToString();
+                    user.IsOwner = Convert.ToInt32(contact["IsOwner"].ToString());
+                    //判断是否存在重复
+                    if (!mainForm.contact_all.Exists((item) => { return item.UserName == user.UserName; }))
                     {
-                        if (item.UserName == user.UserName)
+                        mainForm.contact_all.Add(user);
+                        if (mainForm.listenForm != null)
+                            mainForm.listenForm.SetContactsView(user);
+                    }
+                    else
+                    {
+                        mainForm.contact_all.ForEach(item =>
                         {
-                            item.NickName = user.NickName;
-                            //if (wxcontactsForm != null)
-                            //    wxcontactsForm.SetContactsView(user);
-                        }
-                    });
+                            if (item.UserName == user.UserName)
+                            {
+                                item.NickName = user.NickName;
+                                if (mainForm.listenForm != null)
+                                    mainForm.listenForm.SetContactsView(user);
+                            }
+                        });
+                    }
                 }
             }
         }
@@ -344,7 +327,7 @@ namespace HotTaoMonitoring
                 int msgtype = 0;
                 int.TryParse(m["MsgType"].ToString(), out msgtype);
                 //获取当前群信息
-                WXUser user = contact_all.Find((WXUser obj) => { return obj.UserName == from; });
+                WXUser user = mainForm.contact_all.Find((WXUser obj) => { return obj.UserName == from; });
                 if (user == null) return;
 
                 string nickName = string.Empty, msgSendUser = string.Empty, messageContent = string.Empty;
@@ -357,31 +340,27 @@ namespace HotTaoMonitoring
                         //获取当前发送方的昵称
                         nickName = GetCurrentMessageUserNickName(service, msgSendUser, user.UserName);
 
-                        //SendLog(user.ShowName + ":[" + nickName + "]发了一条消息:" + messageContent);
+                        if (MyUserInfo.currentUserId == 0) return;
+                                                
+                        //是否过滤当前用户操作
+                        if (!string.IsNullOrEmpty(nickName))
+                        {
+                            if (string.IsNullOrEmpty(MyUserInfo.filterUserGroups))
+                                MyUserInfo.filterUserGroups = "";
+                            bool isExist = MyUserInfo.filterUserGroups.Contains("[" + nickName + "]");
+                            if (!isExist && mainForm.listenForm != null)
+                            {
+                                var groups = mainForm.listenForm.GetSelectedWeChat();
+                                if (groups != null && groups.Contains(user.ShowName))
+                                    mainForm.listenForm.SetDataContentView(user, msgSendUser,nickName, messageContent);
+                            }
 
-                        //自动回复
-                        //AutoReplyChatroom(service, user.ShowName, from, messageContent, nickName);
-                        //自动踢人
-                        //RemoveChatroom(service, user, msgSendUser, from, nickName, msgtype, messageContent);
+                        }
                         break;
                     case (int)WxMsgType.图片消息:
                     case (int)WxMsgType.分享链接:
                     case (int)WxMsgType.共享名片:
-                        //获取发送者标识id;
-                        msgSendUser = content.Split(':')[0];
-                        //获取当前发送方的昵称
-                        nickName = GetCurrentMessageUserNickName(service, msgSendUser, user.UserName);
 
-
-
-                        //if (msgtype == (int)WxMsgType.图片消息)
-                        //    SendLog(user.ShowName + ":[" + nickName + "]发了一张图片");
-                        //else if (msgtype == (int)WxMsgType.分享链接)
-                        //    SendLog(user.ShowName + ":[" + nickName + "]分享了一条链接");
-                        //else if (msgtype == (int)WxMsgType.共享名片)
-                        //    SendLog(user.ShowName + ":[" + nickName + "]共享了一张名片");
-                        //自动踢人
-                        // RemoveChatroom(service, user, msgSendUser, from, nickName, msgtype, messageContent);
                         break;
                     case (int)WxMsgType.系统消息:
 
@@ -429,5 +408,103 @@ namespace HotTaoMonitoring
             }
         }
 
+
+
+
+
+        /// <summary>
+        /// 主动发送消息
+        /// </summary>
+        public void AutoSendMessage(string to, string content)
+        {
+            try
+            {
+                WXService wxs = new WXService();
+                wxs.SendMsg(content, _me.UserName, to, 1);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+
+
+        /// <summary>
+        /// Automatics the send image.
+        /// </summary>
+        /// <param name="to">To.</param>
+        /// <param name="iamgeName">Name of the iamge.</param>
+        /// <param name="stream">The stream.</param>
+        public void AutoSendImage(string to, string iamgeName, Stream stream)
+        {
+            try
+            {
+                WXService wxs = new WXService();
+                wxs.SendImageToUserName(to, iamgeName, stream);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 重新加载联系人
+        /// </summary>
+        public void ReloadContact()
+        {
+            mainForm.ThreadHandle(() =>
+            {
+                WXService wxs = new WXService();
+                JObject contact_result = wxs.GetContact(); //通讯录
+                if (contact_result != null)
+                {
+                    LoadMyContact(contact_result);
+                }
+            });
+        }
+
+
+
+
+        /// <summary>
+        /// 显示登录
+        /// </summary>
+        public void ShowWx()
+        {
+            isCloseWinForm = false;
+            this.Show();
+            DoLogin();
+        }
+
+        private void picClose_Click(object sender, EventArgs e)
+        {
+            if (isLoginCheck)
+                loginClose = true;
+            else
+                loginClose = false;
+            isLoginCheck = false;
+            isCloseWinForm = true;
+            this.Hide();
+
+        }
     }
 }

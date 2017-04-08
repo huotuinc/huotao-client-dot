@@ -1066,43 +1066,160 @@ namespace HotTao.Controls
                 confirm.ShowDialog(this);
                 if (isOK)
                 {
-                    LoginTaobao();
-                    if (LoginTaobaoSuccess)
-                    {
-                        Loading ld = new Loading();
-                        ld.SetTimerClose(8000);
-                        ld.ShowDialog(this);
-                        ShowAlert("登录成功!您可以设置PID了");
-                    }
+                    LoginTaoBao();
+                    //if (LoginTaobaoSuccess)
+                    //{
+                    //    Loading ld = new Loading();
+                    //    ld.SetTimerClose(8000);
+                    //    ld.ShowDialog(this);
+                    //    ShowAlert("登录成功!您可以设置PID了");
+                    //}
                 }
             }
         }
 
 
-        private void LoginTaobao()
+        //private void LoginTaobao()
+        //{
+        //    tbLogin tblg = new tbLogin();
+        //    tblg.LoginSuccessHandle += (jsons) =>
+        //    {
+        //        tblg.Close();
+        //        LoginTaobaoSuccess = true;
+        //        MyUserInfo.TaobaoLoginCookies = JsonConvert.SerializeObject(jsons);
+        //        ((Action)(delegate ()
+        //        {
+        //            MyUserInfo.TaobaoName = LogicUser.Instance.GetTaobaoUsername(MyUserInfo.LoginToken, MyUserInfo.TaobaoLoginCookies);
+
+        //        })).BeginInvoke(null, null);
+        //    };
+        //    tblg.ShowDialog(this);
+        //    ((Action)(delegate ()
+        //    {
+        //        if (!string.IsNullOrEmpty(MyUserInfo.TaobaoLoginCookies))
+        //        {
+        //            MyUserInfo.MyPidList = LogicUser.Instance.GetPids(MyUserInfo.LoginToken, MyUserInfo.TaobaoLoginCookies);
+        //        }
+        //    })).BeginInvoke(null, null);
+
+        //}
+
+
+
+
+
+        #region 登录淘宝相关操作
+        /// <summary>
+        /// 确认提示
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="title"></param>
+        /// <param name="callback"></param>
+        public void AlertConfirm(string text, string title, Action callback)
         {
-            tbLogin tblg = new tbLogin();
-            tblg.LoginSuccessHandle += (jsons) =>
+            if (this.InvokeRequired)
             {
-                tblg.Close();
-                LoginTaobaoSuccess = true;
-                MyUserInfo.TaobaoLoginCookies = JsonConvert.SerializeObject(jsons);
-                ((Action)(delegate ()
-                {
-                    MyUserInfo.TaobaoName = LogicUser.Instance.GetTaobaoUsername(MyUserInfo.LoginToken, MyUserInfo.TaobaoLoginCookies);
-
-                })).BeginInvoke(null, null);
-            };
-            tblg.ShowDialog(this);
-            ((Action)(delegate ()
+                this.Invoke(new Action<string, string, Action>(AlertConfirm), new object[] { text, title, callback });
+            }
+            else
             {
-                if (!string.IsNullOrEmpty(MyUserInfo.TaobaoLoginCookies))
+                bool isOk = false;
+                MessageConfirm alert = new MessageConfirm(text, title);
+                alert.StartPosition = FormStartPosition.CenterScreen;
+                alert.CallBack += () =>
                 {
-                    MyUserInfo.MyPidList = LogicUser.Instance.GetPids(MyUserInfo.LoginToken, MyUserInfo.TaobaoLoginCookies);
-                }
-            })).BeginInvoke(null, null);
-
+                    isOk = true;
+                };
+                alert.ShowDialog();
+                if (isOk)
+                    callback?.Invoke();
+            }
         }
+        TBSync.LoginWindow lw;
+        /// <summary>
+        /// 登录淘宝
+        /// </summary>
+        public void LoginTaoBao()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(LoginTaoBao), new object[] { });
+            }
+            else
+            {
+                lw = new TBSync.LoginWindow();
+                lw.LoginSuccessHandle += Lw_LoginSuccessHandle;
+                lw.CloseWindowHandle += Lw_CloseWindowHandle;
+                lw.StartPosition = FormStartPosition.CenterScreen;
+                lw.ShowDialog(this);
+            }
+        }
+
+        /// <summary>
+        /// 关闭窗口
+        /// </summary>
+        private void Lw_CloseWindowHandle()
+        {
+            loginWindowsClose();
+        }
+
+        private void Lw_LoginSuccessHandle(Newtonsoft.Json.Linq.JArray jsons)
+        {
+            string cookieJson = JsonConvert.SerializeObject(jsons);
+
+            //绑定淘宝账号 新接口
+            var result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, false);
+            if (result.resultCode == 200)
+                MyUserInfo.TaobaoName = result.data.ToString();
+            else if (result.resultCode == 511)
+            {
+                AlertConfirm("当前登录淘宝账号与上次不匹配，是否切换?", "提示", () =>
+                {
+                    loginWindowsClose();
+                    result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, true);
+                    if (result.resultCode == 200)
+                        MyUserInfo.TaobaoName = result.data.ToString();
+                });
+            }
+            else
+            {
+                loginWindowsClose();
+                AlertConfirm("数据读取失败,请重新登录!", "提示", () =>
+                {
+                    LoginTaoBao();
+                });
+            }
+        }
+
+        private void loginWindowsClose()
+        {
+            if (lw == null) return;
+            if (lw.InvokeRequired)
+            {
+                this.lw.Invoke(new Action(loginWindowsClose), new object[] { });
+            }
+            else
+            {
+                if (lw != null)
+                    lw.Close();
+                lw = null;
+            }
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         /// <summary>

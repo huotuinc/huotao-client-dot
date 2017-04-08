@@ -33,7 +33,7 @@ namespace HotTaoMonitoring.UserControls
         /// </summary>
         private void writeLocalFile(string text)
         {
-            string filePath = System.IO.Path.Combine(Application.StartupPath, "/data/" + MyUserInfo.currentUserId);
+            string filePath = System.IO.Path.Combine(Application.StartupPath, "data/" + MyUserInfo.currentUserId);
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
             filePath += conf_filter;
@@ -62,7 +62,7 @@ namespace HotTaoMonitoring.UserControls
         {
             try
             {
-                string filePath = System.IO.Path.Combine(Application.StartupPath, "/data/" + MyUserInfo.currentUserId + conf_filter);
+                string filePath = System.IO.Path.Combine(Application.StartupPath, "data/" + MyUserInfo.currentUserId + conf_filter);
                 if (File.Exists(filePath))
                 {
                     FileStream aFile = new FileStream(filePath, FileMode.Open);

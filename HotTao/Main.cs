@@ -719,33 +719,35 @@ namespace HotTao
         {
             string cookieJson = JsonConvert.SerializeObject(jsons);
             //老接口            
-            ((Action)(delegate ()
+            //((Action)(delegate ()
+            //{
+            //    MyUserInfo.TaobaoName = LogicUser.Instance.GetTaobaoUsername(MyUserInfo.LoginToken, cookieJson);
+            //})).BeginInvoke(null, null);
+            //loginWindowsClose();
+
+
+            //绑定淘宝账号 新接口
+            var result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, false);
+            if (result.resultCode == 200)
+                MyUserInfo.TaobaoName = result.data.ToString();
+            else if (result.resultCode == 511)
             {
-                MyUserInfo.TaobaoName = LogicUser.Instance.GetTaobaoUsername(MyUserInfo.LoginToken, cookieJson);
-            })).BeginInvoke(null, null);
-            loginWindowsClose();
-
-
-            ////绑定淘宝账号 新接口
-            //var result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, false);
-            //if (result.resultCode == 200)
-            //    MyUserInfo.TaobaoName = result.data.ToString();
-            //else if (result.resultCode == 511)
-            //{
-            //    AlertConfirm("当前登录淘宝账号与上次不匹配，是否切换?", "提示", () =>
-            //    {
-            //        loginWindowsClose();
-            //        LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, true);
-            //    });
-            //}
-            //else
-            //{
-            //    loginWindowsClose();
-            //    AlertConfirm("数据读取失败,请重新登录!", "提示", () =>
-            //    {
-            //        LoginTaoBao();
-            //    });
-            //}
+                AlertConfirm("当前登录淘宝账号与上次不匹配，是否切换?", "提示", () =>
+                {
+                    loginWindowsClose();
+                    result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, true);
+                    if (result.resultCode == 200)
+                        MyUserInfo.TaobaoName = result.data.ToString();
+                });
+            }
+            else
+            {
+                loginWindowsClose();
+                AlertConfirm("数据读取失败,请重新登录!", "提示", () =>
+                {
+                    LoginTaoBao();
+                });
+            }
         }
 
         private void loginWindowsClose()
