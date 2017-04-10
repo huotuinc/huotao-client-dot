@@ -71,9 +71,9 @@
             // lbTipMsg
             // 
             this.lbTipMsg.ForeColor = System.Drawing.Color.Red;
-            this.lbTipMsg.Location = new System.Drawing.Point(1, 357);
+            this.lbTipMsg.Location = new System.Drawing.Point(3, 343);
             this.lbTipMsg.Name = "lbTipMsg";
-            this.lbTipMsg.Size = new System.Drawing.Size(282, 31);
+            this.lbTipMsg.Size = new System.Drawing.Size(278, 54);
             this.lbTipMsg.TabIndex = 111;
             this.lbTipMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -219,7 +219,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "登录群管系统";
+            this.Text = "登录客户系统";
             this.Load += new System.EventHandler(this.Login_Load);
             this.hotPanel1.ResumeLayout(false);
             this.hotPanel1.PerformLayout();
@@ -243,8 +243,8 @@
         private System.Windows.Forms.CheckBox ckbSavePwd;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox picClose;
-        private System.Windows.Forms.Label lbTipMsg;
         private System.Windows.Forms.TextBox loginPwd;
+        private System.Windows.Forms.Label lbTipMsg;
     }
 }
 

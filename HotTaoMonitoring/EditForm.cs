@@ -30,7 +30,7 @@ namespace HotTaoMonitoring
         private bool isMouseDown = false;
         private Point FormLocation;     //form的location
         private Point mouseOffset;      //鼠标的按下位置
-        private void WinForm_MouseDown(object sender, MouseEventArgs e)
+        public void WinForm_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -40,11 +40,11 @@ namespace HotTaoMonitoring
             }
         }
 
-        private void WinForm_MouseUp(object sender, MouseEventArgs e)
+        public void WinForm_MouseUp(object sender, MouseEventArgs e)
         {
             isMouseDown = false;
         }
-        private void WinForm_MouseMove(object sender, MouseEventArgs e)
+        public void WinForm_MouseMove(object sender, MouseEventArgs e)
         {
             int _x = 0;
             int _y = 0;
@@ -69,12 +69,17 @@ namespace HotTaoMonitoring
         private ListenForm listenForm { get; set; }
 
         /// <summary>
-        /// 回复群
+        /// 回复群标识
         /// </summary>
         /// <value>The name of to user.</value>
         public string toUserName { get; set; }
 
-        public int CurrentRowIndex { get; set; }
+        /// <summary>
+        /// 群名称
+        /// </summary>
+        /// <value>The name of to show.</value>
+        public string toShowName { get; set; }
+
 
         /// <summary>
         /// 图片路径
@@ -87,6 +92,12 @@ namespace HotTaoMonitoring
         /// </summary>
         /// <value>The name of to nick.</value>
         public string toNickName { get; set; }
+
+        /// <summary>
+        /// 窗口是否关闭
+        /// </summary>
+        /// <value>true if this instance is close; otherwise, false.</value>
+        public bool isHide { get; set; }
 
 
         /// <summary>
@@ -139,10 +150,7 @@ namespace HotTaoMonitoring
                     LocalStorage = CefState.Enabled,
                     Javascript = CefState.Enabled,
                 };
-                webKitBrowser1.Size = new Size(920, 607);
                 webKitBrowser1.Location = new Point(1, 0);
-
-
                 webKitBrowser1.Dock = DockStyle.Fill;
                 hotWebKitBrowser.Controls.Add(webKitBrowser1);
                 LoadHtml();
@@ -152,6 +160,7 @@ namespace HotTaoMonitoring
 
         private void picClose_Click(object sender, EventArgs e)
         {
+            isHide = true;
             this.Hide();
         }
 
@@ -165,7 +174,6 @@ namespace HotTaoMonitoring
                 writeCacheData();
                 txtContent.Clear();
                 txtContent.Focus();
-                listenForm.SetDataContentViewStatus(CurrentRowIndex);
             }
         }
 
@@ -235,8 +243,36 @@ namespace HotTaoMonitoring
             webKitBrowser1.LoadHtml(_totalHtml, "http://www.baidu.com");
         }
 
-        private string _totalHtml = "";
-        private string _baseHtml = @"<html><head>
+        /// <summary>
+        /// 获取UI界面显示
+        /// </summary>
+        /// <param name="_toShowName">Name of the _to show.</param>
+        /// <param name="_msg">The _MSG.</param>
+        /// <returns>System.String.</returns>
+        public string GetReceiveMsgHtml(string _toShowName, string _nickName, string _msg)
+        {
+            string __totalHtml = loadCacheData(_toShowName, _nickName);
+            int idx = _msg.IndexOf("<br/>");
+            _msg = _msg.Substring(idx + 5);
+            string str = @"<script type=""text/javascript"">window.location.hash = ""#ok"";</script> 
+            <div class=""chat_content_group buddy"">               
+            <p class=""chat_nick"">" + _nickName + @"</p>   
+            <p class=""chat_content"">" + _msg + @"</p>
+            </div><a id='ok'></a>";
+            if (__totalHtml == "")
+            {
+                __totalHtml = _baseHtml;
+            }
+            __totalHtml = __totalHtml.Replace("<a id='ok'></a>", "") + str;
+            return __totalHtml;
+        }
+
+
+
+
+
+        public string _totalHtml = "";
+        public string _baseHtml = @"<html><head>
         <script type=""text/javascript"">window.location.hash = ""#ok"";</script>
         <style type=""text/css"">
 
@@ -371,21 +407,31 @@ namespace HotTaoMonitoring
                 if (this.uploadImage.ShowDialog() == DialogResult.OK)
                 {
                     IsUpload = true;
-                    string filename = this.uploadImage.FileName;
-                    string safefilename = this.uploadImage.SafeFileName;
-                    mainForm.ThreadHandle(() =>
+                    if (MessageBox.Show("您确定要发送该图片？", "提示", MessageBoxButtons.OK) == DialogResult.OK)
                     {
-                        using (Stream stream = new FileStream(filename, FileMode.Open))
+
+                        string filename = this.uploadImage.FileName;
+                        string safefilename = this.uploadImage.SafeFileName;
+                        mainForm.ThreadHandle(() =>
                         {
-                            byte[] buffer = new byte[stream.Length];
-                            //读取图片字节流
-                            stream.Read(buffer, 0, Convert.ToInt32(stream.Length));
-                            string base64 = "data:img/jpg;base64," + Convert.ToBase64String(buffer);
-                            ShowSendImageMsg("我", base64);
-                            mainForm.wxlogin.AutoSendImage(toUserName, safefilename, stream);
-                            IsUpload = false;
-                        }
-                    });
+                            using (Stream stream = new FileStream(filename, FileMode.Open))
+                            {
+                                byte[] buffer = new byte[stream.Length];
+                                //读取图片字节流
+                                stream.Read(buffer, 0, Convert.ToInt32(stream.Length));
+                                string base64 = "data:img/jpg;base64," + Convert.ToBase64String(buffer);
+                                ShowSendImageMsg("我", base64);
+
+
+                                string content = string.Format("@{0}", toNickName);
+                                mainForm.wxlogin.AutoSendMessage(toUserName, content);
+                                mainForm.wxlogin.AutoSendImage(toUserName, safefilename, stream);
+                                IsUpload = false;
+                            }
+                        });
+                    }
+                    else
+                        IsUpload = false;
                 }
             }
             catch (Exception ex)
@@ -408,13 +454,34 @@ namespace HotTaoMonitoring
             string filePath = System.IO.Path.Combine(Application.StartupPath, "data/cacheData");
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
-            filePath += "/" + EncryptHelper.MD5(toUserName + toNickName) + ".cache";
+            filePath += "/" + EncryptHelper.MD5(toShowName + toNickName) + ".cache";
             if (!File.Exists(filePath))
                 File.Create(filePath).Dispose();
             StreamWriter sw = new StreamWriter(@filePath, false);
             sw.Write(_totalHtml);
             sw.Close();//写入
         }
+
+
+        /// <summary>
+        /// 保存聊天记录
+        /// </summary>
+        /// <param name="_toShowName">Name of the _to show.</param>
+        /// <param name="_toNickName">Name of the _to nick.</param>
+        /// <param name="content">The content.</param>
+        public void writeCacheData(string _toShowName, string _toNickName, string content)
+        {
+            string filePath = System.IO.Path.Combine(Application.StartupPath, "data/cacheData");
+            if (!Directory.Exists(filePath))
+                Directory.CreateDirectory(filePath);
+            filePath += "/" + EncryptHelper.MD5(_toShowName + _toNickName) + ".cache";
+            if (!File.Exists(filePath))
+                File.Create(filePath).Dispose();
+            StreamWriter sw = new StreamWriter(@filePath, false);
+            sw.Write(content);
+            sw.Close();//写入
+        }
+
 
         /// <summary>
         /// 读取本地缓存数据
@@ -424,7 +491,35 @@ namespace HotTaoMonitoring
         {
             try
             {
-                string filePath = System.IO.Path.Combine(Application.StartupPath, "data/cacheData/" + EncryptHelper.MD5(toUserName + toNickName) + ".cache");
+                string filePath = System.IO.Path.Combine(Application.StartupPath, "data/cacheData/" + EncryptHelper.MD5(toShowName + toNickName) + ".cache");
+                if (File.Exists(filePath))
+                {
+                    FileStream aFile = new FileStream(filePath, FileMode.Open);
+                    StreamReader sr = new StreamReader(aFile);
+                    string str = sr.ReadToEnd();
+                    sr.Close();
+                    sr.Dispose();
+                    aFile.Close();
+                    aFile.Dispose();
+                    return str;
+                }
+                return string.Empty;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// 读取本地缓存数据
+        /// </summary>
+        /// <returns></returns>
+        public string loadCacheData(string _toShowName, string _toNickName)
+        {
+            try
+            {
+                string filePath = System.IO.Path.Combine(Application.StartupPath, "data/cacheData/" + EncryptHelper.MD5(_toShowName + _toNickName) + ".cache");
                 if (File.Exists(filePath))
                 {
                     FileStream aFile = new FileStream(filePath, FileMode.Open);

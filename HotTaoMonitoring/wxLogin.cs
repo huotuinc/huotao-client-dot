@@ -171,6 +171,14 @@ namespace HotTaoMonitoring
                 LoadMyContact(contact_result);
             }
 
+
+            new Thread(() =>
+            {
+                Thread.Sleep(30000);
+                wxs = new WXService();
+            })
+            { IsBackground = true }.Start();
+
             string sync_flag = "";
             JObject sync_result;
             while (true)
@@ -195,7 +203,8 @@ namespace HotTaoMonitoring
                         {
                             isLoginCheck = false;
                             isCloseWinForm = true;
-
+                            mainForm.listenForm.wxMessageData.Clear();
+                            mainForm.listenForm.ListenWeChatData.Clear();
                             mainForm.CloseMyContact();
                             mainForm.AlertTip("微信掉线，请重新授权登录");
                             break;
@@ -209,7 +218,7 @@ namespace HotTaoMonitoring
                         }
                     }
                 }
-                Thread.Sleep(500);
+                Thread.Sleep(100);
             }
         }
 
@@ -249,9 +258,24 @@ namespace HotTaoMonitoring
                     user.Sex = contact["Sex"].ToString();
                     user.Signature = contact["Signature"].ToString();
                     user.IsOwner = Convert.ToInt32(contact["IsOwner"].ToString());
-                    mainForm.contact_all.Add(user);
-                    if (mainForm.listenForm != null)
-                        mainForm.listenForm.SetContactsView(user);
+                    if (!mainForm.contact_all.Exists((item) => { return item.UserName == user.UserName; }))
+                    {
+                        mainForm.contact_all.Add(user);
+                        if (mainForm.listenForm != null)
+                            mainForm.listenForm.AddContactsView(user);
+                    }
+                    else
+                    {
+                        mainForm.contact_all.ForEach(item =>
+                        {
+                            if (item.UserName == user.UserName)
+                            {
+                                item.NickName = user.NickName;
+                                if (mainForm.listenForm != null)
+                                    mainForm.listenForm.AddContactsView(user);
+                            }
+                        });
+                    }
                 }
             }
 
@@ -285,7 +309,7 @@ namespace HotTaoMonitoring
                     {
                         mainForm.contact_all.Add(user);
                         if (mainForm.listenForm != null)
-                            mainForm.listenForm.SetContactsView(user);
+                            mainForm.listenForm.AddContactsView(user);
                     }
                     else
                     {
@@ -295,7 +319,7 @@ namespace HotTaoMonitoring
                             {
                                 item.NickName = user.NickName;
                                 if (mainForm.listenForm != null)
-                                    mainForm.listenForm.SetContactsView(user);
+                                    mainForm.listenForm.AddContactsView(user);
                             }
                         });
                     }
@@ -341,7 +365,7 @@ namespace HotTaoMonitoring
                         nickName = GetCurrentMessageUserNickName(service, msgSendUser, user.UserName);
 
                         if (MyUserInfo.currentUserId == 0) return;
-                                                
+
                         //是否过滤当前用户操作
                         if (!string.IsNullOrEmpty(nickName))
                         {
@@ -350,9 +374,11 @@ namespace HotTaoMonitoring
                             bool isExist = MyUserInfo.filterUserGroups.Contains("[" + nickName + "]");
                             if (!isExist && mainForm.listenForm != null)
                             {
-                                var groups = mainForm.listenForm.GetSelectedWeChat();
-                                if (groups != null && groups.Contains(user.ShowName))
-                                    mainForm.listenForm.SetDataContentView(user, msgSendUser,nickName, messageContent);
+                                var groups = mainForm.listenForm.ListenWeChatData;
+                                if (groups != null && groups.Exists(item => { return item.UserName == user.UserName; }))
+                                {
+                                    mainForm.listenForm.SetWxMessageData(user, msgSendUser, nickName, messageContent);
+                                }
                             }
 
                         }

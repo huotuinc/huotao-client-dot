@@ -35,11 +35,19 @@ namespace HotTaoMonitoring
                 FormLocation = this.Location;
                 mouseOffset = Control.MousePosition;
             }
+            if (editForm != null)
+            {
+                editForm.WinForm_MouseDown(sender, e);
+            }
         }
 
         private void WinForm_MouseUp(object sender, MouseEventArgs e)
         {
             isMouseDown = false;
+            if (editForm != null)
+            {
+                editForm.WinForm_MouseUp(sender, e);
+            }
         }
         private void WinForm_MouseMove(object sender, MouseEventArgs e)
         {
@@ -53,7 +61,10 @@ namespace HotTaoMonitoring
 
                 this.Location = new Point(FormLocation.X - _x, FormLocation.Y - _y);
             }
-
+            if (editForm != null)
+            {
+                editForm.WinForm_MouseMove(sender, e);
+            }
         }
         #endregion
 
@@ -89,6 +100,8 @@ namespace HotTaoMonitoring
         public ListenForm listenForm { get; set; }
 
 
+        public EditForm editForm { get; set; }
+
         public MainForm(Login form)
         {
             InitializeComponent();
@@ -96,7 +109,7 @@ namespace HotTaoMonitoring
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
-            WinApi.SetWinFormTaskbarSystemMenu(this);
+            //WinApi.SetWinFormTaskbarSystemMenu(this);
             windowFormControls = new Dictionary<UserControlsOpts, UserControl>();
             openControl(UserControlsOpts.filter);
             GetDesktopWeChatWindows();
@@ -226,12 +239,15 @@ namespace HotTaoMonitoring
 
         private void pbClose_Click(object sender, EventArgs e)
         {
-            loginForm.Close();
+            if (MessageBox.Show("确定要退出客服系统？", "退出提示", MessageBoxButtons.OK) == DialogResult.OK)
+                loginForm.Close();
         }
 
         private void picMin_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
+            if (editForm != null)
+                editForm.WindowState = FormWindowState.Minimized;
         }
 
         /// <summary>
@@ -240,7 +256,7 @@ namespace HotTaoMonitoring
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Tab_Selected_Click(object sender, EventArgs e)
-        {            
+        {
             Label lb = sender as Label;
             int tag = 0;
             int.TryParse(lb.Tag.ToString(), out tag);
@@ -253,7 +269,7 @@ namespace HotTaoMonitoring
                     lb.BackColor = Color.White;
                     break;
                 case 2:
-                    openControl(UserControlsOpts.listen);               
+                    openControl(UserControlsOpts.listen);
                     break;
                 default:
                     break;
@@ -295,6 +311,13 @@ namespace HotTaoMonitoring
             { IsBackground = true }.Start();
         }
 
-
+        private void MainForm_Activated(object sender, EventArgs e)
+        {
+            if (editForm != null && !editForm.isHide)
+            {
+                //显示窗口
+                WinApi.ShowWindow(editForm.Handle, WinApi.NCmdShowFlag.SW_SHOWNORMAL);
+            }
+        }
     }
 }

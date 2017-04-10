@@ -128,4 +128,56 @@ namespace HotTaoMonitoring
         撤回消息 = 10002
     }
 
+
+
+
+    /// <summary>
+    /// 消息体
+    /// </summary>
+    public class WxMessageBodyModel
+    {
+        /// <summary>
+        /// 消息时间
+        /// </summary>
+        /// <value>The content of the MSG.</value>
+        public string MsgTime { get; set; }
+
+        /// <summary>
+        /// 消息群标识
+        /// </summary>
+        /// <value>The name of the MSG user.</value>
+        public string MsgUserName { get; set; }
+
+        /// <summary>
+        /// 消息内容
+        /// </summary>
+        /// <value>The MSG text.</value>
+        public string MsgText { get; set; }
+
+        /// <summary>
+        ///  消息发送者标识
+        /// </summary>
+        /// <value>The MSG send user.</value>
+        public string MsgSendUser { get; set; }
+
+        /// <summary>
+        /// 群标题
+        /// </summary>
+        /// <value>The name of the MSG show.</value>
+        public string MsgShowName { get; set; }
+
+        /// <summary>
+        /// 发送者昵称
+        /// </summary>
+        /// <value>The name of the MSG nick.</value>
+        public string MsgNickName { get; set; }
+
+        /// <summary>
+        /// 未读消息数
+        /// </summary>
+        /// <value>The not read count.</value>
+        public int NotReadCount { get; set; }
+    }
+
+
 }

@@ -18,6 +18,19 @@ using System.Windows.Forms;
 
 namespace HotTaoMonitoring
 {
+
+    /// <summary>
+    /// 句柄坐标
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    public struct RECT
+    {
+        public int Left; //最左坐标
+        public int Top; //最上坐标
+        public int Right; //最右坐标
+        public int Bottom; //最下坐标
+    }
+
     public struct WindowInfo
     {
         public IntPtr hWnd;
@@ -46,6 +59,19 @@ namespace HotTaoMonitoring
 
 
 
+
+
+        /// <summary>
+        /// 获取窗口大小及位置:需要调用方法GetWindowRect(IntPtr hWnd, ref RECT lpRect)
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="lpRect"></param>
+        /// <returns></returns>
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
+
+
         /// <summary>
         /// EnumWindows函数，EnumWindowsProc 为处理函数
         /// </summary>
@@ -56,9 +82,46 @@ namespace HotTaoMonitoring
         private static extern int EnumWindows(EnumWindowsProc ewp, int lParam);
 
         public delegate bool EnumWindowsProc(IntPtr hWnd, int lParam);
-
-
-
+        /// <summary>
+        /// 窗口显示枚举
+        /// </summary>
+        [Flags]
+        public enum NCmdShowFlag : int
+        {
+            /// <summary>
+            /// 隐藏窗口
+            /// </summary>
+            SW_HIDE = 0,
+            /// <summary>
+            /// 正常大小显示窗口
+            /// </summary>
+            SW_SHOWNORMAL = 1,
+            /// <summary>
+            /// 最小化窗口
+            /// </summary>
+            SW_SHOWMINIMIZED = 2,
+            /// <summary>
+            /// 最大化窗口
+            /// </summary>
+            SW_SHOWMAXIMIZED = 3,
+        }
+        /**
+          * n CmdShow的含义
+          * 0 隐藏窗口
+          * 1 正常大小显示窗口
+          * 2 最小化窗口
+          * 3 最大化窗口
+          * 使用实例: ShowWindow(myPtr, 0);
+          */
+        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        public static extern int ShowWindow(IntPtr hwnd, NCmdShowFlag nCmdShow);
+        /// <summary>
+        /// 设为前端
+        /// </summary>
+        /// <param name="hWnd">The h WND.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        [DllImport("User32.dll")]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
         /// <summary>
         /// 获取窗口标题
         /// </summary>
@@ -97,7 +160,7 @@ namespace HotTaoMonitoring
             int windowLong = (GetWindowLong(new HandleRef(from, from.Handle), -16));
             SetWindowLong(new HandleRef(from, from.Handle), -16, windowLong | WS_SYSMENU | WS_MINIMIZEBOX);
             //设置阴影
-            SetClassLong(from.Handle, GCL_STYLE, GetClassLong(from.Handle, GCL_STYLE) | CS_DropSHADOW);
+           // SetClassLong(from.Handle, GCL_STYLE, GetClassLong(from.Handle, GCL_STYLE) | CS_DropSHADOW);
         }
 
 
