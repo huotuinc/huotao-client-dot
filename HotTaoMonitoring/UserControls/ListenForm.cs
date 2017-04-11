@@ -54,17 +54,18 @@ namespace HotTaoMonitoring.UserControls
         public void SetWxMessageData(WXUser user, string msgSendUser, string nickName, string content)
         {
             WxMessageBodyModel msg = new WxMessageBodyModel();
-            if (!wxMessageData.Exists(item => { return item.MsgSendUser == msgSendUser; }))
+            if (!wxMessageData.Exists(item => { return item.MsgSendUser == msgSendUser && item.MsgUserName == user.UserName; }))
             {
                 msg = new WxMessageBodyModel()
                 {
                     MsgSendUser = msgSendUser,
                     MsgShowName = user.ShowName,
                     MsgText = content,
-                    MsgTime = DateTime.Now.ToString("MM-dd HH:mm:ss"),
+                    MsgTime = DateTime.Now.ToString("dd日 HH:mm"),
                     NotReadCount = 1,
                     MsgUserName = user.UserName,
-                    MsgNickName = nickName
+                    MsgNickName = nickName,
+                    MsgStatus = "未回复",
                 };
                 wxMessageData.Add(msg);
             }
@@ -73,20 +74,22 @@ namespace HotTaoMonitoring.UserControls
 
                 wxMessageData.ForEach(data =>
                 {
-                    if (data.MsgSendUser == msgSendUser)
+                    if (data.MsgSendUser == msgSendUser && data.MsgUserName == user.UserName)
                     {
-                        data.MsgTime = DateTime.Now.ToString("MM-dd HH:mm:ss");
+                        data.MsgTime = DateTime.Now.ToString("dd日 HH:mm");
                         data.MsgText = content;
                         data.NotReadCount += 1;
+                        data.MsgStatus = "未回复";
                     }
                 });
 
                 msg = wxMessageData.Find(m =>
                 {
-                    return m.MsgSendUser == msgSendUser;
+                    return m.MsgSendUser == msgSendUser && m.MsgUserName == user.UserName;
                 });
             }
-            SetDataContentView(msg);
+            if (msg != null)
+                SetDataContentView(msg);
 
         }
 
@@ -103,7 +106,7 @@ namespace HotTaoMonitoring.UserControls
             else
             {
                 EditForm ed = new EditForm(mainForm, this);
-                string html = ed.GetReceiveMsgHtml(data.MsgShowName, data.MsgNickName, data.MsgText);
+                string html = ed.GetReceiveMsgHtml(data.MsgShowName, data.MsgNickName, data.MsgText,data.MsgTime);
                 ed.writeCacheData(data.MsgShowName, data.MsgNickName, html);
                 if (string.IsNullOrEmpty(CurrentSelectedWeChat) || data.MsgUserName.Equals(CurrentSelectedWeChat))
                 {
@@ -114,14 +117,15 @@ namespace HotTaoMonitoring.UserControls
                         if (item.Cells["MsgSendUser"].Value.ToString().Equals(data.MsgSendUser))
                         {
                             result = true;
-                            item.Cells["MsgContent"].Value = DateTime.Now.ToString("MM-dd HH:mm:ss") + " " + data.MsgShowName + " [" + data.MsgNickName + "]:" + data.MsgText.Replace("<br/>", "\r\n");
+                            item.Cells["MsgContent"].Value = data.MsgText.Replace("<br/>", "\r\n");//data.MsgTime + " [" + data.MsgNickName + "]" + data.MsgShowName + ":" + 
                             item.Cells["MsgText"].Value = data.MsgText;
+                            item.Cells["MsgTime"].Value = data.MsgTime;
                             if (mainForm.editForm != null && mainForm.editForm.toUserName == data.MsgUserName && mainForm.editForm.toNickName == data.MsgNickName && !mainForm.editForm.isHide)
                             {
                                 item.Cells["NotReadCount"].Value = "0";
                                 wxMessageData.ForEach(d =>
                                 {
-                                    if (d.MsgSendUser == data.MsgSendUser)
+                                    if (d.MsgSendUser == data.MsgSendUser && d.MsgUserName == data.MsgUserName)
                                     {
                                         data.NotReadCount = 0;
                                     }
@@ -130,7 +134,12 @@ namespace HotTaoMonitoring.UserControls
                             else
                             {
                                 item.Cells["NotReadCount"].Value = data.NotReadCount;
+                                if (data.NotReadCount > 0)
+                                {
+                                    item.Cells["NotReadCount"].Style.ForeColor = Color.Red;
+                                }
                             }
+                            item.Cells["MsgStatus"].Value = data.MsgStatus;
                             break;
                         }
                     }
@@ -140,13 +149,19 @@ namespace HotTaoMonitoring.UserControls
                         int i = dataContent.Rows.Count;
                         dataContent.Rows.Add();
                         ++i;
-                        dataContent.Rows[i - 1].Cells["MsgContent"].Value = DateTime.Now.ToString("MM-dd HH:mm:ss") + " " + data.MsgShowName + " [" + data.MsgNickName + "]:" + data.MsgText.Replace("<br/>", "\r\n");
+                        dataContent.Rows[i - 1].Cells["MsgContent"].Value = data.MsgText.Replace("<br/>", "\r\n");
                         dataContent.Rows[i - 1].Cells["MsgUserName"].Value = data.MsgUserName;
                         dataContent.Rows[i - 1].Cells["MsgNickName"].Value = data.MsgNickName;
                         dataContent.Rows[i - 1].Cells["MsgText"].Value = data.MsgText;
                         dataContent.Rows[i - 1].Cells["MsgSendUser"].Value = data.MsgSendUser;
                         dataContent.Rows[i - 1].Cells["MsgShowName"].Value = data.MsgShowName;
                         dataContent.Rows[i - 1].Cells["NotReadCount"].Value = data.NotReadCount;
+                        dataContent.Rows[i - 1].Cells["MsgStatus"].Value = data.MsgStatus;
+                        dataContent.Rows[i - 1].Cells["MsgTime"].Value = data.MsgTime;
+                        if (data.NotReadCount > 0)
+                            dataContent.Rows[i - 1].Cells["NotReadCount"].Style.ForeColor = Color.Red;
+                        else
+                            dataContent.Rows[i - 1].Cells["NotReadCount"].Style.ForeColor = ConstConfig.DataGridViewRowForeColor;
 
                         if (i % 2 == 0)
                         {
@@ -164,7 +179,7 @@ namespace HotTaoMonitoring.UserControls
                 }
                 if (mainForm.editForm != null && mainForm.editForm.toUserName == data.MsgUserName && mainForm.editForm.toNickName == data.MsgNickName)
                 {
-                    mainForm.editForm.ShowReceiveMsg(data.MsgNickName, data.MsgText);
+                    mainForm.editForm.ShowReceiveMsg(data.MsgNickName, data.MsgText,data.MsgTime);
                 }
 
             }
@@ -186,14 +201,19 @@ namespace HotTaoMonitoring.UserControls
                 {
                     dataContent.Rows.Add();
                     ++i;
-                    dataContent.Rows[i - 1].Cells["MsgContent"].Value = DateTime.Now.ToString("MM-dd HH:mm:ss") + " " + data.MsgShowName + " [" + data.MsgNickName + "]:" + data.MsgText.Replace("<br/>", "\r\n");
+                    dataContent.Rows[i - 1].Cells["MsgContent"].Value = data.MsgText.Replace("<br/>", "\r\n");//data.MsgTime + " [" + data.MsgNickName + "]" + data.MsgShowName + ":" + 
                     dataContent.Rows[i - 1].Cells["MsgUserName"].Value = data.MsgUserName;
                     dataContent.Rows[i - 1].Cells["MsgNickName"].Value = data.MsgNickName;
                     dataContent.Rows[i - 1].Cells["MsgText"].Value = data.MsgText;
                     dataContent.Rows[i - 1].Cells["MsgSendUser"].Value = data.MsgSendUser;
                     dataContent.Rows[i - 1].Cells["MsgShowName"].Value = data.MsgShowName;
                     dataContent.Rows[i - 1].Cells["NotReadCount"].Value = data.NotReadCount;
-
+                    dataContent.Rows[i - 1].Cells["MsgStatus"].Value = data.MsgStatus;
+                    dataContent.Rows[i - 1].Cells["MsgTime"].Value = data.MsgTime;
+                    if (data.NotReadCount > 0)
+                        dataContent.Rows[i - 1].Cells["NotReadCount"].Style.ForeColor = Color.Red;
+                    else
+                        dataContent.Rows[i - 1].Cells["NotReadCount"].Style.ForeColor = ConstConfig.DataGridViewRowForeColor;
                     if (i % 2 == 0)
                     {
                         dataContent.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
@@ -210,7 +230,23 @@ namespace HotTaoMonitoring.UserControls
             }
         }
 
+        public void SetDataContentStatus(int rowIndex, string msgSendUser, string userName)
+        {
+            dataContent.Rows[rowIndex].Cells["MsgStatus"].Value = "已回复";
+            wxMessageData.ForEach(data =>
+            {
+                if (data.MsgSendUser == msgSendUser && data.MsgUserName == userName)
+                {
+                    data.MsgStatus = "已回复";
+                }
+            });
+        }
 
+
+        /// <summary>
+        /// 添加通讯录
+        /// </summary>
+        /// <param name="user">The user.</param>
         public void AddContactsView(WXUser user)
         {
             if (NotListenWeChatData == null) NotListenWeChatData = new List<WXUser>();
@@ -219,8 +255,16 @@ namespace HotTaoMonitoring.UserControls
             if (!NotListenWeChatData.Exists(item => { return item.UserName == user.UserName; }) && !ListenWeChatData.Exists(item => { return item.UserName == user.UserName; }))
             {
                 NotListenWeChatData.Add(user);
-                SetContactsView(user);
+
             }
+            ListenWeChatData.ForEach(item =>
+            {
+                if (item.UserName == user.UserName)
+                {
+                    item.NickName = user.ShowName;
+                }
+            });
+            SetContactsView(user);
         }
 
 
@@ -359,16 +403,22 @@ namespace HotTaoMonitoring.UserControls
         private void dataContent_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewCellCollection cells = this.dataContent.CurrentRow.Cells;
-            if (cells != null && cells["edit"].ColumnIndex == e.ColumnIndex)
+            if (cells != null)
             {
+
+                string _msgUserName = cells["MsgUserName"].Value.ToString();
+                string _msgShowName = cells["MsgShowName"].Value.ToString();
+                string _msgNickName = cells["MsgNickName"].Value.ToString();
+                string _msgSendUser = cells["MsgSendUser"].Value.ToString();
+                int rowIndex = cells[0].RowIndex;
                 if (mainForm.editForm == null)
                 {
                     mainForm.editForm = new EditForm(mainForm, this);
-                    mainForm.editForm.toUserName = cells["MsgUserName"].Value.ToString();
-                    mainForm.editForm.toShowName = cells["MsgShowName"].Value.ToString();
-                    mainForm.editForm.toNickName = cells["MsgNickName"].Value.ToString();
+                    mainForm.editForm.toUserName = _msgUserName;
+                    mainForm.editForm.toShowName = _msgShowName;
+                    mainForm.editForm.toNickName = _msgNickName;
                     mainForm.editForm.StartPosition = FormStartPosition.CenterScreen;
-                    mainForm.editForm.MsgSendUser = cells["MsgSendUser"].Value.ToString();
+                    mainForm.editForm.MsgSendUser = _msgSendUser;
                     mainForm.editForm.StartPosition = FormStartPosition.Manual;
                     RECT rect = new RECT();
                     WinApi.GetWindowRect(mainForm.Handle, ref rect);
@@ -377,12 +427,12 @@ namespace HotTaoMonitoring.UserControls
                     mainForm.editForm.LoadHtml();
 
                 }
-                else if (mainForm.editForm.toUserName != cells["MsgUserName"].Value.ToString() || mainForm.editForm.toNickName != cells["MsgNickName"].Value.ToString())
+                else if (mainForm.editForm.toUserName != _msgUserName || mainForm.editForm.toNickName != _msgNickName)
                 {
-                    mainForm.editForm.toShowName = cells["MsgShowName"].Value.ToString();
-                    mainForm.editForm.toUserName = cells["MsgUserName"].Value.ToString();
-                    mainForm.editForm.toNickName = cells["MsgNickName"].Value.ToString();
-                    mainForm.editForm.MsgSendUser = cells["MsgSendUser"].Value.ToString();
+                    mainForm.editForm.toShowName = _msgShowName;
+                    mainForm.editForm.toUserName = _msgUserName;
+                    mainForm.editForm.toNickName = _msgNickName;
+                    mainForm.editForm.MsgSendUser = _msgSendUser;
                     mainForm.editForm.SetTitle(mainForm.editForm.toNickName);
                     mainForm.editForm.LoadHtml();
                     mainForm.editForm.Show();
@@ -394,12 +444,20 @@ namespace HotTaoMonitoring.UserControls
                 }
 
                 mainForm.editForm.isHide = false;
-
-                WinApi.SetForegroundWindow(mainForm.editForm.Handle);
+                mainForm.editForm.rowIndex = rowIndex;
+                                
+                WinApi.ShowWindow(mainForm.editForm.Handle, WinApi.NCmdShowFlag.SW_HIDE);
                 //显示窗口
                 WinApi.ShowWindow(mainForm.editForm.Handle, WinApi.NCmdShowFlag.SW_SHOWNORMAL);
-
                 cells["NotReadCount"].Value = 0;
+                cells["NotReadCount"].Style.ForeColor = ConstConfig.DataGridViewRowForeColor;
+                wxMessageData.ForEach(item =>
+                {
+                    if (item.MsgUserName == _msgUserName && item.MsgNickName == _msgNickName)
+                    {
+                        item.NotReadCount = 0;
+                    }
+                });
             }
         }
 
@@ -412,7 +470,7 @@ namespace HotTaoMonitoring.UserControls
         {
             if (ListenWeChatData == null)
                 ListenWeChatData = new List<WXUser>();
-
+            CurrentSelectedWeChat = string.Empty;
             DataGridViewCellCollection cells = this.dgvWeChatList.CurrentRow.Cells;
             if (cells != null && cells["editListen"].ColumnIndex == e.ColumnIndex)
             {
@@ -483,13 +541,13 @@ namespace HotTaoMonitoring.UserControls
         /// <param name="e"></param>
         private void lbTabWeChat_Click(object sender, EventArgs e)
         {
-            dgvWeChatList.ContextMenuStrip = contextMenuStrip1;
+            CurrentSelectedWeChat = string.Empty;
+            dgvWeChatList.ContextMenuStrip = menuStrip;
             lbTabWeChat.BackColor = Color.White;
             lbTabWeChatListen.BackColor = Color.Silver;
             if (NotListenWeChatData == null) NotListenWeChatData = new List<WXUser>();
             IsListenView = false;
-
-            SetContactsView(NotListenWeChatData);
+            SetContactsView(NotListenWeChatData);                        
         }
 
         /// <summary>
@@ -499,14 +557,96 @@ namespace HotTaoMonitoring.UserControls
         /// <param name="e"></param>
         private void lbTabWeChatListen_Click(object sender, EventArgs e)
         {
-            dgvWeChatList.ContextMenuStrip = null;
+            CurrentSelectedWeChat = string.Empty;
+            dgvWeChatList.ContextMenuStrip = menuStrip1;
             lbTabWeChat.BackColor = Color.Silver;
             lbTabWeChatListen.BackColor = Color.White;
             if (ListenWeChatData == null) ListenWeChatData = new List<WXUser>();
             IsListenView = true;
             SetContactsView(ListenWeChatData);
-
             SetDataContentView(wxMessageData);
+
+            if (mainForm.editForm != null)
+            {
+                mainForm.editForm.isHide = true;
+                mainForm.editForm.Hide();
+            }
+
         }
+
+
+        /// <summary>
+        /// 关闭个人信息窗口
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
+        private void CloseMyInfoForm(object sender, MouseEventArgs e)
+        {
+            mainForm.CloseMyInfoForm(sender, e);
+        }
+
+        /// <summary>
+        /// 一键添加监控
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void toolsAllListen_Click(object sender, EventArgs e)
+        {
+            NotListenWeChatData.ForEach(data =>
+            {
+
+                if (!ListenWeChatData.Exists(item => { return item.UserName == data.UserName; }))
+                {
+                    //将群添加到监控列表
+                    ListenWeChatData.Add(new WXUser()
+                    {
+                        UserName = data.UserName,
+                        NickName = data.NickName
+                    });
+                }
+            });
+            NotListenWeChatData.Clear();
+            dgvWeChatList.Rows.Clear();
+
+        }
+
+        /// <summary>
+        /// 一键移除监控
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void toolsClearListen_Click(object sender, EventArgs e)
+        {
+            ListenWeChatData.ForEach(data =>
+            {
+                if (!NotListenWeChatData.Exists(item => { return item.UserName == data.UserName; }))
+                {
+                    //将群添加到监控列表
+                    NotListenWeChatData.Add(new WXUser()
+                    {
+                        UserName = data.UserName,
+                        NickName = data.NickName
+                    });
+                }
+            });
+            ListenWeChatData.Clear();
+            dgvWeChatList.Rows.Clear();
+        }
+
+        /// <summary>
+        /// 清除页面所有数据
+        /// </summary>
+        public void ClearAllData()
+        {
+            wxMessageData.Clear();
+            ListenWeChatData.Clear();
+            NotListenWeChatData.Clear();
+            dataContent.Rows.Clear();
+            dgvWeChatList.Rows.Clear();
+            CurrentSelectedWeChat = string.Empty;
+            mainForm.editForm.Close();
+            mainForm.editForm = null;
+        }
+
     }
 }

@@ -81,5 +81,11 @@ namespace HotTaoMonitoring.UserControls
                 return string.Empty;
             }
         }
+
+
+        private void CloseMyInfoForm(object sender, MouseEventArgs e)
+        {
+            mainForm.CloseMyInfoForm(sender, e);
+        }
     }
 }

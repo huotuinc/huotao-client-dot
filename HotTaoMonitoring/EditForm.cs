@@ -99,6 +99,8 @@ namespace HotTaoMonitoring
         /// <value>true if this instance is close; otherwise, false.</value>
         public bool isHide { get; set; }
 
+        public int rowIndex { get; set; }
+
 
         /// <summary>
         /// 当前群用户标识
@@ -170,10 +172,12 @@ namespace HotTaoMonitoring
             {
                 string content = string.Format("@{0} {1}", toNickName, txtContent.Text);
                 mainForm.wxlogin.AutoSendMessage(toUserName, content);
+                mainForm.listenForm.SetDataContentStatus(rowIndex, MsgSendUser, toUserName);
                 ShowSendMsg("我", txtContent.Text.Replace("\n", "<br/>"));
                 writeCacheData();
                 txtContent.Clear();
                 txtContent.Focus();
+
             }
         }
 
@@ -222,7 +226,7 @@ namespace HotTaoMonitoring
         /// <summary>
         /// UI界面显示接收消息
         /// </summary>
-        public void ShowReceiveMsg(string toShowName, string msg)
+        public void ShowReceiveMsg(string toShowName, string msg, string time)
         {
 
             int idx = msg.IndexOf("<br/>");
@@ -231,7 +235,7 @@ namespace HotTaoMonitoring
 
             string str = @"<script type=""text/javascript"">window.location.hash = ""#ok"";</script> 
             <div class=""chat_content_group buddy"">               
-            <p class=""chat_nick"">" + toShowName + @"</p>   
+            <p class=""chat_nick"">" + toShowName + "(" + time + ")" + @"</p>   
             <p class=""chat_content"">" + msg + @"</p>
             </div><a id='ok'></a>";
             if (_totalHtml == "")
@@ -249,14 +253,14 @@ namespace HotTaoMonitoring
         /// <param name="_toShowName">Name of the _to show.</param>
         /// <param name="_msg">The _MSG.</param>
         /// <returns>System.String.</returns>
-        public string GetReceiveMsgHtml(string _toShowName, string _nickName, string _msg)
+        public string GetReceiveMsgHtml(string _toShowName, string _nickName, string _msg, string time)
         {
             string __totalHtml = loadCacheData(_toShowName, _nickName);
             int idx = _msg.IndexOf("<br/>");
             _msg = _msg.Substring(idx + 5);
             string str = @"<script type=""text/javascript"">window.location.hash = ""#ok"";</script> 
             <div class=""chat_content_group buddy"">               
-            <p class=""chat_nick"">" + _nickName + @"</p>   
+            <p class=""chat_nick"">" + _nickName + "(" + time + ")" + @"</p>   
             <p class=""chat_content"">" + _msg + @"</p>
             </div><a id='ok'></a>";
             if (__totalHtml == "")
@@ -426,6 +430,10 @@ namespace HotTaoMonitoring
                                 string content = string.Format("@{0}", toNickName);
                                 mainForm.wxlogin.AutoSendMessage(toUserName, content);
                                 mainForm.wxlogin.AutoSendImage(toUserName, safefilename, stream);
+
+                                mainForm.listenForm.SetDataContentStatus(rowIndex, MsgSendUser, toUserName);
+
+
                                 IsUpload = false;
                             }
                         });
@@ -539,6 +547,32 @@ namespace HotTaoMonitoring
             }
         }
 
+        private bool isKeyControl { get; set; }
 
+        private void EditForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ControlKey || e.KeyCode == Keys.RControlKey || e.KeyCode == Keys.LControlKey)
+            {
+                e.Handled = true;
+                isKeyControl = true;
+            }
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                if (isKeyControl)
+                    txtContent.AppendText("\r\n");
+                else
+                    btnSend_Click(null, null);
+            }
+        }
+
+        private void EditForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ControlKey || e.KeyCode == Keys.RControlKey || e.KeyCode == Keys.LControlKey)
+            {
+                e.Handled = true;
+                isKeyControl = false;
+            }
+        }
     }
 }

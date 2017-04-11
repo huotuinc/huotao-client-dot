@@ -177,6 +177,12 @@ namespace HotTaoMonitoring
         /// </summary>
         /// <value>The not read count.</value>
         public int NotReadCount { get; set; }
+
+        /// <summary>
+        /// 回复状态
+        /// </summary>
+        /// <value>The MSG status.</value>
+        public string MsgStatus { get; set; }
     }
 
 

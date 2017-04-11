@@ -101,6 +101,12 @@ namespace HotTaoMonitoring
 
 
         public EditForm editForm { get; set; }
+        /// <summary>
+        /// 我的信息窗口
+        /// </summary>
+        /// <value>My information.</value>
+        public MyInfoForm myInfo { get; set; }
+
 
         public MainForm(Login form)
         {
@@ -111,8 +117,7 @@ namespace HotTaoMonitoring
         {
             //WinApi.SetWinFormTaskbarSystemMenu(this);
             windowFormControls = new Dictionary<UserControlsOpts, UserControl>();
-            openControl(UserControlsOpts.filter);
-            GetDesktopWeChatWindows();
+            openControl(UserControlsOpts.listen);
         }
 
         /// <summary>
@@ -239,9 +244,18 @@ namespace HotTaoMonitoring
 
         private void pbClose_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("确定要退出客服系统？", "退出提示", MessageBoxButtons.OK) == DialogResult.OK)
+            ApplicationClose();
+        }
+
+        /// <summary>
+        /// 退出应用
+        /// </summary>
+        public void ApplicationClose()
+        {
+            if (MessageBox.Show("确定要退出客服系统？", "退出提示", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 loginForm.Close();
         }
+
 
         private void picMin_Click(object sender, EventArgs e)
         {
@@ -277,27 +291,6 @@ namespace HotTaoMonitoring
 
         }
 
-
-
-
-        /// <summary>
-        /// 获取桌面所有微信的单独窗口
-        /// </summary>
-        public void GetDesktopWeChatWindows(Action callback = null)
-        {
-            ThreadHandle(() =>
-            {
-                WeChatWindows.Clear();
-                WeChatWindows = WinApi.GetAllDesktopWindows();
-                callback?.Invoke();
-            });
-        }
-
-
-
-
-
-
         /// <summary>
         /// 开启线程操作
         /// </summary>
@@ -317,6 +310,121 @@ namespace HotTaoMonitoring
             {
                 //显示窗口
                 WinApi.ShowWindow(editForm.Handle, WinApi.NCmdShowFlag.SW_SHOWNORMAL);
+            }
+        }
+
+
+
+
+
+
+
+        /// <summary>
+        /// 设置主窗口标题
+        /// </summary>
+        /// <param name="title">The title.</param>
+        public void SetWinFormTitle(string title)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string>(SetWinFormTitle), new object[] { title });
+            }
+            else
+            {
+                this.Text = this.Text + "-" + title;
+                lbWeChatNickName.Text = title;
+            }
+        }
+        /// <summary>
+        /// 设置主窗口图片
+        /// </summary>
+        /// <param name="image">The image.</param>
+        public void SetWinFormImage(Image image)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<Image>(SetWinFormImage), new object[] { image });
+            }
+            else
+            {
+                picWeChatHead.Image = image;
+            }
+        }
+
+        private void picWeChatHead_Click(object sender, EventArgs e)
+        {
+            if (myInfo == null)
+            {
+                RECT rect = new RECT();
+                WinApi.GetWindowRect(picWeChatHead.Handle, ref rect);
+                myInfo = new MyInfoForm(this);
+                myInfo.Location = new Point(rect.Right - (rect.Right - rect.Left) / 2, rect.Bottom - (rect.Bottom - rect.Top) / 2);
+                myInfo.SetData(lbWeChatNickName.Text, picWeChatHead.Image);
+                myInfo.Show(this);
+            }
+            else
+            {
+                myInfo.Close();
+                myInfo = null;
+            }
+        }
+
+        /// <summary>
+        /// 切换账户登录
+        /// </summary>
+        public void SwitchLogin()
+        {
+            if (MessageBox.Show("是否切换客服账户？", "提示", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                if (wxlogin != null)
+                {
+                    if (wxlogin.isLoginCheck)
+                        wxlogin.loginClose = true;
+                    else
+                        wxlogin.loginClose = false;
+                    wxlogin.isLoginCheck = false;
+                    wxlogin.isCloseWinForm = true;
+                    wxlogin.Close();
+                    wxlogin = null;
+                }
+
+                loginForm.Show();
+                this.Close();
+
+            }
+        }
+
+
+        public void SwitchWeChatLogin()
+        {
+            if (MessageBox.Show("是否切换微信账户？", "提示", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                if (wxlogin != null)
+                {
+                    if (wxlogin.isLoginCheck)
+                        wxlogin.loginClose = true;
+                    else
+                        wxlogin.loginClose = false;
+                    wxlogin.isLoginCheck = false;
+                    wxlogin.isCloseWinForm = true;
+                    wxlogin.Close();
+                    wxlogin = null;
+                    //清除所有数据
+                    listenForm.ClearAllData();
+                    openControl(UserControlsOpts.filter);
+                }
+                OpenWx();
+            }
+        }
+
+
+
+        public void CloseMyInfoForm(object sender, MouseEventArgs e)
+        {
+            if (myInfo != null)
+            {
+                myInfo.Close();
+                myInfo = null;
             }
         }
     }

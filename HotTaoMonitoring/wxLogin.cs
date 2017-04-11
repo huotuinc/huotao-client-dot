@@ -66,11 +66,11 @@ namespace HotTaoMonitoring
         /// <summary>
         /// 判断是否中断二维码扫描登录
         /// </summary>
-        public static bool loginClose = false;
+        public  bool loginClose = false;
         /// <summary>
         /// 是否检查扫描登录状态
         /// </summary>
-        private static bool isLoginCheck = false;
+        public  bool isLoginCheck = false;
 
         /// <summary>
         /// 当前登录微信用户
@@ -126,8 +126,10 @@ namespace HotTaoMonitoring
                                 picQRCode.SizeMode = PictureBoxSizeMode.CenterImage;  //显示头像
                                 picQRCode.Image = login_result as Image;
                                 headImg = login_result as Image;
+
                             });
                         }
+                        mainForm.SetWinFormImage(headImg);
                         if (login_result is string)  //已完成登录
                         {
                             //访问登录跳转URL
@@ -241,6 +243,9 @@ namespace HotTaoMonitoring
             _me.RemarkPYQuanPin = init_result["User"]["RemarkPYQuanPin"].ToString();
             _me.Sex = init_result["User"]["Sex"].ToString();
             _me.Signature = init_result["User"]["Signature"].ToString();
+            
+            //打开主界面
+            mainForm.SetWinFormTitle(_me.ShowName);
 
             foreach (JObject contact in init_result["ContactList"])  //部分好友名单
             {
@@ -521,16 +526,14 @@ namespace HotTaoMonitoring
             DoLogin();
         }
 
+        /// <summary>
+        /// 退出应用
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void picClose_Click(object sender, EventArgs e)
         {
-            if (isLoginCheck)
-                loginClose = true;
-            else
-                loginClose = false;
-            isLoginCheck = false;
-            isCloseWinForm = true;
-            this.Hide();
-
+            mainForm.ApplicationClose();
         }
     }
 }

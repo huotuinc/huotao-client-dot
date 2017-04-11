@@ -70,7 +70,7 @@
             this.hotWebKitBrowser.Location = new System.Drawing.Point(3, 34);
             this.hotWebKitBrowser.Name = "hotWebKitBrowser";
             this.hotWebKitBrowser.Size = new System.Drawing.Size(481, 395);
-            this.hotWebKitBrowser.TabIndex = 54;
+            this.hotWebKitBrowser.TabIndex = 2;
             // 
             // picClose
             // 
@@ -164,11 +164,14 @@
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "EditForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "回复窗口";
             this.Load += new System.EventHandler(this.EditForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditForm_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.EditForm_KeyUp);
             this.hotPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).EndInit();
             this.hotGroupBox2.ResumeLayout(false);
