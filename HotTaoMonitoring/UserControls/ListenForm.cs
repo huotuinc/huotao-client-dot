@@ -114,7 +114,7 @@ namespace HotTaoMonitoring.UserControls
                     //合并相同用户消息
                     foreach (DataGridViewRow item in dataContent.Rows)
                     {
-                        if (item.Cells["MsgSendUser"].Value.ToString().Equals(data.MsgSendUser))
+                        if (item.Cells["MsgSendUser"].Value.ToString().Equals(data.MsgSendUser)&& item.Cells["MsgUserName"].Value.ToString().Equals(data.MsgUserName))
                         {
                             result = true;
                             item.Cells["MsgContent"].Value = data.MsgText.Replace("<br/>", "\r\n");//data.MsgTime + " [" + data.MsgNickName + "]" + data.MsgShowName + ":" + 
@@ -255,7 +255,7 @@ namespace HotTaoMonitoring.UserControls
             if (!NotListenWeChatData.Exists(item => { return item.UserName == user.UserName; }) && !ListenWeChatData.Exists(item => { return item.UserName == user.UserName; }))
             {
                 NotListenWeChatData.Add(user);
-
+                SetContactsView(user);
             }
             ListenWeChatData.ForEach(item =>
             {
@@ -264,7 +264,7 @@ namespace HotTaoMonitoring.UserControls
                     item.NickName = user.ShowName;
                 }
             });
-            SetContactsView(user);
+           
         }
 
 

@@ -33,10 +33,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.bgPanel = new System.Windows.Forms.Panel();
+            this.lbTitle = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.picWeChatHead = new System.Windows.Forms.PictureBox();
             this.lbWeChatNickName = new System.Windows.Forms.Label();
-            this.lbTitle = new System.Windows.Forms.Label();
             this.picMin = new System.Windows.Forms.PictureBox();
             this.pbClose = new System.Windows.Forms.PictureBox();
             this.rightContainer = new HotTaoMonitoring.module.HotPanel(this.components);
@@ -74,7 +74,7 @@
             // 
             // bgPanel
             // 
-            this.bgPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.bgPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
             this.bgPanel.Controls.Add(this.lbTitle);
             this.bgPanel.Controls.Add(this.label2);
             this.bgPanel.Controls.Add(this.picWeChatHead);
@@ -92,6 +92,17 @@
             this.bgPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
             this.bgPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
             this.bgPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
+            // 
+            // lbTitle
+            // 
+            this.lbTitle.AutoSize = true;
+            this.lbTitle.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbTitle.ForeColor = System.Drawing.Color.White;
+            this.lbTitle.Location = new System.Drawing.Point(51, 15);
+            this.lbTitle.Name = "lbTitle";
+            this.lbTitle.Size = new System.Drawing.Size(104, 16);
+            this.lbTitle.TabIndex = 6;
+            this.lbTitle.Text = "火淘客服系统";
             // 
             // label2
             // 
@@ -121,17 +132,6 @@
             this.lbWeChatNickName.TabIndex = 6;
             this.lbWeChatNickName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lbWeChatNickName.Visible = false;
-            // 
-            // lbTitle
-            // 
-            this.lbTitle.AutoSize = true;
-            this.lbTitle.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbTitle.ForeColor = System.Drawing.Color.White;
-            this.lbTitle.Location = new System.Drawing.Point(51, 15);
-            this.lbTitle.Name = "lbTitle";
-            this.lbTitle.Size = new System.Drawing.Size(104, 16);
-            this.lbTitle.TabIndex = 6;
-            this.lbTitle.Text = "火淘客服系统";
             // 
             // picMin
             // 
