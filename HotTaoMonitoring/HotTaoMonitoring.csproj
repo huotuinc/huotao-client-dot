@@ -231,6 +231,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="chat.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\icon_close.png" />
     <Content Include="Resources\icon_close1.png" />
     <Content Include="Resources\icon_min.png" />

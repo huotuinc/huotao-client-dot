@@ -12,9 +12,33 @@ using CefSharp;
 using CefSharp.WinForms;
 using System.IO;
 using HotCoreUtils.Helper;
+using System.Collections.Specialized;
 
 namespace HotTaoMonitoring
 {
+
+    //internal class MenuHandler : IContextMenuHandler
+    //{
+    //    public void OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
+    //    {
+    //        browser.CloseDevTools();
+    //    }
+
+    //    public bool OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
+    //    {
+    //        return false;
+    //    }
+
+    //    public void OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+    //    {            
+    //    }
+
+    //    public bool RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
+    //    {
+    //        return false;
+    //    }
+    //}
+
     public partial class EditForm : Form
     {
         NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
@@ -109,12 +133,16 @@ namespace HotTaoMonitoring
         public string MsgSendUser { get; set; }
 
         private ChromiumWebBrowser webKitBrowser1 { get; set; }
+
+
+        private static string url = "chat.html";
+
         public EditForm(MainForm form, ListenForm listen)
         {
             InitializeComponent();
             mainForm = form;
             listenForm = listen;
-
+            url = System.IO.Path.Combine(Application.StartupPath, url);
         }
 
 
@@ -136,7 +164,7 @@ namespace HotTaoMonitoring
         public void LoadHtml()
         {
             _totalHtml = loadCacheData();
-            webKitBrowser1.LoadHtml(_totalHtml, "http://www.baidu.com");
+            webKitBrowser1.LoadHtml(_totalHtml, url);
         }
 
 
@@ -145,7 +173,7 @@ namespace HotTaoMonitoring
             if (webKitBrowser1 == null)
             {
 
-                webKitBrowser1 = new ChromiumWebBrowser("http://www.baidu.com");
+                webKitBrowser1 = new ChromiumWebBrowser(url);
 
                 BrowserSettings settings = new BrowserSettings()
                 {
@@ -154,6 +182,7 @@ namespace HotTaoMonitoring
                 };
                 webKitBrowser1.Location = new Point(1, 0);
                 webKitBrowser1.Dock = DockStyle.Fill;
+                webKitBrowser1.MouseMove += WinForm_MouseMove;
                 hotWebKitBrowser.Controls.Add(webKitBrowser1);
                 LoadHtml();
             }
@@ -167,16 +196,72 @@ namespace HotTaoMonitoring
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            if (mainForm != null && !string.IsNullOrEmpty(txtContent.Text))
+            bool isNotify = false;
+            if (mainForm != null)
             {
-                string content = string.Format("@{0} {1}", toNickName, txtContent.Text);
-                mainForm.wxlogin.AutoSendMessage(toUserName, content);
-                mainForm.listenForm.SetDataContentStatus(rowIndex, MsgSendUser, toUserName);
-                ShowSendMsg("我", txtContent.Text.Replace("\n", "<br/>"));
-                writeCacheData();
-                txtContent.Clear();
-                txtContent.Focus();
+                string sendText = txtContent.Text.Trim();
+                string notify = string.Format("@{0}", toNickName);
 
+
+                //TODO:
+
+                string _RtfText = txtContent.Rtf;
+                //while (true)
+                //{
+                //    int _Index = _RtfText.IndexOf("pichgoal1799");
+                //    if (_Index == -1) break;
+                //    _RtfText = _RtfText.Remove(0, _Index + 8);
+
+                //    _Index = _RtfText.IndexOf("\r\n");
+
+                //    int _Temp = Convert.ToInt32(_RtfText.Substring(0, _Index));
+                //    _RtfText = _RtfText.Remove(0, _Index);
+                //    string __RtfText = _RtfText.Replace("\r\n", "");
+
+                //    _Index = __RtfText.IndexOf("}");
+                //    string dd = __RtfText.Substring(0, _Index);
+                //    //_RtfText = _RtfText.Remove(0, _Index);
+                //}
+
+                if (SendFileList != null && SendFileList.Count() > 0)
+                {
+                    mainForm.wxlogin.AutoSendMessage(toUserName, notify);
+                    isNotify = true;
+                    foreach (var str in SendFileList.Values)
+                    {
+                        string ext = str.Substring(str.LastIndexOf("."));
+                        string filename = EncryptHelper.MD5(str) + ext;
+                        using (Stream stream = new FileStream(str, FileMode.Open))
+                        {
+                            byte[] buffer = new byte[stream.Length];
+                            //读取图片字节流
+                            stream.Read(buffer, 0, Convert.ToInt32(stream.Length));
+                            string base64 = "data:img/jpg;base64," + Convert.ToBase64String(buffer);
+                            ShowSendImageMsg("我", base64);
+                            mainForm.wxlogin.AutoSendImage(toUserName, filename, stream);
+                        }
+                    }
+                    //设置消息列表回复状态
+                    mainForm.listenForm.SetDataContentStatus(rowIndex, MsgSendUser, toUserName);
+                }
+                if (!string.IsNullOrEmpty(sendText))
+                {
+                    if (!isNotify)
+                        mainForm.wxlogin.AutoSendMessage(toUserName, notify);//@指定用户
+                    //给指定用户发消息
+                    mainForm.wxlogin.AutoSendMessage(toUserName, sendText);
+                    //发送回复消息到UI
+                    ShowSendMsg("我", sendText.Replace("\n", "<br/>"));
+                    if (!isNotify)
+                    {
+                        //设置消息列表回复状态
+                        mainForm.listenForm.SetDataContentStatus(rowIndex, MsgSendUser, toUserName);
+                    }
+                }
+                writeCacheData();
+                txtContent.Focus();
+                if (SendFileList != null)
+                    SendFileList.Clear();
             }
         }
 
@@ -198,7 +283,7 @@ namespace HotTaoMonitoring
             }
             LoadBrowser();
             _totalHtml = _totalHtml.Replace("<a id='ok'></a>", "") + str;
-            webKitBrowser1.LoadHtml(_totalHtml, "http://www.baidu.com");
+            webKitBrowser1.LoadHtml(_totalHtml, url);
         }
         /// <summary>
         /// UI界面显示发送图片消息
@@ -218,7 +303,7 @@ namespace HotTaoMonitoring
             }
             LoadBrowser();
             _totalHtml = _totalHtml.Replace("<a id='ok'></a>", "") + str;
-            webKitBrowser1.LoadHtml(_totalHtml, "http://www.baidu.com");
+            webKitBrowser1.LoadHtml(_totalHtml, url);
         }
 
 
@@ -243,7 +328,7 @@ namespace HotTaoMonitoring
             }
             LoadBrowser();
             _totalHtml = _totalHtml.Replace("<a id='ok'></a>", "") + str;
-            webKitBrowser1.LoadHtml(_totalHtml, "http://www.baidu.com");
+            webKitBrowser1.LoadHtml(_totalHtml, url);
         }
 
         /// <summary>
@@ -402,6 +487,12 @@ namespace HotTaoMonitoring
 
 
         private bool IsUpload { get; set; }
+
+        /// <summary>
+        /// 弃用
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
         private void btnUpload_Click(object sender, EventArgs e)
         {
             if (IsUpload) return;
@@ -547,6 +638,12 @@ namespace HotTaoMonitoring
         }
 
         private bool isKeyControl { get; set; }
+        /// <summary>
+        /// 发送图片文件列表
+        /// </summary>
+        /// <value>The send file list.</value>
+        private static Dictionary<string, string> SendFileList { get; set; }
+
 
         private void EditForm_KeyDown(object sender, KeyEventArgs e)
         {
@@ -563,7 +660,43 @@ namespace HotTaoMonitoring
                 else
                     btnSend_Click(null, null);
             }
+            else if (e.KeyCode == Keys.V)
+            {
+                e.Handled = true;
+                if (isKeyControl)
+                {
+                    if (SendFileList == null) SendFileList = new Dictionary<string, string>();
+                    StringCollection colles = Clipboard.GetFileDropList();
+                    if (colles != null && colles.Count > 0)
+                    {
+                        string path = colles[0];
+                        if (!string.IsNullOrEmpty(path))
+                        {
+                            string ext = path.Substring(path.LastIndexOf("."));
+                            if (!FilterFileType(ext)) return;
+                            using (Stream stream = new FileStream(path, FileMode.Open))
+                            {
+                                Bitmap bmp = new Bitmap(Image.FromStream(stream), 150, 120);
+                                Clipboard.SetDataObject(bmp, true);//将图片放在剪贴板中
+                                if (txtContent.CanPaste(DataFormats.GetFormat(DataFormats.Bitmap)))
+                                {
+                                    txtContent.Paste();
+                                    SendFileList.Add(EncryptHelper.MD5(SendFileList.Count().ToString()), path);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
+
+
+        private bool FilterFileType(string ext)
+        {
+            const string exts = ".jpg|.png|.bmp|.ico";
+            return exts.Contains(ext);
+        }
+
 
         private void EditForm_KeyUp(object sender, KeyEventArgs e)
         {
@@ -572,6 +705,10 @@ namespace HotTaoMonitoring
                 e.Handled = true;
                 isKeyControl = false;
             }
+        }
+
+        private void txtContent_KeyDown(object sender, KeyEventArgs e)
+        {
         }
     }
 }

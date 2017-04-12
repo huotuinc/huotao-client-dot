@@ -66,11 +66,11 @@ namespace HotTaoMonitoring
         /// <summary>
         /// 判断是否中断二维码扫描登录
         /// </summary>
-        public  bool loginClose = false;
+        public bool loginClose = false;
         /// <summary>
         /// 是否检查扫描登录状态
         /// </summary>
-        public  bool isLoginCheck = false;
+        public bool isLoginCheck = false;
 
         /// <summary>
         /// 当前登录微信用户
@@ -243,7 +243,7 @@ namespace HotTaoMonitoring
             _me.RemarkPYQuanPin = init_result["User"]["RemarkPYQuanPin"].ToString();
             _me.Sex = init_result["User"]["Sex"].ToString();
             _me.Signature = init_result["User"]["Signature"].ToString();
-            
+
             //打开主界面
             mainForm.SetWinFormTitle(_me.ShowName);
 
@@ -364,8 +364,12 @@ namespace HotTaoMonitoring
                 {
                     case (int)WxMsgType.文本消息:
                         //获取发送者标识id;
-                        msgSendUser = content.Split(':')[0];
-                        messageContent = content.Split(':')[1];
+                        int idx = content.IndexOf(":");
+                        msgSendUser = content.Substring(0, idx);
+                        messageContent = content.Substring(idx + 1);
+                        //msgSendUser = content.Split(':')[0];
+
+                        //messageContent = content.Split(':')[1];
                         //获取当前发送方的昵称
                         nickName = GetCurrentMessageUserNickName(service, msgSendUser, user.UserName);
 

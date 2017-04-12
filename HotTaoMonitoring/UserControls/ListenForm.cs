@@ -106,7 +106,7 @@ namespace HotTaoMonitoring.UserControls
             else
             {
                 EditForm ed = new EditForm(mainForm, this);
-                string html = ed.GetReceiveMsgHtml(data.MsgShowName, data.MsgNickName, data.MsgText,data.MsgTime);
+                string html = ed.GetReceiveMsgHtml(data.MsgShowName, data.MsgNickName, data.MsgText, data.MsgTime);
                 ed.writeCacheData(data.MsgShowName, data.MsgNickName, html);
                 if (string.IsNullOrEmpty(CurrentSelectedWeChat) || data.MsgUserName.Equals(CurrentSelectedWeChat))
                 {
@@ -114,7 +114,7 @@ namespace HotTaoMonitoring.UserControls
                     //合并相同用户消息
                     foreach (DataGridViewRow item in dataContent.Rows)
                     {
-                        if (item.Cells["MsgSendUser"].Value.ToString().Equals(data.MsgSendUser)&& item.Cells["MsgUserName"].Value.ToString().Equals(data.MsgUserName))
+                        if (item.Cells["MsgSendUser"].Value.ToString().Equals(data.MsgSendUser) && item.Cells["MsgUserName"].Value.ToString().Equals(data.MsgUserName))
                         {
                             result = true;
                             item.Cells["MsgContent"].Value = data.MsgText.Replace("<br/>", "\r\n");//data.MsgTime + " [" + data.MsgNickName + "]" + data.MsgShowName + ":" + 
@@ -179,7 +179,7 @@ namespace HotTaoMonitoring.UserControls
                 }
                 if (mainForm.editForm != null && mainForm.editForm.toUserName == data.MsgUserName && mainForm.editForm.toNickName == data.MsgNickName)
                 {
-                    mainForm.editForm.ShowReceiveMsg(data.MsgNickName, data.MsgText,data.MsgTime);
+                    mainForm.editForm.ShowReceiveMsg(data.MsgNickName, data.MsgText, data.MsgTime);
                 }
 
             }
@@ -264,7 +264,7 @@ namespace HotTaoMonitoring.UserControls
                     item.NickName = user.ShowName;
                 }
             });
-           
+
         }
 
 
@@ -435,17 +435,23 @@ namespace HotTaoMonitoring.UserControls
                     mainForm.editForm.MsgSendUser = _msgSendUser;
                     mainForm.editForm.SetTitle(mainForm.editForm.toNickName);
                     mainForm.editForm.LoadHtml();
+                    RECT rect = new RECT();
+                    WinApi.GetWindowRect(mainForm.Handle, ref rect);
+                    mainForm.editForm.Location = new Point(rect.Right, rect.Top);
                     mainForm.editForm.Show();
                 }
                 else
                 {
                     mainForm.editForm.LoadHtml();
+                    RECT rect = new RECT();
+                    WinApi.GetWindowRect(mainForm.Handle, ref rect);
+                    mainForm.editForm.Location = new Point(rect.Right, rect.Top);
                     mainForm.editForm.Show();
                 }
 
                 mainForm.editForm.isHide = false;
                 mainForm.editForm.rowIndex = rowIndex;
-                                
+
                 WinApi.ShowWindow(mainForm.editForm.Handle, WinApi.NCmdShowFlag.SW_HIDE);
                 //显示窗口
                 WinApi.ShowWindow(mainForm.editForm.Handle, WinApi.NCmdShowFlag.SW_SHOWNORMAL);
@@ -547,7 +553,7 @@ namespace HotTaoMonitoring.UserControls
             lbTabWeChatListen.BackColor = Color.Silver;
             if (NotListenWeChatData == null) NotListenWeChatData = new List<WXUser>();
             IsListenView = false;
-            SetContactsView(NotListenWeChatData);                        
+            SetContactsView(NotListenWeChatData);
         }
 
         /// <summary>
@@ -607,7 +613,7 @@ namespace HotTaoMonitoring.UserControls
             });
             NotListenWeChatData.Clear();
             dgvWeChatList.Rows.Clear();
-
+            lbTabWeChatListen_Click(null, null);
         }
 
         /// <summary>
@@ -638,14 +644,21 @@ namespace HotTaoMonitoring.UserControls
         /// </summary>
         public void ClearAllData()
         {
-            wxMessageData.Clear();
-            ListenWeChatData.Clear();
-            NotListenWeChatData.Clear();
+            if (wxMessageData != null)
+                wxMessageData.Clear();
+            if (ListenWeChatData != null)
+                ListenWeChatData.Clear();
+            if (NotListenWeChatData != null)
+                NotListenWeChatData.Clear();
+
             dataContent.Rows.Clear();
             dgvWeChatList.Rows.Clear();
             CurrentSelectedWeChat = string.Empty;
-            mainForm.editForm.Close();
-            mainForm.editForm = null;
+            if (mainForm.editForm != null)
+            {
+                mainForm.editForm.Close();
+                mainForm.editForm = null;
+            }
         }
 
     }

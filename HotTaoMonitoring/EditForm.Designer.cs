@@ -71,6 +71,7 @@
             this.hotWebKitBrowser.Name = "hotWebKitBrowser";
             this.hotWebKitBrowser.Size = new System.Drawing.Size(481, 395);
             this.hotWebKitBrowser.TabIndex = 2;
+            this.hotWebKitBrowser.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
             // 
             // picClose
             // 
@@ -111,6 +112,7 @@
             this.btnUpload.TabIndex = 49;
             this.btnUpload.Text = "上传图片";
             this.btnUpload.UseVisualStyleBackColor = false;
+            this.btnUpload.Visible = false;
             this.btnUpload.Click += new System.EventHandler(this.btnUpload_Click);
             // 
             // btnSend
@@ -167,7 +169,7 @@
             this.KeyPreview = true;
             this.Name = "EditForm";
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "回复窗口";
             this.Load += new System.EventHandler(this.EditForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditForm_KeyDown);

@@ -126,27 +126,34 @@ namespace HotTaoMonitoring
         /// <param name="uc">The uc.</param>
         public void openControl(UserControlsOpts opt)
         {
-            UserControl control = null;
-            if (windowFormControls.ContainsKey(opt))
-                windowFormControls.TryGetValue(opt, out control);
-            if (control != null && !control.IsDisposed)
+            if (this.InvokeRequired)
             {
-                rightContainer.Controls.Clear();
-                if (opt == UserControlsOpts.listen)
-                {
-                    label5.BackColor = Color.White;
-                    label1.BackColor = Color.Silver;
-                }
-                else
-                {
-                    label5.BackColor = Color.Silver;
-                    label1.BackColor = Color.White;
-                }
-
-                this.rightContainer.Controls.Add(control);
+                this.Invoke(new Action<UserControlsOpts>(openControl), new object[] { opt });
             }
             else
-                ShowControl(opt);
+            {
+                UserControl control = null;
+                if (windowFormControls.ContainsKey(opt))
+                    windowFormControls.TryGetValue(opt, out control);
+                if (control != null && !control.IsDisposed)
+                {
+                    rightContainer.Controls.Clear();
+                    if (opt == UserControlsOpts.listen)
+                    {
+                        label5.BackColor = Color.White;
+                        label1.BackColor = Color.Silver;
+                    }
+                    else
+                    {
+                        label5.BackColor = Color.Silver;
+                        label1.BackColor = Color.White;
+                    }
+
+                    this.rightContainer.Controls.Add(control);
+                }
+                else
+                    ShowControl(opt);
+            }
         }
 
         /// <summary>
