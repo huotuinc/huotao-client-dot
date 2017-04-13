@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WwChatHttpCore.Objects;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace HotTaoMonitoring.UserControls
 {
@@ -51,7 +53,7 @@ namespace HotTaoMonitoring.UserControls
         /// <param name="msgSendUser"></param>
         /// <param name="nickName"></param>
         /// <param name="content"></param>
-        public void SetWxMessageData(WXUser user, string msgSendUser, string nickName, string content)
+        public void SetWxMessageData(WXUser user, string msgSendUser, string nickName, string content, byte[] msgImageData)
         {
             WxMessageBodyModel msg = new WxMessageBodyModel();
             if (!wxMessageData.Exists(item => { return item.MsgSendUser == msgSendUser && item.MsgUserName == user.UserName; }))
@@ -61,11 +63,12 @@ namespace HotTaoMonitoring.UserControls
                     MsgSendUser = msgSendUser,
                     MsgShowName = user.ShowName,
                     MsgText = content,
-                    MsgTime = DateTime.Now.ToString("dd日 HH:mm"),
+                    MsgTime = DateTime.Now,
                     NotReadCount = 1,
                     MsgUserName = user.UserName,
                     MsgNickName = nickName,
                     MsgStatus = "未回复",
+                    MsgImageData = msgImageData
                 };
                 wxMessageData.Add(msg);
             }
@@ -76,10 +79,11 @@ namespace HotTaoMonitoring.UserControls
                 {
                     if (data.MsgSendUser == msgSendUser && data.MsgUserName == user.UserName)
                     {
-                        data.MsgTime = DateTime.Now.ToString("dd日 HH:mm");
+                        data.MsgTime = DateTime.Now;
                         data.MsgText = content;
                         data.NotReadCount += 1;
                         data.MsgStatus = "未回复";
+                        data.MsgImageData = msgImageData;
                     }
                 });
 
@@ -106,8 +110,17 @@ namespace HotTaoMonitoring.UserControls
             else
             {
                 EditForm ed = new EditForm(mainForm, this);
-                string html = ed.GetReceiveMsgHtml(data.MsgShowName, data.MsgNickName, data.MsgText, data.MsgTime);
+                string base64 = mainForm.wxlogin.GetIcon(data.MsgSendUser);
+                if (!string.IsNullOrEmpty(base64))
+                    base64 = "data:image/jpg;base64," + base64;
+                string html = string.Empty;
+                if (data.MsgImageData == null)
+                    html = ed.GetReceiveMsgHtml(data.MsgShowName, data.MsgNickName, data.MsgText, data.MsgTime.ToString("yyyy-MM-dd HH:mm:ss"), base64);
+                else
+                    html = ed.GetReceiveMsgHtml(data.MsgShowName, data.MsgNickName, data.MsgText, data.MsgTime.ToString("yyyy-MM-dd HH:mm:ss"), base64, "data:image/jpg;base64," + Convert.ToBase64String(data.MsgImageData));
+
                 ed.writeCacheData(data.MsgShowName, data.MsgNickName, html);
+
                 if (string.IsNullOrEmpty(CurrentSelectedWeChat) || data.MsgUserName.Equals(CurrentSelectedWeChat))
                 {
                     bool result = false;
@@ -117,9 +130,9 @@ namespace HotTaoMonitoring.UserControls
                         if (item.Cells["MsgSendUser"].Value.ToString().Equals(data.MsgSendUser) && item.Cells["MsgUserName"].Value.ToString().Equals(data.MsgUserName))
                         {
                             result = true;
-                            item.Cells["MsgContent"].Value = data.MsgText.Replace("<br/>", "\r\n");//data.MsgTime + " [" + data.MsgNickName + "]" + data.MsgShowName + ":" + 
+                            item.Cells["MsgContent"].Value = data.MsgText.Replace("<br/>", "\r\n");
                             item.Cells["MsgText"].Value = data.MsgText;
-                            item.Cells["MsgTime"].Value = data.MsgTime;
+                            item.Cells["MsgTime"].Value = data.MsgTime.ToString("dd日 HH:mm");
                             if (mainForm.editForm != null && mainForm.editForm.toUserName == data.MsgUserName && mainForm.editForm.toNickName == data.MsgNickName && !mainForm.editForm.isHide)
                             {
                                 item.Cells["NotReadCount"].Value = "0";
@@ -157,7 +170,7 @@ namespace HotTaoMonitoring.UserControls
                         dataContent.Rows[i - 1].Cells["MsgShowName"].Value = data.MsgShowName;
                         dataContent.Rows[i - 1].Cells["NotReadCount"].Value = data.NotReadCount;
                         dataContent.Rows[i - 1].Cells["MsgStatus"].Value = data.MsgStatus;
-                        dataContent.Rows[i - 1].Cells["MsgTime"].Value = data.MsgTime;
+                        dataContent.Rows[i - 1].Cells["MsgTime"].Value = data.MsgTime.ToString("dd日 HH:mm");
                         if (data.NotReadCount > 0)
                             dataContent.Rows[i - 1].Cells["NotReadCount"].Style.ForeColor = Color.Red;
                         else
@@ -179,7 +192,10 @@ namespace HotTaoMonitoring.UserControls
                 }
                 if (mainForm.editForm != null && mainForm.editForm.toUserName == data.MsgUserName && mainForm.editForm.toNickName == data.MsgNickName)
                 {
-                    mainForm.editForm.ShowReceiveMsg(data.MsgNickName, data.MsgText, data.MsgTime);
+                    if (data.MsgImageData == null)
+                        mainForm.editForm.ShowReceiveMsg(data.MsgNickName, data.MsgText, data.MsgTime.ToString("yyyy-MM-dd HH:mm:ss"), base64);
+                    else
+                        mainForm.editForm.ShowReceiveMsg(data.MsgNickName, data.MsgText, data.MsgTime.ToString("yyyy-MM-dd HH:mm:ss"), base64, "data:image/jpg;base64," + Convert.ToBase64String(data.MsgImageData));
                 }
 
             }
@@ -201,7 +217,7 @@ namespace HotTaoMonitoring.UserControls
                 {
                     dataContent.Rows.Add();
                     ++i;
-                    dataContent.Rows[i - 1].Cells["MsgContent"].Value = data.MsgText.Replace("<br/>", "\r\n");//data.MsgTime + " [" + data.MsgNickName + "]" + data.MsgShowName + ":" + 
+                    dataContent.Rows[i - 1].Cells["MsgContent"].Value = data.MsgText.Replace("<br/>", "\r\n");
                     dataContent.Rows[i - 1].Cells["MsgUserName"].Value = data.MsgUserName;
                     dataContent.Rows[i - 1].Cells["MsgNickName"].Value = data.MsgNickName;
                     dataContent.Rows[i - 1].Cells["MsgText"].Value = data.MsgText;
@@ -209,7 +225,7 @@ namespace HotTaoMonitoring.UserControls
                     dataContent.Rows[i - 1].Cells["MsgShowName"].Value = data.MsgShowName;
                     dataContent.Rows[i - 1].Cells["NotReadCount"].Value = data.NotReadCount;
                     dataContent.Rows[i - 1].Cells["MsgStatus"].Value = data.MsgStatus;
-                    dataContent.Rows[i - 1].Cells["MsgTime"].Value = data.MsgTime;
+                    dataContent.Rows[i - 1].Cells["MsgTime"].Value = data.MsgTime.ToString("dd日 HH:mm");
                     if (data.NotReadCount > 0)
                         dataContent.Rows[i - 1].Cells["NotReadCount"].Style.ForeColor = Color.Red;
                     else

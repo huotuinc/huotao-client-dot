@@ -16,29 +16,6 @@ using System.Collections.Specialized;
 
 namespace HotTaoMonitoring
 {
-
-    //internal class MenuHandler : IContextMenuHandler
-    //{
-    //    public void OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
-    //    {
-    //        browser.CloseDevTools();
-    //    }
-
-    //    public bool OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
-    //    {
-    //        return false;
-    //    }
-
-    //    public void OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
-    //    {            
-    //    }
-
-    //    public bool RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
-    //    {
-    //        return false;
-    //    }
-    //}
-
     public partial class EditForm : Form
     {
         NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
@@ -137,6 +114,8 @@ namespace HotTaoMonitoring
 
         private static string url = "chat.html";
 
+        private const string _base64head = "data:image/png;base64,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";
+
         public EditForm(MainForm form, ListenForm listen)
         {
             InitializeComponent();
@@ -200,34 +179,42 @@ namespace HotTaoMonitoring
             if (mainForm != null)
             {
                 string sendText = txtContent.Text.Trim();
+                string _RtfText = txtContent.Rtf;
+                txtContent.Clear();
                 string notify = string.Format("@{0}", toNickName);
 
+                List<string> _ImageList = new List<string>();
+                while (true)
+                {
+                    int _Index = _RtfText.IndexOf("pichgoal");
+                    if (_Index == -1) break;
+                    _RtfText = _RtfText.Remove(0, _Index + 8);
 
-                //TODO:
+                    _Index = _RtfText.IndexOf("\r\n");
 
-                string _RtfText = txtContent.Rtf;
-                //while (true)
-                //{
-                //    int _Index = _RtfText.IndexOf("pichgoal1799");
-                //    if (_Index == -1) break;
-                //    _RtfText = _RtfText.Remove(0, _Index + 8);
+                    _RtfText = _RtfText.Remove(0, _Index);
+                    string __RtfText = _RtfText.Replace("\r\n", "");
 
-                //    _Index = _RtfText.IndexOf("\r\n");
+                    _Index = __RtfText.IndexOf("}");
+                    string dd = __RtfText.Substring(0, _Index);
+                    string filenamekey = EncryptHelper.MD5(__RtfText.Substring(0, _Index));
+                    _ImageList.Add(filenamekey);
+                }
+                List<string> files = new List<string>();
+                _ImageList.ForEach(str =>
+                {
+                    foreach (var item in SendFileList)
+                    {
+                        if (item.Key == str)
+                            files.Add(item.Value);
+                    }
+                });
 
-                //    int _Temp = Convert.ToInt32(_RtfText.Substring(0, _Index));
-                //    _RtfText = _RtfText.Remove(0, _Index);
-                //    string __RtfText = _RtfText.Replace("\r\n", "");
-
-                //    _Index = __RtfText.IndexOf("}");
-                //    string dd = __RtfText.Substring(0, _Index);
-                //    //_RtfText = _RtfText.Remove(0, _Index);
-                //}
-
-                if (SendFileList != null && SendFileList.Count() > 0)
+                if (files != null && files.Count() > 0)
                 {
                     mainForm.wxlogin.AutoSendMessage(toUserName, notify);
                     isNotify = true;
-                    foreach (var str in SendFileList.Values)
+                    foreach (var str in files)
                     {
                         string ext = str.Substring(str.LastIndexOf("."));
                         string filename = EncryptHelper.MD5(str) + ext;
@@ -237,7 +224,7 @@ namespace HotTaoMonitoring
                             //读取图片字节流
                             stream.Read(buffer, 0, Convert.ToInt32(stream.Length));
                             string base64 = "data:img/jpg;base64," + Convert.ToBase64String(buffer);
-                            ShowSendImageMsg("我", base64);
+                            ShowSendImageMsg("我", base64, mainForm.MyIcon(), DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                             mainForm.wxlogin.AutoSendImage(toUserName, filename, stream);
                         }
                     }
@@ -251,7 +238,7 @@ namespace HotTaoMonitoring
                     //给指定用户发消息
                     mainForm.wxlogin.AutoSendMessage(toUserName, sendText);
                     //发送回复消息到UI
-                    ShowSendMsg("我", sendText.Replace("\n", "<br/>"));
+                    ShowSendMsg("我", sendText.Replace("\n", "<br/>"), mainForm.MyIcon(), DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     if (!isNotify)
                     {
                         //设置消息列表回复状态
@@ -270,12 +257,14 @@ namespace HotTaoMonitoring
         /// <summary>
         /// UI界面显示发送消息
         /// </summary>
-        public void ShowSendMsg(string formShowName, string msg)
+        public void ShowSendMsg(string formShowName, string msg, string base64, string time)
         {
             string str = @"<script type=""text/javascript"">window.location.hash = ""#ok"";</script> 
+            <p class=""timename"">" + time + @"</p> 
             <div class=""chat_content_group self"">               
-            <p class=""chat_nick"">" + formShowName + @"</p>   
+            <p class=""chat_nick""><img src=" + (string.IsNullOrEmpty(base64) ? _base64head : base64) + @" width=""40px;"">" + @"</p>   
             <p class=""chat_content"">" + msg + @"</p>
+            <p style=""clear: both""></p>
             </div><a id='ok'></a>";
             if (_totalHtml == "")
             {
@@ -290,12 +279,14 @@ namespace HotTaoMonitoring
         /// </summary>
         /// <param name="formShowName">Name of the form show.</param>
         /// <param name="msg">The MSG.</param>
-        public void ShowSendImageMsg(string formShowName, string base64Image)
+        public void ShowSendImageMsg(string formShowName, string base64Image, string base64, string time)
         {
             string str = @"<script type=""text/javascript"">window.location.hash = ""#ok"";</script> 
+            <p class=""timename"">" + time + @"</p> 
             <div class=""chat_content_group self"">               
-            <p class=""chat_nick"">" + formShowName + @"</p>   
-            <p class=""chat_content""><img src=""" + base64Image + @""" width=""80px""></p>
+            <p class=""chat_nick""><img src=" + (string.IsNullOrEmpty(base64) ? _base64head : base64) + @" width=""40px;"">" + @"</p>   
+            <p style=""float: right;margin-top: 0px;margin-right: 10px;""><img src=""" + base64Image + @""" width=""80px""></p>
+            <p style=""clear: both""></p>
             </div><a id='ok'></a>";
             if (_totalHtml == "")
             {
@@ -310,7 +301,7 @@ namespace HotTaoMonitoring
         /// <summary>
         /// UI界面显示接收消息
         /// </summary>
-        public void ShowReceiveMsg(string toShowName, string msg, string time)
+        public void ShowReceiveMsg(string toShowName, string msg, string time, string base64)
         {
 
             int idx = msg.IndexOf("<br/>");
@@ -318,9 +309,11 @@ namespace HotTaoMonitoring
             msg = msg.Substring(idx + 5);
 
             string str = @"<script type=""text/javascript"">window.location.hash = ""#ok"";</script> 
+            <p class=""timename"">" + time + @"</p>             
             <div class=""chat_content_group buddy"">               
-            <p class=""chat_nick"">" + toShowName + "(" + time + ")" + @"</p>   
+            <p class=""chat_nick""><img src=" + (string.IsNullOrEmpty(base64) ? _base64head : base64) + @" width=""40px;"">" + @"</p>   
             <p class=""chat_content"">" + msg + @"</p>
+            <p style=""clear: both""></p>
             </div><a id='ok'></a>";
             if (_totalHtml == "")
             {
@@ -331,21 +324,81 @@ namespace HotTaoMonitoring
             webKitBrowser1.LoadHtml(_totalHtml, url);
         }
 
+
+
+        /// <summary>
+        /// UI界面显示接收消息
+        /// </summary>
+        public void ShowReceiveMsg(string toShowName, string msg, string time, string base64, string msgImageBase64)
+        {
+
+            int idx = msg.IndexOf("<br/>");
+
+            msg = msg.Substring(idx + 5);
+
+            string str = @"<script type=""text/javascript"">window.location.hash = ""#ok"";</script> 
+            <p class=""timename"">" + time + @"</p>             
+            <div class=""chat_content_group buddy"">               
+            <p class=""chat_nick""><img src=" + (string.IsNullOrEmpty(base64) ? _base64head : base64) + @" width=""40px;"">" + @"</p>   
+            <p style=""float: left;margin-top: 0px;margin-left: 10px;""><img src=""" + msgImageBase64 + @""" width=""80px""></p>
+            <p style=""clear: both""></p>
+            </div><a id='ok'></a>";
+            if (_totalHtml == "")
+            {
+                _totalHtml = _baseHtml;
+            }
+            LoadBrowser();
+            _totalHtml = _totalHtml.Replace("<a id='ok'></a>", "") + str;
+            webKitBrowser1.LoadHtml(_totalHtml, url);
+        }
+
+
+
+
         /// <summary>
         /// 获取UI界面显示
         /// </summary>
         /// <param name="_toShowName">Name of the _to show.</param>
         /// <param name="_msg">The _MSG.</param>
         /// <returns>System.String.</returns>
-        public string GetReceiveMsgHtml(string _toShowName, string _nickName, string _msg, string time)
+        public string GetReceiveMsgHtml(string _toShowName, string _nickName, string _msg, string time, string base64)
         {
             string __totalHtml = loadCacheData(_toShowName, _nickName);
             int idx = _msg.IndexOf("<br/>");
             _msg = _msg.Substring(idx + 5);
             string str = @"<script type=""text/javascript"">window.location.hash = ""#ok"";</script> 
+            <p class=""timename"">" + time + @"</p>     
             <div class=""chat_content_group buddy"">               
-            <p class=""chat_nick"">" + _nickName + "(" + time + ")" + @"</p>   
+            <p class=""chat_nick""><img src=" + (string.IsNullOrEmpty(base64) ? _base64head : base64) + @" width=""40px;"">" + @"</p>   
             <p class=""chat_content"">" + _msg + @"</p>
+            <p style=""clear: both""></p>
+            </div><a id='ok'></a>";
+            if (__totalHtml == "")
+            {
+                __totalHtml = _baseHtml;
+            }
+            __totalHtml = __totalHtml.Replace("<a id='ok'></a>", "") + str;
+            return __totalHtml;
+        }
+
+
+        /// <summary>
+        /// 获取UI界面显示
+        /// </summary>
+        /// <param name="_toShowName">Name of the _to show.</param>
+        /// <param name="_msg">The _MSG.</param>
+        /// <returns>System.String.</returns>
+        public string GetReceiveMsgHtml(string _toShowName, string _nickName, string _msg, string time, string base64, string msgImageBase64)
+        {
+            string __totalHtml = loadCacheData(_toShowName, _nickName);
+            int idx = _msg.IndexOf("<br/>");
+            _msg = _msg.Substring(idx + 5);
+            string str = @"<script type=""text/javascript"">window.location.hash = ""#ok"";</script> 
+            <p class=""timename"">" + time + @"</p>     
+            <div class=""chat_content_group buddy"">               
+            <p class=""chat_nick""><img src=" + (string.IsNullOrEmpty(base64) ? _base64head : base64) + @" width=""40px;"">" + @"</p>   
+            <p style=""float: left;margin-top: 0px;margin-left: 10px;""><img src=""" + msgImageBase64 + @""" width=""80px""></p>
+            <p style=""clear: both""></p>
             </div><a id='ok'></a>";
             if (__totalHtml == "")
             {
@@ -404,8 +457,11 @@ namespace HotTaoMonitoring
         text-align: left;
         }
         .chat_content_group.self>.chat_content {
-        background: #7ccb6b;
-        color:#fff;
+    background: #7ccb6b;
+    color: #fff;
+    float: right;
+    margin-right: 10px;
+    margin-top:10px;
         /*background: -webkit-gradient(linear,left top,left bottom,from(white,#e1e1e1));
         background: -webkit-linear-gradient(white,#e1e1e1);
         background: -moz-linear-gradient(white,#e1e1e1);
@@ -414,35 +470,33 @@ namespace HotTaoMonitoring
         background: linear-gradient(#fff,#e1e1e1);*/
         }
         .chat_content {
-        display: inline-block;
-        min-height: 16px;
-        max-width: 50%;
-        color:#292929;
-        background: #c3f1fd;
-        font-family:微软雅黑;
-        font-size:14px;
-        /*background: -webkit-gradient(linear,left top,left bottom,from(#cf9),to(#9c3));
-        background: -webkit-linear-gradient(#cf9,#9c3);
-        background: -moz-linear-gradient(#cf9,#9c3);
-        background: -ms-linear-gradient(#cf9,#9c3);
-        background: -o-linear-gradient(#cf9,#9c3);
-        background: linear-gradient(#cf9,#9c3);*/
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
-        padding: 2px 15px;
-        word-break: break-all;
-        /*box-shadow: 1px 1px 5px #000;*/
-        line-height: 1.4;
+    display: inline-block;
+    min-height: 16px;
+    max-width: 50%;
+    color: #292929;
+    background: #c3f1fd;
+    font-family: 微软雅黑;
+    font-size: 14px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 2px 15px;
+    word-break: break-all;
+    line-height: 1.4;
+    float: left;
+    margin-left: 9px;
+    margin-top: 10px;
         }
 
         .chat_content_group.self>.chat_nick {
+			float: right;
         text-align: right;
         }
         .chat_nick {
         font-size: 14px;
         margin: 0px;
         color:#8b8b8b;
+			float: left;
         }
 
         .chat_content_group.self>.chat_content_avatar {
@@ -481,68 +535,49 @@ namespace HotTaoMonitoring
         }
         .imgtest img{width:100%;
         min-height:100%; text-align:center;}
+			.timename{
+                display: none;
+				text-align: center;
+                font-size: 12px;
+                background: rgba(190, 190, 190, 0.5);
+                width: 15%;
+                margin: 0 auto;
+                padding: 5px 2px;
+                color: #fff;
+                border-radius: 5px;
+			}
 	    </style>
+        <script src=""https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js""></script>
+        <script src =""https://cdn.bootcss.com/moment.js/2.18.1/locale/zh-cn.js"" ></script >
+        <script >
+            window.onload = function () {
+                var times = document.getElementsByClassName('timename');
+                var now = new Date().getTime();
+                for ( var i = 0; i < times.length; i ++ ) {
+                    // 五分钟
+                    var minute = 300000;
+                    var t = times[i]
+                    var time = new Date(t.innerHTML).getTime();
+                    if (now - time >= minute)
+                    {
+                        t.style.display = 'block';
+                    }
+                    if (now - time >= 172800000)
+                    {
+                        t.innerHTML = moment(t.innerHTML).format('lll');
+                    }
+                    else
+                    {
+                        t.innerHTML = moment(t.innerHTML).calendar();
+                    }
+                }
+            };
+        </script>
         </head><body>";
         #endregion
 
 
         private bool IsUpload { get; set; }
-
-        /// <summary>
-        /// 弃用
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
-        private void btnUpload_Click(object sender, EventArgs e)
-        {
-            if (IsUpload) return;
-            try
-            {
-                if (this.uploadImage.ShowDialog() == DialogResult.OK)
-                {
-                    IsUpload = true;
-                    if (MessageBox.Show("您确定要发送该图片？", "提示", MessageBoxButtons.OK) == DialogResult.OK)
-                    {
-
-                        string filename = this.uploadImage.FileName;
-                        string safefilename = this.uploadImage.SafeFileName;
-                        mainForm.ThreadHandle(() =>
-                        {
-                            using (Stream stream = new FileStream(filename, FileMode.Open))
-                            {
-                                byte[] buffer = new byte[stream.Length];
-                                //读取图片字节流
-                                stream.Read(buffer, 0, Convert.ToInt32(stream.Length));
-                                string base64 = "data:img/jpg;base64," + Convert.ToBase64String(buffer);
-                                ShowSendImageMsg("我", base64);
-
-
-                                string content = string.Format("@{0}", toNickName);
-                                mainForm.wxlogin.AutoSendMessage(toUserName, content);
-                                mainForm.wxlogin.AutoSendImage(toUserName, safefilename, stream);
-
-                                mainForm.listenForm.SetDataContentStatus(rowIndex, MsgSendUser, toUserName);
-
-
-                                IsUpload = false;
-                            }
-                        });
-                    }
-                    else
-                        IsUpload = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                IsUpload = false;
-                log.Error(ex);
-                MessageBox.Show("图片发送失败", "错误");
-            }
-        }
-
-
-
-
 
         /// <summary>
         /// 保存到文件
@@ -676,16 +711,35 @@ namespace HotTaoMonitoring
                             if (!FilterFileType(ext)) return;
                             using (Stream stream = new FileStream(path, FileMode.Open))
                             {
+                                //, 150, 120
                                 Bitmap bmp = new Bitmap(Image.FromStream(stream), 150, 120);
                                 Clipboard.SetDataObject(bmp, true);//将图片放在剪贴板中
                                 if (txtContent.CanPaste(DataFormats.GetFormat(DataFormats.Bitmap)))
                                 {
                                     txtContent.Paste();
-                                    SendFileList.Add(EncryptHelper.MD5(SendFileList.Count().ToString()), path);
+                                    string _RtfText = txtContent.Rtf;
+                                    while (true)
+                                    {
+                                        int _Index = _RtfText.IndexOf("pichgoal");
+                                        if (_Index == -1) break;
+                                        _RtfText = _RtfText.Remove(0, _Index + 8);
+
+                                        _Index = _RtfText.IndexOf("\r\n");
+
+                                        _RtfText = _RtfText.Remove(0, _Index);
+                                        string __RtfText = _RtfText.Replace("\r\n", "");
+
+                                        _Index = __RtfText.IndexOf("}");
+                                        string filenamekey = EncryptHelper.MD5(__RtfText.Substring(0, _Index));
+                                        if (!SendFileList.ContainsKey(filenamekey))
+                                            SendFileList.Add(filenamekey, path);
+                                    }
                                 }
                             }
                         }
                     }
+                    else
+                        txtContent.Paste();
                 }
             }
         }
@@ -710,5 +764,20 @@ namespace HotTaoMonitoring
         private void txtContent_KeyDown(object sender, KeyEventArgs e)
         {
         }
+
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                // const int WS_EX_APPWINDOW = 0x40000;
+                const int WS_EX_TOOLWINDOW = 0x80;
+                CreateParams cp = base.CreateParams;
+                //cp.ExStyle &= (~WS_EX_APPWINDOW);    // 不显示在TaskBar
+                cp.ExStyle |= WS_EX_TOOLWINDOW;      // 不显示在Alt-Tab
+                return cp;
+            }
+        }
+
     }
 }

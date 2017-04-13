@@ -35,7 +35,6 @@
             this.hotWebKitBrowser = new HotTaoMonitoring.module.HotPanel(this.components);
             this.picClose = new System.Windows.Forms.PictureBox();
             this.lbTitle = new System.Windows.Forms.Label();
-            this.btnUpload = new System.Windows.Forms.Button();
             this.btnSend = new System.Windows.Forms.Button();
             this.hotGroupBox2 = new HotTaoMonitoring.module.HotGroupBox(this.components);
             this.txtContent = new System.Windows.Forms.RichTextBox();
@@ -55,7 +54,6 @@
             this.hotPanel1.Controls.Add(this.hotWebKitBrowser);
             this.hotPanel1.Controls.Add(this.picClose);
             this.hotPanel1.Controls.Add(this.lbTitle);
-            this.hotPanel1.Controls.Add(this.btnUpload);
             this.hotPanel1.Controls.Add(this.btnSend);
             this.hotPanel1.Controls.Add(this.hotGroupBox2);
             this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -95,25 +93,6 @@
             this.lbTitle.Size = new System.Drawing.Size(487, 31);
             this.lbTitle.TabIndex = 52;
             this.lbTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnUpload
-            // 
-            this.btnUpload.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.btnUpload.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnUpload.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.btnUpload.FlatAppearance.BorderSize = 0;
-            this.btnUpload.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.btnUpload.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(177)))));
-            this.btnUpload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUpload.ForeColor = System.Drawing.Color.White;
-            this.btnUpload.Location = new System.Drawing.Point(8, 620);
-            this.btnUpload.Name = "btnUpload";
-            this.btnUpload.Size = new System.Drawing.Size(63, 28);
-            this.btnUpload.TabIndex = 49;
-            this.btnUpload.Text = "上传图片";
-            this.btnUpload.UseVisualStyleBackColor = false;
-            this.btnUpload.Visible = false;
-            this.btnUpload.Click += new System.EventHandler(this.btnUpload_Click);
             // 
             // btnSend
             // 
@@ -163,14 +142,17 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(487, 654);
+            this.ControlBox = false;
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "EditForm";
+            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "回复窗口";
             this.Load += new System.EventHandler(this.EditForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditForm_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.EditForm_KeyUp);
@@ -190,7 +172,6 @@
         private System.Windows.Forms.Label lbTitle;
         private System.Windows.Forms.PictureBox picClose;
         private module.HotPanel hotWebKitBrowser;
-        private System.Windows.Forms.Button btnUpload;
         private System.Windows.Forms.OpenFileDialog uploadImage;
     }
 }

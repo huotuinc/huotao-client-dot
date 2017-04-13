@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -352,56 +353,74 @@ namespace HotTaoMonitoring
             //判断发送方不是本人,且目标是群聊
             if (_me.UserName == to && from.Contains("@@"))
             {
+                string msgid = m["MsgId"].ToString();
                 string content = m["Content"].ToString();
                 int msgtype = 0;
                 int.TryParse(m["MsgType"].ToString(), out msgtype);
+
                 //获取当前群信息
                 WXUser user = mainForm.contact_all.Find((WXUser obj) => { return obj.UserName == from; });
                 if (user == null) return;
 
-                string nickName = string.Empty, msgSendUser = string.Empty, messageContent = string.Empty;
-                switch (msgtype)
+
+                //获取发送者标识id;
+                int idx = content.IndexOf(":");
+                string msgSendUser = content.Substring(0, idx);
+
+                if (string.IsNullOrEmpty(MyUserInfo.filterUserGroups))
+                    MyUserInfo.filterUserGroups = "";
+
+                if (mainForm.listenForm != null)
                 {
-                    case (int)WxMsgType.文本消息:
-                        //获取发送者标识id;
-                        int idx = content.IndexOf(":");
-                        msgSendUser = content.Substring(0, idx);
-                        messageContent = content.Substring(idx + 1);
-                        //msgSendUser = content.Split(':')[0];
-
-                        //messageContent = content.Split(':')[1];
-                        //获取当前发送方的昵称
-                        nickName = GetCurrentMessageUserNickName(service, msgSendUser, user.UserName);
-
-                        if (MyUserInfo.currentUserId == 0) return;
-
-                        //是否过滤当前用户操作
-                        if (!string.IsNullOrEmpty(nickName))
+                    var groups = mainForm.listenForm.ListenWeChatData;
+                    if (groups != null && groups.Exists(item => { return item.UserName == user.UserName; }))
+                    {
+                        string nickName = string.Empty, messageContent = string.Empty;
+                        switch (msgtype)
                         {
-                            if (string.IsNullOrEmpty(MyUserInfo.filterUserGroups))
-                                MyUserInfo.filterUserGroups = "";
-                            bool isExist = MyUserInfo.filterUserGroups.Contains("[" + nickName + "]");
-                            if (!isExist && mainForm.listenForm != null)
-                            {
-                                var groups = mainForm.listenForm.ListenWeChatData;
-                                if (groups != null && groups.Exists(item => { return item.UserName == user.UserName; }))
+                            case (int)WxMsgType.文本消息:
                                 {
-                                    mainForm.listenForm.SetWxMessageData(user, msgSendUser, nickName, messageContent);
+                                    messageContent = content.Substring(idx + 1);
+                                    //获取当前发送方的昵称
+                                    nickName = GetCurrentMessageUserNickName(service, msgSendUser, user.UserName);
+
+                                    if (MyUserInfo.currentUserId == 0) return;
+
+                                    bool isExist = MyUserInfo.filterUserGroups.Contains("[" + nickName + "]");
+                                    //是否过滤当前用户操作
+                                    if (!string.IsNullOrEmpty(nickName) && !isExist)
+                                    {
+                                        mainForm.listenForm.SetWxMessageData(user, msgSendUser, nickName, messageContent, null);
+                                    }
                                 }
-                            }
+                                break;
+                            case (int)WxMsgType.图片消息:
+                                {
+                                    //获取当前发送方的昵称
+                                    nickName = GetCurrentMessageUserNickName(service, msgSendUser, user.UserName);
+                                    bool isExist = MyUserInfo.filterUserGroups.Contains("[" + nickName + "]");
+                                    //是否过滤当前用户操作
+                                    if (!string.IsNullOrEmpty(nickName) && !isExist)
+                                    {
+                                        WXService wxs = new WXService();
+                                        byte[] buffer = wxs.GetMsgImage(msgid);
+                                        if (buffer != null)
+                                        {
+                                            mainForm.listenForm.SetWxMessageData(user, msgSendUser, nickName, "发了一张图片", buffer);
+                                        }
+                                    }
+                                }
+                                break;
+                            case (int)WxMsgType.分享链接:
+                            case (int)WxMsgType.共享名片:
+                            case (int)WxMsgType.系统消息:
 
+                                break;
+                            default:
+                                break;
                         }
-                        break;
-                    case (int)WxMsgType.图片消息:
-                    case (int)WxMsgType.分享链接:
-                    case (int)WxMsgType.共享名片:
 
-                        break;
-                    case (int)WxMsgType.系统消息:
-
-                        break;
-                    default:
-                        break;
+                    }
                 }
             }
         }
@@ -485,6 +504,33 @@ namespace HotTaoMonitoring
 
 
 
+        /// <summary>
+        /// 获取好友头像
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns>System.String.</returns>
+        public string GetIcon(string username)
+        {
+            try
+            {
+                WXService wxs = new WXService();
+                Image image = wxs.GetIcon(username);
+                if (image != null)
+                {
+                    MemoryStream ms = new MemoryStream();
+                    image.Save(ms, ImageFormat.Jpeg);
+                    byte[] buffer = ms.ToArray();
+                    ms.Dispose();
+                    ms.Close();
+                    return Convert.ToBase64String(buffer);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+            return string.Empty;
+        }
 
 
 

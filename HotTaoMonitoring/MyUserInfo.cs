@@ -140,7 +140,7 @@ namespace HotTaoMonitoring
         /// 消息时间
         /// </summary>
         /// <value>The content of the MSG.</value>
-        public string MsgTime { get; set; }
+        public DateTime MsgTime { get; set; }
 
         /// <summary>
         /// 消息群标识
@@ -183,6 +183,15 @@ namespace HotTaoMonitoring
         /// </summary>
         /// <value>The MSG status.</value>
         public string MsgStatus { get; set; }
+
+
+
+        /// <summary>
+        /// 图片数据
+        /// </summary>
+        /// <value>The MSG image data.</value>
+        public byte[] MsgImageData { get; set; }
+
     }
 
 

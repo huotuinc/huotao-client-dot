@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -374,6 +376,37 @@ namespace HotTaoMonitoring
                 myInfo.Close();
                 myInfo = null;
             }
+        }
+
+        /// <summary>
+        /// 获取我的头像(base64)
+        /// </summary>
+        /// <returns>System.String.</returns>
+        public string MyIcon()
+        {
+            try
+            {
+                Image image = picWeChatHead.Image;
+                if (image != null)
+                {
+                    MemoryStream ms = new MemoryStream();
+                    image.Save(ms, ImageFormat.Jpeg);
+                    byte[] buffer = ms.ToArray();
+                    ms.Dispose();
+                    ms.Close();
+                    string base64 = Convert.ToBase64String(buffer);
+                    if (!string.IsNullOrEmpty(base64))
+                        base64 = "data:image/jpg;base64," + base64;
+
+                    return base64;
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return string.Empty;
+
         }
 
         /// <summary>
