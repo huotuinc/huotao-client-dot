@@ -11,14 +11,14 @@ namespace HotTaoCore.Models
         public int userid { get; set; }
 
         public string nickName { get; set; }
-        public string  loginName { get; set; }
+        public string loginName { get; set; }
 
-        public string  loginPwd { get; set; }
+        public string loginPwd { get; set; }
 
         /// <summary>
         /// 登陆token（用于单设备登录用）
         /// </summary>
-        public string  loginToken { get; set; }
+        public string loginToken { get; set; }
 
         public DateTime lastLoginTime { get; set; }
         /// <summary>
@@ -27,5 +27,17 @@ namespace HotTaoCore.Models
         public int activate { get; set; }
 
         public DateTime createTime { get; set; }
+
+        /// <summary>
+        /// 是否允许使用发单高手,如果不允许，则弹出对话框
+        /// </summary>
+        /// <value>true if [software permit]; otherwise, false.</value>
+        public bool softwarePermit { get; set; }
+
+        /// <summary>
+        ///营销描述；通常由软件呈现给用户
+        /// </summary>
+        /// <value>The software text.</value>
+        public string softwareText { get; set; }
     }
 }

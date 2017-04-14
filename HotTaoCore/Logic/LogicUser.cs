@@ -24,14 +24,18 @@ namespace HotTaoCore.Logic
         /// <summary>
         /// 登陆
         /// </summary>
-        /// <param name="loginName"></param>
-        /// <param name="loginPwd"></param>
-        /// <returns></returns>
-        public UserModel login(string loginName, string loginPwd, Action<ResultModel> error = null)
+        /// <param name="loginName">Name of the login.</param>
+        /// <param name="loginPwd">The login password.</param>
+        /// <param name="error">The error.</param>
+        /// <param name="keepToken">可选参数，如果传入值并且值为true;则不会更新该用户的Token</param>
+        /// <returns>UserModel.</returns>
+        public UserModel login(string loginName, string loginPwd, Action<ResultModel> error = null, bool keepToken = false)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["username"] = loginName;
             data["password"] = loginPwd;
+            if (keepToken)
+                data["keepToken"] = keepToken.ToString();
             var userData = BaseRequestService.Post<UserModel>(ApiConst.login, data, (err) =>
             {
                 error?.Invoke(err);

@@ -160,7 +160,7 @@ namespace HotTaoMonitoring
             int windowLong = (GetWindowLong(new HandleRef(from, from.Handle), -16));
             SetWindowLong(new HandleRef(from, from.Handle), -16, windowLong | WS_SYSMENU | WS_MINIMIZEBOX);
             //设置阴影
-           // SetClassLong(from.Handle, GCL_STYLE, GetClassLong(from.Handle, GCL_STYLE) | CS_DropSHADOW);
+            SetClassLong(from.Handle, GCL_STYLE, GetClassLong(from.Handle, GCL_STYLE) | CS_DropSHADOW);
         }
 
 

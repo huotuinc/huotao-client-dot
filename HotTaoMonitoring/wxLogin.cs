@@ -201,23 +201,32 @@ namespace HotTaoMonitoring
                     //在此次进行判断自动回复或踢人操作
                     if (sync_result != null)
                     {
-                        //判断是否掉线
-                        if (sync_result["BaseResponse"]["Ret"].ToObject<int>() > 0)
+                        try
                         {
-                            isLoginCheck = false;
-                            isCloseWinForm = true;
-                            mainForm.listenForm.wxMessageData.Clear();
-                            mainForm.listenForm.ListenWeChatData.Clear();
-                            mainForm.CloseMyContact();
-                            mainForm.AlertTip("微信掉线，请重新授权登录");
-                            break;
-                        }
-                        if (sync_result["AddMsgCount"] != null && sync_result["AddMsgCount"].ToString() != "0")
-                        {
-                            foreach (JObject m in sync_result["AddMsgList"])
+                            //判断是否掉线
+                            if (sync_result["BaseResponse"]["Ret"].ToObject<int>() > 0)
                             {
-                                SyncMsgHandle(wxs, m);
+                                isLoginCheck = false;
+                                isCloseWinForm = true;
+                                mainForm.listenForm.wxMessageData.Clear();
+                                mainForm.listenForm.ListenWeChatData.Clear();
+                                mainForm.CloseMyContact();
+                                mainForm.listenForm.HileWinEdit();
+                                mainForm.AlertTip("微信掉线，请重新授权登录");
+                                break;
                             }
+                            if (sync_result["AddMsgCount"] != null && sync_result["AddMsgCount"].ToString() != "0")
+                            {
+                                foreach (JObject m in sync_result["AddMsgList"])
+                                {
+                                    SyncMsgHandle(wxs, m);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                            throw;
                         }
                     }
                 }
@@ -530,6 +539,21 @@ namespace HotTaoMonitoring
                 log.Error(ex);
             }
             return string.Empty;
+        }
+
+
+        public Image GetHeadImage(string username)
+        {
+            try
+            {
+                WXService wxs = new WXService();
+                return wxs.GetHeadImg(username);                
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+            return null;
         }
 
 

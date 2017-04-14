@@ -114,7 +114,7 @@ namespace HotTaoMonitoring
         private void Login_Load(object sender, EventArgs e)
         {
             //设置阴影
-           // WinApi.SetWinFormTaskbarSystemMenu(this);
+            // WinApi.SetWinFormTaskbarSystemMenu(this);
             loginName.Focus();
             var data = LogicHotTao.Instance(0).GetLoginNameList();
             if (data != null && data.Count() > 0)
@@ -221,7 +221,7 @@ namespace HotTaoMonitoring
                             isLogining = false;
                             loginSuccess = true;
                         }
-                    });
+                    }, true);
                     if (data != null)
                     {
                         if (data.activate == 1)

@@ -37,19 +37,19 @@ namespace HotTaoMonitoring
                 FormLocation = this.Location;
                 mouseOffset = Control.MousePosition;
             }
-            if (editForm != null)
-            {
-                editForm.WinForm_MouseDown(sender, e);
-            }
+            //if (useredit != null)
+            //{
+            //    useredit.WinForm_MouseDown(sender, e);
+            //}
         }
 
         private void WinForm_MouseUp(object sender, MouseEventArgs e)
         {
             isMouseDown = false;
-            if (editForm != null)
-            {
-                editForm.WinForm_MouseUp(sender, e);
-            }
+            //if (editForm != null)
+            //{
+            //    editForm.WinForm_MouseUp(sender, e);
+            //}
         }
         private void WinForm_MouseMove(object sender, MouseEventArgs e)
         {
@@ -63,10 +63,10 @@ namespace HotTaoMonitoring
 
                 this.Location = new Point(FormLocation.X - _x, FormLocation.Y - _y);
             }
-            if (editForm != null)
-            {
-                editForm.WinForm_MouseMove(sender, e);
-            }
+            //if (editForm != null)
+            //{
+            //    editForm.WinForm_MouseMove(sender, e);
+            //}
         }
         #endregion
 
@@ -101,8 +101,14 @@ namespace HotTaoMonitoring
         /// <value>The filter form.</value>
         public ListenForm listenForm { get; set; }
 
+        /// <summary>
+        /// 聊天面板
+        /// </summary>
+        /// <value>The useredit.</value>
+        public UserEditControl useredit { get; set; }
 
-        public EditForm editForm { get; set; }
+
+        //        public EditForm editForm { get; set; }
         /// <summary>
         /// 我的信息窗口
         /// </summary>
@@ -117,7 +123,7 @@ namespace HotTaoMonitoring
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //WinApi.SetWinFormTaskbarSystemMenu(this);
+            WinApi.SetWinFormTaskbarSystemMenu(this);
             windowFormControls = new Dictionary<UserControlsOpts, UserControl>();
             openControl(UserControlsOpts.listen);
         }
@@ -269,8 +275,8 @@ namespace HotTaoMonitoring
         private void picMin_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
-            if (editForm != null)
-                editForm.WindowState = FormWindowState.Minimized;
+            //if (editForm != null)
+            //    editForm.WindowState = FormWindowState.Minimized;
         }
 
         /// <summary>
@@ -315,11 +321,12 @@ namespace HotTaoMonitoring
 
         private void MainForm_Activated(object sender, EventArgs e)
         {
-            if (editForm != null && !editForm.isHide)
-            {
-                //显示窗口
-                WinApi.ShowWindow(editForm.Handle, WinApi.NCmdShowFlag.SW_SHOWNORMAL);
-            }
+            //if (editForm != null && !editForm.isHide)
+            //{                
+            //    //显示窗口
+            //    WinApi.ShowWindow(editForm.Handle, WinApi.NCmdShowFlag.SW_SHOWNORMAL);
+
+            //}
         }
 
 

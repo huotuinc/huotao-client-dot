@@ -118,9 +118,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(12, 23);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 12);
+            this.label4.Size = new System.Drawing.Size(101, 12);
             this.label4.TabIndex = 51;
-            this.label4.Text = "白名单：";
+            this.label4.Text = "不监控用户设置()";
             // 
             // SetUserfilterControl
             // 
