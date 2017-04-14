@@ -535,28 +535,27 @@ namespace HotTaoMonitoring
         }
         .imgtest img{width:100%;
         min-height:100%; text-align:center;}
-			.timename{
-                display: none;
-				text-align: center;
-                font-size: 12px;
-                background: rgba(190, 190, 190, 0.5);
-                width: 15%;
-                margin: 0 auto;
-                padding: 5px 2px;
-                color: #fff;
-                border-radius: 5px;
-			}
+		.timename{
+            display: none;
+			text-align: center;
+            font-size: 12px;
+            background: rgba(190, 190, 190, 0.5);
+            width: 15%;
+            margin: 0 auto;
+            padding: 5px 2px;
+            color: #fff;
+            border-radius: 5px;
+		}
 	    </style>
         <script src=""https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js""></script>
-        <script src =""https://cdn.bootcss.com/moment.js/2.18.1/locale/zh-cn.js"" ></script >
-        <script >
+        <script src =""https://cdn.bootcss.com/moment.js/2.18.1/locale/zh-cn.js""></script>
+        <script>
             window.onload = function () {
                 var times = document.getElementsByClassName('timename');
                 var now = new Date().getTime();
                 for ( var i = 0; i < times.length; i ++ ) {
-                    // 五分钟
                     var minute = 300000;
-                    var t = times[i]
+                    var t = times[i];
                     var time = new Date(t.innerHTML).getTime();
                     if (now - time >= minute)
                     {
@@ -584,7 +583,7 @@ namespace HotTaoMonitoring
         /// </summary>
         public void writeCacheData()
         {
-            string filePath = System.IO.Path.Combine(Application.StartupPath, "data/cacheData");
+            string filePath = System.IO.Path.Combine(Application.StartupPath, "data\\cacheData");
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
             filePath += "/" + EncryptHelper.MD5(toShowName + toNickName) + ".cache";
@@ -604,7 +603,7 @@ namespace HotTaoMonitoring
         /// <param name="content">The content.</param>
         public void writeCacheData(string _toShowName, string _toNickName, string content)
         {
-            string filePath = System.IO.Path.Combine(Application.StartupPath, "data/cacheData");
+            string filePath = System.IO.Path.Combine(Application.StartupPath, "data\\cacheData");
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
             filePath += "/" + EncryptHelper.MD5(_toShowName + _toNickName) + ".cache";
@@ -624,9 +623,10 @@ namespace HotTaoMonitoring
         {
             try
             {
-                string filePath = System.IO.Path.Combine(Application.StartupPath, "data/cacheData/" + EncryptHelper.MD5(toShowName + toNickName) + ".cache");
+                string filePath = System.IO.Path.Combine(Application.StartupPath, "data\\cacheData\\" + EncryptHelper.MD5(toShowName + toNickName) + ".cache");                
                 if (File.Exists(filePath))
                 {
+                    log.Debug(filePath);
                     FileStream aFile = new FileStream(filePath, FileMode.Open);
                     StreamReader sr = new StreamReader(aFile);
                     string str = sr.ReadToEnd();
@@ -638,8 +638,9 @@ namespace HotTaoMonitoring
                 }
                 return string.Empty;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                log.Error(ex);
                 return string.Empty;
             }
         }
@@ -652,9 +653,10 @@ namespace HotTaoMonitoring
         {
             try
             {
-                string filePath = System.IO.Path.Combine(Application.StartupPath, "data/cacheData/" + EncryptHelper.MD5(_toShowName + _toNickName) + ".cache");
+                string filePath = System.IO.Path.Combine(Application.StartupPath, "data\\cacheData\\" + EncryptHelper.MD5(_toShowName + _toNickName) + ".cache");                
                 if (File.Exists(filePath))
                 {
+                    log.Debug(filePath);
                     FileStream aFile = new FileStream(filePath, FileMode.Open);
                     StreamReader sr = new StreamReader(aFile);
                     string str = sr.ReadToEnd();
@@ -666,8 +668,9 @@ namespace HotTaoMonitoring
                 }
                 return string.Empty;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                log.Error(ex);
                 return string.Empty;
             }
         }
@@ -759,10 +762,6 @@ namespace HotTaoMonitoring
                 e.Handled = true;
                 isKeyControl = false;
             }
-        }
-
-        private void txtContent_KeyDown(object sender, KeyEventArgs e)
-        {
         }
 
 
