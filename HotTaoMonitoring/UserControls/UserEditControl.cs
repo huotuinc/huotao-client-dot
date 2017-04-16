@@ -113,7 +113,7 @@ namespace HotTaoMonitoring.UserControls
                     Javascript = CefState.Enabled,
                 };
                 webKitBrowser1.Location = new Point(0, 15);
-                webKitBrowser1.Size = new Size(487, 410);
+                webKitBrowser1.Size = new Size(402, 410);
                 hotWebKitBrowser.Controls.Add(webKitBrowser1);
                 LoadHtml();
             }

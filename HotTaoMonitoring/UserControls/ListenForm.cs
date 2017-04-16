@@ -282,7 +282,7 @@ namespace HotTaoMonitoring.UserControls
             {
                 NotListenWeChatData.Add(user);
                 SetContactsView(user);
-                DownLoadWeChatImage(user);
+                //DownLoadWeChatImage(user);
             }
             ListenWeChatData.ForEach(item =>
             {
@@ -360,9 +360,10 @@ namespace HotTaoMonitoring.UserControls
                         result = true;
                         item.Cells["ShowName"].Value = user.ShowName;
                         item.Cells["UserName"].Value = user.UserName;
-                        string path = GetWeChatImageFilePath(user.UserName);
-                        if (File.Exists(path))
-                            item.Cells["weChatIcon"].Value = Image.FromFile(path);
+                        //item.DefaultCellStyle.NullValue = "监控";
+                        //string path = GetWeChatImageFilePath(user.UserName);
+                        //if (File.Exists(path))
+                        //    item.Cells["weChatIcon"].Value = Image.FromFile(path);
                         break;
                     }
                 }
@@ -374,23 +375,27 @@ namespace HotTaoMonitoring.UserControls
                     dgvWeChatList.Rows[i - 1].Cells["ID"].Value = i;
                     dgvWeChatList.Rows[i - 1].Cells["ShowName"].Value = user.ShowName;
                     dgvWeChatList.Rows[i - 1].Cells["UserName"].Value = user.UserName;
-                    string path = GetWeChatImageFilePath(user.UserName);
-                    if (File.Exists(path))
-                        dgvWeChatList.Rows[i - 1].Cells["weChatIcon"].Value = Image.FromFile(path);
+                    //string path = GetWeChatImageFilePath(user.UserName);
+                    //if (File.Exists(path))
+                    //    dgvWeChatList.Rows[i - 1].Cells["weChatIcon"].Value = Image.FromFile(path);
 
-                    dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = Color.FromArgb(236, 232, 231);
-                    //if (i % 2 == 0)
-                    //{
-                    //    dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
-                    //    dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
-                    //}
-                    //else
-                    //{
-                    //    dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
-                    //    dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
-                    //}
-                    //dgvWeChatList.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
-                    //dgvWeChatList.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
+                    //dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = Color.FromArgb(236, 232, 231);
+
+                    // dgvWeChatList.Rows[i - 1].DefaultCellStyle.NullValue ="监控";
+
+
+                    if (i % 2 == 0)
+                    {
+                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                    }
+                    else
+                    {
+                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
+                    }
+                    dgvWeChatList.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
+                    dgvWeChatList.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
                 }
 
                 if (NotListenWeChatData.Exists(item => { return item.UserName == user.UserName; }))
@@ -420,24 +425,24 @@ namespace HotTaoMonitoring.UserControls
                     dgvWeChatList.Rows[i - 1].Cells["ID"].Value = i;
                     dgvWeChatList.Rows[i - 1].Cells["ShowName"].Value = user.ShowName;
                     dgvWeChatList.Rows[i - 1].Cells["UserName"].Value = user.UserName;
-                    string path = GetWeChatImageFilePath(user.UserName);
-                    if (File.Exists(path))
-                        dgvWeChatList.Rows[i - 1].Cells["weChatIcon"].Value = Image.FromFile(path);
+                    //string path = GetWeChatImageFilePath(user.UserName);
+                    //if (File.Exists(path))
+                    //    dgvWeChatList.Rows[i - 1].Cells["weChatIcon"].Value = Image.FromFile(path);
 
-                    dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = Color.FromArgb(236, 232, 231);
+                    //dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = Color.FromArgb(236, 232, 231);
 
-                    //if (i % 2 == 0)
-                    //{
-                    //    dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
-                    //    dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
-                    //}
-                    //else
-                    //{
-                    //    dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
-                    //    dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
-                    //}
-                    //dgvWeChatList.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
-                    // dgvWeChatList.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
+                    if (i % 2 == 0)
+                    {
+                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                    }
+                    else
+                    {
+                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
+                    }
+                    dgvWeChatList.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
+                    dgvWeChatList.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
                     dgvWeChatList.Rows[i - 1].DefaultCellStyle.NullValue = IsListenView ? "移除" : "监控";
                 }
             }
@@ -508,7 +513,7 @@ namespace HotTaoMonitoring.UserControls
                 {
                     mainForm.useredit = new UserEditControl(mainForm, this);
                     mainForm.useredit.Location = new Point(size.Width, 0);
-                    size.Width += 487;
+                    size.Width += 402;
                     mainForm.Size = size;
                     mainForm.Controls.Add(mainForm.useredit);
                     mainForm.useredit.isHide = false;
@@ -520,7 +525,7 @@ namespace HotTaoMonitoring.UserControls
                 if (mainForm.useredit.isHide)
                 {
                     mainForm.useredit.isHide = true;
-                    size.Width += 487;
+                    size.Width += 402;
                     mainForm.Size = size;
                 }
                 mainForm.useredit.toUserName = _msgUserName;
@@ -616,6 +621,7 @@ namespace HotTaoMonitoring.UserControls
         /// <param name="e"></param>
         private void lbTabWeChat_Click(object sender, EventArgs e)
         {
+            dgvWeChatList.Rows.Clear();
             CurrentSelectedWeChat = string.Empty;
             dgvWeChatList.ContextMenuStrip = menuStrip;
             lbTabWeChat.BackColor = Color.FromArgb(113, 113, 176);
@@ -632,6 +638,7 @@ namespace HotTaoMonitoring.UserControls
         /// <param name="e"></param>
         private void lbTabWeChatListen_Click(object sender, EventArgs e)
         {
+            dgvWeChatList.Rows.Clear();
             CurrentSelectedWeChat = string.Empty;
             dgvWeChatList.ContextMenuStrip = menuStrip1;
             lbTabWeChat.BackColor = Color.FromArgb(50, 50, 50);
@@ -736,7 +743,7 @@ namespace HotTaoMonitoring.UserControls
             if (mainForm.useredit != null && !mainForm.useredit.isHide)
             {
                 Size size = mainForm.Size;
-                size.Width -= 487;
+                size.Width -= 402;
                 mainForm.Size = size;
                 mainForm.useredit.isHide = true;
             }

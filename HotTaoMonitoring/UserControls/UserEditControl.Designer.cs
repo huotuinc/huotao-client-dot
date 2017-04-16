@@ -48,7 +48,7 @@
             this.lbTitle.ForeColor = System.Drawing.Color.Black;
             this.lbTitle.Location = new System.Drawing.Point(0, 5);
             this.lbTitle.Name = "lbTitle";
-            this.lbTitle.Size = new System.Drawing.Size(487, 44);
+            this.lbTitle.Size = new System.Drawing.Size(402, 44);
             this.lbTitle.TabIndex = 53;
             this.lbTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -57,7 +57,7 @@
             this.picClose.BackColor = System.Drawing.Color.Transparent;
             this.picClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picClose.Image = global::HotTaoMonitoring.Properties.Resources.icon_close1;
-            this.picClose.Location = new System.Drawing.Point(456, 16);
+            this.picClose.Location = new System.Drawing.Point(374, 16);
             this.picClose.Name = "picClose";
             this.picClose.Size = new System.Drawing.Size(20, 20);
             this.picClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -70,7 +70,7 @@
             this.plTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.plTop.Location = new System.Drawing.Point(0, 0);
             this.plTop.Name = "plTop";
-            this.plTop.Size = new System.Drawing.Size(484, 1);
+            this.plTop.Size = new System.Drawing.Size(404, 1);
             this.plTop.TabIndex = 56;
             // 
             // panel2
@@ -78,7 +78,7 @@
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.panel2.Location = new System.Drawing.Point(0, 53);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(487, 1);
+            this.panel2.Size = new System.Drawing.Size(400, 1);
             this.panel2.TabIndex = 56;
             // 
             // hotPanel1
@@ -88,7 +88,7 @@
             this.hotPanel1.Controls.Add(this.txtContent);
             this.hotPanel1.Location = new System.Drawing.Point(0, 556);
             this.hotPanel1.Name = "hotPanel1";
-            this.hotPanel1.Size = new System.Drawing.Size(487, 184);
+            this.hotPanel1.Size = new System.Drawing.Size(402, 184);
             this.hotPanel1.TabIndex = 55;
             // 
             // btnSend
@@ -100,7 +100,7 @@
             this.btnSend.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSend.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.btnSend.Location = new System.Drawing.Point(386, 145);
+            this.btnSend.Location = new System.Drawing.Point(302, 149);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(92, 28);
             this.btnSend.TabIndex = 50;
@@ -117,7 +117,7 @@
             this.txtContent.Margin = new System.Windows.Forms.Padding(5);
             this.txtContent.Name = "txtContent";
             this.txtContent.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.txtContent.Size = new System.Drawing.Size(472, 132);
+            this.txtContent.Size = new System.Drawing.Size(387, 132);
             this.txtContent.TabIndex = 51;
             this.txtContent.Text = "";
             this.txtContent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditForm_KeyDown);
@@ -128,7 +128,7 @@
             this.hotWebKitBrowser.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.hotWebKitBrowser.Location = new System.Drawing.Point(0, 56);
             this.hotWebKitBrowser.Name = "hotWebKitBrowser";
-            this.hotWebKitBrowser.Size = new System.Drawing.Size(487, 494);
+            this.hotWebKitBrowser.Size = new System.Drawing.Size(402, 494);
             this.hotWebKitBrowser.TabIndex = 54;
             // 
             // UserEditControl
@@ -143,7 +143,7 @@
             this.Controls.Add(this.picClose);
             this.Controls.Add(this.lbTitle);
             this.Name = "UserEditControl";
-            this.Size = new System.Drawing.Size(487, 740);
+            this.Size = new System.Drawing.Size(402, 740);
             this.Load += new System.EventHandler(this.UserEditControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).EndInit();
             this.hotPanel1.ResumeLayout(false);
