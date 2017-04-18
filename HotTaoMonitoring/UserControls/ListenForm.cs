@@ -12,11 +12,63 @@ using System.IO;
 using System.Drawing.Imaging;
 using HotCoreUtils.Helper;
 using HotTaoCore;
+using HotTaoMonitoring.Properties;
 
 namespace HotTaoMonitoring.UserControls
 {
     public partial class ListenForm : UserControl
     {
+
+
+
+
+        #region 移动窗口
+        /*
+         * 首先将窗体的边框样式修改为None，让窗体没有标题栏
+         * 实现这个效果使用了三个事件：鼠标按下、鼠标弹起、鼠标移动
+         * 鼠标按下时更改变量isMouseDown标记窗体可以随鼠标的移动而移动
+         * 鼠标移动时根据鼠标的移动量更改窗体的location属性，实现窗体移动
+         * 鼠标弹起时更改变量isMouseDown标记窗体不可以随鼠标的移动而移动
+         */
+        private bool isMouseDown = false;
+        private Point FormLocation;     //form的location
+        private Point mouseOffset;      //鼠标的按下位置
+        private void WinForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                isMouseDown = true;
+                FormLocation = mainForm.Location;
+                mouseOffset = Control.MousePosition;
+            }
+        }
+
+        private void WinForm_MouseUp(object sender, MouseEventArgs e)
+        {
+            isMouseDown = false;
+        }
+        private void WinForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            int _x = 0;
+            int _y = 0;
+            if (isMouseDown)
+            {
+                Point pt = Control.MousePosition;
+                _x = mouseOffset.X - pt.X;
+                _y = mouseOffset.Y - pt.Y;
+
+                mainForm.Location = new Point(FormLocation.X - _x, FormLocation.Y - _y);
+            }
+        }
+        #endregion
+
+
+
+
+
+
+
+
         private MainForm mainForm { get; set; }
 
         /// <summary>
@@ -43,7 +95,9 @@ namespace HotTaoMonitoring.UserControls
 
         private void ListenForm_Load(object sender, EventArgs e)
         {
+            picWeChatHead.Image = mainForm.myUserImage;
             SetContactsView(mainForm.contact_all);
+
         }
 
 
@@ -315,8 +369,8 @@ namespace HotTaoMonitoring.UserControls
                     {
                         Image data = mainForm.wxlogin.GetHeadImage(user.UserName);
                         if (data != null)
-                        {                            
-                            Bitmap img = new Bitmap(data,40,40);
+                        {
+                            Bitmap img = new Bitmap(data, 40, 40);
                             img.Save(fileName, ImageFormat.Jpeg);
                             img.Dispose();
                             img = null;
@@ -360,10 +414,6 @@ namespace HotTaoMonitoring.UserControls
                         result = true;
                         item.Cells["ShowName"].Value = user.ShowName;
                         item.Cells["UserName"].Value = user.UserName;
-                        //item.DefaultCellStyle.NullValue = "监控";
-                        //string path = GetWeChatImageFilePath(user.UserName);
-                        //if (File.Exists(path))
-                        //    item.Cells["weChatIcon"].Value = Image.FromFile(path);
                         break;
                     }
                 }
@@ -375,27 +425,9 @@ namespace HotTaoMonitoring.UserControls
                     dgvWeChatList.Rows[i - 1].Cells["ID"].Value = i;
                     dgvWeChatList.Rows[i - 1].Cells["ShowName"].Value = user.ShowName;
                     dgvWeChatList.Rows[i - 1].Cells["UserName"].Value = user.UserName;
-                    //string path = GetWeChatImageFilePath(user.UserName);
-                    //if (File.Exists(path))
-                    //    dgvWeChatList.Rows[i - 1].Cells["weChatIcon"].Value = Image.FromFile(path);
 
-                    //dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = Color.FromArgb(236, 232, 231);
-
-                    // dgvWeChatList.Rows[i - 1].DefaultCellStyle.NullValue ="监控";
-
-
-                    if (i % 2 == 0)
-                    {
-                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
-                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
-                    }
-                    else
-                    {
-                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
-                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
-                    }
-                    dgvWeChatList.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
-                    dgvWeChatList.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
+                    dgvWeChatList.Rows[i - 1].Height = 50;
+                    dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = Color.FromArgb(236, 232, 231);
                 }
 
                 if (NotListenWeChatData.Exists(item => { return item.UserName == user.UserName; }))
@@ -425,25 +457,9 @@ namespace HotTaoMonitoring.UserControls
                     dgvWeChatList.Rows[i - 1].Cells["ID"].Value = i;
                     dgvWeChatList.Rows[i - 1].Cells["ShowName"].Value = user.ShowName;
                     dgvWeChatList.Rows[i - 1].Cells["UserName"].Value = user.UserName;
-                    //string path = GetWeChatImageFilePath(user.UserName);
-                    //if (File.Exists(path))
-                    //    dgvWeChatList.Rows[i - 1].Cells["weChatIcon"].Value = Image.FromFile(path);
-
-                    //dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = Color.FromArgb(236, 232, 231);
-
-                    if (i % 2 == 0)
-                    {
-                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
-                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
-                    }
-                    else
-                    {
-                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
-                        dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
-                    }
-                    dgvWeChatList.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
-                    dgvWeChatList.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
-                    dgvWeChatList.Rows[i - 1].DefaultCellStyle.NullValue = IsListenView ? "移除" : "监控";
+                    dgvWeChatList.Rows[i - 1].Height = 50;
+                    dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = Color.FromArgb(236, 232, 231);// ConstConfig.DataGridViewOddRowBackColor;                    
+                    dgvWeChatList.Rows[i - 1].Cells["editListen"].Value = IsListenView ? Resources.icon_delete : Resources.icon_add;
                 }
             }
         }
@@ -621,14 +637,17 @@ namespace HotTaoMonitoring.UserControls
         /// <param name="e"></param>
         private void lbTabWeChat_Click(object sender, EventArgs e)
         {
-            dgvWeChatList.Rows.Clear();
-            CurrentSelectedWeChat = string.Empty;
-            dgvWeChatList.ContextMenuStrip = menuStrip;
-            lbTabWeChat.BackColor = Color.FromArgb(113, 113, 176);
-            lbTabWeChatListen.BackColor = Color.FromArgb(50, 50, 50);
-            if (NotListenWeChatData == null) NotListenWeChatData = new List<WXUser>();
-            IsListenView = false;
-            SetContactsView(NotListenWeChatData);
+            if (IsListenView)
+            {
+                dgvWeChatList.Rows.Clear();
+                CurrentSelectedWeChat = string.Empty;
+                dgvWeChatList.ContextMenuStrip = menuStrip;
+                lbTabWeChat.BackColor = Color.FromArgb(113, 113, 176);
+                lbTabWeChatListen.BackColor = Color.FromArgb(50, 50, 50);
+                if (NotListenWeChatData == null) NotListenWeChatData = new List<WXUser>();
+                IsListenView = false;
+                SetContactsView(NotListenWeChatData);
+            }
         }
 
         /// <summary>
@@ -638,20 +657,20 @@ namespace HotTaoMonitoring.UserControls
         /// <param name="e"></param>
         private void lbTabWeChatListen_Click(object sender, EventArgs e)
         {
-            dgvWeChatList.Rows.Clear();
+            if (!IsListenView)
+            {
+                dgvWeChatList.Rows.Clear();
+                dgvWeChatList.ContextMenuStrip = menuStrip1;
+                lbTabWeChat.BackColor = Color.FromArgb(50, 50, 50);
+                lbTabWeChatListen.BackColor = Color.FromArgb(113, 113, 176);
+                if (ListenWeChatData == null) ListenWeChatData = new List<WXUser>();
+                IsListenView = true;
+                SetContactsView(ListenWeChatData);
+
+            }
             CurrentSelectedWeChat = string.Empty;
-            dgvWeChatList.ContextMenuStrip = menuStrip1;
-            lbTabWeChat.BackColor = Color.FromArgb(50, 50, 50);
-            lbTabWeChatListen.BackColor = Color.FromArgb(113, 113, 176);
-            if (ListenWeChatData == null) ListenWeChatData = new List<WXUser>();
-            IsListenView = true;
-            SetContactsView(ListenWeChatData);
-            SetDataContentView(wxMessageData);
             lbMsgTitle.Text = "全部 消息列表";
-            // if (mainForm.useredit != null && !mainForm.useredit.isHide)
-            // {
-            //  HileWinEdit();
-            //}
+            SetDataContentView(wxMessageData);
 
         }
 
@@ -756,6 +775,29 @@ namespace HotTaoMonitoring.UserControls
                 e.Handled = true;
                 var data = !IsListenView ? NotListenWeChatData.FindAll(item => { return item.ShowName.Contains(txtSearch.Text); }) : ListenWeChatData.FindAll(item => { return item.ShowName.Contains(txtSearch.Text); });
                 SetContactsView(data);
+            }
+        }
+
+        /// <summary>
+        /// 我的信息窗口
+        /// </summary>
+        /// <value>My information.</value>
+        public MyInfoForm myInfo { get; set; }
+        private void picWeChatHead_Click(object sender, EventArgs e)
+        {
+            if (myInfo == null)
+            {
+                RECT rect = new RECT();
+                WinApi.GetWindowRect(picWeChatHead.Handle, ref rect);
+                myInfo = new MyInfoForm(mainForm);
+                myInfo.Location = new Point(rect.Right - (rect.Right - rect.Left) / 2, rect.Bottom - (rect.Bottom - rect.Top) / 2);
+                myInfo.SetData(mainForm.myUserNickName, mainForm.myUserImage);
+                myInfo.Show(this);
+            }
+            else
+            {
+                myInfo.Close();
+                myInfo = null;
             }
         }
     }

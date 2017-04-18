@@ -838,7 +838,7 @@ namespace HotTao.Controls
 
                     this.dgvData.Rows.RemoveAt(cells[0].RowIndex);
 
-                    ShowAlert("删除成功");
+                    //ShowAlert("删除成功");
                 };
                 confirm.ShowDialog(this);
             }
@@ -1321,10 +1321,10 @@ namespace HotTao.Controls
         }
 
         /// <summary>
-        ///启动计划
+        /// 启动计划
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         private void btnStartTask_Click(object sender, EventArgs e)
         {
             bool isOK = false;

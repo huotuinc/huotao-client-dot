@@ -228,7 +228,10 @@ namespace HotTaoMonitoring
                         {
                             loginSuccess = true;
                             isLogining = false;
-
+                            this.BeginInvoke((Action)(delegate ()  //等待结束
+                            {
+                                lbTipMsg.Text = "登录成功，请稍后...";
+                            }));
                             if (data != null)
                             {
                                 MyUserInfo my = new MyUserInfo();
@@ -243,7 +246,7 @@ namespace HotTaoMonitoring
                             }
                             this.BeginInvoke((Action)(delegate ()  //等待结束
                             {
-                                lbTipMsg.Text = "登录成功，请稍后...";
+
                                 this.Hide();
                                 MainForm main = new MainForm(this);
                                 main.StartPosition = FormStartPosition.CenterScreen;
@@ -269,7 +272,7 @@ namespace HotTaoMonitoring
                     {
                         this.BeginInvoke((Action)(delegate ()  //等待结束
                         {
-                            string t = "";
+                            string t = "登录中，请稍后";
                             if (c == 1)
                                 t = "登录中，请稍后.";
                             else if (c == 2)
@@ -285,6 +288,7 @@ namespace HotTaoMonitoring
                         c++;
                         System.Threading.Thread.Sleep(1000);
                     }
+
                 })).BeginInvoke(null, null);
 
             }
@@ -364,7 +368,131 @@ namespace HotTaoMonitoring
             }
         }
 
+        /// <summary>
+        /// 显示注册
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="LinkLabelLinkClickedEventArgs"/> instance containing the event data.</param>
+        private void lkbRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            hotPanelRegister.Visible = true;
+        }
+        /// <summary>
+        /// 返回登录
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="LinkLabelLinkClickedEventArgs"/> instance containing the event data.</param>
+        private void lkbLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            hotPanelRegister.Visible = false;
+        }
 
+        private void lbRegisterMobile_Click(object sender, EventArgs e)
+        {
+            txtRegisterMobile.Focus();
+        }
+
+        private void lbRegisterPwd_Click(object sender, EventArgs e)
+        {
+            txtRegisterPwd.Focus();
+        }
+
+        private void lbVerifyCode_Click(object sender, EventArgs e)
+        {
+            txtRegisterVerifyCode.Focus();
+        }
+
+        private void txtRegisterMobile_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtRegisterMobile.Text))
+                lbRegisterMobile.Visible = false;
+            else
+                lbRegisterMobile.Visible = true;
+        }
+
+        private void txtRegisterPwd_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtRegisterPwd.Text))
+                lbRegisterPwd.Visible = false;
+            else
+                lbRegisterPwd.Visible = true;
+        }
+
+        private void txtRegisterVerifyCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtRegisterVerifyCode.Text))
+                lbVerifyCode.Visible = false;
+            else
+                lbVerifyCode.Visible = true;
+        }
+
+        /// <summary>
+        /// 获取验证码
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnGetVerifyCode_Click(object sender, EventArgs e)
+        {
+            //获取
+        }
+
+        /// <summary>
+        /// 注册
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtRegisterMobile.Text.Trim()) || txtRegisterMobile.Text.Trim().Length != 11)
+            {
+                ShowAlert("请输入手机号码");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(txtRegisterPwd.Text.Trim()))
+            {
+                ShowAlert("请输入登录密码");
+                return;
+            }
+            if (string.IsNullOrEmpty(txtRegisterVerifyCode.Text.Trim()))
+            {
+                ShowAlert("请输入验证码");
+                return;
+            }
+
+
+        }
+
+        /// <summary>
+        /// 数字
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
+        private void TextBoxNumber_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox t = sender as TextBox;
+            if (!Char.IsNumber(e.KeyChar) && !Char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;//消除不合适字符  
+            }
+        }
+
+        /// <summary>
+        /// 显示弹出框
+        /// </summary>
+        /// <param name="text">The text.</param>
+        public void ShowAlert(string text)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string>(ShowAlert), new object[] { text });
+            }
+            else
+            {
+                MessageAlert alert = new MessageAlert(text);
+                alert.ShowDialog(this);
+            }
+        }
 
     }
 }

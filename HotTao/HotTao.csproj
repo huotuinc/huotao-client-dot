@@ -155,9 +155,6 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="UIAutomationProvider" />
-    <Reference Include="WeChatHttpCore">
-      <HintPath>..\lib\WeChatHttpCore.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
@@ -528,6 +525,10 @@
     <ProjectReference Include="..\TBSync\TBSync.csproj">
       <Project>{5de10b73-bf0a-419f-9dc3-ad4f54fb9d8f}</Project>
       <Name>TBSync</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WwChatHttpCore\WeChatHttpCore.csproj">
+      <Project>{2ceadef4-de9e-4e93-a1a1-1849d6781bd5}</Project>
+      <Name>WeChatHttpCore</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

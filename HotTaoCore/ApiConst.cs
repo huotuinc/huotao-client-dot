@@ -221,6 +221,15 @@ namespace HotTaoCore
         public const string buildShortUrl = "/api/buildShortUrl";
 
 
+        /// <summary>
+        /// 激活软件接口
+        /// </summary>
+        public const string activeAccount = "/huotao/active";
+
+        /// <summary>
+        /// 发送短信验证码
+        /// </summary>
+        public const string sendCodeForRegistger = "/huotao/sendCodeForRegistger";
         #endregion
     }
 }

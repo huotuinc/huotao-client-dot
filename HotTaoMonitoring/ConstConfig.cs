@@ -36,7 +36,7 @@ namespace HotTaoMonitoring
         /// <summary>
         /// 头部颜色
         /// </summary>
-        public static Color HeaderBackColor = Color.FromArgb(107, 108, 172);
+        public static Color HeaderBackColor = Color.FromArgb(113, 113, 176);
 
         #endregion
 

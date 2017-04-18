@@ -52,12 +52,14 @@ namespace HotTaoCore.Logic
         }
 
 
-        public UserModel Register(string loginName, string loginPwd, string verifyCode, Action<ResultModel> error = null)
+        public UserModel Register(string loginName, string loginPwd, string verifyCode, Action<ResultModel> error = null, string code = "")
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["username"] = loginName;
             data["password"] = loginPwd;
             data["verifycode"] = verifyCode;
+            if (!string.IsNullOrEmpty(code))
+                data["code"] = code;
             var userData = BaseRequestService.Post<UserModel>(ApiConst.register, data, (err) =>
             {
                 error?.Invoke(err);
@@ -68,6 +70,23 @@ namespace HotTaoCore.Logic
             }
             return null;
         }
+
+        /// <summary>
+        /// 发送短信
+        /// </summary>
+        /// <param name="mobile">The mobile.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool sendCodeForRegistger(string mobile)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["mobile"] = mobile;
+            return BaseRequestService.Post(ApiConst.register, data);
+        }
+
+
+
+
+
         /// <summary>
         /// 根据登录token获取用户信息
         /// </summary>

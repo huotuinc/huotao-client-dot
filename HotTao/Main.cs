@@ -109,32 +109,6 @@ namespace HotTao
 
             InitBrowser("");
             openControl(new LoginControl(this));
-            //try
-            //{
-            //    CheckAutoLogin(this, user =>
-            //     {
-            //         if (LoadingShow != null)
-            //             LoadingShow.CloseForm();
-            //         if (user != null)
-            //         {
-            //             SetLoginData(user);
-            //             ReloadBrowser(user.loginToken);
-            //             openControl(new GoodsControl(this));
-            //         }
-            //         else
-            //             openControl(new LoginControl(this));
-            //     });
-            //}
-            //catch (Exception ex)
-            //{
-            //    log.Error(ex);
-            //    MessageAlert alert = new MessageAlert("系统初始化失败");
-            //    alert.CallBack += () =>
-            //    {
-            //        this.Close();
-            //    };
-            //    alert.ShowDialog(this);
-            //}
 
         }
 
@@ -593,11 +567,6 @@ namespace HotTao
 
 
         public Loading LoadingShow { get; set; }
-        //public Loading LoadingShow()
-        //{
-        //    Loading ld = new Loading();            
-        //    return ld;
-        //}
 
         private void Main_Shown(object sender, EventArgs e)
         {

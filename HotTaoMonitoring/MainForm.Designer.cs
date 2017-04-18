@@ -30,81 +30,119 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.label5 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.bgPanel = new System.Windows.Forms.Panel();
-            this.lbTitle = new System.Windows.Forms.Label();
+            this.lbSet = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.lbListen = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.lbWeChatNickName = new System.Windows.Forms.Label();
             this.picWeChatHead = new System.Windows.Forms.PictureBox();
             this.picMin = new System.Windows.Forms.PictureBox();
             this.pbClose = new System.Windows.Forms.PictureBox();
             this.rightContainer = new HotTaoMonitoring.module.HotPanel(this.components);
+            this.label1 = new System.Windows.Forms.Label();
             this.bgPanel.SuspendLayout();
+            this.lbSet.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.lbListen.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picWeChatHead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
             this.SuspendLayout();
             // 
-            // label5
-            // 
-            this.label5.BackColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(206, 18);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(90, 45);
-            this.label5.TabIndex = 1;
-            this.label5.Tag = "2";
-            this.label5.Text = "微信监控";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label5.Visible = false;
-            this.label5.Click += new System.EventHandler(this.Tab_Selected_Click);
-            this.label5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CloseMyInfoForm);
-            // 
-            // label1
-            // 
-            this.label1.BackColor = System.Drawing.Color.Silver;
-            this.label1.Location = new System.Drawing.Point(296, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 45);
-            this.label1.TabIndex = 1;
-            this.label1.Tag = "1";
-            this.label1.Text = "基本配置";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label1.Visible = false;
-            this.label1.Click += new System.EventHandler(this.Tab_Selected_Click);
-            this.label1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CloseMyInfoForm);
-            // 
             // bgPanel
             // 
             this.bgPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(113)))), ((int)(((byte)(176)))));
-            this.bgPanel.Controls.Add(this.lbTitle);
+            this.bgPanel.Controls.Add(this.label1);
+            this.bgPanel.Controls.Add(this.lbSet);
+            this.bgPanel.Controls.Add(this.lbListen);
             this.bgPanel.Controls.Add(this.label2);
             this.bgPanel.Controls.Add(this.picWeChatHead);
-            this.bgPanel.Controls.Add(this.label5);
-            this.bgPanel.Controls.Add(this.lbWeChatNickName);
-            this.bgPanel.Controls.Add(this.label1);
             this.bgPanel.Controls.Add(this.picMin);
             this.bgPanel.Controls.Add(this.pbClose);
             this.bgPanel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.bgPanel.Location = new System.Drawing.Point(0, 0);
             this.bgPanel.Name = "bgPanel";
-            this.bgPanel.Size = new System.Drawing.Size(950, 76);
+            this.bgPanel.Size = new System.Drawing.Size(950, 103);
             this.bgPanel.TabIndex = 22;
             this.bgPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CloseMyInfoForm);
             this.bgPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
             this.bgPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
             this.bgPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
             // 
-            // lbTitle
+            // lbSet
             // 
-            this.lbTitle.AutoSize = true;
-            this.lbTitle.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbTitle.ForeColor = System.Drawing.Color.White;
-            this.lbTitle.Location = new System.Drawing.Point(73, 27);
-            this.lbTitle.Name = "lbTitle";
-            this.lbTitle.Size = new System.Drawing.Size(104, 16);
-            this.lbTitle.TabIndex = 6;
-            this.lbTitle.Text = "火淘客服系统";
+            this.lbSet.BackColor = System.Drawing.Color.Transparent;
+            this.lbSet.Controls.Add(this.label4);
+            this.lbSet.Controls.Add(this.pictureBox2);
+            this.lbSet.Location = new System.Drawing.Point(96, 0);
+            this.lbSet.Name = "lbSet";
+            this.lbSet.Size = new System.Drawing.Size(93, 103);
+            this.lbSet.TabIndex = 9;
+            this.lbSet.Tag = "1";
+            this.lbSet.Click += new System.EventHandler(this.Tab_Selected_Click);
+            // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(0, 69);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(93, 20);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "基本配置";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label4.Click += new System.EventHandler(this.Tab_Selected_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::HotTaoMonitoring.Properties.Resources.icon_set;
+            this.pictureBox2.Location = new System.Drawing.Point(22, 18);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(48, 48);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 0;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.Tab_Selected_Click);
+            // 
+            // lbListen
+            // 
+            this.lbListen.BackColor = System.Drawing.Color.Transparent;
+            this.lbListen.BackgroundImage = global::HotTaoMonitoring.Properties.Resources.icon_bg;
+            this.lbListen.Controls.Add(this.label3);
+            this.lbListen.Controls.Add(this.pictureBox1);
+            this.lbListen.Location = new System.Drawing.Point(2, 0);
+            this.lbListen.Name = "lbListen";
+            this.lbListen.Size = new System.Drawing.Size(93, 103);
+            this.lbListen.TabIndex = 9;
+            this.lbListen.Tag = "2";
+            this.lbListen.Click += new System.EventHandler(this.Tab_Selected_Click);
+            // 
+            // label3
+            // 
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(0, 69);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(93, 20);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "微信监控";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label3.Click += new System.EventHandler(this.Tab_Selected_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::HotTaoMonitoring.Properties.Resources.icon_jk;
+            this.pictureBox1.Location = new System.Drawing.Point(22, 18);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(48, 48);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.Tab_Selected_Click);
             // 
             // label2
             // 
@@ -114,26 +152,15 @@
             this.label2.Size = new System.Drawing.Size(0, 12);
             this.label2.TabIndex = 8;
             // 
-            // lbWeChatNickName
-            // 
-            this.lbWeChatNickName.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbWeChatNickName.ForeColor = System.Drawing.Color.Crimson;
-            this.lbWeChatNickName.Location = new System.Drawing.Point(120, 29);
-            this.lbWeChatNickName.Name = "lbWeChatNickName";
-            this.lbWeChatNickName.Size = new System.Drawing.Size(113, 16);
-            this.lbWeChatNickName.TabIndex = 6;
-            this.lbWeChatNickName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lbWeChatNickName.Visible = false;
-            // 
             // picWeChatHead
             // 
-            this.picWeChatHead.Location = new System.Drawing.Point(9, 8);
+            this.picWeChatHead.Image = global::HotTaoMonitoring.Properties.Resources.logo;
+            this.picWeChatHead.Location = new System.Drawing.Point(878, 37);
             this.picWeChatHead.Name = "picWeChatHead";
             this.picWeChatHead.Size = new System.Drawing.Size(60, 60);
-            this.picWeChatHead.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picWeChatHead.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picWeChatHead.TabIndex = 7;
             this.picWeChatHead.TabStop = false;
-            this.picWeChatHead.Click += new System.EventHandler(this.picWeChatHead_Click);
             // 
             // picMin
             // 
@@ -163,11 +190,22 @@
             // 
             this.rightContainer.BackColor = System.Drawing.Color.White;
             this.rightContainer.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.rightContainer.Location = new System.Drawing.Point(0, 76);
+            this.rightContainer.Location = new System.Drawing.Point(0, 103);
             this.rightContainer.Name = "rightContainer";
-            this.rightContainer.Size = new System.Drawing.Size(950, 664);
+            this.rightContainer.Size = new System.Drawing.Size(950, 637);
             this.rightContainer.TabIndex = 23;
             this.rightContainer.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CloseMyInfoForm);
+            // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("黑体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(746, 36);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(127, 63);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "火淘客服";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 
@@ -181,10 +219,13 @@
             this.KeyPreview = true;
             this.Name = "MainForm";
             this.Text = "火淘客服系统";
-            this.Activated += new System.EventHandler(this.MainForm_Activated);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.bgPanel.ResumeLayout(false);
             this.bgPanel.PerformLayout();
+            this.lbSet.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.lbListen.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picWeChatHead)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
@@ -193,15 +234,18 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel bgPanel;
-        private System.Windows.Forms.Label lbTitle;
         private System.Windows.Forms.PictureBox pbClose;
         private System.Windows.Forms.PictureBox picMin;
-        private System.Windows.Forms.Label label5;
         private module.HotPanel rightContainer;
         private System.Windows.Forms.PictureBox picWeChatHead;
-        private System.Windows.Forms.Label lbWeChatNickName;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel lbListen;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel lbSet;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label1;
     }
 }

@@ -35,11 +35,10 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolsRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsAllListen = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,23 +60,29 @@
             this.menuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolsClearListen = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.picWeChatHead = new System.Windows.Forms.PictureBox();
             this.hotPanelWeChatList = new HotTaoMonitoring.module.HotPanel(this.components);
             this.hotPanelSearch = new HotTaoMonitoring.module.HotPanel(this.components);
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.txtSearch = new System.Windows.Forms.RichTextBox();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.dgvWeChatList = new System.Windows.Forms.DataGridView();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.weChatIcon = new System.Windows.Forms.DataGridViewImageColumn();
             this.ShowName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.editListen = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.editListen = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataContent)).BeginInit();
             this.panel2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picWeChatHead)).BeginInit();
             this.hotPanelWeChatList.SuspendLayout();
             this.hotPanelSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWeChatList)).BeginInit();
             this.SuspendLayout();
             // 
@@ -127,7 +132,7 @@
             this.MsgUserName,
             this.edit});
             this.dataContent.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.dataContent.Location = new System.Drawing.Point(315, 53);
+            this.dataContent.Location = new System.Drawing.Point(316, 53);
             this.dataContent.MultiSelect = false;
             this.dataContent.Name = "dataContent";
             this.dataContent.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -146,7 +151,7 @@
             this.dataContent.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dataContent.RowTemplate.Height = 23;
             this.dataContent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataContent.Size = new System.Drawing.Size(635, 610);
+            this.dataContent.Size = new System.Drawing.Size(632, 581);
             this.dataContent.TabIndex = 11;
             this.dataContent.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataContent_CellClick);
             this.dataContent.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CloseMyInfoForm);
@@ -236,12 +241,12 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(231)))));
             this.panel2.Controls.Add(this.lbMsgTitle);
             this.panel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.panel2.Location = new System.Drawing.Point(313, 0);
+            this.panel2.Location = new System.Drawing.Point(314, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(637, 52);
+            this.panel2.Size = new System.Drawing.Size(636, 52);
             this.panel2.TabIndex = 13;
             // 
             // lbMsgTitle
@@ -259,7 +264,7 @@
             this.lbTabWeChat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(113)))), ((int)(((byte)(176)))));
             this.lbTabWeChat.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lbTabWeChat.ForeColor = System.Drawing.Color.White;
-            this.lbTabWeChat.Location = new System.Drawing.Point(0, 35);
+            this.lbTabWeChat.Location = new System.Drawing.Point(0, 70);
             this.lbTabWeChat.Name = "lbTabWeChat";
             this.lbTabWeChat.Size = new System.Drawing.Size(77, 60);
             this.lbTabWeChat.TabIndex = 14;
@@ -272,7 +277,7 @@
             this.lbTabWeChatListen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.lbTabWeChatListen.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lbTabWeChatListen.ForeColor = System.Drawing.Color.White;
-            this.lbTabWeChatListen.Location = new System.Drawing.Point(0, 95);
+            this.lbTabWeChatListen.Location = new System.Drawing.Point(0, 130);
             this.lbTabWeChatListen.Name = "lbTabWeChatListen";
             this.lbTabWeChatListen.Size = new System.Drawing.Size(77, 60);
             this.lbTabWeChatListen.TabIndex = 14;
@@ -297,26 +302,34 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panel1.Controls.Add(this.picWeChatHead);
             this.panel1.Controls.Add(this.lbTabWeChat);
             this.panel1.Controls.Add(this.lbTabWeChatListen);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(77, 664);
+            this.panel1.Size = new System.Drawing.Size(77, 637);
             this.panel1.TabIndex = 15;
             this.panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CloseMyInfoForm);
+            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
+            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
+            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
             // 
-            // dataGridViewImageColumn1
+            // picWeChatHead
             // 
-            this.dataGridViewImageColumn1.HeaderText = "weChatIcon";
-            this.dataGridViewImageColumn1.Image = global::HotTaoMonitoring.Properties.Resources._default;
-            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            this.dataGridViewImageColumn1.ReadOnly = true;
+            this.picWeChatHead.Location = new System.Drawing.Point(15, 10);
+            this.picWeChatHead.Name = "picWeChatHead";
+            this.picWeChatHead.Size = new System.Drawing.Size(50, 50);
+            this.picWeChatHead.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picWeChatHead.TabIndex = 15;
+            this.picWeChatHead.TabStop = false;
+            this.picWeChatHead.Click += new System.EventHandler(this.picWeChatHead_Click);
             // 
             // hotPanelWeChatList
             // 
-            this.hotPanelWeChatList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.hotPanelWeChatList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(231)))));
             this.hotPanelWeChatList.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.hotPanelWeChatList.Controls.Add(this.hotPanelSearch);
+            this.hotPanelWeChatList.Controls.Add(this.panel3);
             this.hotPanelWeChatList.Controls.Add(this.dgvWeChatList);
             this.hotPanelWeChatList.Location = new System.Drawing.Point(77, 0);
             this.hotPanelWeChatList.Name = "hotPanelWeChatList";
@@ -327,26 +340,45 @@
             // 
             this.hotPanelSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
             this.hotPanelSearch.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanelSearch.Controls.Add(this.pictureBox1);
             this.hotPanelSearch.Controls.Add(this.txtSearch);
-            this.hotPanelSearch.Location = new System.Drawing.Point(9, 9);
+            this.hotPanelSearch.Location = new System.Drawing.Point(9, 12);
             this.hotPanelSearch.Name = "hotPanelSearch";
             this.hotPanelSearch.Size = new System.Drawing.Size(217, 27);
             this.hotPanelSearch.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::HotTaoMonitoring.Properties.Resources.icon_search;
+            this.pictureBox1.Location = new System.Drawing.Point(5, 6);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(16, 17);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 28;
+            this.pictureBox1.TabStop = false;
             // 
             // txtSearch
             // 
             this.txtSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
             this.txtSearch.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            this.txtSearch.Location = new System.Drawing.Point(1, 7);
+            this.txtSearch.Location = new System.Drawing.Point(24, 7);
             this.txtSearch.Multiline = false;
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.txtSearch.Size = new System.Drawing.Size(214, 18);
+            this.txtSearch.Size = new System.Drawing.Size(188, 18);
             this.txtSearch.TabIndex = 27;
             this.txtSearch.Text = "";
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
+            // 
+            // panel3
+            // 
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(233, 55);
+            this.panel3.TabIndex = 17;
             // 
             // dgvWeChatList
             // 
@@ -354,9 +386,9 @@
             this.dgvWeChatList.AllowUserToDeleteRows = false;
             this.dgvWeChatList.AllowUserToResizeColumns = false;
             this.dgvWeChatList.AllowUserToResizeRows = false;
-            this.dgvWeChatList.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.dgvWeChatList.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(231)))));
             this.dgvWeChatList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgvWeChatList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dgvWeChatList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.RaisedHorizontal;
             this.dgvWeChatList.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgvWeChatList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvWeChatList.ColumnHeadersVisible = false;
@@ -367,27 +399,28 @@
             this.UserName,
             this.editListen});
             this.dgvWeChatList.ContextMenuStrip = this.menuStrip;
-            this.dgvWeChatList.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.dgvWeChatList.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(231)))));
             this.dgvWeChatList.Location = new System.Drawing.Point(3, 53);
             this.dgvWeChatList.MultiSelect = false;
             this.dgvWeChatList.Name = "dgvWeChatList";
             this.dgvWeChatList.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.InfoText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvWeChatList.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.InfoText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvWeChatList.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.dgvWeChatList.RowHeadersVisible = false;
             this.dgvWeChatList.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvWeChatList.RowsDefaultCellStyle = dataGridViewCellStyle11;
-            this.dgvWeChatList.RowTemplate.Height = 61;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(231)))));
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvWeChatList.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            this.dgvWeChatList.RowTemplate.Height = 50;
             this.dgvWeChatList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvWeChatList.Size = new System.Drawing.Size(231, 608);
+            this.dgvWeChatList.Size = new System.Drawing.Size(231, 581);
             this.dgvWeChatList.TabIndex = 11;
             this.dgvWeChatList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvWeChatList_CellClick);
             this.dgvWeChatList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CloseMyInfoForm);
@@ -431,26 +464,42 @@
             // 
             // editListen
             // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.NullValue = "监控";
-            this.editListen.DefaultCellStyle = dataGridViewCellStyle9;
             this.editListen.HeaderText = "editListen";
+            this.editListen.Image = global::HotTaoMonitoring.Properties.Resources.icon_add;
             this.editListen.Name = "editListen";
             this.editListen.ReadOnly = true;
-            this.editListen.VisitedLinkColor = System.Drawing.Color.Blue;
+            this.editListen.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.editListen.Width = 40;
+            // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.HeaderText = "weChatIcon";
+            this.dataGridViewImageColumn1.Image = global::HotTaoMonitoring.Properties.Resources._default;
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.ReadOnly = true;
+            this.dataGridViewImageColumn1.Visible = false;
+            this.dataGridViewImageColumn1.Width = 50;
+            // 
+            // dataGridViewImageColumn2
+            // 
+            this.dataGridViewImageColumn2.HeaderText = "editListen";
+            this.dataGridViewImageColumn2.Image = global::HotTaoMonitoring.Properties.Resources.icon_add;
+            this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
+            this.dataGridViewImageColumn2.ReadOnly = true;
+            this.dataGridViewImageColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewImageColumn2.Width = 40;
             // 
             // ListenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.hotPanelWeChatList);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.panel2);
             this.Controls.Add(this.dataContent);
             this.Name = "ListenForm";
-            this.Size = new System.Drawing.Size(950, 664);
+            this.Size = new System.Drawing.Size(950, 637);
             this.Load += new System.EventHandler(this.ListenForm_Load);
             this.menuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataContent)).EndInit();
@@ -458,8 +507,10 @@
             this.panel2.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picWeChatHead)).EndInit();
             this.hotPanelWeChatList.ResumeLayout(false);
             this.hotPanelSearch.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWeChatList)).EndInit();
             this.ResumeLayout(false);
 
@@ -493,10 +544,14 @@
         private module.HotPanel hotPanelWeChatList;
         private module.HotPanel hotPanelSearch;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewImageColumn weChatIcon;
         private System.Windows.Forms.DataGridViewTextBoxColumn ShowName;
         private System.Windows.Forms.DataGridViewTextBoxColumn UserName;
-        private System.Windows.Forms.DataGridViewLinkColumn editListen;
+        private System.Windows.Forms.DataGridViewImageColumn editListen;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
+        private System.Windows.Forms.PictureBox picWeChatHead;
     }
 }

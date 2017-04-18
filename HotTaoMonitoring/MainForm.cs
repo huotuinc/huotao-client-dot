@@ -37,19 +37,11 @@ namespace HotTaoMonitoring
                 FormLocation = this.Location;
                 mouseOffset = Control.MousePosition;
             }
-            //if (useredit != null)
-            //{
-            //    useredit.WinForm_MouseDown(sender, e);
-            //}
         }
 
         private void WinForm_MouseUp(object sender, MouseEventArgs e)
         {
             isMouseDown = false;
-            //if (editForm != null)
-            //{
-            //    editForm.WinForm_MouseUp(sender, e);
-            //}
         }
         private void WinForm_MouseMove(object sender, MouseEventArgs e)
         {
@@ -63,10 +55,6 @@ namespace HotTaoMonitoring
 
                 this.Location = new Point(FormLocation.X - _x, FormLocation.Y - _y);
             }
-            //if (editForm != null)
-            //{
-            //    editForm.WinForm_MouseMove(sender, e);
-            //}
         }
         #endregion
 
@@ -108,7 +96,7 @@ namespace HotTaoMonitoring
         public UserEditControl useredit { get; set; }
 
 
-        //        public EditForm editForm { get; set; }
+
         /// <summary>
         /// 我的信息窗口
         /// </summary>
@@ -148,13 +136,12 @@ namespace HotTaoMonitoring
                     rightContainer.Controls.Clear();
                     if (opt == UserControlsOpts.listen)
                     {
-                        label5.BackColor = Color.White;
-                        label1.BackColor = Color.Silver;
+
+                        SetListenBg();
                     }
                     else
                     {
-                        label5.BackColor = Color.Silver;
-                        label1.BackColor = Color.White;
+                        SetSetBg();
                     }
 
                     this.rightContainer.Controls.Add(control);
@@ -212,9 +199,28 @@ namespace HotTaoMonitoring
                 windowFormControls.Add(opt, listenForm);
             }
 
-            label1.BackColor = Color.Silver;
-            label5.BackColor = Color.White;
+            SetListenBg();
         }
+
+
+        private void SetListenBg()
+        {
+            lbListen.BackgroundImage = Properties.Resources.icon_bg;
+            lbListen.BackColor = Color.Transparent;
+
+            lbSet.BackColor = ConstConfig.HeaderBackColor;
+            lbSet.BackgroundImage = null;
+        }
+
+        private void SetSetBg()
+        {
+            lbListen.BackgroundImage = null;
+            lbListen.BackColor = ConstConfig.HeaderBackColor;
+
+            lbSet.BackgroundImage = Properties.Resources.icon_bg;
+            lbSet.BackColor = Color.Transparent;
+        }
+
 
 
         /// <summary>
@@ -223,7 +229,16 @@ namespace HotTaoMonitoring
         /// <param name="text">The text.</param>
         public void AlertTip(string text)
         {
-            MessageBox.Show(text, "提示");
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string>(AlertTip), new object[] { text });
+            }
+            else
+            {
+                MessageAlert alert = new MessageAlert(text, "提示");
+                alert.StartPosition = FormStartPosition.CenterScreen;
+                alert.Show();
+            }
         }
 
 
@@ -254,6 +269,8 @@ namespace HotTaoMonitoring
             else
                 windowFormControls.Remove(UserControlsOpts.listen);
 
+            lbListen.BackColor = Color.Silver;
+            lbSet.BackColor = Color.White;
             openControl(UserControlsOpts.filter);
         }
 
@@ -267,7 +284,17 @@ namespace HotTaoMonitoring
         /// </summary>
         public void ApplicationClose()
         {
-            if (MessageBox.Show("确定要退出客服系统？", "退出提示", MessageBoxButtons.OKCancel) == DialogResult.OK)
+
+            MessageConfirm confirm = new MessageConfirm();
+            confirm.Title = "退出提示";
+            confirm.Message = "确定要退出客服系统？";
+            bool result = false;
+            confirm.CallBack += () =>
+            {
+                result = true;
+            };
+            confirm.ShowDialog(this);
+            if (result)
                 loginForm.Close();
         }
 
@@ -275,8 +302,6 @@ namespace HotTaoMonitoring
         private void picMin_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
-            //if (editForm != null)
-            //    editForm.WindowState = FormWindowState.Minimized;
         }
 
         /// <summary>
@@ -286,16 +311,39 @@ namespace HotTaoMonitoring
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Tab_Selected_Click(object sender, EventArgs e)
         {
-            Label lb = sender as Label;
+            lbListen.BackgroundImage = lbSet.BackgroundImage = null;
+            lbListen.BackColor = lbSet.BackColor = ConstConfig.HeaderBackColor;
+
+            var p1 = sender as PictureBox;
+            var p2 = sender as Label;
+            var p3 = sender as Panel;
+            string _tag = "";
+            if (p1 != null)
+            {
+                p1.Parent.BackgroundImage = Properties.Resources.icon_bg;
+                p1.Parent.BackColor = Color.Transparent;
+                _tag = p1.Parent.Tag.ToString();
+            }
+            else if (p2 != null)
+            {
+                p2.Parent.BackgroundImage = Properties.Resources.icon_bg;
+                p2.Parent.BackColor = Color.Transparent;
+                _tag = p2.Parent.Tag.ToString();
+            }
+            else if (p3 != null)
+            {
+                p3.BackgroundImage = Properties.Resources.icon_bg;
+                p3.BackColor = Color.Transparent;
+                _tag = p3.Tag.ToString();
+            }
+
             int tag = 0;
-            int.TryParse(lb.Tag.ToString(), out tag);
+            int.TryParse(_tag, out tag);
 
             switch (tag)
             {
                 case 1:
                     openControl(UserControlsOpts.filter);
-                    label5.BackColor = Color.Silver;
-                    lb.BackColor = Color.White;
                     break;
                 case 2:
                     openControl(UserControlsOpts.listen);
@@ -319,21 +367,25 @@ namespace HotTaoMonitoring
             { IsBackground = true }.Start();
         }
 
-        private void MainForm_Activated(object sender, EventArgs e)
-        {
-            //if (editForm != null && !editForm.isHide)
-            //{                
-            //    //显示窗口
-            //    WinApi.ShowWindow(editForm.Handle, WinApi.NCmdShowFlag.SW_SHOWNORMAL);
-
-            //}
-        }
 
 
 
 
 
 
+        /// <summary>
+        /// 当前登录用户头像base64字符串
+        /// </summary>
+        /// <value>My image.</value>
+        public string myImage { get; set; }
+
+        /// <summary>
+        /// 当前登录用户头像
+        /// </summary>
+        /// <value>My user image.</value>
+        public Image myUserImage { get; set; }
+
+        public string myUserNickName { get; set; }
 
         /// <summary>
         /// 设置主窗口标题
@@ -347,8 +399,8 @@ namespace HotTaoMonitoring
             }
             else
             {
-                this.Text = this.Text + "-" + title;
-                lbWeChatNickName.Text = title;
+                this.Text = this.Text + "-" + title;                
+                myUserNickName = title;
             }
         }
         /// <summary>
@@ -363,7 +415,10 @@ namespace HotTaoMonitoring
             }
             else
             {
-                picWeChatHead.Image = image;
+                //picWeChatHead.Image = image;
+                myUserImage = image;
+                if (string.IsNullOrEmpty(myImage))
+                    myImage = MyIcon();
             }
         }
 
@@ -375,7 +430,7 @@ namespace HotTaoMonitoring
                 WinApi.GetWindowRect(picWeChatHead.Handle, ref rect);
                 myInfo = new MyInfoForm(this);
                 myInfo.Location = new Point(rect.Right - (rect.Right - rect.Left) / 2, rect.Bottom - (rect.Bottom - rect.Top) / 2);
-                myInfo.SetData(lbWeChatNickName.Text, picWeChatHead.Image);
+                myInfo.SetData(myUserNickName, myUserImage);
                 myInfo.Show(this);
             }
             else
@@ -385,16 +440,18 @@ namespace HotTaoMonitoring
             }
         }
 
+
+
         /// <summary>
         /// 获取我的头像(base64)
         /// </summary>
         /// <returns>System.String.</returns>
-        public string MyIcon()
+        private string MyIcon()
         {
             try
             {
-                Image image = picWeChatHead.Image;
-                if (image != null)
+                Image image = myUserImage;
+                if (myUserImage != null)
                 {
                     MemoryStream ms = new MemoryStream();
                     image.Save(ms, ImageFormat.Jpeg);
@@ -421,7 +478,16 @@ namespace HotTaoMonitoring
         /// </summary>
         public void SwitchLogin()
         {
-            if (MessageBox.Show("是否切换客服账户？", "提示", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            MessageConfirm confirm = new MessageConfirm();
+            confirm.Title = "提示";
+            confirm.Message = "是否切换客服账户？";
+            bool result = false;
+            confirm.CallBack += () =>
+            {
+                result = true;
+            };
+            confirm.ShowDialog(this);
+            if (result)
             {
                 if (wxlogin != null)
                 {
@@ -437,14 +503,22 @@ namespace HotTaoMonitoring
 
                 loginForm.Show();
                 this.Close();
-
             }
         }
 
 
         public void SwitchWeChatLogin()
         {
-            if (MessageBox.Show("是否切换微信账户？", "提示", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            MessageConfirm confirm = new MessageConfirm();
+            confirm.Title = "提示";
+            confirm.Message = "是否切换微信账户？";
+            bool result = false;
+            confirm.CallBack += () =>
+            {
+                result = true;
+            };
+            confirm.ShowDialog(this);
+            if (result)
             {
                 if (wxlogin != null)
                 {
@@ -462,6 +536,7 @@ namespace HotTaoMonitoring
                 }
                 OpenWx();
             }
+
         }
 
 

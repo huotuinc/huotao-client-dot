@@ -154,7 +154,7 @@ namespace HotTaoMonitoring
                 }
             })).BeginInvoke(null, null);
         }
-
+       // private WXService wxs { get; set; }
         /// <summary>
         /// 微信登录初始化及同步操作
         /// </summary>
@@ -210,8 +210,8 @@ namespace HotTaoMonitoring
                                 isCloseWinForm = true;
                                 mainForm.listenForm.wxMessageData.Clear();
                                 mainForm.listenForm.ListenWeChatData.Clear();
-                                mainForm.CloseMyContact();
                                 mainForm.listenForm.HileWinEdit();
+                                mainForm.CloseMyContact();                                
                                 mainForm.AlertTip("微信掉线，请重新授权登录");
                                 break;
                             }
@@ -411,8 +411,8 @@ namespace HotTaoMonitoring
                                     //是否过滤当前用户操作
                                     if (!string.IsNullOrEmpty(nickName) && !isExist)
                                     {
-                                        WXService wxs = new WXService();
-                                        byte[] buffer = wxs.GetMsgImage(msgid);
+                                        
+                                        byte[] buffer = service.GetMsgImage(msgid);
                                         if (buffer != null)
                                         {
                                             mainForm.listenForm.SetWxMessageData(user, msgSendUser, nickName, "发了一张图片", buffer);

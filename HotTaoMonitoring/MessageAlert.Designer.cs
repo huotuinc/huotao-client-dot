@@ -1,4 +1,4 @@
-﻿namespace HotTao.Controls
+﻿namespace HotTaoMonitoring
 {
     partial class MessageAlert
     {
@@ -29,33 +29,21 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageAlert));
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.pbClose = new System.Windows.Forms.PictureBox();
-            this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
+            this.hotPanel1 = new HotTaoMonitoring.module.HotPanel(this.components);
             this.lbContent = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.lbTitle = new System.Windows.Forms.Label();
+            this.pbClose = new System.Windows.Forms.PictureBox();
             this.btnOk = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
             this.hotPanel1.SuspendLayout();
             this.panel7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pbClose
-            // 
-            this.pbClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbClose.Image = global::HotTao.Properties.Resources.icon_close;
-            this.pbClose.Location = new System.Drawing.Point(264, 7);
-            this.pbClose.Name = "pbClose";
-            this.pbClose.Size = new System.Drawing.Size(13, 13);
-            this.pbClose.TabIndex = 5;
-            this.pbClose.TabStop = false;
-            this.toolTip1.SetToolTip(this.pbClose, "关闭");
-            this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
             // 
             // hotPanel1
             // 
+            this.hotPanel1.BackColor = System.Drawing.Color.White;
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.hotPanel1.Controls.Add(this.lbContent);
             this.hotPanel1.Controls.Add(this.panel7);
@@ -64,7 +52,7 @@
             this.hotPanel1.Location = new System.Drawing.Point(0, 0);
             this.hotPanel1.Name = "hotPanel1";
             this.hotPanel1.Size = new System.Drawing.Size(284, 150);
-            this.hotPanel1.TabIndex = 10;
+            this.hotPanel1.TabIndex = 0;
             // 
             // lbContent
             // 
@@ -74,7 +62,7 @@
             this.lbContent.Location = new System.Drawing.Point(2, 34);
             this.lbContent.Name = "lbContent";
             this.lbContent.Size = new System.Drawing.Size(280, 45);
-            this.lbContent.TabIndex = 8;
+            this.lbContent.TabIndex = 11;
             this.lbContent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel7
@@ -86,7 +74,7 @@
             this.panel7.Location = new System.Drawing.Point(0, 0);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(284, 28);
-            this.panel7.TabIndex = 7;
+            this.panel7.TabIndex = 10;
             this.panel7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
             this.panel7.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
             this.panel7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
@@ -95,11 +83,23 @@
             // 
             this.lbTitle.AutoSize = true;
             this.lbTitle.ForeColor = System.Drawing.Color.White;
-            this.lbTitle.Location = new System.Drawing.Point(7, 8);
+            this.lbTitle.Location = new System.Drawing.Point(7, 7);
             this.lbTitle.Name = "lbTitle";
             this.lbTitle.Size = new System.Drawing.Size(29, 12);
             this.lbTitle.TabIndex = 6;
             this.lbTitle.Text = "提示";
+            // 
+            // pbClose
+            // 
+            this.pbClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbClose.Image = global::HotTaoMonitoring.Properties.Resources.icon_close;
+            this.pbClose.Location = new System.Drawing.Point(264, 6);
+            this.pbClose.Name = "pbClose";
+            this.pbClose.Size = new System.Drawing.Size(13, 13);
+            this.pbClose.TabIndex = 5;
+            this.pbClose.TabStop = false;
+            this.toolTip1.SetToolTip(this.pbClose, "关闭");
+            this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
             // 
             // btnOk
             // 
@@ -116,7 +116,7 @@
             this.btnOk.Location = new System.Drawing.Point(77, 99);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(125, 32);
-            this.btnOk.TabIndex = 9;
+            this.btnOk.TabIndex = 12;
             this.btnOk.Text = "确定";
             this.btnOk.UseVisualStyleBackColor = false;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -125,34 +125,33 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(284, 150);
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "MessageAlert";
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "提示";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "MessageAlert";
             this.Load += new System.EventHandler(this.MessageAlert_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MessageAlert_KeyDown);
             this.hotPanel1.ResumeLayout(false);
             this.hotPanel1.PerformLayout();
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.PictureBox pbClose;
-        private System.Windows.Forms.Label lbContent;
-        private System.Windows.Forms.Button btnOk;
-        private System.Windows.Forms.Label lbTitle;
-        private System.Windows.Forms.ToolTip toolTip1;
         private module.HotPanel hotPanel1;
+        private System.Windows.Forms.Label lbContent;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Label lbTitle;
+        private System.Windows.Forms.PictureBox pbClose;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btnOk;
     }
 }
