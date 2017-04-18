@@ -490,12 +490,19 @@ namespace HotTao
                 if (user == null) return;
 
                 string nickName = string.Empty, msgSendUser = string.Empty, messageContent = string.Empty;
+
+
+                //获取发送者标识id;
+                int idx = content.IndexOf(":");
+                msgSendUser = content.Substring(0, idx);
+
+
                 switch (msgtype)
                 {
                     case (int)WxMsgType.文本消息:
                         //获取发送者标识id;
-                        msgSendUser = content.Split(':')[0];
-                        messageContent = content.Split(':')[1];
+                        //msgSendUser = content.Split(':')[0];
+                        messageContent = content.Substring(idx + 1);
                         //获取当前发送方的昵称
                         nickName = GetCurrentMessageUserNickName(service, msgSendUser, user.UserName);
 
@@ -510,7 +517,7 @@ namespace HotTao
                     case (int)WxMsgType.分享链接:
                     case (int)WxMsgType.共享名片:
                         //获取发送者标识id;
-                        msgSendUser = content.Split(':')[0];
+                        //msgSendUser = content.Split(':')[0];
                         //获取当前发送方的昵称
                         nickName = GetCurrentMessageUserNickName(service, msgSendUser, user.UserName);
 
