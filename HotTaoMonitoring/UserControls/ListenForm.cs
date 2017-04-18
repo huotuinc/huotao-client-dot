@@ -529,7 +529,7 @@ namespace HotTaoMonitoring.UserControls
                 {
                     mainForm.useredit = new UserEditControl(mainForm, this);
                     mainForm.useredit.Location = new Point(size.Width, 0);
-                    size.Width += 402;
+                    size.Width += mainForm.useredit.Size.Width;
                     mainForm.Size = size;
                     mainForm.Controls.Add(mainForm.useredit);
                     mainForm.useredit.isHide = false;
@@ -541,7 +541,7 @@ namespace HotTaoMonitoring.UserControls
                 if (mainForm.useredit.isHide)
                 {
                     mainForm.useredit.isHide = true;
-                    size.Width += 402;
+                    size.Width += mainForm.useredit.Size.Width; //402
                     mainForm.Size = size;
                 }
                 mainForm.useredit.toUserName = _msgUserName;
@@ -762,7 +762,7 @@ namespace HotTaoMonitoring.UserControls
             if (mainForm.useredit != null && !mainForm.useredit.isHide)
             {
                 Size size = mainForm.Size;
-                size.Width -= 402;
+                size.Width -= mainForm.useredit.Size.Width;
                 mainForm.Size = size;
                 mainForm.useredit.isHide = true;
             }
@@ -782,22 +782,22 @@ namespace HotTaoMonitoring.UserControls
         /// 我的信息窗口
         /// </summary>
         /// <value>My information.</value>
-        public MyInfoForm myInfo { get; set; }
+       // public MyInfoForm myInfo { get; set; }
         private void picWeChatHead_Click(object sender, EventArgs e)
         {
-            if (myInfo == null)
+            if (mainForm.myInfo == null)
             {
                 RECT rect = new RECT();
                 WinApi.GetWindowRect(picWeChatHead.Handle, ref rect);
-                myInfo = new MyInfoForm(mainForm);
-                myInfo.Location = new Point(rect.Right - (rect.Right - rect.Left) / 2, rect.Bottom - (rect.Bottom - rect.Top) / 2);
-                myInfo.SetData(mainForm.myUserNickName, mainForm.myUserImage);
-                myInfo.Show(this);
+                mainForm.myInfo = new MyInfoForm(mainForm);
+                mainForm.myInfo.Location = new Point(rect.Right - (rect.Right - rect.Left) / 2, rect.Bottom - (rect.Bottom - rect.Top) / 2);
+                mainForm.myInfo.SetData(mainForm.myUserNickName, mainForm.myUserImage);
+                mainForm.myInfo.Show(this);
             }
             else
             {
-                myInfo.Close();
-                myInfo = null;
+                mainForm.myInfo.Close();
+                mainForm.myInfo = null;
             }
         }
     }

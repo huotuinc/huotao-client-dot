@@ -426,6 +426,8 @@ namespace HotTaoMonitoring
                 lbVerifyCode.Visible = true;
         }
 
+        private bool isSendVerifyCode { get; set; }
+
         /// <summary>
         /// 获取验证码
         /// </summary>
@@ -433,8 +435,61 @@ namespace HotTaoMonitoring
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnGetVerifyCode_Click(object sender, EventArgs e)
         {
+            if (isSendVerifyCode) return;
+            if (string.IsNullOrEmpty(txtRegisterMobile.Text.Trim()) || txtRegisterMobile.Text.Trim().Length != 11)
+            {
+                ShowAlert("请输入手机号码");
+                return;
+            }
+
             //获取
+            if (LogicUser.Instance.sendCodeForRegistger(txtRegisterMobile.Text.Trim()))
+            {
+                isSendVerifyCode = true;
+                timeOut();
+            }
+
         }
+
+
+        private void timeOut()
+        {
+            btnGetVerifyCode.BackColor = Color.Silver;
+            new Thread(() =>
+            {
+                int s = 60;
+                ShowTime(s);
+                while (isSendVerifyCode)
+                {
+                    Thread.Sleep(1000);
+                    --s;
+                    if (s <= 0)
+                        isSendVerifyCode = false;
+                    ShowTime(s);
+                }
+            })
+            { IsBackground = true }.Start();
+        }
+
+
+        public void ShowTime(int timeout)
+        {
+            if (this.btnGetVerifyCode.InvokeRequired)
+            {
+                this.btnGetVerifyCode.Invoke(new Action<int>(ShowTime), new object[] { timeout });
+            }
+            else
+            {
+                if (timeout > 0)
+                    btnGetVerifyCode.Text = timeout.ToString() + "秒后再试";
+                else
+                {
+                    btnGetVerifyCode.Text = "获取验证码";
+                    btnGetVerifyCode.BackColor = Color.FromArgb(18, 216, 106);
+                }
+            }
+        }
+
 
         /// <summary>
         /// 注册
@@ -459,8 +514,11 @@ namespace HotTaoMonitoring
                 ShowAlert("请输入验证码");
                 return;
             }
+            
+            var userData = LogicUser.Instance.Register(txtRegisterMobile.Text.Trim(), EncryptHelper.MD5(txtRegisterPwd.Text.Trim()), txtRegisterVerifyCode.Text.Trim(), (err) =>
+            {
 
-
+            });
         }
 
         /// <summary>

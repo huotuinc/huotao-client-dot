@@ -83,10 +83,19 @@ namespace HotTaoCore.Logic
             return BaseRequestService.Post(ApiConst.register, data);
         }
 
-
-
-
-
+        /// <summary>
+        /// 使用软件激活码
+        /// </summary>
+        /// <param name="token">The token.</param>
+        /// <param name="code">The code.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool activeAccount(string token,string code)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = token;
+            data["mobile"] = code;
+            return BaseRequestService.Post(ApiConst.register, data);
+        }
         /// <summary>
         /// 根据登录token获取用户信息
         /// </summary>

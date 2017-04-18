@@ -31,6 +31,22 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.hotPanel1 = new HotTaoMonitoring.module.HotPanel(this.components);
+            this.hotPanelRegister = new HotTaoMonitoring.module.HotPanel(this.components);
+            this.label5 = new System.Windows.Forms.Label();
+            this.lkbLogin = new System.Windows.Forms.LinkLabel();
+            this.btnGetVerifyCode = new System.Windows.Forms.Button();
+            this.btnRegister = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.hotGroupBox4 = new HotTaoMonitoring.module.HotGroupBox(this.components);
+            this.lbRegisterMobile = new System.Windows.Forms.Label();
+            this.txtRegisterMobile = new System.Windows.Forms.TextBox();
+            this.hotGroupBox5 = new HotTaoMonitoring.module.HotGroupBox(this.components);
+            this.lbVerifyCode = new System.Windows.Forms.Label();
+            this.txtRegisterVerifyCode = new System.Windows.Forms.TextBox();
+            this.hotGroupBox3 = new HotTaoMonitoring.module.HotGroupBox(this.components);
+            this.lbRegisterPwd = new System.Windows.Forms.Label();
+            this.txtRegisterPwd = new System.Windows.Forms.TextBox();
+            this.lkbRegister = new System.Windows.Forms.LinkLabel();
             this.lbTipMsg = new System.Windows.Forms.Label();
             this.picClose = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -42,31 +58,14 @@
             this.hotGroupBox1 = new HotTaoMonitoring.module.HotGroupBox(this.components);
             this.lbLoginName = new System.Windows.Forms.Label();
             this.loginName = new System.Windows.Forms.ComboBox();
-            this.hotPanelRegister = new HotTaoMonitoring.module.HotPanel(this.components);
-            this.label2 = new System.Windows.Forms.Label();
-            this.hotGroupBox3 = new HotTaoMonitoring.module.HotGroupBox(this.components);
-            this.txtRegisterPwd = new System.Windows.Forms.TextBox();
-            this.hotGroupBox4 = new HotTaoMonitoring.module.HotGroupBox(this.components);
-            this.txtRegisterMobile = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lbRegisterPwd = new System.Windows.Forms.Label();
-            this.btnRegister = new System.Windows.Forms.Button();
-            this.lkbLogin = new System.Windows.Forms.LinkLabel();
-            this.hotGroupBox5 = new HotTaoMonitoring.module.HotGroupBox(this.components);
-            this.txtRegisterVerifyCode = new System.Windows.Forms.TextBox();
-            this.btnGetVerifyCode = new System.Windows.Forms.Button();
-            this.lbVerifyCode = new System.Windows.Forms.Label();
-            this.lbRegisterMobile = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.lkbRegister = new System.Windows.Forms.LinkLabel();
             this.hotPanel1.SuspendLayout();
+            this.hotPanelRegister.SuspendLayout();
+            this.hotGroupBox4.SuspendLayout();
+            this.hotGroupBox5.SuspendLayout();
+            this.hotGroupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).BeginInit();
             this.hotGroupBox2.SuspendLayout();
             this.hotGroupBox1.SuspendLayout();
-            this.hotPanelRegister.SuspendLayout();
-            this.hotGroupBox3.SuspendLayout();
-            this.hotGroupBox4.SuspendLayout();
-            this.hotGroupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // hotPanel1
@@ -90,6 +89,213 @@
             this.hotPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
             this.hotPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
             this.hotPanel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
+            // 
+            // hotPanelRegister
+            // 
+            this.hotPanelRegister.BorderColor = System.Drawing.Color.White;
+            this.hotPanelRegister.Controls.Add(this.label5);
+            this.hotPanelRegister.Controls.Add(this.lkbLogin);
+            this.hotPanelRegister.Controls.Add(this.btnGetVerifyCode);
+            this.hotPanelRegister.Controls.Add(this.btnRegister);
+            this.hotPanelRegister.Controls.Add(this.label2);
+            this.hotPanelRegister.Controls.Add(this.hotGroupBox4);
+            this.hotPanelRegister.Controls.Add(this.hotGroupBox5);
+            this.hotPanelRegister.Controls.Add(this.hotGroupBox3);
+            this.hotPanelRegister.Location = new System.Drawing.Point(0, 39);
+            this.hotPanelRegister.Name = "hotPanelRegister";
+            this.hotPanelRegister.Size = new System.Drawing.Size(284, 361);
+            this.hotPanelRegister.TabIndex = 112;
+            this.hotPanelRegister.Visible = false;
+            this.hotPanelRegister.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
+            this.hotPanelRegister.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
+            this.hotPanelRegister.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(164, 269);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(65, 12);
+            this.label5.TabIndex = 114;
+            this.label5.Text = "已有账号？";
+            // 
+            // lkbLogin
+            // 
+            this.lkbLogin.AutoSize = true;
+            this.lkbLogin.Location = new System.Drawing.Point(233, 269);
+            this.lkbLogin.Name = "lkbLogin";
+            this.lkbLogin.Size = new System.Drawing.Size(29, 12);
+            this.lkbLogin.TabIndex = 113;
+            this.lkbLogin.TabStop = true;
+            this.lkbLogin.Text = "登录";
+            this.lkbLogin.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lkbLogin_LinkClicked);
+            // 
+            // btnGetVerifyCode
+            // 
+            this.btnGetVerifyCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnGetVerifyCode.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnGetVerifyCode.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnGetVerifyCode.FlatAppearance.BorderSize = 0;
+            this.btnGetVerifyCode.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnGetVerifyCode.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
+            this.btnGetVerifyCode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGetVerifyCode.ForeColor = System.Drawing.Color.White;
+            this.btnGetVerifyCode.Location = new System.Drawing.Point(170, 160);
+            this.btnGetVerifyCode.Name = "btnGetVerifyCode";
+            this.btnGetVerifyCode.Size = new System.Drawing.Size(93, 31);
+            this.btnGetVerifyCode.TabIndex = 112;
+            this.btnGetVerifyCode.Text = "获取验证码";
+            this.btnGetVerifyCode.UseVisualStyleBackColor = false;
+            this.btnGetVerifyCode.Click += new System.EventHandler(this.btnGetVerifyCode_Click);
+            // 
+            // btnRegister
+            // 
+            this.btnRegister.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnRegister.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRegister.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnRegister.FlatAppearance.BorderSize = 0;
+            this.btnRegister.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnRegister.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
+            this.btnRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRegister.ForeColor = System.Drawing.Color.White;
+            this.btnRegister.Location = new System.Drawing.Point(28, 215);
+            this.btnRegister.Name = "btnRegister";
+            this.btnRegister.Size = new System.Drawing.Size(233, 41);
+            this.btnRegister.TabIndex = 112;
+            this.btnRegister.Text = "注册";
+            this.btnRegister.UseVisualStyleBackColor = false;
+            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(95)))), ((int)(((byte)(95)))));
+            this.label2.Location = new System.Drawing.Point(67, 6);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(154, 24);
+            this.label2.TabIndex = 111;
+            this.label2.Text = "注册客服账号";
+            // 
+            // hotGroupBox4
+            // 
+            this.hotGroupBox4.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox4.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox4.Controls.Add(this.lbRegisterMobile);
+            this.hotGroupBox4.Controls.Add(this.txtRegisterMobile);
+            this.hotGroupBox4.Location = new System.Drawing.Point(29, 56);
+            this.hotGroupBox4.Name = "hotGroupBox4";
+            this.hotGroupBox4.Size = new System.Drawing.Size(233, 42);
+            this.hotGroupBox4.TabIndex = 110;
+            this.hotGroupBox4.TabStop = false;
+            // 
+            // lbRegisterMobile
+            // 
+            this.lbRegisterMobile.BackColor = System.Drawing.Color.Transparent;
+            this.lbRegisterMobile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
+            this.lbRegisterMobile.Location = new System.Drawing.Point(12, 14);
+            this.lbRegisterMobile.Name = "lbRegisterMobile";
+            this.lbRegisterMobile.Size = new System.Drawing.Size(90, 22);
+            this.lbRegisterMobile.TabIndex = 104;
+            this.lbRegisterMobile.Text = "请输入手机号码";
+            this.lbRegisterMobile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbRegisterMobile.Click += new System.EventHandler(this.lbRegisterMobile_Click);
+            // 
+            // txtRegisterMobile
+            // 
+            this.txtRegisterMobile.BackColor = System.Drawing.Color.White;
+            this.txtRegisterMobile.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtRegisterMobile.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtRegisterMobile.Location = new System.Drawing.Point(7, 17);
+            this.txtRegisterMobile.Margin = new System.Windows.Forms.Padding(10);
+            this.txtRegisterMobile.Name = "txtRegisterMobile";
+            this.txtRegisterMobile.Size = new System.Drawing.Size(219, 16);
+            this.txtRegisterMobile.TabIndex = 101;
+            this.txtRegisterMobile.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
+            this.txtRegisterMobile.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtRegisterMobile_KeyDown);
+            // 
+            // hotGroupBox5
+            // 
+            this.hotGroupBox5.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox5.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox5.Controls.Add(this.lbVerifyCode);
+            this.hotGroupBox5.Controls.Add(this.txtRegisterVerifyCode);
+            this.hotGroupBox5.Location = new System.Drawing.Point(30, 151);
+            this.hotGroupBox5.Name = "hotGroupBox5";
+            this.hotGroupBox5.Size = new System.Drawing.Size(137, 42);
+            this.hotGroupBox5.TabIndex = 110;
+            this.hotGroupBox5.TabStop = false;
+            // 
+            // lbVerifyCode
+            // 
+            this.lbVerifyCode.BackColor = System.Drawing.Color.Transparent;
+            this.lbVerifyCode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
+            this.lbVerifyCode.Location = new System.Drawing.Point(11, 13);
+            this.lbVerifyCode.Name = "lbVerifyCode";
+            this.lbVerifyCode.Size = new System.Drawing.Size(78, 22);
+            this.lbVerifyCode.TabIndex = 104;
+            this.lbVerifyCode.Text = "请输入验证码";
+            this.lbVerifyCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbVerifyCode.Click += new System.EventHandler(this.lbVerifyCode_Click);
+            // 
+            // txtRegisterVerifyCode
+            // 
+            this.txtRegisterVerifyCode.BackColor = System.Drawing.Color.White;
+            this.txtRegisterVerifyCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtRegisterVerifyCode.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtRegisterVerifyCode.Location = new System.Drawing.Point(6, 17);
+            this.txtRegisterVerifyCode.Margin = new System.Windows.Forms.Padding(10);
+            this.txtRegisterVerifyCode.Name = "txtRegisterVerifyCode";
+            this.txtRegisterVerifyCode.Size = new System.Drawing.Size(120, 16);
+            this.txtRegisterVerifyCode.TabIndex = 101;
+            this.txtRegisterVerifyCode.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtRegisterVerifyCode_KeyDown);
+            // 
+            // hotGroupBox3
+            // 
+            this.hotGroupBox3.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox3.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox3.Controls.Add(this.lbRegisterPwd);
+            this.hotGroupBox3.Controls.Add(this.txtRegisterPwd);
+            this.hotGroupBox3.Location = new System.Drawing.Point(29, 104);
+            this.hotGroupBox3.Name = "hotGroupBox3";
+            this.hotGroupBox3.Size = new System.Drawing.Size(233, 42);
+            this.hotGroupBox3.TabIndex = 110;
+            this.hotGroupBox3.TabStop = false;
+            // 
+            // lbRegisterPwd
+            // 
+            this.lbRegisterPwd.BackColor = System.Drawing.Color.Transparent;
+            this.lbRegisterPwd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
+            this.lbRegisterPwd.Location = new System.Drawing.Point(12, 15);
+            this.lbRegisterPwd.Name = "lbRegisterPwd";
+            this.lbRegisterPwd.Size = new System.Drawing.Size(67, 22);
+            this.lbRegisterPwd.TabIndex = 104;
+            this.lbRegisterPwd.Text = "请输入密码";
+            this.lbRegisterPwd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbRegisterPwd.Click += new System.EventHandler(this.lbRegisterPwd_Click);
+            // 
+            // txtRegisterPwd
+            // 
+            this.txtRegisterPwd.BackColor = System.Drawing.Color.White;
+            this.txtRegisterPwd.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtRegisterPwd.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtRegisterPwd.Location = new System.Drawing.Point(7, 17);
+            this.txtRegisterPwd.Margin = new System.Windows.Forms.Padding(10);
+            this.txtRegisterPwd.Name = "txtRegisterPwd";
+            this.txtRegisterPwd.Size = new System.Drawing.Size(219, 16);
+            this.txtRegisterPwd.TabIndex = 101;
+            this.txtRegisterPwd.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtRegisterPwd_KeyDown);
+            // 
+            // lkbRegister
+            // 
+            this.lkbRegister.AutoSize = true;
+            this.lkbRegister.Location = new System.Drawing.Point(229, 313);
+            this.lkbRegister.Name = "lkbRegister";
+            this.lkbRegister.Size = new System.Drawing.Size(29, 12);
+            this.lkbRegister.TabIndex = 113;
+            this.lkbRegister.TabStop = true;
+            this.lkbRegister.Text = "注册";
+            this.lkbRegister.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lkbRegister_LinkClicked);
             // 
             // lbTipMsg
             // 
@@ -232,226 +438,6 @@
             this.loginName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.loginName_KeyDown);
             this.loginName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.loginName_KeyDown);
             // 
-            // hotPanelRegister
-            // 
-            this.hotPanelRegister.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.hotPanelRegister.Controls.Add(this.label5);
-            this.hotPanelRegister.Controls.Add(this.lkbLogin);
-            this.hotPanelRegister.Controls.Add(this.btnGetVerifyCode);
-            this.hotPanelRegister.Controls.Add(this.btnRegister);
-            this.hotPanelRegister.Controls.Add(this.label2);
-            this.hotPanelRegister.Controls.Add(this.hotGroupBox4);
-            this.hotPanelRegister.Controls.Add(this.hotGroupBox5);
-            this.hotPanelRegister.Controls.Add(this.hotGroupBox3);
-            this.hotPanelRegister.Location = new System.Drawing.Point(0, 39);
-            this.hotPanelRegister.Name = "hotPanelRegister";
-            this.hotPanelRegister.Size = new System.Drawing.Size(284, 361);
-            this.hotPanelRegister.TabIndex = 112;
-            this.hotPanelRegister.Visible = false;
-            this.hotPanelRegister.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
-            this.hotPanelRegister.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
-            this.hotPanelRegister.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(95)))), ((int)(((byte)(95)))));
-            this.label2.Location = new System.Drawing.Point(67, 6);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(154, 24);
-            this.label2.TabIndex = 111;
-            this.label2.Text = "注册客服账号";
-            // 
-            // hotGroupBox3
-            // 
-            this.hotGroupBox3.BorderColor = System.Drawing.Color.Gainsboro;
-            this.hotGroupBox3.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox3.Controls.Add(this.lbRegisterPwd);
-            this.hotGroupBox3.Controls.Add(this.txtRegisterPwd);
-            this.hotGroupBox3.Location = new System.Drawing.Point(29, 104);
-            this.hotGroupBox3.Name = "hotGroupBox3";
-            this.hotGroupBox3.Size = new System.Drawing.Size(233, 42);
-            this.hotGroupBox3.TabIndex = 110;
-            this.hotGroupBox3.TabStop = false;
-            // 
-            // txtRegisterPwd
-            // 
-            this.txtRegisterPwd.BackColor = System.Drawing.Color.White;
-            this.txtRegisterPwd.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtRegisterPwd.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtRegisterPwd.Location = new System.Drawing.Point(7, 17);
-            this.txtRegisterPwd.Margin = new System.Windows.Forms.Padding(10);
-            this.txtRegisterPwd.Name = "txtRegisterPwd";
-            this.txtRegisterPwd.Size = new System.Drawing.Size(219, 16);
-            this.txtRegisterPwd.TabIndex = 101;
-            this.txtRegisterPwd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRegisterPwd_KeyDown);
-            // 
-            // hotGroupBox4
-            // 
-            this.hotGroupBox4.BorderColor = System.Drawing.Color.Gainsboro;
-            this.hotGroupBox4.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox4.Controls.Add(this.lbRegisterMobile);
-            this.hotGroupBox4.Controls.Add(this.label3);
-            this.hotGroupBox4.Controls.Add(this.txtRegisterMobile);
-            this.hotGroupBox4.Location = new System.Drawing.Point(29, 56);
-            this.hotGroupBox4.Name = "hotGroupBox4";
-            this.hotGroupBox4.Size = new System.Drawing.Size(233, 42);
-            this.hotGroupBox4.TabIndex = 110;
-            this.hotGroupBox4.TabStop = false;
-            // 
-            // txtRegisterMobile
-            // 
-            this.txtRegisterMobile.BackColor = System.Drawing.Color.White;
-            this.txtRegisterMobile.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtRegisterMobile.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtRegisterMobile.Location = new System.Drawing.Point(7, 17);
-            this.txtRegisterMobile.Margin = new System.Windows.Forms.Padding(10);
-            this.txtRegisterMobile.Name = "txtRegisterMobile";
-            this.txtRegisterMobile.Size = new System.Drawing.Size(219, 16);
-            this.txtRegisterMobile.TabIndex = 101;
-            this.txtRegisterMobile.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRegisterMobile_KeyDown);
-            this.txtRegisterMobile.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
-            // 
-            // label3
-            // 
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
-            this.label3.Location = new System.Drawing.Point(10, 13);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(90, 22);
-            this.label3.TabIndex = 104;
-            this.label3.Text = "请输入手机号码";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label3.Click += new System.EventHandler(this.lbLoginName_Click);
-            // 
-            // lbRegisterPwd
-            // 
-            this.lbRegisterPwd.BackColor = System.Drawing.Color.Transparent;
-            this.lbRegisterPwd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
-            this.lbRegisterPwd.Location = new System.Drawing.Point(9, 14);
-            this.lbRegisterPwd.Name = "lbRegisterPwd";
-            this.lbRegisterPwd.Size = new System.Drawing.Size(67, 22);
-            this.lbRegisterPwd.TabIndex = 104;
-            this.lbRegisterPwd.Text = "请输入密码";
-            this.lbRegisterPwd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbRegisterPwd.Click += new System.EventHandler(this.lbRegisterPwd_Click);
-            // 
-            // btnRegister
-            // 
-            this.btnRegister.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnRegister.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRegister.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnRegister.FlatAppearance.BorderSize = 0;
-            this.btnRegister.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnRegister.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
-            this.btnRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRegister.ForeColor = System.Drawing.Color.White;
-            this.btnRegister.Location = new System.Drawing.Point(28, 215);
-            this.btnRegister.Name = "btnRegister";
-            this.btnRegister.Size = new System.Drawing.Size(233, 41);
-            this.btnRegister.TabIndex = 112;
-            this.btnRegister.Text = "注册";
-            this.btnRegister.UseVisualStyleBackColor = false;
-            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
-            // 
-            // lkbLogin
-            // 
-            this.lkbLogin.AutoSize = true;
-            this.lkbLogin.Location = new System.Drawing.Point(233, 269);
-            this.lkbLogin.Name = "lkbLogin";
-            this.lkbLogin.Size = new System.Drawing.Size(29, 12);
-            this.lkbLogin.TabIndex = 113;
-            this.lkbLogin.TabStop = true;
-            this.lkbLogin.Text = "登录";
-            this.lkbLogin.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lkbLogin_LinkClicked);
-            // 
-            // hotGroupBox5
-            // 
-            this.hotGroupBox5.BorderColor = System.Drawing.Color.Gainsboro;
-            this.hotGroupBox5.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox5.Controls.Add(this.lbVerifyCode);
-            this.hotGroupBox5.Controls.Add(this.txtRegisterVerifyCode);
-            this.hotGroupBox5.Location = new System.Drawing.Point(30, 151);
-            this.hotGroupBox5.Name = "hotGroupBox5";
-            this.hotGroupBox5.Size = new System.Drawing.Size(137, 42);
-            this.hotGroupBox5.TabIndex = 110;
-            this.hotGroupBox5.TabStop = false;
-            // 
-            // txtRegisterVerifyCode
-            // 
-            this.txtRegisterVerifyCode.BackColor = System.Drawing.Color.White;
-            this.txtRegisterVerifyCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtRegisterVerifyCode.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtRegisterVerifyCode.Location = new System.Drawing.Point(6, 17);
-            this.txtRegisterVerifyCode.Margin = new System.Windows.Forms.Padding(10);
-            this.txtRegisterVerifyCode.Name = "txtRegisterVerifyCode";
-            this.txtRegisterVerifyCode.Size = new System.Drawing.Size(120, 16);
-            this.txtRegisterVerifyCode.TabIndex = 101;
-            this.txtRegisterVerifyCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRegisterVerifyCode_KeyDown);
-            // 
-            // btnGetVerifyCode
-            // 
-            this.btnGetVerifyCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnGetVerifyCode.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGetVerifyCode.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnGetVerifyCode.FlatAppearance.BorderSize = 0;
-            this.btnGetVerifyCode.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnGetVerifyCode.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
-            this.btnGetVerifyCode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGetVerifyCode.ForeColor = System.Drawing.Color.White;
-            this.btnGetVerifyCode.Location = new System.Drawing.Point(170, 160);
-            this.btnGetVerifyCode.Name = "btnGetVerifyCode";
-            this.btnGetVerifyCode.Size = new System.Drawing.Size(93, 31);
-            this.btnGetVerifyCode.TabIndex = 112;
-            this.btnGetVerifyCode.Text = "获取验证码";
-            this.btnGetVerifyCode.UseVisualStyleBackColor = false;
-            this.btnGetVerifyCode.Click += new System.EventHandler(this.btnGetVerifyCode_Click);
-            // 
-            // lbVerifyCode
-            // 
-            this.lbVerifyCode.BackColor = System.Drawing.Color.Transparent;
-            this.lbVerifyCode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
-            this.lbVerifyCode.Location = new System.Drawing.Point(8, 14);
-            this.lbVerifyCode.Name = "lbVerifyCode";
-            this.lbVerifyCode.Size = new System.Drawing.Size(78, 22);
-            this.lbVerifyCode.TabIndex = 104;
-            this.lbVerifyCode.Text = "请输入验证码";
-            this.lbVerifyCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbVerifyCode.Click += new System.EventHandler(this.lbVerifyCode_Click);
-            // 
-            // lbRegisterMobile
-            // 
-            this.lbRegisterMobile.BackColor = System.Drawing.Color.Transparent;
-            this.lbRegisterMobile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
-            this.lbRegisterMobile.Location = new System.Drawing.Point(9, 13);
-            this.lbRegisterMobile.Name = "lbRegisterMobile";
-            this.lbRegisterMobile.Size = new System.Drawing.Size(90, 22);
-            this.lbRegisterMobile.TabIndex = 104;
-            this.lbRegisterMobile.Text = "请输入手机号码";
-            this.lbRegisterMobile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbRegisterMobile.Click += new System.EventHandler(this.lbRegisterMobile_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(164, 269);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(65, 12);
-            this.label5.TabIndex = 114;
-            this.label5.Text = "已有账号？";
-            // 
-            // lkbRegister
-            // 
-            this.lkbRegister.AutoSize = true;
-            this.lkbRegister.Location = new System.Drawing.Point(229, 313);
-            this.lkbRegister.Name = "lkbRegister";
-            this.lkbRegister.Size = new System.Drawing.Size(29, 12);
-            this.lkbRegister.TabIndex = 113;
-            this.lkbRegister.TabStop = true;
-            this.lkbRegister.Text = "注册";
-            this.lkbRegister.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lkbRegister_LinkClicked);
-            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -460,24 +446,25 @@
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "登录客户系统";
             this.Load += new System.EventHandler(this.Login_Load);
             this.hotPanel1.ResumeLayout(false);
             this.hotPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picClose)).EndInit();
-            this.hotGroupBox2.ResumeLayout(false);
-            this.hotGroupBox2.PerformLayout();
-            this.hotGroupBox1.ResumeLayout(false);
             this.hotPanelRegister.ResumeLayout(false);
             this.hotPanelRegister.PerformLayout();
-            this.hotGroupBox3.ResumeLayout(false);
-            this.hotGroupBox3.PerformLayout();
             this.hotGroupBox4.ResumeLayout(false);
             this.hotGroupBox4.PerformLayout();
             this.hotGroupBox5.ResumeLayout(false);
             this.hotGroupBox5.PerformLayout();
+            this.hotGroupBox3.ResumeLayout(false);
+            this.hotGroupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picClose)).EndInit();
+            this.hotGroupBox2.ResumeLayout(false);
+            this.hotGroupBox2.PerformLayout();
+            this.hotGroupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -502,7 +489,6 @@
         private System.Windows.Forms.TextBox txtRegisterPwd;
         private module.HotGroupBox hotGroupBox4;
         private System.Windows.Forms.TextBox txtRegisterMobile;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lbRegisterPwd;
         private System.Windows.Forms.Button btnRegister;
         private System.Windows.Forms.LinkLabel lkbLogin;

@@ -93,7 +93,7 @@ namespace HotTaoMonitoring.UserControls
         /// <param name="title">The title.</param>
         public void SetTitle(string title)
         {
-            lbTitle.Text = title + "[" + toShowName + "]";
+            lbTitle.Text = CommonUtils.HtmlToText(title) + "[" + CommonUtils.HtmlToText(toShowName) + "]";
         }
         public void LoadHtml()
         {
@@ -711,7 +711,7 @@ namespace HotTaoMonitoring.UserControls
                                 Clipboard.SetDataObject(bmp, false);//将图片放在剪贴板中
                                 if (txtContent.CanPaste(DataFormats.GetFormat(DataFormats.Bitmap)))
                                 {
-                                    txtContent.Paste();                                    
+                                    txtContent.Paste();
                                     Clipboard.SetFileDropList(colles);
                                     string _RtfText = txtContent.Rtf;
                                     while (true)
@@ -730,7 +730,7 @@ namespace HotTaoMonitoring.UserControls
                                         if (!SendFileList.ContainsKey(filenamekey))
                                             SendFileList.Add(filenamekey, path);
                                     }
-                                }                                
+                                }
                             }
                         }
                     }
