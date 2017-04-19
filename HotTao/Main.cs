@@ -28,6 +28,11 @@ namespace HotTao
         private Point mouseOffset;      //鼠标的按下位置
         private void WinForm_MouseDown(object sender, MouseEventArgs e)
         {
+            if (myMenu != null)
+            {
+                myMenu.Close();
+                myMenu = null;
+            }
             if (e.Button == MouseButtons.Left)
             {
                 isMouseDown = true;
@@ -38,10 +43,20 @@ namespace HotTao
 
         private void WinForm_MouseUp(object sender, MouseEventArgs e)
         {
+            if (myMenu != null)
+            {
+                myMenu.Close();
+                myMenu = null;
+            }
             isMouseDown = false;
         }
         private void WinForm_MouseMove(object sender, MouseEventArgs e)
         {
+            if (myMenu != null)
+            {
+                myMenu.Close();
+                myMenu = null;
+            }
             int _x = 0;
             int _y = 0;
             if (isMouseDown)
@@ -581,10 +596,35 @@ namespace HotTao
             panelHelp.Visible = false;
         }
 
+
+        private MenuControl myMenu { get; set; }
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            About about = new About();
-            about.ShowDialog(this);
+            if (MyUserInfo.currentUserId <= 0)
+            {
+                About about = new About();
+                about.ShowDialog(this);
+            }
+            else
+            {
+                if (myMenu == null)
+                {
+                    RECT rect = new RECT();
+                    WinApi.GetWindowRect(this.Handle, ref rect);
+                    int x = rect.Right - 72;
+                    WinApi.GetWindowRect(pictureBox3.Handle, ref rect);
+                    myMenu = new MenuControl(this);
+                    myMenu.StartPosition = FormStartPosition.Manual;
+                    myMenu.Location = new Point(x, rect.Bottom);
+                    myMenu.Size = new Size(72, 72);
+                    myMenu.Show();
+                }
+                else
+                {
+                    myMenu.Close();
+                    myMenu = null;
+                }
+            }
         }
 
         public void AlertTip(string text)

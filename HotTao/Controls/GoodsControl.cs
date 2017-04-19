@@ -82,8 +82,8 @@ namespace HotTao.Controls
                     timer = null;
                 }
                 ld.CloseForm();
-                string url = ApiConst.Url + "/goods/goodListPage?viewMode=2&token=" + MyUserInfo.LoginToken;
-                hotForm.browser.Load(url);
+                //string url = ApiConst.Url + "/goods/goodListPage?viewMode=2&token=" + MyUserInfo.LoginToken;
+                //hotForm.browser.Load(url);
                 hotForm.SetWeChatTabSelected();
                 hotForm.openControl(new TaskControl(hotForm));
 
@@ -130,7 +130,7 @@ namespace HotTao.Controls
                                     GoodsModel goods = new GoodsModel()
                                     {
                                         userid = MyUserInfo.currentUserId,
-                                        goodsId = item.goodsId.Replace("=",""),
+                                        goodsId = item.goodsId.Replace("=", ""),
                                         goodsName = item.goodsName,
                                         goodsIntro = item.goodsIntro,
                                         goodsMainImgUrl = item.goodsImageUrl,
@@ -154,25 +154,27 @@ namespace HotTao.Controls
                                         }
                                     }
 
-                                    string fileName = Environment.CurrentDirectory + "\\temp\\img";
+                                    string fileName = Environment.CurrentDirectory + "\\temp\\img\\" + MyUserInfo.currentUserId;
                                     if (!Directory.Exists(fileName))
                                         Directory.CreateDirectory(fileName);
                                     fileName += "\\" + EncryptHelper.MD5(goods.goodsId) + ".jpg";
                                     //判断文件是否存在
                                     if (!File.Exists(fileName))
                                     {
-                                        byte[] data = BaseRequestService.GetNetWorkImageData(goods.goodsMainImgUrl);
-                                        if (data != null)
-                                        {
-                                            MemoryStream ms = new MemoryStream(data);
-                                            Bitmap img = new Bitmap(ms);
-                                            img.Save(fileName, ImageFormat.Jpeg);
-                                            ms.Dispose();
-                                            ms = null;
-                                            img.Dispose();
-                                            img = null;
-                                        }
-                                        else continue;
+                                        downloadGoodsImage(fileName, goods.goodsMainImgUrl);
+
+                                        //byte[] data = BaseRequestService.GetNetWorkImageData(goods.goodsMainImgUrl);
+                                        //if (data != null)
+                                        //{
+                                        //    MemoryStream ms = new MemoryStream(data);
+                                        //    Bitmap img = new Bitmap(ms);
+                                        //    img.Save(fileName, ImageFormat.Jpeg);
+                                        //    ms.Dispose();
+                                        //    ms = null;
+                                        //    img.Dispose();
+                                        //    img = null;
+                                        //}
+                                        //else continue;
                                     }
                                     goods.goodslocatImgPath = fileName;
                                     LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserGoods(goods);
@@ -185,7 +187,7 @@ namespace HotTao.Controls
                             LoadClose();
                             //ShowAlert("提交成功");
                         })
-                        { IsBackground = true }.Start();        
+                        { IsBackground = true }.Start();
                         ld.StartPosition = FormStartPosition.CenterParent;
                         ld.ShowDialog(hotForm);
                     }
@@ -197,6 +199,44 @@ namespace HotTao.Controls
             }
         }
 
+
+        /// <summary>
+        /// 下载商品图片
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="goodsImageUrl">The goods image URL.</param>
+        private void downloadGoodsImage(string fileName, string goodsImageUrl)
+        {
+            new Thread(() =>
+            {
+                try
+                {
+                    byte[] data = BaseRequestService.GetNetWorkImageData(goodsImageUrl);
+                    if (data != null)
+                    {
+                        MemoryStream ms = new MemoryStream(data);
+                        Bitmap img = new Bitmap(ms);
+                        img.Save(fileName, ImageFormat.Jpeg);
+                        ms.Dispose();
+                        ms = null;
+                        img.Dispose();
+                        img = null;
+                    }
+                    else
+                        log.Info("网络图片地址：" + goodsImageUrl);
+
+                }
+                catch (Exception ex)
+                {
+
+                    log.Error("downloadGoodsImage:" + ex.ToString());
+                }
+            })
+            { IsBackground = true }.Start();
+        }
+
+
+
         private void LoadClose()
         {
             if (this.InvokeRequired)
@@ -206,7 +246,7 @@ namespace HotTao.Controls
             else
             {
                 ld.Close();
-               
+
                 new Thread(() =>
                 {
                     Thread.Sleep(500);
@@ -241,7 +281,7 @@ namespace HotTao.Controls
         public string getToken()
         {
             return MyUserInfo.LoginToken;
-        } 
+        }
         #endregion
     }
 }

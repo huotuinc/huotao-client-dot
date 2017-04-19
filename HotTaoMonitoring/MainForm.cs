@@ -549,5 +549,17 @@ namespace HotTaoMonitoring
                 myInfo = null;
             }
         }
+
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                const int WS_MINIMIZEBOX = 0x00020000;  // Winuser.h中定义
+                CreateParams cp = base.CreateParams;
+                cp.Style = cp.Style | WS_MINIMIZEBOX;   // 允许最小化操作
+                return cp;
+            }
+        }
     }
 }

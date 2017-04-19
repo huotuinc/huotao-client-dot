@@ -229,6 +229,12 @@
     <Compile Include="Controls\Login\SetTaobaoAccountPage.Designer.cs">
       <DependentUpon>SetTaobaoAccountPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MenuControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\MenuControl.Designer.cs">
+      <DependentUpon>MenuControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MessageAlert.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -270,12 +276,6 @@
     </Compile>
     <Compile Include="Controls\SetAutoReplyControl.Designer.cs">
       <DependentUpon>SetAutoReplyControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SetGoodsControl.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\SetGoodsControl.Designer.cs">
-      <DependentUpon>SetGoodsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SetSendConfig.cs">
       <SubType>UserControl</SubType>
@@ -431,6 +431,9 @@
     <EmbeddedResource Include="Controls\Login\SetTaobaoAccountPage.resx">
       <DependentUpon>SetTaobaoAccountPage.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MenuControl.resx">
+      <DependentUpon>MenuControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\MessageAlert.resx">
       <DependentUpon>MessageAlert.cs</DependentUpon>
     </EmbeddedResource>
@@ -445,9 +448,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SetAutoReplyControl.resx">
       <DependentUpon>SetAutoReplyControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\SetGoodsControl.resx">
-      <DependentUpon>SetGoodsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SetSendConfig.resx">
       <DependentUpon>SetSendConfig.cs</DependentUpon>
@@ -535,6 +535,7 @@
     <EmbeddedResource Include="Resources\home.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\about.png" />
     <Content Include="Resources\abuot.png" />
     <Content Include="Resources\hot.ico" />
     <Content Include="Resources\icon_01.png" />

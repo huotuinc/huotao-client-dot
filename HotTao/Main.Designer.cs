@@ -131,7 +131,6 @@
             this.pictureBox3.TabIndex = 4;
             this.pictureBox3.TabStop = false;
             this.toolTipText.SetToolTip(this.pictureBox3, "菜单");
-            this.pictureBox3.Visible = false;
             this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
             // pbClose
