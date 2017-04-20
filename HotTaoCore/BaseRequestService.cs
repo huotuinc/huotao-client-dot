@@ -353,7 +353,9 @@ namespace HotTaoCore
         {
             try
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                url = url.IndexOf("http") < 0 ? "http:" + url : url;
+                log.Info(url);
+                WebRequest request = WebRequest.Create(url);                
                 request.Method = "get";
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 Stream response_stream = response.GetResponseStream();
@@ -369,8 +371,10 @@ namespace HotTaoCore
                 }
                 return buf;
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error("无效地址:"+url);
+                log.Error(ex);
                 return null;
             }
         }

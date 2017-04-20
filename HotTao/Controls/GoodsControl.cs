@@ -141,7 +141,7 @@ namespace HotTao.Controls
                                         goodsSalesAmount = item.goodsSalesAmount,
                                         endTime = Convert.ToDateTime(item.endTime),
                                         couponUrl = item.couponUrl,
-                                        couponId = item.couponId,
+                                        couponId = item.couponId.Replace("activityId=", "").Replace("activity_id=", "").Replace("activity_Id=", ""),
                                         couponPrice = item.couponPrice
                                     };
 
@@ -162,19 +162,6 @@ namespace HotTao.Controls
                                     if (!File.Exists(fileName))
                                     {
                                         downloadGoodsImage(fileName, goods.goodsMainImgUrl);
-
-                                        //byte[] data = BaseRequestService.GetNetWorkImageData(goods.goodsMainImgUrl);
-                                        //if (data != null)
-                                        //{
-                                        //    MemoryStream ms = new MemoryStream(data);
-                                        //    Bitmap img = new Bitmap(ms);
-                                        //    img.Save(fileName, ImageFormat.Jpeg);
-                                        //    ms.Dispose();
-                                        //    ms = null;
-                                        //    img.Dispose();
-                                        //    img = null;
-                                        //}
-                                        //else continue;
                                     }
                                     goods.goodslocatImgPath = fileName;
                                     LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserGoods(goods);
@@ -184,8 +171,7 @@ namespace HotTao.Controls
                                     log.Error(ex);
                                 }
                             }
-                            LoadClose();
-                            //ShowAlert("提交成功");
+                            LoadClose();                            
                         })
                         { IsBackground = true }.Start();
                         ld.StartPosition = FormStartPosition.CenterParent;
@@ -212,6 +198,11 @@ namespace HotTao.Controls
                 try
                 {
                     byte[] data = BaseRequestService.GetNetWorkImageData(goodsImageUrl);
+                    if (data == null)
+                    {
+                        Thread.Sleep(1000);
+                        data = BaseRequestService.GetNetWorkImageData(goodsImageUrl);
+                    }
                     if (data != null)
                     {
                         MemoryStream ms = new MemoryStream(data);

@@ -509,26 +509,26 @@ namespace HotTaoCore.Logic
 
                 if (!string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(tpwd))
                 {
-                    while (text.Contains("[商品标题]"))
+                    if (text.Contains("[商品标题]"))
                         text = text.Replace("[商品标题]", item.goodsName);
-                    while (text.Contains("[商品价格]"))
+                    if (text.Contains("[商品价格]"))
                         text = text.Replace("[商品价格]", item.goodsPrice.ToString());
-                    while (text.Contains("[券后价格]"))
+                    if (text.Contains("[券后价格]"))
                         text = text.Replace("[券后价格]", (item.goodsPrice - item.couponPrice).ToString());
                     //while (text.Contains("[二合一淘口令]"))
                     //    text = text.Replace("[二合一淘口令]", tpwd);
                     //while (text.Contains("[短链接]"))
                     //    text = text.Replace("[短链接]", shortUrl);
-                    while (text.Contains("[来源]"))
+                    if (text.Contains("[来源]"))
                         text = text.Replace("[来源]", item.goodsSupplier);
-                    while (text.Contains("[销量]"))
+                    if (text.Contains("[销量]"))
                         text = text.Replace("[销量]", item.goodsSalesAmount.ToString());
-                    while (text.Contains("[优惠券价格]"))
+                    if (text.Contains("[优惠券价格]"))
                         text = text.Replace("[优惠券价格]", item.couponPrice.ToString());
-                    while (text.Contains("[分隔符]"))
+                    if (text.Contains("[分隔符]"))
                         text = text.Replace("[分隔符]", "-----------------");
-                    while (text.Contains("[简介描述]"))
-                        text = text.Replace("[分隔符]", string.IsNullOrEmpty(item.goodsIntro) ? "" : item.goodsIntro);
+                    if (text.Contains("[简介描述]"))
+                        text = text.Replace("[简介描述]", string.IsNullOrEmpty(item.goodsIntro) ? "" : item.goodsIntro);
 
                 }
                 else
