@@ -85,11 +85,7 @@ namespace HotTao.Controls.Login
                 }
                 SavePwd = this.ckbSavePwd.Checked;
                 AutoLogin = ckbAutoLogin.Checked;
-                string pwd = string.Empty;
-                //if (this.IsRememberPassword && _tempPassword == loginPwd.Text && _tempLoginName == loginName.Text)
-                //    pwd = loginPwd.Text;
-                //else
-                pwd = EncryptHelper.MD5(loginPwd.Text);
+                string pwd = EncryptHelper.MD5(loginPwd.Text);
 
                 lgname = loginName.Text;
                 lgpwd = loginPwd.Text;
@@ -120,15 +116,16 @@ namespace HotTao.Controls.Login
                                 lbTipMsg.Text = "登录成功，请稍后...";
                             }));
                             loginResult(data);
-                            hotForm.ReloadBrowser(data.loginToken);
-
-                            
-                            new Thread(() =>
+                            if (data.softwarePermit)
                             {
-                                Thread.Sleep(3000);
-                                hotForm.LoginTaoBao();
-                            })
-                            { IsBackground = true }.Start();
+                                hotForm.ReloadBrowser(data.loginToken);
+                                new Thread(() =>
+                                {
+                                    Thread.Sleep(3000);
+                                    hotForm.LoginTaoBao();
+                                })
+                                { IsBackground = true }.Start();
+                            }
 
                         }
                         else
@@ -201,12 +198,47 @@ namespace HotTao.Controls.Login
                         login_password = lgpwd,
                         is_save_pwd = SavePwd ? 1 : 0
                     });
-                }                                
-                hotForm.SetHomeTabSelected();
-                hotForm.openControl(new GoodsControl(hotForm));
+                }
+                if (!data.softwarePermit)
+                {
+                    AlertConfirm("当前账号还未激活，是否马上激活?", "激活提示", (result) =>
+                    {
+                        if (result)
+                            hotForm.ShowCDKeyForm();
+                        else
+                            hotForm.CloseMain();
+                    });
+                }
+                else
+                {
+                    hotForm.SetHomeTabSelected();
+                    hotForm.openControl(new GoodsControl(hotForm));
+                }
             }));
 
         }
+
+
+        public void AlertConfirm(string text, string title, Action<bool> callback)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string, string, Action<bool>>(AlertConfirm), new object[] { text, title, callback });
+            }
+            else
+            {
+                bool isOk = false;
+                MessageConfirm alert = new MessageConfirm(text, title);
+                alert.StartPosition = FormStartPosition.CenterScreen;
+                alert.CallBack += () =>
+                {
+                    isOk = true;
+                };
+                alert.ShowDialog();
+                callback?.Invoke(isOk);
+            }
+        }
+
 
 
         /// <summary>

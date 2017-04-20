@@ -162,6 +162,12 @@
     <Compile Include="BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="CDkey.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CDkey.Designer.cs">
+      <DependentUpon>CDkey.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConstConfig.cs" />
     <Compile Include="Controls\About.cs">
       <SubType>Form</SubType>
@@ -398,6 +404,9 @@
     <EmbeddedResource Include="BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CDkey.resx">
+      <DependentUpon>CDkey.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
@@ -536,7 +545,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\about.png" />
-    <Content Include="Resources\abuot.png" />
     <Content Include="Resources\hot.ico" />
     <Content Include="Resources\icon_01.png" />
     <Content Include="Resources\icon_02.png" />

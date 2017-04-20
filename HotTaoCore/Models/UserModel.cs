@@ -39,5 +39,11 @@ namespace HotTaoCore.Models
         /// </summary>
         /// <value>The software text.</value>
         public string softwareText { get; set; }
+
+        /// <summary>
+        /// 用户身份：1表示淘客，2表示群主；后期如有其它身份，再加入
+        /// </summary>
+        /// <value>The user identity.</value>
+        public int userIdentity { get; set; }
     }
 }

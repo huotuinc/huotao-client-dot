@@ -161,7 +161,7 @@ namespace HotTao.Controls
                                     //判断文件是否存在
                                     if (!File.Exists(fileName))
                                     {
-                                        downloadGoodsImage(fileName, goods.goodsMainImgUrl);
+                                        downloadGoodsImage(fileName, goods.goodsMainImgUrl,goods.goodsId);
                                     }
                                     goods.goodslocatImgPath = fileName;
                                     LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserGoods(goods);
@@ -171,7 +171,7 @@ namespace HotTao.Controls
                                     log.Error(ex);
                                 }
                             }
-                            LoadClose();                            
+                            LoadClose();
                         })
                         { IsBackground = true }.Start();
                         ld.StartPosition = FormStartPosition.CenterParent;
@@ -191,12 +191,13 @@ namespace HotTao.Controls
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
         /// <param name="goodsImageUrl">The goods image URL.</param>
-        private void downloadGoodsImage(string fileName, string goodsImageUrl)
+        private void downloadGoodsImage(string fileName, string goodsImageUrl, string goodsid)
         {
             new Thread(() =>
             {
                 try
                 {
+                    string _goodsid = goodsid;
                     byte[] data = BaseRequestService.GetNetWorkImageData(goodsImageUrl);
                     if (data == null)
                     {
@@ -214,7 +215,10 @@ namespace HotTao.Controls
                         img = null;
                     }
                     else
+                    {
                         log.Info("网络图片地址：" + goodsImageUrl);
+                        //_goodsid
+                    }
 
                 }
                 catch (Exception ex)

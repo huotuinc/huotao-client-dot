@@ -63,6 +63,26 @@ namespace HotTaoMonitoring.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap _1dg50x50 {
+            get {
+                object obj = ResourceManager.GetObject("1dg50x50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap _2dg50x50 {
+            get {
+                object obj = ResourceManager.GetObject("2dg50x50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap _default {
             get {
                 object obj = ResourceManager.GetObject("default", resourceCulture);

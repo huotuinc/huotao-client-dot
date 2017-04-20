@@ -31,6 +31,11 @@ namespace HotTaoMonitoring
         private Point mouseOffset;      //鼠标的按下位置
         private void WinForm_MouseDown(object sender, MouseEventArgs e)
         {
+            if (myInfo != null)
+            {
+                myInfo.Close();
+                myInfo = null;
+            }
             if (e.Button == MouseButtons.Left)
             {
                 isMouseDown = true;
@@ -41,10 +46,20 @@ namespace HotTaoMonitoring
 
         private void WinForm_MouseUp(object sender, MouseEventArgs e)
         {
+            if (myInfo != null)
+            {
+                myInfo.Close();
+                myInfo = null;
+            }
             isMouseDown = false;
         }
         private void WinForm_MouseMove(object sender, MouseEventArgs e)
         {
+            if (myInfo != null)
+            {
+                myInfo.Close();
+                myInfo = null;
+            }
             int _x = 0;
             int _y = 0;
             if (isMouseDown)
@@ -94,8 +109,11 @@ namespace HotTaoMonitoring
         /// </summary>
         /// <value>The useredit.</value>
         public UserEditControl useredit { get; set; }
-
-
+        /// <summary>
+        /// 自动导购是否已安装
+        /// </summary>
+        /// <value>true if this instance is guide install; otherwise, false.</value>
+        public bool isGuideInstall { get; set; }
 
         /// <summary>
         /// 我的信息窗口
@@ -136,10 +154,9 @@ namespace HotTaoMonitoring
                     rightContainer.Controls.Clear();
                     if (opt == UserControlsOpts.listen)
                     {
-
                         SetListenBg();
                     }
-                    else
+                    else if (opt == UserControlsOpts.filter)
                     {
                         SetSetBg();
                     }
@@ -169,8 +186,14 @@ namespace HotTaoMonitoring
                 case UserControlsOpts.filter:
                     rightContainer.Controls.Clear();
                     var filter = new SetUserfilterControl(this);
-                    this.rightContainer.Controls.Add(new SetUserfilterControl(this));
+                    this.rightContainer.Controls.Add(filter);
                     windowFormControls.Add(opt, filter);
+                    break;
+                case UserControlsOpts.autoShopingGuide:
+                    rightContainer.Controls.Clear();
+                    var shopguide = new ShopingGuideControl(this);
+                    this.rightContainer.Controls.Add(shopguide);
+                    windowFormControls.Add(opt, shopguide);
                     break;
                 default:
                     break;
@@ -198,24 +221,20 @@ namespace HotTaoMonitoring
                 this.rightContainer.Controls.Add(listenForm);
                 windowFormControls.Add(opt, listenForm);
             }
-
             SetListenBg();
         }
 
 
         private void SetListenBg()
         {
+            ClearTabNavSelectedBackgroundImage();
             lbListen.BackgroundImage = Properties.Resources.icon_bg;
             lbListen.BackColor = Color.Transparent;
-
-            lbSet.BackColor = ConstConfig.HeaderBackColor;
-            lbSet.BackgroundImage = null;
         }
 
         private void SetSetBg()
         {
-            lbListen.BackgroundImage = null;
-            lbListen.BackColor = ConstConfig.HeaderBackColor;
+            ClearTabNavSelectedBackgroundImage();            
 
             lbSet.BackgroundImage = Properties.Resources.icon_bg;
             lbSet.BackColor = Color.Transparent;
@@ -305,14 +324,34 @@ namespace HotTaoMonitoring
         }
 
         /// <summary>
+        /// 清空导航栏选中背景
+        /// </summary>
+        private void ClearTabNavSelectedBackgroundImage()
+        {
+            foreach (var control in bgPanel.Controls)
+            {
+                Panel panel = control as Panel;
+                if (panel != null)
+                {
+                    panel.BackgroundImage = null;
+                    panel.BackColor = ConstConfig.HeaderBackColor;
+                }
+            }
+
+        }
+
+        /// <summary>
         /// 选择左侧菜单
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Tab_Selected_Click(object sender, EventArgs e)
         {
-            lbListen.BackgroundImage = lbSet.BackgroundImage = null;
-            lbListen.BackColor = lbSet.BackColor = ConstConfig.HeaderBackColor;
+            //lbListen.BackgroundImage = lbSet.BackgroundImage = null;
+            //lbListen.BackColor = lbSet.BackColor = ConstConfig.HeaderBackColor;
+
+
+            ClearTabNavSelectedBackgroundImage();
 
             var p1 = sender as PictureBox;
             var p2 = sender as Label;
@@ -348,11 +387,40 @@ namespace HotTaoMonitoring
                 case 2:
                     openControl(UserControlsOpts.listen);
                     break;
+                case 3:
+                    CheckAutoShopingGuideInstalled();
+                    break;
                 default:
                     break;
             }
 
         }
+
+
+        /// <summary>
+        /// 检查是否安装自动导购功能
+        /// </summary>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        private bool CheckAutoShopingGuideInstalled()
+        {
+            if (!isGuideInstall)
+            {
+                MessageConfirm confirm = new MessageConfirm("导购功能需要单独安装，马上安装?");
+                confirm.CallBack += () =>
+                {
+                    isGuideInstall = true;
+                };
+                confirm.ShowDialog(this);
+            }
+            if (isGuideInstall)
+            {
+                openControl(UserControlsOpts.autoShopingGuide);
+            }
+            return isGuideInstall;
+        }
+
+
+
 
         /// <summary>
         /// 开启线程操作
@@ -399,7 +467,7 @@ namespace HotTaoMonitoring
             }
             else
             {
-                this.Text = this.Text + "-" + title;                
+                this.Text = this.Text + "-" + title;
                 myUserNickName = title;
             }
         }
@@ -415,32 +483,11 @@ namespace HotTaoMonitoring
             }
             else
             {
-                //picWeChatHead.Image = image;
                 myUserImage = image;
                 if (string.IsNullOrEmpty(myImage))
                     myImage = MyIcon();
             }
         }
-
-        private void picWeChatHead_Click(object sender, EventArgs e)
-        {
-            if (myInfo == null)
-            {
-                RECT rect = new RECT();
-                WinApi.GetWindowRect(picWeChatHead.Handle, ref rect);
-                myInfo = new MyInfoForm(this);
-                myInfo.Location = new Point(rect.Right - (rect.Right - rect.Left) / 2, rect.Bottom - (rect.Bottom - rect.Top) / 2);
-                myInfo.SetData(myUserNickName, myUserImage);
-                myInfo.Show(this);
-            }
-            else
-            {
-                myInfo.Close();
-                myInfo = null;
-            }
-        }
-
-
 
         /// <summary>
         /// 获取我的头像(base64)

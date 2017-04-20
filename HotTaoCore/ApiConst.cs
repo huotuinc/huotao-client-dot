@@ -229,7 +229,7 @@ namespace HotTaoCore
         /// <summary>
         /// 发送短信验证码
         /// </summary>
-        public const string sendCodeForRegistger = "/huotao/sendCodeForRegistger";
+        public const string sendCodeForRegister = "/huotao/sendCodeForRegister";
         #endregion
     }
 }

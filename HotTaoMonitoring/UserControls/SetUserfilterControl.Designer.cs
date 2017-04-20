@@ -131,7 +131,7 @@
             this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.hotPanel1.Location = new System.Drawing.Point(0, 0);
             this.hotPanel1.Name = "hotPanel1";
-            this.hotPanel1.Size = new System.Drawing.Size(950, 607);
+            this.hotPanel1.Size = new System.Drawing.Size(950, 637);
             this.hotPanel1.TabIndex = 52;
             // 
             // SetUserfilterControl
@@ -147,7 +147,7 @@
             this.Controls.Add(this.hotPanel1);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
             this.Name = "SetUserfilterControl";
-            this.Size = new System.Drawing.Size(950, 607);
+            this.Size = new System.Drawing.Size(950, 637);
             this.Load += new System.EventHandler(this.SetUserfilterControl_Load);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CloseMyInfoForm);
             this.hotGroupBox2.ResumeLayout(false);

@@ -106,6 +106,8 @@ namespace HotTaoMonitoring
     {
         listen,
         filter,
+        autoShopingGuide,
+        autoShopingGuideConfig
     }
 
     /// <summary>
@@ -194,6 +196,21 @@ namespace HotTaoMonitoring
         public byte[] MsgImageData { get; set; }
 
     }
+
+
+
+    public class WxGuideGroupsModel
+    {
+        public string UserName { get; set; }
+
+        public string ShowName { get; set; }
+
+        public bool IsSelected { get; set; }
+
+
+        
+    }
+
 
 
     /// <summary>

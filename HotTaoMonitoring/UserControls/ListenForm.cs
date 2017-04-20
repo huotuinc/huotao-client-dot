@@ -35,6 +35,11 @@ namespace HotTaoMonitoring.UserControls
         private Point mouseOffset;      //鼠标的按下位置
         private void WinForm_MouseDown(object sender, MouseEventArgs e)
         {
+            if (mainForm.myInfo != null)
+            {
+                mainForm.myInfo.Close();
+                mainForm.myInfo = null;
+            }
             if (e.Button == MouseButtons.Left)
             {
                 isMouseDown = true;
@@ -45,10 +50,20 @@ namespace HotTaoMonitoring.UserControls
 
         private void WinForm_MouseUp(object sender, MouseEventArgs e)
         {
+            if (mainForm.myInfo != null)
+            {
+                mainForm.myInfo.Close();
+                mainForm.myInfo = null;
+            }
             isMouseDown = false;
         }
         private void WinForm_MouseMove(object sender, MouseEventArgs e)
         {
+            if (mainForm.myInfo != null)
+            {
+                mainForm.myInfo.Close();
+                mainForm.myInfo = null;
+            }
             int _x = 0;
             int _y = 0;
             if (isMouseDown)
@@ -306,7 +321,7 @@ namespace HotTaoMonitoring.UserControls
         {
             foreach (DataGridViewRow item in dataContent.Rows)
             {
-                if (item.Cells["MsgUserName"].Value.ToString().Equals(UserName) && item.Cells["MsgSendUser"].Value.ToString().Equals(msgSendUser))
+                if (item.Cells["MsgUserName"].Value.ToString().Equals(userName) && item.Cells["MsgSendUser"].Value.ToString().Equals(msgSendUser))
                 {
                     item.Cells["MsgStatus"].Value = "已回复";
                     break;

@@ -38,7 +38,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(95)))), ((int)(((byte)(95)))));
-            this.label1.Location = new System.Drawing.Point(12, 41);
+            this.label1.Location = new System.Drawing.Point(12, 32);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(202, 24);
             this.label1.TabIndex = 0;
@@ -47,7 +47,7 @@
             // label2
             // 
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(180)))), ((int)(((byte)(181)))));
-            this.label2.Location = new System.Drawing.Point(17, 80);
+            this.label2.Location = new System.Drawing.Point(17, 71);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(275, 16);
             this.label2.TabIndex = 0;
@@ -64,7 +64,7 @@
             this.btnLogin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.ForeColor = System.Drawing.Color.White;
-            this.btnLogin.Location = new System.Drawing.Point(19, 129);
+            this.btnLogin.Location = new System.Drawing.Point(19, 120);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(206, 41);
             this.btnLogin.TabIndex = 4;

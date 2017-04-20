@@ -443,7 +443,7 @@ namespace HotTaoMonitoring
             }
 
             //获取
-            if (LogicUser.Instance.sendCodeForRegistger(txtRegisterMobile.Text.Trim()))
+            if (LogicUser.Instance.sendCodeForRegister(txtRegisterMobile.Text.Trim()))
             {
                 isSendVerifyCode = true;
                 timeOut();

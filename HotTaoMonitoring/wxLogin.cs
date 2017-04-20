@@ -154,7 +154,7 @@ namespace HotTaoMonitoring
                 }
             })).BeginInvoke(null, null);
         }
-       // private WXService wxs { get; set; }
+        // private WXService wxs { get; set; }
         /// <summary>
         /// 微信登录初始化及同步操作
         /// </summary>
@@ -211,7 +211,7 @@ namespace HotTaoMonitoring
                                 mainForm.listenForm.wxMessageData.Clear();
                                 mainForm.listenForm.ListenWeChatData.Clear();
                                 mainForm.listenForm.HileWinEdit();
-                                mainForm.CloseMyContact();                                
+                                mainForm.CloseMyContact();
                                 mainForm.AlertTip("微信掉线，请重新授权登录");
                                 break;
                             }
@@ -301,7 +301,7 @@ namespace HotTaoMonitoring
         /// 加载我的通讯录
         /// </summary>
         /// <param name="contact_result">The contact_result.</param>
-        private void LoadMyContact(JObject contact_result)
+        private void LoadMyContact(JObject contact_result, Action callback = null)
         {
             foreach (JObject contact in contact_result["MemberList"])  //完整好友名单
             {
@@ -340,6 +340,7 @@ namespace HotTaoMonitoring
                     }
                 }
             }
+            callback?.Invoke();
         }
 
 
@@ -411,7 +412,7 @@ namespace HotTaoMonitoring
                                     //是否过滤当前用户操作
                                     if (!string.IsNullOrEmpty(nickName) && !isExist)
                                     {
-                                        
+
                                         byte[] buffer = service.GetMsgImage(msgid);
                                         if (buffer != null)
                                         {
@@ -547,7 +548,7 @@ namespace HotTaoMonitoring
             try
             {
                 WXService wxs = new WXService();
-                return wxs.GetHeadImg(username);                
+                return wxs.GetHeadImg(username);
             }
             catch (Exception ex)
             {
@@ -574,7 +575,7 @@ namespace HotTaoMonitoring
         /// <summary>
         /// 重新加载联系人
         /// </summary>
-        public void ReloadContact()
+        public void ReloadContact(Action callback = null)
         {
             mainForm.ThreadHandle(() =>
             {
@@ -582,7 +583,7 @@ namespace HotTaoMonitoring
                 JObject contact_result = wxs.GetContact(); //通讯录
                 if (contact_result != null)
                 {
-                    LoadMyContact(contact_result);
+                    LoadMyContact(contact_result, callback);
                 }
             });
         }

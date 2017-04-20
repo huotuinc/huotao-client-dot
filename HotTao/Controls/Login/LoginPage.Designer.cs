@@ -51,13 +51,12 @@
             this.lkRegister.DisabledLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(127)))), ((int)(((byte)(105)))));
             this.lkRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(127)))), ((int)(((byte)(105)))));
             this.lkRegister.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(127)))), ((int)(((byte)(105)))));
-            this.lkRegister.Location = new System.Drawing.Point(220, 176);
+            this.lkRegister.Location = new System.Drawing.Point(220, 192);
             this.lkRegister.Name = "lkRegister";
             this.lkRegister.Size = new System.Drawing.Size(29, 12);
             this.lkRegister.TabIndex = 12;
             this.lkRegister.TabStop = true;
             this.lkRegister.Text = "注册";
-            this.lkRegister.Visible = false;
             this.lkRegister.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(127)))), ((int)(((byte)(105)))));
             this.lkRegister.Click += new System.EventHandler(this.lkRegister_Click);
             // 
@@ -65,7 +64,7 @@
             // 
             this.ckbAutoLogin.AutoSize = true;
             this.ckbAutoLogin.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ckbAutoLogin.Location = new System.Drawing.Point(132, 175);
+            this.ckbAutoLogin.Location = new System.Drawing.Point(132, 191);
             this.ckbAutoLogin.Name = "ckbAutoLogin";
             this.ckbAutoLogin.Size = new System.Drawing.Size(72, 16);
             this.ckbAutoLogin.TabIndex = 5;
@@ -84,7 +83,7 @@
             this.btnLogin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.ForeColor = System.Drawing.Color.White;
-            this.btnLogin.Location = new System.Drawing.Point(16, 123);
+            this.btnLogin.Location = new System.Drawing.Point(16, 136);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(233, 41);
             this.btnLogin.TabIndex = 3;
@@ -96,7 +95,7 @@
             // 
             this.ckbSavePwd.AutoSize = true;
             this.ckbSavePwd.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ckbSavePwd.Location = new System.Drawing.Point(19, 175);
+            this.ckbSavePwd.Location = new System.Drawing.Point(19, 191);
             this.ckbSavePwd.Name = "ckbSavePwd";
             this.ckbSavePwd.Size = new System.Drawing.Size(72, 16);
             this.ckbSavePwd.TabIndex = 4;
@@ -105,8 +104,9 @@
             // 
             // lbTipMsg
             // 
+            this.lbTipMsg.BackColor = System.Drawing.Color.Transparent;
             this.lbTipMsg.ForeColor = System.Drawing.Color.Red;
-            this.lbTipMsg.Location = new System.Drawing.Point(16, 194);
+            this.lbTipMsg.Location = new System.Drawing.Point(16, 207);
             this.lbTipMsg.Name = "lbTipMsg";
             this.lbTipMsg.Size = new System.Drawing.Size(233, 31);
             this.lbTipMsg.TabIndex = 13;
@@ -119,7 +119,7 @@
             this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
             this.hotGroupBox2.Controls.Add(this.lbLoginPwd);
             this.hotGroupBox2.Controls.Add(this.loginPwd);
-            this.hotGroupBox2.Location = new System.Drawing.Point(16, 72);
+            this.hotGroupBox2.Location = new System.Drawing.Point(16, 95);
             this.hotGroupBox2.Name = "hotGroupBox2";
             this.hotGroupBox2.Size = new System.Drawing.Size(233, 35);
             this.hotGroupBox2.TabIndex = 2;
@@ -158,7 +158,7 @@
             this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
             this.hotGroupBox1.Controls.Add(this.lbLoginName);
             this.hotGroupBox1.Controls.Add(this.loginName);
-            this.hotGroupBox1.Location = new System.Drawing.Point(16, 32);
+            this.hotGroupBox1.Location = new System.Drawing.Point(16, 55);
             this.hotGroupBox1.Name = "hotGroupBox1";
             this.hotGroupBox1.Size = new System.Drawing.Size(233, 35);
             this.hotGroupBox1.TabIndex = 1;

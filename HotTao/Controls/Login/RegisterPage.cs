@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using HotCoreUtils.Helper;
 using HotTaoCore.Logic;
+using System.Threading;
 
 namespace HotTao.Controls.Login
 {
@@ -41,7 +42,7 @@ namespace HotTao.Controls.Login
             else
                 lbLoginName.Visible = true;
         }
- 
+
         private void loginPwd_KeyDown(object sender, KeyEventArgs e)
         {
             if (!string.IsNullOrEmpty(loginPwd.Text))
@@ -67,6 +68,23 @@ namespace HotTao.Controls.Login
             }
         }
 
+
+        public void AlertTip(string text)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string>(AlertTip), new object[] { text });
+            }
+            else
+            {
+                MessageAlert alert = new MessageAlert(text, "提示");
+                alert.StartPosition = FormStartPosition.CenterScreen;
+                alert.Show();
+            }
+        }
+
+
+
         private void btnRegister_Click(object sender, EventArgs e)
         {
             try
@@ -75,19 +93,28 @@ namespace HotTao.Controls.Login
                     return;
                 if (string.IsNullOrEmpty(loginName.Text))
                 {
-                    lbTipMsg.Text = "请输入登录账户!";
+                    AlertTip("请输入登录账户");
                     loginName.Focus();
                     return;
                 }
                 if (string.IsNullOrEmpty(loginPwd.Text))
                 {
-                    lbTipMsg.Text = "请输入登录密码!";
+                    AlertTip("请输入登录密码!");
                     loginPwd.Focus();
                     return;
                 }
+                if (string.IsNullOrEmpty(txtRegisterVerifyCode.Text))
+                {
+                    AlertTip("请输入验证码!");
+                    txtRegisterVerifyCode.Focus();
+                    return;
+                }
+
+
                 string lgname = loginName.Text;
                 string pwd = EncryptHelper.MD5(loginPwd.Text);
-                string verifyCode ="";
+                string verifyCode = txtRegisterVerifyCode.Text;
+                string code = txtCode.Text;
                 Loading ld = new Loading();
                 ((Action)(delegate ()
                 {
@@ -95,12 +122,9 @@ namespace HotTao.Controls.Login
                     {
                         if (err != null && err.resultCode != 200)
                         {
-                            this.BeginInvoke((Action)(delegate ()  //等待结束
-                            {
-                                lbTipMsg.Text = err.resultMsg;
-                            }));
+                            AlertTip(err.resultMsg);
                         }
-                    });
+                    }, code);
                     ld.CloseForm();
                     if (data != null)
                     {
@@ -114,11 +138,102 @@ namespace HotTao.Controls.Login
             }
             catch (Exception ex)
             {
+                AlertTip("连接服务器失败!");
                 log.Error(ex.Message);
-                this.BeginInvoke((Action)(delegate ()  //等待结束
+            }
+        }
+
+
+
+
+
+
+        private void timeOut()
+        {
+            btnGetVerifyCode.BackColor = Color.Silver;
+            new Thread(() =>
+            {
+                int s = 60;
+                ShowTime(s);
+                while (isSendVerifyCode)
                 {
-                    lbTipMsg.Text = "连接服务器失败!";
-                }));
+                    Thread.Sleep(1000);
+                    --s;
+                    if (s <= 0)
+                        isSendVerifyCode = false;
+                    ShowTime(s);
+                }
+            })
+            { IsBackground = true }.Start();
+        }
+
+
+        public void ShowTime(int timeout)
+        {
+            if (this.btnGetVerifyCode.InvokeRequired)
+            {
+                this.btnGetVerifyCode.Invoke(new Action<int>(ShowTime), new object[] { timeout });
+            }
+            else
+            {
+                if (timeout > 0)
+                    btnGetVerifyCode.Text = timeout.ToString() + "秒后再试";
+                else
+                {
+                    btnGetVerifyCode.Text = "获取验证码";
+                    btnGetVerifyCode.BackColor = Color.FromArgb(18, 216, 106);
+                }
+            }
+        }
+
+
+
+
+
+
+        private void lbVerifyCode_Click(object sender, EventArgs e)
+        {
+            txtRegisterVerifyCode.Focus();
+        }
+        private void txtRegisterVerifyCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtRegisterVerifyCode.Text))
+                lbVerifyCode.Visible = false;
+            else
+                lbVerifyCode.Visible = true;
+        }
+
+        private void lbCode_Click(object sender, EventArgs e)
+        {
+            txtCode.Focus();
+        }
+
+        private void txtCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtCode.Text))
+                lbCode.Visible = false;
+            else
+                lbCode.Visible = true;
+        }
+        private bool isSendVerifyCode { get; set; }
+        private void btnGetVerifyCode_Click(object sender, EventArgs e)
+        {
+            if (isSendVerifyCode) return;
+            if (string.IsNullOrEmpty(loginName.Text.Trim()) || loginName.Text.Trim().Length != 11)
+            {
+                AlertTip("请输入手机号码");
+                return;
+            }
+
+            //获取
+            if (LogicUser.Instance.sendCodeForRegister(loginName.Text.Trim()))
+            {
+                isSendVerifyCode = true;
+                timeOut();
+            }
+            else
+            {
+                AlertTip("发送失败");
             }
         }
     }

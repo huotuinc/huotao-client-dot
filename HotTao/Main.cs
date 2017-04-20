@@ -640,6 +640,21 @@ namespace HotTao
                 alert.Show();
             }
         }
+
+        public void CloseMain()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(CloseMain), new object[] {  });
+            }
+            else
+            {
+                this.Close();
+            }
+        }
+
+
+
         /// <summary>
         /// 确认提示
         /// </summary>
@@ -664,6 +679,24 @@ namespace HotTao
                 alert.ShowDialog();
                 if (isOk)
                     callback?.Invoke();
+            }
+        }
+
+
+        /// <summary>
+        /// 显示激活窗口
+        /// </summary>
+        public void ShowCDKeyForm()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(ShowCDKeyForm));
+            }
+            else
+            {
+                CDkey cdkey = new CDkey(this);
+                cdkey.StartPosition = FormStartPosition.CenterScreen;
+                cdkey.ShowDialog(this);
             }
         }
 

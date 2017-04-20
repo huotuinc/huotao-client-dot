@@ -51,7 +51,15 @@ namespace HotTaoCore.Logic
             return null;
         }
 
-
+        /// <summary>
+        /// 注册
+        /// </summary>
+        /// <param name="loginName">Name of the login.</param>
+        /// <param name="loginPwd">The login password.</param>
+        /// <param name="verifyCode">The verify code.</param>
+        /// <param name="error">The error.</param>
+        /// <param name="code">The code.</param>
+        /// <returns>UserModel.</returns>
         public UserModel Register(string loginName, string loginPwd, string verifyCode, Action<ResultModel> error = null, string code = "")
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
@@ -76,11 +84,11 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="mobile">The mobile.</param>
         /// <returns>true if XXXX, false otherwise.</returns>
-        public bool sendCodeForRegistger(string mobile)
+        public bool sendCodeForRegister(string mobile)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["mobile"] = mobile;
-            return BaseRequestService.Post(ApiConst.register, data);
+            return BaseRequestService.Post(ApiConst.sendCodeForRegister, data);
         }
 
         /// <summary>

@@ -39,9 +39,9 @@
             // panelLogin
             // 
             this.panelLogin.BackColor = System.Drawing.Color.Transparent;
-            this.panelLogin.Location = new System.Drawing.Point(370, 143);
+            this.panelLogin.Location = new System.Drawing.Point(370, 121);
             this.panelLogin.Name = "panelLogin";
-            this.panelLogin.Size = new System.Drawing.Size(386, 261);
+            this.panelLogin.Size = new System.Drawing.Size(386, 348);
             this.panelLogin.TabIndex = 7;
             // 
             // pictureBox1
