@@ -142,6 +142,7 @@
     <Compile Include="Models\ReplyResponeModel.cs" />
     <Compile Include="Models\SQLiteEntitysModel.cs" />
     <Compile Include="Models\SyncGoodsModel.cs" />
+    <Compile Include="Models\TaoBaoModel.cs" />
     <Compile Include="Models\TaskPlanModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserPidModel.cs" />

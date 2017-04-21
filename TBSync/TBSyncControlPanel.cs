@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -335,7 +336,7 @@ namespace TBSync
         /// 登录成功回调
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
-        private void Lw_LoginSuccessHandle(JArray jsons)
+        private void Lw_LoginSuccessHandle(JArray jsons, CookieCollection cookies)
         {
             SetText("登录成功!");
 

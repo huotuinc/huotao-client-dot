@@ -8,7 +8,9 @@ using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Net;
 using System.Runtime.InteropServices;
+using System.Web;
 using System.Windows.Forms;
 
 namespace HotTao
@@ -645,7 +647,7 @@ namespace HotTao
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new Action(CloseMain), new object[] {  });
+                this.Invoke(new Action(CloseMain), new object[] { });
             }
             else
             {
@@ -729,7 +731,8 @@ namespace HotTao
 
         #region 登录淘宝相关操作
 
-        TBSync.LoginWindow lw;
+        public TBSync.LoginWindow lw;
+
         /// <summary>
         /// 登录淘宝
         /// </summary>
@@ -754,44 +757,71 @@ namespace HotTao
         /// </summary>
         private void Lw_CloseWindowHandle()
         {
-            loginWindowsClose();
+            HideWindow();
         }
 
-        private void Lw_LoginSuccessHandle(Newtonsoft.Json.Linq.JArray jsons)
+        /// <summary>
+        /// LW_s the login success handle.
+        /// </summary>
+        /// <param name="jsons">The jsons.</param>
+        private void Lw_LoginSuccessHandle(Newtonsoft.Json.Linq.JArray jsons, CookieCollection cookies)
         {
-            string cookieJson = JsonConvert.SerializeObject(jsons);
-            //老接口            
-            //((Action)(delegate ()
-            //{
-            //    MyUserInfo.TaobaoName = LogicUser.Instance.GetTaobaoUsername(MyUserInfo.LoginToken, cookieJson);
-            //})).BeginInvoke(null, null);
-            //loginWindowsClose();
-
-
-            //绑定淘宝账号 新接口
-            var result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, false);
-            if (result.resultCode == 200)
-                MyUserInfo.TaobaoName = result.data.ToString();
-            else if (result.resultCode == 511)
+            string _tb_token = "";
+            foreach (System.Net.Cookie cookie in cookies)
             {
-                AlertConfirm("当前登录淘宝账号与上次不匹配，是否切换?", "提示", () =>
+                if (cookie.Name.Equals("_tb_token_"))
+                {
+                    _tb_token = cookie.Value;
+                    break;
+                }
+            }
+            TimingRefreshAlimamaPage();
+
+            string url = string.Format("http://pub.alimama.com/pubauc/getCommonCampaignByItemId.json?itemId={0}&t={1}&_tb_token_={2}&pvid=", "546173908682", getClientMsgId(), _tb_token);
+
+            CookieContainer cookiesContainer = new CookieContainer();
+            cookiesContainer.Add(cookies);
+            string content = BaseRequestService.HttpGet(url, cookiesContainer);
+            try
+            {
+                TaobaoCommonCampaignItemsModel data = JsonConvert.DeserializeObject<TaobaoCommonCampaignItemsModel>(content);
+            }
+            catch (Exception)
+            {
+                
+            }
+
+            new System.Threading.Thread(() =>
+            {
+                string cookieJson = JsonConvert.SerializeObject(jsons);
+                //绑定淘宝账号 新接口
+                var result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, false);
+                if (result.resultCode == 200)
+                    MyUserInfo.TaobaoName = result.data.ToString();
+                else if (result.resultCode == 511)
+                {
+                    AlertConfirm("当前登录淘宝账号与上次不匹配，是否切换?", "提示", () =>
+                    {
+                        result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, true);
+                        if (result.resultCode == 200)
+                            MyUserInfo.TaobaoName = result.data.ToString();
+                    });
+                }
+                else
                 {
                     loginWindowsClose();
-                    result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, true);
-                    if (result.resultCode == 200)
-                        MyUserInfo.TaobaoName = result.data.ToString();
-                });
-            }
-            else
-            {
-                loginWindowsClose();
-                AlertConfirm("数据读取失败,请重新登录!", "提示", () =>
-                {
-                    LoginTaoBao();
-                });
-            }
+                    AlertConfirm("数据读取失败,请重新登录!", "提示", () =>
+                    {
+                        LoginTaoBao();
+                    });
+                }
+            })
+            { IsBackground = true }.Start();
         }
 
+        /// <summary>
+        /// 关闭淘宝窗口事件
+        /// </summary>
         private void loginWindowsClose()
         {
             if (lw == null) return;
@@ -805,6 +835,100 @@ namespace HotTao
                     lw.Close();
                 lw = null;
             }
+        }
+        /// <summary>
+        /// 隐藏窗口
+        /// </summary>
+        public void HideWindow()
+        {
+            if (lw == null) return;
+            if (lw.InvokeRequired)
+            {
+                this.lw.Invoke(new Action(HideWindow), new object[] { });
+            }
+            else
+            {
+                if (lw != null)
+                    lw.Hide();
+            }
+        }
+        /// <summary>
+        /// 刷新状态
+        /// </summary>
+        /// <value>true if [refresh status]; otherwise, false.</value>
+        private bool RefreshStatus { get; set; }
+        /// <summary>
+        /// 刷新地址
+        /// </summary>
+        /// <value>The refresh URL.</value>
+        private string RefreshUrl { get; set; }
+        /// <summary>
+        /// 定时刷新
+        /// </summary>
+        /// <value>The timing refresh.</value>
+        private Timer timingRefresh { get; set; }
+
+        public bool IsRuning { get; set; }
+
+        /// <summary>
+        /// 定时刷新阿里妈妈页面，以保证其登录状态
+        /// 调用场景：登录阿里妈妈后触发
+        /// </summary>
+        private void TimingRefreshAlimamaPage()
+        {
+
+            if (timingRefresh != null)
+            {
+                timingRefresh.Stop();
+                timingRefresh.Dispose();
+                timingRefresh = null;
+            }
+            timingRefresh = new Timer();
+            timingRefresh.Interval = 30000;
+            timingRefresh.Tick += TimingRefresh_Tick;
+            // timingRefresh.Start();
+        }
+        /// <summary>
+        /// 定时刷新
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        /// <exception cref="System.NotImplementedException"></exception>
+        private void TimingRefresh_Tick(object sender, EventArgs e)
+        {
+            ResetRefeshStatus();
+            if (lw == null) return;
+            lw.GoPage(RefreshUrl);
+        }
+
+        /// <summary>
+        /// Resets the refesh status.
+        /// </summary>
+        public void ResetRefeshStatus()
+        {
+            RefreshUrl = RefreshStatus ? "http://www.alimama.com/news.htm" : "http://www.alimama.com/college.htm";
+            RefreshStatus = false;
+        }
+
+        /// <summary>
+        /// 申请高佣
+        /// </summary>
+        /// <param name="goodsDetailUrl">商品详情地址</param>
+        public void ApplyPlan(string goodsDetailUrl)
+        {
+            string url = string.Format("http://pub.alimama.com/promo/search/index.htm?q={1}&_t={0}&toPage=1&yxjh=-1", getClientMsgId(), HttpUtility.UrlEncode(goodsDetailUrl));
+            if (lw == null) return;
+            lw.GoPage(url);
+        }
+
+        /// <summary>
+        /// 获取随机地址
+        /// </summary>
+        /// <returns>System.Int64.</returns>
+        public static long getClientMsgId()
+        {
+            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+            return (long)(DateTime.Now - startTime).TotalMilliseconds;
         }
         #endregion
 

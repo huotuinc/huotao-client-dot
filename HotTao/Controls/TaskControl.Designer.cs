@@ -109,7 +109,6 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.btnAddWeChatGroup = new System.Windows.Forms.Button();
@@ -825,7 +824,6 @@
             this.panel3.Controls.Add(this.label12);
             this.panel3.Controls.Add(this.label6);
             this.panel3.Controls.Add(this.label7);
-            this.panel3.Controls.Add(this.label18);
             this.panel3.Controls.Add(this.label8);
             this.panel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.panel3.Location = new System.Drawing.Point(7, 267);
@@ -905,16 +903,6 @@
             this.label7.Size = new System.Drawing.Size(33, 13);
             this.label7.TabIndex = 2;
             this.label7.Text = "价格";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("宋体", 9.7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label18.Location = new System.Drawing.Point(176, 11);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(33, 13);
-            this.label18.TabIndex = 2;
-            this.label18.Text = "编号";
             // 
             // label8
             // 
@@ -1149,7 +1137,6 @@
             this.btnApply.TabIndex = 3;
             this.btnApply.Text = "申请定向佣金";
             this.btnApply.UseVisualStyleBackColor = false;
-            this.btnApply.Visible = false;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // btnClearAllGoods
@@ -1272,7 +1259,6 @@
         private System.Windows.Forms.Button btnAddTask;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Button btnAddGoods;
-        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.ContextMenuStrip cmsWeChatMenu;
         private System.Windows.Forms.ToolStripMenuItem 添加ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolWeChatDel;

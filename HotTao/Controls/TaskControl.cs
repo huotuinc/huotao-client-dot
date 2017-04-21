@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Diagnostics;
 using System.IO;
 using System.Data;
+using System.Net;
 
 namespace HotTao.Controls
 {
@@ -65,11 +66,6 @@ namespace HotTao.Controls
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));
-
-            //dgvData.MouseWheel += DgvData_MouseWheel;
-            //dgvPid.MouseWheel += DgvData_MouseWheel;
-            //dgvTaskPlan.MouseWheel += DgvData_MouseWheel;
-
         }
 
         /// <summary>
@@ -82,57 +78,6 @@ namespace HotTao.Controls
         {
             LoadTaskPlanGridView();
         }
-
-        /// <summary>
-        /// 鼠标滚动事件
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
-        private void DgvData_MouseWheel(object sender, MouseEventArgs e)
-        {
-            DataGridView dataGridView1 = sender as DataGridView;
-            try
-            {
-                if (dataGridView1.CurrentCell != null)
-                {
-                    DataGridViewCell dvc = dataGridView1.CurrentCell;
-                    int ri = dvc.RowIndex;
-                    int ci = dvc.ColumnIndex;
-                    int c = 0;
-                    if (e.Delta > 0)//向上
-                    {
-                        if (ri - 3 > 0)
-                            c = 3;
-                        else if (ri > 0)
-                            c = 1;
-                        if (c > 0)
-                        {
-                            dvc = dataGridView1.Rows[ri - c].Cells[ci];
-                            dataGridView1.CurrentCell = dvc;
-
-                        }
-                    }
-                    else
-                    {
-                        if (ri < dataGridView1.Rows.Count - 3)
-                            c = 3;
-                        else if (ri < dataGridView1.Rows.Count - 1)
-                            c = 1;
-                        if (c > 0)
-                        {
-                            dvc = dataGridView1.Rows[ri + c].Cells[ci];
-                            dataGridView1.CurrentCell = dvc;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                return;
-            }
-        }
-
-
         /// <summary>
         /// 加载用户推广位
         /// </summary>
@@ -143,8 +88,7 @@ namespace HotTao.Controls
            {
                //是否自动添加属性字段
                this.dgvPid.AutoGenerateColumns = false;
-
-               //var data = LogicGoods.Instance.getGoodsList(MyUserInfo.LoginToken);
+               
                var pidData = LogicHotTao.Instance(MyUserInfo.currentUserId).GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);
                if (pidData != null)
                {
@@ -175,17 +119,7 @@ namespace HotTao.Controls
                 {
                     dgvPid.Rows.Add();
                     ++i;
-                    //if (i == 4)
-                    //{
-                    //    this.dgvPid.Width += 14;
-                    //    pwechat.Visible = true;
-                    //}
-                    //if (i < 4)
-                    //{
-                    //    this.dgvPid.Width = 390;
-                    //    pwechat.Visible = false;
-                    //}
-
+                    
                     dgvPid.Rows[i - 1].Cells["groupindex"].Value = i.ToString();
                     dgvPid.Rows[i - 1].Cells["shareid"].Value = data[j].id.ToString();
                     dgvPid.Rows[i - 1].Cells["sharetitle"].Value = data[j].wechattitle.ToString();
@@ -282,17 +216,6 @@ namespace HotTao.Controls
                 {
                     dgvTaskPlan.Rows.Add();
                     ++i;
-                    //if (i == 4)
-                    //{
-                    //    this.dgvTaskPlan.Width += 11;
-                    //    ptask.Visible = true;
-                    //}
-                    //if (i < 4)
-                    //{
-                    //    this.dgvTaskPlan.Width = 496;
-                    //    ptask.Visible = false;
-                    //}
-
 
                     dgvTaskPlan.Rows[i - 1].Cells["taskid"].Value = taskData[j].id.ToString();
                     dgvTaskPlan.Rows[i - 1].Cells["taskTitle"].Value = taskData[j].title.ToString();
@@ -339,16 +262,6 @@ namespace HotTao.Controls
                 int i = dgvTaskPlan.Rows.Count;
                 dgvTaskPlan.Rows.Add();
                 ++i;
-                //if (i == 4)
-                //{
-                //    this.dgvTaskPlan.Width += 11;
-                //    ptask.Visible = true;
-                //}
-                //if (i < 4)
-                //{
-                //    this.dgvTaskPlan.Width = 496;
-                //    ptask.Visible = false;
-                //}
                 dgvTaskPlan.Rows[i - 1].Cells["taskid"].Value = model.id.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["taskTitle"].Value = model.title.ToString();
                 dgvTaskPlan.Rows[i - 1].Cells["taskStartTime"].Value = model.startTime.ToString();
@@ -385,8 +298,7 @@ namespace HotTao.Controls
             new Thread(() =>
             {
                 //是否自动添加属性字段
-                this.dgvData.AutoGenerateColumns = false;
-                //var data = LogicGoods.Instance.getGoodsList(MyUserInfo.LoginToken);
+                this.dgvData.AutoGenerateColumns = false;                
                 var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(MyUserInfo.currentUserId);
                 if (data != null)
                 {
@@ -792,8 +704,7 @@ namespace HotTao.Controls
             int eCode = 0;
             int.TryParse(cells["ExecStatus"].Value.ToString(), out eCode);
             if (eCode == 0)
-            {
-                //
+            {                
                 TaskEdit te = new TaskEdit(hotForm, this);
                 te.Title = "修改任务计划";
                 int result = 0;
@@ -823,8 +734,7 @@ namespace HotTao.Controls
             //
             DataGridViewCellCollection cells = this.dgvData.CurrentRow.Cells;
             if (cells != null && cells["editgoods"].ColumnIndex == e.ColumnIndex)
-            {
-                // DataGridViewCellCollection cells = this.dgvData.CurrentRow.Cells;
+            {                
                 int deleteId = 0;
                 int.TryParse(cells["gid"].Value.ToString(), out deleteId);
                 MessageConfirm confirm = new MessageConfirm();
@@ -837,8 +747,7 @@ namespace HotTao.Controls
                     })).BeginInvoke(null, null);
 
                     this.dgvData.Rows.RemoveAt(cells[0].RowIndex);
-
-                    //ShowAlert("删除成功");
+                                        
                 };
                 confirm.ShowDialog(this);
             }
@@ -1028,10 +937,10 @@ namespace HotTao.Controls
         }
         private int MouseCurrentRowIndex = 0;
 
-        /// <summary>
-        /// 淘宝登录成功状态
-        /// </summary>
-        private bool LoginTaobaoSuccess = false;
+        ///// <summary>
+        ///// 淘宝登录成功状态
+        ///// </summary>
+        //private bool LoginTaobaoSuccess = false;
 
         private void toolWeChatSetPid_Click(object sender, EventArgs e)
         {
@@ -1066,47 +975,10 @@ namespace HotTao.Controls
                 confirm.ShowDialog(this);
                 if (isOK)
                 {
-                    LoginTaoBao();
-                    //if (LoginTaobaoSuccess)
-                    //{
-                    //    Loading ld = new Loading();
-                    //    ld.SetTimerClose(8000);
-                    //    ld.ShowDialog(this);
-                    //    ShowAlert("登录成功!您可以设置PID了");
-                    //}
+                    LoginTaoBao();                   
                 }
             }
         }
-
-
-        //private void LoginTaobao()
-        //{
-        //    tbLogin tblg = new tbLogin();
-        //    tblg.LoginSuccessHandle += (jsons) =>
-        //    {
-        //        tblg.Close();
-        //        LoginTaobaoSuccess = true;
-        //        MyUserInfo.TaobaoLoginCookies = JsonConvert.SerializeObject(jsons);
-        //        ((Action)(delegate ()
-        //        {
-        //            MyUserInfo.TaobaoName = LogicUser.Instance.GetTaobaoUsername(MyUserInfo.LoginToken, MyUserInfo.TaobaoLoginCookies);
-
-        //        })).BeginInvoke(null, null);
-        //    };
-        //    tblg.ShowDialog(this);
-        //    ((Action)(delegate ()
-        //    {
-        //        if (!string.IsNullOrEmpty(MyUserInfo.TaobaoLoginCookies))
-        //        {
-        //            MyUserInfo.MyPidList = LogicUser.Instance.GetPids(MyUserInfo.LoginToken, MyUserInfo.TaobaoLoginCookies);
-        //        }
-        //    })).BeginInvoke(null, null);
-
-        //}
-
-
-
-
 
         #region 登录淘宝相关操作
         /// <summary>
@@ -1163,7 +1035,7 @@ namespace HotTao.Controls
             loginWindowsClose();
         }
 
-        private void Lw_LoginSuccessHandle(Newtonsoft.Json.Linq.JArray jsons)
+        private void Lw_LoginSuccessHandle(Newtonsoft.Json.Linq.JArray jsons, CookieCollection cookies)
         {
             string cookieJson = JsonConvert.SerializeObject(jsons);
 
@@ -1502,9 +1374,12 @@ namespace HotTao.Controls
 
         private void btnApply_Click(object sender, EventArgs e)
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo("TBSync.exe", string.Format("{0} {1}", MyUserInfo.LoginToken, MyUserInfo.currentUserId));
-            startInfo.WindowStyle = ProcessWindowStyle.Minimized;
-            Process.Start(startInfo);
+            //ProcessStartInfo startInfo = new ProcessStartInfo("TBSync.exe", string.Format("{0} {1}", MyUserInfo.LoginToken, MyUserInfo.currentUserId));
+            //startInfo.WindowStyle = ProcessWindowStyle.Minimized;
+            //Process.Start(startInfo);
+
+            hotForm.ApplyPlan("https://detail.tmall.com/item.htm?id=17905972615&skuId=41722663735");
+
         }
 
         private void toolsExportGoods_Click(object sender, EventArgs e)

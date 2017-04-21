@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Web;
 
@@ -75,6 +76,27 @@ namespace HotTaoCore
                 return default(T);
             }
         }
+
+        /// <summary>
+        /// HTTPs the post.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="cookies">The cookies.</param>
+        /// <returns>System.String.</returns>
+        public static string HttpGet(string url, CookieContainer cookies)
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.CookieContainer = cookies;
+            HttpClient client = new HttpClient(clientHandler);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
+            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(ProductHeaderValue.Parse("Mozilla/5.0")));//           
+            byte[] bytes = client.GetByteArrayAsync(url).Result;
+            if (bytes != null)
+                return Encoding.UTF8.GetString(bytes);
+            return string.Empty;
+        }
+
+
 
         public static VersionModel CheckUpdate()
         {
@@ -355,7 +377,7 @@ namespace HotTaoCore
             {
                 url = url.IndexOf("http") < 0 ? "http:" + url : url;
                 log.Info(url);
-                WebRequest request = WebRequest.Create(url);                
+                WebRequest request = WebRequest.Create(url);
                 request.Method = "get";
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 Stream response_stream = response.GetResponseStream();
@@ -373,7 +395,7 @@ namespace HotTaoCore
             }
             catch (Exception ex)
             {
-                log.Error("无效地址:"+url);
+                log.Error("无效地址:" + url);
                 log.Error(ex);
                 return null;
             }

@@ -21,7 +21,7 @@ namespace TBSync
     /// 表示登录完成事件的方法
     /// </summary>
     /// <param name="user"></param>
-    public delegate void LoginSuccessEventHandler(JArray jsons);
+    public delegate void LoginSuccessEventHandler(JArray jsons, CookieCollection cookies);
 
     /// <summary>
     /// 提交申请完成
@@ -32,6 +32,9 @@ namespace TBSync
     /// 登录页面加载完成事件方法
     /// </summary>
     public delegate void LoginPageLoadSuccessEventHandler(bool success);
+
+
+    public delegate void LoadDenyEventHandler();
 
     /// <summary>
     /// 关闭事件
@@ -65,6 +68,11 @@ namespace TBSync
         /// 关闭窗口
         /// </summary>
         public event CloseEventHandler CloseWindowHandle;
+        /// <summary>
+        /// 访问受限
+        /// </summary>
+        public event LoadDenyEventHandler LoadDenyHandler;
+
 
         public ChromiumWebBrowser browser;
 
@@ -88,6 +96,13 @@ namespace TBSync
         /// </summary>
         private const string denyUrl = "http://alisec.alimama.com/deny.html";
 
+        private const string errorUrl = "http://www.alimama.com/500.htm";
+
+        /// <summary>
+        /// 搜索url
+        /// </summary>
+        private const string searchUrl = "http://pub.alimama.com/promo/search/index.htm";
+
 
         private void LoginWindow_Load(object sender, EventArgs e)
         {
@@ -108,15 +123,33 @@ namespace TBSync
                 browser.Size = new Size(920, 607);
                 browser.Location = new Point(1, 0);
                 browser.FrameLoadEnd += Browser_FrameLoadEnd;
+                browser.TitleChanged += Browser_TitleChanged;           
                 this.tbPanel.Controls.Add(browser);
             }
         }
 
+        private void Browser_TitleChanged(object sender, TitleChangedEventArgs e)
+        {
+            if(e.Title.Contains("阿里妈妈")|| e.Title.Contains("淘宝联盟"))
+            {
+                HideWindow();
+                isLoginSuccess = true;
+                if (!isLoginCompleted)
+                {
+                    isLoginCompleted = true;
+                    new Thread(() =>
+                    {
+                        LoginSuccess();
+                    })
+                    { IsBackground = true }.Start();
+                }
+            }
+        }
 
         private bool isLoadCompleted = false;
         private bool isLoginCompleted = false;
         private bool isLoadPlanCompleted = false;
-
+        private bool isLoadSearchCompleted = false;
 
         /// <summary>
         /// 是否登录成功
@@ -136,6 +169,7 @@ namespace TBSync
                 if (!isLoadCompleted)
                 {
                     isLoadCompleted = true;
+                    isLoginCompleted = false;
                     new Thread(() =>
                     {
                         //页面加载完成回调
@@ -152,6 +186,7 @@ namespace TBSync
                 if (!isLoginCompleted)
                 {
                     isLoginCompleted = true;
+
                     new Thread(() =>
                     {
                         LoginSuccess();
@@ -166,7 +201,7 @@ namespace TBSync
                     isLoadPlanCompleted = true;
                     new Thread(() =>
                     {
-                        ClickCampaignElement();
+                       // ClickCampaignElement();
                     })
                     { IsBackground = true }.Start();
 
@@ -177,9 +212,22 @@ namespace TBSync
                 new Thread(() =>
                 {
                     //提交完成
-                     SubmitSuccessHandle?.Invoke(true, goods);
+                    SubmitSuccessHandle?.Invoke(true, goods);
                 })
                 { IsBackground = true }.Start();
+            }
+            //搜索商品页面
+            else if(e.Url.Contains(searchUrl))
+            {
+                if (!isLoadSearchCompleted)
+                {
+                    isLoadSearchCompleted = true;
+                    new Thread(() =>
+                    {
+                        CheckGoodsCommApply();
+                    })
+                    { IsBackground = true }.Start();
+                }
             }
         }
 
@@ -208,6 +256,21 @@ namespace TBSync
             }
 
         }
+
+        /// <summary>
+        /// 打开指定页面
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        public void GoPage(string url)
+        {
+            if (!string.IsNullOrEmpty(url))
+            {
+                isLoadSearchCompleted = false;
+                browser.Load(url);
+            }
+        }
+
+
 
 
         public void HideWindow()
@@ -265,11 +328,12 @@ namespace TBSync
         /// </summary>
         /// <param name="b">The b.</param>
         /// <param name="script">The script.</param>
+        /// <param name="millisecondsTimeout">等待时间</param>
         /// <returns>System.Object.</returns>
-        static object EvaluateScript(ChromiumWebBrowser b, string script)
+        static object EvaluateScript(ChromiumWebBrowser b, string script,int millisecondsTimeout= 15000)
         {
             var task = b.EvaluateScriptAsync(script);
-            task.Wait(15000);
+            task.Wait(millisecondsTimeout);
             JavascriptResponse response = task.Result;
             return response.Success ? (response.Result ?? "") : response.Message;
         }
@@ -283,26 +347,113 @@ namespace TBSync
             Thread.Sleep(500);
             browser.ExecuteScriptAsync("document.getElementById('TPL_password_1').value='" + loginname + "';");
             Thread.Sleep(500);
-            //browser.ExecuteScriptAsync("document.getElementById('J_SubmitStatic').click();");
-            //new Thread(() =>
-            //{
-            //    Thread.Sleep(1000);
-            //    if (!isLoginSuccess)
-            //    {
-            //        //提交完成
-            //        LoadSuccessHandle?.Invoke(false);
-            //    }
-            //})
-            //{ IsBackground = true }.Start();
+
         }
 
 
+        /// <summary>
+        /// 检查商品佣金，并申请
+        /// </summary>
+        private void CheckGoodsCommApply()
+        {
+            try
+            {
+                Thread.Sleep(5000);
+                bool result = false;
+                int len = 0;
+                string defaultComJS = "document.getElementsByClassName('fl color-brand').item(0).getElementsByClassName('number number-16').item(0).getElementsByTagName('span')";
+                //获取佣金率整数部分
+                object integerHtml = EvaluateScript(browser, defaultComJS + ".item(0).innerHTML;");
+                
+                //获取佣金率小数部分
+                object decimalHtml = EvaluateScript(browser, defaultComJS + ".item(2).innerHTML;");
+                //默认佣金率
+                decimal commMoney = 0;
+                decimal.TryParse(integerHtml.ToString().Trim() + "." + decimalHtml.ToString().Trim(), out commMoney);
 
 
+                log.Debug("默认佣金：" + commMoney);
+
+                var jsGengDuoyongjin = "document.getElementsByClassName('pubfont icon-gengduoyongjin')";
+
+                //判断是否有定向佣金
+                object response = EvaluateScript(browser, jsGengDuoyongjin + ".length;");
+                int.TryParse(response.ToString(), out len);
+                if (len > 0)
+                    result = true;
+
+                log.Debug("是否有定向佣金：" + result);
 
 
+                if (result)
+                {
+                    //点击申请按钮
+                    browser.ExecuteScriptAsync(jsGengDuoyongjin + ".item(0).click();");
+                    //等待500毫秒
+                    Thread.Sleep(500);
 
+                    //获取商品佣金计划数量
+                    var js = "document.getElementsByClassName('table-scroll').item(0).getElementsByTagName('table').item(0).getElementsByTagName('tr')";
 
+                    object _lenObj = EvaluateScript(browser, js + ".length");
+                    int _len = 0;
+                    int.TryParse(_lenObj.ToString(), out _len);
+
+                    log.Debug("定向佣金数量：" + _len);
+
+                    if (_len > 0)
+                    {
+                        int gaoyongjin = 0, gaoyongjinindex = 0;
+                        for (int i = 0; i < _len; i++)
+                        {
+                            var jsChild = string.Format("{0}.item({1}).getElementsByTagName('td')", js, i);
+
+                            string _comTypeObj = EvaluateScript(browser, jsChild + ".item(2).getElementsByTagName('span').item(0).innerHTML").ToString();
+                            if (_comTypeObj.Contains("自动"))
+                            {
+                                object _comObj = EvaluateScript(browser, jsChild + ".item(1).getElementsByTagName('span').item(0).innerHTML");
+                                int _gaoyongjin = 0;
+
+                                int.TryParse(_comObj.ToString(), out _gaoyongjin);
+                                //判断当前计划佣金是否大于上一条佣金和默认佣金
+                                if (_gaoyongjin > gaoyongjin && _gaoyongjin > commMoney)
+                                {
+                                    gaoyongjin = _gaoyongjin;
+                                    gaoyongjinindex = i;
+                                }
+                            }
+                        }
+
+                        //循环完后，如果佣金计划里有大于默认佣金的，则执行申请操作
+                        if (gaoyongjin > commMoney)
+                        {
+                            log.Debug("最高佣金：" + gaoyongjin);
+                            string ApplyJs = string.Format("{0}.item({1}).getElementsByTagName('td').item(4).getElementsByTagName('a').item(1).click();", js, gaoyongjinindex);
+                            //点击申请按钮
+                            browser.ExecuteScriptAsync(jsGengDuoyongjin + ".item(0).click();");
+
+                            Thread.Sleep(2000);
+                            //输入推广理由
+                            browser.ExecuteScriptAsync("document.getElementById('J_applyReason').innerText='您好，淘客联盟，人多请过！';");
+                            Thread.Sleep(2000);
+                            browser.ExecuteScriptAsync("document.getElementsByClassName('dialog-ft').item(0).getElementsByTagName('button').item(0).click();");
+                            Thread.Sleep(2000);
+                            log.Debug("操作完成");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+
+            new Thread(() =>
+            {
+                browser.Load(callback);
+            })
+            { IsBackground = true }.Start();
+        }
 
 
         public void LoginSuccess()
@@ -311,6 +462,7 @@ namespace TBSync
             if (Cef.GetGlobalCookieManager().VisitUrlCookies(LoginSuccessUrl, true, visitor))
                 visitor.WaitForAllCookies();
             JArray jsons = new JArray();
+            CookieCollection cookies = new CookieCollection();
             foreach (System.Net.Cookie cookie in visitor.NamesValues)
             {
                 JObject json = new JObject();
@@ -319,9 +471,10 @@ namespace TBSync
                 json["domain"] = cookie.Domain;
                 json["value"] = cookie.Value;
                 jsons.Add(json);
+                cookies.Add(cookie);
             }
             //页面加载完成回调
-            LoginSuccessHandle?.Invoke(jsons);
+            LoginSuccessHandle?.Invoke(jsons, cookies);
         }
 
 
