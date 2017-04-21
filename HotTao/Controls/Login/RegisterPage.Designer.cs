@@ -61,7 +61,7 @@
             this.btnRegister.Location = new System.Drawing.Point(18, 192);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(233, 41);
-            this.btnRegister.TabIndex = 16;
+            this.btnRegister.TabIndex = 5;
             this.btnRegister.Text = "注册";
             this.btnRegister.UseVisualStyleBackColor = false;
             this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
@@ -82,10 +82,7 @@
             // 
             this.btnGetVerifyCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
             this.btnGetVerifyCode.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGetVerifyCode.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
             this.btnGetVerifyCode.FlatAppearance.BorderSize = 0;
-            this.btnGetVerifyCode.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnGetVerifyCode.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
             this.btnGetVerifyCode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGetVerifyCode.ForeColor = System.Drawing.Color.White;
             this.btnGetVerifyCode.Location = new System.Drawing.Point(158, 110);
@@ -107,7 +104,7 @@
             this.hotGroupBox4.Location = new System.Drawing.Point(18, 150);
             this.hotGroupBox4.Name = "hotGroupBox4";
             this.hotGroupBox4.Size = new System.Drawing.Size(233, 35);
-            this.hotGroupBox4.TabIndex = 14;
+            this.hotGroupBox4.TabIndex = 4;
             this.hotGroupBox4.TabStop = false;
             // 
             // lbCode
@@ -147,7 +144,7 @@
             this.hotGroupBox1.Location = new System.Drawing.Point(18, 29);
             this.hotGroupBox1.Name = "hotGroupBox1";
             this.hotGroupBox1.Size = new System.Drawing.Size(233, 35);
-            this.hotGroupBox1.TabIndex = 14;
+            this.hotGroupBox1.TabIndex = 1;
             this.hotGroupBox1.TabStop = false;
             // 
             // lbLoginName
@@ -187,7 +184,7 @@
             this.hotGroupBox3.Location = new System.Drawing.Point(18, 110);
             this.hotGroupBox3.Name = "hotGroupBox3";
             this.hotGroupBox3.Size = new System.Drawing.Size(134, 35);
-            this.hotGroupBox3.TabIndex = 16;
+            this.hotGroupBox3.TabIndex = 3;
             this.hotGroupBox3.TabStop = false;
             // 
             // lbVerifyCode
@@ -227,7 +224,7 @@
             this.hotGroupBox2.Location = new System.Drawing.Point(18, 69);
             this.hotGroupBox2.Name = "hotGroupBox2";
             this.hotGroupBox2.Size = new System.Drawing.Size(233, 35);
-            this.hotGroupBox2.TabIndex = 16;
+            this.hotGroupBox2.TabIndex = 2;
             this.hotGroupBox2.TabStop = false;
             // 
             // lbLoginPwd

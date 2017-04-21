@@ -79,7 +79,7 @@ namespace HotTao.Controls.Login
             {
                 MessageAlert alert = new MessageAlert(text, "提示");
                 alert.StartPosition = FormStartPosition.CenterScreen;
-                alert.Show();
+                alert.Show(this);
             }
         }
 
@@ -115,6 +115,7 @@ namespace HotTao.Controls.Login
                 string pwd = EncryptHelper.MD5(loginPwd.Text);
                 string verifyCode = txtRegisterVerifyCode.Text;
                 string code = txtCode.Text;
+                isLogining = true;
                 Loading ld = new Loading();
                 ((Action)(delegate ()
                 {
@@ -122,17 +123,25 @@ namespace HotTao.Controls.Login
                     {
                         if (err != null && err.resultCode != 200)
                         {
-                            AlertTip(err.resultMsg);
+                            this.BeginInvoke((Action)(delegate ()  //等待结束
+                            {
+                                MessageAlert alert = new MessageAlert(err.resultMsg, "提示");
+                                alert.StartPosition = FormStartPosition.CenterScreen;
+                                alert.Show();
+                            }));
                         }
+                        isLogining = false;
                     }, code);
                     ld.CloseForm();
                     if (data != null)
                     {
+                        AlertTip("注册成功!");
+                        isLogining = false;
                         this.BeginInvoke((Action)(delegate ()  //等待结束
                         {
                             loginForm.openControl(new LoginPage(hotForm, loginForm));
                         }));
-                    }
+                    }                    
                 })).BeginInvoke(null, null);
                 ld.ShowDialog(this);
             }

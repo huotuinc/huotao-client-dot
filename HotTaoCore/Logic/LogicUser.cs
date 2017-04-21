@@ -65,7 +65,7 @@ namespace HotTaoCore.Logic
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["username"] = loginName;
             data["password"] = loginPwd;
-            data["verifycode"] = verifyCode;
+            data["verifyCode"] = verifyCode;
             if (!string.IsNullOrEmpty(code))
                 data["code"] = code;
             var userData = BaseRequestService.Post<UserModel>(ApiConst.register, data, (err) =>
@@ -101,8 +101,8 @@ namespace HotTaoCore.Logic
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = token;
-            data["mobile"] = code;
-            return BaseRequestService.Post(ApiConst.register, data);
+            data["code"] = code;
+            return BaseRequestService.Post(ApiConst.activeAccount, data);
         }
         /// <summary>
         /// 根据登录token获取用户信息

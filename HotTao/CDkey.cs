@@ -17,16 +17,20 @@ namespace HotTao
 
         private Main hotForm { get; set; }
 
+        private bool isActive { get; set; }
+
         public CDkey(Main form)
         {
             InitializeComponent();
             hotForm = form;
+            isActive = false;
         }
 
         private void pbClose_Click(object sender, EventArgs e)
         {
             this.Close();
-            hotForm.CloseMain();
+            if (isActive)
+                hotForm.CloseMain();
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -39,7 +43,9 @@ namespace HotTao
             //获取
             if (LogicUser.Instance.activeAccount(MyUserInfo.LoginToken, txtCode.Text))
             {
-                AlertTip("激活成功！");
+                isActive = true;
+                AlertTip("恭喜你！激活成功！请重新登录!");
+                this.Close();
             }
             else
                 AlertTip("无效激活码！");
@@ -57,7 +63,7 @@ namespace HotTao
             {
                 MessageAlert alert = new MessageAlert(text, "提示");
                 alert.StartPosition = FormStartPosition.CenterScreen;
-                alert.Show();
+                alert.Show(this);
             }
         }
 
