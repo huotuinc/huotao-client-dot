@@ -41,7 +41,7 @@ namespace HotTao.Controls
                     if (hotForm.winTask != null && hotForm.winTask.isStartTask)
                         ShowStartButtonText("暂停计划");
                 }
-                LoadTaskPlanGridView();
+                LoadLogGridView();
 
                 dgvTaskPlan.MouseWheel += DgvData_MouseWheel;
             }
@@ -121,7 +121,6 @@ namespace HotTao.Controls
             { IsBackground = true }.Start();
         }
 
-
         private void SetTaskView(List<TaskPlanModel> taskData)
         {
             if (dgvTaskPlan.InvokeRequired)
@@ -165,6 +164,72 @@ namespace HotTao.Controls
                 }
             }
         }
+
+        System.Windows.Forms.Timer timingRefresh = new System.Windows.Forms.Timer();
+
+        /// <summary>
+        /// 加载日志数据
+        /// </summary>
+        public void LoadLogGridView()
+        {
+            new Thread(() =>
+            {
+                //是否自动添加属性字段
+                this.dgvLogView.AutoGenerateColumns = false;
+                if (hotForm.logRuningList != null)
+                    SetLogView(hotForm.logRuningList);
+
+                timingRefresh.Interval = 10000;
+                timingRefresh.Tick += TimingRefresh_Tick;
+                timingRefresh.Start();
+
+            })
+            { IsBackground = true }.Start();
+        }
+
+        private void TimingRefresh_Tick(object sender, EventArgs e)
+        {
+            if (hotForm.logRuningList != null)
+                SetLogView(hotForm.logRuningList);
+        }
+
+        private void SetLogView(List<LogRuningModel> data)
+        {
+            if (dgvLogView.InvokeRequired)
+            {
+                this.Invoke(new Action<List<LogRuningModel>>(SetLogView), new object[] { data });
+            }
+            else
+            {
+                dgvLogView.Rows.Clear();
+                int i = dgvLogView.Rows.Count;
+                for (int j = 0; j < data.Count(); j++)
+                {
+                    dgvLogView.Rows.Add();
+                    ++i;
+                    dgvLogView.Rows[i - 1].Cells["logId"].Value = i;
+                    dgvLogView.Rows[i - 1].Cells["logType"].Value = data[j].logType.ToString();
+                    dgvLogView.Rows[i - 1].Cells["logContent"].Value = data[j].remark;
+                    dgvLogView.Rows[i - 1].Cells["logStatus"].Value = data[j].isError ? "失败" : "成功";
+                    dgvLogView.Rows[i - 1].Cells["logTime"].Value = data[j].logTime.ToString("yyyy-MM-dd HH:mm:ss");
+                    dgvLogView.Rows[i - 1].Cells["goodsid"].Value = data[j].goodsid;
+                    if (i % 2 == 0)
+                    {
+                        dgvLogView.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                        dgvLogView.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
+                    }
+                    else
+                    {
+                        dgvLogView.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
+                        dgvLogView.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
+                    }
+                    dgvLogView.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
+                    dgvLogView.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
+                    dgvLogView.Rows[i - 1].DefaultCellStyle.NullValue = data[j].isError && data[j].logType == HotTaoCore.Enums.LogTypeOpts.申请高佣 ? "重新申请" : "";
+                }
+            }
+        }
+
 
 
 
@@ -492,12 +557,27 @@ namespace HotTao.Controls
                 int.TryParse(cells["ExecStatus"].Value.ToString(), out eCode);
                 if (eCode == 0)
                 {
-                    BuildShareText build = new BuildShareText(hotForm,this);
+                    BuildShareText build = new BuildShareText(hotForm, this);
                     int result = 0;
                     int.TryParse(cells["taskid"].Value.ToString(), out result);
                     build.taskid = result;
                     build.ShowDialog(this);
                 }
+            }
+        }
+        /// <summary>
+        /// 重新申请
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvLogView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewCellCollection cells = this.dgvLogView.CurrentRow.Cells;
+            if (cells != null && cells["operation"].ColumnIndex == e.ColumnIndex)
+            {
+                string goodsid = cells["goodsid"].Value.ToString();
+                string goodsName = cells["goodsName"].Value.ToString();
+                hotForm.ApplyPlan(goodsid, goodsName);
             }
         }
     }

@@ -12,6 +12,7 @@ using HotTaoCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -94,6 +95,29 @@ namespace HotTao
         /// 发送模式 默认0窗口模式
         /// </summary>
         public static int sendmode = 0;
+
+        /// <summary>
+        /// 淘宝联盟cookies
+        /// </summary>
+        public static CookieCollection cookies { get; set; }
+
+        /// <summary>
+        /// 获取淘宝联盟token
+        /// </summary>
+        /// <returns></returns>
+        public static string GetTbToken()
+        {
+            string _tb_token = string.Empty;
+            foreach (Cookie cookie in cookies)
+            {
+                if (cookie.Name.Equals("_tb_token_"))
+                {
+                    _tb_token = cookie.Value;
+                    break;
+                }
+            }
+            return _tb_token;
+        }
 
     }
 }

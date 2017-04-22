@@ -78,9 +78,9 @@
             this.lbTitle.ForeColor = System.Drawing.Color.White;
             this.lbTitle.Location = new System.Drawing.Point(10, 9);
             this.lbTitle.Name = "lbTitle";
-            this.lbTitle.Size = new System.Drawing.Size(53, 12);
+            this.lbTitle.Size = new System.Drawing.Size(77, 12);
             this.lbTitle.TabIndex = 7;
-            this.lbTitle.Text = "登录淘宝";
+            this.lbTitle.Text = "登录淘宝联盟";
             // 
             // pbClose
             // 
@@ -103,6 +103,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LoginWindow";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "登录淘宝";
             this.Load += new System.EventHandler(this.LoginWindow_Load);

@@ -291,7 +291,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 1;
-            this.label3.Text = "计划列表";
+            this.label3.Text = "运行日志";
             this.label3.Click += new System.EventHandler(this.btnHistory_Click);
             // 
             // btnHistory

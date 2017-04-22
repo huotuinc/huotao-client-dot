@@ -128,6 +128,7 @@
     <Compile Include="DAL\DBSqliteHelper.cs" />
     <Compile Include="DAL\HotTaoDAL.cs" />
     <Compile Include="DAL\SyncGoodsDAL.cs" />
+    <Compile Include="Enums\LogTypeOpts.cs" />
     <Compile Include="ExcelHelper.cs" />
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="HotTaoApiService.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Logic\LogicUserPid.cs" />
     <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\GoodsModel.cs" />
+    <Compile Include="Models\LogModel.cs" />
     <Compile Include="Models\ReplyResponeModel.cs" />
     <Compile Include="Models\SQLiteEntitysModel.cs" />
     <Compile Include="Models\SyncGoodsModel.cs" />

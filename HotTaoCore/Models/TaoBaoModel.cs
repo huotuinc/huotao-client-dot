@@ -40,28 +40,47 @@ namespace HotTaoCore.Models
         /// 
         /// </summary>
         /// <value>true if [invalid key]; otherwise, false.</value>
-        public bool invalidKey { get; set; }
+        public string invalidKey { get; set; }
 
     }
 
     public class TaobaoCommonItem
     {
+        /// <summary>
+        /// 佣金率
+        /// </summary>
         public decimal commissionRate { get; set; }
-
+        /// <summary>
+        /// 活动计划ID
+        /// </summary>
         public string CampaignID { get; set; }
-
+        /// <summary>
+        /// 定向计划名称
+        /// </summary>
         public string CampaignName { get; set; }
-
+        /// <summary>
+        /// 定向计划类型
+        /// </summary>
         public string CampaignType { get; set; }
-
+        /// <summary>
+        /// 平均佣金率
+        /// </summary>
         public string AvgCommission { get; set; }
-
+        /// <summary>
+        /// 是否已申请
+        /// </summary>
         public bool Exist { get; set; }
-
+        /// <summary>
+        /// 是否人工审核 1 是 0自动
+        /// </summary>
         public int manualAudit { get; set; }
-
+        /// <summary>
+        /// 店铺ID
+        /// </summary>
         public string ShopKeeperID { get; set; }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public string Properties { get; set; }
 
     }

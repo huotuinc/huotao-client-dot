@@ -85,16 +85,55 @@ namespace HotTaoCore
         /// <returns>System.String.</returns>
         public static string HttpGet(string url, CookieContainer cookies)
         {
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.CookieContainer = cookies;
-            HttpClient client = new HttpClient(clientHandler);
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
-            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(ProductHeaderValue.Parse("Mozilla/5.0")));//           
-            byte[] bytes = client.GetByteArrayAsync(url).Result;
-            if (bytes != null)
-                return Encoding.UTF8.GetString(bytes);
+            try
+            {
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                clientHandler.CookieContainer = cookies;
+                HttpClient client = new HttpClient(clientHandler);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
+                client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(ProductHeaderValue.Parse("Mozilla/5.0")));//           
+                byte[] bytes = client.GetByteArrayAsync(url).Result;
+                if (bytes != null)
+                    return Encoding.UTF8.GetString(bytes);                
+            }
+            catch (Exception ex)
+            {
+                log.Error(url + " " + ex.ToString());
+            }
             return string.Empty;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="formFields"></param>
+        /// <param name="cookies"></param>
+        /// <returns></returns>
+        public static string HttpPost(string url, Dictionary<string, string> formFields, CookieContainer cookies)
+        {
+            try
+            {
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                clientHandler.CookieContainer = cookies;
+                HttpClient client = new HttpClient(clientHandler);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
+                client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(ProductHeaderValue.Parse("Mozilla/5.0")));//
+                   
+                byte[] request_body = Encoding.UTF8.GetBytes(PrepareRequestBody(formFields));
+                ByteArrayContent content = new ByteArrayContent(request_body);
+                byte[] bytes = client.PostAsync(url, content).Result.Content.ReadAsByteArrayAsync().Result;
+                if (bytes != null)
+                    return Encoding.UTF8.GetString(bytes);
+          
+            }
+            catch (Exception ex)
+            {
+                log.Error(url + " " + ex.ToString());
+            }
+            return string.Empty;
+        }
+
+
 
 
 

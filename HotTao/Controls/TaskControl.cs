@@ -1377,9 +1377,7 @@ namespace HotTao.Controls
             //ProcessStartInfo startInfo = new ProcessStartInfo("TBSync.exe", string.Format("{0} {1}", MyUserInfo.LoginToken, MyUserInfo.currentUserId));
             //startInfo.WindowStyle = ProcessWindowStyle.Minimized;
             //Process.Start(startInfo);
-
-            hotForm.ApplyPlan("https://detail.tmall.com/item.htm?id=17905972615&skuId=41722663735");
-
+            
         }
 
         private void toolsExportGoods_Click(object sender, EventArgs e)

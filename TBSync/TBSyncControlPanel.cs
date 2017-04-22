@@ -129,8 +129,8 @@ namespace TBSync
                 LoginToken = args[0];
                 currentUserId = Convert.ToInt32(args[1]);
             }
-            LoginToken = "1a96e54f-decf-4109-894e-02f54505dd97";
-            currentUserId = 2;
+            //LoginToken = "1a96e54f-decf-4109-894e-02f54505dd97";
+            //currentUserId = 2;
             //如果token或userid为空，则关闭应用
             if (string.IsNullOrEmpty(LoginToken) || currentUserId == 0)
                 this.Close();

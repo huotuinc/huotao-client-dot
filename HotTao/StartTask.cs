@@ -1,6 +1,7 @@
 ﻿using HotTao.Controls;
 using HotTao.Properties;
 using HotTaoCore;
+using HotTaoCore.Enums;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using Newtonsoft.Json;
@@ -268,6 +269,11 @@ namespace HotTao
                 if (shareData == null || shareData.Count() == 0)
                     continue;
 
+
+                //申请高佣金
+                hotForm.ApplyPlan(goods.goodsId, goods.goodsName);
+
+
                 //加载appkey，判断是否存在，如果不存在，则不发商品
                 if (LoadAppkeyAndSecret())
                 {
@@ -276,12 +282,25 @@ namespace HotTao
                     {
                         if (item.status == -1)
                         {
-                           bool flag= LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTpwd(MyUserInfo.currentUserId, MyUserInfo.LoginToken, goods, item, appkey, appsecret);
+                            bool flag = LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTpwd(MyUserInfo.currentUserId, MyUserInfo.LoginToken, goods, item, appkey, appsecret);
                             if (flag)
                                 item.status = 0;
                         }
                     });
-                    shareData = shareData.FindAll(share =>{return share.status == 0;});
+
+                    hotForm.logRuningList.Add(new LogRuningModel()
+                    {                        
+                        goodsName = goods.goodsName,
+                        goodsid = goods.goodsId,
+                        title = goods.goodsId,
+                        content = goods.goodsName,
+                        logTime = DateTime.Now,
+                        logType = LogTypeOpts.商品发送,
+                        isError = false,
+                        remark = string.Format("[{0}]开始发送商品[{1}]",goods.goodsId, goods.goodsName)
+                    });
+
+                    shareData = shareData.FindAll(share => { return share.status == 0; });
                     SendWeChatGroupShareText(shareData, goods, wins);
                     SleepGoods();
                 }

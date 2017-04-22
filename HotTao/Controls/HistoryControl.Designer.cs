@@ -29,11 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvTaskPlan = new System.Windows.Forms.DataGridView();
             this.taskid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskStatusText = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,7 +56,6 @@
             this.taskEndTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.edittask = new System.Windows.Forms.DataGridViewImageColumn();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -61,6 +66,15 @@
             this.toolsTaskTpwd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsTaskDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
+            this.dgvLogView = new System.Windows.Forms.DataGridView();
+            this.logTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.logId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.logType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.logContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.logStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.operation = new System.Windows.Forms.DataGridViewLinkColumn();
             this.label7 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.btnStartTpwd = new System.Windows.Forms.Button();
@@ -69,6 +83,7 @@
             this.panel2.SuspendLayout();
             this.cmsTask.SuspendLayout();
             this.hotPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvLogView)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvTaskPlan
@@ -103,9 +118,9 @@
             this.dgvTaskPlan.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgvTaskPlan.RowHeadersVisible = false;
             this.dgvTaskPlan.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvTaskPlan.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvTaskPlan.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvTaskPlan.RowTemplate.Height = 23;
             this.dgvTaskPlan.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvTaskPlan.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -118,8 +133,8 @@
             // taskid
             // 
             this.taskid.DataPropertyName = "id";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.taskid.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.taskid.DefaultCellStyle = dataGridViewCellStyle1;
             this.taskid.HeaderText = "ID";
             this.taskid.MinimumWidth = 100;
             this.taskid.Name = "taskid";
@@ -128,8 +143,8 @@
             // taskStatusText
             // 
             this.taskStatusText.DataPropertyName = "statusText";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.taskStatusText.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.taskStatusText.DefaultCellStyle = dataGridViewCellStyle2;
             this.taskStatusText.HeaderText = "执行状态";
             this.taskStatusText.MinimumWidth = 80;
             this.taskStatusText.Name = "taskStatusText";
@@ -159,9 +174,9 @@
             // 
             this.taskTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.taskTitle.DataPropertyName = "title";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.taskTitle.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.taskTitle.DefaultCellStyle = dataGridViewCellStyle3;
             this.taskTitle.HeaderText = "任务标题";
             this.taskTitle.Name = "taskTitle";
             this.taskTitle.ReadOnly = true;
@@ -188,8 +203,8 @@
             // TpwdText
             // 
             this.TpwdText.DataPropertyName = "TpwdText";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.TpwdText.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.TpwdText.DefaultCellStyle = dataGridViewCellStyle4;
             this.TpwdText.HeaderText = "转链结果";
             this.TpwdText.Name = "TpwdText";
             this.TpwdText.ReadOnly = true;
@@ -245,7 +260,6 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.label1);
@@ -256,35 +270,25 @@
             this.panel2.Size = new System.Drawing.Size(895, 36);
             this.panel2.TabIndex = 3;
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label6.Location = new System.Drawing.Point(766, 11);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(59, 13);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "转链结果";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label2.Location = new System.Drawing.Point(482, 11);
+            this.label2.Location = new System.Drawing.Point(741, 11);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 13);
+            this.label2.Size = new System.Drawing.Size(33, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "计划标题";
+            this.label2.Text = "状态";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 9.7F);
-            this.label3.Location = new System.Drawing.Point(189, 11);
+            this.label3.Location = new System.Drawing.Point(226, 11);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 13);
             this.label3.TabIndex = 2;
-            this.label3.Text = "计划时间";
+            this.label3.Text = "消息内容";
             // 
             // label1
             // 
@@ -292,9 +296,9 @@
             this.label1.Font = new System.Drawing.Font("宋体", 9.7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label1.Location = new System.Drawing.Point(22, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(47, 13);
+            this.label1.Size = new System.Drawing.Size(33, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "计划ID";
+            this.label1.Text = "时间";
             // 
             // label4
             // 
@@ -302,9 +306,9 @@
             this.label4.Font = new System.Drawing.Font("宋体", 9.7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label4.Location = new System.Drawing.Point(124, 11);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(33, 13);
+            this.label4.Size = new System.Drawing.Size(59, 13);
             this.label4.TabIndex = 2;
-            this.label4.Text = "状态";
+            this.label4.Text = "消息类型";
             // 
             // cmsTask
             // 
@@ -314,7 +318,7 @@
             this.toolsTaskTpwd,
             this.toolsTaskDelete});
             this.cmsTask.Name = "cmsTask";
-            this.cmsTask.Size = new System.Drawing.Size(153, 114);
+            this.cmsTask.Size = new System.Drawing.Size(125, 92);
             // 
             // toolsTaskUpdate
             // 
@@ -333,7 +337,7 @@
             // toolsTaskTpwd
             // 
             this.toolsTaskTpwd.Name = "toolsTaskTpwd";
-            this.toolsTaskTpwd.Size = new System.Drawing.Size(152, 22);
+            this.toolsTaskTpwd.Size = new System.Drawing.Size(124, 22);
             this.toolsTaskTpwd.Text = "一键转链";
             this.toolsTaskTpwd.Visible = false;
             this.toolsTaskTpwd.Click += new System.EventHandler(this.toolsTaskTpwd_Click);
@@ -348,6 +352,7 @@
             // hotPanel1
             // 
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Controls.Add(this.dgvLogView);
             this.hotPanel1.Controls.Add(this.label7);
             this.hotPanel1.Controls.Add(this.label14);
             this.hotPanel1.Controls.Add(this.btnStartTpwd);
@@ -358,6 +363,113 @@
             this.hotPanel1.Size = new System.Drawing.Size(920, 593);
             this.hotPanel1.TabIndex = 5;
             // 
+            // dgvLogView
+            // 
+            this.dgvLogView.AllowUserToAddRows = false;
+            this.dgvLogView.AllowUserToDeleteRows = false;
+            this.dgvLogView.AllowUserToResizeColumns = false;
+            this.dgvLogView.AllowUserToResizeRows = false;
+            this.dgvLogView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.dgvLogView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvLogView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dgvLogView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgvLogView.ColumnHeadersVisible = false;
+            this.dgvLogView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.logTime,
+            this.goodsName,
+            this.goodsid,
+            this.logId,
+            this.logType,
+            this.logContent,
+            this.logStatus,
+            this.operation});
+            this.dgvLogView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.dgvLogView.Location = new System.Drawing.Point(12, 85);
+            this.dgvLogView.MultiSelect = false;
+            this.dgvLogView.Name = "dgvLogView";
+            this.dgvLogView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgvLogView.RowHeadersVisible = false;
+            this.dgvLogView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvLogView.RowsDefaultCellStyle = dataGridViewCellStyle11;
+            this.dgvLogView.RowTemplate.Height = 23;
+            this.dgvLogView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvLogView.Size = new System.Drawing.Size(894, 492);
+            this.dgvLogView.TabIndex = 6;
+            this.dgvLogView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLogView_CellClick);
+            // 
+            // logTime
+            // 
+            this.logTime.HeaderText = "时间";
+            this.logTime.Name = "logTime";
+            this.logTime.ReadOnly = true;
+            this.logTime.Width = 120;
+            // 
+            // goodsName
+            // 
+            this.goodsName.HeaderText = "商品标题";
+            this.goodsName.Name = "goodsName";
+            this.goodsName.ReadOnly = true;
+            this.goodsName.Visible = false;
+            // 
+            // goodsid
+            // 
+            this.goodsid.HeaderText = "商品ID";
+            this.goodsid.Name = "goodsid";
+            this.goodsid.ReadOnly = true;
+            this.goodsid.Visible = false;
+            // 
+            // logId
+            // 
+            this.logId.DataPropertyName = "logId";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.logId.DefaultCellStyle = dataGridViewCellStyle6;
+            this.logId.HeaderText = "编号";
+            this.logId.MinimumWidth = 60;
+            this.logId.Name = "logId";
+            this.logId.ReadOnly = true;
+            this.logId.Visible = false;
+            this.logId.Width = 60;
+            // 
+            // logType
+            // 
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.logType.DefaultCellStyle = dataGridViewCellStyle7;
+            this.logType.HeaderText = "消息类型";
+            this.logType.Name = "logType";
+            this.logType.ReadOnly = true;
+            // 
+            // logContent
+            // 
+            this.logContent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.logContent.DefaultCellStyle = dataGridViewCellStyle8;
+            this.logContent.HeaderText = "信息内容";
+            this.logContent.Name = "logContent";
+            this.logContent.ReadOnly = true;
+            this.logContent.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // logStatus
+            // 
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.logStatus.DefaultCellStyle = dataGridViewCellStyle9;
+            this.logStatus.HeaderText = "状态";
+            this.logStatus.Name = "logStatus";
+            this.logStatus.ReadOnly = true;
+            this.logStatus.Width = 60;
+            // 
+            // operation
+            // 
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.operation.DefaultCellStyle = dataGridViewCellStyle10;
+            this.operation.HeaderText = "操作";
+            this.operation.Name = "operation";
+            this.operation.ReadOnly = true;
+            this.operation.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.operation.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // label7
             // 
             this.label7.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -367,6 +479,7 @@
             this.label7.Size = new System.Drawing.Size(321, 18);
             this.label7.TabIndex = 18;
             this.label7.Text = "双击数据行，进行转链操作，只能操待执行和待转链的任务";
+            this.label7.Visible = false;
             // 
             // label14
             // 
@@ -375,9 +488,9 @@
             this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
             this.label14.Location = new System.Drawing.Point(10, 22);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(77, 12);
+            this.label14.Size = new System.Drawing.Size(53, 12);
             this.label14.TabIndex = 18;
-            this.label14.Text = "任务计划列表";
+            this.label14.Text = "运行日志";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnStartTpwd
@@ -415,6 +528,7 @@
             this.btnStartTask.TabIndex = 17;
             this.btnStartTask.Text = "启动计划";
             this.btnStartTask.UseVisualStyleBackColor = false;
+            this.btnStartTask.Visible = false;
             this.btnStartTask.Click += new System.EventHandler(this.btnStartTask_Click);
             // 
             // HistoryControl
@@ -423,8 +537,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.dgvTaskPlan);
             this.Controls.Add(this.hotPanel1);
+            this.Controls.Add(this.dgvTaskPlan);
             this.Name = "HistoryControl";
             this.Size = new System.Drawing.Size(920, 593);
             this.Load += new System.EventHandler(this.HistoryControl_Load);
@@ -434,6 +548,7 @@
             this.cmsTask.ResumeLayout(false);
             this.hotPanel1.ResumeLayout(false);
             this.hotPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvLogView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -449,7 +564,6 @@
         private module.HotPanel hotPanel1;
         private System.Windows.Forms.Button btnStartTpwd;
         private System.Windows.Forms.Button btnStartTask;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ContextMenuStrip cmsTask;
         private System.Windows.Forms.ToolStripMenuItem toolsTaskUpdate;
@@ -471,5 +585,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn taskStartTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn taskEndTime;
         private System.Windows.Forms.DataGridViewImageColumn edittask;
+        private System.Windows.Forms.DataGridView dgvLogView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn logTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn goodsName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn goodsid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn logId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn logType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn logContent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn logStatus;
+        private System.Windows.Forms.DataGridViewLinkColumn operation;
     }
 }
