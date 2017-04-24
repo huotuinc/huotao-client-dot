@@ -165,7 +165,7 @@ namespace HotTao.Controls
             }
         }
 
-        System.Windows.Forms.Timer timingRefresh = new System.Windows.Forms.Timer();
+        private System.Windows.Forms.Timer timingRefresh { get; set; }
 
         /// <summary>
         /// 加载日志数据
@@ -177,14 +177,20 @@ namespace HotTao.Controls
                 //是否自动添加属性字段
                 this.dgvLogView.AutoGenerateColumns = false;
                 if (hotForm.logRuningList != null)
-                    SetLogView(hotForm.logRuningList);
-
-                timingRefresh.Interval = 10000;
-                timingRefresh.Tick += TimingRefresh_Tick;
-                timingRefresh.Start();
+                    SetLogView(hotForm.logRuningList);                
 
             })
             { IsBackground = true }.Start();
+            if (timingRefresh != null)
+            {
+                timingRefresh.Stop();
+                timingRefresh.Dispose();
+                timingRefresh = null;
+            }
+            timingRefresh = new System.Windows.Forms.Timer();
+            timingRefresh.Interval = 10000;
+            timingRefresh.Tick += TimingRefresh_Tick;
+            timingRefresh.Start();
         }
 
         private void TimingRefresh_Tick(object sender, EventArgs e)
@@ -213,6 +219,7 @@ namespace HotTao.Controls
                     dgvLogView.Rows[i - 1].Cells["logStatus"].Value = data[j].isError ? "失败" : "成功";
                     dgvLogView.Rows[i - 1].Cells["logTime"].Value = data[j].logTime.ToString("yyyy-MM-dd HH:mm:ss");
                     dgvLogView.Rows[i - 1].Cells["goodsid"].Value = data[j].goodsid;
+                    dgvLogView.Rows[i - 1].Cells["goodsName"].Value = data[j].goodsName;
                     if (i % 2 == 0)
                     {
                         dgvLogView.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;

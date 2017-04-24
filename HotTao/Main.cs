@@ -966,7 +966,7 @@ namespace HotTao
                                             logTime = DateTime.Now,
                                             logType = LogTypeOpts.申请高佣,
                                             isError = false,
-                                            remark = "自动申请佣金成功,佣金:" + item.commissionRate + " %"
+                                            remark = "[" + goodsId + "]" + "自动申请佣金成功,佣金:" + item.commissionRate + " %"
                                         });
                                     }
                                     else
@@ -980,7 +980,7 @@ namespace HotTao
                                             logTime = DateTime.Now,
                                             logType = LogTypeOpts.申请高佣,
                                             isError = true,
-                                            remark = _items.info.message
+                                            remark ="["+ goodsId+"]"+ _items.info.message
                                         });
                                     }
                                 }
@@ -996,7 +996,7 @@ namespace HotTao
                                     logTime = DateTime.Now,
                                     logType = LogTypeOpts.申请高佣,
                                     isError = false,
-                                    remark = "佣金申请失败，淘客计划已在申请列表中了"
+                                    remark = "[" + goodsId + "]" + "已经申请过了"
                                 });
                             }
                         }
@@ -1011,7 +1011,7 @@ namespace HotTao
                                 logTime = DateTime.Now,
                                 logType = LogTypeOpts.申请高佣,
                                 isError = false,
-                                remark = "没找到定向佣金"
+                                remark = "[" + goodsId + "]" + "没找到定向佣金"
                             });
                         }
                     }
@@ -1026,7 +1026,7 @@ namespace HotTao
                             logTime = DateTime.Now,
                             logType = LogTypeOpts.申请高佣,
                             isError = false,
-                            remark = "没找到定向佣金"
+                            remark = "[" + goodsId + "]" + "没找到定向佣金"
                         });
                     }
                 }
@@ -1042,7 +1042,7 @@ namespace HotTao
                         logTime = DateTime.Now,
                         logType = LogTypeOpts.申请高佣,
                         isError = true,
-                        remark = "自动申请佣金失败"
+                        remark = "[" + goodsId + "]" + "自动申请佣金失败"
                     });
                 }
             });

@@ -31,25 +31,25 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.bgPanel = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.lbAutoShopingGuide = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.lbSet = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.rightContainer = new HotTaoMonitoring.module.HotPanel(this.components);
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.lbListen = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.picMin = new System.Windows.Forms.PictureBox();
             this.pbClose = new System.Windows.Forms.PictureBox();
+            this.rightContainer = new HotTaoMonitoring.module.HotPanel(this.components);
             this.bgPanel.SuspendLayout();
             this.lbAutoShopingGuide.SuspendLayout();
-            this.lbSet.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            this.lbSet.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.lbListen.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -78,17 +78,6 @@
             this.bgPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
             this.bgPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(880, 77);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(56, 16);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "V1.0.0";
-            // 
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -100,6 +89,17 @@
             this.label1.Text = "火淘客服";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("黑体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(880, 77);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(56, 16);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "V1.0.0";
+            // 
             // lbAutoShopingGuide
             // 
             this.lbAutoShopingGuide.BackColor = System.Drawing.Color.Transparent;
@@ -110,6 +110,7 @@
             this.lbAutoShopingGuide.Size = new System.Drawing.Size(93, 103);
             this.lbAutoShopingGuide.TabIndex = 9;
             this.lbAutoShopingGuide.Tag = "3";
+            this.lbAutoShopingGuide.Visible = false;
             this.lbAutoShopingGuide.Click += new System.EventHandler(this.Tab_Selected_Click);
             // 
             // label5
@@ -123,6 +124,17 @@
             this.label5.Text = "自动导购";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label5.Click += new System.EventHandler(this.Tab_Selected_Click);
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::HotTaoMonitoring.Properties.Resources._1dg50x50;
+            this.pictureBox3.Location = new System.Drawing.Point(22, 18);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(48, 48);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 0;
+            this.pictureBox3.TabStop = false;
+            this.pictureBox3.Click += new System.EventHandler(this.Tab_Selected_Click);
             // 
             // lbSet
             // 
@@ -147,35 +159,6 @@
             this.label4.Text = "基本配置";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label4.Click += new System.EventHandler(this.Tab_Selected_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(372, 18);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(0, 12);
-            this.label2.TabIndex = 8;
-            // 
-            // rightContainer
-            // 
-            this.rightContainer.BackColor = System.Drawing.Color.White;
-            this.rightContainer.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.rightContainer.Location = new System.Drawing.Point(0, 103);
-            this.rightContainer.Name = "rightContainer";
-            this.rightContainer.Size = new System.Drawing.Size(950, 637);
-            this.rightContainer.TabIndex = 23;
-            this.rightContainer.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CloseMyInfoForm);
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::HotTaoMonitoring.Properties.Resources._1dg50x50;
-            this.pictureBox3.Location = new System.Drawing.Point(22, 18);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(48, 48);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 0;
-            this.pictureBox3.TabStop = false;
-            this.pictureBox3.Click += new System.EventHandler(this.Tab_Selected_Click);
             // 
             // pictureBox2
             // 
@@ -224,6 +207,14 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.Tab_Selected_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(372, 18);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(0, 12);
+            this.label2.TabIndex = 8;
+            // 
             // picMin
             // 
             this.picMin.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -248,6 +239,16 @@
             this.pbClose.TabStop = false;
             this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
             // 
+            // rightContainer
+            // 
+            this.rightContainer.BackColor = System.Drawing.Color.White;
+            this.rightContainer.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.rightContainer.Location = new System.Drawing.Point(0, 103);
+            this.rightContainer.Name = "rightContainer";
+            this.rightContainer.Size = new System.Drawing.Size(950, 637);
+            this.rightContainer.TabIndex = 23;
+            this.rightContainer.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CloseMyInfoForm);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -264,8 +265,8 @@
             this.bgPanel.ResumeLayout(false);
             this.bgPanel.PerformLayout();
             this.lbAutoShopingGuide.ResumeLayout(false);
-            this.lbSet.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            this.lbSet.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.lbListen.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

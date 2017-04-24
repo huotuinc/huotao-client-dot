@@ -87,14 +87,37 @@ namespace HotTaoCore
         {
             try
             {
-                HttpClientHandler clientHandler = new HttpClientHandler();
-                clientHandler.CookieContainer = cookies;
-                HttpClient client = new HttpClient(clientHandler);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
-                client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(ProductHeaderValue.Parse("Mozilla/5.0")));//           
-                byte[] bytes = client.GetByteArrayAsync(url).Result;
-                if (bytes != null)
-                    return Encoding.UTF8.GetString(bytes);                
+                //HttpClientHandler clientHandler = new HttpClientHandler();
+                //clientHandler.CookieContainer = cookies;
+                //HttpClient client = new HttpClient(clientHandler);
+                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
+                //client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(ProductHeaderValue.Parse("Mozilla/5.0")));//           
+                //byte[] bytes = client.GetByteArrayAsync(url).Result;
+                //if (bytes != null)
+                //    return Encoding.UTF8.GetString(bytes);
+
+                var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+                request.Method = "GET";
+                request.UserAgent = "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36";
+                request.Accept = "*/*";                                
+                request.CookieContainer = cookies;
+                request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
+                request.Headers.Add("Accept-Encoding", "gzip,deflate");
+                request.Headers.Add("Accept-Language", "zh-Hans-CN,zh-Hans;q=0.5");
+                request.Headers.Add(HttpRequestHeader.KeepAlive, "true");
+                request.Host = "pub.alimama.com";               
+                request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;                
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (Stream response_stream = response.GetResponseStream())
+                    {
+                        using (StreamReader sr = new StreamReader(response_stream, Encoding.UTF8))
+                        {
+                            return sr.ReadToEnd().Trim();
+                        }
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -113,18 +136,35 @@ namespace HotTaoCore
         {
             try
             {
-                HttpClientHandler clientHandler = new HttpClientHandler();
-                clientHandler.CookieContainer = cookies;
-                HttpClient client = new HttpClient(clientHandler);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
-                client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(ProductHeaderValue.Parse("Mozilla/5.0")));//
-                   
+
+                var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
+                request.Method = "POST";
+                request.UserAgent = "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36";
+                request.Accept = "*/*";
+                request.Expect = string.Empty;
+                request.CookieContainer = cookies;
+                request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
+                request.Headers.Add("Accept-Encoding", "gzip,deflate");
+                request.Headers.Add("Accept-Language", "zh-Hans-CN,zh-Hans;q=0.5");
+                request.Headers.Add(HttpRequestHeader.KeepAlive, "true");
+                request.Host = "pub.alimama.com";                
+                request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
                 byte[] request_body = Encoding.UTF8.GetBytes(PrepareRequestBody(formFields));
-                ByteArrayContent content = new ByteArrayContent(request_body);
-                byte[] bytes = client.PostAsync(url, content).Result.Content.ReadAsByteArrayAsync().Result;
-                if (bytes != null)
-                    return Encoding.UTF8.GetString(bytes);
-          
+                request.ContentLength = request_body.Length;
+                using (Stream requestStream = request.GetRequestStream())
+                {
+                    requestStream.Write(request_body, 0, request_body.Length);
+                }
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (Stream response_stream = response.GetResponseStream())
+                    {
+                        using (StreamReader sr = new StreamReader(response_stream, Encoding.UTF8))
+                        {
+                            return sr.ReadToEnd().Trim();
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
