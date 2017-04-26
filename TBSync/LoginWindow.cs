@@ -1,6 +1,7 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
 using HotTaoCore.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -16,31 +17,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace TBSync
 {
-
     /// <summary>
-    /// 表示登录完成事件的方法
+    /// 淘宝登录窗口
     /// </summary>
-    /// <param name="user"></param>
-    public delegate void LoginSuccessEventHandler(JArray jsons, CookieCollection cookies);
-
-    /// <summary>
-    /// 提交申请完成
-    /// </summary>
-    public delegate void SubmitSuccessEventHandler(bool success, SyncGoodsList data);
-
-    /// <summary>
-    /// 登录页面加载完成事件方法
-    /// </summary>
-    public delegate void LoginPageLoadSuccessEventHandler(bool success);
-
-
-    public delegate void LoadDenyEventHandler();
-
-    /// <summary>
-    /// 关闭事件
-    /// </summary>
-    public delegate void CloseEventHandler();
-
     public partial class LoginWindow : Form
     {
         NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
@@ -49,16 +28,10 @@ namespace TBSync
             InitializeComponent();
         }
 
-
         /// <summary>
         /// 登录成功的回调事件
         /// </summary>
         public event LoginSuccessEventHandler LoginSuccessHandle;
-        /// <summary>
-        /// 提交申请完成
-        /// </summary>
-        public event SubmitSuccessEventHandler SubmitSuccessHandle;
-
         /// <summary>
         /// 登录页面加载完成
         /// </summary>
@@ -73,7 +46,9 @@ namespace TBSync
         /// </summary>
         public event LoadDenyEventHandler LoadDenyHandler;
 
-
+        /// <summary>
+        /// 浏览控件
+        /// </summary>
         public ChromiumWebBrowser browser;
 
         /// <summary>
@@ -81,21 +56,17 @@ namespace TBSync
         /// </summary>
         private const string LoginUrl = "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=true&css_style=alimama&from=alimama";
         /// <summary>
-        /// 登录成功的页面
+        /// 登录成功跳转阿里妈妈首页页面
         /// </summary>
         private const string LoginSuccessUrl = "http://www.alimama.com/index.htm";
-
-
-        private const string MyunionOverview = "http://pub.alimama.com/myunion.htm#!/myunion/overview";
-
-
-        private const string callback = "http://pro.taobao.com/index.htm";
 
         /// <summary>
         /// 受限url
         /// </summary>
         private const string denyUrl = "alisec.alimama.com/deny.html";
-
+        /// <summary>
+        /// 500页面
+        /// </summary>
         private const string errorUrl = "www.alimama.com/500.htm";
 
         /// <summary>
@@ -103,12 +74,28 @@ namespace TBSync
         /// </summary>
         private const string searchUrl = "http://pub.alimama.com/promo/search/index.htm";
 
+        /// <summary>
+        /// 初始化是否加载完成
+        /// </summary>
+        private bool isLoadCompleted = false;
+        /// <summary>
+        ///是否登录完成
+        /// </summary>
+        private bool isLoginCompleted = false;
+
+        /// <summary>
+        /// 所有的cookie
+        /// </summary>
+        private List<System.Net.Cookie> lstCookies { get; set; }
 
         private void LoginWindow_Load(object sender, EventArgs e)
         {
             OpenTaobao();
         }
 
+        /// <summary>
+        /// 打开阿里妈妈登录
+        /// </summary>
         public void OpenTaobao()
         {
             if (browser == null)
@@ -128,12 +115,15 @@ namespace TBSync
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Browser_TitleChanged(object sender, TitleChangedEventArgs e)
         {
             if (e.Title.Contains("阿里妈妈") || e.Title.Contains("淘宝联盟"))
             {
-                HideWindow();
-                isLoginSuccess = true;
                 if (!isLoginCompleted)
                 {
                     isLoginCompleted = true;
@@ -145,16 +135,6 @@ namespace TBSync
                 }
             }
         }
-
-        private bool isLoadCompleted = false;
-        private bool isLoginCompleted = false;
-        private bool isLoadPlanCompleted = false;
-        private bool isLoadSearchCompleted = false;
-
-        /// <summary>
-        /// 是否登录成功
-        /// </summary>
-        private bool isLoginSuccess = false;
 
         /// <summary>
         /// 页面加载完成
@@ -171,7 +151,7 @@ namespace TBSync
                     isLoadCompleted = true;
                     isLoginCompleted = false;
                     new Thread(() =>
-                    {
+                    {                        
                         //页面加载完成回调
                         LoadSuccessHandle?.Invoke(true);
                     })
@@ -181,40 +161,15 @@ namespace TBSync
             //登录成功后的页面
             else if (e.Url == LoginSuccessUrl)
             {
-                HideWindow();
-                isLoginSuccess = true;
                 if (!isLoginCompleted)
-                {
+                {                    
                     isLoginCompleted = true;
-
                     new Thread(() =>
                     {
                         LoginSuccess();
                     })
                     { IsBackground = true }.Start();
                 }
-            }
-            else if (!string.IsNullOrEmpty(planUrl) && e.Url.Contains(planUrl))
-            {
-                if (!isLoadPlanCompleted)
-                {
-                    isLoadPlanCompleted = true;
-                    new Thread(() =>
-                    {
-                        // ClickCampaignElement();
-                    })
-                    { IsBackground = true }.Start();
-
-                }
-            }
-            else if (e.Url == callback)
-            {
-                new Thread(() =>
-                {
-                    //提交完成
-                    SubmitSuccessHandle?.Invoke(true, goods);
-                })
-                { IsBackground = true }.Start();
             }
             //错误
             else if (e.Url.Contains(errorUrl) || e.Url.Contains(denyUrl))
@@ -227,32 +182,6 @@ namespace TBSync
             }
         }
 
-        private string planUrl { get; set; }
-
-        public SyncGoodsList goods { get; set; }
-        /// <summary>
-        /// 打开计划页面
-        /// </summary>
-        /// <param name="url">The URL.</param>
-        public void GoPlanPage(SyncGoodsList item)
-        {
-            if (!string.IsNullOrEmpty(item.url))
-            {
-                goods = item;
-                isLoadPlanCompleted = false;
-                planUrl = item.url.Trim();
-                browser.Load(planUrl);
-
-            }
-            else
-            {
-                isLoadPlanCompleted = true;
-                //提交完成
-                SubmitSuccessHandle?.Invoke(false, goods);
-            }
-
-        }
-
         /// <summary>
         /// 打开指定页面
         /// </summary>
@@ -261,14 +190,15 @@ namespace TBSync
         {
             if (!string.IsNullOrEmpty(url))
             {
-                isLoadSearchCompleted = false;
                 browser.Load(url);
             }
         }
 
 
 
-
+        /// <summary>
+        /// 隐藏窗口
+        /// </summary>
         public void HideWindow()
         {
             if (this.InvokeRequired)
@@ -281,43 +211,22 @@ namespace TBSync
             }
         }
 
+
         /// <summary>
-        /// 模拟点击申请推广
+        /// 隐藏窗口
         /// </summary>
-        private void ClickCampaignElement()
+        public void SetTitle(string text)
         {
-            Thread.Sleep(500);
-            bool result = false;
-            //获取当前按钮文本
-            try
+            if (this.lbTitle.InvokeRequired)
             {
-                object response = EvaluateScript(browser, "document.getElementsByClassName('campaign-commission').item(0).getElementsByTagName('a').item(0).innerHTML;");
-                if (!string.IsNullOrEmpty(response.ToString()))
-                    result = response.ToString().Contains("申请推广");
-                if (result)
-                {
-                    //点击申请推广         
-                    browser.ExecuteScriptAsync("document.getElementsByClassName('campaign-commission').item(0).getElementsByTagName('a').item(0).click();");
-                    Thread.Sleep(100);
-                    //输入推广理由
-                    browser.ExecuteScriptAsync("document.getElementById('J_applyReason').innerText='1';");
-                    Thread.Sleep(100);
-                    //提交推广
-                    browser.ExecuteScriptAsync("document.getElementsByClassName('form-auth').item(0).getElementsByTagName('li').item(1).getElementsByTagName('a').item(0).click();");
-
-                }
+                this.lbTitle.Invoke(new Action<string>(SetTitle), new object[] { text });
             }
-            catch (Exception ex)
+            else
             {
-                log.Error(ex);
+                this.lbTitle.Text = text;
             }
-
-            new Thread(() =>
-            {
-                browser.Load(callback);
-            })
-            { IsBackground = true }.Start();
         }
+
 
         /// <summary>
         /// 执行js脚步，等待返回，timeout 15秒
@@ -334,20 +243,12 @@ namespace TBSync
             return response.Success ? (response.Result ?? "") : response.Message;
         }
 
-        public void InputAccount(string loginname, string loginpwd)
+        /// <summary>
+        /// 登录成功回调处理
+        /// </summary>
+        private void LoginSuccess()
         {
-            isLoginSuccess = false;
-            Thread.Sleep(500);
-            //输入账号名
-            browser.ExecuteScriptAsync("document.getElementById('TPL_username_1').value='" + loginname + "';");
-            Thread.Sleep(500);
-            browser.ExecuteScriptAsync("document.getElementById('TPL_password_1').value='" + loginname + "';");
-            Thread.Sleep(500);
-
-        }
-
-        public void LoginSuccess()
-        {
+            SetTitle("登录成功!正在获取Token...");
             var visitor = new CookieMonster();
             if (Cef.GetGlobalCookieManager().VisitUrlCookies(LoginSuccessUrl, true, visitor))
                 visitor.WaitForAllCookies();
@@ -363,11 +264,84 @@ namespace TBSync
                 jsons.Add(json);
                 cookies.Add(cookie);
             }
+            string cookiesJson = JsonConvert.SerializeObject(jsons);
             //页面加载完成回调
-            LoginSuccessHandle?.Invoke(jsons, cookies);
+            LoginSuccessHandle?.Invoke(cookies);
+            SetTitle("登录成功!获取Token成功,正在验证token...");
+            new Thread(() =>
+            {
+                Thread.Sleep(3000);
+                HideWindow();
+            })
+            { IsBackground = true }.Start();
+
         }
+
         /// <summary>
-        /// 获取登录的cookies
+        /// 获取淘宝账号
+        /// </summary>
+        public string GetTaobaoName()
+        {
+            var visitor = new CookieMonster();
+            if (Cef.GetGlobalCookieManager().VisitUrlCookies("https://login.taobao.com/", true, visitor))
+                visitor.WaitForAllCookies();
+            string taobaoname = string.Empty;
+            foreach (System.Net.Cookie cookie in visitor.NamesValues)
+            {
+                if (cookie.Name == "lid")
+                {
+                    taobaoname = cookie.Value;
+                    break;
+                }
+            }
+            return taobaoname;
+        }
+
+
+        /// <summary>
+        /// 获取指定cookie
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public System.Net.Cookie GetCookie(string name)
+        {
+            System.Net.Cookie cookie = null;
+            List<System.Net.Cookie> cookies = GetAllCookies();
+            foreach (System.Net.Cookie c in cookies)
+            {
+                if (c.Name == name)
+                {
+                    cookie = c;
+                    break;
+                }
+            }
+            return cookie;
+        }
+
+        /// <summary>
+        /// 获取所有的cookie
+        /// </summary>
+        /// <returns></returns>
+        public List<System.Net.Cookie> GetAllCookies()
+        {
+            if (lstCookies == null) lstCookies = new List<System.Net.Cookie>();
+            if (lstCookies.Count() <= 0)
+            {
+                var visitor = new CookieMonster();
+                if (Cef.GetGlobalCookieManager().VisitAllCookies(visitor))
+                    visitor.WaitForAllCookies();
+                foreach (System.Net.Cookie cookie in visitor.NamesValues)
+                {
+                    lstCookies.Add(cookie);
+                }
+            }
+            return lstCookies;
+        }
+
+
+
+        /// <summary>
+        /// 获取登录阿里妈妈的cookies
         /// </summary>
         /// <returns></returns>
         public CookieCollection GetCurrentCookies()
@@ -383,10 +357,27 @@ namespace TBSync
             return cookies;
         }
 
-
-
-
-
+        /// <summary>
+        /// 获取登录阿里妈妈的cookies
+        /// </summary>
+        public string GetCurrentCookiesToString()
+        {
+            var visitor = new CookieMonster();
+            if (Cef.GetGlobalCookieManager().VisitUrlCookies(LoginSuccessUrl, true, visitor))
+                visitor.WaitForAllCookies();
+            JArray jsons = new JArray();
+            foreach (System.Net.Cookie cookie in visitor.NamesValues)
+            {
+                JObject json = new JObject();
+                json["name"] = cookie.Name;
+                json["path"] = cookie.Path;
+                json["domain"] = cookie.Domain;
+                json["value"] = cookie.Value;
+                jsons.Add(json);
+            }
+            string cookiesJson = JsonConvert.SerializeObject(jsons);
+            return cookiesJson;
+        }
 
         private void pbClose_Click(object sender, EventArgs e)
         {
@@ -453,18 +444,6 @@ namespace TBSync
 
         }
         #endregion
-
-
-        //protected override CreateParams CreateParams
-        //{
-        //    get
-        //    {
-        //        CreateParams createParams = base.CreateParams;
-        //        createParams.ClassName = "LoginTaobaoWind"; //这就是我想要的窗体类名。
-        //        return createParams;
-        //    }
-        //}
-
     }
 
 

@@ -142,7 +142,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(315, 23);
             this.label6.TabIndex = 1;
-            this.label6.Text = "商家入驻QQ：70351787";
+            this.label6.Text = "商家入驻QQ：70351787    ";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
             this.label6.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);

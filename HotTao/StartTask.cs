@@ -307,35 +307,6 @@ namespace HotTao
             }
             return result;
         }
-
-
-        /// <summary>
-        /// 判断剪切板状态
-        /// </summary>
-        /// <returns>true if [is clipboard status]; otherwise, false.</returns>
-        private bool IsClipboardStatus()
-        {
-            bool result = false;
-            int code = 0;
-            StringCollection colles = Clipboard.GetFileDropList();
-            if (colles == null || colles.Count == 0)
-            {
-                colles.Add("1");
-                Clipboard.SetFileDropList(colles);
-                result = false;
-            }
-            else
-            {
-                int.TryParse(colles[0], out code);
-                if (code == 1)
-                {
-                    result = IsClipboardStatus();
-                }
-            }
-            return result;
-        }
-
-
         /// <summary>
         /// 将商品发送到相应的群
         /// </summary>

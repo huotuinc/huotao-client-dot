@@ -75,5 +75,14 @@ namespace HotTao.Controls
             });
             
         }
+
+        private void lbSwitchTaobao_Click(object sender, EventArgs e)
+        {
+            hotForm.AlertConfirm("确定要切换淘宝登录？", "提示", () => {               
+                this.Hide();
+                hotForm.LoginTaoBao();
+            });
+           
+        }
     }
 }

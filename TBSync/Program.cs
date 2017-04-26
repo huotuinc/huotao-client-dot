@@ -16,7 +16,7 @@ namespace TBSync
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TBSyncControlPanel(args));
+            Application.Run(new LoginWindow());
         }
        
     } 

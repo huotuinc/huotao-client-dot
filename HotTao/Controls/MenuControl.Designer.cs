@@ -31,6 +31,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbAbout = new System.Windows.Forms.Label();
             this.lbLogout = new System.Windows.Forms.Label();
+            this.lbSwitchTaobao = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // panel1
@@ -44,6 +46,7 @@
             // lbAbout
             // 
             this.lbAbout.AutoSize = true;
+            this.lbAbout.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lbAbout.Location = new System.Drawing.Point(14, 12);
             this.lbAbout.Name = "lbAbout";
             this.lbAbout.Size = new System.Drawing.Size(53, 12);
@@ -54,21 +57,43 @@
             // lbLogout
             // 
             this.lbLogout.AutoSize = true;
-            this.lbLogout.Location = new System.Drawing.Point(13, 44);
+            this.lbLogout.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbLogout.Location = new System.Drawing.Point(13, 72);
             this.lbLogout.Name = "lbLogout";
             this.lbLogout.Size = new System.Drawing.Size(29, 12);
             this.lbLogout.TabIndex = 1;
             this.lbLogout.Text = "退出";
             this.lbLogout.Click += new System.EventHandler(this.lbLogout_Click);
             // 
+            // lbSwitchTaobao
+            // 
+            this.lbSwitchTaobao.AutoSize = true;
+            this.lbSwitchTaobao.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbSwitchTaobao.Location = new System.Drawing.Point(12, 43);
+            this.lbSwitchTaobao.Name = "lbSwitchTaobao";
+            this.lbSwitchTaobao.Size = new System.Drawing.Size(53, 12);
+            this.lbSwitchTaobao.TabIndex = 1;
+            this.lbSwitchTaobao.Text = "切换淘宝";
+            this.lbSwitchTaobao.Click += new System.EventHandler(this.lbSwitchTaobao_Click);
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel2.Location = new System.Drawing.Point(12, 63);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(55, 1);
+            this.panel2.TabIndex = 0;
+            // 
             // MenuControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(72, 70);
+            this.ClientSize = new System.Drawing.Size(72, 92);
+            this.Controls.Add(this.lbSwitchTaobao);
             this.Controls.Add(this.lbLogout);
             this.Controls.Add(this.lbAbout);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "MenuControl";
@@ -87,5 +112,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lbAbout;
         private System.Windows.Forms.Label lbLogout;
+        private System.Windows.Forms.Label lbSwitchTaobao;
+        private System.Windows.Forms.Panel panel2;
     }
 }

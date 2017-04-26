@@ -107,6 +107,10 @@ namespace HotTao
         /// <value>My configuration.</value>
         public ConfigModel myConfig { get; set; }
 
+        /// <summary>
+        /// token是否有效
+        /// </summary>
+        public bool isTokenValid { get; set; }
 
         /// <summary>
         /// 运行日志
@@ -337,7 +341,7 @@ namespace HotTao
                     LoginSync = true;
                     return true;
                 }
-
+                LogicUser.CheckTokenErrorCount = 0;
                 LoginSync = false;
                 this.BeginInvoke((Action)(delegate ()  //等待结束
                 {
@@ -631,7 +635,7 @@ namespace HotTao
                     myMenu = new MenuControl(this);
                     myMenu.StartPosition = FormStartPosition.Manual;
                     myMenu.Location = new Point(x, rect.Bottom);
-                    myMenu.Size = new Size(72, 72);
+                    //myMenu.Size = new Size(72, 72);
                     myMenu.Show();
                 }
                 else
@@ -757,6 +761,13 @@ namespace HotTao
             }
             else
             {
+                TimingRefreshAlimamaPage();
+                if (lw != null)
+                {
+                    lw.Dispose();
+                    lw.Close();
+                    lw = null;
+                }
                 lw = new TBSync.LoginWindow();
                 lw.LoginSuccessHandle += Lw_LoginSuccessHandle;
                 lw.CloseWindowHandle += Lw_CloseWindowHandle;
@@ -770,52 +781,61 @@ namespace HotTao
         /// </summary>
         private void Lw_CloseWindowHandle()
         {
-            AlertConfirm("必须登录阿里妈妈账号才能使用该软件", "退出提示", () =>
+            AlertConfirm("必须登录阿里妈妈才能使用软件,确定退出?", "退出提示", () =>
             {
                 this.Close();
             });
         }
 
         /// <summary>
-        /// LW_s the login success handle.
+        /// 登录成功事件回调
         /// </summary>
         /// <param name="jsons">The jsons.</param>
-        private void Lw_LoginSuccessHandle(Newtonsoft.Json.Linq.JArray jsons, CookieCollection cookies)
+        private void Lw_LoginSuccessHandle(CookieCollection cookies)
         {
-
             MyUserInfo.cookies = cookies;
-
-            string _tb_token = MyUserInfo.GetTbToken();
-
-            TimingRefreshAlimamaPage();
-
+            MyUserInfo.TaobaoName = lw.GetTaobaoName();
+            string cookieJson = lw.GetCurrentCookiesToString();
             new System.Threading.Thread(() =>
             {
-                string cookieJson = JsonConvert.SerializeObject(jsons);
-                //绑定淘宝账号 新接口
-                var result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, false);
-                if (result.resultCode == 200)
-                    MyUserInfo.TaobaoName = result.data.ToString();
-                else if (result.resultCode == 511)
-                {
-                    AlertConfirm("当前登录淘宝账号与上次不匹配，是否切换?", "提示", () =>
-                    {
-                        result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, true);
-                        if (result.resultCode == 200)
-                            MyUserInfo.TaobaoName = result.data.ToString();
-                    });
-                }
-                else
-                {
-                    loginWindowsClose();
-                    AlertConfirm("数据读取失败,请重新登录!", "提示", () =>
-                    {
-                        LoginTaoBao();
-                    });
-                }
+                bindTaobao(cookieJson);
             })
             { IsBackground = true }.Start();
         }
+        private int RetryCount { get; set; }
+        private void bindTaobao(string cookieJson)
+        {
+            var result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, false);
+            if (result.resultCode == 200)
+            {
+                MyUserInfo.TaobaoName = result.data.ToString();
+                RetryCount = 0;
+            }
+            else if (result.resultCode == 511)
+            {
+                RetryCount = 0;
+                AlertConfirm("当前登录淘宝账号与上次不匹配，是否切换?", "提示", () =>
+                {
+                    result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, true);
+                    if (result.resultCode == 200)
+                        MyUserInfo.TaobaoName = result.data.ToString();
+                });
+            }
+            else
+            {
+                RetryCount++;
+                if (RetryCount < 3)
+                {
+                    bindTaobao(cookieJson);
+                }
+                //loginWindowsClose();
+                //AlertConfirm("数据读取失败,是否重新读取!", "提示", () =>
+                //{
+                //    bindTaobao(cookieJson);
+                //});
+            }
+        }
+
 
         /// <summary>
         /// 关闭淘宝窗口事件
@@ -832,22 +852,6 @@ namespace HotTao
                 if (lw != null)
                     lw.Close();
                 lw = null;
-            }
-        }
-        /// <summary>
-        /// 隐藏窗口
-        /// </summary>
-        public void HideWindow()
-        {
-            if (lw == null) return;
-            if (lw.InvokeRequired)
-            {
-                this.lw.Invoke(new Action(HideWindow), new object[] { });
-            }
-            else
-            {
-                if (lw != null)
-                    lw.Hide();
             }
         }
         /// <summary>
@@ -896,6 +900,8 @@ namespace HotTao
             ResetRefeshStatus();
             if (lw == null) return;
             lw.GoPage(RefreshUrl);
+
+            log.Info("现在刷新页面地址：" + RefreshUrl);
         }
 
         /// <summary>
@@ -904,7 +910,7 @@ namespace HotTao
         public void ResetRefeshStatus()
         {
             RefreshUrl = RefreshStatus ? "http://www.alimama.com/news.htm" : "http://www.alimama.com/college.htm";
-            RefreshStatus = false;
+            RefreshStatus = !RefreshStatus;
         }
 
 
@@ -917,9 +923,32 @@ namespace HotTao
         /// <param name="goodsDetailUrl">商品详情地址</param>
         public void ApplyPlan(string goodsId, string goodsName)
         {
-            if (lw == null) return;
+            if (lw == null)
+            {
+                logRuningList.Add(new LogRuningModel()
+                {
+                    goodsid = goodsId,
+                    goodsName = goodsName,
+                    title = goodsId,
+                    content = goodsName,
+                    logTime = DateTime.Now,
+                    logType = LogTypeOpts.申请高佣,
+                    isError = true,
+                    remark = "您还没登录阿里妈妈，请登录后重试!"
+                });
+                return;
+            }
             ThreadHandle(() =>
             {
+                LogRuningModel logData = new LogRuningModel()
+                {
+                    goodsid = goodsId,
+                    goodsName = goodsName,
+                    title = goodsId,
+                    content = goodsName,
+                    logTime = DateTime.Now,
+                    logType = LogTypeOpts.申请高佣,
+                };
                 try
                 {
                     MyUserInfo.cookies = lw.GetCurrentCookies();
@@ -936,7 +965,7 @@ namespace HotTao
                              return i.manualAudit == 0;
                          });
                         var listData = data.OrderByDescending(r => r.commissionRate).ToList();
-                        
+
                         TaobaoCommonItem item = listData[0];
                         if (item != null)
                         {
@@ -957,94 +986,41 @@ namespace HotTao
                                 {
                                     if (_items.ok)
                                     {
-                                        logRuningList.Add(new LogRuningModel()
-                                        {
-                                            goodsid = goodsId,
-                                            goodsName = goodsName,
-                                            title = goodsId,
-                                            content = goodsName,
-                                            logTime = DateTime.Now,
-                                            logType = LogTypeOpts.申请高佣,
-                                            isError = false,
-                                            remark = "[" + goodsId + "]" + "自动申请佣金成功,佣金:" + item.commissionRate + " %"
-                                        });
+                                        logData.isError = false;
+                                        logData.remark = "[" + goodsId + "]" + "自动申请佣金成功,佣金:" + item.commissionRate + " %";
                                     }
                                     else
                                     {
-                                        logRuningList.Add(new LogRuningModel()
-                                        {
-                                            goodsid = goodsId,
-                                            goodsName = goodsName,
-                                            title = goodsId,
-                                            content = goodsName,
-                                            logTime = DateTime.Now,
-                                            logType = LogTypeOpts.申请高佣,
-                                            isError = true,
-                                            remark ="["+ goodsId+"]"+ _items.info.message
-                                        });
+                                        logData.isError = true;
+                                        logData.remark = "[" + goodsId + "]" + _items.info.message;
                                     }
                                 }
                             }
                             else
                             {
-                                logRuningList.Add(new LogRuningModel()
-                                {
-                                    goodsid = goodsId,
-                                    goodsName = goodsName,
-                                    title = goodsId,
-                                    content = goodsName,
-                                    logTime = DateTime.Now,
-                                    logType = LogTypeOpts.申请高佣,
-                                    isError = false,
-                                    remark = "[" + goodsId + "]" + "已经申请过了"
-                                });
+                                logData.isError = false;
+                                logData.remark = "[" + goodsId + "]" + "已经申请过了";
                             }
                         }
                         else
                         {
-                            logRuningList.Add(new LogRuningModel()
-                            {
-                                goodsid = goodsId,
-                                goodsName = goodsName,
-                                title = goodsId,
-                                content = goodsName,
-                                logTime = DateTime.Now,
-                                logType = LogTypeOpts.申请高佣,
-                                isError = false,
-                                remark = "[" + goodsId + "]" + "没找到定向佣金"
-                            });
+                            logData.isError = false;
+                            logData.remark = "[" + goodsId + "]" + "没找到定向佣金";
                         }
                     }
                     else
                     {
-                        logRuningList.Add(new LogRuningModel()
-                        {
-                            goodsid=goodsId,
-                            goodsName = goodsName,
-                            title = goodsId,
-                            content = goodsName,
-                            logTime = DateTime.Now,
-                            logType = LogTypeOpts.申请高佣,
-                            isError = false,
-                            remark = "[" + goodsId + "]" + "没找到定向佣金"
-                        });
+                        logData.isError = false;
+                        logData.remark = "[" + goodsId + "]" + "没找到定向佣金";
                     }
                 }
                 catch (Exception ex)
                 {
                     log.Error(ex);
-                    logRuningList.Add(new LogRuningModel()
-                    {
-                        goodsid = goodsId,
-                        goodsName=goodsName,
-                        title = goodsId,
-                        content = goodsName,
-                        logTime = DateTime.Now,
-                        logType = LogTypeOpts.申请高佣,
-                        isError = true,
-                        remark = "[" + goodsId + "]" + "自动申请佣金失败"
-                    });
+                    logData.isError = true;
+                    logData.remark = "一瞬间，风起人涌，交通拥堵，请稍后重试！";
                 }
+                logRuningList.Add(logData);
             });
         }
 
@@ -1059,7 +1035,7 @@ namespace HotTao
         }
 
         /// <summary>
-        /// 获取随机地址
+        /// 获取随机时间戳
         /// </summary>
         /// <returns>System.Int64.</returns>
         public static long getClientMsgId()

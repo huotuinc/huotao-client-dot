@@ -97,13 +97,16 @@ namespace HotTaoCore.Logic
         /// <param name="token">The token.</param>
         /// <param name="code">The code.</param>
         /// <returns>true if XXXX, false otherwise.</returns>
-        public bool activeAccount(string token,string code)
+        public bool activeAccount(string token, string code)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = token;
             data["code"] = code;
             return BaseRequestService.Post(ApiConst.activeAccount, data);
         }
+
+        public static int CheckTokenErrorCount { get; set; }
+
         /// <summary>
         /// 根据登录token获取用户信息
         /// </summary>
@@ -120,7 +123,11 @@ namespace HotTaoCore.Logic
                 errorCode = error.resultCode;
             }));
             if (errorCode == 500)
-                result = true;
+            {
+                CheckTokenErrorCount++;
+                if (CheckTokenErrorCount <= 3)
+                    result = true;
+            }
             return result;
         }
 
