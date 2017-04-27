@@ -176,7 +176,7 @@ namespace HotTao.Controls
             {
                 //是否自动添加属性字段
                 this.dgvLogView.AutoGenerateColumns = false;
-                if (hotForm.logRuningList != null)
+                if (hotForm.logRuningList != null&& hotForm.logRuningList.Count()>0)
                     SetLogView(hotForm.logRuningList);                
 
             })
@@ -195,7 +195,7 @@ namespace HotTao.Controls
 
         private void TimingRefresh_Tick(object sender, EventArgs e)
         {
-            if (hotForm.logRuningList != null)
+            if (hotForm.logRuningList != null && hotForm.logRuningList.Count() > 0)
                 SetLogView(hotForm.logRuningList);
         }
 
@@ -234,6 +234,8 @@ namespace HotTao.Controls
                     dgvLogView.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
                     dgvLogView.Rows[i - 1].DefaultCellStyle.NullValue = data[j].isError && data[j].logType == HotTaoCore.Enums.LogTypeOpts.申请高佣 ? "重新申请" : "";
                 }
+
+                dgvLogView.CurrentCell = dgvLogView.Rows[dgvLogView.Rows.Count - 1].Cells[dgvLogView.CurrentCell.ColumnIndex];
             }
         }
 

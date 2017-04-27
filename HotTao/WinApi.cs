@@ -416,7 +416,7 @@ namespace HotTao
             //定位微信坐标       
             IntPtr lParam = (IntPtr)((h - 80 << 16) | 20);// The coordinates                                     
             //发送点击鼠标左键
-            SendMessage(handle, downCode, IntPtr.Zero, lParam); // Mouse button down 
+            SendMessage(handle, downCode, IntPtr.Zero, lParam); // Mouse button down             
             //发送释放鼠标左键
             SendMessage(handle, upCode, IntPtr.Zero, lParam); // Mouse button up  
         }
@@ -452,9 +452,9 @@ namespace HotTao
         public static void Enter(IntPtr handle)
         {
             //回车Alt+S
-            PostMessage(handle, 0x0104, 0x12, 0x20380001); // Mouse button down 
-            PostMessage(handle, 0x0106, 83, 0x201F0001);
-            PostMessage(handle, 0x0104, 0x53, 0x201F0001);
+            SendMessage(handle, 0x0104, 0x12, 0x20380001); // Mouse button down 
+            SendMessage(handle, 0x0106, 83, 0x201F0001);
+            SendMessage(handle, 0x0104, 0x53, 0x201F0001);
             //释放ctrl
             ReleaseControlKey();
         }

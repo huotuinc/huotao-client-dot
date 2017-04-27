@@ -142,8 +142,7 @@ namespace TBSync
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="FrameLoadEndEventArgs"/> instance containing the event data.</param>
         private void Browser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
-        {
-            log.Debug(e.Url);
+        {            
             if (e.Url == LoginUrl)
             {
                 if (!isLoadCompleted)

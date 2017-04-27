@@ -899,9 +899,9 @@ namespace HotTao
         {
             ResetRefeshStatus();
             if (lw == null) return;
-            lw.GoPage(RefreshUrl);
-
-            log.Info("现在刷新页面地址：" + RefreshUrl);
+            string taobaoname = lw.GetTaobaoName();
+            if (!string.IsNullOrEmpty(taobaoname))
+                lw.GoPage(RefreshUrl);
         }
 
         /// <summary>
@@ -912,9 +912,6 @@ namespace HotTao
             RefreshUrl = RefreshStatus ? "http://www.alimama.com/news.htm" : "http://www.alimama.com/college.htm";
             RefreshStatus = !RefreshStatus;
         }
-
-
-
 
 
         /// <summary>
@@ -1018,7 +1015,7 @@ namespace HotTao
                 {
                     log.Error(ex);
                     logData.isError = true;
-                    logData.remark = "一瞬间，风起人涌，交通拥堵，请稍后重试！";
+                    logData.remark = "[" + goodsId + "]" + "一瞬间，风起人涌，交通拥堵，请稍后重试！";
                 }
                 logRuningList.Add(logData);
             });

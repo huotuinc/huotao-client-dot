@@ -75,10 +75,6 @@
             this.logContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.logStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.operation = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.btnStartTpwd = new System.Windows.Forms.Button();
-            this.btnStartTask = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTaskPlan)).BeginInit();
             this.panel2.SuspendLayout();
             this.cmsTask.SuspendLayout();
@@ -265,9 +261,9 @@
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.label4);
             this.panel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.panel2.Location = new System.Drawing.Point(12, 49);
+            this.panel2.Location = new System.Drawing.Point(12, 10);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(895, 36);
+            this.panel2.Size = new System.Drawing.Size(897, 36);
             this.panel2.TabIndex = 3;
             // 
             // label2
@@ -353,10 +349,6 @@
             // 
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.hotPanel1.Controls.Add(this.dgvLogView);
-            this.hotPanel1.Controls.Add(this.label7);
-            this.hotPanel1.Controls.Add(this.label14);
-            this.hotPanel1.Controls.Add(this.btnStartTpwd);
-            this.hotPanel1.Controls.Add(this.btnStartTask);
             this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.hotPanel1.Location = new System.Drawing.Point(0, 0);
             this.hotPanel1.Name = "hotPanel1";
@@ -384,7 +376,7 @@
             this.logStatus,
             this.operation});
             this.dgvLogView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.dgvLogView.Location = new System.Drawing.Point(12, 85);
+            this.dgvLogView.Location = new System.Drawing.Point(12, 48);
             this.dgvLogView.MultiSelect = false;
             this.dgvLogView.Name = "dgvLogView";
             this.dgvLogView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -395,7 +387,7 @@
             this.dgvLogView.RowsDefaultCellStyle = dataGridViewCellStyle11;
             this.dgvLogView.RowTemplate.Height = 23;
             this.dgvLogView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvLogView.Size = new System.Drawing.Size(894, 492);
+            this.dgvLogView.Size = new System.Drawing.Size(895, 537);
             this.dgvLogView.TabIndex = 6;
             this.dgvLogView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLogView_CellClick);
             // 
@@ -470,67 +462,6 @@
             this.operation.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.operation.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
-            // label7
-            // 
-            this.label7.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label7.Location = new System.Drawing.Point(380, 17);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(321, 18);
-            this.label7.TabIndex = 18;
-            this.label7.Text = "双击数据行，进行转链操作，只能操待执行和待转链的任务";
-            this.label7.Visible = false;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label14.Location = new System.Drawing.Point(10, 22);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(53, 12);
-            this.label14.TabIndex = 18;
-            this.label14.Text = "运行日志";
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnStartTpwd
-            // 
-            this.btnStartTpwd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.btnStartTpwd.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnStartTpwd.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.btnStartTpwd.FlatAppearance.BorderSize = 0;
-            this.btnStartTpwd.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.btnStartTpwd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(177)))));
-            this.btnStartTpwd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStartTpwd.ForeColor = System.Drawing.Color.White;
-            this.btnStartTpwd.Location = new System.Drawing.Point(707, 10);
-            this.btnStartTpwd.Name = "btnStartTpwd";
-            this.btnStartTpwd.Size = new System.Drawing.Size(97, 29);
-            this.btnStartTpwd.TabIndex = 17;
-            this.btnStartTpwd.Text = "开始转链";
-            this.btnStartTpwd.UseVisualStyleBackColor = false;
-            this.btnStartTpwd.Visible = false;
-            this.btnStartTpwd.Click += new System.EventHandler(this.btnStartTpwd_Click);
-            // 
-            // btnStartTask
-            // 
-            this.btnStartTask.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnStartTask.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnStartTask.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnStartTask.FlatAppearance.BorderSize = 0;
-            this.btnStartTask.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnStartTask.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
-            this.btnStartTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStartTask.ForeColor = System.Drawing.Color.White;
-            this.btnStartTask.Location = new System.Drawing.Point(810, 10);
-            this.btnStartTask.Name = "btnStartTask";
-            this.btnStartTask.Size = new System.Drawing.Size(97, 29);
-            this.btnStartTask.TabIndex = 17;
-            this.btnStartTask.Text = "启动计划";
-            this.btnStartTask.UseVisualStyleBackColor = false;
-            this.btnStartTask.Visible = false;
-            this.btnStartTask.Click += new System.EventHandler(this.btnStartTask_Click);
-            // 
             // HistoryControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -547,7 +478,6 @@
             this.panel2.PerformLayout();
             this.cmsTask.ResumeLayout(false);
             this.hotPanel1.ResumeLayout(false);
-            this.hotPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLogView)).EndInit();
             this.ResumeLayout(false);
 
@@ -562,15 +492,11 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private module.HotPanel hotPanel1;
-        private System.Windows.Forms.Button btnStartTpwd;
-        private System.Windows.Forms.Button btnStartTask;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ContextMenuStrip cmsTask;
         private System.Windows.Forms.ToolStripMenuItem toolsTaskUpdate;
         private System.Windows.Forms.ToolStripMenuItem toolsTaskCopy;
         private System.Windows.Forms.ToolStripMenuItem toolsTaskTpwd;
         private System.Windows.Forms.ToolStripMenuItem toolsTaskDelete;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridViewTextBoxColumn taskid;
         private System.Windows.Forms.DataGridViewTextBoxColumn taskStatusText;
         private System.Windows.Forms.DataGridViewTextBoxColumn startTimeText;

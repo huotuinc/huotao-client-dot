@@ -376,7 +376,9 @@ namespace HotTao
                         {
                             var win = wins.Find(w => { return w.szWindowName == item.title; });
                             WinApi.SetActiveWin(win.hWnd);
+                            System.Threading.Thread.Sleep(100);
                             WinApi.Paste(win.hWnd);
+                            System.Threading.Thread.Sleep(100);
                             WinApi.Enter(win.hWnd);
                             SleepImage(0.5m);
                             if (!imageResult.Contains(item.title))
@@ -446,11 +448,13 @@ namespace HotTao
                         Clipboard.SetDataObject(item.text, false);
                         //设置微信为输入焦点
                         WinApi.SetActiveWin(win.hWnd);
+                        System.Threading.Thread.Sleep(100);
                         WinApi.Paste(win.hWnd);
+                        System.Threading.Thread.Sleep(100);
                         //WinApi.InputStr(win.hWnd, item.text);
-                        WinApi.Enter(win.hWnd);
-                        Clipboard.Clear();
+                        WinApi.Enter(win.hWnd);                       
                         SleepImage(0.5m);
+                        Clipboard.Clear();
                         if (!textResult.Contains(item.title))
                             textResult.Add(item.title);
 
