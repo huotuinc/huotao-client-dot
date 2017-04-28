@@ -181,6 +181,7 @@ namespace HotTao.Controls
 
             })
             { IsBackground = true }.Start();
+
             if (timingRefresh != null)
             {
                 timingRefresh.Stop();
