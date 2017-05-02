@@ -41,4 +41,11 @@ namespace TBSync
     /// </summary>
     public delegate void CloseEventHandler();
 
+
+    /// <summary>
+    /// 表示处理信息事件的方法
+    /// </summary>
+    /// <param name="user"></param>
+    public delegate void OKEventHandler();
+
 }

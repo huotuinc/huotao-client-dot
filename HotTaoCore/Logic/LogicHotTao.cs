@@ -618,7 +618,14 @@ namespace HotTaoCore.Logic
         {
             return lnDal.GetLoginNameList();
         }
-
+        /// <summary>
+        /// 清空登录登录
+        /// </summary>
+        /// <returns></returns>
+        public bool ClearLoginNameData()
+        {
+            return lnDal.ClearLoginNameData();
+        }
         #endregion
     }
 }

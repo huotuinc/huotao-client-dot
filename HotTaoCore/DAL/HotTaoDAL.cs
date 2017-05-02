@@ -604,7 +604,7 @@ namespace HotTaoCore.DAL
         /// <param name="text">The text.</param>
         /// <param name="tpwd">The TPWD.</param>
         /// <returns>true if XXXX, false otherwise.</returns>
-        public bool UpdateUserShareTextStatus(long shareid,string text,string tpwd)
+        public bool UpdateUserShareTextStatus(long shareid, string text, string tpwd)
         {
             string strSql = @"UPDATE user_wechat_sharetext SET status=0,text=@text,tpwd=@tpwd WHERE id = @id ;";
             var param = new[] {
@@ -704,6 +704,18 @@ namespace HotTaoCore.DAL
             string strSql = "select userid,login_name,login_password,is_save_pwd from user_list;";
             return DBSqliteHelper.GetLoginNameList<LoginNameModel>(strSql);
         }
+
+        /// <summary>
+        /// 清空登录登录
+        /// </summary>
+        /// <returns></returns>
+        public bool ClearLoginNameData()
+        {
+            string strSql = "delete from user_list;";
+
+            return DBSqliteHelper.ExecuteSqlLoginName(strSql) > 0;
+        }
+
 
         /// <summary>
         /// 获取用户信息
