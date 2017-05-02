@@ -287,9 +287,8 @@ namespace HotTaoMonitoring
                 windowFormControls = new Dictionary<UserControlsOpts, UserControl>();
             else
                 windowFormControls.Remove(UserControlsOpts.listen);
-
-            lbListen.BackColor = Color.Silver;
-            lbSet.BackColor = Color.White;
+                        
+            SetSetBg();
             openControl(UserControlsOpts.filter);
         }
 

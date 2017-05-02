@@ -31,16 +31,16 @@ namespace HotTao.Controls
         {
             if (MyUserInfo.currentUserId > 0)
             {
-                if (MyUserInfo.sendmode == 1)
-                {
-                    if (hotForm.wxlogin != null && hotForm.wxlogin.isStartTask)
-                        ShowStartButtonText("暂停计划");
-                }
-                else
-                {
-                    if (hotForm.winTask != null && hotForm.winTask.isStartTask)
-                        ShowStartButtonText("暂停计划");
-                }
+                //if (MyUserInfo.sendmode == 1)
+                //{
+                //    if (hotForm.wxlogin != null && hotForm.wxlogin.isStartTask)
+                //        ShowStartButtonText("暂停计划");
+                //}
+                //else
+                //{
+                //    if (hotForm.winTask != null && hotForm.winTask.isStartTask)
+                //        ShowStartButtonText("暂停计划");
+                //}
                 LoadLogGridView();
 
                 dgvTaskPlan.MouseWheel += DgvData_MouseWheel;
@@ -274,87 +274,87 @@ namespace HotTao.Controls
                 }
             }
         }
-        /// <summary>
-        /// 启动任务计划
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnStartTask_Click(object sender, EventArgs e)
-        {
-            bool isOK = false;
-            if (MyUserInfo.sendmode == 1)
-            {
-                if (hotForm.wxlogin == null)
-                {
-                    MessageConfirm confirm = new MessageConfirm("您还没有微信授权，是否马上微信授权?");
-                    confirm.CallBack += () =>
-                    {
-                        isOK = true;
-                    };
-                    confirm.ShowDialog(this);
-                    if (isOK)
-                    {
-                        hotForm.wxlogin = new wxLogin(hotForm, this);
-                        hotForm.wxlogin.ShowDialog(this);
-                    }
-                }
-                else
-                {
-                    if (hotForm.wxlogin.isCloseWinForm)
-                        hotForm.wxlogin.ShowWx();
-                    else
-                    {
-                        if (hotForm.wxlogin.isStartTask)
-                        {
-                            hotForm.wxlogin.StopWx();
-                            ShowStartButtonText("启动计划");
-                        }
-                        else
-                        {
-                            hotForm.wxlogin.StartWx();
-                            ShowStartButtonText("暂停计划");
-                        }
-                    }
+        ///// <summary>
+        ///// 启动任务计划
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void btnStartTask_Click(object sender, EventArgs e)
+        //{
+        //    bool isOK = false;
+        //    if (MyUserInfo.sendmode == 1)
+        //    {
+        //        if (hotForm.wxlogin == null)
+        //        {
+        //            MessageConfirm confirm = new MessageConfirm("您还没有微信授权，是否马上微信授权?");
+        //            confirm.CallBack += () =>
+        //            {
+        //                isOK = true;
+        //            };
+        //            confirm.ShowDialog(this);
+        //            if (isOK)
+        //            {
+        //                hotForm.wxlogin = new wxLogin(hotForm, this);
+        //                hotForm.wxlogin.ShowDialog(this);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (hotForm.wxlogin.isCloseWinForm)
+        //                hotForm.wxlogin.ShowWx();
+        //            else
+        //            {
+        //                if (hotForm.wxlogin.isStartTask)
+        //                {
+        //                    hotForm.wxlogin.StopWx();
+        //                    ShowStartButtonText("启动计划");
+        //                }
+        //                else
+        //                {
+        //                    hotForm.wxlogin.StartWx();
+        //                    ShowStartButtonText("暂停计划");
+        //                }
+        //            }
 
-                }
-            }
-            else
-            {
-                if (hotForm.winTask == null)
-                {
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (hotForm.winTask == null)
+        //        {
 
-                    MessageConfirm confirm = new MessageConfirm("是否开始执行任务?");
-                    confirm.CallBack += () =>
-                    {
-                        isOK = true;
-                    };
-                    confirm.ShowDialog(this);
-                    if (isOK)
-                    {
-                        hotForm.winTask = new StartTask(hotForm, this);
-                        hotForm.winTask.OK();
-                    }
-                }
-                else
-                {
-                    hotForm.winTask.isStartTask = false;
-                    hotForm.winTask.Close();
-                    hotForm.winTask = null;
-                    ShowStartButtonText("启动计划");
-                }
-            }
-        }
+        //            MessageConfirm confirm = new MessageConfirm("是否开始执行任务?");
+        //            confirm.CallBack += () =>
+        //            {
+        //                isOK = true;
+        //            };
+        //            confirm.ShowDialog(this);
+        //            if (isOK)
+        //            {
+        //                hotForm.winTask = new StartTask(hotForm, this);
+        //                hotForm.winTask.OK();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            hotForm.winTask.isStartTask = false;
+        //            hotForm.winTask.Close();
+        //            hotForm.winTask = null;
+        //            ShowStartButtonText("启动计划");
+        //        }
+        //    }
+        //}
 
         public void ShowStartButtonText(string text)
         {
-            if (btnStartTask.InvokeRequired)
-            {
-                this.Invoke(new Action<string>(ShowStartButtonText), new object[] { text });
-            }
-            else
-            {
-                btnStartTask.Text = text;
-            }
+            //if (btnStartTask.InvokeRequired)
+            //{
+            //    this.Invoke(new Action<string>(ShowStartButtonText), new object[] { text });
+            //}
+            //else
+            //{
+            //    btnStartTask.Text = text;
+            //}
         }
 
         /// <summary>
