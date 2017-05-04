@@ -29,17 +29,20 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.plTop = new System.Windows.Forms.Panel();
-            this.picClose = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.picMax = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.plMin = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.picClose = new System.Windows.Forms.PictureBox();
+            this.picMax = new System.Windows.Forms.PictureBox();
+            this.lbTitle = new System.Windows.Forms.Label();
             this.hotPanel1 = new HotTaoSquare.module.HotPanel(this.components);
+            this.picGoback = new System.Windows.Forms.PictureBox();
             this.plTop.SuspendLayout();
+            this.plMin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picMax)).BeginInit();
-            this.plMin.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picGoback)).BeginInit();
             this.SuspendLayout();
             // 
             // plTop
@@ -47,8 +50,9 @@
             this.plTop.BackColor = System.Drawing.SystemColors.Control;
             this.plTop.Controls.Add(this.plMin);
             this.plTop.Controls.Add(this.picClose);
+            this.plTop.Controls.Add(this.picGoback);
             this.plTop.Controls.Add(this.picMax);
-            this.plTop.Controls.Add(this.label1);
+            this.plTop.Controls.Add(this.lbTitle);
             this.plTop.Location = new System.Drawing.Point(0, 0);
             this.plTop.Name = "plTop";
             this.plTop.Size = new System.Drawing.Size(1250, 30);
@@ -57,6 +61,24 @@
             this.plTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
             this.plTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
             this.plTop.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
+            // 
+            // plMin
+            // 
+            this.plMin.Controls.Add(this.panel1);
+            this.plMin.Location = new System.Drawing.Point(1175, 5);
+            this.plMin.Name = "plMin";
+            this.plMin.Size = new System.Drawing.Size(20, 20);
+            this.plMin.TabIndex = 120;
+            this.plMin.Click += new System.EventHandler(this.plMin_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(39)))));
+            this.panel1.Location = new System.Drawing.Point(3, 9);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(15, 2);
+            this.panel1.TabIndex = 119;
+            this.panel1.Click += new System.EventHandler(this.plMin_Click);
             // 
             // picClose
             // 
@@ -71,18 +93,6 @@
             this.picClose.TabStop = false;
             this.picClose.Click += new System.EventHandler(this.picClose_Click);
             // 
-            // label1
-            // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(12, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 30);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "淘广场";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // picMax
             // 
             this.picMax.BackColor = System.Drawing.Color.Transparent;
@@ -96,23 +106,21 @@
             this.picMax.TabStop = false;
             this.picMax.Click += new System.EventHandler(this.picMax_Click);
             // 
-            // panel1
+            // lbTitle
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(39)))));
-            this.panel1.Location = new System.Drawing.Point(3, 9);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(15, 2);
-            this.panel1.TabIndex = 119;
-            this.panel1.Click += new System.EventHandler(this.plMin_Click);
-            // 
-            // plMin
-            // 
-            this.plMin.Controls.Add(this.panel1);
-            this.plMin.Location = new System.Drawing.Point(1175, 5);
-            this.plMin.Name = "plMin";
-            this.plMin.Size = new System.Drawing.Size(20, 20);
-            this.plMin.TabIndex = 120;
-            this.plMin.Click += new System.EventHandler(this.plMin_Click);
+            this.lbTitle.BackColor = System.Drawing.Color.Transparent;
+            this.lbTitle.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbTitle.ForeColor = System.Drawing.Color.Black;
+            this.lbTitle.Location = new System.Drawing.Point(4, 0);
+            this.lbTitle.Name = "lbTitle";
+            this.lbTitle.Size = new System.Drawing.Size(1119, 30);
+            this.lbTitle.TabIndex = 0;
+            this.lbTitle.Text = "淘广场";
+            this.lbTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbTitle.DoubleClick += new System.EventHandler(this.picMax_Click);
+            this.lbTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
+            this.lbTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
+            this.lbTitle.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
             // 
             // hotPanel1
             // 
@@ -126,6 +134,19 @@
             this.hotPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
             this.hotPanel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
             // 
+            // picGoback
+            // 
+            this.picGoback.BackColor = System.Drawing.Color.Transparent;
+            this.picGoback.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picGoback.Image = global::HotTaoSquare.Properties.Resources.icon_close1;
+            this.picGoback.Location = new System.Drawing.Point(1149, 4);
+            this.picGoback.Name = "picGoback";
+            this.picGoback.Size = new System.Drawing.Size(20, 20);
+            this.picGoback.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picGoback.TabIndex = 118;
+            this.picGoback.TabStop = false;
+            this.picGoback.Click += new System.EventHandler(this.picGoback_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -133,15 +154,16 @@
             this.ClientSize = new System.Drawing.Size(1250, 720);
             this.Controls.Add(this.plTop);
             this.Controls.Add(this.hotPanel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "淘广场";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.plTop.ResumeLayout(false);
+            this.plMin.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picMax)).EndInit();
-            this.plMin.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picGoback)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -151,9 +173,10 @@
         private module.HotPanel hotPanel1;
         private System.Windows.Forms.PictureBox picClose;
         private System.Windows.Forms.Panel plTop;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbTitle;
         private System.Windows.Forms.PictureBox picMax;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel plMin;
+        private System.Windows.Forms.PictureBox picGoback;
     }
 }

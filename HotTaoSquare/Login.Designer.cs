@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.hotPanel1 = new HotTaoSquare.module.HotPanel(this.components);
             this.lbTipMsg = new System.Windows.Forms.Label();
             this.ckbSavePwd = new System.Windows.Forms.CheckBox();
@@ -79,6 +80,8 @@
             // ckbSavePwd
             // 
             this.ckbSavePwd.AutoSize = true;
+            this.ckbSavePwd.Checked = true;
+            this.ckbSavePwd.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ckbSavePwd.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ckbSavePwd.Location = new System.Drawing.Point(26, 303);
             this.ckbSavePwd.Name = "ckbSavePwd";
@@ -112,7 +115,7 @@
             this.btnLogin.Location = new System.Drawing.Point(20, 235);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(247, 41);
-            this.btnLogin.TabIndex = 116;
+            this.btnLogin.TabIndex = 3;
             this.btnLogin.Text = "登录";
             this.btnLogin.UseVisualStyleBackColor = false;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
@@ -126,14 +129,14 @@
             this.hotGroupBox2.Location = new System.Drawing.Point(20, 163);
             this.hotGroupBox2.Name = "hotGroupBox2";
             this.hotGroupBox2.Size = new System.Drawing.Size(247, 43);
-            this.hotGroupBox2.TabIndex = 115;
+            this.hotGroupBox2.TabIndex = 2;
             this.hotGroupBox2.TabStop = false;
             // 
             // lbLoginPwd
             // 
             this.lbLoginPwd.BackColor = System.Drawing.Color.Transparent;
             this.lbLoginPwd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
-            this.lbLoginPwd.Location = new System.Drawing.Point(6, 13);
+            this.lbLoginPwd.Location = new System.Drawing.Point(10, 13);
             this.lbLoginPwd.Name = "lbLoginPwd";
             this.lbLoginPwd.Size = new System.Drawing.Size(90, 22);
             this.lbLoginPwd.TabIndex = 114;
@@ -164,14 +167,14 @@
             this.hotGroupBox1.Location = new System.Drawing.Point(20, 102);
             this.hotGroupBox1.Name = "hotGroupBox1";
             this.hotGroupBox1.Size = new System.Drawing.Size(247, 43);
-            this.hotGroupBox1.TabIndex = 115;
+            this.hotGroupBox1.TabIndex = 1;
             this.hotGroupBox1.TabStop = false;
             // 
             // lbLoginMobile
             // 
             this.lbLoginMobile.BackColor = System.Drawing.Color.Transparent;
             this.lbLoginMobile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(123)))), ((int)(((byte)(123)))));
-            this.lbLoginMobile.Location = new System.Drawing.Point(6, 13);
+            this.lbLoginMobile.Location = new System.Drawing.Point(10, 13);
             this.lbLoginMobile.Name = "lbLoginMobile";
             this.lbLoginMobile.Size = new System.Drawing.Size(90, 22);
             this.lbLoginMobile.TabIndex = 114;
@@ -209,7 +212,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 402);
             this.Controls.Add(this.hotPanel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "登录";

@@ -289,6 +289,7 @@ namespace HotTao
                     LocalStorage = CefState.Enabled,
                     Javascript = CefState.Enabled,
                 };
+                browser.BrowserSettings = settings;
                 browser.Size = new Size(920, 607);
                 browser.Location = new Point(1, 0);
             })

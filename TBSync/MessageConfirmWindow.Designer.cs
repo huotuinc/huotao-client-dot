@@ -29,13 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageConfirmWindow));
             this.hotPanel1 = new TBSync.HotPanel(this.components);
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.lbTitle = new System.Windows.Forms.Label();
-            this.pbClose = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.lbContent = new System.Windows.Forms.Label();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.lbTitle = new System.Windows.Forms.Label();
+            this.pbClose = new System.Windows.Forms.PictureBox();
             this.hotPanel1.SuspendLayout();
             this.panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
@@ -54,41 +55,6 @@
             this.hotPanel1.Name = "hotPanel1";
             this.hotPanel1.Size = new System.Drawing.Size(284, 150);
             this.hotPanel1.TabIndex = 0;
-            // 
-            // panel7
-            // 
-            this.panel7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
-            this.panel7.Controls.Add(this.lbTitle);
-            this.panel7.Controls.Add(this.pbClose);
-            this.panel7.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.panel7.Location = new System.Drawing.Point(0, 0);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(284, 28);
-            this.panel7.TabIndex = 12;
-            this.panel7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
-            this.panel7.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
-            this.panel7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
-            // 
-            // lbTitle
-            // 
-            this.lbTitle.AutoSize = true;
-            this.lbTitle.ForeColor = System.Drawing.Color.White;
-            this.lbTitle.Location = new System.Drawing.Point(7, 7);
-            this.lbTitle.Name = "lbTitle";
-            this.lbTitle.Size = new System.Drawing.Size(29, 12);
-            this.lbTitle.TabIndex = 6;
-            this.lbTitle.Text = "提示";
-            // 
-            // pbClose
-            // 
-            this.pbClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbClose.Image = global::TBSync.Properties.Resources.icon_close;
-            this.pbClose.Location = new System.Drawing.Point(264, 7);
-            this.pbClose.Name = "pbClose";
-            this.pbClose.Size = new System.Drawing.Size(13, 13);
-            this.pbClose.TabIndex = 5;
-            this.pbClose.TabStop = false;
-            this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
             // 
             // button1
             // 
@@ -136,6 +102,41 @@
             this.lbContent.TabIndex = 17;
             this.lbContent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // panel7
+            // 
+            this.panel7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
+            this.panel7.Controls.Add(this.lbTitle);
+            this.panel7.Controls.Add(this.pbClose);
+            this.panel7.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.panel7.Location = new System.Drawing.Point(0, 0);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(284, 28);
+            this.panel7.TabIndex = 12;
+            this.panel7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
+            this.panel7.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
+            this.panel7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
+            // 
+            // lbTitle
+            // 
+            this.lbTitle.AutoSize = true;
+            this.lbTitle.ForeColor = System.Drawing.Color.White;
+            this.lbTitle.Location = new System.Drawing.Point(7, 7);
+            this.lbTitle.Name = "lbTitle";
+            this.lbTitle.Size = new System.Drawing.Size(29, 12);
+            this.lbTitle.TabIndex = 6;
+            this.lbTitle.Text = "提示";
+            // 
+            // pbClose
+            // 
+            this.pbClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbClose.Image = global::TBSync.Properties.Resources.icon_close;
+            this.pbClose.Location = new System.Drawing.Point(264, 7);
+            this.pbClose.Name = "pbClose";
+            this.pbClose.Size = new System.Drawing.Size(13, 13);
+            this.pbClose.TabIndex = 5;
+            this.pbClose.TabStop = false;
+            this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
+            // 
             // MessageConfirmWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -143,6 +144,7 @@
             this.ClientSize = new System.Drawing.Size(284, 150);
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "MessageConfirmWindow";
             this.ShowIcon = false;

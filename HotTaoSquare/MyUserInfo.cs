@@ -23,11 +23,11 @@ namespace HotTaoSquare
     /// </summary>
     public class MyUserInfo
     {
-        public static UserModel userData;
+        public static UserModel userData { get; set; }
 
-        public static string LoginToken = "";
+        public static string LoginToken { get; set; } = "";
 
-        public static int currentUserId = 0;
+        public static int currentUserId { get; set; } = 0;
 
         public void SetUserData(UserModel user)
         {
@@ -48,7 +48,7 @@ namespace HotTaoSquare
         /// <summary>
         /// 发送文案
         /// </summary>
-        public static string sendtemplate = "";
+        public static string sendtemplate { get; set; } = "";
         /// <summary>
         /// 默认文案
         /// </summary>
@@ -67,34 +67,14 @@ namespace HotTaoSquare
         /// <summary>
         /// 淘宝登录cookie
         /// </summary>
-        public static string TaobaoLoginCookies = "";
+        public static string TaobaoLoginCookies { get; set; } = "";
 
         /// <summary>
         /// 登录登录的淘宝账号
         /// </summary>
-        public static string TaobaoName = "";
+        public static string TaobaoName { get; set; } = "";
 
-
-        /// <summary>
-        /// 发送消息状态，0未发送，1发送中 2 发送完成
-        /// </summary>
-        public static int SendMessageStatus = 0;
-        /// <summary>
-        /// 发送的消息文本
-        /// </summary>
-        public static string SendMessageText = "";
-
-
-        /// <summary>
-        /// 过滤用户(微信昵称)，每个用户使用[]隔开
-        /// </summary>
-        public static string filterUserGroups = string.Empty;
-
-
-        /// <summary>
-        /// 发送模式 默认0窗口模式
-        /// </summary>
-        public static int sendmode = 0;
+               
 
         /// <summary>
         /// 淘宝联盟cookies

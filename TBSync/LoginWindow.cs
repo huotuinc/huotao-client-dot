@@ -107,6 +107,7 @@ namespace TBSync
                     Javascript = CefState.Enabled,
                     WebSecurity = CefState.Enabled
                 };
+                browser.BrowserSettings = settings;
                 browser.Size = new Size(920, 607);
                 browser.Location = new Point(1, 0);
                 browser.FrameLoadEnd += Browser_FrameLoadEnd;

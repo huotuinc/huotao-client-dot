@@ -68,10 +68,15 @@ namespace HotTaoSquare
 
         private Login loginForm { get; set; }
 
-        private bool isLoading { get; set; }
+        /// <summary>
+        /// 是否已加载完成
+        /// </summary>
+        private bool isLoadingCompleted { get; set; }
 
-
-        private static string intiUrl = "http://www.baidu.com";// System.Environment.CurrentDirectory + "\\portal\\tkgc.html";
+        /// <summary>
+        /// 加载页面地址
+        /// </summary>
+        private static string intiUrl = "http://www.baidu.com";// System.Environment.CurrentDirectory + "\\portal\\tkgc.html";// "http://www.baidu.com";//
 
         public MainForm(Login form)
         {
@@ -105,16 +110,51 @@ namespace HotTaoSquare
             {
                 if (loginForm.browser == null)
                     loginForm.InitBrowser(intiUrl, BrowseLoadEnd);
+
+                if (loginForm.browser != null)
+                    loginForm.browser.TitleChanged += Browser_TitleChanged;
+
                 hotPanel1.Controls.Add(loginForm.browser);
             }
         }
 
+        /// <summary>
+        /// 页面标题发送改变时触发
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Browser_TitleChanged(object sender, TitleChangedEventArgs e)
+        {
+            SetTitle(e.Title);
+            LoadingClose();
+        }
 
+        /// <summary>
+        /// 设置标题
+        /// </summary>
+        /// <param name="title"></param>
+        private void SetTitle(string title)
+        {
+            if (this.lbTitle.InvokeRequired)
+            {
+                this.lbTitle.Invoke(new Action<string>(SetTitle), new object[] { title });
+            }
+            else
+            {
+                lbTitle.Text = title;
+            }
+        }
+
+
+
+        /// <summary>
+        /// 页面加载完成后触发
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BrowseLoadEnd(object sender, FrameLoadEndEventArgs e)
         {
-            isLoading = true;
-            if (ld != null)
-                ld.Close();
+            LoadingClose();
         }
 
 
@@ -124,6 +164,15 @@ namespace HotTaoSquare
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void picClose_Click(object sender, EventArgs e)
+        {
+            AlertConfirm("确定要退出?", "注销提示", () =>
+            {
+                this.Close();
+            });
+
+        }
+
+        private new void Close()
         {
             Application.ExitThread();
             Process.GetCurrentProcess().Kill();
@@ -136,8 +185,13 @@ namespace HotTaoSquare
         /// <param name="e"></param>
         private void MainForm_Shown(object sender, EventArgs e)
         {
-            if (!isLoading)
+            if (!isLoadingCompleted)
             {
+                if (ld != null && !ld.IsDisposed)
+                {
+                    ld.Dispose();
+                    ld.Close();
+                }
                 ld = new Loading();
                 ld.StartPosition = FormStartPosition.Manual;
                 RECT rect = new RECT();
@@ -146,6 +200,30 @@ namespace HotTaoSquare
                 ld.Show(this);
             }
         }
+
+        /// <summary>
+        /// 关闭loading
+        /// </summary>
+        private void LoadingClose()
+        {
+            if (!isLoadingCompleted)
+            {
+                if (this.ld != null && this.ld.InvokeRequired)
+                {
+                    this.ld.Invoke(new Action(LoadingClose), new object[] { });
+                }
+                else
+                {
+                    if (ld != null)
+                        ld.Close();
+
+                    isLoadingCompleted = true;
+                }
+            }
+        }
+
+
+
         /// <summary>
         /// 当前窗口是否已是最大化
         /// </summary>
@@ -183,6 +261,7 @@ namespace HotTaoSquare
             picClose.Location = new Point(plTop.Width - 25, 5);
             picMax.Location = new Point(plTop.Width - 50, 5);
             plMin.Location = new Point(plTop.Width - 75, 5);
+            lbTitle.Width = rect.Right - rect.Left - 100;
         }
 
         /// <summary>
@@ -233,10 +312,14 @@ namespace HotTaoSquare
         /// </summary>
         private void Lw_CloseWindowHandle()
         {
-            AlertConfirm("必须登录阿里妈妈才能使用软件,确定退出?", "退出提示", () =>
-            {
-                this.Close();
-            });
+            //AlertConfirm("必须登录阿里妈妈才能使用软件,确定退出?", "退出提示", () =>
+            //{
+            //    this.Close();
+            //});
+
+            //
+            loginWindowsClose();
+            AddBrowser();
         }
 
         /// <summary>
@@ -259,29 +342,40 @@ namespace HotTaoSquare
         private int RetryCount { get; set; }
         private void bindTaobao(string cookieJson)
         {
-            var result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, false);
-            if (result.resultCode == 200)
+            try
             {
-                MyUserInfo.TaobaoName = result.data.ToString();
-                RetryCount = 0;
-            }
-            else if (result.resultCode == 511)
-            {
-                RetryCount = 0;
-                AlertConfirm("当前登录淘宝账号与上次不匹配，是否切换?", "提示", () =>
+                var result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, false);
+                if (result.resultCode == 200)
                 {
+                    MyUserInfo.TaobaoName = result.data.ToString();
+                    RetryCount = 0;
+                }
+                else if (result.resultCode == 511)
+                {
+                    RetryCount = 0;
+                    //AlertConfirm("当前登录淘宝账号与上次不匹配，是否切换?", "提示", () =>
+                    //{
+                    //    result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, true);
+                    //    if (result.resultCode == 200)
+                    //        MyUserInfo.TaobaoName = result.data.ToString();
+                    //});
+
                     result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, true);
                     if (result.resultCode == 200)
                         MyUserInfo.TaobaoName = result.data.ToString();
-                });
-            }
-            else
-            {
-                RetryCount++;
-                if (RetryCount < 3)
-                {
-                    bindTaobao(cookieJson);
                 }
+                else
+                {
+                    RetryCount++;
+                    if (RetryCount < 3)
+                    {
+                        bindTaobao(cookieJson);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
             }
         }
 
@@ -302,6 +396,21 @@ namespace HotTaoSquare
                     lw.Hide();
             }
         }
+        private void loginWindowsClose()
+        {
+            if (lw == null) return;
+            if (lw.InvokeRequired)
+            {
+                this.lw.Invoke(new Action(loginWindowsClose), new object[] { });
+            }
+            else
+            {
+                if (lw != null)
+                    lw.Close();
+                lw = null;
+            }
+        }
+
         /// <summary>
         /// 刷新状态
         /// </summary>
@@ -375,18 +484,37 @@ namespace HotTaoSquare
             {
                 bool isOk = false;
                 MessageConfirmWindow alert = new MessageConfirmWindow(text, title);
-                alert.StartPosition = FormStartPosition.CenterScreen;
+                alert.StartPosition = FormStartPosition.CenterParent;
                 alert.CallBack += () =>
                 {
                     isOk = true;
                 };
-                alert.ShowDialog();
+                alert.ShowDialog(this);
                 if (isOk)
                     callback?.Invoke();
             }
         }
+
         #endregion
 
 
+
+        /// <summary>
+        /// 后退
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void picGoback_Click(object sender, EventArgs e)
+        {
+            if (loginForm.browser == null) return;
+            //后退
+            loginForm.browser.Back();
+            //前进
+            //loginForm.browser.Forward();
+            //刷新
+            //loginForm.browser.Reload();
+
+
+        }
     }
 }

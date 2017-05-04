@@ -19,8 +19,6 @@ namespace HotTaoSquare
     public partial class Login : FormEx
     {
 
-        NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
-
         #region 移动窗口
         /*
          * 首先将窗体的边框样式修改为None，让窗体没有标题栏
@@ -93,6 +91,12 @@ namespace HotTaoSquare
         private string lgname = string.Empty;
 
         public ChromiumWebBrowser browser;
+
+        /// <summary>
+        /// 主界面
+        /// </summary>
+        public MainForm hotForm { get; set; }
+
 
         private void Login_Load(object sender, EventArgs e)
         {
@@ -272,9 +276,12 @@ namespace HotTaoSquare
                             this.BeginInvoke((Action)(delegate ()  //等待结束
                             {
                                 this.Hide();
-                                MainForm main = new MainForm(this);
-                                main.StartPosition = FormStartPosition.CenterScreen;
-                                main.Show();
+                                if (hotForm == null)
+                                {
+                                    hotForm = new MainForm(this);
+                                    hotForm.StartPosition = FormStartPosition.CenterScreen;
+                                    hotForm.Show();
+                                }
                             }));
                         }
                         else
@@ -338,21 +345,75 @@ namespace HotTaoSquare
 
             if (browser == null)
             {
-                browser = new ChromiumWebBrowser(url);
-                //browser.RegisterJsObject("jsGoods", new GoodsControl(this), false);
+                CefSettings cfs = new CefSettings();
+                cfs.UserAgent = "token=" + MyUserInfo.LoginToken+ ";Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36";                
+                Cef.Initialize(cfs, true, true);
                 BrowserSettings settings = new BrowserSettings()
                 {
                     LocalStorage = CefState.Enabled,
                     Javascript = CefState.Enabled,
+                    Plugins = CefState.Enabled,
+                    ImageLoading = CefState.Enabled,
+                    ImageShrinkStandaloneToFit = CefState.Enabled,
+                    WebGl = CefState.Enabled
                 };
+                browser = new ChromiumWebBrowser(url);
+                browser.BrowserSettings = settings;
+                browser.RegisterJsObject("hotJs", new MyUserInfo(), false);
                 browser.FrameLoadEnd += (s, e) => { loadEnd(s, e); };
                 browser.Dock = DockStyle.Fill;
                 browser.LifeSpanHandler = new LifeSpanHandler();
+                browser.MenuHandler = new MenuHandler();
             }
             else
                 browser.Load(url);
+
+
+        }
+
+
+        #region 页面JS交互
+
+
+
+        #endregion
+
+    }
+    /// <summary>
+    /// 控制右键菜单
+    /// </summary>
+    internal class MenuHandler : IContextMenuHandler
+    {
+        public void OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
+        {
+            model.Clear();
+            model.AddItem(CefMenuCommand.Back, "返回");
+            model.AddItem(CefMenuCommand.Forward, "前进");
+            //model.AddSeparator();
+            model.AddItem(CefMenuCommand.Reload, "重新加载");            
+
+        }
+
+        public bool OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
+        {
+            return false;
+        }
+
+        public void OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+        {
+
+        }
+
+        public bool RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
+        {
+            return false;
         }
     }
+
+
+    /// <summary>
+    /// 禁止页面跳出浏览控件
+    /// </summary>
     internal class LifeSpanHandler : ILifeSpanHandler
     {
         public bool DoClose(IWebBrowser browserControl, IBrowser browser)
@@ -372,12 +433,11 @@ namespace HotTaoSquare
 
         public void OnBeforeClose(IWebBrowser browserControl, IBrowser browser)
         {
-
         }
 
         public bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
         {
-            newBrowser = browserControl;
+            newBrowser = browserControl;            
             newBrowser.Load(targetUrl);
             return true;
         }

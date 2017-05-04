@@ -125,7 +125,7 @@ namespace HotTaoCore.Logic
             if (errorCode == 500)
             {
                 CheckTokenErrorCount++;
-                if (CheckTokenErrorCount <= 3)
+                //if (CheckTokenErrorCount <= 3)
                     result = true;
             }
             return result;
