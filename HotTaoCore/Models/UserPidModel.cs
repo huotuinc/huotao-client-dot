@@ -70,7 +70,6 @@ namespace HotTaoCore.Models
     }
 
 
-
     /// <summary>
     /// 微信群聊对象
     /// </summary>

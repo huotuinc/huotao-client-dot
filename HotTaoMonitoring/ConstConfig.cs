@@ -24,7 +24,7 @@ namespace HotTaoMonitoring
 
 
 
-
+        public const string www = "http://www.51huotao.com/";
         public const string conf_user = "/conf_user.ini";
         public const string conf_filter = "/conf_filter.ini";
         public const string v_version = "/hot.version";

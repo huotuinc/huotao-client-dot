@@ -1,6 +1,7 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
 using HotCoreUtils.Helper;
+using HotTaoCore;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using System;
@@ -346,7 +347,12 @@ namespace HotTaoSquare
             if (browser == null)
             {
                 CefSettings cfs = new CefSettings();
-                cfs.UserAgent = "token=" + MyUserInfo.LoginToken+ ";Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36";                
+                Dictionary<string, string> formFields = new Dictionary<string, string>();
+                formFields["token"] = MyUserInfo.LoginToken;
+                //获取签名
+                string signature = SignatureHelper.BuildSign(formFields, ApiConst.SecretKey);
+                string param = string.Format("hottecexe:token={0}&signature={1};", MyUserInfo.LoginToken, signature);
+                cfs.UserAgent = param + "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36";
                 Cef.Initialize(cfs, true, true);
                 BrowserSettings settings = new BrowserSettings()
                 {
@@ -378,6 +384,10 @@ namespace HotTaoSquare
 
         #endregion
 
+        private void lkbRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://www.51huotao.com/");
+        }
     }
     /// <summary>
     /// 控制右键菜单
@@ -390,7 +400,7 @@ namespace HotTaoSquare
             model.AddItem(CefMenuCommand.Back, "返回");
             model.AddItem(CefMenuCommand.Forward, "前进");
             //model.AddSeparator();
-            model.AddItem(CefMenuCommand.Reload, "重新加载");            
+            model.AddItem(CefMenuCommand.Reload, "重新加载");
 
         }
 
@@ -437,7 +447,7 @@ namespace HotTaoSquare
 
         public bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
         {
-            newBrowser = browserControl;            
+            newBrowser = browserControl;
             newBrowser.Load(targetUrl);
             return true;
         }

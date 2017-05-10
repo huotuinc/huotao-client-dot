@@ -230,6 +230,11 @@ namespace HotTaoCore
         /// 发送短信验证码
         /// </summary>
         public const string sendCodeForRegister = "/huotao/sendCodeForRegister";
+
+        /// <summary>
+        /// 批量商品链接转商品数据接口
+        /// </summary>
+        public const string findGoodsByLink = "/goods/findGoodsByLink";
         #endregion
     }
 }

@@ -268,6 +268,20 @@ namespace HotTaoCore.DAL
                 };
             return DBHelper.ExecuteSql(strSql, param) > 0;
         }
+        /// <summary>
+        /// 删除商品
+        /// </summary>
+        /// <param name="goodsId"></param>
+        /// <returns></returns>
+        public bool DeleteGoodsByGoodsid(string goodsId)
+        {
+            string strSql = @"delete from user_goods_list WHERE goodsId = @goodsId;";
+            var param = new[] {
+                    new SQLiteParameter("@goodsId",goodsId)
+                };
+            return DBHelper.ExecuteSql(strSql, param) > 0;
+        }
+
 
         /// <summary>
         /// 删除所有本地商品
@@ -303,8 +317,9 @@ namespace HotTaoCore.DAL
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns>System.Int32.</returns>
-        public int AddUserGoods(GoodsModel model)
+        public int AddUserGoods(GoodsModel model, out bool isUpdate)
         {
+            isUpdate = false;
             var data = FindByUserGoodsInfo(model.goodsId, model.userid);
             string strSql = "";
             if (data == null)
@@ -345,7 +360,10 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@goodsIntro",model.goodsIntro),
                     new SQLiteParameter("@updateTime",DateTime.Now)
                 };
-                return DBHelper.ExecuteSql(strSql, param);
+                isUpdate = true;
+                if (DBHelper.ExecuteSql(strSql, param) > 0)
+                    return Convert.ToInt32(data.id);
+                return 0;
             }
 
 
@@ -502,7 +520,7 @@ namespace HotTaoCore.DAL
         /// </summary>
         /// <param name="userid">The userid.</param>
         /// <returns>List&lt;GoodsModel&gt;.</returns>
-        public List<TaskPlanModel> FindByUserTaskPlanList(int userid)
+        public List<TaskPlanModel> FindUserTaskPlanListByUserId(int userid)
         {
             string strSql = @"select id,userid,title,startTime,endTime,goodsText,pidsText,isTpwd,status from user_task_plan where userid=@userid  order by status asc,startTime asc;";
             var param = new[] {
@@ -545,6 +563,7 @@ namespace HotTaoCore.DAL
 
             return data;
         }
+
 
         /// <summary>
         /// 添加微信分享数据

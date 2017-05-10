@@ -1,15 +1,19 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
+using HotCoreUtils.Helper;
 using HotTao.Controls;
+using HotTao.Properties;
 using HotTaoCore;
 using HotTaoCore.Enums;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using Newtonsoft.Json;
+using QQLogin;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -116,8 +120,6 @@ namespace HotTao
         /// 运行日志
         /// </summary>
         public List<LogRuningModel> logRuningList { get; set; }
-
-
 
         public ChromiumWebBrowser browser;
         public Main()
@@ -486,16 +488,16 @@ namespace HotTao
             this.BeginInvoke((Action)(delegate ()  //等待结束
             {
                 HotContainer.Panel2.Controls.Clear();
-                foreach (UserControl uu in HotContainer.Panel2.Controls)
-                {
-                    if (uu != null)
-                    {
-                        if (uu.GetType() == uc.GetType())
-                        {
-                            return;
-                        }
-                    }
-                }
+                //foreach (UserControl uu in HotContainer.Panel2.Controls)
+                //{
+                //    if (uu != null)
+                //    {
+                //        if (uu.GetType() == uc.GetType())
+                //        {
+                //            return;
+                //        }
+                //    }
+                //}
                 uc.Dock = DockStyle.Fill;
                 //DisPanel();
                 this.HotContainer.Panel2.Controls.Add(uc);
@@ -596,10 +598,16 @@ namespace HotTao
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pbHelp_Click(object sender, EventArgs e)
         {
-            MessageAlert alert = new MessageAlert("计划中...");
-            alert.ShowDialog(this);
-        }
+            SetSelectedBackgroundImage(sender);
+            if (MyUserInfo.currentUserId > 0)
+            {
+                LoginQQ();
 
+            }
+            else
+                openControl(new LoginControl(this));
+
+        }
 
         public Loading LoadingShow { get; set; }
 
@@ -613,7 +621,6 @@ namespace HotTao
                     pl.Visible = true;
                 }
             }
-            panelHelp.Visible = false;
         }
 
 
@@ -1042,6 +1049,162 @@ namespace HotTao
             return (long)(DateTime.Now - startTime).TotalMilliseconds;
         }
         #endregion
+
+
+
+
+
+
+
+        #region QQ相关操作
+
+        public QQMainControl qqForm;
+        /// <summary>
+        /// 登录QQ
+        /// </summary>
+        private void LoginQQ()
+        {
+            if (qqForm == null)
+            {
+                qqForm = new QQLogin.QQMainControl();
+                qqForm.CloseQQHandler += QqForm_CloseQQHandler;
+                qqForm.BuildGoodsHandler += QqForm_BuildGoodsHandler;
+                openControl(qqForm);
+            }
+            else
+                openControl(qqForm);
+        }
+
+        /// <summary>
+        /// 当前微信群列表数据
+        /// </summary>
+        public List<UserWechatListModel> weChatGroups { get; set; }
+
+        /// <summary>
+        /// 生成商品,并判断是否开启创建任务计划
+        /// </summary>
+        /// <param name="msgCode">商品</param>
+        /// <param name="urls">采集到的URL</param>
+        /// <param name="isAutoSend"></param>   
+        /// <param name="callback">处理回调通知</param>
+        private void QqForm_BuildGoodsHandler(long msgCode, List<string> urls, bool isAutoSend, Action<MessageCallBackType, int, int> callback)
+        {
+            if (weChatGroups == null) weChatGroups = LogicHotTao.Instance(MyUserInfo.currentUserId).GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);
+            int groupCount = weChatGroups.Count();
+
+            if (urls != null)
+            {
+                callback?.Invoke(MessageCallBackType.正在准备, 0, 0);
+                List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
+                Dictionary<string, string> data = new Dictionary<string, string>();
+                if (urls.Count() > 0)
+                    data["url"] = urls[0];
+                else
+                    data["url"] = "";
+
+                if (urls.Count() > 1)
+                    data["url2"] = urls[1];
+                else
+                    data["url2"] = "";
+                list.Add(data);
+
+                string jsonUrls = JsonConvert.SerializeObject(list);
+                //根据地址，获取商品优惠信息
+                List<GoodsSelectedModel> goodsData = LogicGoods.Instance.getGoodsByLink(MyUserInfo.LoginToken, jsonUrls);
+                try
+                {
+                    if (goodsData != null && goodsData.Count() > 0)
+                    {
+                        bool isUpdate = false;
+                        //保存商品到本地数据库
+                        int gid = LogicGoods.Instance.SaveGoods(goodsData[0], MyUserInfo.currentUserId, out isUpdate);
+                        if (isUpdate) return;
+
+                        List<GoodsTaskModel> goodsidList = new List<GoodsTaskModel>();
+                        goodsidList.Add(new GoodsTaskModel() { id = gid });
+                        List<GoodsTaskModel> pidList = new List<GoodsTaskModel>();
+                        foreach (var group in weChatGroups)
+                        {
+                            if (pidList.FindIndex(r => { return r.id == group.id; }) < 0)
+                                pidList.Add(new GoodsTaskModel() { id = group.id });
+                        }
+                        string goodsText = JsonConvert.SerializeObject(goodsidList);
+                        string pidsText = JsonConvert.SerializeObject(pidList);
+
+                        if (groupCount > 0 && isAutoSend)
+                        {
+                            // var taskplan = LogicHotTao.Instance(MyUserInfo.currentUserId).FindExecTaskPlanByUserId(MyUserInfo.currentUserId);
+                            int taskId = 0;
+                            callback?.Invoke(MessageCallBackType.开始创建计划, 0, groupCount);
+                            //添加任务计划
+                            var result = LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserTaskPlan(new TaskPlanModel()
+                            {
+                                userid = MyUserInfo.currentUserId,
+                                title = goodsData[0].goodsName,
+                                startTime = DateTime.Now.AddHours(-1),
+                                endTime = DateTime.Now.AddHours(5),
+                                pidsText = pidsText,
+                                goodsText = goodsText,
+                                id = 0
+                            });
+                            taskId = Convert.ToInt32(result.id);
+
+                            #region 开始转链准备
+                            string appkey = string.Empty;
+                            string appsecret = string.Empty;
+                            if (myConfig == null)
+                                myConfig = new ConfigModel();
+                            else
+                            {
+                                ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(myConfig.send_time_config) ? null : JsonConvert.DeserializeObject<ConfigSendTimeModel>(myConfig.send_time_config);
+                                if (cfgTime != null)
+                                {
+                                    appkey = cfgTime.appkey;
+                                    appsecret = cfgTime.appsecret;
+                                }
+                            }
+
+                            if (string.IsNullOrEmpty(appkey) && string.IsNullOrEmpty(appsecret))
+                            {
+                                appkey = Resources.taobaoappkey;
+                                appsecret = Resources.taobaoappsecret;
+                            }
+
+                            //开始转链
+                            int i = 1;
+                            LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTaskTpwd(MyUserInfo.LoginToken, MyUserInfo.currentUserId, taskId, MyUserInfo.sendtemplate, appkey, appsecret, (share) =>
+                            {
+                                callback?.Invoke(MessageCallBackType.开始转链, i, groupCount);
+                                i++;
+                            });
+                            #endregion
+                            callback?.Invoke(MessageCallBackType.转链完成, 0, groupCount);
+                        }
+                    }
+                    callback?.Invoke(MessageCallBackType.完成, 0, 0);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            }
+        }
+        /// <summary>
+        /// 点击关闭按钮回调事件
+        /// </summary>
+        private void QqForm_CloseQQHandler()
+        {
+            AlertConfirm("是否退出QQ监控?", "提示", () =>
+            {
+                qqForm.CloseEx();
+                openControl(new GoodsControl(this));
+                qqForm = null;
+            });
+        }
+
+        #endregion
+
+
 
     }
 }

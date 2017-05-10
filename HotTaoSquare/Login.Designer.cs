@@ -42,6 +42,7 @@
             this.lbLoginMobile = new System.Windows.Forms.Label();
             this.txtLoginMobile = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.lkbRegister = new System.Windows.Forms.LinkLabel();
             this.hotPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).BeginInit();
             this.hotGroupBox2.SuspendLayout();
@@ -52,6 +53,7 @@
             // 
             this.hotPanel1.BackColor = System.Drawing.Color.White;
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Controls.Add(this.lkbRegister);
             this.hotPanel1.Controls.Add(this.lbTipMsg);
             this.hotPanel1.Controls.Add(this.ckbSavePwd);
             this.hotPanel1.Controls.Add(this.picClose);
@@ -206,6 +208,17 @@
             this.label2.TabIndex = 112;
             this.label2.Text = "登录";
             // 
+            // lkbRegister
+            // 
+            this.lkbRegister.AutoSize = true;
+            this.lkbRegister.Location = new System.Drawing.Point(238, 304);
+            this.lkbRegister.Name = "lkbRegister";
+            this.lkbRegister.Size = new System.Drawing.Size(29, 12);
+            this.lkbRegister.TabIndex = 120;
+            this.lkbRegister.TabStop = true;
+            this.lkbRegister.Text = "注册";
+            this.lkbRegister.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lkbRegister_LinkClicked);
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -242,6 +255,7 @@
         private System.Windows.Forms.PictureBox picClose;
         private System.Windows.Forms.CheckBox ckbSavePwd;
         private System.Windows.Forms.Label lbTipMsg;
+        private System.Windows.Forms.LinkLabel lkbRegister;
     }
 }
 

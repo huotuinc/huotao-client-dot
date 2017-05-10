@@ -168,6 +168,7 @@
             this.panel6.Size = new System.Drawing.Size(83, 113);
             this.panel6.TabIndex = 2;
             this.panel6.Visible = false;
+            this.panel6.Click += new System.EventHandler(this.btnCustomService_Click);
             // 
             // label6
             // 
@@ -211,24 +212,24 @@
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(26, 80);
+            this.label5.Location = new System.Drawing.Point(23, 80);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(29, 12);
+            this.label5.Size = new System.Drawing.Size(41, 12);
             this.label5.TabIndex = 1;
-            this.label5.Text = "帮助";
+            this.label5.Text = "QQ采集";
             this.label5.Click += new System.EventHandler(this.pbHelp_Click);
             // 
             // pbHelp
             // 
             this.pbHelp.BackColor = System.Drawing.Color.Transparent;
-            this.pbHelp.Image = global::HotTao.Properties.Resources.icon_05;
+            this.pbHelp.Image = global::HotTao.Properties.Resources.qq50x50;
             this.pbHelp.Location = new System.Drawing.Point(16, 25);
             this.pbHelp.Name = "pbHelp";
             this.pbHelp.Size = new System.Drawing.Size(50, 50);
             this.pbHelp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbHelp.TabIndex = 0;
             this.pbHelp.TabStop = false;
-            this.toolTipText.SetToolTip(this.pbHelp, "帮助");
+            this.toolTipText.SetToolTip(this.pbHelp, "QQ采集");
             this.pbHelp.Click += new System.EventHandler(this.pbHelp_Click);
             // 
             // panel4

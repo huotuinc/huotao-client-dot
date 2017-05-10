@@ -137,10 +137,17 @@ namespace HotTaoCore.Models
         public string goodsId { get; set; }
 
 
-
+        /// <summary>
+        /// 优惠券地址
+        /// </summary>
         public string couponUrl { get; set; }
 
-        
+        /// <summary>
+        /// 优惠券标题
+        /// </summary>
+        public string couponName { get; set; }
+
+
         public string updateTime { get; set; }
 
         public string couponId { get; set; }

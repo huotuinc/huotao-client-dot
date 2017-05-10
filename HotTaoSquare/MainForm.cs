@@ -76,7 +76,7 @@ namespace HotTaoSquare
         /// <summary>
         /// 加载页面地址
         /// </summary>
-        private static string intiUrl = "http://www.baidu.com";// System.Environment.CurrentDirectory + "\\portal\\tkgc.html";// "http://www.baidu.com";//
+        private static string intiUrl = "http://192.168.1.68:8080/widePlace/index";// System.Environment.CurrentDirectory + "\\portal\\tkgc.html";// "http://www.baidu.com";//
 
         public MainForm(Login form)
         {
@@ -165,9 +165,10 @@ namespace HotTaoSquare
         /// <param name="e"></param>
         private void picClose_Click(object sender, EventArgs e)
         {
-            AlertConfirm("确定要退出?", "注销提示", () =>
+            AlertConfirm("确定要退出?", "注销提示", (ret) =>
             {
-                this.Close();
+                if (ret)
+                    this.Close();
             });
 
         }
@@ -312,14 +313,11 @@ namespace HotTaoSquare
         /// </summary>
         private void Lw_CloseWindowHandle()
         {
-            //AlertConfirm("必须登录阿里妈妈才能使用软件,确定退出?", "退出提示", () =>
-            //{
-            //    this.Close();
-            //});
-
-            //
-            loginWindowsClose();
-            AddBrowser();
+            AlertConfirm("必须登录淘宝联盟,确定退出?", "退出提示", (ret) =>
+            {
+                if (ret)
+                    this.Close();
+            });
         }
 
         /// <summary>
@@ -353,7 +351,7 @@ namespace HotTaoSquare
                 else if (result.resultCode == 511)
                 {
                     RetryCount = 0;
-                    //AlertConfirm("当前登录淘宝账号与上次不匹配，是否切换?", "提示", () =>
+                    //AlertConfirm("当前淘宝账号与上次不匹配，是否切换?", "提示", () =>
                     //{
                     //    result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, true);
                     //    if (result.resultCode == 200)
@@ -396,20 +394,23 @@ namespace HotTaoSquare
                     lw.Hide();
             }
         }
-        private void loginWindowsClose()
-        {
-            if (lw == null) return;
-            if (lw.InvokeRequired)
-            {
-                this.lw.Invoke(new Action(loginWindowsClose), new object[] { });
-            }
-            else
-            {
-                if (lw != null)
-                    lw.Close();
-                lw = null;
-            }
-        }
+        /// <summary>
+        /// 关闭登录
+        /// </summary>
+        //private void loginWindowsClose()
+        //{
+        //    if (lw == null) return;
+        //    if (lw.InvokeRequired)
+        //    {
+        //        this.lw.Invoke(new Action(loginWindowsClose), new object[] { });
+        //    }
+        //    else
+        //    {
+        //        if (lw != null)
+        //            lw.Close();
+        //        lw = null;
+        //    }
+        //}
 
         /// <summary>
         /// 刷新状态
@@ -474,11 +475,11 @@ namespace HotTaoSquare
         /// <param name="text"></param>
         /// <param name="title"></param>
         /// <param name="callback"></param>
-        public void AlertConfirm(string text, string title, Action callback)
+        public void AlertConfirm(string text, string title, Action<bool> callback)
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new Action<string, string, Action>(AlertConfirm), new object[] { text, title, callback });
+                this.Invoke(new Action<string, string, Action<bool>>(AlertConfirm), new object[] { text, title, callback });
             }
             else
             {
@@ -490,8 +491,7 @@ namespace HotTaoSquare
                     isOk = true;
                 };
                 alert.ShowDialog(this);
-                if (isOk)
-                    callback?.Invoke();
+                callback?.Invoke(isOk);
             }
         }
 

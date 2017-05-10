@@ -112,7 +112,8 @@ namespace HotTao
         {
             if (this.uploadFile.ShowDialog() == DialogResult.OK)
             {
-                string ext = this.uploadFile.SafeFileName.Split('.')[1];
+                var ret = this.uploadFile.SafeFileName.Split('.');
+                string ext = ret[ret.Length - 1];
                 if (ext == "xls")
                     is2007 = false;
                 this.txtpath.Text = this.uploadFile.FileName;
@@ -203,7 +204,7 @@ namespace HotTao
                 {
                     SetText(ex.Message);
                 }
-                ImportStart = false;                
+                ImportStart = false;
                 SetText("数据导入完成");
                 taskControl.loadUserPidGridView();
             }
@@ -247,21 +248,10 @@ namespace HotTao
                         if (!File.Exists(fileName))
                         {
                             downloadGoodsImage(fileName, goods.goodsMainImgUrl, goods.goodsId);
-                            //byte[] data = BaseRequestService.GetNetWorkImageData(goods.goodsMainImgUrl);
-                            //if (data != null)
-                            //{
-                            //    MemoryStream ms = new MemoryStream(data);
-                            //    Bitmap img = new Bitmap(ms);
-                            //    img.Save(fileName, ImageFormat.Jpeg);
-                            //    ms.Dispose();
-                            //    ms = null;
-                            //    img.Dispose();
-                            //    img = null;
-                            //}
-                            //else continue;
                         }
                         goods.goodslocatImgPath = fileName;
-                        if (LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserGoods(goods) > 0)
+                        bool isUpdate = false;
+                        if (LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserGoods(goods, out isUpdate) > 0)
                             SetText("商品：" + goods.goodsId.ToString() + "导入成功...");
                         else
                             SetText("商品：" + goods.goodsId.ToString() + "导入失败...");
@@ -271,7 +261,7 @@ namespace HotTao
                         SetText(ex.Message);
                     }
                 }
-                ImportStart = false;                
+                ImportStart = false;
                 SetText("数据导入完成");
                 taskControl.LoadGoodsGridView();
             }
@@ -308,8 +298,8 @@ namespace HotTao
                     }
                     else
                     {
-                        log.Info("网络图片地址：" + goodsImageUrl);
-                        //_goodsid
+                        LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteGoodsByGoodsid(goodsid);
+                        taskControl.LoadGoodsGridView();
                     }
 
                 }

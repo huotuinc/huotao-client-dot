@@ -88,10 +88,11 @@ namespace HotTao.Controls
            {
                //是否自动添加属性字段
                this.dgvPid.AutoGenerateColumns = false;
-               
+
                var pidData = LogicHotTao.Instance(MyUserInfo.currentUserId).GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);
                if (pidData != null)
                {
+                   hotForm.weChatGroups = pidData;
                    SetPidView(pidData);
                    if (this.dgvPid.Rows.Count > 0)
                    {
@@ -119,7 +120,7 @@ namespace HotTao.Controls
                 {
                     dgvPid.Rows.Add();
                     ++i;
-                    
+
                     dgvPid.Rows[i - 1].Cells["groupindex"].Value = i.ToString();
                     dgvPid.Rows[i - 1].Cells["shareid"].Value = data[j].id.ToString();
                     dgvPid.Rows[i - 1].Cells["sharetitle"].Value = data[j].wechattitle.ToString();
@@ -185,7 +186,7 @@ namespace HotTao.Controls
                 //是否自动添加属性字段
                 this.dgvTaskPlan.AutoGenerateColumns = false;
                 //var data = LogicGoods.Instance.getGoodsList(MyUserInfo.LoginToken);
-                var taskData = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserTaskPlanList(MyUserInfo.currentUserId);
+                var taskData = LogicHotTao.Instance(MyUserInfo.currentUserId).FindUserTaskPlanListByUserId(MyUserInfo.currentUserId);
                 if (taskData != null)
                 {
                     SetTaskView(taskData);
@@ -298,7 +299,7 @@ namespace HotTao.Controls
             new Thread(() =>
             {
                 //是否自动添加属性字段
-                this.dgvData.AutoGenerateColumns = false;                
+                this.dgvData.AutoGenerateColumns = false;
                 var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(MyUserInfo.currentUserId);
                 if (data != null)
                 {
@@ -704,7 +705,7 @@ namespace HotTao.Controls
             int eCode = 0;
             int.TryParse(cells["ExecStatus"].Value.ToString(), out eCode);
             if (eCode == 0)
-            {                
+            {
                 TaskEdit te = new TaskEdit(hotForm, this);
                 te.Title = "修改任务计划";
                 int result = 0;
@@ -734,7 +735,7 @@ namespace HotTao.Controls
             //
             DataGridViewCellCollection cells = this.dgvData.CurrentRow.Cells;
             if (cells != null && cells["editgoods"].ColumnIndex == e.ColumnIndex)
-            {                
+            {
                 int deleteId = 0;
                 int.TryParse(cells["gid"].Value.ToString(), out deleteId);
                 MessageConfirm confirm = new MessageConfirm();
@@ -747,7 +748,7 @@ namespace HotTao.Controls
                     })).BeginInvoke(null, null);
 
                     this.dgvData.Rows.RemoveAt(cells[0].RowIndex);
-                                        
+
                 };
                 confirm.ShowDialog(this);
             }
@@ -975,7 +976,7 @@ namespace HotTao.Controls
                 confirm.ShowDialog(this);
                 if (isOK)
                 {
-                    hotForm.LoginTaoBao();                
+                    hotForm.LoginTaoBao();
                 }
             }
         }
@@ -1262,7 +1263,7 @@ namespace HotTao.Controls
             //ProcessStartInfo startInfo = new ProcessStartInfo("TBSync.exe", string.Format("{0} {1}", MyUserInfo.LoginToken, MyUserInfo.currentUserId));
             //startInfo.WindowStyle = ProcessWindowStyle.Minimized;
             //Process.Start(startInfo);
-            
+
         }
 
         private void toolsExportGoods_Click(object sender, EventArgs e)
@@ -1317,6 +1318,18 @@ namespace HotTao.Controls
                     ShowAlert("数据导出成功!");
                 }
             }
+        }
+
+        /// <summary>
+        /// 网址采集
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnGoodsCollect_Click(object sender, EventArgs e)
+        {
+            GoodsCollect collect = new GoodsCollect(this);
+            collect.StartPosition = FormStartPosition.CenterParent;
+            collect.ShowDialog(this);
         }
     }
 }

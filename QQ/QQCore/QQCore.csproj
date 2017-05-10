@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A8762F75-4F7A-4676-A7A2-BA1A8629AA26}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>QQCore</RootNamespace>
+    <AssemblyName>QQCore</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Jint, Version=2.0.0.0, Culture=neutral, PublicKeyToken=2e92ba9c8d81157f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jint.2.0.0.0\lib\portable-net40+sl50+wp80+win\Jint.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.0\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.1.1.1\lib\netstandard1.1\Microsoft.Extensions.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.1.1.1\lib\netstandard1.1\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Console, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Console.1.1.1\lib\net451\Microsoft.Extensions.Logging.Console.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.1.1.0\lib\netstandard1.0\Microsoft.Extensions.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.3.0\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Im\Action\AbstractHttpAction.cs" />
+    <Compile Include="Im\Action\AcceptBuddyAddAction.cs" />
+    <Compile Include="Im\Action\ChangeStatusAction.cs" />
+    <Compile Include="Im\Action\ChannelLoginAction.cs" />
+    <Compile Include="Im\Action\CheckEmailSig.cs" />
+    <Compile Include="Im\Action\CheckLoginSigAction.cs" />
+    <Compile Include="Im\Action\CheckQRCodeAction.cs" />
+    <Compile Include="Im\Action\CheckVerifyAction.cs" />
+    <Compile Include="Im\Action\DeleteEmailAction.cs" />
+    <Compile Include="Im\Action\GetBuddyListAction.cs" />
+    <Compile Include="Im\Action\GetCaptchaImageAction.cs" />
+    <Compile Include="Im\Action\GetCustomFaceSigAction.cs" />
+    <Compile Include="Im\Action\GetDiscuzInfoAction.cs" />
+    <Compile Include="Im\Action\GetDiscuzListAction.cs" />
+    <Compile Include="Im\Action\GetFriendAccoutAction.cs" />
+    <Compile Include="Im\Action\GetFriendFaceAction.cs" />
+    <Compile Include="Im\Action\GetFriendInfoAction.cs" />
+    <Compile Include="Im\Action\GetFriendSignAction.cs" />
+    <Compile Include="Im\Action\GetGroupAccoutAction.cs" />
+    <Compile Include="Im\Action\GetGroupFaceAction.cs" />
+    <Compile Include="Im\Action\GetGroupInfoAction.cs" />
+    <Compile Include="Im\Action\GetGroupListAction.cs" />
+    <Compile Include="Im\Action\GetGroupMemberStatusAction.cs" />
+    <Compile Include="Im\Action\GetGroupPicAction.cs" />
+    <Compile Include="Im\Action\GetLoginSigAction.cs" />
+    <Compile Include="Im\Action\GetOffPicAction.cs" />
+    <Compile Include="Im\Action\GetOnlineFriendAction.cs" />
+    <Compile Include="Im\Action\GetPT4Auth.cs" />
+    <Compile Include="Im\Action\GetQRCodeAction.cs" />
+    <Compile Include="Im\Action\GetRecentListAction.cs" />
+    <Compile Include="Im\Action\GetSelfInfoAction.cs" />
+    <Compile Include="Im\Action\GetSessionMsgSigAction.cs" />
+    <Compile Include="Im\Action\GetStrangerInfoAction.cs" />
+    <Compile Include="Im\Action\GetTuringRobotReplyAction.cs" />
+    <Compile Include="Im\Action\GetUserLevelAction.cs" />
+    <Compile Include="Im\Action\GetUserPicAction.cs" />
+    <Compile Include="Im\Action\GetVFWebqq.cs" />
+    <Compile Include="Im\Action\GetWebqq.cs" />
+    <Compile Include="Im\Action\GetWPKeyAction.cs" />
+    <Compile Include="Im\Action\LoginEmailAction.cs" />
+    <Compile Include="Im\Action\MarkEmailAction.cs" />
+    <Compile Include="Im\Action\PollEmailAction.cs" />
+    <Compile Include="Im\Action\PollMsgAction.cs" />
+    <Compile Include="Im\Action\SearchGroupInfoAction.cs" />
+    <Compile Include="Im\Action\SendInputNotifyAction.cs" />
+    <Compile Include="Im\Action\SendMsgAction.cs" />
+    <Compile Include="Im\Action\ShakeWindowAction.cs" />
+    <Compile Include="Im\Action\UpdateGroupMessageFilterAction.cs" />
+    <Compile Include="Im\Action\UploadCustomFaceAction.cs" />
+    <Compile Include="Im\Action\UploadOfflinePictureAction.cs" />
+    <Compile Include="Im\Action\WebLoginAction.cs" />
+    <Compile Include="Im\Action\WebLogoutAction.cs" />
+    <Compile Include="Im\Actor\ExitActor.cs" />
+    <Compile Include="Im\Actor\HttpActor.cs" />
+    <Compile Include="Im\Actor\IQQActor.cs" />
+    <Compile Include="Im\Actor\IQQActorDispatcher.cs" />
+    <Compile Include="Im\Actor\MutipleActorDispatcher.cs" />
+    <Compile Include="Im\Actor\SimpleActorDispatcher.cs" />
+    <Compile Include="Im\Bean\Content\CFaceItem.cs" />
+    <Compile Include="Im\Bean\Content\ContentItem.cs" />
+    <Compile Include="Im\Bean\Content\FaceItem.cs" />
+    <Compile Include="Im\Bean\Content\FontItem.cs" />
+    <Compile Include="Im\Bean\Content\OffPicItem.cs" />
+    <Compile Include="Im\Bean\Content\TextItem.cs" />
+    <Compile Include="Im\Bean\QQAccount.cs" />
+    <Compile Include="Im\Bean\QQAllow.cs" />
+    <Compile Include="Im\Bean\QQBuddy.cs" />
+    <Compile Include="Im\Bean\QQCategory.cs" />
+    <Compile Include="Im\Bean\QQClientTypeInfo.cs" />
+    <Compile Include="Im\Bean\QQDiscuz.cs" />
+    <Compile Include="Im\Bean\QQDiscuzMember.cs" />
+    <Compile Include="Im\Bean\QQEmail.cs" />
+    <Compile Include="Im\Bean\QQGroup.cs" />
+    <Compile Include="Im\Bean\QQGroupMember.cs" />
+    <Compile Include="Im\Bean\QQGroupSearchInfo.cs" />
+    <Compile Include="Im\Bean\QQGroupSearchList.cs" />
+    <Compile Include="Im\Bean\QQHalfStranger.cs" />
+    <Compile Include="Im\Bean\QQLevel.cs" />
+    <Compile Include="Im\Bean\QQMsg.cs" />
+    <Compile Include="Im\Bean\QQStatus.cs" />
+    <Compile Include="Im\Bean\QQStranger.cs" />
+    <Compile Include="Im\Bean\QQUser.cs" />
+    <Compile Include="Im\Core\IQQContext.cs" />
+    <Compile Include="Im\Core\IQQLifeCycle.cs" />
+    <Compile Include="Im\Core\IQQModule.cs" />
+    <Compile Include="Im\Core\IQQService.cs" />
+    <Compile Include="Im\Core\QQConstants.cs" />
+    <Compile Include="Im\Core\QQSession.cs" />
+    <Compile Include="Im\Core\QQStore.cs" />
+    <Compile Include="Im\Event\Future\AbstractActionFuture.cs" />
+    <Compile Include="Im\Event\Future\HttpActionFuture.cs" />
+    <Compile Include="Im\Event\Future\ProcActionFuture.cs" />
+    <Compile Include="Im\Event\IQQActionFuture.cs" />
+    <Compile Include="Im\Event\QQActionEvent.cs" />
+    <Compile Include="Im\Event\QQActionEventArgs.cs" />
+    <Compile Include="Im\Event\QQEvent.cs" />
+    <Compile Include="Im\Event\QQNotifyEvent.cs" />
+    <Compile Include="Im\Event\QQNotifyEventArgs.cs" />
+    <Compile Include="Im\Event\QQNotifyHandler.cs" />
+    <Compile Include="Im\Event\QQNotifyHandlerProxy.cs" />
+    <Compile Include="Im\Http\IHttpAction.cs" />
+    <Compile Include="Im\Http\IQQHttpListener.cs" />
+    <Compile Include="Im\Http\QQHttpCookie.cs" />
+    <Compile Include="Im\Http\QQHttpCookieJar.cs" />
+    <Compile Include="Im\Http\QQHttpRequest.cs" />
+    <Compile Include="Im\Http\QQHttpResponse.cs" />
+    <Compile Include="Im\IQQClient.cs" />
+    <Compile Include="Im\Log\EmptyQQLogger.cs" />
+    <Compile Include="Im\Log\IQQLogger.cs" />
+    <Compile Include="Im\Log\QQConsoleLogger.cs" />
+    <Compile Include="Im\Module\AbstractModule.cs" />
+    <Compile Include="Im\Module\BuddyModule.cs" />
+    <Compile Include="Im\Module\CategoryModule.cs" />
+    <Compile Include="Im\Module\ChatModule.cs" />
+    <Compile Include="Im\Module\DiscuzModule.cs" />
+    <Compile Include="Im\Module\EmailModule.cs" />
+    <Compile Include="Im\Module\GroupModule.cs" />
+    <Compile Include="Im\Module\LoginModule.cs" />
+    <Compile Include="Im\Module\ProcModule.cs" />
+    <Compile Include="Im\Module\UserModule.cs" />
+    <Compile Include="Im\QQActionListener.cs" />
+    <Compile Include="Im\QQErrorCode.cs" />
+    <Compile Include="Im\QQException.cs" />
+    <Compile Include="Im\QQNotifyListener.cs" />
+    <Compile Include="Im\Service\AbstractService.cs" />
+    <Compile Include="Im\Service\HttpService.cs" />
+    <Compile Include="Im\Service\IHttpService.cs" />
+    <Compile Include="Im\WebQQClient.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\DateUtils.cs" />
+    <Compile Include="Util\DefaultLogger.cs" />
+    <Compile Include="Util\EmptyDisposable.cs" />
+    <Compile Include="Util\Extensions\ByteExtensions.cs" />
+    <Compile Include="Util\Extensions\CollectionExtensions.cs" />
+    <Compile Include="Util\Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Util\Extensions\EnumExtensions.cs" />
+    <Compile Include="Util\Extensions\HttpExtensions.cs" />
+    <Compile Include="Util\Extensions\LoggerExtensions.cs" />
+    <Compile Include="Util\Extensions\Md5Extensions.cs" />
+    <Compile Include="Util\Extensions\ObjectExtensions.cs" />
+    <Compile Include="Util\Extensions\StreamExtensions.cs" />
+    <Compile Include="Util\Extensions\StringBuilderExtensions.cs" />
+    <Compile Include="Util\Extensions\StringExtensions.cs" />
+    <Compile Include="Util\HttpCilentHelper.cs" />
+    <Compile Include="Util\HttpConstants.cs" />
+    <Compile Include="Util\MimeMapping.cs" />
+    <Compile Include="Util\QQEncryptor.cs" />
+    <Compile Include="Util\Resource.cs" />
+    <Compile Include="Util\RetryHelper.cs" />
+    <Compile Include="Util\RobotType.cs" />
+    <Compile Include="Util\SimpleConsoleLogger.cs" />
+    <Compile Include="Util\StringHelper.cs" />
+    <Compile Include="Util\UrlUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\hash.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="MSScriptControl">
+      <Guid>{0E59F1D2-1FBE-11D0-8FF2-00A0D10038BC}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

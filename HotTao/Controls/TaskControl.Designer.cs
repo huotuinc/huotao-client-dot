@@ -129,7 +129,7 @@
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.label15 = new System.Windows.Forms.Label();
             this.btnAddTask = new System.Windows.Forms.Button();
-            this.btnApply = new System.Windows.Forms.Button();
+            this.btnGoodsCollect = new System.Windows.Forms.Button();
             this.btnClearAllGoods = new System.Windows.Forms.Button();
             this.btnImportLocatGoods = new System.Windows.Forms.Button();
             this.btnStartTask = new System.Windows.Forms.Button();
@@ -1082,7 +1082,7 @@
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.hotPanel1.Controls.Add(this.label15);
             this.hotPanel1.Controls.Add(this.btnAddTask);
-            this.hotPanel1.Controls.Add(this.btnApply);
+            this.hotPanel1.Controls.Add(this.btnGoodsCollect);
             this.hotPanel1.Controls.Add(this.btnClearAllGoods);
             this.hotPanel1.Controls.Add(this.btnImportLocatGoods);
             this.hotPanel1.Controls.Add(this.btnStartTask);
@@ -1121,24 +1121,23 @@
             this.btnAddTask.UseVisualStyleBackColor = false;
             this.btnAddTask.Click += new System.EventHandler(this.btnAddTask_Click);
             // 
-            // btnApply
+            // btnGoodsCollect
             // 
-            this.btnApply.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnApply.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnApply.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnApply.FlatAppearance.BorderSize = 0;
-            this.btnApply.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnApply.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
-            this.btnApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnApply.ForeColor = System.Drawing.Color.White;
-            this.btnApply.Location = new System.Drawing.Point(121, 562);
-            this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(108, 32);
-            this.btnApply.TabIndex = 3;
-            this.btnApply.Text = "申请定向佣金";
-            this.btnApply.UseVisualStyleBackColor = false;
-            this.btnApply.Visible = false;
-            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
+            this.btnGoodsCollect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnGoodsCollect.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnGoodsCollect.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnGoodsCollect.FlatAppearance.BorderSize = 0;
+            this.btnGoodsCollect.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnGoodsCollect.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
+            this.btnGoodsCollect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGoodsCollect.ForeColor = System.Drawing.Color.White;
+            this.btnGoodsCollect.Location = new System.Drawing.Point(604, 562);
+            this.btnGoodsCollect.Name = "btnGoodsCollect";
+            this.btnGoodsCollect.Size = new System.Drawing.Size(108, 32);
+            this.btnGoodsCollect.TabIndex = 3;
+            this.btnGoodsCollect.Text = "商品网址导入";
+            this.btnGoodsCollect.UseVisualStyleBackColor = false;
+            this.btnGoodsCollect.Click += new System.EventHandler(this.btnGoodsCollect_Click);
             // 
             // btnClearAllGoods
             // 
@@ -1299,7 +1298,7 @@
         private System.Windows.Forms.SaveFileDialog saveFile;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnClearAllGoods;
-        private System.Windows.Forms.Button btnApply;
+        private System.Windows.Forms.Button btnGoodsCollect;
         private System.Windows.Forms.ContextMenuStrip cmsGoodsMenu;
         private System.Windows.Forms.ToolStripMenuItem toolsDeleteSelectedGoods;
         private System.Windows.Forms.DataGridViewCheckBoxColumn cbselect;

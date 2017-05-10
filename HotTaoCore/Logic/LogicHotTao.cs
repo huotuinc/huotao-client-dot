@@ -188,9 +188,9 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns>System.Int32.</returns>
-        public int AddUserGoods(GoodsModel model)
+        public int AddUserGoods(GoodsModel model, out bool isUpdate)
         {
-            return dal.AddUserGoods(model);
+            return dal.AddUserGoods(model, out isUpdate);
         }
 
         /// <summary>
@@ -201,6 +201,17 @@ namespace HotTaoCore.Logic
         public bool DeleteGoods(int gid)
         {
             return dal.DeleteGoods(gid);
+        }
+
+
+        /// <summary>
+        /// 删除商品
+        /// </summary>
+        /// <param name="goodsId"></param>
+        /// <returns></returns>
+        public bool DeleteGoodsByGoodsid(string goodsId)
+        {
+            return dal.DeleteGoodsByGoodsid(goodsId);
         }
 
         /// <summary>
@@ -286,9 +297,9 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="userid">The userid.</param>
         /// <returns>List&lt;GoodsModel&gt;.</returns>
-        public List<TaskPlanModel> FindByUserTaskPlanList(int userid)
+        public List<TaskPlanModel> FindUserTaskPlanListByUserId(int userid)
         {
-            return dal.FindByUserTaskPlanList(userid);
+            return dal.FindUserTaskPlanListByUserId(userid);
         }
         /// <summary>
         /// 删除微信群
@@ -627,5 +638,31 @@ namespace HotTaoCore.Logic
             return lnDal.ClearLoginNameData();
         }
         #endregion
+
+
+
+
+        #region 获取当前执行的任务计划
+
+        /// <summary>
+        /// 获取即将或正在执行中的任务数据
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public TaskPlanModel FindExecTaskPlanByUserId(int userId)
+        {
+            var data = FindUserTaskPlanListByUserId(userId);
+            if (data == null) return null;
+            var lst = data.FindAll(item =>
+             {
+                 return (item.status == 0 || item.status == 1) && item.isTpwd != 0;
+             });
+            if (lst != null && lst.Count() > 0)
+                return lst[0];
+            return null;
+
+        }
+        #endregion
+
     }
 }

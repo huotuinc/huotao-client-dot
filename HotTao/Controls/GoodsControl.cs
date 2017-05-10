@@ -126,45 +126,8 @@ namespace HotTao.Controls
                             {
                                 try
                                 {
-                                    if (item.couponPrice <= 0 || item.goodsPrice - item.couponPrice <= 0) continue;
-                                    GoodsModel goods = new GoodsModel()
-                                    {
-                                        userid = MyUserInfo.currentUserId,
-                                        goodsId = item.goodsId.Replace("=", ""),
-                                        goodsName = item.goodsName,
-                                        goodsIntro = item.goodsIntro,
-                                        goodsMainImgUrl = item.goodsImageUrl,
-                                        goodsDetailUrl = item.goodsDetailUrl,
-                                        goodsSupplier = string.IsNullOrEmpty(item.goodsPlatform) ? "淘宝" : item.goodsPlatform,
-                                        goodsComsRate = item.goodsComsRate,
-                                        goodsPrice = item.goodsPrice,
-                                        goodsSalesAmount = item.goodsSalesAmount,
-                                        endTime = Convert.ToDateTime(item.endTime),
-                                        couponUrl = item.couponUrl,
-                                        couponId = item.couponId.Replace("activityId=", "").Replace("activity_id=", "").Replace("activity_Id=", ""),
-                                        couponPrice = item.couponPrice
-                                    };
-
-                                    if (string.IsNullOrEmpty(goods.couponId))
-                                    {
-                                        Match m = regs.Match(item.couponUrl);
-                                        if (m.Success)
-                                        {
-                                            goods.couponId = m.Value.Replace("&activityId=", "");
-                                        }
-                                    }
-
-                                    string fileName = Environment.CurrentDirectory + "\\temp\\img\\" + MyUserInfo.currentUserId;
-                                    if (!Directory.Exists(fileName))
-                                        Directory.CreateDirectory(fileName);
-                                    fileName += "\\" + EncryptHelper.MD5(goods.goodsId) + ".jpg";
-                                    //判断文件是否存在
-                                    if (!File.Exists(fileName))
-                                    {
-                                        downloadGoodsImage(fileName, goods.goodsMainImgUrl,goods.goodsId);
-                                    }
-                                    goods.goodslocatImgPath = fileName;
-                                    LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserGoods(goods);
+                                    bool isUpdate = false;
+                                    LogicGoods.Instance.SaveGoods(item, MyUserInfo.currentUserId, out isUpdate);
                                 }
                                 catch (Exception ex)
                                 {

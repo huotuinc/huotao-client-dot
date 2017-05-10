@@ -1025,7 +1025,7 @@ namespace HotTao
         private void StartSend()
         {
             //获取任务数据
-            var taskdata = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserTaskPlanList(MyUserInfo.currentUserId);
+            var taskdata = LogicHotTao.Instance(MyUserInfo.currentUserId).FindUserTaskPlanListByUserId(MyUserInfo.currentUserId);
             if (taskdata == null || taskdata.Count() == 0)
             { //休息一下
                 SleepTask();

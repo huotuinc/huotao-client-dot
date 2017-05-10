@@ -281,6 +281,26 @@ namespace HotTao.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap QQ {
+            get {
+                object obj = ResourceManager.GetObject("QQ", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap qq50x50 {
+            get {
+                object obj = ResourceManager.GetObject("qq50x50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 23614674 的本地化字符串。
         /// </summary>
         internal static string taobaoappkey {
