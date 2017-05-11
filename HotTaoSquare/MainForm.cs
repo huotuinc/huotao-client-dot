@@ -76,7 +76,7 @@ namespace HotTaoSquare
         /// <summary>
         /// 加载页面地址
         /// </summary>
-        private static string intiUrl = "http://192.168.1.68:8080/widePlace/index";// System.Environment.CurrentDirectory + "\\portal\\tkgc.html";// "http://www.baidu.com";//
+        private static string intiUrl = System.Environment.CurrentDirectory + "\\portal\\tkgc-a.html";// "http://www.baidu.com";//
 
         public MainForm(Login form)
         {
@@ -257,23 +257,12 @@ namespace HotTaoSquare
             RECT rect = new RECT();
             WinApi.GetWindowRect(this.Handle, ref rect);
             hotPanel1.Size = new Size(rect.Right - rect.Left, rect.Bottom - rect.Top - 30);
-
             plTop.Width = rect.Right - rect.Left;
-            picClose.Location = new Point(plTop.Width - 25, 5);
-            picMax.Location = new Point(plTop.Width - 50, 5);
-            plMin.Location = new Point(plTop.Width - 75, 5);
-            lbTitle.Width = rect.Right - rect.Left - 100;
+            plRightTop.Location = new Point(plTop.Width, 0);
+            lbTitle.Width = rect.Right - rect.Left - plRightTop.Width;
         }
 
-        /// <summary>
-        /// 最小化
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void plMin_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
+
 
 
 
@@ -497,24 +486,43 @@ namespace HotTaoSquare
 
         #endregion
 
-
-
         /// <summary>
-        /// 后退
+        /// 刷新
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void picGoback_Click(object sender, EventArgs e)
+        private void picRefresh_Click(object sender, EventArgs e)
         {
-            if (loginForm.browser == null) return;
-            //后退
+            loginForm.browser.Reload();
+        }
+        /// <summary>
+        /// 首页
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void picHome_Click(object sender, EventArgs e)
+        {
+            loginForm.browser.Load(intiUrl);
+        }
+
+        private void picBack_Click(object sender, EventArgs e)
+        {
             loginForm.browser.Back();
-            //前进
-            //loginForm.browser.Forward();
-            //刷新
-            //loginForm.browser.Reload();
+        }
 
+        private void picForward_Click(object sender, EventArgs e)
+        {
 
+            loginForm.browser.Forward();
+        }
+        /// <summary>
+        /// 最小化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void plMin_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }

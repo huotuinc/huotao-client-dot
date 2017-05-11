@@ -386,7 +386,7 @@ namespace HotTaoSquare
 
         private void lkbRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://www.51huotao.com/");
+            Process.Start(ApiConst.www);
         }
     }
     /// <summary>

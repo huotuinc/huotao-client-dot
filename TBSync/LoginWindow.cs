@@ -297,6 +297,27 @@ namespace TBSync
             return taobaoname;
         }
 
+        /// <summary>
+        /// 判断是否登录
+        /// </summary>
+        /// <returns></returns>
+        public bool isLogin()
+        {
+            var visitor = new CookieMonster();
+            if (Cef.GetGlobalCookieManager().VisitUrlCookies(LoginSuccessUrl, true, visitor))
+                visitor.WaitForAllCookies();
+            bool loginStatus = false;
+            foreach (System.Net.Cookie cookie in visitor.NamesValues)
+            {
+                if (cookie.Name == "login")
+                {
+                    loginStatus = true;
+                    break;
+                }
+            }
+            return loginStatus;
+        }
+
 
         /// <summary>
         /// 获取指定cookie

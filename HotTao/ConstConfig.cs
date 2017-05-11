@@ -49,7 +49,7 @@ namespace HotTao
         /// <summary>
         /// DataGridView 字体颜色
         /// </summary>
-        public static Color DataGridViewRowForeColor = Color.FromArgb(180, 180, 180);
+        public static Color DataGridViewRowForeColor = Color.FromArgb(153, 153, 153);//180,180,180
 
         /// <summary>
         /// DataGridViewRow  偶数行背景颜色值

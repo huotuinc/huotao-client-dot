@@ -99,18 +99,18 @@
             this.hotGroupBox4.Controls.Add(this.label24);
             this.hotGroupBox4.Location = new System.Drawing.Point(13, 249);
             this.hotGroupBox4.Name = "hotGroupBox4";
-            this.hotGroupBox4.Size = new System.Drawing.Size(304, 239);
+            this.hotGroupBox4.Size = new System.Drawing.Size(725, 239);
             this.hotGroupBox4.TabIndex = 3;
             this.hotGroupBox4.TabStop = false;
             // 
             // label26
             // 
             this.label26.ForeColor = System.Drawing.Color.Red;
-            this.label26.Location = new System.Drawing.Point(7, 138);
+            this.label26.Location = new System.Drawing.Point(295, 55);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(288, 98);
+            this.label26.Size = new System.Drawing.Size(299, 54);
             this.label26.TabIndex = 36;
-            this.label26.Text = "建议设置成用自己的阿里联盟API，稳定、速度快！如果全部留空，则不会转淘口令（我们转的链接也是可以在微信上打开并跳转淘宝的）";
+            this.label26.Text = "建议设置成用自己的阿里联盟API，稳定、速度快！\r\n\r\n（我们转的链接也是可以在微信上打开并跳转淘宝的）";
             // 
             // label23
             // 
@@ -192,6 +192,7 @@
             this.hotGroupBox3.Size = new System.Drawing.Size(414, 240);
             this.hotGroupBox3.TabIndex = 2;
             this.hotGroupBox3.TabStop = false;
+            this.hotGroupBox3.Visible = false;
             // 
             // label15
             // 
@@ -682,10 +683,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.hotGroupBox4);
-            this.Controls.Add(this.hotGroupBox3);
             this.Controls.Add(this.hotGroupBox2);
             this.Controls.Add(this.hotGroupBox1);
+            this.Controls.Add(this.hotGroupBox4);
+            this.Controls.Add(this.hotGroupBox3);
             this.Name = "SetSendConfig";
             this.Size = new System.Drawing.Size(750, 510);
             this.Load += new System.EventHandler(this.SetSendConfig_Load);

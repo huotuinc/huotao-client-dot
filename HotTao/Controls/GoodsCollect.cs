@@ -1,5 +1,6 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
+using HotTaoCore;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using Newtonsoft.Json;
@@ -65,6 +66,7 @@ namespace HotTao.Controls
         public GoodsCollect(TaskControl control)
         {
             InitializeComponent();
+            taskForm = control;
         }
 
         private void pbClose_Click(object sender, EventArgs e)
@@ -77,7 +79,7 @@ namespace HotTao.Controls
 
         private void GoodsCollect_Load(object sender, EventArgs e)
         {
-            InitBrowser("");
+            InitBrowser(ApiConst.www);
         }
 
         private ChromiumWebBrowser browser { get; set; }
@@ -104,6 +106,8 @@ namespace HotTao.Controls
                     browser.BrowserSettings = settings;
                     browser.Dock = DockStyle.Fill;
                     browser.LifeSpanHandler = new LifeSpanHandler();
+                    browser.AddressChanged += Browser_AddressChanged;
+                    browser.TitleChanged += Browser_TitleChanged;
                     AddBrowser();
                 }
                 else
@@ -112,7 +116,20 @@ namespace HotTao.Controls
             { IsBackground = true }.Start();
         }
 
+        private void Browser_TitleChanged(object sender, TitleChangedEventArgs e)
+        {
+        }
 
+        /// <summary>
+        /// 地址发送改变时触发
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Browser_AddressChanged(object sender, AddressChangedEventArgs e)
+        {
+            SetGoodsUrl(e.Address);
+            GetGoodsInfo();
+        }
         /// <summary>
         /// 添加浏览控件到展示界面
         /// </summary>
@@ -141,6 +158,7 @@ namespace HotTao.Controls
                 return;
             }
             browser.Load(txtGoodsUrl.Text.Trim());
+            browser.Focus();
             GetGoodsInfo();
         }
 
@@ -168,6 +186,7 @@ namespace HotTao.Controls
         private void GetGoodsInfo()
         {
             CurrentGoods = null;
+            SetCouponInfo();
             List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["url"] = txtGoodsUrl.Text.Trim();
@@ -184,6 +203,7 @@ namespace HotTao.Controls
                     if (goodsData != null && goodsData.Count() > 0)
                     {
                         CurrentGoods = goodsData[0];
+                        SetCouponInfo();
                     }
                 }
                 catch (Exception ex)
@@ -205,19 +225,26 @@ namespace HotTao.Controls
             bool isUpdate = false;
             if (CurrentGoods != null)
             {
-                //保存商品到本地数据库
-                int gid = LogicGoods.Instance.SaveGoods(CurrentGoods, MyUserInfo.currentUserId, out isUpdate);
-                if (gid > 0)
+                try
                 {
-                    alert.Message = "保存成功!";
-                    taskForm.LoadGoodsGridView();
+                    //保存商品到本地数据库
+                    int gid = LogicGoods.Instance.SaveGoods(CurrentGoods, MyUserInfo.currentUserId, out isUpdate);
+                    if (gid > 0)
+                    {
+                        taskForm.LoadGoodsGridView();
+                        Alert("保存成功!");
+                    }
+                    else
+                        Alert("系统繁忙，请稍后再试!");
                 }
-                else
-                    alert.Message = "商品采集失败!";
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    Alert("系统繁忙，请稍后再试!");
+                }
             }
             else
-                alert.Message = "商品采集失败";
-            alert.Show();
+                Alert("未查找到优惠券信息！请稍后刷新再试！");
         }
 
         /// <summary>
@@ -228,6 +255,100 @@ namespace HotTao.Controls
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             GetGoodsInfo();
+        }
+
+
+        /// <summary>
+        /// 确认提示
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="title"></param>
+        /// <param name="callback"></param>
+        public void AlertConfirm(string text, string title, Action<bool> callback)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string, string, Action<bool>>(AlertConfirm), new object[] { text, title, callback });
+            }
+            else
+            {
+                bool isOk = false;
+                MessageConfirm alert = new MessageConfirm(text, title);
+                alert.StartPosition = FormStartPosition.CenterScreen;
+                alert.CallBack += () =>
+                {
+                    isOk = true;
+                };
+                alert.ShowDialog();
+                callback?.Invoke(isOk);
+            }
+        }
+
+        public void Alert(string text, string title = "提示")
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string, string>(Alert), new object[] { text, title });
+            }
+            else
+            {
+                MessageAlert alert = new MessageAlert(text, title);
+                alert.StartPosition = FormStartPosition.CenterScreen;
+                alert.ShowDialog();
+            }
+        }
+
+        /// <summary>
+        /// 设置优惠券信息
+        /// </summary>
+        public void SetCouponInfo()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(SetCouponInfo));
+            }
+            else
+            {
+                if (CurrentGoods != null)
+                {
+                    lbCouponName.Text = CurrentGoods.couponName;
+                    lbCouponPrice.Text = CurrentGoods.couponPrice.ToString("f2");
+                    txtCouponUrl.Text = CurrentGoods.couponUrl;
+                }
+                else
+                {
+                    lbCouponName.Text = "(暂无)";
+                    lbCouponPrice.Text = "(暂无)";
+                    txtCouponUrl.Clear();
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 设置商品链接
+        /// </summary>
+        /// <param name="url"></param>
+        public void SetGoodsUrl(string url)
+        {
+            if (this.txtGoodsUrl.InvokeRequired)
+            {
+                this.txtGoodsUrl.Invoke(new Action<string>(SetGoodsUrl), new object[] { url });
+            }
+            else
+            {
+                txtGoodsUrl.Text = url;
+            }
+        }
+        /// <summary>
+        /// 首页
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void picHome_Click(object sender, EventArgs e)
+        {
+            browser.Load(ApiConst.www);
+            browser.Focus();
         }
     }
 

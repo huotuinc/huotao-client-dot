@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QQLogin));
-            this.hotPanel1 = new HotTaoControls.HotPanel();
+            this.hotPanel1 = new HotTaoControls.HotPanel(this.components);
             this.picQQ = new System.Windows.Forms.PictureBox();
             this.lbMsg = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -135,11 +136,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(241, 340);
             this.Controls.Add(this.hotPanel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "QQLogin";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "登录Smart QQ";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.hotPanel1.ResumeLayout(false);
             this.hotPanel1.PerformLayout();

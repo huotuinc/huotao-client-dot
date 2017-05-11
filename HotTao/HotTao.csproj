@@ -570,6 +570,7 @@
   <ItemGroup>
     <Content Include="Resources\QQ.png" />
     <Content Include="Resources\qq50x50.png" />
+    <None Include="Resources\sy13x13.png" />
     <None Include="Resources\about.png" />
     <Content Include="Resources\hot.ico" />
     <Content Include="Resources\icon_01.png" />

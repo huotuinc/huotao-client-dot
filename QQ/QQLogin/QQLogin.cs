@@ -2,6 +2,7 @@
 using iQQ.Net.WebQQCore.Im.Actor;
 using iQQ.Net.WebQQCore.Im.Bean;
 using iQQ.Net.WebQQCore.Im.Bean.Content;
+using iQQ.Net.WebQQCore.Im.Core;
 using iQQ.Net.WebQQCore.Im.Event;
 using iQQ.Net.WebQQCore.Im.Log;
 using iQQ.Net.WebQQCore.Util;
@@ -110,11 +111,6 @@ namespace QQLogin
         /// </summary>
         private bool isLoginSuccess { get; set; }
 
-        /// <summary>
-        /// 是否重新登录
-        /// </summary>
-        private bool isRelogin { get; set; }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             QQGlobal.loginForm = this;
@@ -193,10 +189,10 @@ namespace QQLogin
                         }
                     default:
                         {
-                            if (isRelogin)
+                            isLoginSuccess = false;
+                            if (!client.IsOnline())
                             {
-                                isRelogin = false;
-                                isLoginSuccess = false;
+                                client.ChangeStatus(QQStatus.ONLINE);
                                 //重新登录
                                 client.Relogin(QQStatus.ONLINE, (s, c) =>
                                 {
@@ -213,7 +209,7 @@ namespace QQLogin
             QQGlobal.client.LoginWithQRCode(); // 登录之后自动开始轮训
 
             System.Windows.Forms.Timer pollTime = new System.Windows.Forms.Timer();
-            pollTime.Interval = 60 * 1000 * 30;
+            pollTime.Interval = 60 * 1000;//每1分钟执行一次
             pollTime.Tick += PollTime_Tick;
             pollTime.Start();
         }
@@ -225,11 +221,19 @@ namespace QQLogin
         /// <param name="e"></param>
         private void PollTime_Tick(object sender, EventArgs e)
         {
-            isRelogin = true;
-            //if (isLoginSuccess)
-            //{
-            //    QQGlobal.client.BeginPollMsg();
-            //}
+            if (!QQGlobal.client.IsOnline())
+            {
+                QQGlobal.client.ChangeStatus(QQStatus.ONLINE, null);
+                //重新登录
+                QQGlobal.client.Relogin(QQStatus.ONLINE, (s, c) =>
+                {
+                    if (c.Type == QQActionEventType.EvtOK)
+                    {
+                        isLoginSuccess = true;
+                    }
+                });
+            }
+
         }
 
 

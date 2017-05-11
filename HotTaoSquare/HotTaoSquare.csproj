@@ -208,6 +208,12 @@
     <None Include="Resources\icon_close.png" />
     <None Include="Resources\loading.gif" />
     <Content Include="lg.ico" />
+    <None Include="Resources\ht13x13.png" />
+    <Content Include="Resources\icon_max.png" />
+    <Content Include="Resources\icon_min.png" />
+    <None Include="Resources\qj13x13.png" />
+    <None Include="Resources\sx13x13.png" />
+    <None Include="Resources\sy13x13.png" />
     <Content Include="Uploader\UploadConfig_demo.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
