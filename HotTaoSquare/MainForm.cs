@@ -76,7 +76,7 @@ namespace HotTaoSquare
         /// <summary>
         /// 加载页面地址
         /// </summary>
-        private static string intiUrl = System.Environment.CurrentDirectory + "\\portal\\tkgc-a.html";// "http://www.baidu.com";//
+        private static string intiUrl = "https://huotuinc.github.io/huotao-server/src/main/webapp/wap/jobIndex.html";// System.Environment.CurrentDirectory + "\\portal\\tkgc-a.html";// "http://www.baidu.com";//
 
         public MainForm(Login form)
         {
@@ -270,7 +270,7 @@ namespace HotTaoSquare
         #region 登录淘宝相关操作
 
         public LoginWindow lw;
-
+        private Timer checkTbLoginTime;
         /// <summary>
         /// 登录淘宝
         /// </summary>
@@ -294,8 +294,31 @@ namespace HotTaoSquare
                 lw.CloseWindowHandle += Lw_CloseWindowHandle;
                 lw.StartPosition = FormStartPosition.CenterScreen;
                 lw.ShowDialog(this);
+
+
+                if (checkTbLoginTime == null)
+                    checkTbLoginTime = new Timer();
+                checkTbLoginTime.Interval = 60 * 1000;// 300000;
+                checkTbLoginTime.Tick += CheckTbLoginTime_Tick;
+                checkTbLoginTime.Start();
             }
         }
+
+        /// <summary>
+        /// 检查淘宝登录状态
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CheckTbLoginTime_Tick(object sender, EventArgs e)
+        {
+            if (lw == null || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
+            if (!lw.isLogin())
+            {
+                LoginTaoBao();
+            }
+        }
+
+
 
         /// <summary>
         /// 关闭窗口
@@ -319,13 +342,16 @@ namespace HotTaoSquare
             AddBrowser();
             MyUserInfo.cookies = cookies;
             MyUserInfo.TaobaoName = lw.GetTaobaoName();
-            string cookieJson = lw.GetCurrentCookiesToString();
+            MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
             new System.Threading.Thread(() =>
             {
-                bindTaobao(cookieJson);
+                bindTaobao(MyUserInfo.cookieJson);
             })
             { IsBackground = true }.Start();
         }
+
+
+
         private int RetryCount { get; set; }
         private void bindTaobao(string cookieJson)
         {
@@ -340,16 +366,6 @@ namespace HotTaoSquare
                 else if (result.resultCode == 511)
                 {
                     RetryCount = 0;
-                    //AlertConfirm("当前淘宝账号与上次不匹配，是否切换?", "提示", () =>
-                    //{
-                    //    result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, true);
-                    //    if (result.resultCode == 200)
-                    //        MyUserInfo.TaobaoName = result.data.ToString();
-                    //});
-
-                    result = LogicSyncGoods.Instance.BindTaobao(MyUserInfo.LoginToken, cookieJson, true);
-                    if (result.resultCode == 200)
-                        MyUserInfo.TaobaoName = result.data.ToString();
                 }
                 else
                 {
@@ -383,24 +399,6 @@ namespace HotTaoSquare
                     lw.Hide();
             }
         }
-        /// <summary>
-        /// 关闭登录
-        /// </summary>
-        //private void loginWindowsClose()
-        //{
-        //    if (lw == null) return;
-        //    if (lw.InvokeRequired)
-        //    {
-        //        this.lw.Invoke(new Action(loginWindowsClose), new object[] { });
-        //    }
-        //    else
-        //    {
-        //        if (lw != null)
-        //            lw.Close();
-        //        lw = null;
-        //    }
-        //}
-
         /// <summary>
         /// 刷新状态
         /// </summary>
@@ -447,6 +445,7 @@ namespace HotTaoSquare
             string taobaoname = lw.GetTaobaoName();
             if (!string.IsNullOrEmpty(taobaoname))
                 lw.GoPage(RefreshUrl);
+            MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
         }
 
         /// <summary>
@@ -454,7 +453,7 @@ namespace HotTaoSquare
         /// </summary>
         public void ResetRefeshStatus()
         {
-            RefreshUrl = RefreshStatus ? "http://www.alimama.com/news.htm" : "http://www.alimama.com/college.htm";
+            RefreshUrl = RefreshStatus ? "http://pub.alimama.com/myunion.htm#!/manage/zone/zone" : "http://pub.alimama.com/myunion.htm#!/manage/site/site";
             RefreshStatus = !RefreshStatus;
         }
 

@@ -319,7 +319,6 @@ namespace HotTao.Controls
                 {
                     lbCouponName.Text = "(暂无)";
                     lbCouponPrice.Text = "(暂无)";
-                    txtCouponUrl.Clear();
                 }
             }
         }

@@ -74,7 +74,11 @@ namespace HotTaoSquare
         /// </summary>
         public static string TaobaoName { get; set; } = "";
 
-               
+        /// <summary>
+        /// 当前cookie json
+        /// </summary>
+        public static string cookieJson { get; set; }
+
 
         /// <summary>
         /// 淘宝联盟cookies
@@ -98,6 +102,8 @@ namespace HotTaoSquare
             }
             return _tb_token;
         }
+
+
 
     }
 }
