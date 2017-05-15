@@ -50,10 +50,11 @@ namespace QQLogin
     /// 根据商品地址，生成商品信息
     /// </summary>
     /// <param name="msgCode">商品CODE</param>
+    /// <param name="msgContent">消息</param>
     /// <param name="urls">链接</param>
     /// <param name="isAutoSend">是否自动跟发</param>    
     /// <param name="callback">回调</param>    
-    public delegate void BuildGoodsEventHandler(long msgCode,List<string> urls, bool isAutoSend,Action<MessageCallBackType,int,int> callback);
+    public delegate void BuildGoodsEventHandler(long msgCode,string msgContent,List<string> urls, bool isAutoSend,Action<MessageCallBackType,int,int> callback);
 
     /// <summary>
     /// 批量保存到本地商品库

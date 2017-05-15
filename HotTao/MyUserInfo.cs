@@ -119,5 +119,8 @@ namespace HotTao
             return _tb_token;
         }
 
+
+        public static string cToken { get; set; } = "";
+
     }
 }

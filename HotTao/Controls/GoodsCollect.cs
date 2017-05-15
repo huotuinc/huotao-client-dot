@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -60,13 +61,15 @@ namespace HotTao.Controls
         }
         #endregion
 
+        private Main hotForm { get; set; }
 
         private TaskControl taskForm { get; set; }
 
-        public GoodsCollect(TaskControl control)
+        public GoodsCollect(TaskControl control, Main form)
         {
             InitializeComponent();
             taskForm = control;
+            hotForm = form;
         }
 
         private void pbClose_Click(object sender, EventArgs e)
@@ -191,6 +194,7 @@ namespace HotTao.Controls
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["url"] = txtGoodsUrl.Text.Trim();
             data["url2"] = txtCouponUrl.Text.Trim();
+            data["message"] = "";
             list.Add(data);
             string jsonUrls = JsonConvert.SerializeObject(list);
 
@@ -204,6 +208,18 @@ namespace HotTao.Controls
                     {
                         CurrentGoods = goodsData[0];
                         SetCouponInfo();
+
+                        //if (hotForm.lw != null)
+                        //{
+                        //    var cookies= hotForm.lw.GetCurrentCookies("https://www.taobao.com/");
+                        //    //获取更多定向计划数据
+                        //    string url = string.Format("https://uland.taobao.com/cp/coupon?activityId={0}&itemId={1}", CurrentGoods.couponId, CurrentGoods.goodsId);
+                        //    CookieContainer cookiesContainer = new CookieContainer();
+                        //    cookiesContainer.Add(cookies);
+                        //    string content = BaseRequestService.HttpGet(url, cookiesContainer);
+
+                        //}
+
                     }
                 }
                 catch (Exception ex)

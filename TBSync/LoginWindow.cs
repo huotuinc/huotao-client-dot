@@ -143,7 +143,7 @@ namespace TBSync
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="FrameLoadEndEventArgs"/> instance containing the event data.</param>
         private void Browser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
-        {            
+        {
             if (e.Url == LoginUrl)
             {
                 if (!isLoadCompleted)
@@ -151,7 +151,7 @@ namespace TBSync
                     isLoadCompleted = true;
                     isLoginCompleted = false;
                     new Thread(() =>
-                    {                        
+                    {
                         //页面加载完成回调
                         LoadSuccessHandle?.Invoke(true);
                     })
@@ -162,7 +162,7 @@ namespace TBSync
             else if (e.Url == LoginSuccessUrl)
             {
                 if (!isLoginCompleted)
-                {                    
+                {
                     isLoginCompleted = true;
                     new Thread(() =>
                     {
@@ -297,6 +297,7 @@ namespace TBSync
             return taobaoname;
         }
 
+
         /// <summary>
         /// 判断是否登录
         /// </summary>
@@ -365,10 +366,10 @@ namespace TBSync
         /// 获取登录阿里妈妈的cookies
         /// </summary>
         /// <returns></returns>
-        public CookieCollection GetCurrentCookies()
+        public CookieCollection GetCurrentCookies(string address = null)
         {
             var visitor = new CookieMonster();
-            if (Cef.GetGlobalCookieManager().VisitUrlCookies(LoginSuccessUrl, true, visitor))
+            if (Cef.GetGlobalCookieManager().VisitUrlCookies(string.IsNullOrEmpty(address) ? LoginSuccessUrl : "address", true, visitor))
                 visitor.WaitForAllCookies();
             CookieCollection cookies = new CookieCollection();
             foreach (System.Net.Cookie cookie in visitor.NamesValues)

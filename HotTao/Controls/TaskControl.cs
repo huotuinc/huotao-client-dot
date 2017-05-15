@@ -1327,7 +1327,7 @@ namespace HotTao.Controls
         /// <param name="e"></param>
         private void btnGoodsCollect_Click(object sender, EventArgs e)
         {
-            GoodsCollect collect = new GoodsCollect(this);
+            GoodsCollect collect = new GoodsCollect(this,hotForm);
             collect.StartPosition = FormStartPosition.CenterParent;
             collect.ShowDialog(this);
         }

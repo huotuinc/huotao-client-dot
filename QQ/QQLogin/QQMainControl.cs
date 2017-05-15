@@ -109,32 +109,32 @@ namespace QQLogin
                 {
                     long code = msgCode;
                     //消息处理回调
-                    BuildGoodsHandler?.Invoke(code, urls, isAutoSend, (ret, i, t) =>
-                    {
-                        string text = "";
-                        switch (ret)
-                        {
-                            case MessageCallBackType.正在准备:
-                                text = "正在准备";
-                                break;
-                            case MessageCallBackType.开始转链:
-                                text = string.Format("开始转链{0}/{1}", i, t);
-                                break;
-                            case MessageCallBackType.转链完成:
-                                text = string.Format("转链完成");
-                                break;
-                            case MessageCallBackType.开始创建计划:
-                                text = string.Format("创建计划..");
-                                break;
-                            case MessageCallBackType.完成:
-                                text = string.Format("已完成");
-                                break;
-                            default:
-                                break;
-                        }
-                        if (!string.IsNullOrEmpty(text))
-                            SetMesageViewByMessageCode(msgCode, text);
-                    });
+                    BuildGoodsHandler?.Invoke(code, msgContent.Replace('"', ' '), urls, isAutoSend, (ret, i, t) =>
+                      {
+                          string text = "";
+                          switch (ret)
+                          {
+                              case MessageCallBackType.正在准备:
+                                  text = "正在准备";
+                                  break;
+                              case MessageCallBackType.开始转链:
+                                  text = string.Format("开始转链{0}/{1}", i, t);
+                                  break;
+                              case MessageCallBackType.转链完成:
+                                  text = string.Format("转链完成");
+                                  break;
+                              case MessageCallBackType.开始创建计划:
+                                  text = string.Format("创建计划..");
+                                  break;
+                              case MessageCallBackType.完成:
+                                  text = string.Format("已完成");
+                                  break;
+                              default:
+                                  break;
+                          }
+                          if (!string.IsNullOrEmpty(text))
+                              SetMesageViewByMessageCode(msgCode, text);
+                      });
 
                 })
                 { IsBackground = true }.Start();

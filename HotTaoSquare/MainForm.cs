@@ -1,4 +1,5 @@
 ﻿using CefSharp;
+using HotTaoCore;
 using HotTaoCore.Logic;
 using System;
 using System.Collections.Generic;
@@ -76,7 +77,11 @@ namespace HotTaoSquare
         /// <summary>
         /// 加载页面地址
         /// </summary>
-        private static string intiUrl = "https://huotuinc.github.io/huotao-server/src/main/webapp/wap/jobIndex.html";// System.Environment.CurrentDirectory + "\\portal\\tkgc-a.html";// "http://www.baidu.com";//
+        private static string intiUrl = ApiConst.Url + "/widePlace/index";
+        //"https://huotuinc.github.io/huotao-server/src/main/webapp/wap/jobIndex.html";
+        // System.Environment.CurrentDirectory + "\\portal\\tkgc-a.html";
+        // "http://www.baidu.com";
+        // /widePlace/index
 
         public MainForm(Login form)
         {
@@ -89,7 +94,7 @@ namespace HotTaoSquare
             new System.Threading.Thread(() =>
             {
                 if (loginForm.browser == null)
-                    loginForm.InitBrowser(intiUrl, BrowseLoadEnd);
+                    loginForm.InitBrowser(intiUrl);
                 LoginTaoBao();
             })
             { IsBackground = true }.Start();
@@ -109,11 +114,13 @@ namespace HotTaoSquare
             else
             {
                 if (loginForm.browser == null)
-                    loginForm.InitBrowser(intiUrl, BrowseLoadEnd);
+                    loginForm.InitBrowser(intiUrl);
 
                 if (loginForm.browser != null)
+                {
+                    loginForm.browser.FrameLoadEnd += BrowseLoadEnd;
                     loginForm.browser.TitleChanged += Browser_TitleChanged;
-
+                }
                 hotPanel1.Controls.Add(loginForm.browser);
             }
         }
@@ -289,7 +296,7 @@ namespace HotTaoSquare
                     lw.Close();
                     lw = null;
                 }
-                lw = new TBSync.LoginWindow();
+                lw = new LoginWindow();
                 lw.LoginSuccessHandle += Lw_LoginSuccessHandle;
                 lw.CloseWindowHandle += Lw_CloseWindowHandle;
                 lw.StartPosition = FormStartPosition.CenterScreen;
@@ -343,6 +350,7 @@ namespace HotTaoSquare
             MyUserInfo.cookies = cookies;
             MyUserInfo.TaobaoName = lw.GetTaobaoName();
             MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
+
             new System.Threading.Thread(() =>
             {
                 bindTaobao(MyUserInfo.cookieJson);

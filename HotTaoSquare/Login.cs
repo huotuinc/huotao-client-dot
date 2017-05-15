@@ -341,19 +341,12 @@ namespace HotTaoSquare
         /// <summary>
         /// 初始化浏览器
         /// </summary>
-        public void InitBrowser(string url, EventHandler<FrameLoadEndEventArgs> loadEnd)
+        public void InitBrowser(string url)
         {
 
             if (browser == null)
             {
-                CefSettings cfs = new CefSettings();
-                Dictionary<string, string> formFields = new Dictionary<string, string>();
-                formFields["token"] = MyUserInfo.LoginToken;
-                //获取签名
-                string signature = SignatureHelper.BuildSign(formFields, ApiConst.SecretKey);
-                string param = string.Format("hottecexe:token={0}&signature={1};", MyUserInfo.LoginToken, signature);
-                cfs.UserAgent = param + "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36";
-                Cef.Initialize(cfs, true, true);
+                SetUserAgent();
                 BrowserSettings settings = new BrowserSettings()
                 {
                     LocalStorage = CefState.Enabled,
@@ -361,21 +354,50 @@ namespace HotTaoSquare
                     Plugins = CefState.Enabled,
                     ImageLoading = CefState.Enabled,
                     ImageShrinkStandaloneToFit = CefState.Enabled,
-                    WebGl = CefState.Enabled
+                    WebGl = CefState.Enabled,
                 };
                 browser = new ChromiumWebBrowser(url);
                 browser.BrowserSettings = settings;
                 browser.RegisterJsObject("hotJs", new MyUserInfo(), false);
-                browser.FrameLoadEnd += (s, e) => { loadEnd(s, e); };
                 browser.Dock = DockStyle.Fill;
                 browser.LifeSpanHandler = new LifeSpanHandler();
                 browser.MenuHandler = new MenuHandler();
             }
             else
                 browser.Load(url);
-
-
         }
+
+        /// <summary>
+        /// 重置浏览器
+        /// </summary>
+        public void ResetBrowser()
+        {
+            string currentUrl = "";
+            if (browser != null)
+            {
+                currentUrl = browser.Address;
+                browser.Dispose();
+                browser = null;
+            }
+            InitBrowser(currentUrl);
+        }
+
+        /// <summary>
+        /// 设置userAgent
+        /// </summary>
+        public void SetUserAgent()
+        {
+            CefSettings cfs = new CefSettings();
+            Dictionary<string, string> formFields = new Dictionary<string, string>();
+            //formFields["taobaoName"] = MyUserInfo.TaobaoName;
+            formFields["token"] = MyUserInfo.LoginToken;
+            //获取签名
+            string signature = SignatureHelper.BuildSign(formFields, ApiConst.SecretKey);
+            string param = string.Format("hottecexe:token={0}&signature={1};", MyUserInfo.LoginToken, signature);
+            cfs.UserAgent = param + "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36";
+            Cef.Initialize(cfs, true, true);
+        }
+
 
 
         #region 页面JS交互
@@ -397,9 +419,8 @@ namespace HotTaoSquare
         public void OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
         {
             model.Clear();
-            model.AddItem(CefMenuCommand.Back, "返回");
-            model.AddItem(CefMenuCommand.Forward, "前进");
-            //model.AddSeparator();
+            model.AddItem(CefMenuCommand.Back, "返回");            
+            model.AddItem(CefMenuCommand.Forward, "前进");            
             model.AddItem(CefMenuCommand.Reload, "重新加载");
 
         }
@@ -415,7 +436,7 @@ namespace HotTaoSquare
         }
 
         public bool RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
-        {
+        {            
             return false;
         }
     }
