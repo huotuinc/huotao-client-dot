@@ -82,7 +82,7 @@ namespace HotTao.Controls
 
         private void GoodsCollect_Load(object sender, EventArgs e)
         {
-            InitBrowser(ApiConst.www);
+            InitBrowser("");
         }
 
         private ChromiumWebBrowser browser { get; set; }

@@ -1,4 +1,5 @@
 ﻿using CefSharp;
+using HotCoreUtils.Helper;
 using HotTaoCore;
 using HotTaoCore.Logic;
 using System;
@@ -347,10 +348,18 @@ namespace HotTaoSquare
         {
             loginWindowsHide();
             AddBrowser();
+
+
             MyUserInfo.cookies = cookies;
             MyUserInfo.TaobaoName = lw.GetTaobaoName();
             MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
-
+            Dictionary<string, string> formFields = new Dictionary<string, string>();
+            formFields["taobaoName"] = MyUserInfo.TaobaoName;
+            formFields["token"] = MyUserInfo.LoginToken;
+            //获取签名
+            string signature = SignatureHelper.BuildSign(formFields, ApiConst.SecretKey);
+            string param = string.Format("token={0}&signature={1};", MyUserInfo.LoginToken, signature);
+            loginForm.InitBrowser(ApiConst.www + "/widePlace/index?" + param);
             new System.Threading.Thread(() =>
             {
                 bindTaobao(MyUserInfo.cookieJson);
