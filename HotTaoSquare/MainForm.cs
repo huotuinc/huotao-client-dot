@@ -358,8 +358,8 @@ namespace HotTaoSquare
             formFields["token"] = MyUserInfo.LoginToken;
             //获取签名
             string signature = SignatureHelper.BuildSign(formFields, ApiConst.SecretKey);
-            string param = string.Format("token={0}&signature={1};", MyUserInfo.LoginToken, signature);
-            loginForm.InitBrowser(ApiConst.www + "/widePlace/index?" + param);
+            string param = string.Format("token={0}&signature={1}&taobaoName={2}", MyUserInfo.LoginToken, signature,MyUserInfo.TaobaoName);
+            loginForm.InitBrowser(ApiConst.Url + "/widePlace/login?" + param);
             new System.Threading.Thread(() =>
             {
                 bindTaobao(MyUserInfo.cookieJson);

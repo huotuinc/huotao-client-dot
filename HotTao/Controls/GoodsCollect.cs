@@ -243,6 +243,10 @@ namespace HotTao.Controls
             {
                 try
                 {
+                    decimal price = 0;
+                    decimal.TryParse(txtCouponPrice.Text, out price);
+                    if (price > 0)
+                        CurrentGoods.couponPrice = price;
                     //保存商品到本地数据库
                     int gid = LogicGoods.Instance.SaveGoods(CurrentGoods, MyUserInfo.currentUserId, out isUpdate);
                     if (gid > 0)
@@ -328,13 +332,17 @@ namespace HotTao.Controls
                 if (CurrentGoods != null)
                 {
                     lbCouponName.Text = CurrentGoods.couponName;
-                    lbCouponPrice.Text = CurrentGoods.couponPrice.ToString("f2");
+                    lbCouponPrice.Visible = false;
+                    txtCouponPrice.Visible = true;
+                    txtCouponPrice.Text = CurrentGoods.couponPrice.ToString("f2");
                     txtCouponUrl.Text = CurrentGoods.couponUrl;
                 }
                 else
                 {
                     lbCouponName.Text = "(暂无)";
-                    lbCouponPrice.Text = "(暂无)";
+                    txtCouponPrice.Text = "0";
+                    lbCouponPrice.Visible = true;
+                    txtCouponPrice.Visible = false;
                 }
             }
         }
@@ -365,6 +373,32 @@ namespace HotTao.Controls
             browser.Load(ApiConst.www);
             browser.Focus();
         }
+
+        /// <summary>
+        /// 数字+小数点
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
+        private void TextBoxFloat_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox t = sender as TextBox;
+            if (!Char.IsNumber(e.KeyChar) && !Char.IsPunctuation(e.KeyChar) && !Char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;//消除不合适字符  
+            }
+            else if (Char.IsPunctuation(e.KeyChar))
+            {
+                if (e.KeyChar != '.' || t.Text.Length == 0)//小数点  
+                {
+                    e.Handled = true;
+                }
+                if (t.Text.LastIndexOf('.') != -1)
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+
     }
 
 

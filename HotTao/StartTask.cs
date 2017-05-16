@@ -101,8 +101,11 @@ namespace HotTao
         /// </summary>
         private List<string> textResult = new List<string>();
 
+       // List<WindowInfo> wins { get; set; }
+
         private void Send()
         {
+            //wins = WinApi.GetAllDesktopWindows();
             while (isStartTask)
             {
                 if (!isStartTask || MyUserInfo.currentUserId == 0) break;

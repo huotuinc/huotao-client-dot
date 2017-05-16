@@ -44,6 +44,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lbCouponPrice = new System.Windows.Forms.Label();
             this.lbCouponName = new System.Windows.Forms.Label();
+            this.txtCouponPrice = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnOpenUrl = new System.Windows.Forms.Button();
             this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
@@ -206,6 +207,7 @@
             this.hotGroupBox5.Controls.Add(this.label4);
             this.hotGroupBox5.Controls.Add(this.lbCouponPrice);
             this.hotGroupBox5.Controls.Add(this.lbCouponName);
+            this.hotGroupBox5.Controls.Add(this.txtCouponPrice);
             this.hotGroupBox5.Location = new System.Drawing.Point(768, 16);
             this.hotGroupBox5.Name = "hotGroupBox5";
             this.hotGroupBox5.Size = new System.Drawing.Size(389, 92);
@@ -250,6 +252,15 @@
             this.lbCouponName.Size = new System.Drawing.Size(41, 12);
             this.lbCouponName.TabIndex = 38;
             this.lbCouponName.Text = "(暂无)";
+            // 
+            // txtCouponPrice
+            // 
+            this.txtCouponPrice.Location = new System.Drawing.Point(97, 61);
+            this.txtCouponPrice.Name = "txtCouponPrice";
+            this.txtCouponPrice.Size = new System.Drawing.Size(100, 21);
+            this.txtCouponPrice.TabIndex = 39;
+            this.txtCouponPrice.Visible = false;
+            this.txtCouponPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxFloat_KeyPress);
             // 
             // label1
             // 
@@ -398,5 +409,6 @@
         private System.Windows.Forms.Panel plRightTop;
         private System.Windows.Forms.PictureBox picHome;
         private System.Windows.Forms.PictureBox picClose;
+        private System.Windows.Forms.TextBox txtCouponPrice;
     }
 }
