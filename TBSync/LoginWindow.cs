@@ -84,6 +84,11 @@ namespace TBSync
         private bool isLoginCompleted = false;
 
         /// <summary>
+        /// 登录成功时间
+        /// </summary>
+        private DateTime loginSuccessTime { get; set; }
+
+        /// <summary>
         /// 所有的cookie
         /// </summary>
         private List<System.Net.Cookie> lstCookies { get; set; }
@@ -112,7 +117,28 @@ namespace TBSync
                 browser.Location = new Point(1, 0);
                 browser.FrameLoadEnd += Browser_FrameLoadEnd;
                 browser.TitleChanged += Browser_TitleChanged;
+                browser.AddressChanged += Browser_AddressChanged;
                 this.tbPanel.Controls.Add(browser);
+            }
+        }
+        /// <summary>
+        /// 登录发送改变时
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Browser_AddressChanged(object sender, AddressChangedEventArgs e)
+        {
+            if (e.Address.Contains("www.alimama.com"))
+            {
+                if (!isLoginCompleted)
+                {
+                    isLoginCompleted = true;
+                    new Thread(() =>
+                    {
+                        LoginSuccess();
+                    })
+                    { IsBackground = true }.Start();
+                }
             }
         }
 
@@ -123,7 +149,7 @@ namespace TBSync
         /// <param name="e"></param>
         private void Browser_TitleChanged(object sender, TitleChangedEventArgs e)
         {
-            if (e.Title.Contains("阿里妈妈") || e.Title.Contains("淘宝联盟"))
+            if (e.Title.Contains("阿里妈妈") || e.Title.Contains("淘宝联盟") || browser.Address.Contains("www.alimama.com"))
             {
                 if (!isLoginCompleted)
                 {
@@ -154,19 +180,6 @@ namespace TBSync
                     {
                         //页面加载完成回调
                         LoadSuccessHandle?.Invoke(true);
-                    })
-                    { IsBackground = true }.Start();
-                }
-            }
-            //登录成功后的页面
-            else if (e.Url == LoginSuccessUrl)
-            {
-                if (!isLoginCompleted)
-                {
-                    isLoginCompleted = true;
-                    new Thread(() =>
-                    {
-                        LoginSuccess();
                     })
                     { IsBackground = true }.Start();
                 }
@@ -235,7 +248,7 @@ namespace TBSync
         /// <param name="script">The script.</param>
         /// <param name="millisecondsTimeout">等待时间</param>
         /// <returns>System.Object.</returns>
-        static object EvaluateScript(ChromiumWebBrowser b, string script, int millisecondsTimeout = 15000)
+        private object EvaluateScript(ChromiumWebBrowser b, string script, int millisecondsTimeout = 5000)
         {
             var task = b.EvaluateScriptAsync(script);
             task.Wait(millisecondsTimeout);
@@ -248,6 +261,7 @@ namespace TBSync
         /// </summary>
         private void LoginSuccess()
         {
+            loginSuccessTime = DateTime.Now;
             SetTitle("登录成功!正在获取Token...");
             var visitor = new CookieMonster();
             if (Cef.GetGlobalCookieManager().VisitUrlCookies(LoginSuccessUrl, true, visitor))
@@ -299,24 +313,28 @@ namespace TBSync
 
 
         /// <summary>
-        /// 判断是否登录
+        /// 判断阿里妈妈是否登录
         /// </summary>
         /// <returns></returns>
         public bool isLogin()
         {
-            var visitor = new CookieMonster();
-            if (Cef.GetGlobalCookieManager().VisitUrlCookies(LoginSuccessUrl, true, visitor))
-                visitor.WaitForAllCookies();
-            bool loginStatus = false;
-            foreach (System.Net.Cookie cookie in visitor.NamesValues)
+            //            
+            if (loginSuccessTime.AddMinutes(1).CompareTo(DateTime.Now) < 0)
             {
-                if (cookie.Name == "login")
-                {
-                    loginStatus = true;
-                    break;
-                }
+                return false;
             }
-            return loginStatus;
+            //bool loginStatus = false;
+            //if (browser.Address.Contains("www.alimama.com"))
+            //{
+            //    object result = EvaluateScript(browser, "document.getElementsByClassName('menu-username').item(0).innerHTML");
+            //    if (!string.IsNullOrEmpty(result.ToString()))
+            //    {
+            //        if (result.ToString().Equals("你好"))
+            //            loginStatus = false;
+            //    }
+            //    return loginStatus;
+            //}
+            return true;
         }
 
 

@@ -358,7 +358,7 @@ namespace HotTaoSquare
                 };
                 browser = new ChromiumWebBrowser(url);
                 browser.BrowserSettings = settings;
-                browser.RegisterJsObject("hotJs", new MyUserInfo(), false);
+                browser.RegisterJsObject("hotJs", new Login(), false);
                 browser.Dock = DockStyle.Fill;
                 browser.LifeSpanHandler = new LifeSpanHandler();
                 browser.MenuHandler = new MenuHandler();
@@ -402,6 +402,22 @@ namespace HotTaoSquare
 
         #region 页面JS交互
 
+        /// <summary>
+        /// 淘宝账号
+        /// </summary>
+        /// <returns></returns>
+        public string getTaobaoName()
+        {
+            return MyUserInfo.TaobaoName;
+        }
+        /// <summary>
+        /// 获取淘宝cookie
+        /// </summary>
+        /// <returns></returns>
+        public string getTaobaoCookies()
+        {
+            return MyUserInfo.cookieJson;
+        }
 
 
         #endregion
@@ -419,8 +435,8 @@ namespace HotTaoSquare
         public void OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
         {
             model.Clear();
-            model.AddItem(CefMenuCommand.Back, "返回");            
-            model.AddItem(CefMenuCommand.Forward, "前进");            
+            model.AddItem(CefMenuCommand.Back, "返回");
+            model.AddItem(CefMenuCommand.Forward, "前进");
             model.AddItem(CefMenuCommand.Reload, "重新加载");
 
         }
@@ -436,7 +452,7 @@ namespace HotTaoSquare
         }
 
         public bool RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
-        {            
+        {
             return false;
         }
     }

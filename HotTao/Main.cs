@@ -621,6 +621,8 @@ namespace HotTao
                     pl.Visible = true;
                 }
             }
+
+            panel7.Visible = true;
         }
 
 
@@ -782,12 +784,6 @@ namespace HotTao
                 lw.CloseWindowHandle += Lw_CloseWindowHandle;
                 lw.StartPosition = FormStartPosition.CenterScreen;
                 lw.ShowDialog(this);
-
-                if (checkTbLoginTime == null)
-                    checkTbLoginTime = new Timer();
-                checkTbLoginTime.Interval = 60 * 1000;// 300000;
-                checkTbLoginTime.Tick += CheckTbLoginTime_Tick;
-                checkTbLoginTime.Start();
             }
         }
         /// <summary>
@@ -797,11 +793,15 @@ namespace HotTao
         /// <param name="e"></param>
         private void CheckTbLoginTime_Tick(object sender, EventArgs e)
         {
-            if (lw == null || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
-            if (!lw.isLogin())
+            new System.Threading.Thread(() =>
             {
-                LoginTaoBao();
-            }
+                if (lw == null || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
+                if (!lw.isLogin())
+                {
+                    LoginTaoBao();
+                }
+            })
+            { IsBackground = true }.Start();
         }
 
         /// <summary>
@@ -858,11 +858,6 @@ namespace HotTao
                 {
                     bindTaobao(cookieJson);
                 }
-                //loginWindowsClose();
-                //AlertConfirm("数据读取失败,是否重新读取!", "提示", () =>
-                //{
-                //    bindTaobao(cookieJson);
-                //});
             }
         }
 
@@ -918,6 +913,18 @@ namespace HotTao
             timingRefresh.Interval = 30000;
             timingRefresh.Tick += TimingRefresh_Tick;
             timingRefresh.Start();
+            
+            if (checkTbLoginTime != null)
+            {
+                checkTbLoginTime.Stop();
+                checkTbLoginTime.Dispose();
+                checkTbLoginTime = null;
+            }
+            checkTbLoginTime = new Timer();
+            checkTbLoginTime.Interval = 40000;
+            checkTbLoginTime.Tick += CheckTbLoginTime_Tick;
+            checkTbLoginTime.Start();
+
         }
         /// <summary>
         /// 定时刷新
@@ -927,20 +934,54 @@ namespace HotTao
         /// <exception cref="System.NotImplementedException"></exception>
         private void TimingRefresh_Tick(object sender, EventArgs e)
         {
-            ResetRefeshStatus();
-            if (lw == null) return;
-            string taobaoname = lw.GetTaobaoName();
-            if (!string.IsNullOrEmpty(taobaoname))
-                lw.GoPage(RefreshUrl);
+            new System.Threading.Thread(() =>
+            {
+                ResetRefeshStatus();
+                if (lw == null) return;
+                string taobaoname = lw.GetTaobaoName();
+                if (!string.IsNullOrEmpty(taobaoname))
+                    lw.GoPage(RefreshUrl);
+            })
+            { IsBackground = true }.Start();
         }
 
+
+        int urlIndex = 0;
         /// <summary>
         /// Resets the refesh status.
         /// </summary>
         public void ResetRefeshStatus()
         {
-            //   RefreshUrl = RefreshStatus ? "http://www.alimama.com/news.htm" : "http://www.alimama.com/college.htm";
-            RefreshUrl = RefreshStatus ? "http://pub.alimama.com/myunion.htm#!/manage/zone/zone" : "http://pub.alimama.com/myunion.htm#!/manage/site/site";
+            switch (urlIndex)
+            {
+                case 0:
+                    urlIndex = 1;
+                    RefreshUrl = "http://www.alimama.com";
+                    break;
+                case 1:
+                    urlIndex = 2;
+                    RefreshUrl = "https://www.taobao.com/";
+                    break;
+                case 2:
+                    urlIndex = 0;
+                    RefreshUrl = "https://www.tmall.com/";
+                    break;
+                default:
+                    urlIndex = 1;
+                    RefreshUrl = "http://www.alimama.com";
+                    break;
+            }
+            try
+            {
+                MyUserInfo.TaobaoName = lw.GetTaobaoName();
+                MyUserInfo.cookies = lw.GetCurrentCookies();
+                MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+
             RefreshStatus = !RefreshStatus;
         }
 
@@ -1048,7 +1089,21 @@ namespace HotTao
                     logData.isError = true;
                     logData.remark = "[" + goodsId + "]" + "一瞬间，风起人涌，交通拥堵，请稍后重试！";
                 }
-                logRuningList.Add(logData);
+
+                if (logRuningList.Exists(item => { return item.goodsid == logData.goodsid; }))
+                {
+                    logRuningList.ForEach(l =>
+                    {
+                        if (l.goodsid == logData.goodsid)
+                        {
+                            l = logData;
+                            return;
+                        }
+                    });
+                }
+                else
+                    logRuningList.Add(logData);
+
             });
         }
 
@@ -1072,9 +1127,6 @@ namespace HotTao
             return (long)(DateTime.Now - startTime).TotalMilliseconds;
         }
         #endregion
-
-
-
 
 
 
@@ -1214,6 +1266,10 @@ namespace HotTao
                             }
                             callback?.Invoke(MessageCallBackType.完成, 0, 0);
                         }
+                        else
+                        {
+                            log.Debug(msgContent);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -1235,9 +1291,9 @@ namespace HotTao
             });
         }
 
+
+
         #endregion
-
-
 
     }
 }

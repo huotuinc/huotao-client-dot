@@ -455,7 +455,6 @@ namespace HotTaoCore
             try
             {
                 url = url.IndexOf("http") < 0 ? "http:" + url : url;
-                log.Info(url);
                 WebRequest request = WebRequest.Create(url);
                 request.Method = "get";
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
@@ -474,7 +473,6 @@ namespace HotTaoCore
             }
             catch (Exception ex)
             {
-                log.Error("无效地址:" + url);
                 log.Error(ex);
                 return null;
             }

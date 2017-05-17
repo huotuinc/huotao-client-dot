@@ -58,18 +58,6 @@ namespace HotTaoSquare
 
 
         /// <summary>
-        /// 我的推广位
-        /// </summary>
-        /// <value>My pid list.</value>
-        public static List<UserTaoPidModel> MyPidList { get; set; }
-
-
-        /// <summary>
-        /// 淘宝登录cookie
-        /// </summary>
-        public static string TaobaoLoginCookies { get; set; } = "";
-
-        /// <summary>
         /// 登录登录的淘宝账号
         /// </summary>
         public static string TaobaoName { get; set; } = "";

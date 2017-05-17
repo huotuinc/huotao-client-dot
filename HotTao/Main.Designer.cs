@@ -120,6 +120,7 @@
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(97, 25);
             this.panel7.TabIndex = 6;
+            this.panel7.Visible = false;
             // 
             // pictureBox3
             // 

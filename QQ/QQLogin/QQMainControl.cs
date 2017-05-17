@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using iQQ.Net.WebQQCore.Im.Bean;
 using iQQ.Net.WebQQCore.Im.Event;
+using iQQ.Net.WebQQCore.Util;
 
 namespace QQLogin
 {
@@ -101,47 +102,64 @@ namespace QQLogin
                     message.MessageUrl2 = urls[1];
             }
             SetMessageView(message);
+
+            MessageHandler(urls, msgCode, msgContent);
+        }
+
+        /// <summary>
+        /// 消息处理
+        /// </summary>
+        /// <param name="urls"></param>
+        /// <param name="msgCode"></param>
+        /// <param name="msgContent"></param>
+        private void MessageHandler(List<string> urls, long msgCode, string msgContent)
+        {
             //TODO:
             if (urls != null && urls.Count() > 0)
             {
                 bool isAutoSend = ckbAutoSend.Checked;
                 new System.Threading.Thread(() =>
                 {
-                    long code = msgCode;
-                    //消息处理回调
-                    BuildGoodsHandler?.Invoke(code, msgContent.Replace('"', ' '), urls, isAutoSend, (ret, i, t) =>
-                      {
-                          string text = "";
-                          switch (ret)
-                          {
-                              case MessageCallBackType.正在准备:
-                                  text = "正在准备";
-                                  break;
-                              case MessageCallBackType.开始转链:
-                                  text = string.Format("开始转链{0}/{1}", i, t);
-                                  break;
-                              case MessageCallBackType.转链完成:
-                                  text = string.Format("转链完成");
-                                  break;
-                              case MessageCallBackType.开始创建计划:
-                                  text = string.Format("创建计划..");
-                                  break;
-                              case MessageCallBackType.完成:
-                                  text = string.Format("已完成");
-                                  break;
-                              default:
-                                  break;
-                          }
-                          if (!string.IsNullOrEmpty(text))
-                              SetMesageViewByMessageCode(msgCode, text);
-                      });
+                    try
+                    {
+                        long code = msgCode;
+                        //消息处理回调
+                        BuildGoodsHandler?.Invoke(code, msgContent.Replace('"', ' '), urls, isAutoSend, (ret, i, t) =>
+                        {
+                            string text = "";
+                            switch (ret)
+                            {
+                                case MessageCallBackType.正在准备:
+                                    text = "正在准备";
+                                    break;
+                                case MessageCallBackType.开始转链:
+                                    text = string.Format("开始转链{0}/{1}", i, t);
+                                    break;
+                                case MessageCallBackType.转链完成:
+                                    text = string.Format("转链完成");
+                                    break;
+                                case MessageCallBackType.开始创建计划:
+                                    text = string.Format("创建计划..");
+                                    break;
+                                case MessageCallBackType.完成:
+                                    text = string.Format("已完成");
+                                    break;
+                                default:
+                                    break;
+                            }
+                            if (!string.IsNullOrEmpty(text))
+                                SetMesageViewByMessageCode(msgCode, text);
+                        });
 
+                    }
+                    catch (Exception)
+                    {
+                        SetMesageViewByMessageCode(msgCode, "已完成");
+                    }
                 })
                 { IsBackground = true }.Start();
 
             }
-
-
         }
 
         /// <summary>
@@ -250,10 +268,6 @@ namespace QQLogin
                     else
                         dgvContact.Rows[i - 1].Cells["GroupTitle"].Value = user.Name;
 
-
-
-
-
                     dgvContact.Rows[i - 1].DefaultCellStyle.BackColor = QQGlobal.backColor;
                     dgvContact.Rows[i - 1].DefaultCellStyle.SelectionBackColor = QQGlobal.backColor;
                 }
@@ -289,6 +303,8 @@ namespace QQLogin
                 dgvMessageView.Rows[i - 1].Cells["MessageUrl1"].Value = message.MessageUrl1;
                 dgvMessageView.Rows[i - 1].Cells["MessageUrl2"].Value = message.MessageUrl2;
                 dgvMessageView.Rows[i - 1].Cells["MessageStatus"].Value = message.MessageStatus == 0 ? "未处理" : "已完成";
+                dgvMessageView.Rows[i - 1].Cells["Status"].Value = 0;
+
                 if (i % 2 == 0)
                 {
                     dgvMessageView.Rows[i - 1].DefaultCellStyle.BackColor = Color.FromArgb(248, 248, 248);
@@ -433,6 +449,42 @@ namespace QQLogin
             {
                 this.dgvMessageView.Rows.RemoveAt(e.RowIndex);
             }
+        }
+
+        private void cmsToolsResult_Opening(object sender, CancelEventArgs e)
+        {
+            DataGridViewCellCollection cells = this.dgvMessageView.CurrentRow.Cells;
+            if (cells == null) e.Cancel = true;
+            if (cells[0].RowIndex != currentRowIndex)
+                e.Cancel = true;
+            else
+            {
+                string MessageStatus = cells["MessageStatus"].Value.ToString();
+                if (!MessageStatus.Equals("未处理"))
+                    e.Cancel = true;
+            }
+        }
+
+        private void dgvMessageView_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            currentRowIndex = e.RowIndex;
+        }
+        /// <summary>
+        /// 重新跟发
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolReSend_Click(object sender, EventArgs e)
+        {
+            DataGridViewCellCollection cells = this.dgvMessageView.Rows[currentRowIndex].Cells;
+            if (cells != null)
+            {
+                string msgContent = cells["MessageContent"].Value.ToString();
+                long msgCode = (long)cells["MessageCode"].Value;
+                var urls = UrlUtils.GetUrls(msgContent);
+                MessageHandler(urls, msgCode, msgContent);
+            }
+
         }
     }
 }

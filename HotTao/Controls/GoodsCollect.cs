@@ -192,9 +192,12 @@ namespace HotTao.Controls
             SetCouponInfo();
             List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
             Dictionary<string, string> data = new Dictionary<string, string>();
-            data["url"] = txtGoodsUrl.Text.Trim();
+
+            // 
+
+            data["url"] =txtGoodsUrl.Text.Trim();
             data["url2"] = txtCouponUrl.Text.Trim();
-            data["message"] = "";
+            data["message"] = "【稻香村】拿破仑奶油蛋糕700G整箱天猫券后【27.9元】包邮领券：  https://shop.m.taobao.com/shop/coupon.htm?activityId=08036063b6f14cfa96c554f5615bd30e&sellerId=1713301768  抢购：   https://s.click.taobao.com/5Hlwslw   乾隆始创于1773年。健康糕点零食；营养美味好吃不贵，奖励自己，分享好友。每个好日子，都有稻香村";
             list.Add(data);
             string jsonUrls = JsonConvert.SerializeObject(list);
 
@@ -208,18 +211,6 @@ namespace HotTao.Controls
                     {
                         CurrentGoods = goodsData[0];
                         SetCouponInfo();
-
-                        //if (hotForm.lw != null)
-                        //{
-                        //    var cookies= hotForm.lw.GetCurrentCookies("https://www.taobao.com/");
-                        //    //获取更多定向计划数据
-                        //    string url = string.Format("https://uland.taobao.com/cp/coupon?activityId={0}&itemId={1}", CurrentGoods.couponId, CurrentGoods.goodsId);
-                        //    CookieContainer cookiesContainer = new CookieContainer();
-                        //    cookiesContainer.Add(cookies);
-                        //    string content = BaseRequestService.HttpGet(url, cookiesContainer);
-
-                        //}
-
                     }
                 }
                 catch (Exception ex)

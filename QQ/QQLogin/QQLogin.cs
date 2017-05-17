@@ -221,6 +221,8 @@ namespace QQLogin
         /// <param name="e"></param>
         private void PollTime_Tick(object sender, EventArgs e)
         {
+            if (QQGlobal.client == null) return;
+
             if (!QQGlobal.client.IsOnline())
             {
                 QQGlobal.client.ChangeStatus(QQStatus.ONLINE, null);

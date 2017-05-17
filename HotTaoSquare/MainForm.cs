@@ -78,11 +78,11 @@ namespace HotTaoSquare
         /// <summary>
         /// 加载页面地址
         /// </summary>
-        private static string intiUrl = ApiConst.Url + "/widePlace/index";
+        private static string intiUrl = ApiConst.www + "/widePlace/index";
         //"https://huotuinc.github.io/huotao-server/src/main/webapp/wap/jobIndex.html";
-        // System.Environment.CurrentDirectory + "\\portal\\tkgc-a.html";
+        // System.Environment.CurrentDirectory + "\\portal\\tkgc-b.html";
         // "http://www.baidu.com";
-        // /widePlace/index
+        // 
 
         public MainForm(Login form)
         {
@@ -244,17 +244,17 @@ namespace HotTaoSquare
         /// <param name="e"></param>
         private void picMax_Click(object sender, EventArgs e)
         {
-            if (!isMax)
-            {
-                this.WindowState = FormWindowState.Maximized;
-                isMax = true;
-            }
-            else
-            {
-                this.WindowState = FormWindowState.Normal;
-                isMax = false;
-            }
-            ResizeWin();
+            //if (!isMax)
+            //{
+            //    this.WindowState = FormWindowState.Maximized;
+            //    isMax = true;
+            //}
+            //else
+            //{
+            //    this.WindowState = FormWindowState.Normal;
+            //    isMax = false;
+            //}
+            //ResizeWin();
         }
 
         /// <summary>
@@ -262,12 +262,12 @@ namespace HotTaoSquare
         /// </summary>
         private void ResizeWin()
         {
-            RECT rect = new RECT();
-            WinApi.GetWindowRect(this.Handle, ref rect);
-            hotPanel1.Size = new Size(rect.Right - rect.Left, rect.Bottom - rect.Top - 30);
-            plTop.Width = rect.Right - rect.Left;
-            plRightTop.Location = new Point(plTop.Width, 0);
-            lbTitle.Width = rect.Right - rect.Left - plRightTop.Width;
+            //RECT rect = new RECT();
+            //WinApi.GetWindowRect(this.Handle, ref rect);
+            //hotPanel1.Size = new Size(rect.Right - rect.Left, rect.Bottom - rect.Top - 30);
+            //plTop.Width = rect.Right - rect.Left;
+            //plRightTop.Location = new Point(plTop.Width, 0);
+            //lbTitle.Width = rect.Right - rect.Left - plRightTop.Width;
         }
 
 
@@ -319,11 +319,15 @@ namespace HotTaoSquare
         /// <param name="e"></param>
         private void CheckTbLoginTime_Tick(object sender, EventArgs e)
         {
-            if (lw == null || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
-            if (!lw.isLogin())
+            new System.Threading.Thread(() =>
             {
-                LoginTaoBao();
-            }
+                if (lw == null || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
+                if (RefreshUrl.Equals("http://www.alimama.com") && !lw.isLogin())
+                {
+                    LoginTaoBao();
+                }
+            })
+            { IsBackground = true }.Start();
         }
 
 
@@ -348,8 +352,6 @@ namespace HotTaoSquare
         {
             loginWindowsHide();
             AddBrowser();
-
-
             MyUserInfo.cookies = cookies;
             MyUserInfo.TaobaoName = lw.GetTaobaoName();
             MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
@@ -358,8 +360,8 @@ namespace HotTaoSquare
             formFields["token"] = MyUserInfo.LoginToken;
             //获取签名
             string signature = SignatureHelper.BuildSign(formFields, ApiConst.SecretKey);
-            string param = string.Format("token={0}&signature={1}&taobaoName={2}", MyUserInfo.LoginToken, signature,MyUserInfo.TaobaoName);
-            loginForm.InitBrowser(ApiConst.Url + "/widePlace/login?" + param);
+            string param = string.Format("token={0}&signature={1}&taobaoName={2}", MyUserInfo.LoginToken, signature, MyUserInfo.TaobaoName);
+            loginForm.InitBrowser(ApiConst.www + "/widePlace/login?" + param);
             new System.Threading.Thread(() =>
             {
                 bindTaobao(MyUserInfo.cookieJson);
@@ -465,14 +467,50 @@ namespace HotTaoSquare
             MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
         }
 
+        int urlIndex = 0;
         /// <summary>
         /// Resets the refesh status.
         /// </summary>
         public void ResetRefeshStatus()
         {
-            RefreshUrl = RefreshStatus ? "http://pub.alimama.com/myunion.htm#!/manage/zone/zone" : "http://pub.alimama.com/myunion.htm#!/manage/site/site";
-            RefreshStatus = !RefreshStatus;
+            new System.Threading.Thread(() =>
+            {
+
+                switch (urlIndex)
+                {
+                    case 0:
+                        urlIndex = 1;
+                        RefreshUrl = "http://www.alimama.com";
+                        break;
+                    case 1:
+                        urlIndex = 2;
+                        RefreshUrl = "https://www.taobao.com/";
+                        break;
+                    case 2:
+                        urlIndex = 0;
+                        RefreshUrl = "https://www.tmall.com/";
+                        break;
+                    default:
+                        urlIndex = 1;
+                        RefreshUrl = "http://www.alimama.com";
+                        break;
+                }
+                try
+                {
+                    MyUserInfo.TaobaoName = lw.GetTaobaoName();
+                    MyUserInfo.cookies = lw.GetCurrentCookies();
+                    MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+
+                RefreshStatus = !RefreshStatus;
+            })
+            { IsBackground = true }.Start();
         }
+
 
         /// <summary>
         /// 确认提示
@@ -528,7 +566,6 @@ namespace HotTaoSquare
 
         private void picForward_Click(object sender, EventArgs e)
         {
-
             loginForm.browser.Forward();
         }
         /// <summary>

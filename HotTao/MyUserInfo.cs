@@ -67,7 +67,7 @@ namespace HotTao
         /// <summary>
         /// 淘宝登录cookie
         /// </summary>
-        public static string TaobaoLoginCookies = "";
+        public static string cookieJson = "";
 
         /// <summary>
         /// 登录登录的淘宝账号
