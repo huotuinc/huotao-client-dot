@@ -279,6 +279,7 @@ namespace HotTaoSquare
 
         public LoginWindow lw;
         private Timer checkTbLoginTime;
+        private bool loginSuccess = false;
         /// <summary>
         /// 登录淘宝
         /// </summary>
@@ -290,6 +291,7 @@ namespace HotTaoSquare
             }
             else
             {
+                loginSuccess = false;
                 TimingRefreshAlimamaPage();
                 if (lw != null)
                 {
@@ -321,8 +323,8 @@ namespace HotTaoSquare
         {
             new System.Threading.Thread(() =>
             {
-                if (lw == null || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
-                if (RefreshUrl.Equals("http://www.alimama.com") && !lw.isLogin())
+                if (lw == null || !loginSuccess || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
+                if (!lw.isLogin())
                 {
                     LoginTaoBao();
                 }
@@ -350,6 +352,7 @@ namespace HotTaoSquare
         /// <param name="jsons">The jsons.</param>
         private void Lw_LoginSuccessHandle(CookieCollection cookies)
         {
+            loginSuccess = true;
             loginWindowsHide();
             AddBrowser();
             MyUserInfo.cookies = cookies;
@@ -459,12 +462,16 @@ namespace HotTaoSquare
         /// <exception cref="System.NotImplementedException"></exception>
         private void TimingRefresh_Tick(object sender, EventArgs e)
         {
-            ResetRefeshStatus();
-            if (lw == null) return;
-            string taobaoname = lw.GetTaobaoName();
-            if (!string.IsNullOrEmpty(taobaoname))
-                lw.GoPage(RefreshUrl);
-            MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
+            new System.Threading.Thread(() =>
+            {
+                ResetRefeshStatus();
+                if (lw == null) return;
+                string taobaoname = lw.GetTaobaoName();
+                if (!string.IsNullOrEmpty(taobaoname))
+                    lw.GoPage(RefreshUrl);
+                MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
+            })
+            { IsBackground = true }.Start();
         }
 
         int urlIndex = 0;
@@ -473,42 +480,36 @@ namespace HotTaoSquare
         /// </summary>
         public void ResetRefeshStatus()
         {
-            new System.Threading.Thread(() =>
+            switch (urlIndex)
             {
-
-                switch (urlIndex)
-                {
-                    case 0:
-                        urlIndex = 1;
-                        RefreshUrl = "http://www.alimama.com";
-                        break;
-                    case 1:
-                        urlIndex = 2;
-                        RefreshUrl = "https://www.taobao.com/";
-                        break;
-                    case 2:
-                        urlIndex = 0;
-                        RefreshUrl = "https://www.tmall.com/";
-                        break;
-                    default:
-                        urlIndex = 1;
-                        RefreshUrl = "http://www.alimama.com";
-                        break;
-                }
-                try
-                {
-                    MyUserInfo.TaobaoName = lw.GetTaobaoName();
-                    MyUserInfo.cookies = lw.GetCurrentCookies();
-                    MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
-                }
-                catch (Exception ex)
-                {
-                    log.Error(ex);
-                }
-
-                RefreshStatus = !RefreshStatus;
-            })
-            { IsBackground = true }.Start();
+                case 0:
+                    urlIndex = 1;
+                    RefreshUrl = "http://www.alimama.com";
+                    break;
+                case 1:
+                    urlIndex = 2;
+                    RefreshUrl = "https://www.taobao.com/";
+                    break;
+                case 2:
+                    urlIndex = 0;
+                    RefreshUrl = "https://www.tmall.com/";
+                    break;
+                default:
+                    urlIndex = 1;
+                    RefreshUrl = "http://www.alimama.com";
+                    break;
+            }
+            try
+            {
+                MyUserInfo.TaobaoName = lw.GetTaobaoName();
+                MyUserInfo.cookies = lw.GetCurrentCookies();
+                MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+            RefreshStatus = !RefreshStatus;
         }
 
 

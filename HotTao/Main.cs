@@ -1227,7 +1227,7 @@ namespace HotTao
                                 {
                                     userid = MyUserInfo.currentUserId,
                                     title = goodsData[0].goodsName,
-                                    startTime = DateTime.Now.AddHours(-1),
+                                    startTime = DateTime.Now,
                                     endTime = DateTime.Now.AddHours(5),
                                     pidsText = pidsText,
                                     goodsText = goodsText,
