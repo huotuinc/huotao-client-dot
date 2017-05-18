@@ -54,7 +54,7 @@ namespace QQLogin
     /// <param name="urls">链接</param>
     /// <param name="isAutoSend">是否自动跟发</param>    
     /// <param name="callback">回调</param>    
-    public delegate void BuildGoodsEventHandler(long msgCode,string msgContent,List<string> urls, bool isAutoSend,Action<MessageCallBackType,int,int> callback);
+    public delegate void BuildGoodsEventHandler(long msgCode, string msgContent, List<string> urls, bool isAutoSend, Action<MessageCallBackType, int, int> callback);
 
     /// <summary>
     /// 批量保存到本地商品库
@@ -73,7 +73,7 @@ namespace QQLogin
         开始转链,
         转链完成,
         开始创建计划,
-        完成        
+        完成
     }
 
 
@@ -105,7 +105,9 @@ namespace QQLogin
         {
             get
             {
-                return client.Store;
+                if (client != null)
+                    return client.Store;
+                return null;
             }
         }
         /// <summary>
@@ -126,7 +128,9 @@ namespace QQLogin
         {
             get
             {
-                return client.Account;
+                if (client != null)
+                    return client.Account;
+                return null;
             }
         }
 

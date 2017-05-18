@@ -164,8 +164,8 @@ namespace QQLogin
                         }
                     case QQNotifyEventType.LoadGroupSuccess:
                         {
-                            GroupLoadSuccessHandler?.Invoke();
                             QQGlobal.QQGroupLoadSuccess = true;
+                            GroupLoadSuccessHandler?.Invoke();                            
                             break;
                         }
                     case QQNotifyEventType.QrcodeInvalid:

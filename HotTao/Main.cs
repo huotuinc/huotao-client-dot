@@ -760,7 +760,7 @@ namespace HotTao
 
         public TBSync.LoginWindow lw;
         private Timer checkTbLoginTime;
-
+        private bool loginSuccess = false;
         /// <summary>
         /// 登录淘宝
         /// </summary>
@@ -772,6 +772,7 @@ namespace HotTao
             }
             else
             {
+                loginSuccess = false;
                 TimingRefreshAlimamaPage();
                 if (lw != null)
                 {
@@ -795,7 +796,7 @@ namespace HotTao
         {
             new System.Threading.Thread(() =>
             {
-                if (lw == null || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
+                if (lw == null|| !loginSuccess || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
                 if (!lw.isLogin())
                 {
                     LoginTaoBao();
@@ -821,6 +822,7 @@ namespace HotTao
         /// <param name="jsons">The jsons.</param>
         private void Lw_LoginSuccessHandle(CookieCollection cookies)
         {
+            loginSuccess = true;
             MyUserInfo.cookies = cookies;
             MyUserInfo.TaobaoName = lw.GetTaobaoName();
             var c = lw.GetCookie("ctoken");

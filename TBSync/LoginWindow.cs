@@ -319,7 +319,7 @@ namespace TBSync
         public bool isLogin()
         {
             //            
-            if (loginSuccessTime.AddMinutes(1).CompareTo(DateTime.Now) < 0)
+            if (loginSuccessTime.AddMinutes(30).CompareTo(DateTime.Now) < 0)
             {
                 return false;
             }
