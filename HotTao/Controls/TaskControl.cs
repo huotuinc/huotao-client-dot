@@ -56,12 +56,12 @@ namespace HotTao.Controls
                 loadUserPidGridView();
                 LoadTaskPlanGridView();
 
-                if (autoRefreshTask == null)
-                    autoRefreshTask = new System.Windows.Forms.Timer();
+                //if (autoRefreshTask == null)
+                //    autoRefreshTask = new System.Windows.Forms.Timer();
 
-                autoRefreshTask.Interval = 1000 * 60;
-                autoRefreshTask.Tick += AutoRefreshTask_Tick;
-                autoRefreshTask.Start();
+                //autoRefreshTask.Interval = 1000 * 60;
+                //autoRefreshTask.Tick += AutoRefreshTask_Tick;
+                //autoRefreshTask.Start();
 
             }
             else
