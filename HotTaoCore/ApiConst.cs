@@ -27,7 +27,7 @@ namespace HotTaoCore
         /// <summary>
         /// 接口地址
         /// </summary>
-        public const string Url = "http://112.74.23.122:8080";//112.74.23.122  //192.168.1.68
+        public const string Url = "http://www.51huotao.com";//112.74.23.122  //192.168.1.68
 
         /// <summary>
         /// www
