@@ -107,6 +107,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CDkey.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CDkey.designer.cs">
+      <DependentUpon>CDkey.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConstConfig.cs" />
     <Compile Include="ImagePreview.cs">
       <SubType>Form</SubType>
@@ -196,6 +202,9 @@
     <Compile Include="wxLogin.Designer.cs">
       <DependentUpon>wxLogin.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CDkey.resx">
+      <DependentUpon>CDkey.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ImagePreview.resx">
       <DependentUpon>ImagePreview.cs</DependentUpon>
     </EmbeddedResource>

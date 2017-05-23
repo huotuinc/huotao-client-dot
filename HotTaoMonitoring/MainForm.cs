@@ -132,6 +132,15 @@ namespace HotTaoMonitoring
             WinApi.SetWinFormTaskbarSystemMenu(this);
             windowFormControls = new Dictionary<UserControlsOpts, UserControl>();
             openControl(UserControlsOpts.listen);
+
+            AlertConfirm("当前账号还未激活，是否马上激活?", "激活提示", (result) =>
+            {
+                if (result)
+                    ShowCDKeyForm();
+                else
+                    CloseMain();
+            });
+
         }
 
         /// <summary>
@@ -259,6 +268,28 @@ namespace HotTaoMonitoring
                 alert.Show();
             }
         }
+
+        public void AlertConfirm(string text, string title, Action<bool> callback)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string, string, Action<bool>>(AlertConfirm), new object[] { text, title, callback });
+            }
+            else
+            {
+                bool isOk = false;
+                MessageConfirm alert = new MessageConfirm(text, title);
+                alert.StartPosition = FormStartPosition.CenterScreen;
+                alert.CallBack += () =>
+                {
+                    isOk = true;
+                };
+                alert.ShowDialog();
+                callback?.Invoke(isOk);
+            }
+        }
+
+
 
 
         public wxLogin wxlogin { get; set; }
@@ -607,5 +638,37 @@ namespace HotTaoMonitoring
                 return cp;
             }
         }
+
+
+        public void CloseMain()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(CloseMain), new object[] { });
+            }
+            else
+            {
+                this.Close();
+            }
+        }
+
+        /// <summary>
+        /// 显示激活窗口
+        /// </summary>
+        public void ShowCDKeyForm()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(ShowCDKeyForm));
+            }
+            else
+            {
+                CDkey cdkey = new CDkey(this);
+                cdkey.StartPosition = FormStartPosition.CenterScreen;
+                cdkey.ShowDialog(this);
+            }
+        }
+
+
     }
 }

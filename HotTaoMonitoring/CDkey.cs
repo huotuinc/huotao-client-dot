@@ -1,4 +1,4 @@
-﻿using HotTao.Controls;
+﻿
 using HotTaoCore.Logic;
 using System;
 using System.Collections.Generic;
@@ -10,16 +10,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace HotTao
+namespace HotTaoMonitoring
 {
     public partial class CDkey : Form
     {
 
-        private Main hotForm { get; set; }
+        private MainForm hotForm { get; set; }
 
         private bool isActive { get; set; }
 
-        public CDkey(Main form)
+        public CDkey(MainForm form)
         {
             InitializeComponent();
             hotForm = form;
@@ -30,7 +30,7 @@ namespace HotTao
         {
             this.Close();
             if (isActive)
-                hotForm.CloseMain();
+                hotForm.Close();
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -41,7 +41,7 @@ namespace HotTao
                 return;
             }
             //获取
-            if (LogicUser.Instance.activeAccount(MyUserInfo.LoginToken, txtCode.Text, 0))
+            if (LogicUser.Instance.activeAccount(MyUserInfo.LoginToken, txtCode.Text, 1))
             {
                 isActive = true;
                 AlertTip("恭喜你！激活成功！请重新登录!");

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HotTaoCore.Enums;
 
 namespace HotTaoCore.Logic
 {
@@ -96,12 +97,14 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="token">The token.</param>
         /// <param name="code">The code.</param>
+        /// <param name="productType">0发单软件 1客服软件</param>
         /// <returns>true if XXXX, false otherwise.</returns>
-        public bool activeAccount(string token, string code)
+        public bool activeAccount(string token, string code, int productType)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = token;
             data["code"] = code;
+            data["productType"] = productType.ToString();
             return BaseRequestService.Post(ApiConst.activeAccount, data);
         }
 
@@ -126,7 +129,7 @@ namespace HotTaoCore.Logic
             {
                 CheckTokenErrorCount++;
                 //if (CheckTokenErrorCount <= 3)
-                    result = true;
+                result = true;
             }
             return result;
         }

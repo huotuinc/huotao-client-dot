@@ -35,6 +35,12 @@ namespace HotTaoCore.Models
         public bool softwarePermit { get; set; }
 
         /// <summary>
+        /// 是否允许使用客服系统
+        /// </summary>
+        public bool customerServicePermit { get; set; }
+
+
+        /// <summary>
         ///营销描述；通常由软件呈现给用户
         /// </summary>
         /// <value>The software text.</value>

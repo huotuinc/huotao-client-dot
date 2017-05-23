@@ -130,6 +130,7 @@
     <Compile Include="DAL\HotTaoDAL.cs" />
     <Compile Include="DAL\SyncGoodsDAL.cs" />
     <Compile Include="Enums\LogTypeOpts.cs" />
+    <Compile Include="Enums\ProductTypeOpts.cs" />
     <Compile Include="ExcelHelper.cs" />
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="HotTaoApiService.cs" />
