@@ -51,5 +51,15 @@ namespace HotTaoCore.Models
         /// </summary>
         /// <value>The user identity.</value>
         public int userIdentity { get; set; }
+
+
+        /// <summary>
+        /// 等级
+        /// </summary>
+        public int level { get; set; }
+        /// <summary>
+        /// 等级名称
+        /// </summary>
+        public string levelName { get; set; }
     }
 }

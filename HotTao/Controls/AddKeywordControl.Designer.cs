@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddKeywordControl));
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.ckbAutoGoods = new System.Windows.Forms.RadioButton();
             this.ckbAutoText = new System.Windows.Forms.RadioButton();
@@ -235,6 +236,7 @@
             this.ClientSize = new System.Drawing.Size(520, 274);
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddKeywordControl";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

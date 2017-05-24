@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageConfirm));
             this.hotPanel1 = new HotTaoMonitoring.module.HotPanel(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
@@ -143,6 +144,7 @@
             this.ClientSize = new System.Drawing.Size(284, 150);
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "MessageConfirm";
             this.ShowIcon = false;

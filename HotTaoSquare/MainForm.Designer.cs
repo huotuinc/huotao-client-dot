@@ -32,11 +32,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.plTop = new System.Windows.Forms.Panel();
             this.plRightTop = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.picForward = new System.Windows.Forms.PictureBox();
             this.picMin = new System.Windows.Forms.PictureBox();
             this.picClose = new System.Windows.Forms.PictureBox();
             this.picRefresh = new System.Windows.Forms.PictureBox();
-            this.picHome = new System.Windows.Forms.PictureBox();
             this.picBack = new System.Windows.Forms.PictureBox();
             this.lbTitle = new System.Windows.Forms.Label();
             this.hotPanel1 = new HotTaoSquare.module.HotPanel(this.components);
@@ -46,7 +46,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.picMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picRefresh)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picHome)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBack)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,16 +65,27 @@
             // 
             // plRightTop
             // 
+            this.plRightTop.Controls.Add(this.label1);
             this.plRightTop.Controls.Add(this.picForward);
             this.plRightTop.Controls.Add(this.picMin);
             this.plRightTop.Controls.Add(this.picClose);
             this.plRightTop.Controls.Add(this.picRefresh);
-            this.plRightTop.Controls.Add(this.picHome);
             this.plRightTop.Controls.Add(this.picBack);
             this.plRightTop.Location = new System.Drawing.Point(1049, 0);
             this.plRightTop.Name = "plRightTop";
             this.plRightTop.Size = new System.Drawing.Size(200, 28);
             this.plRightTop.TabIndex = 121;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label1.Location = new System.Drawing.Point(34, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(29, 12);
+            this.label1.TabIndex = 119;
+            this.label1.Text = "首页";
+            this.label1.Click += new System.EventHandler(this.picHome_Click);
             // 
             // picForward
             // 
@@ -128,19 +138,6 @@
             this.picRefresh.TabIndex = 118;
             this.picRefresh.TabStop = false;
             this.picRefresh.Click += new System.EventHandler(this.picRefresh_Click);
-            // 
-            // picHome
-            // 
-            this.picHome.BackColor = System.Drawing.Color.Transparent;
-            this.picHome.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picHome.Image = global::HotTaoSquare.Properties.Resources.sy13x13;
-            this.picHome.Location = new System.Drawing.Point(48, 4);
-            this.picHome.Name = "picHome";
-            this.picHome.Size = new System.Drawing.Size(20, 20);
-            this.picHome.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picHome.TabIndex = 118;
-            this.picHome.TabStop = false;
-            this.picHome.Click += new System.EventHandler(this.picHome_Click);
             // 
             // picBack
             // 
@@ -197,11 +194,11 @@
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.plTop.ResumeLayout(false);
             this.plRightTop.ResumeLayout(false);
+            this.plRightTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picForward)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picRefresh)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picHome)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBack)).EndInit();
             this.ResumeLayout(false);
 
@@ -213,11 +210,11 @@
         private System.Windows.Forms.PictureBox picClose;
         private System.Windows.Forms.Panel plTop;
         private System.Windows.Forms.Label lbTitle;
-        private System.Windows.Forms.PictureBox picHome;
         private System.Windows.Forms.PictureBox picBack;
         private System.Windows.Forms.PictureBox picForward;
         private System.Windows.Forms.PictureBox picRefresh;
         private System.Windows.Forms.Panel plRightTop;
         private System.Windows.Forms.PictureBox picMin;
+        private System.Windows.Forms.Label label1;
     }
 }

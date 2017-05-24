@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.hotPanel1 = new HotTaoSquare.module.HotPanel(this.components);
+            this.lkbRegister = new System.Windows.Forms.LinkLabel();
             this.lbTipMsg = new System.Windows.Forms.Label();
             this.ckbSavePwd = new System.Windows.Forms.CheckBox();
             this.picClose = new System.Windows.Forms.PictureBox();
@@ -42,7 +43,6 @@
             this.lbLoginMobile = new System.Windows.Forms.Label();
             this.txtLoginMobile = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.lkbRegister = new System.Windows.Forms.LinkLabel();
             this.hotPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).BeginInit();
             this.hotGroupBox2.SuspendLayout();
@@ -69,6 +69,17 @@
             this.hotPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
             this.hotPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
             this.hotPanel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
+            // 
+            // lkbRegister
+            // 
+            this.lkbRegister.AutoSize = true;
+            this.lkbRegister.Location = new System.Drawing.Point(238, 304);
+            this.lkbRegister.Name = "lkbRegister";
+            this.lkbRegister.Size = new System.Drawing.Size(29, 12);
+            this.lkbRegister.TabIndex = 120;
+            this.lkbRegister.TabStop = true;
+            this.lkbRegister.Text = "注册";
+            this.lkbRegister.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lkbRegister_LinkClicked);
             // 
             // lbTipMsg
             // 
@@ -207,17 +218,6 @@
             this.label2.Size = new System.Drawing.Size(58, 24);
             this.label2.TabIndex = 112;
             this.label2.Text = "登录";
-            // 
-            // lkbRegister
-            // 
-            this.lkbRegister.AutoSize = true;
-            this.lkbRegister.Location = new System.Drawing.Point(238, 304);
-            this.lkbRegister.Name = "lkbRegister";
-            this.lkbRegister.Size = new System.Drawing.Size(29, 12);
-            this.lkbRegister.TabIndex = 120;
-            this.lkbRegister.TabStop = true;
-            this.lkbRegister.Text = "注册";
-            this.lkbRegister.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lkbRegister_LinkClicked);
             // 
             // Login
             // 

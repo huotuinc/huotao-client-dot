@@ -29,43 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.txtCode = new System.Windows.Forms.RichTextBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CDkey));
             this.label1 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.lbTitle = new System.Windows.Forms.Label();
             this.pbClose = new System.Windows.Forms.PictureBox();
             this.lbsoftwareText = new System.Windows.Forms.Label();
             this.btnOk = new System.Windows.Forms.Button();
-            this.hotGroupBox2.SuspendLayout();
+            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.txtCode = new System.Windows.Forms.RichTextBox();
             this.panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
+            this.hotGroupBox2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // hotGroupBox2
-            // 
-            this.hotGroupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
-            this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
-            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox2.Controls.Add(this.txtCode);
-            this.hotGroupBox2.Location = new System.Drawing.Point(21, 59);
-            this.hotGroupBox2.Name = "hotGroupBox2";
-            this.hotGroupBox2.Size = new System.Drawing.Size(351, 40);
-            this.hotGroupBox2.TabIndex = 40;
-            this.hotGroupBox2.TabStop = false;
-            // 
-            // txtCode
-            // 
-            this.txtCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
-            this.txtCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtCode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            this.txtCode.Location = new System.Drawing.Point(3, 17);
-            this.txtCode.Name = "txtCode";
-            this.txtCode.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.txtCode.Size = new System.Drawing.Size(345, 20);
-            this.txtCode.TabIndex = 26;
-            this.txtCode.Text = "";
             // 
             // label1
             // 
@@ -135,6 +111,31 @@
             this.btnOk.UseVisualStyleBackColor = false;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
+            // hotGroupBox2
+            // 
+            this.hotGroupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
+            this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox2.Controls.Add(this.txtCode);
+            this.hotGroupBox2.Location = new System.Drawing.Point(21, 59);
+            this.hotGroupBox2.Name = "hotGroupBox2";
+            this.hotGroupBox2.Size = new System.Drawing.Size(351, 40);
+            this.hotGroupBox2.TabIndex = 40;
+            this.hotGroupBox2.TabStop = false;
+            // 
+            // txtCode
+            // 
+            this.txtCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
+            this.txtCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtCode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtCode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            this.txtCode.Location = new System.Drawing.Point(3, 17);
+            this.txtCode.Name = "txtCode";
+            this.txtCode.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txtCode.Size = new System.Drawing.Size(345, 20);
+            this.txtCode.TabIndex = 26;
+            this.txtCode.Text = "";
+            // 
             // CDkey
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -147,13 +148,15 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.hotGroupBox2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CDkey";
+            this.ShowInTaskbar = false;
             this.Text = "CDkey";
             this.Load += new System.EventHandler(this.CDkey_Load);
-            this.hotGroupBox2.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
+            this.hotGroupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

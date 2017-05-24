@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CDkey));
             this.hotGroupBox2 = new HotTaoMonitoring.module.HotGroupBox(this.components);
             this.txtCode = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -147,7 +148,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.hotGroupBox2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CDkey";
+            this.ShowInTaskbar = false;
             this.Text = "CDkey";
             this.Load += new System.EventHandler(this.CDkey_Load);
             this.hotGroupBox2.ResumeLayout(false);

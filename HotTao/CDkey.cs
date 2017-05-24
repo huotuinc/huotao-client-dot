@@ -63,7 +63,7 @@ namespace HotTao
             {
                 MessageAlert alert = new MessageAlert(text, "提示");
                 alert.StartPosition = FormStartPosition.CenterScreen;
-                alert.Show(this);
+                alert.ShowDialog(this);
             }
         }
 

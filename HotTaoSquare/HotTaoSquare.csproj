@@ -146,6 +146,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WinApi.cs" />
+    <EmbeddedResource Include="FormEx.resx">
+      <DependentUpon>FormEx.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Loading.resx">
       <DependentUpon>Loading.cs</DependentUpon>
     </EmbeddedResource>

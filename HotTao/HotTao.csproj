@@ -73,7 +73,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\lg.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\hot_128.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <Win32Resource>
@@ -205,6 +205,12 @@
     </Compile>
     <Compile Include="Controls\GoodsCollect.Designer.cs">
       <DependentUpon>GoodsCollect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GoodsCollectBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\GoodsCollectBrowser.Designer.cs">
+      <DependentUpon>GoodsCollectBrowser.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\GoodsControl.cs">
       <SubType>UserControl</SubType>
@@ -395,12 +401,6 @@
     <Compile Include="StartTask.Designer.cs">
       <DependentUpon>StartTask.cs</DependentUpon>
     </Compile>
-    <Compile Include="tbLogin.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="tbLogin.Designer.cs">
-      <DependentUpon>tbLogin.cs</DependentUpon>
-    </Compile>
     <Compile Include="WinApi.cs" />
     <Compile Include="wxContacts.cs">
       <SubType>Form</SubType>
@@ -437,6 +437,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\GoodsCollect.resx">
       <DependentUpon>GoodsCollect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GoodsCollectBrowser.resx">
+      <DependentUpon>GoodsCollectBrowser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\GoodsControl.resx">
       <DependentUpon>GoodsControl.cs</DependentUpon>
@@ -510,6 +513,9 @@
     <EmbeddedResource Include="Controls\VerifyCoupon.resx">
       <DependentUpon>VerifyCoupon.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormEx.resx">
+      <DependentUpon>FormEx.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ImportGoods.resx">
       <DependentUpon>ImportGoods.cs</DependentUpon>
     </EmbeddedResource>
@@ -531,9 +537,6 @@
     </Compile>
     <EmbeddedResource Include="StartTask.resx">
       <DependentUpon>StartTask.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="tbLogin.resx">
-      <DependentUpon>tbLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="wxContacts.resx">
       <DependentUpon>wxContacts.cs</DependentUpon>
@@ -568,6 +571,7 @@
     <EmbeddedResource Include="Resources\home.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\hot_128.ico" />
     <Content Include="Resources\QQ.png" />
     <Content Include="Resources\qq50x50.png" />
     <None Include="Resources\sy13x13.png" />

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GoodsCollect));
             this.panel7 = new System.Windows.Forms.Panel();
             this.plRightTop = new System.Windows.Forms.Panel();
             this.picHome = new System.Windows.Forms.PictureBox();
@@ -359,6 +360,7 @@
             this.Controls.Add(this.hotGroupBox4);
             this.Controls.Add(this.hotGroupBox3);
             this.Controls.Add(this.panel7);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "GoodsCollect";
             this.ShowIcon = false;
