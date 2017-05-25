@@ -29,52 +29,42 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.panelBrowser = new System.Windows.Forms.Panel();
+            this.txtAddress = new System.Windows.Forms.TextBox();
             this.picHome = new System.Windows.Forms.PictureBox();
             this.picClose = new System.Windows.Forms.PictureBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.txtGoodsUrl = new System.Windows.Forms.TextBox();
-            this.btnOpenUrl = new System.Windows.Forms.Button();
             this.btnAddGoods = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.picHome)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).BeginInit();
-            this.panel2.SuspendLayout();
-            this.hotGroupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.hotPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // panelBrowser
             // 
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.btnOpenUrl);
-            this.panel1.Controls.Add(this.hotGroupBox2);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.groupBox1);
-            this.panel1.Location = new System.Drawing.Point(0, 31);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1250, 632);
-            this.panel1.TabIndex = 0;
+            this.panelBrowser.BackColor = System.Drawing.Color.White;
+            this.panelBrowser.Location = new System.Drawing.Point(1, 39);
+            this.panelBrowser.Name = "panelBrowser";
+            this.panelBrowser.Size = new System.Drawing.Size(1248, 624);
+            this.panelBrowser.TabIndex = 0;
             // 
-            // label1
+            // txtAddress
             // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(5, 3);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 23);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "标题";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.txtAddress.BackColor = System.Drawing.Color.White;
+            this.txtAddress.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtAddress.Location = new System.Drawing.Point(5, 5);
+            this.txtAddress.Name = "txtAddress";
+            this.txtAddress.Size = new System.Drawing.Size(1103, 14);
+            this.txtAddress.TabIndex = 0;
             // 
             // picHome
             // 
-            this.picHome.BackColor = System.Drawing.Color.Transparent;
+            this.picHome.BackColor = System.Drawing.SystemColors.Control;
             this.picHome.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picHome.Image = global::HotTao.Properties.Resources.sy13x13;
-            this.picHome.Location = new System.Drawing.Point(23, 5);
+            this.picHome.Image = global::HotTao.Properties.Resources.icon_home;
+            this.picHome.Location = new System.Drawing.Point(8, 10);
             this.picHome.Name = "picHome";
             this.picHome.Size = new System.Drawing.Size(20, 20);
             this.picHome.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -83,71 +73,16 @@
             // 
             // picClose
             // 
-            this.picClose.BackColor = System.Drawing.Color.Transparent;
+            this.picClose.BackColor = System.Drawing.SystemColors.Control;
             this.picClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picClose.Image = global::HotTao.Properties.Resources.icon_close1;
-            this.picClose.Location = new System.Drawing.Point(52, 4);
+            this.picClose.Location = new System.Drawing.Point(1224, 8);
             this.picClose.Name = "picClose";
             this.picClose.Size = new System.Drawing.Size(20, 20);
             this.picClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picClose.TabIndex = 118;
             this.picClose.TabStop = false;
             this.picClose.Click += new System.EventHandler(this.picClose_Click);
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.picClose);
-            this.panel2.Controls.Add(this.picHome);
-            this.panel2.Location = new System.Drawing.Point(1169, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(81, 30);
-            this.panel2.TabIndex = 119;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Location = new System.Drawing.Point(2, 43);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1246, 592);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            // 
-            // hotGroupBox2
-            // 
-            this.hotGroupBox2.BackColor = System.Drawing.Color.White;
-            this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
-            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox2.Controls.Add(this.txtGoodsUrl);
-            this.hotGroupBox2.Location = new System.Drawing.Point(70, 4);
-            this.hotGroupBox2.Name = "hotGroupBox2";
-            this.hotGroupBox2.Size = new System.Drawing.Size(1106, 33);
-            this.hotGroupBox2.TabIndex = 2;
-            this.hotGroupBox2.TabStop = false;
-            // 
-            // txtGoodsUrl
-            // 
-            this.txtGoodsUrl.BackColor = System.Drawing.Color.White;
-            this.txtGoodsUrl.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtGoodsUrl.Location = new System.Drawing.Point(6, 13);
-            this.txtGoodsUrl.Name = "txtGoodsUrl";
-            this.txtGoodsUrl.Size = new System.Drawing.Size(1094, 14);
-            this.txtGoodsUrl.TabIndex = 0;
-            // 
-            // btnOpenUrl
-            // 
-            this.btnOpenUrl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnOpenUrl.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnOpenUrl.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnOpenUrl.FlatAppearance.BorderSize = 0;
-            this.btnOpenUrl.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnOpenUrl.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
-            this.btnOpenUrl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOpenUrl.ForeColor = System.Drawing.Color.White;
-            this.btnOpenUrl.Location = new System.Drawing.Point(1182, 10);
-            this.btnOpenUrl.Name = "btnOpenUrl";
-            this.btnOpenUrl.Size = new System.Drawing.Size(56, 27);
-            this.btnOpenUrl.TabIndex = 57;
-            this.btnOpenUrl.Text = "查看";
-            this.btnOpenUrl.UseVisualStyleBackColor = false;
             // 
             // btnAddGoods
             // 
@@ -166,50 +101,63 @@
             this.btnAddGoods.Text = "保存";
             this.btnAddGoods.UseVisualStyleBackColor = false;
             // 
-            // label2
+            // pictureBox1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 17);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "商品链接";
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox1.Image = global::HotTao.Properties.Resources.icon_home;
+            this.pictureBox1.Location = new System.Drawing.Point(34, 10);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 118;
+            this.pictureBox1.TabStop = false;
+            // 
+            // hotPanel1
+            // 
+            this.hotPanel1.BackColor = System.Drawing.Color.White;
+            this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Controls.Add(this.txtAddress);
+            this.hotPanel1.Location = new System.Drawing.Point(60, 7);
+            this.hotPanel1.Name = "hotPanel1";
+            this.hotPanel1.Size = new System.Drawing.Size(1111, 25);
+            this.hotPanel1.TabIndex = 58;
             // 
             // GoodsCollectBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(1250, 722);
+            this.Controls.Add(this.picClose);
+            this.Controls.Add(this.hotPanel1);
+            this.Controls.Add(this.picHome);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnAddGoods);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panelBrowser);
+            this.KeyPreview = true;
             this.Name = "GoodsCollectBrowser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GoodsCollectBrowser";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.Load += new System.EventHandler(this.GoodsCollectBrowser_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GoodsCollectBrowser_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.picHome)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).EndInit();
-            this.panel2.ResumeLayout(false);
-            this.hotGroupBox2.ResumeLayout(false);
-            this.hotGroupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.hotPanel1.ResumeLayout(false);
+            this.hotPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panelBrowser;
         private System.Windows.Forms.PictureBox picHome;
         private System.Windows.Forms.PictureBox picClose;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private module.HotGroupBox hotGroupBox2;
-        private System.Windows.Forms.TextBox txtGoodsUrl;
-        private System.Windows.Forms.Button btnOpenUrl;
+        private System.Windows.Forms.TextBox txtAddress;
         private System.Windows.Forms.Button btnAddGoods;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private module.HotPanel hotPanel1;
     }
 }

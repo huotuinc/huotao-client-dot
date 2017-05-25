@@ -100,10 +100,7 @@ namespace HotTao.Controls
                 hotPanel2.Controls.Add(data);
                 hotPanel2.Refresh();
             }
-        }
-
-
-
+        }        
         private Loading ld = new Loading();
         /// <summary>
         /// 提交选择的商品json数据字符串

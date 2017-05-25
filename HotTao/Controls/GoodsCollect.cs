@@ -83,6 +83,9 @@ namespace HotTao.Controls
         private void GoodsCollect_Load(object sender, EventArgs e)
         {
             InitBrowser("");
+            //GoodsCollectBrowser collect = new GoodsCollectBrowser();
+            //collect.StartPosition = FormStartPosition.CenterScreen;
+            //collect.Show();
         }
 
         private ChromiumWebBrowser browser { get; set; }
