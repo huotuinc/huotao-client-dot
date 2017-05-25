@@ -30,7 +30,7 @@ namespace HotTaoMonitoring
         {
             this.Close();
             if (isActive)
-                hotForm.Close();
+                hotForm.ApplicationClose();
         }
 
         private void btnOk_Click(object sender, EventArgs e)

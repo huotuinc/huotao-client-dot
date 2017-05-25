@@ -578,5 +578,18 @@ namespace HotTaoSquare
         {
             this.WindowState = FormWindowState.Minimized;
         }
+
+
+        /// <summary>
+        /// 文案设置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lbSetting_Click(object sender, EventArgs e)
+        {
+            TemplateConfig tcfg = new TemplateConfig();
+            tcfg.StartPosition = FormStartPosition.CenterParent;
+            tcfg.ShowDialog(this);
+        }
     }
 }

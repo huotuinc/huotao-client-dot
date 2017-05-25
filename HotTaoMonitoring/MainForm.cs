@@ -133,14 +133,16 @@ namespace HotTaoMonitoring
             windowFormControls = new Dictionary<UserControlsOpts, UserControl>();
             openControl(UserControlsOpts.listen);
 
-            AlertConfirm("当前账号还未激活，是否马上激活?", "激活提示", (result) =>
+            if (!MyUserInfo.userData.customerServicePermit)
             {
-                if (result)
-                    ShowCDKeyForm();
-                else
-                    CloseMain();
-            });
-
+                AlertConfirm("当前账号还未激活，是否马上激活?", "激活提示", (result) =>
+                {
+                    if (result)
+                        ShowCDKeyForm();
+                    else
+                        CloseMain();
+                });
+            }
         }
 
         /// <summary>
@@ -243,7 +245,7 @@ namespace HotTaoMonitoring
 
         private void SetSetBg()
         {
-            ClearTabNavSelectedBackgroundImage();            
+            ClearTabNavSelectedBackgroundImage();
 
             lbSet.BackgroundImage = Properties.Resources.icon_bg;
             lbSet.BackColor = Color.Transparent;
@@ -318,7 +320,7 @@ namespace HotTaoMonitoring
                 windowFormControls = new Dictionary<UserControlsOpts, UserControl>();
             else
                 windowFormControls.Remove(UserControlsOpts.listen);
-                        
+
             SetSetBg();
             openControl(UserControlsOpts.filter);
         }

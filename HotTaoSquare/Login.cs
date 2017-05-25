@@ -419,12 +419,34 @@ namespace HotTaoSquare
             return MyUserInfo.cookieJson;
         }
 
+        /// <summary>
+        /// 获取文案模板
+        /// </summary>
+        /// <returns></returns>
+        public string getTempateText()
+        {
+            return MyUserInfo.sendtemplate;
+        }
+
+        /// <summary>
+        /// 跳出浏览
+        /// </summary>
+        /// <param name="url"></param>
+        public void openBlankUrl(string url)
+        {
+            Process.Start(url);
+        }
 
         #endregion
 
+        /// <summary>
+        /// 跳转至官网进行注册
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lkbRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(ApiConst.www);
+            openBlankUrl(ApiConst.www);
         }
     }
     /// <summary>

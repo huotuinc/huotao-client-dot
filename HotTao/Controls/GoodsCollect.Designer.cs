@@ -92,8 +92,8 @@
             // 
             this.picHome.BackColor = System.Drawing.Color.Transparent;
             this.picHome.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picHome.Image = global::HotTao.Properties.Resources.sy13x13;
-            this.picHome.Location = new System.Drawing.Point(9, 6);
+            this.picHome.Image = global::HotTao.Properties.Resources.icon_home;
+            this.picHome.Location = new System.Drawing.Point(15, 6);
             this.picHome.Name = "picHome";
             this.picHome.Size = new System.Drawing.Size(20, 20);
             this.picHome.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;

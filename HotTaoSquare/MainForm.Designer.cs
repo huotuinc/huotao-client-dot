@@ -32,18 +32,21 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.plTop = new System.Windows.Forms.Panel();
             this.plRightTop = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbTitle = new System.Windows.Forms.Label();
+            this.hotPanel1 = new HotTaoSquare.module.HotPanel(this.components);
             this.picForward = new System.Windows.Forms.PictureBox();
             this.picMin = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.picClose = new System.Windows.Forms.PictureBox();
             this.picRefresh = new System.Windows.Forms.PictureBox();
             this.picBack = new System.Windows.Forms.PictureBox();
-            this.lbTitle = new System.Windows.Forms.Label();
-            this.hotPanel1 = new HotTaoSquare.module.HotPanel(this.components);
             this.plTop.SuspendLayout();
             this.plRightTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picForward)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picRefresh)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBack)).BeginInit();
@@ -65,92 +68,17 @@
             // 
             // plRightTop
             // 
-            this.plRightTop.Controls.Add(this.label1);
             this.plRightTop.Controls.Add(this.picForward);
             this.plRightTop.Controls.Add(this.picMin);
+            this.plRightTop.Controls.Add(this.pictureBox2);
+            this.plRightTop.Controls.Add(this.pictureBox1);
             this.plRightTop.Controls.Add(this.picClose);
             this.plRightTop.Controls.Add(this.picRefresh);
             this.plRightTop.Controls.Add(this.picBack);
-            this.plRightTop.Location = new System.Drawing.Point(1049, 0);
+            this.plRightTop.Location = new System.Drawing.Point(1015, 0);
             this.plRightTop.Name = "plRightTop";
-            this.plRightTop.Size = new System.Drawing.Size(200, 28);
+            this.plRightTop.Size = new System.Drawing.Size(234, 28);
             this.plRightTop.TabIndex = 121;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label1.Location = new System.Drawing.Point(34, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 12);
-            this.label1.TabIndex = 119;
-            this.label1.Text = "首页";
-            this.label1.Click += new System.EventHandler(this.picHome_Click);
-            // 
-            // picForward
-            // 
-            this.picForward.BackColor = System.Drawing.Color.Transparent;
-            this.picForward.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picForward.Image = global::HotTaoSquare.Properties.Resources.qj13x13;
-            this.picForward.Location = new System.Drawing.Point(98, 4);
-            this.picForward.Name = "picForward";
-            this.picForward.Size = new System.Drawing.Size(20, 20);
-            this.picForward.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picForward.TabIndex = 118;
-            this.picForward.TabStop = false;
-            this.picForward.Click += new System.EventHandler(this.picForward_Click);
-            // 
-            // picMin
-            // 
-            this.picMin.BackColor = System.Drawing.Color.Transparent;
-            this.picMin.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picMin.Image = global::HotTaoSquare.Properties.Resources.icon_min;
-            this.picMin.Location = new System.Drawing.Point(149, 4);
-            this.picMin.Name = "picMin";
-            this.picMin.Size = new System.Drawing.Size(20, 20);
-            this.picMin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picMin.TabIndex = 118;
-            this.picMin.TabStop = false;
-            this.picMin.Click += new System.EventHandler(this.plMin_Click);
-            // 
-            // picClose
-            // 
-            this.picClose.BackColor = System.Drawing.Color.Transparent;
-            this.picClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picClose.Image = global::HotTaoSquare.Properties.Resources.icon_close1;
-            this.picClose.Location = new System.Drawing.Point(174, 4);
-            this.picClose.Name = "picClose";
-            this.picClose.Size = new System.Drawing.Size(20, 20);
-            this.picClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picClose.TabIndex = 118;
-            this.picClose.TabStop = false;
-            this.picClose.Click += new System.EventHandler(this.picClose_Click);
-            // 
-            // picRefresh
-            // 
-            this.picRefresh.BackColor = System.Drawing.Color.Transparent;
-            this.picRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picRefresh.Image = global::HotTaoSquare.Properties.Resources.sx13x13;
-            this.picRefresh.Location = new System.Drawing.Point(123, 4);
-            this.picRefresh.Name = "picRefresh";
-            this.picRefresh.Size = new System.Drawing.Size(20, 20);
-            this.picRefresh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picRefresh.TabIndex = 118;
-            this.picRefresh.TabStop = false;
-            this.picRefresh.Click += new System.EventHandler(this.picRefresh_Click);
-            // 
-            // picBack
-            // 
-            this.picBack.BackColor = System.Drawing.Color.Transparent;
-            this.picBack.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picBack.Image = global::HotTaoSquare.Properties.Resources.ht13x13;
-            this.picBack.Location = new System.Drawing.Point(73, 4);
-            this.picBack.Name = "picBack";
-            this.picBack.Size = new System.Drawing.Size(20, 20);
-            this.picBack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picBack.TabIndex = 118;
-            this.picBack.TabStop = false;
-            this.picBack.Click += new System.EventHandler(this.picBack_Click);
             // 
             // lbTitle
             // 
@@ -159,7 +87,7 @@
             this.lbTitle.ForeColor = System.Drawing.Color.Black;
             this.lbTitle.Location = new System.Drawing.Point(4, 0);
             this.lbTitle.Name = "lbTitle";
-            this.lbTitle.Size = new System.Drawing.Size(965, 30);
+            this.lbTitle.Size = new System.Drawing.Size(868, 30);
             this.lbTitle.TabIndex = 0;
             this.lbTitle.Text = "淘广场";
             this.lbTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -180,6 +108,97 @@
             this.hotPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
             this.hotPanel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
             // 
+            // picForward
+            // 
+            this.picForward.BackColor = System.Drawing.Color.Transparent;
+            this.picForward.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picForward.Image = global::HotTaoSquare.Properties.Resources.qj13x13;
+            this.picForward.Location = new System.Drawing.Point(127, 4);
+            this.picForward.Name = "picForward";
+            this.picForward.Size = new System.Drawing.Size(20, 20);
+            this.picForward.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picForward.TabIndex = 118;
+            this.picForward.TabStop = false;
+            this.picForward.Click += new System.EventHandler(this.picForward_Click);
+            // 
+            // picMin
+            // 
+            this.picMin.BackColor = System.Drawing.Color.Transparent;
+            this.picMin.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picMin.Image = global::HotTaoSquare.Properties.Resources.icon_min;
+            this.picMin.Location = new System.Drawing.Point(178, 4);
+            this.picMin.Name = "picMin";
+            this.picMin.Size = new System.Drawing.Size(20, 20);
+            this.picMin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picMin.TabIndex = 118;
+            this.picMin.TabStop = false;
+            this.picMin.Click += new System.EventHandler(this.plMin_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox2.Image = global::HotTaoSquare.Properties.Resources.config;
+            this.pictureBox2.Location = new System.Drawing.Point(76, 5);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox2.TabIndex = 118;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.lbSetting_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox1.Image = global::HotTaoSquare.Properties.Resources.home;
+            this.pictureBox1.Location = new System.Drawing.Point(50, 5);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 118;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.picHome_Click);
+            // 
+            // picClose
+            // 
+            this.picClose.BackColor = System.Drawing.Color.Transparent;
+            this.picClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picClose.Image = global::HotTaoSquare.Properties.Resources.icon_close1;
+            this.picClose.Location = new System.Drawing.Point(203, 4);
+            this.picClose.Name = "picClose";
+            this.picClose.Size = new System.Drawing.Size(20, 20);
+            this.picClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picClose.TabIndex = 118;
+            this.picClose.TabStop = false;
+            this.picClose.Click += new System.EventHandler(this.picClose_Click);
+            // 
+            // picRefresh
+            // 
+            this.picRefresh.BackColor = System.Drawing.Color.Transparent;
+            this.picRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picRefresh.Image = global::HotTaoSquare.Properties.Resources.sx13x13;
+            this.picRefresh.Location = new System.Drawing.Point(152, 4);
+            this.picRefresh.Name = "picRefresh";
+            this.picRefresh.Size = new System.Drawing.Size(20, 20);
+            this.picRefresh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picRefresh.TabIndex = 118;
+            this.picRefresh.TabStop = false;
+            this.picRefresh.Click += new System.EventHandler(this.picRefresh_Click);
+            // 
+            // picBack
+            // 
+            this.picBack.BackColor = System.Drawing.Color.Transparent;
+            this.picBack.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picBack.Image = global::HotTaoSquare.Properties.Resources.ht13x13;
+            this.picBack.Location = new System.Drawing.Point(102, 4);
+            this.picBack.Name = "picBack";
+            this.picBack.Size = new System.Drawing.Size(20, 20);
+            this.picBack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picBack.TabIndex = 118;
+            this.picBack.TabStop = false;
+            this.picBack.Click += new System.EventHandler(this.picBack_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -194,9 +213,10 @@
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.plTop.ResumeLayout(false);
             this.plRightTop.ResumeLayout(false);
-            this.plRightTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picForward)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picMin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picRefresh)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBack)).EndInit();
@@ -215,6 +235,7 @@
         private System.Windows.Forms.PictureBox picRefresh;
         private System.Windows.Forms.Panel plRightTop;
         private System.Windows.Forms.PictureBox picMin;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
