@@ -351,7 +351,8 @@ namespace HotTao.Controls.Login
 
         private void lkRegister_Click(object sender, EventArgs e)
         {
-            loginForm.openControl(new RegisterPage(hotForm, loginForm));
+            //loginForm.openControl(new RegisterPage(hotForm, loginForm));
+            System.Diagnostics.Process.Start(ApiConst.www);
         }
 
         private void loginName_DrawItem(object sender, DrawItemEventArgs e)

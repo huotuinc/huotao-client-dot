@@ -12,8 +12,8 @@ namespace iQQ.Net.WebQQCore.Im.Action
 {
     /// <summary>
     /// <para>获取群列表名称</para>
-    /// <para>@author ChenZhiHui</para>
-    /// <para>@since 2013-2-21</para>
+    /// <para></para>
+    /// <para></para>
     /// </summary>
     public class GetGroupListAction : AbstractHttpAction
     {
@@ -25,7 +25,7 @@ namespace iQQ.Net.WebQQCore.Im.Action
             var ptwebqq = httpService.GetCookie("ptwebqq", QQConstants.URL_GET_USER_CATEGORIES);
             var session = Context.Session;
             var account = Context.Account;
-            
+
             var json = new JObject
             {
                 {"vfwebqq", session.Vfwebqq},
@@ -107,7 +107,9 @@ namespace iQQ.Net.WebQQCore.Im.Action
             }
             else
             {
-                // LOG.warn("unknown retcode: " + retcode);
+                //NotifyActionEvent(QQActionEventType.EvtError, null);
+                
+                //LOG.warn("unknown retcode: " + retcode);
                 // NotifyActionEvent(QQActionEventType.EVT_ERROR, null);
                 throw new QQException(QQErrorCode.InvalidResponse, str);
             }

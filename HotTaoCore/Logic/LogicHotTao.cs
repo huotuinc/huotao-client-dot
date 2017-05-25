@@ -297,9 +297,9 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="userid">The userid.</param>
         /// <returns>List&lt;GoodsModel&gt;.</returns>
-        public List<TaskPlanModel> FindUserTaskPlanListByUserId(int userid)
+        public List<TaskPlanModel> FindUserTaskPlanListByUserId(int userid, bool isFilterFinish)
         {
-            return dal.FindUserTaskPlanListByUserId(userid);
+            return dal.FindUserTaskPlanListByUserId(userid, isFilterFinish);
         }
         /// <summary>
         /// 删除微信群
@@ -651,7 +651,7 @@ namespace HotTaoCore.Logic
         /// <returns></returns>
         public TaskPlanModel FindExecTaskPlanByUserId(int userId)
         {
-            var data = FindUserTaskPlanListByUserId(userId);
+            var data = FindUserTaskPlanListByUserId(userId,true);
             if (data == null) return null;
             var lst = data.FindAll(item =>
              {

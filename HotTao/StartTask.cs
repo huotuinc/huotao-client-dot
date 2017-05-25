@@ -101,7 +101,7 @@ namespace HotTao
         /// </summary>
         private List<string> textResult = new List<string>();
 
-       // List<WindowInfo> wins { get; set; }
+        // List<WindowInfo> wins { get; set; }
 
         private void Send()
         {
@@ -130,7 +130,7 @@ namespace HotTao
                 return;
             }
             //获取任务数据
-            var taskdata = LogicHotTao.Instance(MyUserInfo.currentUserId).FindUserTaskPlanListByUserId(MyUserInfo.currentUserId);
+            var taskdata = LogicHotTao.Instance(MyUserInfo.currentUserId).FindUserTaskPlanListByUserId(MyUserInfo.currentUserId, true);
             if (taskdata == null || taskdata.Count() == 0)
             {
                 return;
@@ -292,7 +292,7 @@ namespace HotTao
                     });
 
                     hotForm.logRuningList.Add(new LogRuningModel()
-                    {                        
+                    {
                         goodsName = goods.goodsName,
                         goodsid = goods.goodsId,
                         title = goods.goodsId,
@@ -300,7 +300,7 @@ namespace HotTao
                         logTime = DateTime.Now,
                         logType = LogTypeOpts.商品发送,
                         isError = false,
-                        remark = string.Format("[{0}]开始发送商品[{1}]",goods.goodsId, goods.goodsName)
+                        remark = string.Format("[{0}]开始发送商品[{1}]", goods.goodsId, goods.goodsName)
                     });
 
                     shareData = shareData.FindAll(share => { return share.status == 0; });
@@ -455,7 +455,7 @@ namespace HotTao
                         WinApi.Paste(win.hWnd);
                         System.Threading.Thread.Sleep(100);
                         //WinApi.InputStr(win.hWnd, item.text);
-                        WinApi.Enter(win.hWnd);                       
+                        WinApi.Enter(win.hWnd);
                         SleepImage(0.5m);
                         Clipboard.Clear();
                         if (!textResult.Contains(item.title))

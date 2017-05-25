@@ -67,7 +67,7 @@ namespace QQLogin
         }
         #endregion
 
-
+        
         public QQLogin()
         {
             InitializeComponent();
@@ -112,7 +112,7 @@ namespace QQLogin
         private bool isLoginSuccess { get; set; }
 
         private void Form1_Load(object sender, EventArgs e)
-        {
+        {            
             QQGlobal.loginForm = this;
             // 获取二维码
             QQGlobal.client = new WebQQClient((client, notifyEvent) =>
@@ -163,7 +163,7 @@ namespace QQLogin
                             break;
                         }
                     case QQNotifyEventType.LoadGroupSuccess:
-                        {
+                        {                            
                             QQGlobal.QQGroupLoadSuccess = true;
                             GroupLoadSuccessHandler?.Invoke();                            
                             break;

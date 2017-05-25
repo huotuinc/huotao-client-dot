@@ -572,6 +572,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\hot_128.ico" />
+    <None Include="Resources\logo_128.png" />
     <Content Include="Resources\QQ.png" />
     <Content Include="Resources\qq50x50.png" />
     <None Include="Resources\sy13x13.png" />

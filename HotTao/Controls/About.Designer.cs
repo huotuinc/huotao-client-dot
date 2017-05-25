@@ -43,7 +43,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::HotTao.Properties.Resources.about;
+            this.pictureBox1.Image = global::HotTao.Properties.Resources.logo_128;
             this.pictureBox1.Location = new System.Drawing.Point(95, 40);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(124, 124);

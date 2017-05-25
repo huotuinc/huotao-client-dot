@@ -520,9 +520,14 @@ namespace HotTaoCore.DAL
         /// </summary>
         /// <param name="userid">The userid.</param>
         /// <returns>List&lt;GoodsModel&gt;.</returns>
-        public List<TaskPlanModel> FindUserTaskPlanListByUserId(int userid)
+        public List<TaskPlanModel> FindUserTaskPlanListByUserId(int userid, bool isFilterFinish)
         {
-            string strSql = @"select id,userid,title,startTime,endTime,goodsText,pidsText,isTpwd,status from user_task_plan where userid=@userid  order by status asc,startTime asc;";
+            string strSql = @"select id,userid,title,startTime,endTime,goodsText,pidsText,isTpwd,status from user_task_plan where userid=@userid ";
+            if (isFilterFinish)
+                strSql += " and status<>2 ";
+
+            strSql += "  order by status asc,startTime asc;";
+
             var param = new[] {
                 new SQLiteParameter("@userid",userid),
             };

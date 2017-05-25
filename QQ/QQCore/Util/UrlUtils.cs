@@ -22,7 +22,8 @@ namespace iQQ.Net.WebQQCore.Util
         /// <returns></returns>
         public static List<string> GetUrls(string input)
         {
-            string pattern = "http[s]?://.*?(?!(\\w|\\.|/|\\?|\\=|&|%))";
+            input = input.Replace("&amp;", "&");
+            string pattern = "http[s]?://.*?(?!(\\w|\\.|/|\\?|\\=|&|%|;))";
             List<string> urls = new List<string>();
             foreach (Match match in Regex.Matches(input, pattern))
             {
