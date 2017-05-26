@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotTaoCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -54,7 +55,8 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void lbLogout_Click(object sender, EventArgs e)
         {
-            hotForm.AlertConfirm("是否退出当前登录账户？","注销",()=> {
+            hotForm.AlertConfirm("是否退出当前登录账户？", "注销", () =>
+            {
                 MyUserInfo my = new MyUserInfo();
                 my.SetUserData(null);
                 if (hotForm.wxlogin != null)
@@ -73,16 +75,27 @@ namespace HotTao.Controls
                 this.Hide();
                 hotForm.openControl(new LoginControl(hotForm));
             });
-            
+
         }
 
         private void lbSwitchTaobao_Click(object sender, EventArgs e)
         {
-            hotForm.AlertConfirm("确定要切换淘宝登录？", "提示", () => {               
+            hotForm.AlertConfirm("确定要切换淘宝登录？", "提示", () =>
+            {
                 this.Hide();
                 hotForm.LoginTaoBao();
             });
-           
+
+        }
+
+        /// <summary>
+        /// 发单软件使用说明
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lbHelp_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(ApiConst.getHelpUrl(1));
         }
     }
 }

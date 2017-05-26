@@ -180,4 +180,47 @@ namespace HotTaoCore.Models
 
 
     }
+
+
+
+    /// <summary>
+    /// 商品采集结果
+    /// </summary>
+    public class GoodsCollertModel
+    {
+        /// <summary>
+        /// 是否完成
+        /// </summary>
+        public bool finish { get; set; }
+
+
+        public List<GoodsCollertUrlsModel> urls { get; set; }
+    }
+
+
+    public class GoodsCollertUrlsModel
+    {
+
+        /// <summary>
+        /// 商品地址
+        /// </summary>
+        public string goodsUrl { get; set; }
+
+        /// <summary>
+        /// 优惠券地址
+        /// </summary>
+        public string couponUrl { get; set; }
+
+        /// <summary>
+        /// 商品标题
+        /// </summary>
+        public string goodsName { get; set; }
+
+        /// <summary>
+        /// 券后价
+        /// </summary>
+        public decimal couponAfterPrice { get; set; }
+    }
+
+
 }

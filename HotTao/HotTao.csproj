@@ -573,6 +573,13 @@
   <ItemGroup>
     <Content Include="Resources\config.png" />
     <Content Include="Resources\hot_128.ico" />
+    <None Include="Resources\ht13x13.png" />
+    <Content Include="Resources\icon_min_1.png" />
+    <None Include="Resources\qj13x13.png" />
+    <None Include="Resources\max.png" />
+    <None Include="Resources\max_01.png" />
+    <Content Include="Resources\site.png" />
+    <None Include="Resources\refresh .png" />
     <None Include="Resources\logo_128.png" />
     <None Include="Resources\icon_home.png" />
     <Content Include="Resources\QQ.png" />

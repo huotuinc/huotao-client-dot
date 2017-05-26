@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using QQLogin;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -122,6 +123,12 @@ namespace HotTao
         public List<LogRuningModel> logRuningList { get; set; }
 
         public ChromiumWebBrowser browser;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public BackgroundWorker worker;
+
         public Main()
         {
             InitializeComponent();
@@ -146,7 +153,49 @@ namespace HotTao
 
             if (logRuningList == null)
                 logRuningList = new List<LogRuningModel>();
+
+            if (worker != null)
+            {
+                worker.Dispose();
+                worker = null;
+            }
+            worker = new BackgroundWorker();
+            worker.DoWork += Worker_DoWork;
         }
+
+        public GoodsCollectBrowser collectBrowser { get; set; }
+
+        private void Worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string url = e.Argument.ToString();
+            CollectBrowserShow(url);
+        }
+
+        /// <summary>
+        /// 打开采集浏览器
+        /// </summary>
+        /// <param name="url"></param>
+        private void CollectBrowserShow(string url)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string>(CollectBrowserShow), new object[] { url });
+            }
+            else
+            {
+                if (collectBrowser != null)
+                    collectBrowser.LoadBrowser(url);
+                else
+                {
+                    collectBrowser = new GoodsCollectBrowser(this, url);
+                    collectBrowser.StartPosition = FormStartPosition.CenterScreen;
+                    collectBrowser.Show(this);
+                }
+            }
+        }
+
+
+
 
         /// <summary>
         /// Checks the version.
@@ -488,18 +537,7 @@ namespace HotTao
             this.BeginInvoke((Action)(delegate ()  //等待结束
             {
                 HotContainer.Panel2.Controls.Clear();
-                //foreach (UserControl uu in HotContainer.Panel2.Controls)
-                //{
-                //    if (uu != null)
-                //    {
-                //        if (uu.GetType() == uc.GetType())
-                //        {
-                //            return;
-                //        }
-                //    }
-                //}
                 uc.Dock = DockStyle.Fill;
-                //DisPanel();
                 this.HotContainer.Panel2.Controls.Add(uc);
             }));
         }
@@ -796,7 +834,7 @@ namespace HotTao
         {
             new System.Threading.Thread(() =>
             {
-                if (lw == null|| !loginSuccess || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
+                if (lw == null || !loginSuccess || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
                 if (!lw.isLogin())
                 {
                     LoginTaoBao();
@@ -915,7 +953,7 @@ namespace HotTao
             timingRefresh.Interval = 30000;
             timingRefresh.Tick += TimingRefresh_Tick;
             timingRefresh.Start();
-            
+
             if (checkTbLoginTime != null)
             {
                 checkTbLoginTime.Stop();

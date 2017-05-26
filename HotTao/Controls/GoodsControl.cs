@@ -30,10 +30,8 @@ namespace HotTao.Controls
         {
             InitializeComponent();
             hotForm = mainWin;
-
         }
         private static bool isSubmit = false;
-
         /// <summary>
         /// 定时器，定时去检查网页操作是否完成,如果完成，则跳转到微信群发页面
         /// </summary>
@@ -63,7 +61,6 @@ namespace HotTao.Controls
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));
-
         }
 
 
@@ -100,7 +97,7 @@ namespace HotTao.Controls
                 hotPanel2.Controls.Add(data);
                 hotPanel2.Refresh();
             }
-        }        
+        }
         private Loading ld = new Loading();
         /// <summary>
         /// 提交选择的商品json数据字符串
@@ -110,34 +107,35 @@ namespace HotTao.Controls
         {
             try
             {
-                isSubmit = false;
-                if (!string.IsNullOrEmpty(json_goods_result))
-                {
-                    List<GoodsSelectedModel> goodsData = JsonConvert.DeserializeObject<List<GoodsSelectedModel>>(json_goods_result);
-                    if (goodsData != null && goodsData.Count() > 0)
-                    {
-                        new Thread(() =>
-                        {
-                            Regex regs = new Regex("&activityId=[^&]*", RegexOptions.IgnoreCase);
-                            foreach (var item in goodsData)
-                            {
-                                try
-                                {
-                                    bool isUpdate = false;
-                                    LogicGoods.Instance.SaveGoods(item, MyUserInfo.currentUserId, out isUpdate);
-                                }
-                                catch (Exception ex)
-                                {
-                                    log.Error(ex);
-                                }
-                            }
-                            LoadClose();
-                        })
-                        { IsBackground = true }.Start();
-                        ld.StartPosition = FormStartPosition.CenterParent;
-                        ld.ShowDialog(hotForm);
-                    }
-                }
+                OpenCollectBrowser("http://www.dataoke.com");
+                //isSubmit = false;
+                //if (!string.IsNullOrEmpty(json_goods_result))
+                //{
+                //    List<GoodsSelectedModel> goodsData = JsonConvert.DeserializeObject<List<GoodsSelectedModel>>(json_goods_result);
+                //    if (goodsData != null && goodsData.Count() > 0)
+                //    {
+                //        new Thread(() =>
+                //        {
+                //            Regex regs = new Regex("&activityId=[^&]*", RegexOptions.IgnoreCase);
+                //            foreach (var item in goodsData)
+                //            {
+                //                try
+                //                {
+                //                    bool isUpdate = false;
+                //                    LogicGoods.Instance.SaveGoods(item, MyUserInfo.currentUserId, out isUpdate);
+                //                }
+                //                catch (Exception ex)
+                //                {
+                //                    log.Error(ex);
+                //                }
+                //            }
+                //            LoadClose();
+                //        })
+                //        { IsBackground = true }.Start();
+                //        ld.StartPosition = FormStartPosition.CenterParent;
+                //        ld.ShowDialog(hotForm);
+                //    }
+                //}
             }
             catch (Exception ex)
             {
@@ -237,6 +235,15 @@ namespace HotTao.Controls
         {
             return MyUserInfo.LoginToken;
         }
+        /// <summary>
+        /// 打开采集浏览器
+        /// </summary>
+        /// <param name="url"></param>
+        public void OpenCollectBrowser(string url)
+        {
+            hotForm.worker.RunWorkerAsync(url);
+        }
+
         #endregion
     }
 }

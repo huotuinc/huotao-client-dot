@@ -221,7 +221,10 @@ namespace HotTaoCore.Logic
         /// <returns>true if XXXX, false otherwise.</returns>
         public bool DeleteAllGoods(int userid)
         {
-            return dal.DeleteAllGoods(userid);
+            bool flag = dal.DeleteAllGoods(userid);
+            if (flag)
+                dal.DeleteAllTaskPlan(userid);
+            return flag;
         }
         /// <summary>
         /// 删除选中的本地商品
@@ -310,6 +313,18 @@ namespace HotTaoCore.Logic
         {
             return dal.DeleteUserTaskPlan(taskid);
         }
+
+        /// <summary>
+        /// 删除所有计划列表
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool DeleteAllTaskPlan(int userid)
+        {
+            return dal.DeleteAllTaskPlan(userid);
+        }
+
+
         /// <summary>
         /// 修改用户计划任务转链状态,转链成功后调用
         /// </summary>
@@ -651,7 +666,7 @@ namespace HotTaoCore.Logic
         /// <returns></returns>
         public TaskPlanModel FindExecTaskPlanByUserId(int userId)
         {
-            var data = FindUserTaskPlanListByUserId(userId,true);
+            var data = FindUserTaskPlanListByUserId(userId, true);
             if (data == null) return null;
             var lst = data.FindAll(item =>
              {

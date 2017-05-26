@@ -33,6 +33,8 @@
             this.lbLogout = new System.Windows.Forms.Label();
             this.lbSwitchTaobao = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.lbHelp = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // panel1
@@ -58,7 +60,7 @@
             // 
             this.lbLogout.AutoSize = true;
             this.lbLogout.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lbLogout.Location = new System.Drawing.Point(13, 72);
+            this.lbLogout.Location = new System.Drawing.Point(13, 99);
             this.lbLogout.Name = "lbLogout";
             this.lbLogout.Size = new System.Drawing.Size(29, 12);
             this.lbLogout.TabIndex = 1;
@@ -79,20 +81,41 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.panel2.Location = new System.Drawing.Point(12, 63);
+            this.panel2.Location = new System.Drawing.Point(12, 92);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(55, 1);
             this.panel2.TabIndex = 0;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel3.Location = new System.Drawing.Point(14, 64);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(55, 1);
+            this.panel3.TabIndex = 0;
+            // 
+            // lbHelp
+            // 
+            this.lbHelp.AutoSize = true;
+            this.lbHelp.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbHelp.Location = new System.Drawing.Point(13, 72);
+            this.lbHelp.Name = "lbHelp";
+            this.lbHelp.Size = new System.Drawing.Size(53, 12);
+            this.lbHelp.TabIndex = 1;
+            this.lbHelp.Text = "使用说明";
+            this.lbHelp.Click += new System.EventHandler(this.lbHelp_Click);
             // 
             // MenuControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(72, 92);
+            this.ClientSize = new System.Drawing.Size(72, 118);
             this.Controls.Add(this.lbSwitchTaobao);
+            this.Controls.Add(this.lbHelp);
             this.Controls.Add(this.lbLogout);
             this.Controls.Add(this.lbAbout);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -114,5 +137,7 @@
         private System.Windows.Forms.Label lbLogout;
         private System.Windows.Forms.Label lbSwitchTaobao;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label lbHelp;
     }
 }

@@ -516,6 +516,21 @@ namespace HotTaoCore.DAL
         }
 
         /// <summary>
+        /// 删除所有计划列表
+        /// </summary>
+        /// <param name="userid">The userid.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public bool DeleteAllTaskPlan(int userid)
+        {
+            string strSql = "delete from user_task_plan where userid=@userid;";
+            var param = new[] {
+                    new SQLiteParameter("@userid",userid)
+                };
+            return DBHelper.ExecuteSql(strSql, param) > 0;
+        }
+
+
+        /// <summary>
         /// 获取任务列表
         /// </summary>
         /// <param name="userid">The userid.</param>

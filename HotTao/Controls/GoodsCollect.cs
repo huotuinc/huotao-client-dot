@@ -83,9 +83,6 @@ namespace HotTao.Controls
         private void GoodsCollect_Load(object sender, EventArgs e)
         {
             InitBrowser("");
-            //GoodsCollectBrowser collect = new GoodsCollectBrowser();
-            //collect.StartPosition = FormStartPosition.CenterScreen;
-            //collect.Show();
         }
 
         private ChromiumWebBrowser browser { get; set; }
@@ -200,7 +197,7 @@ namespace HotTao.Controls
 
             data["url"] =txtGoodsUrl.Text.Trim();
             data["url2"] = txtCouponUrl.Text.Trim();
-            data["message"] = "【稻香村】拿破仑奶油蛋糕700G整箱天猫券后【27.9元】包邮领券：  https://shop.m.taobao.com/shop/coupon.htm?activityId=08036063b6f14cfa96c554f5615bd30e&sellerId=1713301768  抢购：   https://s.click.taobao.com/5Hlwslw   乾隆始创于1773年。健康糕点零食；营养美味好吃不贵，奖励自己，分享好友。每个好日子，都有稻香村";
+            data["message"] = "";
             list.Add(data);
             string jsonUrls = JsonConvert.SerializeObject(list);
 

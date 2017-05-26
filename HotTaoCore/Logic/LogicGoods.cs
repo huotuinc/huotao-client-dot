@@ -166,5 +166,35 @@ namespace HotTaoCore.Logic
         }
 
 
+
+
+        /// <summary>
+        /// 获取已选商品列表
+        /// </summary>
+        /// <param name="loginToken">The login token.</param>
+        /// <param name="url">采集的网址</param>
+        /// <returns>List&lt;GoodsModel&gt;.</returns>
+        public string startDigOnePage(string loginToken, string url)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["url"] = url;
+            return BaseRequestService.PostToString(ApiConst.startDigOnePage, data);
+        }
+
+        /// <summary>
+        /// 根据标识，查询商品
+        /// </summary>
+        /// <param name="loginToken"></param>
+        /// <param name="taskId"></param>
+        /// <returns></returns>
+        public GoodsCollertModel queryGoods(string loginToken, string taskId)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["taskid"] = taskId;
+            return BaseRequestService.Post<GoodsCollertModel>(ApiConst.queryGoods, data);
+        }
+
     }
 }

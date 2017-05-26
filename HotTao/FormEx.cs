@@ -19,6 +19,7 @@ namespace HotTao
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
+            this.MaximizeBox = false;
         }
 
 

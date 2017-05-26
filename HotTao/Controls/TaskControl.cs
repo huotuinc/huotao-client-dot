@@ -186,7 +186,7 @@ namespace HotTao.Controls
                 //是否自动添加属性字段
                 this.dgvTaskPlan.AutoGenerateColumns = false;
                 //var data = LogicGoods.Instance.getGoodsList(MyUserInfo.LoginToken);
-                var taskData = LogicHotTao.Instance(MyUserInfo.currentUserId).FindUserTaskPlanListByUserId(MyUserInfo.currentUserId,true);
+                var taskData = LogicHotTao.Instance(MyUserInfo.currentUserId).FindUserTaskPlanListByUserId(MyUserInfo.currentUserId, true);
                 if (taskData != null)
                 {
                     SetTaskView(taskData);
@@ -1207,7 +1207,10 @@ namespace HotTao.Controls
             {
                 bool flag = LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteAllGoods(MyUserInfo.currentUserId);
                 if (flag)
+                {
+                    LoadTaskPlanGridView();
                     LoadGoodsGridView();
+                }
             }
         }
 
@@ -1327,7 +1330,7 @@ namespace HotTao.Controls
         /// <param name="e"></param>
         private void btnGoodsCollect_Click(object sender, EventArgs e)
         {
-            GoodsCollect collect = new GoodsCollect(this,hotForm);
+            GoodsCollect collect = new GoodsCollect(this, hotForm);
             collect.StartPosition = FormStartPosition.CenterParent;
             collect.ShowDialog(this);
         }

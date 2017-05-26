@@ -37,6 +37,18 @@ namespace HotTaoCore
         public const string CheckUpdateUrl = "http://120.24.54.54:8084";
 
 
+        /// <summary>
+        /// 获取帮助文档地址
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string getHelpUrl(object path)
+        {
+            return www + "/portal/help/" + path.ToString();
+        }
+
+
+
         #region 接口常量
 
         public const string login = "/huotao/login";
@@ -239,6 +251,16 @@ namespace HotTaoCore
         /// 批量商品链接转商品数据接口
         /// </summary>
         public const string findGoodsByLink = "/goods/findGoodsByLink";
+
+        /// <summary>
+        /// 请求网址采集任务
+        /// </summary>
+        public const string startDigOnePage = "/goods/startDigOnePage";
+        /// <summary>
+        /// 获取采集结果
+        /// </summary>
+        public const string queryGoods = "/goods/queryGoods";
+
         #endregion
     }
 }

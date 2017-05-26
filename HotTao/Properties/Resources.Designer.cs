@@ -73,6 +73,16 @@ namespace HotTao.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap ht13x13 {
+            get {
+                object obj = ResourceManager.GetObject("ht13x13", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap icon_01 {
             get {
                 object obj = ResourceManager.GetObject("icon_01", resourceCulture);
@@ -243,6 +253,16 @@ namespace HotTao.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap icon_min_1 {
+            get {
+                object obj = ResourceManager.GetObject("icon_min_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap icon_set {
             get {
                 object obj = ResourceManager.GetObject("icon_set", resourceCulture);
@@ -303,6 +323,36 @@ namespace HotTao.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap max {
+            get {
+                object obj = ResourceManager.GetObject("max", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap max_01 {
+            get {
+                object obj = ResourceManager.GetObject("max_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap qj13x13 {
+            get {
+                object obj = ResourceManager.GetObject("qj13x13", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap QQ {
             get {
                 object obj = ResourceManager.GetObject("QQ", resourceCulture);
@@ -316,6 +366,26 @@ namespace HotTao.Properties {
         internal static System.Drawing.Bitmap qq50x50 {
             get {
                 object obj = ResourceManager.GetObject("qq50x50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap refresh_ {
+            get {
+                object obj = ResourceManager.GetObject("refresh ", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap site {
+            get {
+                object obj = ResourceManager.GetObject("site", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
