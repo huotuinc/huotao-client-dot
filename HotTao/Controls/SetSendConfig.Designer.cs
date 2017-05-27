@@ -81,6 +81,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.ckbSendVideo = new System.Windows.Forms.CheckBox();
+            this.label28 = new System.Windows.Forms.Label();
             this.hotGroupBox4.SuspendLayout();
             this.hotGroupBox3.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
@@ -97,9 +100,9 @@
             this.hotGroupBox4.Controls.Add(this.txtTaoAppSecret);
             this.hotGroupBox4.Controls.Add(this.txtTaoAppKey);
             this.hotGroupBox4.Controls.Add(this.label24);
-            this.hotGroupBox4.Location = new System.Drawing.Point(13, 249);
+            this.hotGroupBox4.Location = new System.Drawing.Point(13, 276);
             this.hotGroupBox4.Name = "hotGroupBox4";
-            this.hotGroupBox4.Size = new System.Drawing.Size(725, 239);
+            this.hotGroupBox4.Size = new System.Drawing.Size(725, 212);
             this.hotGroupBox4.TabIndex = 3;
             this.hotGroupBox4.TabStop = false;
             // 
@@ -187,9 +190,9 @@
             this.hotGroupBox3.Controls.Add(this.ckbCoupon);
             this.hotGroupBox3.Controls.Add(this.label6);
             this.hotGroupBox3.Enabled = false;
-            this.hotGroupBox3.Location = new System.Drawing.Point(324, 249);
+            this.hotGroupBox3.Location = new System.Drawing.Point(324, 279);
             this.hotGroupBox3.Name = "hotGroupBox3";
-            this.hotGroupBox3.Size = new System.Drawing.Size(414, 240);
+            this.hotGroupBox3.Size = new System.Drawing.Size(414, 210);
             this.hotGroupBox3.TabIndex = 2;
             this.hotGroupBox3.TabStop = false;
             this.hotGroupBox3.Visible = false;
@@ -520,6 +523,9 @@
             // 
             this.hotGroupBox1.BorderColor = System.Drawing.Color.Gainsboro;
             this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox1.Controls.Add(this.label28);
+            this.hotGroupBox1.Controls.Add(this.ckbSendVideo);
+            this.hotGroupBox1.Controls.Add(this.label27);
             this.hotGroupBox1.Controls.Add(this.rbWtSort);
             this.hotGroupBox1.Controls.Add(this.rbTwSort);
             this.hotGroupBox1.Controls.Add(this.label4);
@@ -535,7 +541,7 @@
             this.hotGroupBox1.Controls.Add(this.label9);
             this.hotGroupBox1.Location = new System.Drawing.Point(13, 80);
             this.hotGroupBox1.Name = "hotGroupBox1";
-            this.hotGroupBox1.Size = new System.Drawing.Size(725, 155);
+            this.hotGroupBox1.Size = new System.Drawing.Size(725, 190);
             this.hotGroupBox1.TabIndex = 0;
             this.hotGroupBox1.TabStop = false;
             // 
@@ -678,6 +684,38 @@
             this.label9.TabIndex = 34;
             this.label9.Text = "转发等待时间设置（单位：秒）";
             // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(55, 145);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(53, 12);
+            this.label27.TabIndex = 39;
+            this.label27.Text = "发送视频";
+            // 
+            // ckbSendVideo
+            // 
+            this.ckbSendVideo.AutoSize = true;
+            this.ckbSendVideo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ckbSendVideo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.ckbSendVideo.Location = new System.Drawing.Point(113, 143);
+            this.ckbSendVideo.Name = "ckbSendVideo";
+            this.ckbSendVideo.Size = new System.Drawing.Size(48, 16);
+            this.ckbSendVideo.TabIndex = 40;
+            this.ckbSendVideo.Text = "启用";
+            this.ckbSendVideo.UseVisualStyleBackColor = true;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.label28.Location = new System.Drawing.Point(180, 145);
+            this.label28.Margin = new System.Windows.Forms.Padding(0);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(89, 12);
+            this.label28.TabIndex = 41;
+            this.label28.Text = "只支持窗口模式";
+            // 
             // SetSendConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -756,5 +794,8 @@
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TextBox txtTaoAppSecret;
         private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.CheckBox ckbSendVideo;
+        private System.Windows.Forms.Label label28;
     }
 }

@@ -40,11 +40,11 @@ namespace HotTaoCore
         /// <summary>
         /// 获取帮助文档地址
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">1发单说明，2客服说明 3淘客广场说明</param>
         /// <returns></returns>
         public static string getHelpUrl(object path)
         {
-            return www + "/portal/help/" + path.ToString();
+            return www + "/portal/help" + path.ToString();
         }
 
 

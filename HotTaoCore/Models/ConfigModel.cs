@@ -48,7 +48,7 @@ namespace HotTaoCore.Models
         /// </summary>
         /// <value>The enable_auto_remove.</value>
         public int enable_autoremove { get; set; }
-        
+
     }
 
     /// <summary>
@@ -153,6 +153,11 @@ namespace HotTaoCore.Models
         /// </summary>
         /// <value>The appsecret.</value>
         public string appsecret { get; set; }
+
+        /// <summary>
+        /// 启用发送视频
+        /// </summary>
+        public bool enable_sendvideo { get; set; } = false;
 
     }
 

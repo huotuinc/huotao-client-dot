@@ -107,35 +107,34 @@ namespace HotTao.Controls
         {
             try
             {
-                OpenCollectBrowser("http://www.dataoke.com");
-                //isSubmit = false;
-                //if (!string.IsNullOrEmpty(json_goods_result))
-                //{
-                //    List<GoodsSelectedModel> goodsData = JsonConvert.DeserializeObject<List<GoodsSelectedModel>>(json_goods_result);
-                //    if (goodsData != null && goodsData.Count() > 0)
-                //    {
-                //        new Thread(() =>
-                //        {
-                //            Regex regs = new Regex("&activityId=[^&]*", RegexOptions.IgnoreCase);
-                //            foreach (var item in goodsData)
-                //            {
-                //                try
-                //                {
-                //                    bool isUpdate = false;
-                //                    LogicGoods.Instance.SaveGoods(item, MyUserInfo.currentUserId, out isUpdate);
-                //                }
-                //                catch (Exception ex)
-                //                {
-                //                    log.Error(ex);
-                //                }
-                //            }
-                //            LoadClose();
-                //        })
-                //        { IsBackground = true }.Start();
-                //        ld.StartPosition = FormStartPosition.CenterParent;
-                //        ld.ShowDialog(hotForm);
-                //    }
-                //}
+                isSubmit = false;
+                if (!string.IsNullOrEmpty(json_goods_result))
+                {
+                    List<GoodsSelectedModel> goodsData = JsonConvert.DeserializeObject<List<GoodsSelectedModel>>(json_goods_result);
+                    if (goodsData != null && goodsData.Count() > 0)
+                    {
+                        new Thread(() =>
+                        {
+                            Regex regs = new Regex("&activityId=[^&]*", RegexOptions.IgnoreCase);
+                            foreach (var item in goodsData)
+                            {
+                                try
+                                {
+                                    bool isUpdate = false;
+                                    LogicGoods.Instance.SaveGoods(item, MyUserInfo.currentUserId, out isUpdate);
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Error(ex);
+                                }
+                            }
+                            LoadClose();
+                        })
+                        { IsBackground = true }.Start();
+                        ld.StartPosition = FormStartPosition.CenterParent;
+                        ld.ShowDialog(hotForm);
+                    }
+                }
             }
             catch (Exception ex)
             {

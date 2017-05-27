@@ -8,9 +8,11 @@
 **/
 
 
+using HotCoreUtils.Helper;
 using HotTaoCore.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -121,6 +123,32 @@ namespace HotTao
 
 
         public static string cToken { get; set; } = "";
+
+
+
+        /// <summary>
+        /// 如果文件存在，则返回文件路径，否则返回null
+        /// </summary>
+        /// <param name="goodsId"></param>
+        /// <returns></returns>
+        public static string GetVideoFilePath(string goodsId)
+        {
+            string fileName = Environment.CurrentDirectory + "\\temp\\video\\" + currentUserId.ToString();
+            if (!Directory.Exists(fileName))
+                Directory.CreateDirectory(fileName);
+            fileName += "\\" + EncryptHelper.MD5(goodsId);
+
+            string filepath_gif = string.Format("{0}.gif", fileName);
+            string filepath_mp4 = string.Format("{0}.mp4", fileName);
+
+            //判断
+            if (File.Exists(filepath_gif))
+                return filepath_gif;
+            else if (File.Exists(filepath_mp4))
+                return filepath_mp4;
+
+            return null;
+        }
 
     }
 }

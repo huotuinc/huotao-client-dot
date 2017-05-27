@@ -335,14 +335,30 @@ namespace HotTao
                     isSendImage = true;
                     log.Error(ex);
                 }
+
+                if (cfgTime != null && cfgTime.enable_sendvideo)
+                {
+                    //发送视频或GIF图片
+                    string videoPath = MyUserInfo.GetVideoFilePath(goods.goodsId);
+                    if (!string.IsNullOrEmpty(videoPath))
+                    {
+                        CopyFileToClipboard(videoPath);
+                        SendImage(image, shareData, wins, true, true);
+                    }
+                }
+
                 if (isSendImage)
                 {
+                    //复制文件
+                    CopyFileToClipboard(goods.goodslocatImgPath);
                     SendImage(image, shareData, wins, true);
                     SendText(shareData, wins, true);
                 }
                 else
                 {
                     SendText(shareData, wins, false);
+                    //复制文件
+                    CopyFileToClipboard(goods.goodslocatImgPath);
                     SendImage(image, shareData, wins, false);
                 }
             }
@@ -352,17 +368,25 @@ namespace HotTao
             }
         }
 
+        private void CopyFileToClipboard(string path)
+        {
+            StringCollection sc = new StringCollection();
+            sc.Add(path);
+            Clipboard.SetFileDropList(sc);
+        }
+
+
         /// <summary>
         /// 发送图片
         /// </summary>
         /// <param name="image">The image.</param>
         /// <param name="shareData">The share data.</param>
         /// <param name="wins">The wins.</param>
-        private void SendImage(Image image, List<weChatShareTextModel> shareData, List<WindowInfo> wins, bool isImageText)
+        private void SendImage(Image image, List<weChatShareTextModel> shareData, List<WindowInfo> wins, bool isImageText, bool sendVideo = false)
         {
             if (image != null)
             {
-                Clipboard.SetImage(image);
+                // Clipboard.SetImage(image);
                 System.Threading.Thread.Sleep(1000);
                 //粘贴图片       
                 foreach (var item in shareData)
@@ -384,7 +408,7 @@ namespace HotTao
                             System.Threading.Thread.Sleep(100);
                             WinApi.Enter(win.hWnd);
                             SleepImage(0.5m);
-                            if (!imageResult.Contains(item.title))
+                            if (!sendVideo && !imageResult.Contains(item.title))
                                 imageResult.Add(item.title);
 
                             if (!isImageText)
@@ -396,7 +420,7 @@ namespace HotTao
                     }
                     catch (Exception ex)
                     {
-                        if (!imageResult.Contains(item.title))
+                        if (!sendVideo && !imageResult.Contains(item.title))
                             imageResult.Add(item.title);
 
                         AddErrorLog(item, 0);

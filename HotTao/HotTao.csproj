@@ -362,11 +362,11 @@
     <Compile Include="Controls\UserPIDControl.Designer.cs">
       <DependentUpon>UserPIDControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\VerifyCoupon.cs">
+    <Compile Include="Controls\InsertVideo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\VerifyCoupon.Designer.cs">
-      <DependentUpon>VerifyCoupon.cs</DependentUpon>
+    <Compile Include="Controls\InsertVideo.Designer.cs">
+      <DependentUpon>InsertVideo.cs</DependentUpon>
     </Compile>
     <Compile Include="FormEx.cs">
       <SubType>Form</SubType>
@@ -510,8 +510,8 @@
     <EmbeddedResource Include="Controls\UserPIDControl.resx">
       <DependentUpon>UserPIDControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\VerifyCoupon.resx">
-      <DependentUpon>VerifyCoupon.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\InsertVideo.resx">
+      <DependentUpon>InsertVideo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormEx.resx">
       <DependentUpon>FormEx.cs</DependentUpon>

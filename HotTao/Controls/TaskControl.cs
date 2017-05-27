@@ -726,7 +726,7 @@ namespace HotTao.Controls
 
 
         /// <summary>
-        /// 删除商品
+        /// 商品操作
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
@@ -752,6 +752,7 @@ namespace HotTao.Controls
                 };
                 confirm.ShowDialog(this);
             }
+            //验券
             else if (cells != null && cells["shareLink"].ColumnIndex == e.ColumnIndex)
             {
                 string url = GlobalConfig.couponUrl;
@@ -760,7 +761,19 @@ namespace HotTao.Controls
                 url += "&pid=mm_33648229_22032774_73500078";
                 Process.Start(url);
             }
-            else
+            //插入视频
+            else if (cells != null && cells["insertVideo"].ColumnIndex == e.ColumnIndex)
+            {
+                int gid = 0;
+                int.TryParse(cells["gid"].Value.ToString(), out gid);
+                string itemId = cells["goodsId"].Value.ToString().Replace("=", "");
+
+                InsertVideo video = new InsertVideo(hotForm);
+                video.itemId = itemId;
+                video.gid = gid;
+                video.ShowDialog(this);
+            }
+            else  //点击单元格选中商品
             {
                 if (this.dgvData.Rows.Count > 0)
                 {
