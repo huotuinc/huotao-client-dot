@@ -95,6 +95,7 @@ namespace HotTao.Controls
                 //TODO:将视频文件路径保存到数据库中
                 sourceFileName = string.Empty;
                 MessageAlert alert = new MessageAlert("上传成功");
+                alert.StartPosition = FormStartPosition.CenterScreen;
                 alert.Show(this);
             }
         }
