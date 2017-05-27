@@ -429,13 +429,24 @@ namespace HotTaoSquare
         }
 
         /// <summary>
-        /// 跳出浏览
+        /// 打开外部浏览器
         /// </summary>
         /// <param name="url"></param>
-        public void openBlankUrl(string url)
+        public void OpenExternalBrowser(string url)
         {
             Process.Start(url);
         }
+
+
+        /// <summary>
+        /// 获取客户端当前版本号
+        /// </summary>
+        /// <returns></returns>
+        public string getClientCurrentVersion()
+        {
+            return Version.value;
+        }
+
 
         #endregion
 
@@ -446,7 +457,7 @@ namespace HotTaoSquare
         /// <param name="e"></param>
         private void lkbRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            openBlankUrl(ApiConst.www);
+            OpenExternalBrowser(ApiConst.www);
         }
     }
     /// <summary>

@@ -18,6 +18,24 @@ using System.Threading.Tasks;
 
 namespace HotTaoSquare
 {
+
+    /// <summary>
+    /// 版本
+    /// </summary>
+    public class Version
+    {
+        /// <summary>
+        /// 版本号
+        /// </summary>
+        public static string value = "1.0.0";
+    }
+
+
+
+
+
+
+
     /// <summary>
     /// 用户相关的全局数据类
     /// </summary>
