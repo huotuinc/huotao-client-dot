@@ -387,13 +387,18 @@ namespace HotTao
             if (image != null)
             {
                 // Clipboard.SetImage(image);
-                System.Threading.Thread.Sleep(1000);
+                //System.Threading.Thread.Sleep(1000);
                 //粘贴图片       
                 foreach (var item in shareData)
                 {
                     try
                     {
-                        if (!isStartTask || MyUserInfo.currentUserId == 0) break;
+                        if (!isStartTask || MyUserInfo.currentUserId == 0)
+                        {
+                            //通知
+                            sendSmsNotify(item.title, true);
+                            break;
+                        }
 
                         //如果当前微信已经发送，则结束本循环
                         if (imageResult.Contains(item.title)) continue;
@@ -417,9 +422,17 @@ namespace HotTao
                                 UpdateShareTextStatus(item.id);
                             }
                         }
+                        else
+                        {
+                            //通知
+                            sendSmsNotify(item.title, false);
+                        }
                     }
                     catch (Exception ex)
                     {
+                        //通知
+                        sendSmsNotify(item.title, false);
+
                         if (!sendVideo && !imageResult.Contains(item.title))
                             imageResult.Add(item.title);
 
@@ -463,8 +476,13 @@ namespace HotTao
             {
                 try
                 {
-                    if (!isStartTask || MyUserInfo.currentUserId == 0) break;
-
+                    if (!isStartTask || MyUserInfo.currentUserId == 0)
+                    {
+                        //通知
+                        sendSmsNotify(item.title, false);
+                        break;
+                    }
+                    Clipboard.SetText(item.text);
                     //如果当前微信已经发送，则结束本循环
                     if (textResult.Contains(item.title)) continue;
 
@@ -472,16 +490,14 @@ namespace HotTao
                     if (b)
                     {
                         var win = wins.Find(w => { return w.szWindowName == item.title; });
-                        Clipboard.SetDataObject(item.text, false);
                         //设置微信为输入焦点
                         WinApi.SetActiveWin(win.hWnd);
-                        System.Threading.Thread.Sleep(100);
+                        System.Threading.Thread.Sleep(400);
                         WinApi.Paste(win.hWnd);
-                        System.Threading.Thread.Sleep(100);
-                        //WinApi.InputStr(win.hWnd, item.text);
+                        System.Threading.Thread.Sleep(300);
                         WinApi.Enter(win.hWnd);
                         SleepImage(0.5m);
-                        Clipboard.Clear();
+                       // Clipboard.Clear();
                         if (!textResult.Contains(item.title))
                             textResult.Add(item.title);
 
@@ -491,9 +507,16 @@ namespace HotTao
                             UpdateShareTextStatus(item.id);
                         }
                     }
+                    else
+                    {
+                        sendSmsNotify(item.title, false);
+                    }
                 }
                 catch (Exception ex)
                 {
+                    //通知
+                    sendSmsNotify(item.title, false);
+
                     if (!textResult.Contains(item.title))
                         textResult.Add(item.title);
 
@@ -551,6 +574,26 @@ namespace HotTao
 
 
 
+
+
+        /// <summary>
+        /// 发送短信通知
+        /// </summary>
+        /// <param name="weChatTitle">群标题</param>
+        /// <param name="isImage">当前发送的是否是图片</param>
+        public void sendSmsNotify(string weChatTitle, bool isImage)
+        {
+            //TODO:待接口发布
+            if (cfgTime != null&&!string.IsNullOrEmpty(cfgTime.notify_mobile))
+            {
+                string notify_mobile = cfgTime.notify_mobile;
+                new System.Threading.Thread(() =>
+                {
+                    //LogicUser.Instance.sendCodeForRegister("");
+                })
+                { IsBackground = true }.Start();
+            }
+        }
 
 
         /// <summary>

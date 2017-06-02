@@ -159,6 +159,11 @@ namespace HotTaoCore.Models
         /// </summary>
         public bool enable_sendvideo { get; set; } = false;
 
+        /// <summary>
+        /// 微信群漏发通知
+        /// </summary>
+        public string notify_mobile { get; set; } = string.Empty;
+
     }
 
     /// <summary>

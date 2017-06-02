@@ -46,6 +46,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.plfooter = new System.Windows.Forms.Panel();
+            this.lbTipMsg = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).BeginInit();
             this.plSite.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -260,6 +261,7 @@
             // 
             // plfooter
             // 
+            this.plfooter.Controls.Add(this.lbTipMsg);
             this.plfooter.Controls.Add(this.button1);
             this.plfooter.Controls.Add(this.button4);
             this.plfooter.Controls.Add(this.button2);
@@ -272,6 +274,15 @@
             this.plfooter.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
             this.plfooter.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
             this.plfooter.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
+            // 
+            // lbTipMsg
+            // 
+            this.lbTipMsg.AutoSize = true;
+            this.lbTipMsg.ForeColor = System.Drawing.Color.Red;
+            this.lbTipMsg.Location = new System.Drawing.Point(349, 23);
+            this.lbTipMsg.Name = "lbTipMsg";
+            this.lbTipMsg.Size = new System.Drawing.Size(0, 12);
+            this.lbTipMsg.TabIndex = 123;
             // 
             // GoodsCollectBrowser
             // 
@@ -304,6 +315,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picBack)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picRefresh)).EndInit();
             this.plfooter.ResumeLayout(false);
+            this.plfooter.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -327,5 +339,6 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Panel plfooter;
+        private System.Windows.Forms.Label lbTipMsg;
     }
 }

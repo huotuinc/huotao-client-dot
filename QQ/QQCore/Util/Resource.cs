@@ -30,10 +30,17 @@ namespace iQQ.Net.WebQQCore.Util
 
         public static Stream LoadFileResource(string name)
         {
-            const string dir = "Resources";
-            var path = Path.Combine(dir, name);
-            var fs = File.Exists(path) ? File.Open(path, FileMode.Open) : null;
-            return fs;
+            try
+            {
+                const string dir = "Resources";
+                var path = Path.Combine(dir, name);
+                var fs = File.Exists(path) ? File.Open(path, FileMode.Open) : null;
+                return fs;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public static async Task<Stream> LoadServerResourceAsync(string url)
@@ -41,7 +48,14 @@ namespace iQQ.Net.WebQQCore.Util
             var stream = await _httpClient.GetStreamAsync(url).ConfigureAwait(false);
             return stream;
         }
-
+        public static async Task<T> LoadServerResourceAsync<T>(string url, Func<Stream, T> func)
+        {
+            var resource = await LoadServerResourceAsync(url).ConfigureAwait(false);
+            using (resource)
+            {
+                return func(resource);
+            }
+        }
         public static T LoadLocalResource<T>(string name, Func<Stream, T> func)
         {
             var resource = LoadFileResource(name) ?? LoadEmbededResource(name);

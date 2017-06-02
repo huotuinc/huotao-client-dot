@@ -261,6 +261,11 @@ namespace HotTaoCore
         /// </summary>
         public const string queryGoods = "/goods/queryGoods";
 
+        /// <summary>
+        /// 发送预警短信
+        /// </summary>
+        public const string sendWarning = "/api/sendWarning";
+
         #endregion
     }
 }

@@ -57,6 +57,7 @@ namespace HotTao.Controls
                     txtTaoAppKey.Text = cfgTime.appkey;
                     txtTaoAppSecret.Text = cfgTime.appsecret;
                     ckbSendVideo.Checked = cfgTime.enable_sendvideo;
+                    txtNotifyMobile.Text = cfgTime.notify_mobile;
                 }
 
                 ConfigWhereModel cfgWhere = string.IsNullOrEmpty(hotForm.myConfig.where_config) ? null : JsonConvert.DeserializeObject<ConfigWhereModel>(hotForm.myConfig.where_config);
@@ -104,7 +105,12 @@ namespace HotTao.Controls
             cfgTime.appkey = txtTaoAppKey.Text;
             cfgTime.appsecret = txtTaoAppSecret.Text;
 
+            //发视频
             cfgTime.enable_sendvideo = ckbSendVideo.Checked;
+
+            //通知手机
+            cfgTime.notify_mobile = txtNotifyMobile.Text;
+
 
             //商品间隔
             int.TryParse(txtgoodsinterval.Text, out result);

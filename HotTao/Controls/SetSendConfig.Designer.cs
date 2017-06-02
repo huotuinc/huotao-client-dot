@@ -68,6 +68,9 @@
             this.rdSendWindows = new System.Windows.Forms.RadioButton();
             this.label22 = new System.Windows.Forms.Label();
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.label28 = new System.Windows.Forms.Label();
+            this.ckbSendVideo = new System.Windows.Forms.CheckBox();
+            this.label27 = new System.Windows.Forms.Label();
             this.rbWtSort = new System.Windows.Forms.RadioButton();
             this.rbTwSort = new System.Windows.Forms.RadioButton();
             this.label4 = new System.Windows.Forms.Label();
@@ -81,13 +84,16 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.ckbSendVideo = new System.Windows.Forms.CheckBox();
-            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.txtNotifyMobile = new System.Windows.Forms.TextBox();
+            this.label31 = new System.Windows.Forms.Label();
+            this.hotGroupBox5 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.label32 = new System.Windows.Forms.Label();
             this.hotGroupBox4.SuspendLayout();
             this.hotGroupBox3.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
             this.hotGroupBox1.SuspendLayout();
+            this.hotGroupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // hotGroupBox4
@@ -102,14 +108,14 @@
             this.hotGroupBox4.Controls.Add(this.label24);
             this.hotGroupBox4.Location = new System.Drawing.Point(13, 276);
             this.hotGroupBox4.Name = "hotGroupBox4";
-            this.hotGroupBox4.Size = new System.Drawing.Size(725, 212);
+            this.hotGroupBox4.Size = new System.Drawing.Size(725, 114);
             this.hotGroupBox4.TabIndex = 3;
             this.hotGroupBox4.TabStop = false;
             // 
             // label26
             // 
             this.label26.ForeColor = System.Drawing.Color.Red;
-            this.label26.Location = new System.Drawing.Point(295, 55);
+            this.label26.Location = new System.Drawing.Point(295, 32);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(299, 54);
             this.label26.TabIndex = 36;
@@ -120,7 +126,7 @@
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.label23.Location = new System.Drawing.Point(5, -3);
+            this.label23.Location = new System.Drawing.Point(315, -3);
             this.label23.Name = "label23";
             this.label23.Padding = new System.Windows.Forms.Padding(5);
             this.label23.Size = new System.Drawing.Size(93, 22);
@@ -130,7 +136,7 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(8, 97);
+            this.label25.Location = new System.Drawing.Point(8, 74);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(59, 12);
             this.label25.TabIndex = 35;
@@ -139,7 +145,7 @@
             // txtTaoAppSecret
             // 
             this.txtTaoAppSecret.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.txtTaoAppSecret.Location = new System.Drawing.Point(79, 94);
+            this.txtTaoAppSecret.Location = new System.Drawing.Point(79, 71);
             this.txtTaoAppSecret.Name = "txtTaoAppSecret";
             this.txtTaoAppSecret.Size = new System.Drawing.Size(193, 21);
             this.txtTaoAppSecret.TabIndex = 1;
@@ -147,7 +153,7 @@
             // txtTaoAppKey
             // 
             this.txtTaoAppKey.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.txtTaoAppKey.Location = new System.Drawing.Point(79, 51);
+            this.txtTaoAppKey.Location = new System.Drawing.Point(79, 28);
             this.txtTaoAppKey.Name = "txtTaoAppKey";
             this.txtTaoAppKey.Size = new System.Drawing.Size(193, 21);
             this.txtTaoAppKey.TabIndex = 1;
@@ -155,7 +161,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(26, 54);
+            this.label24.Location = new System.Drawing.Point(26, 31);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(41, 12);
             this.label24.TabIndex = 35;
@@ -192,7 +198,7 @@
             this.hotGroupBox3.Enabled = false;
             this.hotGroupBox3.Location = new System.Drawing.Point(324, 279);
             this.hotGroupBox3.Name = "hotGroupBox3";
-            this.hotGroupBox3.Size = new System.Drawing.Size(414, 210);
+            this.hotGroupBox3.Size = new System.Drawing.Size(414, 105);
             this.hotGroupBox3.TabIndex = 2;
             this.hotGroupBox3.TabStop = false;
             this.hotGroupBox3.Visible = false;
@@ -541,9 +547,41 @@
             this.hotGroupBox1.Controls.Add(this.label9);
             this.hotGroupBox1.Location = new System.Drawing.Point(13, 80);
             this.hotGroupBox1.Name = "hotGroupBox1";
-            this.hotGroupBox1.Size = new System.Drawing.Size(725, 190);
+            this.hotGroupBox1.Size = new System.Drawing.Size(725, 178);
             this.hotGroupBox1.TabIndex = 0;
             this.hotGroupBox1.TabStop = false;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.label28.Location = new System.Drawing.Point(180, 146);
+            this.label28.Margin = new System.Windows.Forms.Padding(0);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(89, 12);
+            this.label28.TabIndex = 41;
+            this.label28.Text = "只支持窗口模式";
+            // 
+            // ckbSendVideo
+            // 
+            this.ckbSendVideo.AutoSize = true;
+            this.ckbSendVideo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ckbSendVideo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.ckbSendVideo.Location = new System.Drawing.Point(113, 144);
+            this.ckbSendVideo.Name = "ckbSendVideo";
+            this.ckbSendVideo.Size = new System.Drawing.Size(48, 16);
+            this.ckbSendVideo.TabIndex = 40;
+            this.ckbSendVideo.Text = "启用";
+            this.ckbSendVideo.UseVisualStyleBackColor = true;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(55, 145);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(53, 12);
+            this.label27.TabIndex = 39;
+            this.label27.Text = "发送视频";
             // 
             // rbWtSort
             // 
@@ -551,7 +589,7 @@
             this.rbWtSort.Cursor = System.Windows.Forms.Cursors.Hand;
             this.rbWtSort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.rbWtSort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.rbWtSort.Location = new System.Drawing.Point(199, 86);
+            this.rbWtSort.Location = new System.Drawing.Point(199, 87);
             this.rbWtSort.Name = "rbWtSort";
             this.rbWtSort.Size = new System.Drawing.Size(70, 16);
             this.rbWtSort.TabIndex = 38;
@@ -565,7 +603,7 @@
             this.rbTwSort.Cursor = System.Windows.Forms.Cursors.Hand;
             this.rbTwSort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.rbTwSort.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.rbTwSort.Location = new System.Drawing.Point(117, 86);
+            this.rbTwSort.Location = new System.Drawing.Point(117, 87);
             this.rbTwSort.Name = "rbTwSort";
             this.rbTwSort.Size = new System.Drawing.Size(70, 16);
             this.rbTwSort.TabIndex = 38;
@@ -577,7 +615,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.label4.Location = new System.Drawing.Point(180, 59);
+            this.label4.Location = new System.Drawing.Point(180, 60);
             this.label4.Margin = new System.Windows.Forms.Padding(0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(317, 12);
@@ -588,7 +626,7 @@
             // 
             this.label20.AutoSize = true;
             this.label20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.label20.Location = new System.Drawing.Point(180, 115);
+            this.label20.Location = new System.Drawing.Point(180, 116);
             this.label20.Margin = new System.Windows.Forms.Padding(0);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(329, 12);
@@ -599,7 +637,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.label2.Location = new System.Drawing.Point(180, 31);
+            this.label2.Location = new System.Drawing.Point(180, 32);
             this.label2.Margin = new System.Windows.Forms.Padding(0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(353, 12);
@@ -609,7 +647,7 @@
             // txtgoodsinterval
             // 
             this.txtgoodsinterval.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.txtgoodsinterval.Location = new System.Drawing.Point(113, 54);
+            this.txtgoodsinterval.Location = new System.Drawing.Point(113, 55);
             this.txtgoodsinterval.Name = "txtgoodsinterval";
             this.txtgoodsinterval.Size = new System.Drawing.Size(60, 21);
             this.txtgoodsinterval.TabIndex = 2;
@@ -619,7 +657,7 @@
             // txtTaskInterval
             // 
             this.txtTaskInterval.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.txtTaskInterval.Location = new System.Drawing.Point(113, 111);
+            this.txtTaskInterval.Location = new System.Drawing.Point(113, 112);
             this.txtTaskInterval.Name = "txtTaskInterval";
             this.txtTaskInterval.Size = new System.Drawing.Size(60, 21);
             this.txtTaskInterval.TabIndex = 1;
@@ -629,7 +667,7 @@
             // txthandleInterval
             // 
             this.txthandleInterval.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.txthandleInterval.Location = new System.Drawing.Point(113, 27);
+            this.txthandleInterval.Location = new System.Drawing.Point(113, 28);
             this.txthandleInterval.Name = "txthandleInterval";
             this.txthandleInterval.Size = new System.Drawing.Size(60, 21);
             this.txthandleInterval.TabIndex = 1;
@@ -639,7 +677,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(54, 87);
+            this.label5.Location = new System.Drawing.Point(54, 88);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(53, 12);
             this.label5.TabIndex = 35;
@@ -648,7 +686,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(54, 115);
+            this.label19.Location = new System.Drawing.Point(54, 116);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(53, 12);
             this.label19.TabIndex = 35;
@@ -657,7 +695,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(54, 59);
+            this.label3.Location = new System.Drawing.Point(54, 60);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 35;
@@ -666,7 +704,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(54, 31);
+            this.label1.Location = new System.Drawing.Point(54, 32);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 35;
@@ -677,50 +715,74 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.label9.Location = new System.Drawing.Point(271, -2);
+            this.label9.Location = new System.Drawing.Point(315, -2);
             this.label9.Name = "label9";
             this.label9.Padding = new System.Windows.Forms.Padding(5);
-            this.label9.Size = new System.Drawing.Size(197, 22);
+            this.label9.Size = new System.Drawing.Size(93, 22);
             this.label9.TabIndex = 34;
-            this.label9.Text = "转发等待时间设置（单位：秒）";
+            this.label9.Text = "发送相关配置";
             // 
-            // label27
+            // label29
             // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(55, 145);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(53, 12);
-            this.label27.TabIndex = 39;
-            this.label27.Text = "发送视频";
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(52, 46);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(53, 12);
+            this.label29.TabIndex = 42;
+            this.label29.Text = "通知手机";
             // 
-            // ckbSendVideo
+            // txtNotifyMobile
             // 
-            this.ckbSendVideo.AutoSize = true;
-            this.ckbSendVideo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ckbSendVideo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.ckbSendVideo.Location = new System.Drawing.Point(113, 143);
-            this.ckbSendVideo.Name = "ckbSendVideo";
-            this.ckbSendVideo.Size = new System.Drawing.Size(48, 16);
-            this.ckbSendVideo.TabIndex = 40;
-            this.ckbSendVideo.Text = "启用";
-            this.ckbSendVideo.UseVisualStyleBackColor = true;
+            this.txtNotifyMobile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.txtNotifyMobile.Location = new System.Drawing.Point(110, 41);
+            this.txtNotifyMobile.Name = "txtNotifyMobile";
+            this.txtNotifyMobile.Size = new System.Drawing.Size(89, 21);
+            this.txtNotifyMobile.TabIndex = 1;
+            this.txtNotifyMobile.Text = "15423456789";
             // 
-            // label28
+            // label31
             // 
-            this.label28.AutoSize = true;
-            this.label28.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.label28.Location = new System.Drawing.Point(180, 145);
-            this.label28.Margin = new System.Windows.Forms.Padding(0);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(89, 12);
-            this.label28.TabIndex = 41;
-            this.label28.Text = "只支持窗口模式";
+            this.label31.AutoSize = true;
+            this.label31.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.label31.Location = new System.Drawing.Point(207, 46);
+            this.label31.Margin = new System.Windows.Forms.Padding(0);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(149, 12);
+            this.label31.TabIndex = 41;
+            this.label31.Text = "微信群漏发通知，默认留空";
+            // 
+            // hotGroupBox5
+            // 
+            this.hotGroupBox5.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox5.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox5.Controls.Add(this.label29);
+            this.hotGroupBox5.Controls.Add(this.label32);
+            this.hotGroupBox5.Controls.Add(this.label31);
+            this.hotGroupBox5.Controls.Add(this.txtNotifyMobile);
+            this.hotGroupBox5.Location = new System.Drawing.Point(15, 397);
+            this.hotGroupBox5.Name = "hotGroupBox5";
+            this.hotGroupBox5.Size = new System.Drawing.Size(722, 101);
+            this.hotGroupBox5.TabIndex = 4;
+            this.hotGroupBox5.TabStop = false;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label32.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.label32.Location = new System.Drawing.Point(313, -2);
+            this.label32.Name = "label32";
+            this.label32.Padding = new System.Windows.Forms.Padding(5);
+            this.label32.Size = new System.Drawing.Size(93, 22);
+            this.label32.TabIndex = 35;
+            this.label32.Text = "发单预警配置";
             // 
             // SetSendConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.hotGroupBox5);
             this.Controls.Add(this.hotGroupBox2);
             this.Controls.Add(this.hotGroupBox1);
             this.Controls.Add(this.hotGroupBox4);
@@ -736,6 +798,8 @@
             this.hotGroupBox2.PerformLayout();
             this.hotGroupBox1.ResumeLayout(false);
             this.hotGroupBox1.PerformLayout();
+            this.hotGroupBox5.ResumeLayout(false);
+            this.hotGroupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -797,5 +861,10 @@
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.CheckBox ckbSendVideo;
         private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.TextBox txtNotifyMobile;
+        private module.HotGroupBox hotGroupBox5;
+        private System.Windows.Forms.Label label32;
     }
 }

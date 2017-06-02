@@ -66,6 +66,8 @@ namespace HotTao.Controls
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));
+
+            //hotForm.worker.RunWorkerAsync("http://www.dataoke.com");
         }
 
         /// <summary>

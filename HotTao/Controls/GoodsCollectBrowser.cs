@@ -296,7 +296,7 @@ namespace HotTao.Controls
         /// <summary>
         /// 是否已加载完成
         /// </summary>
-        private bool isLoadingCompleted { get; set; }
+        private bool isLoadingCompleted { get; set; } = true;
 
         /// <summary>
         /// 开始采集网址商品
@@ -326,7 +326,9 @@ namespace HotTao.Controls
                 ld.Location = new Point(rect.Left, rect.Top);
                 ld.Size = new Size(rect.Right - rect.Left, rect.Bottom - rect.Top);
                 ld.Show(this);
+                setTipMsg("正在准备采集...");
             }
+            if (!Runing) return;
             new System.Threading.Thread(() =>
             {
                 //建立采集计划
@@ -335,15 +337,16 @@ namespace HotTao.Controls
                 {
                     Runing = false;
                     LoadingClose();
+                    AlertTip("服务器开小差了，请稍后再试！");
                 }
                 else
                 {
                     while (Runing)
                     {
+                        setTipMsg("采集中...请稍后！");
                         doPolling();
-                        System.Threading.Thread.Sleep(5000);
+                        System.Threading.Thread.Sleep(500);
                     }
-
                 }
             })
             { IsBackground = true }.Start();
@@ -362,6 +365,7 @@ namespace HotTao.Controls
                 }
                 else
                 {
+                    lbTipMsg.Text = "";
                     if (ld != null)
                         ld.Close();
 
@@ -369,6 +373,24 @@ namespace HotTao.Controls
                 }
             }
         }
+        /// <summary>
+        /// 设置提示内容
+        /// </summary>
+        /// <param name="text"></param>
+        private void setTipMsg(string text)
+        {
+            if (this.lbTipMsg.InvokeRequired)
+            {
+                this.lbTipMsg.Invoke(new Action<string>(setTipMsg), new object[] { text });
+            }
+            else
+            {
+                lbTipMsg.Text = text;
+            }
+        }
+
+
+
         /// <summary>
         /// 轮询
         /// </summary>
@@ -380,11 +402,12 @@ namespace HotTao.Controls
             if (result != null)
             {
                 Runing = !result.finish;
-                AlertTip("采集完成：共" + result.urls.Count() + "个");
-                importGoods(result.urls);
+                if (result.urls != null && result.urls.Count() > 0)
+                {
+                    importGoods(result.urls);
+                }
             }
         }
-
 
 
 
@@ -432,41 +455,47 @@ namespace HotTao.Controls
                 Dictionary<string, string> dict = new Dictionary<string, string>();
                 dict["url"] = item.goodsUrl;
                 dict["url2"] = item.couponUrl;
-                dict["message"] = string.Format("{0}，券后【{1}元】包邮秒杀，领券地址：{2} \r\n 下单地址:{3} ", item.goodsName, item.couponAfterPrice.ToString("f2"), item.couponUrl, item.goodsName);
+                dict["message"] = string.Format("{0}，券后【{1}元】包邮秒杀，领券地址：{2} \r\n 下单地址:{3} ", item.goodsName, item.couponAfterPrice.ToString("f2"), item.couponUrl, item.goodsUrl);
                 list.Add(dict);
             }
             string jsonUrls = JsonConvert.SerializeObject(list);
-            new System.Threading.Thread(() =>
+
+            //根据地址，获取商品优惠信息
+            List<GoodsSelectedModel> goodsData = LogicGoods.Instance.getGoodsByLink(MyUserInfo.LoginToken, jsonUrls);
+            try
             {
-                //根据地址，获取商品优惠信息
-                List<GoodsSelectedModel> goodsData = LogicGoods.Instance.getGoodsByLink(MyUserInfo.LoginToken, jsonUrls);
-                try
+                if (goodsData != null && goodsData.Count() > 0)
                 {
-                    if (goodsData != null && goodsData.Count() > 0)
+                    setTipMsg(string.Format("采集完成，共采集到{0}个商品,正在保存...", goodsData.Count()));
+                    bool isUpdate = false;
+                    foreach (var goods in goodsData)
                     {
-                        bool isUpdate = false;
-                        foreach (var goods in goodsData)
+                        try
                         {
-                            try
-                            {
-                                //保存商品到本地数据库
-                                LogicGoods.Instance.SaveGoods(goods, MyUserInfo.currentUserId, out isUpdate);
-                            }
-                            catch (Exception ex)
-                            {
-                                log.Error(ex);
-                            }
+                            //保存商品到本地数据库
+                            LogicGoods.Instance.SaveGoods(goods, MyUserInfo.currentUserId, out isUpdate);
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
                         }
                     }
+                    LoadingClose();
+                    AlertTip("数据采集完成");
                 }
-                catch (Exception ex)
+                else
                 {
-                    log.Error(ex);
+                    LoadingClose();
+                    AlertTip("服务器开小差了，请稍后再试！");
                 }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
                 LoadingClose();
-                AlertTip("数据采集完成");
-            })
-            { IsBackground = true }.Start();
+                AlertTip("服务器开小差了，请稍后再试！");
+            }
+
         }
     }
 }

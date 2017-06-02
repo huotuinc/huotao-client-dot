@@ -139,8 +139,12 @@ namespace iQQ.Net.WebQQCore.Util
         /// <returns></returns>
         public static string GetHash(string uin, string ptwebqq)
         {
-           // const string url = "https://raw.githubusercontent.com/im-qq/webqq-core/master/src/main/resources/hash.js";
-            var js = Resource.LoadLocalResource("hash.js", item => item.ToString(Encoding.UTF8));
+            //const string url = "https://raw.githubusercontent.com/im-qq/webqq-core/master/src/main/resources/hash.js";
+            // var js = Resource.LoadResourceAsync("hash.js", url, item => item.ToString(Encoding.UTF8)).Result;
+            //var js = Resource.LoadLocalResource("hash.js", item => item.ToString(Encoding.UTF8));
+            //var js = Resource.LoadServerResourceAsync(url, item => item.ToString(Encoding.UTF8)).Result;
+
+            string js = "hash=function(e,b){e+='';for(var d=[],a=0;a<b.length;a++)d[a%4]^=b.charCodeAt(a);b=['EC','OK'];var c=[];c[0]=e>>24&255^b[0].charCodeAt(0);c[1]=e>>16&255^b[0].charCodeAt(1);c[2]=e>>8&255^b[1].charCodeAt(0);c[3]=e&255^b[1].charCodeAt(1);b=[];for(a=0;8>a;a++)b[a]=0==a%2?d[a>>1]:c[a>>1];d='0123456789ABCDEF'.split('');c='';for(a=0;a<b.length;a++)c+=d[b[a]>>4&15],c+=d[b[a]&15];return c};";
             object[] args = { uin, ptwebqq };
             var code = string.Format("hash('{0}','{1}')", args);
             var engine = new Jint.Engine();
