@@ -375,7 +375,11 @@ namespace HotTaoMonitoring
         /// <param name="e">The <see cref="LinkLabelLinkClickedEventArgs"/> instance containing the event data.</param>
         private void lkbRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            hotPanelRegister.Visible = true;
+            HotTaoRegistAccount.RegisterForm reg = new HotTaoRegistAccount.RegisterForm();
+            reg.StartPosition = FormStartPosition.CenterScreen;
+            reg.Show(this);
+
+           // hotPanelRegister.Visible = true;
         }
         /// <summary>
         /// 返回登录

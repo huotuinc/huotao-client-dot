@@ -11,7 +11,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HotTaoMonitoring</RootNamespace>
     <AssemblyName>火淘客服系统</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -278,6 +278,10 @@
     <ProjectReference Include="..\HotTaoCore\HotTaoCore.csproj">
       <Project>{850f7582-733e-4a00-9d30-8c977e4f01b9}</Project>
       <Name>HotTaoCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HotTaoRegistAccount\HotTaoRegistAccount.csproj">
+      <Project>{78b32fd3-565c-4ca9-ae62-ebd12d03196a}</Project>
+      <Name>HotTaoRegistAccount</Name>
     </ProjectReference>
     <ProjectReference Include="..\WwChatHttpCore\WeChatHttpCore.csproj">
       <Project>{2ceadef4-de9e-4e93-a1a1-1849d6781bd5}</Project>

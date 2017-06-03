@@ -34,7 +34,7 @@ namespace HotTaoCore
         /// </summary>
         public const string www = "http://www.51huotao.com";
 
-        public const string CheckUpdateUrl = "http://120.24.54.54:8084";
+        public const string CheckUpdateUrl = "http://www.51huotao.com/version/v.json";
 
 
         /// <summary>

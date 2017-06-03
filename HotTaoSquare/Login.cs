@@ -457,7 +457,11 @@ namespace HotTaoSquare
         /// <param name="e"></param>
         private void lkbRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            OpenExternalBrowser(ApiConst.www);
+            //OpenExternalBrowser(ApiConst.www);
+            HotTaoRegistAccount.RegisterForm reg = new HotTaoRegistAccount.RegisterForm();
+            reg.StartPosition = FormStartPosition.CenterScreen;
+            reg.Show(this);
+
         }
     }
     /// <summary>

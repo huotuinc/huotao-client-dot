@@ -93,6 +93,21 @@ namespace HotTaoCore.Logic
         }
 
         /// <summary>
+        /// 发送预警短信
+        /// </summary>
+        /// <param name="mobile">The mobile.</param>
+        /// <returns>true if XXXX, false otherwise.</returns>
+        public void sendWarning(string token, string mobile, string content)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = token;
+            data["mobile"] = mobile;
+            data["content"] = content;
+            BaseRequestService.Post(ApiConst.sendWarning, data);
+        }
+
+
+        /// <summary>
         /// 使用软件激活码
         /// </summary>
         /// <param name="token">The token.</param>

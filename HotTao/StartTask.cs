@@ -497,7 +497,7 @@ namespace HotTao
                         System.Threading.Thread.Sleep(300);
                         WinApi.Enter(win.hWnd);
                         SleepImage(0.5m);
-                       // Clipboard.Clear();
+                        // Clipboard.Clear();
                         if (!textResult.Contains(item.title))
                             textResult.Add(item.title);
 
@@ -580,16 +580,17 @@ namespace HotTao
         /// 发送短信通知
         /// </summary>
         /// <param name="weChatTitle">群标题</param>
-        /// <param name="isImage">当前发送的是否是图片</param>
         public void sendSmsNotify(string weChatTitle, bool isImage)
         {
+            string content = string.Format("您好，发单号:{0},群[{1}]{2}发送出问题了，请查看！",
+                MyUserInfo.userData.loginName, weChatTitle, isImage ? "图片" : "文案");
             //TODO:待接口发布
-            if (cfgTime != null&&!string.IsNullOrEmpty(cfgTime.notify_mobile))
+            if (cfgTime != null && !string.IsNullOrEmpty(cfgTime.notify_mobile))
             {
                 string notify_mobile = cfgTime.notify_mobile;
                 new System.Threading.Thread(() =>
                 {
-                    //LogicUser.Instance.sendCodeForRegister("");
+                    LogicUser.Instance.sendWarning(MyUserInfo.LoginToken, notify_mobile, content);
                 })
                 { IsBackground = true }.Start();
             }
