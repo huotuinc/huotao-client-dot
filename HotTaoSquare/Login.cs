@@ -6,13 +6,9 @@ using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HotTaoSquare
@@ -344,27 +340,34 @@ namespace HotTaoSquare
         public void InitBrowser(string url)
         {
 
-            if (browser == null)
+            try
             {
-                SetUserAgent();
-                BrowserSettings settings = new BrowserSettings()
+                if (browser == null)
                 {
-                    LocalStorage = CefState.Enabled,
-                    Javascript = CefState.Enabled,
-                    Plugins = CefState.Enabled,
-                    ImageLoading = CefState.Enabled,
-                    ImageShrinkStandaloneToFit = CefState.Enabled,
-                    WebGl = CefState.Enabled,
-                };
-                browser = new ChromiumWebBrowser(url);
-                browser.BrowserSettings = settings;
-                browser.RegisterJsObject("hotJs", new Login(), false);
-                browser.Dock = DockStyle.Fill;
-                browser.LifeSpanHandler = new LifeSpanHandler();
-                browser.MenuHandler = new MenuHandler();
+                    SetUserAgent();
+                    BrowserSettings settings = new BrowserSettings()
+                    {
+                        LocalStorage = CefState.Enabled,
+                        Javascript = CefState.Enabled,
+                        Plugins = CefState.Enabled,
+                        ImageLoading = CefState.Enabled,
+                        ImageShrinkStandaloneToFit = CefState.Enabled,
+                        WebGl = CefState.Enabled,
+                    };
+                    browser = new ChromiumWebBrowser(url);
+                    browser.BrowserSettings = settings;
+                    browser.RegisterJsObject("hotJs", new Login(), false);
+                    browser.Dock = DockStyle.Fill;
+                    browser.LifeSpanHandler = new LifeSpanHandler();
+                    browser.MenuHandler = new MenuHandler();
+                }
+                else
+                    browser.Load(url);
             }
-            else
-                browser.Load(url);
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
         /// <summary>
@@ -387,15 +390,22 @@ namespace HotTaoSquare
         /// </summary>
         public void SetUserAgent()
         {
-            CefSettings cfs = new CefSettings();
-            Dictionary<string, string> formFields = new Dictionary<string, string>();
-            //formFields["taobaoName"] = MyUserInfo.TaobaoName;
-            formFields["token"] = MyUserInfo.LoginToken;
-            //获取签名
-            string signature = SignatureHelper.BuildSign(formFields, ApiConst.SecretKey);
-            string param = string.Format("hottecexe:token={0}&signature={1};", MyUserInfo.LoginToken, signature);
-            cfs.UserAgent = param + "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36";
-            Cef.Initialize(cfs, true, true);
+            try
+            {
+                CefSettings cfs = new CefSettings();
+                Dictionary<string, string> formFields = new Dictionary<string, string>();
+                //formFields["taobaoName"] = MyUserInfo.TaobaoName;
+                formFields["token"] = MyUserInfo.LoginToken;
+                //获取签名
+                string signature = SignatureHelper.BuildSign(formFields, ApiConst.SecretKey);
+                string param = string.Format("hottecexe:token={0}&signature={1};", MyUserInfo.LoginToken, signature);
+                cfs.UserAgent = param + "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36";
+                Cef.Initialize(cfs, true, true);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
 
@@ -457,7 +467,6 @@ namespace HotTaoSquare
         /// <param name="e"></param>
         private void lkbRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //OpenExternalBrowser(ApiConst.www);
             HotTaoRegistAccount.RegisterForm reg = new HotTaoRegistAccount.RegisterForm();
             reg.StartPosition = FormStartPosition.CenterScreen;
             reg.Show(this);

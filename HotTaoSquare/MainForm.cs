@@ -79,10 +79,6 @@ namespace HotTaoSquare
         /// 加载页面地址
         /// </summary>
         private static string intiUrl = ApiConst.www + "/widePlace/index";
-        //"https://huotuinc.github.io/huotao-server/src/main/webapp/wap/jobIndex.html";
-        // System.Environment.CurrentDirectory + "\\portal\\tkgc-b.html";
-        // "http://www.baidu.com";
-        // 
 
         public MainForm(Login form)
         {
@@ -108,21 +104,28 @@ namespace HotTaoSquare
         /// </summary>
         private void AddBrowser()
         {
-            if (hotPanel1.InvokeRequired)
+            try
             {
-                hotPanel1.Invoke(new Action(AddBrowser), new object[] { });
-            }
-            else
-            {
-                if (loginForm.browser == null)
-                    loginForm.InitBrowser(intiUrl);
-
-                if (loginForm.browser != null)
+                if (hotPanel1.InvokeRequired)
                 {
-                    loginForm.browser.FrameLoadEnd += BrowseLoadEnd;
-                    loginForm.browser.TitleChanged += Browser_TitleChanged;
+                    hotPanel1.Invoke(new Action(AddBrowser), new object[] { });
                 }
-                hotPanel1.Controls.Add(loginForm.browser);
+                else
+                {
+                    if (loginForm.browser == null)
+                        loginForm.InitBrowser(intiUrl);
+
+                    if (loginForm.browser != null)
+                    {
+                        loginForm.browser.FrameLoadEnd += BrowseLoadEnd;
+                        loginForm.browser.TitleChanged += Browser_TitleChanged;
+                    }
+                    hotPanel1.Controls.Add(loginForm.browser);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
             }
         }
 
@@ -285,32 +288,39 @@ namespace HotTaoSquare
         /// </summary>
         public void LoginTaoBao()
         {
-            if (this.InvokeRequired)
+            try
             {
-                this.Invoke(new Action(LoginTaoBao), new object[] { });
-            }
-            else
-            {
-                loginSuccess = false;
-                TimingRefreshAlimamaPage();
-                if (lw != null)
+                if (this.InvokeRequired)
                 {
-                    lw.Dispose();
-                    lw.Close();
-                    lw = null;
+                    this.Invoke(new Action(LoginTaoBao), new object[] { });
                 }
-                lw = new LoginWindow();
-                lw.LoginSuccessHandle += Lw_LoginSuccessHandle;
-                lw.CloseWindowHandle += Lw_CloseWindowHandle;
-                lw.StartPosition = FormStartPosition.CenterScreen;
-                lw.ShowDialog(this);
+                else
+                {
+                    loginSuccess = false;
+                    TimingRefreshAlimamaPage();
+                    if (lw != null)
+                    {
+                        lw.Dispose();
+                        lw.Close();
+                        lw = null;
+                    }
+                    lw = new LoginWindow();
+                    lw.LoginSuccessHandle += Lw_LoginSuccessHandle;
+                    lw.CloseWindowHandle += Lw_CloseWindowHandle;
+                    lw.StartPosition = FormStartPosition.CenterScreen;
+                    lw.ShowDialog(this);
 
 
-                if (checkTbLoginTime == null)
-                    checkTbLoginTime = new Timer();
-                checkTbLoginTime.Interval = 60 * 1000;// 300000;
-                checkTbLoginTime.Tick += CheckTbLoginTime_Tick;
-                checkTbLoginTime.Start();
+                    if (checkTbLoginTime == null)
+                        checkTbLoginTime = new Timer();
+                    checkTbLoginTime.Interval = 60 * 1000;// 300000;
+                    checkTbLoginTime.Tick += CheckTbLoginTime_Tick;
+                    checkTbLoginTime.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
             }
         }
 
@@ -548,7 +558,8 @@ namespace HotTaoSquare
         /// <param name="e"></param>
         private void picRefresh_Click(object sender, EventArgs e)
         {
-            loginForm.browser.Reload();
+            if (loginForm.browser != null)
+                loginForm.browser.Reload();
         }
         /// <summary>
         /// 首页
@@ -557,7 +568,8 @@ namespace HotTaoSquare
         /// <param name="e"></param>
         private void picHome_Click(object sender, EventArgs e)
         {
-            loginForm.browser.Load(intiUrl);
+            if (loginForm.browser != null)
+                loginForm.browser.Load(intiUrl);
         }
 
         private void picBack_Click(object sender, EventArgs e)
@@ -567,7 +579,8 @@ namespace HotTaoSquare
 
         private void picForward_Click(object sender, EventArgs e)
         {
-            loginForm.browser.Forward();
+            if (loginForm.browser != null)
+                loginForm.browser.Forward();
         }
         /// <summary>
         /// 最小化

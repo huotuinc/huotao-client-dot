@@ -1,19 +1,13 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
-using HotTaoCore.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace TBSync
 {
@@ -21,8 +15,7 @@ namespace TBSync
     /// 淘宝登录窗口
     /// </summary>
     public partial class LoginWindow : Form
-    {
-        NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
+    {        
         public LoginWindow()
         {
             InitializeComponent();

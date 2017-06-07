@@ -31,7 +31,7 @@ namespace HotTao.Controls
         /// <summary>
         /// 自动刷新任务数据
         /// </summary>
-        System.Windows.Forms.Timer autoRefreshTask;
+       // System.Windows.Forms.Timer autoRefreshTask;
 
 
         private void HomeControl_Load(object sender, EventArgs e)

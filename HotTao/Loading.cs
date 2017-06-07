@@ -53,10 +53,6 @@ namespace HotTao
             {
                 this.Close();
             }
-            //this.BeginInvoke((Action)(delegate ()  //等待结束
-            //{
-            //    this.Close();
-            //}));
         }
         protected override CreateParams CreateParams
         {

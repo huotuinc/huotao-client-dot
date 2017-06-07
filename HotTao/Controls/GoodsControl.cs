@@ -78,6 +78,7 @@ namespace HotTao.Controls
                     timer.Stop();
                     timer = null;
                 }
+                //LoadClose();
                 ld.CloseForm();
                 //string url = ApiConst.Url + "/goods/goodListPage?viewMode=2&token=" + MyUserInfo.LoginToken;
                 //hotForm.browser.Load(url);
@@ -198,7 +199,6 @@ namespace HotTao.Controls
             else
             {
                 ld.Close();
-
                 new Thread(() =>
                 {
                     Thread.Sleep(500);
