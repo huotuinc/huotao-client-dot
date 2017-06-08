@@ -387,5 +387,27 @@ namespace HotTaoCore.Logic
             return BaseRequestService.PostToString(ApiConst.getTaobaoUsername, data);
         }
 
+
+        /// <summary>
+        /// 检查阿里妈妈cookie状态
+        /// </summary>
+        /// <param name="loginToken"></param>
+        /// <param name="cookies"></param>
+        /// <returns></returns>
+        public bool checkCookieStatus(string loginToken, string cookies)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["cookies"] = cookies;
+            bool flag = false;
+            var result = BaseRequestService.Post(ApiConst.checkCookie, data, ret =>
+            {
+                flag = true;
+            });
+            if (flag)
+                result = flag;
+            return result;
+        }
+
     }
 }

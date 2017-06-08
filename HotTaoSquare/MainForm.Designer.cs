@@ -32,8 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.plTop = new System.Windows.Forms.Panel();
             this.plRightTop = new System.Windows.Forms.Panel();
-            this.lbTitle = new System.Windows.Forms.Label();
-            this.hotPanel1 = new HotTaoSquare.module.HotPanel(this.components);
             this.picForward = new System.Windows.Forms.PictureBox();
             this.picMin = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -41,6 +39,8 @@
             this.picClose = new System.Windows.Forms.PictureBox();
             this.picRefresh = new System.Windows.Forms.PictureBox();
             this.picBack = new System.Windows.Forms.PictureBox();
+            this.lbTitle = new System.Windows.Forms.Label();
+            this.hotPanel1 = new HotTaoSquare.module.HotPanel(this.components);
             this.plTop.SuspendLayout();
             this.plRightTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picForward)).BeginInit();
@@ -59,7 +59,7 @@
             this.plTop.Controls.Add(this.lbTitle);
             this.plTop.Location = new System.Drawing.Point(0, 0);
             this.plTop.Name = "plTop";
-            this.plTop.Size = new System.Drawing.Size(1250, 30);
+            this.plTop.Size = new System.Drawing.Size(1199, 30);
             this.plTop.TabIndex = 119;
             this.plTop.DoubleClick += new System.EventHandler(this.picMax_Click);
             this.plTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
@@ -75,38 +75,10 @@
             this.plRightTop.Controls.Add(this.picClose);
             this.plRightTop.Controls.Add(this.picRefresh);
             this.plRightTop.Controls.Add(this.picBack);
-            this.plRightTop.Location = new System.Drawing.Point(1015, 0);
+            this.plRightTop.Location = new System.Drawing.Point(962, 0);
             this.plRightTop.Name = "plRightTop";
             this.plRightTop.Size = new System.Drawing.Size(234, 28);
             this.plRightTop.TabIndex = 121;
-            // 
-            // lbTitle
-            // 
-            this.lbTitle.BackColor = System.Drawing.Color.Transparent;
-            this.lbTitle.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbTitle.ForeColor = System.Drawing.Color.Black;
-            this.lbTitle.Location = new System.Drawing.Point(4, 0);
-            this.lbTitle.Name = "lbTitle";
-            this.lbTitle.Size = new System.Drawing.Size(868, 30);
-            this.lbTitle.TabIndex = 0;
-            this.lbTitle.Text = "淘广场";
-            this.lbTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lbTitle.DoubleClick += new System.EventHandler(this.picMax_Click);
-            this.lbTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
-            this.lbTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
-            this.lbTitle.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
-            // 
-            // hotPanel1
-            // 
-            this.hotPanel1.BackColor = System.Drawing.Color.White;
-            this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.hotPanel1.Location = new System.Drawing.Point(1, 30);
-            this.hotPanel1.Name = "hotPanel1";
-            this.hotPanel1.Size = new System.Drawing.Size(1248, 689);
-            this.hotPanel1.TabIndex = 0;
-            this.hotPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
-            this.hotPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
-            this.hotPanel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
             // 
             // picForward
             // 
@@ -199,11 +171,39 @@
             this.picBack.TabStop = false;
             this.picBack.Click += new System.EventHandler(this.picBack_Click);
             // 
+            // lbTitle
+            // 
+            this.lbTitle.BackColor = System.Drawing.Color.Transparent;
+            this.lbTitle.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbTitle.ForeColor = System.Drawing.Color.Black;
+            this.lbTitle.Location = new System.Drawing.Point(4, 0);
+            this.lbTitle.Name = "lbTitle";
+            this.lbTitle.Size = new System.Drawing.Size(868, 30);
+            this.lbTitle.TabIndex = 0;
+            this.lbTitle.Text = "淘广场";
+            this.lbTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbTitle.DoubleClick += new System.EventHandler(this.picMax_Click);
+            this.lbTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
+            this.lbTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
+            this.lbTitle.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
+            // 
+            // hotPanel1
+            // 
+            this.hotPanel1.BackColor = System.Drawing.Color.White;
+            this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Location = new System.Drawing.Point(0, 30);
+            this.hotPanel1.Name = "hotPanel1";
+            this.hotPanel1.Size = new System.Drawing.Size(1200, 660);
+            this.hotPanel1.TabIndex = 0;
+            this.hotPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
+            this.hotPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
+            this.hotPanel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1250, 720);
+            this.ClientSize = new System.Drawing.Size(1200, 690);
             this.Controls.Add(this.plTop);
             this.Controls.Add(this.hotPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

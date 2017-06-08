@@ -19,9 +19,16 @@ namespace HotTao
         {
             try
             {
-                Application.ThreadException += Application_ThreadException;
+
+                //处理未捕获的异常   
                 Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+
+                //处理UI线程异常   
+                Application.ThreadException += Application_ThreadException;
+                                
+                //处理非UI线程异常   
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -42,8 +49,7 @@ namespace HotTao
                     str = string.Format("应用程序线程错误:{0}", ex);
                 }
                 log.Error(str);
-                MessageAlert alert = new MessageAlert("发生致命错误，请及时联系客户！", "系统错误");
-                alert.ShowDialog();
+                MessageBox.Show("系统出现未知异常，请重启系统！");
             }
         }
 
@@ -51,34 +57,22 @@ namespace HotTao
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            try
-            {
-                Exception ex = (Exception)e.ExceptionObject;
+            Exception ex = (Exception)e.ExceptionObject;
+            if (ex != null)
                 log.Error(ex);
-            }
-            catch
-            {
-                MessageAlert alert = new MessageAlert("系统异常，应用程序将退出！！", "错误提示");
-                alert.ShowDialog();
-                Application.ExitThread();
-                Environment.Exit(Environment.ExitCode);
-            }
+            MessageBox.Show("系统出现未知异常，请重启系统！");
+            //Application.ExitThread();
+            //Environment.Exit(Environment.ExitCode);
         }
 
         private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            try
-            {
-                log.Error(e.Exception);                
-            }
-            catch(Exception ex)
-            {
+            var ex = e.Exception;
+            if (ex != null)
                 log.Error(ex);
-                MessageAlert alert = new MessageAlert("系统异常，应用程序将退出！！", "错误提示");
-                alert.ShowDialog();
-                Application.ExitThread();
-                Environment.Exit(Environment.ExitCode);
-            }
+            MessageBox.Show("系统出现未知异常，请重启系统！");
+            //Application.ExitThread();
+            //Environment.Exit(Environment.ExitCode);
         }
     }
 }

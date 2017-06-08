@@ -333,10 +333,19 @@ namespace HotTaoSquare
         {
             new System.Threading.Thread(() =>
             {
-                if (lw == null || !loginSuccess || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
-                if (!lw.isLogin())
+                try
                 {
-                    LoginTaoBao();
+                    if (lw == null || !loginSuccess || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
+                    //MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
+                    // bool flag = LogicUser.Instance.checkCookieStatus(MyUserInfo.LoginToken, MyUserInfo.cookieJson);
+                    if (!lw.isLogin())
+                    {
+                        LoginTaoBao();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error("CheckTbLoginTime_Tick:" + ex.ToString());
                 }
             })
             { IsBackground = true }.Start();

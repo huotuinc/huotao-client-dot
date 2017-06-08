@@ -18,8 +18,13 @@ namespace HotTaoSquare
         {
             try
             {
-                Application.ThreadException += Application_ThreadException;
+                //处理未捕获的异常   
                 Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+
+                //处理UI线程异常   
+                Application.ThreadException += Application_ThreadException;
+
+                //处理非UI线程异常   
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
                 Application.EnableVisualStyles();
@@ -41,39 +46,24 @@ namespace HotTaoSquare
                     str = string.Format("应用程序线程错误:{0}", ex);
                 }
                 log.Error(str);
-                MessageBox.Show("发生致命错误，请及时联系管理员！");
+                MessageBox.Show("系统出现未知异常，请重启系统！");
             }
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            try
-            {
-                Exception ex = (Exception)e.ExceptionObject;
+            Exception ex = (Exception)e.ExceptionObject;
+            if (ex != null)
                 log.Error(ex);
-            }
-            catch
-            {
-                MessageBox.Show("系统异常，应用程序将退出！");
-                Application.ExitThread();
-                Environment.Exit(Environment.ExitCode);
-            }
+            MessageBox.Show("系统出现未知异常，请重启系统！");            
         }
 
         private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            try
-            {
-                log.Error(e.Exception);
-            }
-            catch (Exception ex)
-            {
+            var ex = e.Exception;
+            if (ex != null)
                 log.Error(ex);
-                MessageBox.Show("系统异常，应用程序将退出！");
-                Application.ExitThread();
-                Environment.Exit(Environment.ExitCode);
-            }
-
+            MessageBox.Show("系统出现未知异常，请重启系统！");            
         }
     }
 }

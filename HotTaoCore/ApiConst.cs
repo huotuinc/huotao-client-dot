@@ -266,6 +266,12 @@ namespace HotTaoCore
         /// </summary>
         public const string sendWarning = "/api/sendWarning";
 
+
+        /// <summary>
+        /// 检查阿里妈妈cookie是否过期
+        /// </summary>
+        public const string checkCookie = "/alimama/checkCookie";
+
         #endregion
     }
 }

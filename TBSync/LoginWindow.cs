@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace TBSync
 {
@@ -15,7 +17,7 @@ namespace TBSync
     /// 淘宝登录窗口
     /// </summary>
     public partial class LoginWindow : Form
-    {        
+    {
         public LoginWindow()
         {
             InitializeComponent();
@@ -96,22 +98,34 @@ namespace TBSync
         /// </summary>
         public void OpenTaobao()
         {
-            if (browser == null)
+            try
             {
-                browser = new ChromiumWebBrowser(LoginUrl);
-                BrowserSettings settings = new BrowserSettings()
+
+                if (browser == null)
                 {
-                    LocalStorage = CefState.Enabled,
-                    Javascript = CefState.Enabled,
-                    WebSecurity = CefState.Enabled
-                };
-                browser.BrowserSettings = settings;
-                browser.Size = new Size(920, 607);
-                browser.Location = new Point(1, 0);
-                browser.FrameLoadEnd += Browser_FrameLoadEnd;
-                browser.TitleChanged += Browser_TitleChanged;
-                browser.AddressChanged += Browser_AddressChanged;
-                this.tbPanel.Controls.Add(browser);
+                    browser = new ChromiumWebBrowser(LoginUrl);
+                    BrowserSettings settings = new BrowserSettings()
+                    {
+                        LocalStorage = CefState.Enabled,
+                        Javascript = CefState.Enabled,
+                        Plugins = CefState.Enabled,
+                        ImageLoading = CefState.Enabled,
+                        ImageShrinkStandaloneToFit = CefState.Enabled,
+                        WebGl = CefState.Enabled
+                    };
+                    browser.BrowserSettings = settings;
+                    browser.Size = new Size(920, 607);
+                    browser.Location = new Point(1, 0);
+                    browser.MenuHandler = new TBMenuHandler();
+                    browser.FrameLoadEnd += Browser_FrameLoadEnd;
+                    browser.TitleChanged += Browser_TitleChanged;
+                    browser.AddressChanged += Browser_AddressChanged;
+                    this.tbPanel.Controls.Add(browser);
+                }
+            }
+            catch (Exception)
+            {
+
             }
         }
         /// <summary>
@@ -236,17 +250,29 @@ namespace TBSync
 
         /// <summary>
         /// 执行js脚步，等待返回，timeout 15秒
-        /// </summary>
-        /// <param name="b">The b.</param>
+        /// </summary>        
         /// <param name="script">The script.</param>
         /// <param name="millisecondsTimeout">等待时间</param>
         /// <returns>System.Object.</returns>
-        private object EvaluateScript(ChromiumWebBrowser b, string script, int millisecondsTimeout = 5000)
+        private object EvaluateScript(string script, int millisecondsTimeout = 15000)
         {
-            var task = b.EvaluateScriptAsync(script);
+            var task = browser.EvaluateScriptAsync(script);
+            string result = string.Empty;
+            //task.ContinueWith(t =>
+            //{
+            //    if (!t.IsFaulted)
+            //    {
+            //        var response = t.Result;
+            //        if (response.Success)
+            //            result = response.Result.ToString();
+            //        else
+            //            result = response.Message;
+            //    }
+            //});
             task.Wait(millisecondsTimeout);
             JavascriptResponse response = task.Result;
             return response.Success ? (response.Result ?? "") : response.Message;
+            //return result;
         }
 
         /// <summary>
@@ -281,7 +307,6 @@ namespace TBSync
                 HideWindow();
             })
             { IsBackground = true }.Start();
-
         }
 
         /// <summary>
@@ -319,7 +344,14 @@ namespace TBSync
             //bool loginStatus = false;
             //if (browser.Address.Contains("www.alimama.com"))
             //{
-            //    object result = EvaluateScript(browser, "document.getElementsByClassName('menu-username').item(0).innerHTML");
+
+            //    StringBuilder sb = new StringBuilder();
+            //    sb.AppendLine("function getUserName() {");
+            //    sb.AppendLine(" return document.getElementsByClassName('menu-username').item(0).innerHTML;");
+            //    sb.AppendLine("}");
+            //    sb.AppendLine("getUserName();");
+            //    browser.ExecuteScriptAsync(sb.ToString());
+            //    object result = EvaluateScript(sb.ToString());
             //    if (!string.IsNullOrEmpty(result.ToString()))
             //    {
             //        if (result.ToString().Equals("你好"))
@@ -370,6 +402,21 @@ namespace TBSync
             }
             return lstCookies;
         }
+        /// <summary>
+        /// 删除指定网站的cookie
+        /// </summary>
+        public void ClearAllCookies(string url)
+        {
+            url = string.IsNullOrEmpty(url) ? LoginSuccessUrl : url;
+            var CM = Cef.GetGlobalCookieManager();
+            var visitor = new CookieMonster();
+            if (CM.VisitUrlCookies(url, true, visitor))
+                visitor.WaitForAllCookies();
+            foreach (System.Net.Cookie cookie in visitor.NamesValues)
+            {
+                CM.DeleteCookiesAsync(url, cookie.Name);
+            }
+        }
 
 
 
@@ -380,7 +427,7 @@ namespace TBSync
         public CookieCollection GetCurrentCookies(string address = null)
         {
             var visitor = new CookieMonster();
-            if (Cef.GetGlobalCookieManager().VisitUrlCookies(string.IsNullOrEmpty(address) ? LoginSuccessUrl : "address", true, visitor))
+            if (Cef.GetGlobalCookieManager().VisitUrlCookies(string.IsNullOrEmpty(address) ? LoginSuccessUrl : address, true, visitor))
                 visitor.WaitForAllCookies();
             CookieCollection cookies = new CookieCollection();
             foreach (System.Net.Cookie cookie in visitor.NamesValues)
@@ -513,6 +560,53 @@ namespace TBSync
         public IEnumerable<System.Net.Cookie> NamesValues
         {
             get { return cookies; }
+        }
+    }
+
+
+    /// <summary>
+    /// 控制右键菜单
+    /// </summary>
+    internal class TBMenuHandler : IContextMenuHandler
+    {
+        public void OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
+        {
+            //移除不需要的菜单
+            model.Remove(CefMenuCommand.ViewSource);
+            model.Remove(CefMenuCommand.Print);
+            model.Remove(CefMenuCommand.AddToDictionary);
+            model.Remove(CefMenuCommand.SpellCheckNoSuggestions);
+            model.Remove(CefMenuCommand.Reload);
+
+            //修改菜单显示名称
+            model.SetLabel(CefMenuCommand.Undo, "撤回");
+            model.SetLabel(CefMenuCommand.Redo, "恢复");
+            model.SetLabel(CefMenuCommand.Back, "返回");
+            model.SetLabel(CefMenuCommand.Forward, "前进");
+            model.SetLabel(CefMenuCommand.Cut, "剪切");
+            model.SetLabel(CefMenuCommand.Copy, "复制");
+            model.SetLabel(CefMenuCommand.Paste, "粘贴");
+            model.SetLabel(CefMenuCommand.Delete, "删除");
+            model.SetLabel(CefMenuCommand.SelectAll, "全选");
+
+            //添加菜单
+            model.AddItem(CefMenuCommand.Reload, "重新加载");
+
+        }
+
+        public bool OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
+        {
+            return false;
+        }
+
+        public void OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+        {
+
+        }
+
+        public bool RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
+        {
+            return false;
         }
     }
 
