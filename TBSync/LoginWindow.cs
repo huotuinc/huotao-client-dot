@@ -2,6 +2,7 @@
 using CefSharp.WinForms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -18,6 +19,8 @@ namespace TBSync
     /// </summary>
     public partial class LoginWindow : Form
     {
+        Logger log = LogManager.GetCurrentClassLogger();
+
         public LoginWindow()
         {
             InitializeComponent();
@@ -120,12 +123,14 @@ namespace TBSync
                     browser.FrameLoadEnd += Browser_FrameLoadEnd;
                     browser.TitleChanged += Browser_TitleChanged;
                     browser.AddressChanged += Browser_AddressChanged;
-                    this.tbPanel.Controls.Add(browser);
+                    this.tbPanel.Controls.Add(browser);                    
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                log.Error(ex);
+                MessageBox.Show("系统出现未知异常，请重启系统！");
+                this.Close();
             }
         }
         /// <summary>
@@ -237,13 +242,17 @@ namespace TBSync
         /// </summary>
         public void SetTitle(string text)
         {
-            if (this.lbTitle.InvokeRequired)
+            //判断当前控件是否被释放
+            if (this.lbTitle != null && !this.lbTitle.IsDisposed)
             {
-                this.lbTitle.Invoke(new Action<string>(SetTitle), new object[] { text });
-            }
-            else
-            {
-                this.lbTitle.Text = text;
+                if (this.lbTitle.InvokeRequired)
+                {
+                    this.lbTitle.Invoke(new Action<string>(SetTitle), new object[] { text });
+                }
+                else
+                {
+                    this.lbTitle.Text = text;
+                }
             }
         }
 
@@ -280,33 +289,41 @@ namespace TBSync
         /// </summary>
         private void LoginSuccess()
         {
-            loginSuccessTime = DateTime.Now;
-            SetTitle("登录成功!正在获取Token...");
-            var visitor = new CookieMonster();
-            if (Cef.GetGlobalCookieManager().VisitUrlCookies(LoginSuccessUrl, true, visitor))
-                visitor.WaitForAllCookies();
-            JArray jsons = new JArray();
-            CookieCollection cookies = new CookieCollection();
-            foreach (System.Net.Cookie cookie in visitor.NamesValues)
+            try
             {
-                JObject json = new JObject();
-                json["name"] = cookie.Name;
-                json["path"] = cookie.Path;
-                json["domain"] = cookie.Domain;
-                json["value"] = cookie.Value;
-                jsons.Add(json);
-                cookies.Add(cookie);
+                loginSuccessTime = DateTime.Now;
+                SetTitle("登录成功!正在获取Token...");
+                var visitor = new CookieMonster();
+                if (Cef.GetGlobalCookieManager().VisitUrlCookies(LoginSuccessUrl, true, visitor))
+                    visitor.WaitForAllCookies();
+                JArray jsons = new JArray();
+                CookieCollection cookies = new CookieCollection();
+                foreach (System.Net.Cookie cookie in visitor.NamesValues)
+                {
+                    JObject json = new JObject();
+                    json["name"] = cookie.Name;
+                    json["path"] = cookie.Path;
+                    json["domain"] = cookie.Domain;
+                    json["value"] = cookie.Value;
+                    jsons.Add(json);
+                    cookies.Add(cookie);
+                }
+                string cookiesJson = JsonConvert.SerializeObject(jsons);
+                //页面加载完成回调
+                LoginSuccessHandle?.Invoke(cookies);
+                SetTitle("登录成功!获取Token成功,正在验证token...");
+                new Thread(() =>
+                {
+                    Thread.Sleep(3000);
+                    HideWindow();
+                })
+                { IsBackground = true }.Start();
             }
-            string cookiesJson = JsonConvert.SerializeObject(jsons);
-            //页面加载完成回调
-            LoginSuccessHandle?.Invoke(cookies);
-            SetTitle("登录成功!获取Token成功,正在验证token...");
-            new Thread(() =>
+            catch (Exception ex)
             {
-                Thread.Sleep(3000);
-                HideWindow();
-            })
-            { IsBackground = true }.Start();
+                log.Error(ex);
+                MessageBox.Show("系统出现未知异常，请重启系统！");
+            }
         }
 
         /// <summary>
@@ -407,14 +424,21 @@ namespace TBSync
         /// </summary>
         public void ClearAllCookies(string url)
         {
-            url = string.IsNullOrEmpty(url) ? LoginSuccessUrl : url;
-            var CM = Cef.GetGlobalCookieManager();
-            var visitor = new CookieMonster();
-            if (CM.VisitUrlCookies(url, true, visitor))
-                visitor.WaitForAllCookies();
-            foreach (System.Net.Cookie cookie in visitor.NamesValues)
+            try
             {
-                CM.DeleteCookiesAsync(url, cookie.Name);
+                url = string.IsNullOrEmpty(url) ? LoginSuccessUrl : url;                
+                var visitor = new CookieMonster();
+                if (Cef.GetGlobalCookieManager().VisitAllCookies(visitor))
+                    visitor.WaitForAllCookies();
+                if (visitor.NamesValues == null || visitor.NamesValues.Count() == 0) return;
+                foreach (System.Net.Cookie cookie in visitor.NamesValues)
+                {
+                    Cef.GetGlobalCookieManager().DeleteCookiesAsync(cookie.Domain, cookie.Name);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
             }
         }
 

@@ -814,6 +814,10 @@ namespace HotTao
                 TimingRefreshAlimamaPage();
                 if (lw != null)
                 {
+                    if (lw.browser != null)
+                    {
+                        lw.browser.Dispose();
+                    }
                     lw.Dispose();
                     lw.Close();
                     lw = null;
@@ -835,8 +839,10 @@ namespace HotTao
             new System.Threading.Thread(() =>
             {
                 if (lw == null || !loginSuccess || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
-                if (!lw.isLogin())
-                {
+                MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
+                bool flag = LogicUser.Instance.checkCookieStatus(MyUserInfo.LoginToken, MyUserInfo.cookieJson);
+                if (!flag)
+                {                    
                     LoginTaoBao();
                 }
             })
@@ -961,7 +967,7 @@ namespace HotTao
                 checkTbLoginTime = null;
             }
             checkTbLoginTime = new Timer();
-            checkTbLoginTime.Interval = 40000;
+            checkTbLoginTime.Interval = 10 * 60 * 1000;
             checkTbLoginTime.Tick += CheckTbLoginTime_Tick;
             checkTbLoginTime.Start();
 

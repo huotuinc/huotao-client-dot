@@ -89,7 +89,23 @@ namespace HotTaoCore.Logic
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["mobile"] = mobile;
+
             return BaseRequestService.Post(ApiConst.sendCodeForRegister, data);
+        }
+
+        public bool sendCodeForRegister(string mobile, out string msg)
+        {
+            msg = "";
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["mobile"] = mobile;
+            string errorMsg = "";
+            bool b = BaseRequestService.Post(ApiConst.sendCodeForRegister, data, (ret) =>
+             {
+                 errorMsg = ret.resultMsg;
+             });
+
+            msg = errorMsg;
+            return b;
         }
 
         /// <summary>

@@ -430,6 +430,24 @@ namespace HotTao.Controls
         }
 
 
+        public void AlertConfirm(string text, Action<bool> result)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string>(AlertTip), new object[] { text });
+            }
+            else
+            {
+                bool isOk = false;
+                MessageConfirm alert = new MessageConfirm(text, "提示");
+                alert.StartPosition = FormStartPosition.CenterScreen;
+                alert.CallBack += () => { isOk = true; };
+                alert.ShowDialog(this);
+                result?.Invoke(isOk);
+            }
+        }
+
+
         /// <summary>
         /// 打开指定采集网
         /// </summary>
@@ -459,14 +477,14 @@ namespace HotTao.Controls
                 list.Add(dict);
             }
             string jsonUrls = JsonConvert.SerializeObject(list);
-
+            setTipMsg(string.Format("采集完成，共采集到{0}个商品,正在解析商品...", data.Count()));
             //根据地址，获取商品优惠信息
             List<GoodsSelectedModel> goodsData = LogicGoods.Instance.getGoodsByLink(MyUserInfo.LoginToken, jsonUrls);
             try
             {
                 if (goodsData != null && goodsData.Count() > 0)
                 {
-                    setTipMsg(string.Format("采集完成，共采集到{0}个商品,正在保存...", goodsData.Count()));
+                    setTipMsg(string.Format("商品解析完成，共{0}个商品,正在保存...", goodsData.Count()));
                     bool isUpdate = false;
                     foreach (var goods in goodsData)
                     {
@@ -486,7 +504,7 @@ namespace HotTao.Controls
                 else
                 {
                     LoadingClose();
-                    AlertTip("服务器开小差了，请稍后再试！");
+                    AlertTip("数据采集完成");
                 }
             }
             catch (Exception ex)

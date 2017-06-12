@@ -152,15 +152,16 @@ namespace HotTaoRegistAccount
                 return;
             }
 
+            string errorMsg = string.Empty;
             //获取
-            if (LogicUser.Instance.sendCodeForRegister(loginName.Text.Trim()))
+            if (LogicUser.Instance.sendCodeForRegister(loginName.Text.Trim(), out errorMsg))
             {
                 isSendVerifyCode = true;
                 timeOut();
             }
             else
             {
-                MessageBox.Show("短信发送失败，请检查改手机号是否有误或已注册！");
+                MessageBox.Show(errorMsg);
             }
         }
 

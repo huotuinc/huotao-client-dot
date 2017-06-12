@@ -143,53 +143,6 @@ namespace HotTao.Controls
             }
         }
 
-
-        /// <summary>
-        /// 下载商品图片
-        /// </summary>
-        /// <param name="fileName">Name of the file.</param>
-        /// <param name="goodsImageUrl">The goods image URL.</param>
-        private void downloadGoodsImage(string fileName, string goodsImageUrl, string goodsid)
-        {
-            new Thread(() =>
-            {
-                try
-                {
-                    string _goodsid = goodsid;
-                    byte[] data = BaseRequestService.GetNetWorkImageData(goodsImageUrl);
-                    if (data == null)
-                    {
-                        Thread.Sleep(1000);
-                        data = BaseRequestService.GetNetWorkImageData(goodsImageUrl);
-                    }
-                    if (data != null)
-                    {
-                        MemoryStream ms = new MemoryStream(data);
-                        Bitmap img = new Bitmap(ms);
-                        img.Save(fileName, ImageFormat.Jpeg);
-                        ms.Dispose();
-                        ms = null;
-                        img.Dispose();
-                        img = null;
-                    }
-                    else
-                    {
-                        log.Info("网络图片地址：" + goodsImageUrl);
-                        //_goodsid
-                    }
-
-                }
-                catch (Exception ex)
-                {
-
-                    log.Error("downloadGoodsImage:" + ex.ToString());
-                }
-            })
-            { IsBackground = true }.Start();
-        }
-
-
-
         private void LoadClose()
         {
             if (this.InvokeRequired)

@@ -99,14 +99,14 @@ namespace HotTaoCore
                 var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
                 request.Method = "GET";
                 request.UserAgent = "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36";
-                request.Accept = "*/*";                                
+                request.Accept = "*/*";
                 request.CookieContainer = cookies;
                 request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
                 request.Headers.Add("Accept-Encoding", "gzip,deflate");
                 request.Headers.Add("Accept-Language", "zh-Hans-CN,zh-Hans;q=0.5");
                 request.Headers.Add(HttpRequestHeader.KeepAlive, "true");
-                request.Host = "pub.alimama.com";               
-                request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;                
+                request.Host = "pub.alimama.com";
+                request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
                     using (Stream response_stream = response.GetResponseStream())
@@ -147,7 +147,7 @@ namespace HotTaoCore
                 request.Headers.Add("Accept-Encoding", "gzip,deflate");
                 request.Headers.Add("Accept-Language", "zh-Hans-CN,zh-Hans;q=0.5");
                 request.Headers.Add(HttpRequestHeader.KeepAlive, "true");
-                request.Host = "pub.alimama.com";                
+                request.Host = "pub.alimama.com";
                 request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
                 byte[] request_body = Encoding.UTF8.GetBytes(PrepareRequestBody(formFields));
                 request.ContentLength = request_body.Length;
@@ -316,6 +316,7 @@ namespace HotTaoCore
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
             request.ContentLength = request_body.Length;
+            request.KeepAlive = false;
             using (Stream requestStream = request.GetRequestStream())
             {
                 requestStream.Write(request_body, 0, request_body.Length);
@@ -327,6 +328,7 @@ namespace HotTaoCore
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "Get";
+            request.KeepAlive = false;
             request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
             return request;
         }
