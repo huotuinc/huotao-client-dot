@@ -274,7 +274,7 @@ namespace HotTao
 
 
                 //申请高佣金
-                hotForm.ApplyPlan(goods.goodsId, goods.goodsName);
+                ApplyCamp(goods);
 
 
                 //加载appkey，判断是否存在，如果不存在，则不发商品
@@ -463,6 +463,41 @@ namespace HotTao
             })
             { IsBackground = true }.Start();
         }
+
+
+        /// <summary>
+        /// 申请高佣
+        /// </summary>
+        /// <param name="goods"></param>
+        private void ApplyCamp(GoodsModel goods)
+        {
+            new System.Threading.Thread(() =>
+            {
+                try
+                {
+                    PlanModel model = LogicGoods.Instance.getCommissionPlan(MyUserInfo.LoginToken, goods.goodsDetailUrl);
+                    if (model != null && model.campaignType.Equals("1"))
+                    {
+                        //申请高佣金
+                        hotForm.ApplyPlan(goods.goodsId, goods.goodsName, model.planId, model.shopKeeperId, model.commission);
+                    }
+                }
+                catch (System.Threading.ThreadAbortException ex)
+                {
+                    log.Error(ex);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            })
+            { IsBackground = true }.Start();
+
+        }
+
+
+
+
 
 
         /// <summary>

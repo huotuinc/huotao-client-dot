@@ -272,6 +272,11 @@ namespace HotTaoCore
         /// </summary>
         public const string checkCookie = "/alimama/checkCookie";
 
+        /// <summary>
+        /// 根据商品链接查找最优定向佣金计划
+        /// </summary>
+        public const string getCommissionPlan = "/goods/getCommissionPlan";
+
         #endregion
     }
 }

@@ -90,7 +90,7 @@ namespace QQLogin
             QQGroupMessageModel message = new QQGroupMessageModel()
             {
                 GroupName = msgGroupName,
-                MessageContent = msgContent.Replace('"', ' ').Replace(" ", "\n"),
+                MessageContent = msgContent.Replace('"', ' ').Replace(" ", " "),
                 MessageStatus = 0,
                 Code = msgCode
             };

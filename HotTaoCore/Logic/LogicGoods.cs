@@ -196,5 +196,20 @@ namespace HotTaoCore.Logic
             return BaseRequestService.Post<GoodsCollertModel>(ApiConst.queryGoods, data);
         }
 
+        /// <summary>
+        /// 根据商品链接查找最优定向佣金计划
+        /// </summary>
+        /// <param name="loginToken"></param>
+        /// <param name="goodsLink">商品地址</param>
+        /// <returns></returns>
+        public PlanModel getCommissionPlan(string loginToken, string goodsLink)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["goodsLink"] = goodsLink;
+            return BaseRequestService.Post<PlanModel>(ApiConst.getCommissionPlan, data);
+        }
+
+
     }
 }

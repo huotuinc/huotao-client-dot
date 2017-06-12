@@ -123,7 +123,7 @@ namespace TBSync
                     browser.FrameLoadEnd += Browser_FrameLoadEnd;
                     browser.TitleChanged += Browser_TitleChanged;
                     browser.AddressChanged += Browser_AddressChanged;
-                    this.tbPanel.Controls.Add(browser);                    
+                    this.tbPanel.Controls.Add(browser);
                 }
             }
             catch (Exception ex)
@@ -243,7 +243,7 @@ namespace TBSync
         public void SetTitle(string text)
         {
             //判断当前控件是否被释放
-            if (this.lbTitle != null && !this.lbTitle.IsDisposed)
+            if (!this.IsDisposed && this.lbTitle != null && !this.lbTitle.IsDisposed)
             {
                 if (this.lbTitle.InvokeRequired)
                 {
@@ -426,7 +426,7 @@ namespace TBSync
         {
             try
             {
-                url = string.IsNullOrEmpty(url) ? LoginSuccessUrl : url;                
+                url = string.IsNullOrEmpty(url) ? LoginSuccessUrl : url;
                 var visitor = new CookieMonster();
                 if (Cef.GetGlobalCookieManager().VisitAllCookies(visitor))
                     visitor.WaitForAllCookies();
