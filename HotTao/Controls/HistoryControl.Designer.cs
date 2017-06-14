@@ -73,6 +73,9 @@
             this.logId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.logType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.logContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.campId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.keeperid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.commissionRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.logStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.operation = new System.Windows.Forms.DataGridViewLinkColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTaskPlan)).BeginInit();
@@ -373,6 +376,9 @@
             this.logId,
             this.logType,
             this.logContent,
+            this.campId,
+            this.keeperid,
+            this.commissionRate,
             this.logStatus,
             this.operation});
             this.dgvLogView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
@@ -442,6 +448,27 @@
             this.logContent.Name = "logContent";
             this.logContent.ReadOnly = true;
             this.logContent.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // campId
+            // 
+            this.campId.HeaderText = "campId";
+            this.campId.Name = "campId";
+            this.campId.ReadOnly = true;
+            this.campId.Visible = false;
+            // 
+            // keeperid
+            // 
+            this.keeperid.HeaderText = "keeperid";
+            this.keeperid.Name = "keeperid";
+            this.keeperid.ReadOnly = true;
+            this.keeperid.Visible = false;
+            // 
+            // commissionRate
+            // 
+            this.commissionRate.HeaderText = "commissionRate";
+            this.commissionRate.Name = "commissionRate";
+            this.commissionRate.ReadOnly = true;
+            this.commissionRate.Visible = false;
             // 
             // logStatus
             // 
@@ -518,6 +545,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn logId;
         private System.Windows.Forms.DataGridViewTextBoxColumn logType;
         private System.Windows.Forms.DataGridViewTextBoxColumn logContent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn campId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn keeperid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn commissionRate;
         private System.Windows.Forms.DataGridViewTextBoxColumn logStatus;
         private System.Windows.Forms.DataGridViewLinkColumn operation;
     }

@@ -27,10 +27,10 @@ namespace HotTaoCore
         /// <summary>
         /// 接口地址
         /// </summary>
-        public const string Url = "http://www.51huotao.com";//112.74.23.122  //192.168.1.68
+        public const string Url = "http://www.51huotao.com";
 
         /// <summary>
-        /// www
+        /// 官网首页
         /// </summary>
         public const string www = "http://www.51huotao.com";
 
@@ -44,7 +44,7 @@ namespace HotTaoCore
         /// <returns></returns>
         public static string getHelpUrl(object path)
         {
-            return www + "/portal/help" + path.ToString();
+            return Url + "/portal/help" + path.ToString();
         }
 
 

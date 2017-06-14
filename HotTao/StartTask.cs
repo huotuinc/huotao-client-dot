@@ -336,17 +336,6 @@ namespace HotTao
                     log.Error(ex);
                 }
 
-                if (cfgTime != null && cfgTime.enable_sendvideo)
-                {
-                    //发送视频或GIF图片
-                    string videoPath = MyUserInfo.GetVideoFilePath(goods.goodsId);
-                    if (!string.IsNullOrEmpty(videoPath))
-                    {
-                        CopyFileToClipboard(videoPath);
-                        SendImage(image, shareData, wins, true, true);
-                    }
-                }
-
                 if (isSendImage)
                 {
                     //复制文件
@@ -361,6 +350,19 @@ namespace HotTao
                     CopyFileToClipboard(goods.goodslocatImgPath);
                     SendImage(image, shareData, wins, false);
                 }
+
+                //发完图文后，发送视频或动态,优先短视频
+                if (cfgTime != null && cfgTime.enable_sendvideo)
+                {
+                    //发送视频或GIF图片
+                    string videoPath = MyUserInfo.GetVideoFilePath(goods.goodsId);
+                    if (!string.IsNullOrEmpty(videoPath))
+                    {
+                        CopyFileToClipboard(videoPath);
+                        SendImage(image, shareData, wins, true, true);
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -476,10 +478,31 @@ namespace HotTao
                 try
                 {
                     PlanModel model = LogicGoods.Instance.getCommissionPlan(MyUserInfo.LoginToken, goods.goodsDetailUrl);
-                    if (model != null && model.campaignType.Equals("1"))
+                    if (model != null)
                     {
-                        //申请高佣金
-                        hotForm.ApplyPlan(goods.goodsId, goods.goodsName, model.planId, model.shopKeeperId, model.commission);
+                        if (model.campaignType.Equals("2"))
+                        {
+                            //申请高佣金
+                            hotForm.ApplyPlan(goods.goodsId, goods.goodsName, model.planId, model.shopKeeperId, model.commission);
+                        }
+                        else
+                        {
+                            LogRuningModel logData = new LogRuningModel()
+                            {
+                                goodsid = goods.goodsId,
+                                goodsName = goods.goodsName,
+                                title = goods.goodsId,
+                                content = goods.goodsName,
+                                logTime = DateTime.Now,
+                                logType = LogTypeOpts.通用计划,
+                                campId = "",
+                                keeperid = "",
+                                commissionRate = model.commission,
+                                isError = false,
+                                remark = "[" + goods.goodsId + "]" + "通用计划,佣金:" + (model.commission * 100) + " %"
+                            };
+                            hotForm.logRuningList.Add(logData);
+                        }
                     }
                 }
                 catch (System.Threading.ThreadAbortException ex)

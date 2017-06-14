@@ -157,7 +157,7 @@ namespace HotTaoCore.Models
         /// <summary>
         /// 启用发送视频
         /// </summary>
-        public bool enable_sendvideo { get; set; } = false;
+        public bool enable_sendvideo { get; set; } = true;
 
         /// <summary>
         /// 微信群漏发通知

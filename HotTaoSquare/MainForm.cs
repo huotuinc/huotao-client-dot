@@ -72,7 +72,7 @@ namespace HotTaoSquare
         /// <summary>
         /// 加载页面地址
         /// </summary>
-        private static string initUrl = ApiConst.www + "/widePlace/index";
+        private static string initUrl = ApiConst.Url + "/widePlace/index";
 
         public MainForm(Login form)
         {

@@ -87,15 +87,6 @@ namespace HotTaoCore
         {
             try
             {
-                //HttpClientHandler clientHandler = new HttpClientHandler();
-                //clientHandler.CookieContainer = cookies;
-                //HttpClient client = new HttpClient(clientHandler);
-                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
-                //client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(ProductHeaderValue.Parse("Mozilla/5.0")));//           
-                //byte[] bytes = client.GetByteArrayAsync(url).Result;
-                //if (bytes != null)
-                //    return Encoding.UTF8.GetString(bytes);
-
                 var request = (HttpWebRequest)WebRequest.Create(new Uri(url));
                 request.Method = "GET";
                 request.UserAgent = "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36";
@@ -333,8 +324,6 @@ namespace HotTaoCore
             return request;
         }
 
-
-
         private static T GetResponse<T>(HttpWebResponse response, Action<ResultModel> OnError)
         {
             using (Stream response_stream = response.GetResponseStream())
@@ -352,7 +341,7 @@ namespace HotTaoCore
                         }
                         else
                         {
-                            log.Debug(respone);
+                            log.Info(response.ResponseUri.AbsoluteUri +"|"+ respone);
                             OnError?.Invoke(result);
                         }
                     }
@@ -383,7 +372,7 @@ namespace HotTaoCore
                         }
                         else
                         {
-                            log.Debug(respone);
+                            log.Info(response.ResponseUri.AbsoluteUri + "|" + respone);
                             OnError?.Invoke(result);
                         }
                     }
@@ -408,7 +397,7 @@ namespace HotTaoCore
                         }
                         else
                         {
-                            log.Debug(respone);
+                            log.Info(response.ResponseUri.AbsoluteUri + "|" + respone);
                             OnError?.Invoke(result);
                         }
                     }
@@ -436,7 +425,7 @@ namespace HotTaoCore
                         }
                         else
                         {
-                            log.Debug(respone);
+                            log.Info(response.ResponseUri.AbsoluteUri + "|" + respone);
                             OnError?.Invoke(result);
                         }
                     }

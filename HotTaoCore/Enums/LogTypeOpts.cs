@@ -19,6 +19,7 @@ namespace HotTaoCore.Enums
     public enum LogTypeOpts
     {
         申请高佣,
-        商品发送
+        商品发送,
+        通用计划,
     }
 }

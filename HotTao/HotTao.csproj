@@ -194,6 +194,12 @@
     <Compile Include="Controls\BuildShareText.Designer.cs">
       <DependentUpon>BuildShareText.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CustomSendControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CustomSendControl.Designer.cs">
+      <DependentUpon>CustomSendControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CustomServiceControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -431,6 +437,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\BuildShareText.resx">
       <DependentUpon>BuildShareText.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CustomSendControl.resx">
+      <DependentUpon>CustomSendControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\CustomServiceControl.resx">
       <DependentUpon>CustomServiceControl.cs</DependentUpon>

@@ -653,6 +653,22 @@ namespace HotTaoCore.DAL
                 };
             return DBHelper.ExecuteSql(strSql, param) > 0;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="shareid"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public bool UpdateUserShareText(long shareid, string text)
+        {
+            string strSql = @"UPDATE user_wechat_sharetext SET text=@text  WHERE id = @id ;";
+            var param = new[] {
+                    new SQLiteParameter("@id",shareid),
+                    new SQLiteParameter("@text",text)
+                };
+            return DBHelper.ExecuteSql(strSql, param) > 0;
+        }
+
 
 
 

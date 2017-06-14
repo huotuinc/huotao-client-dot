@@ -90,7 +90,7 @@ namespace QQLogin
             QQGroupMessageModel message = new QQGroupMessageModel()
             {
                 GroupName = msgGroupName,
-                MessageContent = msgContent.Replace('"', ' ').Replace(" ", " "),
+                MessageContent = msgContent,
                 MessageStatus = 0,
                 Code = msgCode
             };
@@ -124,7 +124,7 @@ namespace QQLogin
                     {
                         long code = msgCode;
                         //消息处理回调
-                        BuildGoodsHandler?.Invoke(code, msgContent.Replace('"', ' '), urls, isAutoSend, (ret, i, t) =>
+                        BuildGoodsHandler?.Invoke(code, msgContent, urls, isAutoSend, (ret, i, t) =>
                         {
                             string text = "";
                             switch (ret)

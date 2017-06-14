@@ -147,7 +147,7 @@
             // 
             // openInsertVideo
             // 
-            this.openInsertVideo.Filter = "GIF动图|*.gif|MP4文件|*.mp4";
+            this.openInsertVideo.Filter = "MP4文件|*.mp4;*.gif";
             // 
             // InsertVideo
             // 

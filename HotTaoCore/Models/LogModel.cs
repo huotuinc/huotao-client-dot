@@ -49,6 +49,19 @@ namespace HotTaoCore.Models
         public bool isError { get; set; }
 
         public string remark { get; set; }
+
+        /// <summary>
+        /// 佣金计划
+        /// </summary>
+        public string campId { get; set; } = string.Empty;
+        /// <summary>
+        /// 店铺ＩＤ
+        /// </summary>
+        public string keeperid { get; set; } = string.Empty;
+        /// <summary>
+        /// 佣金率(输出时，需*100)
+        /// </summary>
+        public decimal commissionRate { get; set; }
     }
 
 }

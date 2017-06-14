@@ -55,6 +55,9 @@
             this.btnHome = new System.Windows.Forms.PictureBox();
             this.toolTipText = new System.Windows.Forms.ToolTip(this.components);
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
+            this.panelCustom = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.HotContainer)).BeginInit();
             this.HotContainer.Panel1.SuspendLayout();
             this.HotContainer.SuspendLayout();
@@ -75,6 +78,8 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnHome)).BeginInit();
             this.hotPanel1.SuspendLayout();
+            this.panelCustom.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // HotContainer
@@ -91,6 +96,7 @@
             this.HotContainer.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
             this.HotContainer.Panel1.Controls.Add(this.panel7);
             this.HotContainer.Panel1.Controls.Add(this.panel6);
+            this.HotContainer.Panel1.Controls.Add(this.panelCustom);
             this.HotContainer.Panel1.Controls.Add(this.panelHelp);
             this.HotContainer.Panel1.Controls.Add(this.panel4);
             this.HotContainer.Panel1.Controls.Add(this.panel3);
@@ -396,6 +402,43 @@
             this.hotPanel1.Size = new System.Drawing.Size(920, 720);
             this.hotPanel1.TabIndex = 1;
             // 
+            // panelCustom
+            // 
+            this.panelCustom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
+            this.panelCustom.Controls.Add(this.label7);
+            this.panelCustom.Controls.Add(this.pictureBox1);
+            this.panelCustom.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.panelCustom.Location = new System.Drawing.Point(624, 0);
+            this.panelCustom.Name = "panelCustom";
+            this.panelCustom.Size = new System.Drawing.Size(83, 113);
+            this.panelCustom.TabIndex = 1;
+            this.panelCustom.Visible = false;
+            this.panelCustom.Click += new System.EventHandler(this.pbCustom_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(10, 80);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(65, 12);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "自定义发送";
+            this.label7.Click += new System.EventHandler(this.pbCustom_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::HotTao.Properties.Resources.icon_05;
+            this.pictureBox1.Location = new System.Drawing.Point(16, 25);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pbCustom_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -438,6 +481,9 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnHome)).EndInit();
             this.hotPanel1.ResumeLayout(false);
+            this.panelCustom.ResumeLayout(false);
+            this.panelCustom.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -469,5 +515,8 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Panel panel7;
         private Controls.module.HotPanel hotPanel1;
+        private System.Windows.Forms.Panel panelCustom;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

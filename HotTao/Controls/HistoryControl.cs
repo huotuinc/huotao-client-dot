@@ -107,7 +107,7 @@ namespace HotTao.Controls
             {
                 //是否自动添加属性字段
                 this.dgvTaskPlan.AutoGenerateColumns = false;
-                var taskData = LogicHotTao.Instance(MyUserInfo.currentUserId).FindUserTaskPlanListByUserId(MyUserInfo.currentUserId,true);
+                var taskData = LogicHotTao.Instance(MyUserInfo.currentUserId).FindUserTaskPlanListByUserId(MyUserInfo.currentUserId, true);
                 if (taskData != null)
                 {
                     SetTaskView(taskData);
@@ -176,8 +176,8 @@ namespace HotTao.Controls
             {
                 //是否自动添加属性字段
                 this.dgvLogView.AutoGenerateColumns = false;
-                if (hotForm.logRuningList != null&& hotForm.logRuningList.Count()>0)
-                    SetLogView(hotForm.logRuningList);                
+                if (hotForm.logRuningList != null && hotForm.logRuningList.Count() > 0)
+                    SetLogView(hotForm.logRuningList);
 
             })
             { IsBackground = true }.Start();
@@ -221,6 +221,12 @@ namespace HotTao.Controls
                     dgvLogView.Rows[i - 1].Cells["logTime"].Value = data[j].logTime.ToString("yyyy-MM-dd HH:mm:ss");
                     dgvLogView.Rows[i - 1].Cells["goodsid"].Value = data[j].goodsid;
                     dgvLogView.Rows[i - 1].Cells["goodsName"].Value = data[j].goodsName;
+
+                    dgvLogView.Rows[i - 1].Cells["campId"].Value = data[j].campId;
+                    dgvLogView.Rows[i - 1].Cells["keeperid"].Value = data[j].keeperid;
+                    dgvLogView.Rows[i - 1].Cells["commissionRate"].Value = data[j].commissionRate;
+
+
                     if (i % 2 == 0)
                     {
                         dgvLogView.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
@@ -274,87 +280,11 @@ namespace HotTao.Controls
                 }
             }
         }
-        ///// <summary>
-        ///// 启动任务计划
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void btnStartTask_Click(object sender, EventArgs e)
-        //{
-        //    bool isOK = false;
-        //    if (MyUserInfo.sendmode == 1)
-        //    {
-        //        if (hotForm.wxlogin == null)
-        //        {
-        //            MessageConfirm confirm = new MessageConfirm("您还没有微信授权，是否马上微信授权?");
-        //            confirm.CallBack += () =>
-        //            {
-        //                isOK = true;
-        //            };
-        //            confirm.ShowDialog(this);
-        //            if (isOK)
-        //            {
-        //                hotForm.wxlogin = new wxLogin(hotForm, this);
-        //                hotForm.wxlogin.ShowDialog(this);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (hotForm.wxlogin.isCloseWinForm)
-        //                hotForm.wxlogin.ShowWx();
-        //            else
-        //            {
-        //                if (hotForm.wxlogin.isStartTask)
-        //                {
-        //                    hotForm.wxlogin.StopWx();
-        //                    ShowStartButtonText("启动计划");
-        //                }
-        //                else
-        //                {
-        //                    hotForm.wxlogin.StartWx();
-        //                    ShowStartButtonText("暂停计划");
-        //                }
-        //            }
 
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (hotForm.winTask == null)
-        //        {
-
-        //            MessageConfirm confirm = new MessageConfirm("是否开始执行任务?");
-        //            confirm.CallBack += () =>
-        //            {
-        //                isOK = true;
-        //            };
-        //            confirm.ShowDialog(this);
-        //            if (isOK)
-        //            {
-        //                hotForm.winTask = new StartTask(hotForm, this);
-        //                hotForm.winTask.OK();
-        //            }
-        //        }
-        //        else
-        //        {
-        //            hotForm.winTask.isStartTask = false;
-        //            hotForm.winTask.Close();
-        //            hotForm.winTask = null;
-        //            ShowStartButtonText("启动计划");
-        //        }
-        //    }
-        //}
 
         public void ShowStartButtonText(string text)
         {
-            //if (btnStartTask.InvokeRequired)
-            //{
-            //    this.Invoke(new Action<string>(ShowStartButtonText), new object[] { text });
-            //}
-            //else
-            //{
-            //    btnStartTask.Text = text;
-            //}
+
         }
 
         /// <summary>
@@ -479,16 +409,6 @@ namespace HotTao.Controls
                     {
                         LogicHotTao.Instance(MyUserInfo.currentUserId).DeleteUserTaskPlan(taskid);
                         dgvTaskPlan.Rows.Remove(row);
-                        //var taskidList = new List<GoodsTaskModel>();
-                        //taskidList.Add(new GoodsTaskModel()
-                        //{
-                        //    id = taskid
-                        //});
-                        //string taskids = JsonConvert.SerializeObject(taskidList);
-                        //if (LogicTaskPlan.Instance.deleteTaskPlan(MyUserInfo.LoginToken, taskids))
-                        //{
-                        //    dgvTaskPlan.Rows.Remove(row);
-                        //}
                     };
                     confirm.ShowDialog(this);
                 }
@@ -587,7 +507,13 @@ namespace HotTao.Controls
             {
                 string goodsid = cells["goodsid"].Value.ToString();
                 string goodsName = cells["goodsName"].Value.ToString();
-                hotForm.ApplyPlan(goodsid, goodsName);
+
+                string campId = cells["campId"].Value.ToString();
+                string keeperid = cells["keeperid"].Value.ToString();
+                string commissionRate = cells["commissionRate"].Value.ToString();
+                decimal rate = 0;
+                decimal.TryParse(commissionRate, out rate);
+                hotForm.ApplyPlan(goodsid, goodsName,campId,keeperid, rate);
             }
         }
     }

@@ -62,6 +62,8 @@
             this.bgPanel = new System.Windows.Forms.Panel();
             this.lbTitle = new System.Windows.Forms.Label();
             this.pbClose = new System.Windows.Forms.PictureBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.lkbtn = new System.Windows.Forms.LinkLabel();
             this.hotPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShareText)).BeginInit();
@@ -73,7 +75,9 @@
             // hotPanel1
             // 
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Controls.Add(this.lkbtn);
             this.hotPanel1.Controls.Add(this.label15);
+            this.hotPanel1.Controls.Add(this.button1);
             this.hotPanel1.Controls.Add(this.btnBuildShareText);
             this.hotPanel1.Controls.Add(this.panel1);
             this.hotPanel1.Controls.Add(this.dgvShareText);
@@ -119,11 +123,11 @@
             this.btnBuildShareText.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
             this.btnBuildShareText.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuildShareText.ForeColor = System.Drawing.Color.White;
-            this.btnBuildShareText.Location = new System.Drawing.Point(405, 336);
+            this.btnBuildShareText.Location = new System.Drawing.Point(395, 336);
             this.btnBuildShareText.Name = "btnBuildShareText";
-            this.btnBuildShareText.Size = new System.Drawing.Size(103, 32);
+            this.btnBuildShareText.Size = new System.Drawing.Size(113, 32);
             this.btnBuildShareText.TabIndex = 55;
-            this.btnBuildShareText.Text = "生成发送内容";
+            this.btnBuildShareText.Text = "重新生成发送文案";
             this.btnBuildShareText.UseVisualStyleBackColor = false;
             this.btnBuildShareText.Click += new System.EventHandler(this.btnBuildShareText_Click);
             // 
@@ -378,9 +382,9 @@
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
             this.label1.Location = new System.Drawing.Point(13, 105);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 12);
+            this.label1.Size = new System.Drawing.Size(77, 12);
             this.label1.TabIndex = 42;
-            this.label1.Text = "发送文案：";
+            this.label1.Text = "自定义文案：";
             // 
             // hotGroupBox2
             // 
@@ -442,6 +446,35 @@
             this.pbClose.TabStop = false;
             this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(276, 336);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(113, 32);
+            this.button1.TabIndex = 55;
+            this.button1.Text = "追加自定义文案";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.btnAppendShareText_Click);
+            // 
+            // lkbtn
+            // 
+            this.lkbtn.AutoSize = true;
+            this.lkbtn.Location = new System.Drawing.Point(425, 105);
+            this.lkbtn.Name = "lkbtn";
+            this.lkbtn.Size = new System.Drawing.Size(77, 12);
+            this.lkbtn.TabIndex = 58;
+            this.lkbtn.TabStop = true;
+            this.lkbtn.Text = "使用全局文案";
+            this.lkbtn.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lkbtn_LinkClicked);
+            // 
             // BuildShareText
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -498,5 +531,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn tpwd;
         private System.Windows.Forms.DataGridViewTextBoxColumn shareText;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.LinkLabel lkbtn;
     }
 }

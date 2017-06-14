@@ -647,6 +647,17 @@ namespace HotTao
 
         }
 
+
+        private void pbCustom_Click(object sender, EventArgs e)
+        {
+            SetSelectedBackgroundImage(sender);
+            openControl(new CustomSendControl(this));
+        }
+
+
+
+
+
         public Loading LoadingShow { get; set; }
 
         private void Main_Shown(object sender, EventArgs e)
@@ -1164,22 +1175,6 @@ namespace HotTao
         /// <param name="commissionRate">佣金率</param>
         public void ApplyPlan(string goodsId, string goodsName, string campId, string keeperid, decimal commissionRate)
         {
-            if (lw == null)
-            {
-                logRuningList.Add(new LogRuningModel()
-                {
-                    goodsid = goodsId,
-                    goodsName = goodsName,
-                    title = goodsId,
-                    content = goodsName,
-                    logTime = DateTime.Now,
-                    logType = LogTypeOpts.申请高佣,
-                    isError = true,
-                    remark = "您还没登录阿里妈妈，请登录后重试!"
-                });
-                return;
-            }
-
             LogRuningModel logData = new LogRuningModel()
             {
                 goodsid = goodsId,
@@ -1188,6 +1183,9 @@ namespace HotTao
                 content = goodsName,
                 logTime = DateTime.Now,
                 logType = LogTypeOpts.申请高佣,
+                campId = campId,
+                keeperid = keeperid,
+                commissionRate = commissionRate
             };
 
             try
@@ -1226,7 +1224,7 @@ namespace HotTao
                 logData.remark = "[" + goodsId + "]" + "一瞬间，风起人涌，交通拥堵，请稍后重试！";
             }
 
-            if (logRuningList.Exists(item => { return item.goodsid == logData.goodsid; }))
+            if (logRuningList.Exists(item => { return item.goodsid == logData.goodsid && item.logType == LogTypeOpts.申请高佣; }))
             {
                 logRuningList.ForEach(l =>
                 {
@@ -1390,13 +1388,17 @@ namespace HotTao
 
                                 //开始转链
                                 int i = 1;
-                                LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTaskTpwd(MyUserInfo.LoginToken, MyUserInfo.currentUserId, taskId, MyUserInfo.sendtemplate, appkey, appsecret, (share) =>
+                                string templateText = msgContent;// + "复制这条信息，打开『手机淘宝』[二合一淘口令]领券下单即可抢购宝贝";
+                                LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTaskTpwd(MyUserInfo.LoginToken, MyUserInfo.currentUserId, taskId, templateText, appkey, appsecret, (share) =>
                                 {
                                     callback?.Invoke(MessageCallBackType.开始转链, i, groupCount);
                                     i++;
                                 });
                                 #endregion
                                 callback?.Invoke(MessageCallBackType.转链完成, 0, groupCount);
+                                //
+                                writeTemplate(taskId.ToString(), templateText);
+
                             }
                             callback?.Invoke(MessageCallBackType.完成, 0, 0);
                         }
@@ -1426,7 +1428,27 @@ namespace HotTao
         }
 
 
+        /// <summary>
+        /// 缓存文件路径
+        /// </summary>
+        private static string cacheFilePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.datapath);
+        /// <summary>
+        /// 写入配置文件
+        /// </summary>
+        private void writeTemplate(string taskid, string text)
+        {
+            string path = string.Format("{0}/{1}/temp", cacheFilePath, MyUserInfo.currentUserId.ToString());
 
+            string templateFileName = path + string.Format("/text_{0}.txt", taskid);
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            if (!File.Exists(templateFileName))
+                File.Create(templateFileName).Dispose();
+            StreamWriter sw = new StreamWriter(@templateFileName, false);
+            sw.Write(text);
+            sw.Close();//写入
+        }
         #endregion
 
     }

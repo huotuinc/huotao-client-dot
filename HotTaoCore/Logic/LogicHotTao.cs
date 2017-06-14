@@ -453,7 +453,7 @@ namespace HotTaoCore.Logic
         /// <param name="templateText">文案</param>
         /// <param name="result">The result.</param>
         /// <returns>true if XXXX, false otherwise.</returns>
-        public bool BuildTaskTpwd(string loginToken, int userid, int taskid, string templateText, string appkey, string appsecret, Action<weChatShareTextModel> result = null)
+        public bool BuildTaskTpwd(string loginToken, int userid, int taskid, string templateText, string appkey, string appsecret, Action<weChatShareTextModel> result = null, bool append = false)
         {
             var taskData = FindByUserTaskPlanInfo(userid, taskid);
             if (taskData == null || taskData.ExecStatus != 0) return false;
@@ -466,15 +466,6 @@ namespace HotTaoCore.Logic
             //如果群数据和商品数据都为空时
             if (lst == null || lst2 == null) return false;
 
-            lst.ForEach(item =>
-            {
-                if (!ids.Contains(item.id))
-                    ids.Add(item.id);
-            });
-            //获取微信群数据
-            var wechatlist = FindByUserWeChatGroup(userid, ids);
-            ids.Clear();
-
             lst2.ForEach(item =>
             {
                 if (!ids.Contains(item.id))
@@ -483,18 +474,46 @@ namespace HotTaoCore.Logic
             //获取商品数据
             var goodslist = FindByUserGoodsList(userid, ids);
 
-            //删除现有数据
-            dal.DeleteUserWechatShareText(userid, taskid);
-            foreach (var group in wechatlist)
+            if (!append)
             {
-                //生成商品分享文本
-                BuildShareText(loginToken, userid, taskid, templateText, goodslist, group, appkey, appsecret, result);
+                ids.Clear();
+                lst.ForEach(item =>
+                {
+                    if (!ids.Contains(item.id))
+                        ids.Add(item.id);
+                });
+                //获取微信群数据
+                var wechatlist = FindByUserWeChatGroup(userid, ids);
+
+                //删除现有数据
+                dal.DeleteUserWechatShareText(userid, taskid);
+                foreach (var group in wechatlist)
+                {
+                    //生成商品分享文本
+                    BuildShareText(loginToken, userid, taskid, templateText, goodslist, group, appkey, appsecret, result);
+                }
+                UpdateUserTaskPlanIsTpwd(taskid);
             }
-            UpdateUserTaskPlanIsTpwd(taskid);
+            else
+            {
+                var data = FindByUserWechatShareTextList(userid, taskid);
+                if (data != null)
+                {
+                    //获取商品数据
+                    var goods = goodslist[0];
+                    data.ForEach(item =>
+                    {
+                        item.text += templateText;
+                        item.text = BuildShareText(item.text, goods);
+                        //修改内容
+                        dal.UpdateUserShareText(item.id, item.text);
+
+                        result?.Invoke(item);
+                    });
+                }
+            }
             return true;
         }
-
-
         /// <summary>
         ///生成商品文案
         /// </summary>
@@ -526,12 +545,6 @@ namespace HotTaoCore.Logic
                 //将淘口令改成pid，2017-04-07 修改，淘口令改到分享时生产
                 string tpwd = (string.IsNullOrEmpty(group.pid) ? "mm_33648229_22032774_73500078" : group.pid);// "[二合一淘口令]";// HotTaoApiService.Instance.taobao_wireless_share_tpwd_create(item.goodsMainImgUrl, item.shareLink, item.goodsName, appkey, appsecret);
                 string text = templateText;
-                //if (text.Contains("[短链接]"))
-                //{
-                //    shortUrl = HotTaoApiService.Instance.buildShortUrl(loginToken, tpwd, url, item.goodsName, item.goodsMainImgUrl);
-                //    if (string.IsNullOrEmpty(shortUrl))
-                //        shortUrl = HotTaoApiService.Instance.taobao_tbk_spread_get(item.shareLink, appkey, appsecret);
-                //}
 
                 if (!string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(tpwd))
                 {
@@ -541,10 +554,6 @@ namespace HotTaoCore.Logic
                         text = text.Replace("[商品价格]", item.goodsPrice.ToString());
                     if (text.Contains("[券后价格]"))
                         text = text.Replace("[券后价格]", (item.goodsPrice - item.couponPrice).ToString());
-                    //while (text.Contains("[二合一淘口令]"))
-                    //    text = text.Replace("[二合一淘口令]", tpwd);
-                    //while (text.Contains("[短链接]"))
-                    //    text = text.Replace("[短链接]", shortUrl);
                     if (text.Contains("[来源]"))
                         text = text.Replace("[来源]", item.goodsSupplier);
                     if (text.Contains("[销量]"))
@@ -567,6 +576,34 @@ namespace HotTaoCore.Logic
             }
             return true;
         }
+
+
+        private string BuildShareText(string text, GoodsModel goods)
+        {
+            if (!string.IsNullOrEmpty(text))
+            {
+                if (text.Contains("[商品标题]"))
+                    text = text.Replace("[商品标题]", goods.goodsName);
+                if (text.Contains("[商品价格]"))
+                    text = text.Replace("[商品价格]", goods.goodsPrice.ToString());
+                if (text.Contains("[券后价格]"))
+                    text = text.Replace("[券后价格]", (goods.goodsPrice - goods.couponPrice).ToString());
+                if (text.Contains("[来源]"))
+                    text = text.Replace("[来源]", goods.goodsSupplier);
+                if (text.Contains("[销量]"))
+                    text = text.Replace("[销量]", goods.goodsSalesAmount.ToString());
+                if (text.Contains("[优惠券价格]"))
+                    text = text.Replace("[优惠券价格]", goods.couponPrice.ToString());
+                if (text.Contains("[分隔符]"))
+                    text = text.Replace("[分隔符]", "-----------------");
+                if (text.Contains("[简介描述]"))
+                    text = text.Replace("[简介描述]", string.IsNullOrEmpty(goods.goodsIntro) ? "" : goods.goodsIntro);
+            }
+            return text;
+        }
+
+
+
 
 
 
@@ -597,12 +634,16 @@ namespace HotTaoCore.Logic
                         if (string.IsNullOrEmpty(shortUrl))
                             shortUrl = HotTaoApiService.Instance.taobao_tbk_spread_get(url, appkey, appsecret);
                     }
-                    while (item.text.Contains("[二合一淘口令]"))
+                    if (item.text.Contains("[二合一淘口令]"))
                         item.text = item.text.Replace("[二合一淘口令]", tpwd);
-                    while (item.text.Contains("[短链接]"))
+                    else
+                        item.text += "复制这条信息，打开『手机淘宝』" + tpwd + "领券下单即可抢购宝贝";
+
+                    if (item.text.Contains("[短链接]"))
                         item.text = item.text.Replace("[短链接]", shortUrl);
+
                     item.status = 0;
-                    Instance(currentUserId).UpdateUserShareTextStatus(item.id, item.text, tpwd);
+                    UpdateUserShareTextStatus(item.id, item.text, tpwd);
                     return true;
                 }
                 else
