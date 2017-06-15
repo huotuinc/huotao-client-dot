@@ -427,13 +427,13 @@ namespace HotTao
                         else
                         {
                             //通知
-                            sendSmsNotify(item.title, false);
+                            sendSmsNotify(item.title, true);
                         }
                     }
                     catch (Exception ex)
                     {
                         //通知
-                        sendSmsNotify(item.title, false);
+                        sendSmsNotify(item.title, true);
 
                         if (!sendVideo && !imageResult.Contains(item.title))
                             imageResult.Add(item.title);
@@ -643,12 +643,12 @@ namespace HotTao
             string content = string.Format("您好，发单号:{0},群[{1}]{2}发送出问题了，请查看！",
                 MyUserInfo.userData.loginName, weChatTitle, isImage ? "图片" : "文案");
             //TODO:待接口发布
-            if (cfgTime != null && !string.IsNullOrEmpty(cfgTime.notify_mobile))
+            if (cfgTime != null && !string.IsNullOrEmpty(cfgTime.notity_email))
             {
-                string notify_mobile = cfgTime.notify_mobile;
+                string notity_email = cfgTime.notity_email;
                 new System.Threading.Thread(() =>
                 {
-                    LogicUser.Instance.sendWarning(MyUserInfo.LoginToken, notify_mobile, content);
+                    LogicUser.Instance.sendEmailWarning(MyUserInfo.LoginToken, notity_email, content);
                 })
                 { IsBackground = true }.Start();
             }

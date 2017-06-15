@@ -122,6 +122,21 @@ namespace HotTaoCore.Logic
             BaseRequestService.Post(ApiConst.sendWarning, data);
         }
 
+        /// <summary>
+        /// 发送预警邮件
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="email"></param>
+        /// <param name="content"></param>
+        public void sendEmailWarning(string token, string email, string content)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = token;
+            data["email"] = email;
+            data["content"] = content;
+            BaseRequestService.Post(ApiConst.sendMail, data);
+        }
+
 
         /// <summary>
         /// 使用软件激活码

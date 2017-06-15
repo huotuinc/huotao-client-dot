@@ -967,7 +967,7 @@ namespace HotTao
                 timingRefresh = null;
             }
             timingRefresh = new Timer();
-            timingRefresh.Interval = 30000;
+            timingRefresh.Interval = 120000;
             timingRefresh.Tick += TimingRefresh_Tick;
             timingRefresh.Start();
 
@@ -991,6 +991,7 @@ namespace HotTao
         /// <exception cref="System.NotImplementedException"></exception>
         private void TimingRefresh_Tick(object sender, EventArgs e)
         {
+            if (!loginSuccess) return;
             new System.Threading.Thread(() =>
             {
                 ResetRefeshStatus();

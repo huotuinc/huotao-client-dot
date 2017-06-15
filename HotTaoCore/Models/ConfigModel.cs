@@ -164,6 +164,11 @@ namespace HotTaoCore.Models
         /// </summary>
         public string notify_mobile { get; set; } = string.Empty;
 
+        /// <summary>
+        /// 邮箱通知
+        /// </summary>
+        public string notity_email { get; set; } = string.Empty;
+
     }
 
     /// <summary>

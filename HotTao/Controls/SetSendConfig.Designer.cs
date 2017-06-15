@@ -729,22 +729,21 @@
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(53, 12);
             this.label29.TabIndex = 42;
-            this.label29.Text = "通知手机";
+            this.label29.Text = "通知邮箱";
             // 
             // txtNotifyMobile
             // 
             this.txtNotifyMobile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.txtNotifyMobile.Location = new System.Drawing.Point(110, 41);
+            this.txtNotifyMobile.Location = new System.Drawing.Point(111, 41);
             this.txtNotifyMobile.Name = "txtNotifyMobile";
-            this.txtNotifyMobile.Size = new System.Drawing.Size(89, 21);
+            this.txtNotifyMobile.Size = new System.Drawing.Size(183, 21);
             this.txtNotifyMobile.TabIndex = 1;
-            this.txtNotifyMobile.Text = "15423456789";
             // 
             // label31
             // 
             this.label31.AutoSize = true;
             this.label31.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
-            this.label31.Location = new System.Drawing.Point(207, 46);
+            this.label31.Location = new System.Drawing.Point(297, 46);
             this.label31.Margin = new System.Windows.Forms.Padding(0);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(149, 12);

@@ -623,6 +623,8 @@ namespace HotTaoSquare
         /// <exception cref="System.NotImplementedException"></exception>
         private void TimingRefresh_Tick(object sender, EventArgs e)
         {
+            if (!loginSuccess) return;
+
             if (timingRefreshThread != null)
             {
                 timingRefreshThread.Abort();

@@ -215,7 +215,8 @@ namespace TBSync
         {
             if (!string.IsNullOrEmpty(url))
             {
-                browser.Load(url);
+                if (browser != null)
+                    browser.Reload();
             }
         }
 
