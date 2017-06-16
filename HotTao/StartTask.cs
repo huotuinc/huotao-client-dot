@@ -127,6 +127,8 @@ namespace HotTao
             List<WindowInfo> wins = WinApi.GetAllDesktopWindows();
             if (wins == null || wins.Count() == 0)
             {
+                //通知
+                sendEmailNOtify("发单失败，请检查发单微信是否掉线!");
                 return;
             }
             //获取任务数据
@@ -336,6 +338,12 @@ namespace HotTao
                     log.Error(ex);
                 }
 
+                wins = WinApi.GetAllDesktopWindows();
+                if (wins == null || wins.Count() == 0)
+                {
+                    sendEmailNOtify("发单失败，请检查发单微信是否掉线!");                    
+                }
+
                 if (isSendImage)
                 {
                     //复制文件
@@ -390,6 +398,7 @@ namespace HotTao
             {
                 // Clipboard.SetImage(image);
                 //System.Threading.Thread.Sleep(1000);
+
                 //粘贴图片       
                 foreach (var item in shareData)
                 {
@@ -398,12 +407,23 @@ namespace HotTao
                         if (!isStartTask || MyUserInfo.currentUserId == 0)
                         {
                             //通知
-                            sendSmsNotify(item.title, true);
+                            sendEmailNOtify("发单号掉线，请重新登录！");
                             break;
                         }
 
                         //如果当前微信已经发送，则结束本循环
-                        if (imageResult.Contains(item.title)) continue;
+                        if (imageResult.Contains(item.title))
+                        {
+                            sendEmailNOtify(item.title, true);
+                            continue;
+                        }
+
+                        wins = WinApi.GetAllDesktopWindows();
+                        if (wins == null || wins.Count() == 0)
+                        {
+                            sendEmailNOtify("发单失败，请检查发单微信是否掉线!");
+                            continue;
+                        }
 
                         bool b = wins.Exists(win => { return win.szWindowName == item.title; });
                         if (b)
@@ -427,13 +447,13 @@ namespace HotTao
                         else
                         {
                             //通知
-                            sendSmsNotify(item.title, true);
+                            sendEmailNOtify(item.title, true);
                         }
                     }
                     catch (Exception ex)
                     {
                         //通知
-                        sendSmsNotify(item.title, true);
+                        sendEmailNOtify(item.title, true);
 
                         if (!sendVideo && !imageResult.Contains(item.title))
                             imageResult.Add(item.title);
@@ -476,34 +496,36 @@ namespace HotTao
             new System.Threading.Thread(() =>
             {
                 try
-                {
-                    PlanModel model = LogicGoods.Instance.getCommissionPlan(MyUserInfo.LoginToken, goods.goodsDetailUrl);
-                    if (model != null)
-                    {
-                        if (model.campaignType.Equals("2"))
-                        {
-                            //申请高佣金
-                            hotForm.ApplyPlan(goods.goodsId, goods.goodsName, model.planId, model.shopKeeperId, model.commission);
-                        }
-                        else
-                        {
-                            LogRuningModel logData = new LogRuningModel()
-                            {
-                                goodsid = goods.goodsId,
-                                goodsName = goods.goodsName,
-                                title = goods.goodsId,
-                                content = goods.goodsName,
-                                logTime = DateTime.Now,
-                                logType = LogTypeOpts.通用计划,
-                                campId = "",
-                                keeperid = "",
-                                commissionRate = model.commission,
-                                isError = false,
-                                remark = "[" + goods.goodsId + "]" + "通用计划,佣金:" + (model.commission * 100) + " %"
-                            };
-                            hotForm.logRuningList.Add(logData);
-                        }
-                    }
+                {                    
+                    hotForm.ApplyPlan(goods.goodsId, goods.goodsName, goods.goodsDetailUrl);
+
+                    //PlanModel model = LogicGoods.Instance.getCommissionPlan(MyUserInfo.LoginToken, goods.goodsDetailUrl);
+                    //if (model != null)
+                    //{
+                    //    if (model.campaignType.Equals("2"))
+                    //    {
+                    //        //申请高佣金
+                    //        hotForm.ApplyPlan(goods.goodsId, goods.goodsName, model.planId, model.shopKeeperId, model.commission);
+                    //    }
+                    //    else
+                    //    {
+                    //        LogRuningModel logData = new LogRuningModel()
+                    //        {
+                    //            goodsid = goods.goodsId,
+                    //            goodsName = goods.goodsName,
+                    //            title = goods.goodsId,
+                    //            content = goods.goodsName,
+                    //            logTime = DateTime.Now,
+                    //            logType = LogTypeOpts.通用计划,
+                    //            campId = "",
+                    //            keeperid = "",
+                    //            commissionRate = model.commission,
+                    //            isError = false,
+                    //            remark = "[" + goods.goodsId + "]" + "通用计划,佣金:" + (model.commission * 100) + " %"
+                    //        };
+                    //        hotForm.logRuningList.Add(logData);
+                    //    }
+                    //}
                 }
                 catch (System.Threading.ThreadAbortException ex)
                 {
@@ -535,14 +557,24 @@ namespace HotTao
                 try
                 {
                     if (!isStartTask || MyUserInfo.currentUserId == 0)
-                    {
+                    {                        
                         //通知
-                        sendSmsNotify(item.title, false);
+                        sendEmailNOtify("发单号掉线，请重新登录！");
                         break;
                     }
                     Clipboard.SetText(item.text);
                     //如果当前微信已经发送，则结束本循环
-                    if (textResult.Contains(item.title)) continue;
+                    if (textResult.Contains(item.title))
+                    {
+                        sendEmailNOtify(item.title, false);
+                        continue;
+                    }
+                    wins = WinApi.GetAllDesktopWindows();
+                    if (wins == null || wins.Count() == 0)
+                    {
+                        sendEmailNOtify("发单失败，请检查发单微信是否掉线!");
+                        continue;
+                    }
 
                     bool b = wins.Exists(win => { return win.szWindowName == item.title; });
                     if (b)
@@ -567,13 +599,13 @@ namespace HotTao
                     }
                     else
                     {
-                        sendSmsNotify(item.title, false);
+                        sendEmailNOtify(item.title, false);
                     }
                 }
                 catch (Exception ex)
                 {
                     //通知
-                    sendSmsNotify(item.title, false);
+                    sendEmailNOtify(item.title, false);
 
                     if (!textResult.Contains(item.title))
                         textResult.Add(item.title);
@@ -638,10 +670,25 @@ namespace HotTao
         /// 发送短信通知
         /// </summary>
         /// <param name="weChatTitle">群标题</param>
-        public void sendSmsNotify(string weChatTitle, bool isImage)
+        public void sendEmailNOtify(string weChatTitle, bool isImage)
         {
             string content = string.Format("您好，发单号:{0},群[{1}]{2}发送出问题了，请查看！",
                 MyUserInfo.userData.loginName, weChatTitle, isImage ? "图片" : "文案");
+            //TODO:待接口发布
+            if (cfgTime != null && !string.IsNullOrEmpty(cfgTime.notity_email))
+            {
+                string notity_email = cfgTime.notity_email;
+                new System.Threading.Thread(() =>
+                {
+                    LogicUser.Instance.sendEmailWarning(MyUserInfo.LoginToken, notity_email, content);
+                })
+                { IsBackground = true }.Start();
+            }
+        }
+
+        public void sendEmailNOtify(string content)
+        {
+            content = string.Format("您好，发单号:{0},{1}！", MyUserInfo.userData.loginName, content);
             //TODO:待接口发布
             if (cfgTime != null && !string.IsNullOrEmpty(cfgTime.notity_email))
             {

@@ -225,7 +225,7 @@ namespace HotTao.Controls
                     dgvLogView.Rows[i - 1].Cells["campId"].Value = data[j].campId;
                     dgvLogView.Rows[i - 1].Cells["keeperid"].Value = data[j].keeperid;
                     dgvLogView.Rows[i - 1].Cells["commissionRate"].Value = data[j].commissionRate;
-
+                    dgvLogView.Rows[i - 1].Cells["goodsUrl"].Value = data[j].goodsUrl;
 
                     if (i % 2 == 0)
                     {
@@ -507,13 +507,15 @@ namespace HotTao.Controls
             {
                 string goodsid = cells["goodsid"].Value.ToString();
                 string goodsName = cells["goodsName"].Value.ToString();
+                string goodsUrl = cells["goodsUrl"].Value.ToString();
 
-                string campId = cells["campId"].Value.ToString();
-                string keeperid = cells["keeperid"].Value.ToString();
-                string commissionRate = cells["commissionRate"].Value.ToString();
-                decimal rate = 0;
-                decimal.TryParse(commissionRate, out rate);
-                hotForm.ApplyPlan(goodsid, goodsName,campId,keeperid, rate);
+
+                //string campId = cells["campId"].Value.ToString();
+                //string keeperid = cells["keeperid"].Value.ToString();
+                //string commissionRate = cells["commissionRate"].Value.ToString();
+                //decimal rate = 0;
+                //decimal.TryParse(commissionRate, out rate);
+                hotForm.ApplyPlan(goodsid, goodsName, goodsUrl);
             }
         }
     }

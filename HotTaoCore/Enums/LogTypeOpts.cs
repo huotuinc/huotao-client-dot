@@ -21,5 +21,6 @@ namespace HotTaoCore.Enums
         申请高佣,
         商品发送,
         通用计划,
+        未知
     }
 }

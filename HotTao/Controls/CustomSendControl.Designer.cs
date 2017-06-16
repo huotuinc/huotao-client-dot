@@ -31,26 +31,26 @@
             this.components = new System.ComponentModel.Container();
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.txtTempText = new System.Windows.Forms.RichTextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.btnStartTask = new System.Windows.Forms.Button();
-            this.hotGroupBox3 = new HotTao.Controls.module.HotGroupBox(this.components);
-            this.txtPicPath = new System.Windows.Forms.RichTextBox();
-            this.openFileImage = new System.Windows.Forms.OpenFileDialog();
-            this.openFileVideo = new System.Windows.Forms.OpenFileDialog();
-            this.button1 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnStartSend = new System.Windows.Forms.Button();
             this.hotGroupBox4 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.txtVideoPath = new System.Windows.Forms.RichTextBox();
-            this.btnStartSend = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.hotGroupBox3 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.txtPicPath = new System.Windows.Forms.RichTextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnStartTask = new System.Windows.Forms.Button();
+            this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.txtTempText = new System.Windows.Forms.RichTextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.openFileImage = new System.Windows.Forms.OpenFileDialog();
+            this.openFileVideo = new System.Windows.Forms.OpenFileDialog();
             this.hotPanel1.SuspendLayout();
             this.hotGroupBox1.SuspendLayout();
-            this.hotGroupBox2.SuspendLayout();
-            this.hotGroupBox3.SuspendLayout();
             this.hotGroupBox4.SuspendLayout();
+            this.hotGroupBox3.SuspendLayout();
+            this.hotGroupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // hotPanel1
@@ -84,71 +84,65 @@
             this.hotGroupBox1.TabIndex = 34;
             this.hotGroupBox1.TabStop = false;
             // 
-            // hotGroupBox2
+            // label2
             // 
-            this.hotGroupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
-            this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
-            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox2.Controls.Add(this.txtTempText);
-            this.hotGroupBox2.Location = new System.Drawing.Point(9, 39);
-            this.hotGroupBox2.Name = "hotGroupBox2";
-            this.hotGroupBox2.Size = new System.Drawing.Size(888, 355);
-            this.hotGroupBox2.TabIndex = 34;
-            this.hotGroupBox2.TabStop = false;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(503, 479);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 12);
+            this.label2.TabIndex = 46;
+            this.label2.Text = "可选";
             // 
-            // txtTempText
+            // label1
             // 
-            this.txtTempText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
-            this.txtTempText.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtTempText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtTempText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            this.txtTempText.Location = new System.Drawing.Point(3, 17);
-            this.txtTempText.Name = "txtTempText";
-            this.txtTempText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.txtTempText.Size = new System.Drawing.Size(882, 335);
-            this.txtTempText.TabIndex = 26;
-            this.txtTempText.Text = "";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(503, 417);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(29, 12);
+            this.label1.TabIndex = 46;
+            this.label1.Text = "可选";
             // 
-            // label11
+            // btnStartSend
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label11.Location = new System.Drawing.Point(12, 24);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(109, 12);
-            this.label11.TabIndex = 27;
-            this.label11.Text = "自定义发送内容：";
+            this.btnStartSend.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.btnStartSend.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnStartSend.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnStartSend.FlatAppearance.BorderSize = 0;
+            this.btnStartSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStartSend.ForeColor = System.Drawing.Color.White;
+            this.btnStartSend.Location = new System.Drawing.Point(803, 404);
+            this.btnStartSend.Name = "btnStartSend";
+            this.btnStartSend.Size = new System.Drawing.Size(91, 34);
+            this.btnStartSend.TabIndex = 45;
+            this.btnStartSend.Text = "开始发送";
+            this.btnStartSend.UseVisualStyleBackColor = false;
+            this.btnStartSend.Click += new System.EventHandler(this.btnStartSend_Click);
             // 
-            // label9
+            // hotGroupBox4
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.label9.Location = new System.Drawing.Point(407, -1);
-            this.label9.Name = "label9";
-            this.label9.Padding = new System.Windows.Forms.Padding(5);
-            this.label9.Size = new System.Drawing.Size(80, 22);
-            this.label9.TabIndex = 33;
-            this.label9.Text = "自定义发送";
+            this.hotGroupBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
+            this.hotGroupBox4.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox4.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox4.Controls.Add(this.txtVideoPath);
+            this.hotGroupBox4.Location = new System.Drawing.Point(94, 461);
+            this.hotGroupBox4.Name = "hotGroupBox4";
+            this.hotGroupBox4.Size = new System.Drawing.Size(393, 40);
+            this.hotGroupBox4.TabIndex = 44;
+            this.hotGroupBox4.TabStop = false;
             // 
-            // btnStartTask
+            // txtVideoPath
             // 
-            this.btnStartTask.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnStartTask.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnStartTask.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnStartTask.FlatAppearance.BorderSize = 0;
-            this.btnStartTask.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.btnStartTask.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
-            this.btnStartTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStartTask.ForeColor = System.Drawing.Color.White;
-            this.btnStartTask.Location = new System.Drawing.Point(9, 409);
-            this.btnStartTask.Name = "btnStartTask";
-            this.btnStartTask.Size = new System.Drawing.Size(79, 29);
-            this.btnStartTask.TabIndex = 43;
-            this.btnStartTask.Tag = "pic";
-            this.btnStartTask.Text = "上传图片";
-            this.btnStartTask.UseVisualStyleBackColor = false;
-            this.btnStartTask.Click += new System.EventHandler(this.btnUpload_Click);
+            this.txtVideoPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
+            this.txtVideoPath.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtVideoPath.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtVideoPath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            this.txtVideoPath.Location = new System.Drawing.Point(3, 17);
+            this.txtVideoPath.Multiline = false;
+            this.txtVideoPath.Name = "txtVideoPath";
+            this.txtVideoPath.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txtVideoPath.Size = new System.Drawing.Size(387, 20);
+            this.txtVideoPath.TabIndex = 26;
+            this.txtVideoPath.Text = "";
             // 
             // hotGroupBox3
             // 
@@ -177,14 +171,6 @@
             this.txtPicPath.TabIndex = 26;
             this.txtPicPath.Text = "";
             // 
-            // openFileImage
-            // 
-            this.openFileImage.Filter = "图像文件|*.jpg;*jpeg;*.png;*.bmp";
-            // 
-            // openFileVideo
-            // 
-            this.openFileVideo.Filter = "MP4文件|*.mp4;*.gif";
-            // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
@@ -204,65 +190,79 @@
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.btnUpload_Click);
             // 
-            // hotGroupBox4
+            // btnStartTask
             // 
-            this.hotGroupBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
-            this.hotGroupBox4.BorderColor = System.Drawing.Color.Gainsboro;
-            this.hotGroupBox4.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox4.Controls.Add(this.txtVideoPath);
-            this.hotGroupBox4.Location = new System.Drawing.Point(94, 461);
-            this.hotGroupBox4.Name = "hotGroupBox4";
-            this.hotGroupBox4.Size = new System.Drawing.Size(393, 40);
-            this.hotGroupBox4.TabIndex = 44;
-            this.hotGroupBox4.TabStop = false;
+            this.btnStartTask.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnStartTask.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnStartTask.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnStartTask.FlatAppearance.BorderSize = 0;
+            this.btnStartTask.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnStartTask.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
+            this.btnStartTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStartTask.ForeColor = System.Drawing.Color.White;
+            this.btnStartTask.Location = new System.Drawing.Point(9, 409);
+            this.btnStartTask.Name = "btnStartTask";
+            this.btnStartTask.Size = new System.Drawing.Size(79, 29);
+            this.btnStartTask.TabIndex = 43;
+            this.btnStartTask.Tag = "pic";
+            this.btnStartTask.Text = "上传图片";
+            this.btnStartTask.UseVisualStyleBackColor = false;
+            this.btnStartTask.Click += new System.EventHandler(this.btnUpload_Click);
             // 
-            // txtVideoPath
+            // hotGroupBox2
             // 
-            this.txtVideoPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
-            this.txtVideoPath.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtVideoPath.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtVideoPath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            this.txtVideoPath.Location = new System.Drawing.Point(3, 17);
-            this.txtVideoPath.Multiline = false;
-            this.txtVideoPath.Name = "txtVideoPath";
-            this.txtVideoPath.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.txtVideoPath.Size = new System.Drawing.Size(387, 20);
-            this.txtVideoPath.TabIndex = 26;
-            this.txtVideoPath.Text = "";
+            this.hotGroupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
+            this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
+            this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox2.Controls.Add(this.txtTempText);
+            this.hotGroupBox2.Location = new System.Drawing.Point(9, 39);
+            this.hotGroupBox2.Name = "hotGroupBox2";
+            this.hotGroupBox2.Size = new System.Drawing.Size(888, 355);
+            this.hotGroupBox2.TabIndex = 34;
+            this.hotGroupBox2.TabStop = false;
             // 
-            // btnStartSend
+            // txtTempText
             // 
-            this.btnStartSend.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.btnStartSend.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnStartSend.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
-            this.btnStartSend.FlatAppearance.BorderSize = 0;
-            this.btnStartSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStartSend.ForeColor = System.Drawing.Color.White;
-            this.btnStartSend.Location = new System.Drawing.Point(803, 404);
-            this.btnStartSend.Name = "btnStartSend";
-            this.btnStartSend.Size = new System.Drawing.Size(91, 34);
-            this.btnStartSend.TabIndex = 45;
-            this.btnStartSend.Text = "开始发送";
-            this.btnStartSend.UseVisualStyleBackColor = false;
-            this.btnStartSend.Click += new System.EventHandler(this.btnStartSend_Click);
+            this.txtTempText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(251)))), ((int)(((byte)(251)))));
+            this.txtTempText.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtTempText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtTempText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            this.txtTempText.Location = new System.Drawing.Point(3, 17);
+            this.txtTempText.Name = "txtTempText";
+            this.txtTempText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txtTempText.Size = new System.Drawing.Size(882, 335);
+            this.txtTempText.TabIndex = 26;
+            this.txtTempText.Text = "";
             // 
-            // label1
+            // label9
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(503, 417);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 12);
-            this.label1.TabIndex = 46;
-            this.label1.Text = "可选";
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.label9.Location = new System.Drawing.Point(407, -1);
+            this.label9.Name = "label9";
+            this.label9.Padding = new System.Windows.Forms.Padding(5);
+            this.label9.Size = new System.Drawing.Size(80, 22);
+            this.label9.TabIndex = 33;
+            this.label9.Text = "自定义发送";
             // 
-            // label2
+            // label11
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(503, 479);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 12);
-            this.label2.TabIndex = 46;
-            this.label2.Text = "可选";
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label11.Location = new System.Drawing.Point(12, 24);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(109, 12);
+            this.label11.TabIndex = 27;
+            this.label11.Text = "自定义发送内容：";
+            // 
+            // openFileImage
+            // 
+            this.openFileImage.Filter = "图像文件(*.jpg;*jpeg;*.png;*.bmp)|*.jpg;*jpeg;*.png;*.bmp";
+            // 
+            // openFileVideo
+            // 
+            this.openFileVideo.Filter = "MP4文件(*.mp4;*.gif)|*.mp4;*.gif";
             // 
             // CustomSendControl
             // 
@@ -274,9 +274,9 @@
             this.hotPanel1.ResumeLayout(false);
             this.hotGroupBox1.ResumeLayout(false);
             this.hotGroupBox1.PerformLayout();
-            this.hotGroupBox2.ResumeLayout(false);
-            this.hotGroupBox3.ResumeLayout(false);
             this.hotGroupBox4.ResumeLayout(false);
+            this.hotGroupBox3.ResumeLayout(false);
+            this.hotGroupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

@@ -68,6 +68,7 @@
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.dgvLogView = new System.Windows.Forms.DataGridView();
             this.logTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.goodsName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.goodsid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.logId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -371,6 +372,7 @@
             this.dgvLogView.ColumnHeadersVisible = false;
             this.dgvLogView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.logTime,
+            this.goodsUrl,
             this.goodsName,
             this.goodsid,
             this.logId,
@@ -403,6 +405,13 @@
             this.logTime.Name = "logTime";
             this.logTime.ReadOnly = true;
             this.logTime.Width = 120;
+            // 
+            // goodsUrl
+            // 
+            this.goodsUrl.HeaderText = "goodsUrl";
+            this.goodsUrl.Name = "goodsUrl";
+            this.goodsUrl.ReadOnly = true;
+            this.goodsUrl.Visible = false;
             // 
             // goodsName
             // 
@@ -540,6 +549,7 @@
         private System.Windows.Forms.DataGridViewImageColumn edittask;
         private System.Windows.Forms.DataGridView dgvLogView;
         private System.Windows.Forms.DataGridViewTextBoxColumn logTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn goodsUrl;
         private System.Windows.Forms.DataGridViewTextBoxColumn goodsName;
         private System.Windows.Forms.DataGridViewTextBoxColumn goodsid;
         private System.Windows.Forms.DataGridViewTextBoxColumn logId;

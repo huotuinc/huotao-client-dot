@@ -461,6 +461,34 @@ namespace TBSync
             }
             return cookies;
         }
+        /// <summary>
+        /// 获取阿里妈妈token
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public string GetTbToken()
+        {
+            try
+            {
+                var cookies = GetCurrentCookies();
+                string _tb_token = string.Empty;
+                foreach (System.Net.Cookie cookie in cookies)
+                {
+                    if (cookie.Name.Equals("_tb_token_"))
+                    {
+                        _tb_token = cookie.Value;
+                        break;
+                    }
+                }
+                return _tb_token;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+            return "";
+        }
+
 
         /// <summary>
         /// 获取登录阿里妈妈的cookies

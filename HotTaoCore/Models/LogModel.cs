@@ -62,6 +62,9 @@ namespace HotTaoCore.Models
         /// 佣金率(输出时，需*100)
         /// </summary>
         public decimal commissionRate { get; set; }
+
+
+        public string goodsUrl { get; set; }
     }
 
 }

@@ -16,6 +16,31 @@ using System.Threading.Tasks;
 
 namespace HotTaoCore.Models
 {
+
+
+
+    public class TaobaoSearchResultModel
+    {
+        public bool ok { get; set; }
+
+
+        public TaobaoSearchDataModel data { get; set; } = new TaobaoSearchDataModel();
+    }
+
+    public class TaobaoSearchDataModel
+    {
+        public List<TaobaoSearchPageListModel> pageList { get; set; } = new List<TaobaoSearchPageListModel>();
+    }
+
+    public class TaobaoSearchPageListModel
+    {
+        /// <summary>
+        /// 通用佣金率
+        /// </summary>
+        public decimal tkRate { get; set; }
+    }
+
+
     public class TaobaoCommonCampaignItemsModel
     {
 

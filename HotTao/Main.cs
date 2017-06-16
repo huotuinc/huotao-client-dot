@@ -1048,7 +1048,7 @@ namespace HotTao
         /// 申请高佣
         /// </summary>
         /// <param name="goodsDetailUrl">商品详情地址</param>
-        public void ApplyPlan(string goodsId, string goodsName)
+        public void ApplyPlan(string goodsId, string goodsName, string goodsUrl)
         {
             if (lw == null)
             {
@@ -1061,108 +1061,124 @@ namespace HotTao
                     logTime = DateTime.Now,
                     logType = LogTypeOpts.申请高佣,
                     isError = true,
+                    goodsUrl = goodsUrl,
                     remark = "您还没登录阿里妈妈，请登录后重试!"
                 });
                 return;
             }
-            ThreadHandle(() =>
+            LogRuningModel logData = new LogRuningModel()
             {
-                LogRuningModel logData = new LogRuningModel()
+                goodsid = goodsId,
+                goodsName = goodsName,
+                title = goodsId,
+                content = goodsName,
+                logTime = DateTime.Now,
+                goodsUrl = goodsUrl,
+                logType = LogTypeOpts.申请高佣,
+            };
+            try
+            {
+                MyUserInfo.cookies = lw.GetCurrentCookies();
+                var tbToken = lw.GetTbToken();
+                string searchUrl = string.Format("http://pub.alimama.com/items/search.json?q={0}&_t={1}&auctionTag=&perPageSize=40&shopTag=&t={1}&_tb_token_={2}&pvid=", goodsUrl, getClientMsgId(), tbToken);
+                CookieContainer cookiesContainer = new CookieContainer();
+                cookiesContainer.Add(MyUserInfo.cookies);
+                string content = BaseRequestService.HttpGet(searchUrl, cookiesContainer);
+                decimal tkRate = 0;
+                if (!string.IsNullOrEmpty(content))
                 {
-                    goodsid = goodsId,
-                    goodsName = goodsName,
-                    title = goodsId,
-                    content = goodsName,
-                    logTime = DateTime.Now,
-                    logType = LogTypeOpts.申请高佣,
-                };
-                try
-                {
-                    MyUserInfo.cookies = lw.GetCurrentCookies();
-                    //获取更多定向计划数据
-                    string url = string.Format("http://pub.alimama.com/pubauc/getCommonCampaignByItemId.json?itemId={0}&t={1}&_tb_token_={2}&pvid=", goodsId, getClientMsgId(), MyUserInfo.GetTbToken());
-                    CookieContainer cookiesContainer = new CookieContainer();
-                    cookiesContainer.Add(MyUserInfo.cookies);
-                    string content = BaseRequestService.HttpGet(url, cookiesContainer);
-                    TaobaoCommonCampaignItemsModel items = JsonConvert.DeserializeObject<TaobaoCommonCampaignItemsModel>(content);
-                    if (items != null && items.ok && items.data != null && items.data.Count > 0)
+                    try
                     {
-                        var data = items.data.FindAll(i =>
-                         {
-                             return i.manualAudit == 0;
-                         });
-                        var listData = data.OrderByDescending(r => r.commissionRate).ToList();
-
-                        TaobaoCommonItem item = listData[0];
-                        if (item != null)
+                        TaobaoSearchResultModel searchResult = JsonConvert.DeserializeObject<TaobaoSearchResultModel>(content);
+                        if (searchResult != null && searchResult.ok)
                         {
-                            if (!item.Exist)
-                            {
-                                string applyUrl = "http://pub.alimama.com/pubauc/applyForCommonCampaign.json";
-                                Dictionary<string, string> formFields = new Dictionary<string, string>();
-                                formFields["campId"] = item.CampaignID;
-                                formFields["keeperid"] = item.ShopKeeperID;
-                                formFields["applyreason"] = "您好，淘客人多，请于通过!";
-                                formFields["_tb_token_"] = MyUserInfo.GetTbToken();
-                                formFields["t"] = getClientMsgId().ToString();
-                                formFields["pvid"] = "";
-                                string res = BaseRequestService.HttpPost(applyUrl, formFields, cookiesContainer);
-                                log.Info(res);
-                                TaobaoCommonCampaignItemsModel _items = JsonConvert.DeserializeObject<TaobaoCommonCampaignItemsModel>(res);
-                                if (_items != null)
-                                {
-                                    if (_items.ok)
-                                    {
-                                        logData.isError = false;
-                                        logData.remark = "[" + goodsId + "]" + "自动申请佣金成功,佣金:" + item.commissionRate + " %";
-                                    }
-                                    else
-                                    {
-                                        logData.isError = true;
-                                        logData.remark = "[" + goodsId + "]" + _items.info.message;
-                                    }
-                                }
-                            }
+                            //通用计划
+                            tkRate = searchResult.data.pageList[0].tkRate;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("查找商品" + ex.Message);
+                    }
+                }
+                if (tkRate <= 0)
+                {
+                    logData.isError = false;
+                    logData.logType = LogTypeOpts.通用计划;
+                    logData.remark = "[" + goodsId + "]" + "没找到佣金计划";
+                }
+                else
+                {
+
+                    //获取更多定向计划数据
+                    string url = string.Format("http://pub.alimama.com/pubauc/getCommonCampaignByItemId.json?itemId={0}&t={1}&_tb_token_={2}&pvid=", goodsId, getClientMsgId(), tbToken);
+                    content = BaseRequestService.HttpGet(url, cookiesContainer);
+                    if (content.Contains("html"))
+                    {
+                        logData.isError = true;
+                        logData.remark = "请重新登录淘宝联盟后重试";
+                    }
+                    else
+                    {
+
+
+
+                        TaobaoCommonCampaignItemsModel items = JsonConvert.DeserializeObject<TaobaoCommonCampaignItemsModel>(content);
+                        if (items != null && items.ok && items.data != null && items.data.Count > 0)
+                        {
+                            //var data = items.data.FindAll(i =>
+                            // {
+                            //     return i.manualAudit == 0;
+                            // });
+                            var listData = items.data.OrderByDescending(r => r.commissionRate).ToList();
+
+                            TaobaoCommonItem item = listData[0];
+
+                            //开始申请佣金
+                            if (tkRate < item.commissionRate)
+                                ApplyPlan(goodsId, goodsName, item.CampaignID, item.ShopKeeperID, item.commissionRate / 100);
                             else
                             {
                                 logData.isError = false;
-                                logData.remark = "[" + goodsId + "]" + "已经申请过了";
+                                logData.logType = LogTypeOpts.通用计划;
+                                logData.remark = "[" + goodsId + "]" + "通用计划,佣金:" + tkRate.ToString() + " %";
+
                             }
                         }
                         else
                         {
                             logData.isError = false;
-                            logData.remark = "[" + goodsId + "]" + "没找到定向佣金";
+                            logData.logType = LogTypeOpts.未知;
+                            logData.remark = "[" + goodsId + "]" + "没找到定向佣金计划";
                         }
-                    }
-                    else
-                    {
-                        logData.isError = false;
-                        logData.remark = "[" + goodsId + "]" + "没找到定向佣金";
-                    }
-                }
-                catch (Exception ex)
-                {
-                    log.Error(ex);
-                    logData.isError = true;
-                    logData.remark = "[" + goodsId + "]" + "一瞬间，风起人涌，交通拥堵，请稍后重试！";
-                }
 
-                if (logRuningList.Exists(item => { return item.goodsid == logData.goodsid; }))
-                {
-                    logRuningList.ForEach(l =>
-                    {
-                        if (l.goodsid == logData.goodsid)
-                        {
-                            l = logData;
-                            return;
-                        }
-                    });
-                }
-                else
-                    logRuningList.Add(logData);
 
-            });
+
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                logData.isError = true;
+                logData.logType = LogTypeOpts.未知;
+                logData.remark = "[" + goodsId + "]" + "获取佣金计划失败，请重新登录淘宝联盟！";
+            }
+
+            if (logRuningList.Exists(item => { return item.goodsid == logData.goodsid && item.logType == LogTypeOpts.申请高佣; }))
+            {
+                logRuningList.ForEach(l =>
+                {
+                    if (l.goodsid == logData.goodsid)
+                    {
+                        l = logData;
+                        return;
+                    }
+                });
+            }
+            else
+                logRuningList.Add(logData);
         }
 
 
@@ -1191,6 +1207,7 @@ namespace HotTao
 
             try
             {
+                MyUserInfo.cookies = lw.GetCurrentCookies();
                 CookieContainer cookiesContainer = new CookieContainer();
                 cookiesContainer.Add(MyUserInfo.cookies);
                 string applyUrl = "http://pub.alimama.com/pubauc/applyForCommonCampaign.json";
@@ -1198,11 +1215,11 @@ namespace HotTao
                 formFields["campId"] = campId;
                 formFields["keeperid"] = keeperid;
                 formFields["applyreason"] = "您好，淘客人多，请于通过!";
-                formFields["_tb_token_"] = MyUserInfo.GetTbToken();
+                formFields["_tb_token_"] = lw.GetTbToken();
                 formFields["t"] = getClientMsgId().ToString();
                 formFields["pvid"] = "";
                 string res = BaseRequestService.HttpPost(applyUrl, formFields, cookiesContainer);
-                log.Info(res);
+
                 TaobaoCommonCampaignItemsModel _items = JsonConvert.DeserializeObject<TaobaoCommonCampaignItemsModel>(res);
                 if (_items != null)
                 {
@@ -1254,10 +1271,10 @@ namespace HotTao
         /// 获取随机时间戳
         /// </summary>
         /// <returns>System.Int64.</returns>
-        public static long getClientMsgId()
+        public static double getClientMsgId()
         {
             System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-            return (long)(DateTime.Now - startTime).TotalMilliseconds;
+            return (DateTime.Now - startTime).TotalMilliseconds;
         }
         #endregion
 
