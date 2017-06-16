@@ -36,7 +36,9 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BuildShareText));
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
+            this.lkbtn = new System.Windows.Forms.LinkLabel();
             this.label15 = new System.Windows.Forms.Label();
+            this.btnAppendShareText = new System.Windows.Forms.Button();
             this.btnBuildShareText = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label11 = new System.Windows.Forms.Label();
@@ -62,8 +64,6 @@
             this.bgPanel = new System.Windows.Forms.Panel();
             this.lbTitle = new System.Windows.Forms.Label();
             this.pbClose = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.lkbtn = new System.Windows.Forms.LinkLabel();
             this.hotPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShareText)).BeginInit();
@@ -77,7 +77,7 @@
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.hotPanel1.Controls.Add(this.lkbtn);
             this.hotPanel1.Controls.Add(this.label15);
-            this.hotPanel1.Controls.Add(this.button1);
+            this.hotPanel1.Controls.Add(this.btnAppendShareText);
             this.hotPanel1.Controls.Add(this.btnBuildShareText);
             this.hotPanel1.Controls.Add(this.panel1);
             this.hotPanel1.Controls.Add(this.dgvShareText);
@@ -100,6 +100,17 @@
             this.hotPanel1.Size = new System.Drawing.Size(520, 668);
             this.hotPanel1.TabIndex = 0;
             // 
+            // lkbtn
+            // 
+            this.lkbtn.AutoSize = true;
+            this.lkbtn.Location = new System.Drawing.Point(425, 105);
+            this.lkbtn.Name = "lkbtn";
+            this.lkbtn.Size = new System.Drawing.Size(77, 12);
+            this.lkbtn.TabIndex = 58;
+            this.lkbtn.TabStop = true;
+            this.lkbtn.Text = "使用全局文案";
+            this.lkbtn.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lkbtn_LinkClicked);
+            // 
             // label15
             // 
             this.label15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
@@ -112,6 +123,24 @@
             this.label15.Text = "[简介描述]";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label15.Click += new System.EventHandler(this.SetTag_Click);
+            // 
+            // btnAppendShareText
+            // 
+            this.btnAppendShareText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnAppendShareText.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAppendShareText.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnAppendShareText.FlatAppearance.BorderSize = 0;
+            this.btnAppendShareText.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
+            this.btnAppendShareText.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
+            this.btnAppendShareText.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAppendShareText.ForeColor = System.Drawing.Color.White;
+            this.btnAppendShareText.Location = new System.Drawing.Point(276, 336);
+            this.btnAppendShareText.Name = "btnAppendShareText";
+            this.btnAppendShareText.Size = new System.Drawing.Size(113, 32);
+            this.btnAppendShareText.TabIndex = 55;
+            this.btnAppendShareText.Text = "追加自定义文案";
+            this.btnAppendShareText.UseVisualStyleBackColor = false;
+            this.btnAppendShareText.Click += new System.EventHandler(this.btnAppendShareText_Click);
             // 
             // btnBuildShareText
             // 
@@ -446,35 +475,6 @@
             this.pbClose.TabStop = false;
             this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
             // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(216)))), ((int)(((byte)(106)))));
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(276, 336);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(113, 32);
-            this.button1.TabIndex = 55;
-            this.button1.Text = "追加自定义文案";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.btnAppendShareText_Click);
-            // 
-            // lkbtn
-            // 
-            this.lkbtn.AutoSize = true;
-            this.lkbtn.Location = new System.Drawing.Point(425, 105);
-            this.lkbtn.Name = "lkbtn";
-            this.lkbtn.Size = new System.Drawing.Size(77, 12);
-            this.lkbtn.TabIndex = 58;
-            this.lkbtn.TabStop = true;
-            this.lkbtn.Text = "使用全局文案";
-            this.lkbtn.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lkbtn_LinkClicked);
-            // 
             // BuildShareText
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -531,7 +531,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn tpwd;
         private System.Windows.Forms.DataGridViewTextBoxColumn shareText;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnAppendShareText;
         private System.Windows.Forms.LinkLabel lkbtn;
     }
 }

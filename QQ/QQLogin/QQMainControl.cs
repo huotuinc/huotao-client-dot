@@ -118,38 +118,39 @@ namespace QQLogin
             if (urls != null && urls.Count() > 0)
             {
                 bool isAutoSend = ckbAutoSend.Checked;
+                bool isEnableCustom = ckbEnableCustomTemplate.Checked;
                 new System.Threading.Thread(() =>
                 {
                     try
                     {
                         long code = msgCode;
                         //消息处理回调
-                        BuildGoodsHandler?.Invoke(code, msgContent, urls, isAutoSend, (ret, i, t) =>
-                        {
-                            string text = "";
-                            switch (ret)
-                            {
-                                case MessageCallBackType.正在准备:
-                                    text = "正在准备";
-                                    break;
-                                case MessageCallBackType.开始转链:
-                                    text = string.Format("开始转链{0}/{1}", i, t);
-                                    break;
-                                case MessageCallBackType.转链完成:
-                                    text = string.Format("转链完成");
-                                    break;
-                                case MessageCallBackType.开始创建计划:
-                                    text = string.Format("创建计划..");
-                                    break;
-                                case MessageCallBackType.完成:
-                                    text = string.Format("已完成");
-                                    break;
-                                default:
-                                    break;
-                            }
-                            if (!string.IsNullOrEmpty(text))
-                                SetMesageViewByMessageCode(msgCode, text);
-                        });
+                        BuildGoodsHandler?.Invoke(code, msgContent, urls, isAutoSend, isEnableCustom, (ret, i, t) =>
+                         {
+                             string text = "";
+                             switch (ret)
+                             {
+                                 case MessageCallBackType.正在准备:
+                                     text = "正在准备";
+                                     break;
+                                 case MessageCallBackType.开始转链:
+                                     text = string.Format("开始转链{0}/{1}", i, t);
+                                     break;
+                                 case MessageCallBackType.转链完成:
+                                     text = string.Format("转链完成");
+                                     break;
+                                 case MessageCallBackType.开始创建计划:
+                                     text = string.Format("创建计划..");
+                                     break;
+                                 case MessageCallBackType.完成:
+                                     text = string.Format("已完成");
+                                     break;
+                                 default:
+                                     break;
+                             }
+                             if (!string.IsNullOrEmpty(text))
+                                 SetMesageViewByMessageCode(msgCode, text);
+                         });
 
                     }
                     catch (Exception)

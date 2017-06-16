@@ -75,6 +75,11 @@ namespace HotTao.Controls
         private Main hotForm { get; set; }
 
         /// <summary>
+        /// 自定义文案
+        /// </summary>
+        private string customTemplateText { get; set; }
+
+        /// <summary>
         /// 任务ID
         /// </summary>
         /// <value>The taskid.</value>
@@ -101,10 +106,15 @@ namespace HotTao.Controls
         {
             if (MyUserInfo.currentUserId > 0)
             {
-                //if (string.IsNullOrEmpty(MyUserInfo.sendtemplate))
-                //    MyUserInfo.sendtemplate = MyUserInfo.defaultSendTempateText;
+                customTemplateText = GetTemplateText(taskid.ToString());
+                if (string.IsNullOrEmpty(customTemplateText))
+                {
+                    if (string.IsNullOrEmpty(MyUserInfo.sendtemplate))
+                        MyUserInfo.sendtemplate = MyUserInfo.defaultSendTempateText;
+                    txtTemplateText.Text = MyUserInfo.sendtemplate;
 
-                //txtTemplateText.Text = MyUserInfo.sendtemplate;
+                    btnAppendShareText.Visible = false;
+                }
                 dgvShareText.MouseWheel += DgvData_MouseWheel;
 
                 loadUserPidGridView();
@@ -301,7 +311,7 @@ namespace HotTao.Controls
         /// <param name="e"></param>
         private void btnAppendShareText_Click(object sender, EventArgs e)
         {
-            string text = GetTemplateText(taskid.ToString());
+            string text = customTemplateText;
             text += txtTemplateText.Text;
             BuildText(text);
         }

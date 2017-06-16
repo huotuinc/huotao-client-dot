@@ -1296,8 +1296,9 @@ namespace HotTao
         /// <param name="msgCode">商品</param>
         /// <param name="urls">采集到的URL</param>
         /// <param name="isAutoSend"></param>   
+        /// <param name="EnableCustomTemplate"></param>   
         /// <param name="callback">处理回调通知</param>
-        private void QqForm_BuildGoodsHandler(long msgCode, string msgContent, List<string> urls, bool isAutoSend, Action<MessageCallBackType, int, int> callback)
+        private void QqForm_BuildGoodsHandler(long msgCode, string msgContent, List<string> urls, bool isAutoSend, bool EnableCustomTemplate, Action<MessageCallBackType, int, int> callback)
         {
             lock (lock_goods)
             {
@@ -1389,7 +1390,7 @@ namespace HotTao
 
                                 //开始转链
                                 int i = 1;
-                                string templateText = msgContent;// + "复制这条信息，打开『手机淘宝』[二合一淘口令]领券下单即可抢购宝贝";
+                                string templateText = EnableCustomTemplate ? msgContent : MyUserInfo.sendtemplate;// + "复制这条信息，打开『手机淘宝』[二合一淘口令]领券下单即可抢购宝贝";
                                 LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTaskTpwd(MyUserInfo.LoginToken, MyUserInfo.currentUserId, taskId, templateText, appkey, appsecret, (share) =>
                                 {
                                     callback?.Invoke(MessageCallBackType.开始转链, i, groupCount);
