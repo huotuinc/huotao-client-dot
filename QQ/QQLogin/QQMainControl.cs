@@ -37,10 +37,35 @@ namespace QQLogin
         public event BuildGoodsEventHandler BuildGoodsHandler;
 
 
+
+
+        /// <summary>
+        /// 是否显示自动跟发功能
+        /// </summary>
+        public bool IsShowAutoSend { get; set; } = true;
+
+        /// <summary>
+        /// 是否显示自定义文案功能
+        /// </summary>
+        public bool IsShowCustomTemplate { get; set; } = true;
+
+
         public QQLogin qqForm;
 
         private void QQMainControl_Load(object sender, EventArgs e)
         {
+            if (!IsShowAutoSend)
+            {
+                ckbAutoSend.Visible = false;
+                label1.Visible = false;
+            }
+
+            if (!IsShowCustomTemplate)
+            {
+                ckbEnableCustomTemplate.Visible = false;
+                label4.Visible = false;
+            }
+
             if (qqForm == null)
             {
                 LoginQQ();
@@ -102,8 +127,8 @@ namespace QQLogin
                     message.MessageUrl2 = urls[1];
             }
             SetMessageView(message);
-
-            MessageHandler(urls, msgCode, msgContent);
+            if (BuildGoodsHandler != null)
+                MessageHandler(urls, msgCode, msgContent);
         }
 
         /// <summary>
@@ -454,6 +479,11 @@ namespace QQLogin
 
         private void cmsToolsResult_Opening(object sender, CancelEventArgs e)
         {
+            if (this.dgvMessageView.Rows == null || this.dgvMessageView.Rows.Count == 0 || this.dgvMessageView.CurrentRow == null)
+            {
+                e.Cancel = true;
+                return;
+            }
             DataGridViewCellCollection cells = this.dgvMessageView.CurrentRow.Cells;
             if (cells == null) e.Cancel = true;
             if (cells[0].RowIndex != currentRowIndex)
@@ -477,13 +507,15 @@ namespace QQLogin
         /// <param name="e"></param>
         private void toolReSend_Click(object sender, EventArgs e)
         {
+            if (this.dgvMessageView.Rows == null) return;
             DataGridViewCellCollection cells = this.dgvMessageView.Rows[currentRowIndex].Cells;
             if (cells != null)
             {
                 string msgContent = cells["MessageContent"].Value.ToString();
                 long msgCode = (long)cells["MessageCode"].Value;
                 var urls = UrlUtils.GetUrls(msgContent);
-                MessageHandler(urls, msgCode, msgContent);
+                if (BuildGoodsHandler != null)
+                    MessageHandler(urls, msgCode, msgContent);
             }
 
         }

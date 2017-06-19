@@ -49,7 +49,7 @@ namespace QQLogin
     /// <summary>
     /// 根据商品地址，生成商品信息
     /// </summary>
-    /// <param name="msgCode">商品CODE</param>
+    /// <param name="msgCode">消息Code</param>
     /// <param name="msgContent">消息</param>
     /// <param name="urls">链接</param>
     /// <param name="isAutoSend">是否自动跟发</param>    
@@ -63,8 +63,7 @@ namespace QQLogin
     /// <param name="urls"></param>
     public delegate void BatchSaveEventHandler(List<Dictionary<string, string>> urls);
 
-
-
+   
     /// <summary>
     /// 消息处理回调类型
     /// </summary>

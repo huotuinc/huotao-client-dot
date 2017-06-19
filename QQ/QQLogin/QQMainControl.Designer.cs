@@ -38,6 +38,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.hotPanel1 = new HotTaoControls.HotPanel(this.components);
+            this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.hotGroupBox3 = new HotTaoControls.HotGroupBox(this.components);
             this.dgvMessageView = new System.Windows.Forms.DataGridView();
@@ -51,6 +52,7 @@
             this.DeteleMessage = new System.Windows.Forms.DataGridViewLinkColumn();
             this.cmsToolsResult = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolReSend = new System.Windows.Forms.ToolStripMenuItem();
+            this.ckbEnableCustomTemplate = new System.Windows.Forms.CheckBox();
             this.ckbAutoSend = new System.Windows.Forms.CheckBox();
             this.hotGroupBox2 = new HotTaoControls.HotGroupBox(this.components);
             this.picLoading = new System.Windows.Forms.PictureBox();
@@ -68,8 +70,6 @@
             this.lbQQAccount = new System.Windows.Forms.Label();
             this.picLogo = new System.Windows.Forms.PictureBox();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.ckbEnableCustomTemplate = new System.Windows.Forms.CheckBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.hotPanel1.SuspendLayout();
             this.hotGroupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMessageView)).BeginInit();
@@ -99,6 +99,17 @@
             this.hotPanel1.Size = new System.Drawing.Size(920, 607);
             this.hotPanel1.TabIndex = 10;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label4.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.label4.Location = new System.Drawing.Point(355, 83);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(149, 12);
+            this.label4.TabIndex = 17;
+            this.label4.Text = "(启用则使用采集到的文案)";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -116,9 +127,9 @@
             this.hotGroupBox3.BorderColor = System.Drawing.Color.Gainsboro;
             this.hotGroupBox3.BorderTitleColor = System.Drawing.Color.Black;
             this.hotGroupBox3.Controls.Add(this.dgvMessageView);
-            this.hotGroupBox3.Location = new System.Drawing.Point(9, 109);
+            this.hotGroupBox3.Location = new System.Drawing.Point(5, 109);
             this.hotGroupBox3.Name = "hotGroupBox3";
-            this.hotGroupBox3.Size = new System.Drawing.Size(649, 493);
+            this.hotGroupBox3.Size = new System.Drawing.Size(654, 493);
             this.hotGroupBox3.TabIndex = 15;
             this.hotGroupBox3.TabStop = false;
             this.hotGroupBox3.Text = "采集的数据";
@@ -165,7 +176,7 @@
             this.dgvMessageView.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvMessageView.RowTemplate.Height = 40;
             this.dgvMessageView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMessageView.Size = new System.Drawing.Size(643, 473);
+            this.dgvMessageView.Size = new System.Drawing.Size(648, 473);
             this.dgvMessageView.TabIndex = 14;
             this.dgvMessageView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMessageView_CellClick);
             this.dgvMessageView.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMessageView_CellMouseEnter);
@@ -243,6 +254,16 @@
             this.toolReSend.Size = new System.Drawing.Size(124, 22);
             this.toolReSend.Text = "手动处理";
             this.toolReSend.Click += new System.EventHandler(this.toolReSend_Click);
+            // 
+            // ckbEnableCustomTemplate
+            // 
+            this.ckbEnableCustomTemplate.AutoSize = true;
+            this.ckbEnableCustomTemplate.Location = new System.Drawing.Point(236, 81);
+            this.ckbEnableCustomTemplate.Name = "ckbEnableCustomTemplate";
+            this.ckbEnableCustomTemplate.Size = new System.Drawing.Size(120, 16);
+            this.ckbEnableCustomTemplate.TabIndex = 16;
+            this.ckbEnableCustomTemplate.Text = "启用QQ自定义文案";
+            this.ckbEnableCustomTemplate.UseVisualStyleBackColor = true;
             // 
             // ckbAutoSend
             // 
@@ -374,9 +395,9 @@
             this.hotGroupBox1.Controls.Add(this.label2);
             this.hotGroupBox1.Controls.Add(this.lbQQAccount);
             this.hotGroupBox1.Controls.Add(this.picLogo);
-            this.hotGroupBox1.Location = new System.Drawing.Point(9, 7);
+            this.hotGroupBox1.Location = new System.Drawing.Point(6, 7);
             this.hotGroupBox1.Name = "hotGroupBox1";
-            this.hotGroupBox1.Size = new System.Drawing.Size(649, 60);
+            this.hotGroupBox1.Size = new System.Drawing.Size(653, 60);
             this.hotGroupBox1.TabIndex = 3;
             this.hotGroupBox1.TabStop = false;
             this.hotGroupBox1.Text = "QQ信息";
@@ -451,27 +472,6 @@
             this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
             this.dataGridViewImageColumn1.ReadOnly = true;
             this.dataGridViewImageColumn1.Width = 50;
-            // 
-            // ckbEnableCustomTemplate
-            // 
-            this.ckbEnableCustomTemplate.AutoSize = true;
-            this.ckbEnableCustomTemplate.Location = new System.Drawing.Point(236, 81);
-            this.ckbEnableCustomTemplate.Name = "ckbEnableCustomTemplate";
-            this.ckbEnableCustomTemplate.Size = new System.Drawing.Size(120, 16);
-            this.ckbEnableCustomTemplate.TabIndex = 16;
-            this.ckbEnableCustomTemplate.Text = "启用QQ自定义文案";
-            this.ckbEnableCustomTemplate.UseVisualStyleBackColor = true;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.label4.Location = new System.Drawing.Point(355, 83);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(149, 12);
-            this.label4.TabIndex = 17;
-            this.label4.Text = "(启用则使用采集到的文案)";
             // 
             // QQMainControl
             // 
