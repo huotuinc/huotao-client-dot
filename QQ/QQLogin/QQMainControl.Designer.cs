@@ -70,6 +70,7 @@
             this.lbQQAccount = new System.Windows.Forms.Label();
             this.picLogo = new System.Windows.Forms.PictureBox();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.toolsUpdateAlias = new System.Windows.Forms.ToolStripMenuItem();
             this.hotPanel1.SuspendLayout();
             this.hotGroupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMessageView)).BeginInit();
@@ -280,8 +281,8 @@
             this.hotGroupBox2.BackColor = System.Drawing.Color.White;
             this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
             this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox2.Controls.Add(this.picLoading);
             this.hotGroupBox2.Controls.Add(this.dgvContact);
+            this.hotGroupBox2.Controls.Add(this.picLoading);
             this.hotGroupBox2.Location = new System.Drawing.Point(664, 7);
             this.hotGroupBox2.Name = "hotGroupBox2";
             this.hotGroupBox2.Size = new System.Drawing.Size(253, 596);
@@ -343,6 +344,7 @@
             this.dgvContact.Size = new System.Drawing.Size(247, 576);
             this.dgvContact.TabIndex = 13;
             this.dgvContact.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvContact_CellClick);
+            this.dgvContact.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvContact_CellEndEdit);
             this.dgvContact.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvContact_CellMouseEnter);
             this.dgvContact.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvContact_CellMouseLeave);
             // 
@@ -373,9 +375,10 @@
             // cmsTools
             // 
             this.cmsTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolAddListen});
+            this.toolAddListen,
+            this.toolsUpdateAlias});
             this.cmsTools.Name = "cmsTools";
-            this.cmsTools.Size = new System.Drawing.Size(125, 26);
+            this.cmsTools.Size = new System.Drawing.Size(125, 48);
             this.cmsTools.Opening += new System.ComponentModel.CancelEventHandler(this.cmsTools_Opening);
             // 
             // toolAddListen
@@ -473,6 +476,13 @@
             this.dataGridViewImageColumn1.ReadOnly = true;
             this.dataGridViewImageColumn1.Width = 50;
             // 
+            // toolsUpdateAlias
+            // 
+            this.toolsUpdateAlias.Name = "toolsUpdateAlias";
+            this.toolsUpdateAlias.Size = new System.Drawing.Size(124, 22);
+            this.toolsUpdateAlias.Text = "修改别名";
+            this.toolsUpdateAlias.Click += new System.EventHandler(this.toolsUpdateAlias_Click);
+            // 
             // QQMainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -531,5 +541,6 @@
         private System.Windows.Forms.DataGridViewLinkColumn DeteleMessage;
         private System.Windows.Forms.CheckBox ckbEnableCustomTemplate;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ToolStripMenuItem toolsUpdateAlias;
     }
 }

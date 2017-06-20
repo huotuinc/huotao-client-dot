@@ -141,7 +141,9 @@ namespace QQLogin
                                 string msg = revMsg.GetTextReplace();
                                 List<string> urls = new List<string>();
                                 urls = revMsg.GetUrls();
-                                GroupMsgHandler?.Invoke(revMsg.Id, revMsg.Group.Name, msg, urls);
+
+                                long gid = revMsg.Group.Gid;
+                                GroupMsgHandler?.Invoke(revMsg.Id, gid, revMsg.Group.Name, msg, urls);
                             }
                             break;
                         }

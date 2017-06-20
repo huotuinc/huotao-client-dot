@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace iQQ.Net.WebQQCore.Im.Bean
 {
-    
+
     public class QQGroup
     {
         public long Gid { get; set; }
@@ -20,6 +20,15 @@ namespace iQQ.Net.WebQQCore.Im.Bean
         public string Memo { get; set; }
         public string FingerMemo { get; set; }
         public DateTime CreateTime { get; set; }
+
+        /// <summary>
+        /// 别名
+        /// </summary>
+        public string Alias { get; set; }
+        /// <summary>
+        /// 是否添加监控
+        /// </summary>
+        public bool isListen { get; set; } = false;
 
         [JsonIgnore]
         public Image Face { get; set; }
@@ -45,6 +54,15 @@ namespace iQQ.Net.WebQQCore.Im.Bean
         public override string ToString()
         {
             return "QQGroup [gid=" + Gid + ", code=" + Code + ", name=" + Name + "]";
+        }
+
+        /// <summary>
+        /// 获取群名称，如果有别名，则显示别名,否则显示群名
+        /// </summary>
+        /// <returns></returns>
+        public string GetGroupName()
+        {
+            return string.IsNullOrEmpty(Alias) ? Name : Alias;
         }
     }
 }

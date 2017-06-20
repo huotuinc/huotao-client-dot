@@ -109,12 +109,15 @@ namespace QQLogin
         /// </summary>
         /// <param name="msgContent"></param>
         /// <param name="urls"></param>
-        private void QqForm_GroupMsgHandler(long msgCode, string msgGroupName, string msgContent, List<string> urls)
+        private void QqForm_GroupMsgHandler(long msgCode, long gid, string msgGroupName, string msgContent, List<string> urls)
         {
+
+            QQGroup group = QQGlobal.listenGroups.Find(g => { return g.Gid == gid; });
+
             //TODO:接收群消息
             QQGroupMessageModel message = new QQGroupMessageModel()
             {
-                GroupName = msgGroupName,
+                GroupName = group != null ? group.GetGroupName() : msgGroupName,
                 MessageContent = msgContent,
                 MessageStatus = 0,
                 Code = msgCode
@@ -289,10 +292,12 @@ namespace QQLogin
                     ++i;
 
                     dgvContact.Rows[i - 1].Cells["GroupGid"].Value = user.Gid;
-                    if (QQGlobal.listenGroups.Exists((g) => { return g.Gid == user.Gid; }))
-                        dgvContact.Rows[i - 1].Cells["GroupTitle"].Value = user.Name + "(已监控)";
+                    var group = QQGlobal.listenGroups != null ? QQGlobal.listenGroups.Find((g) => { return g.Gid == user.Gid; }) : null;
+
+                    if (group != null)
+                        dgvContact.Rows[i - 1].Cells["GroupTitle"].Value = group.GetGroupName() + (group.isListen ? "(已监控)" : "");
                     else
-                        dgvContact.Rows[i - 1].Cells["GroupTitle"].Value = user.Name;
+                        dgvContact.Rows[i - 1].Cells["GroupTitle"].Value = user.GetGroupName();
 
                     dgvContact.Rows[i - 1].DefaultCellStyle.BackColor = QQGlobal.backColor;
                     dgvContact.Rows[i - 1].DefaultCellStyle.SelectionBackColor = QQGlobal.backColor;
@@ -431,30 +436,67 @@ namespace QQLogin
             else
             {
                 long gid = (long)cells["GroupGid"].Value;
-                if (QQGlobal.listenGroups.Exists((g) => { return g.Gid == gid; }))
+                if (QQGlobal.listenGroups.Exists((g) => { return g.Gid == gid && g.isListen; }))
                     toolAddListen.Text = "移除监控";
                 else
                     toolAddListen.Text = "添加监控";
             }
         }
-
+        /// <summary>
+        /// 添加监控
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void toolAddListen_Click(object sender, EventArgs e)
         {
+            if (this.dgvContact.CurrentRow == null) return;
+
             DataGridViewCellCollection cells = this.dgvContact.CurrentRow.Cells;
             if (cells == null) return;
             long gid = (long)cells["GroupGid"].Value;
             QQGroup group = QQGlobal.store.GetGroupByGin(gid);
+
             if (QQGlobal.listenGroups.Exists((g) => { return g.Gid == gid; }))
             {
-                QQGlobal.listenGroups.Remove(group);
-                cells["GroupTitle"].Value = group.Name;
+                QQGlobal.listenGroups.ForEach(item =>
+                {
+                    if (item.Gid == gid)
+                        item.isListen = !item.isListen;
+                });
+
+                QQGroup gg = QQGlobal.listenGroups.Find(g => { return g.Gid == gid; });
+                cells["GroupTitle"].Value = group.GetGroupName() + (gg.isListen ? "(已监控)" : "");
             }
             else
             {
+                group.isListen = true;
                 QQGlobal.listenGroups.Add(group);
-                cells["GroupTitle"].Value += "(已监控)";
+                cells["GroupTitle"].Value = group.GetGroupName() + "(已监控)";
             }
         }
+
+        /// <summary>
+        /// 修改别名
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolsUpdateAlias_Click(object sender, EventArgs e)
+        {
+            if (this.dgvContact.CurrentRow == null) return;
+            DataGridViewCellCollection cells = this.dgvContact.CurrentRow.Cells;
+            if (cells == null) return;
+            long gid = (long)cells["GroupGid"].Value;
+            QQGroup group = QQGlobal.listenGroups.Find(g => { return g.Gid == gid; });
+            if (group != null)
+                cells["GroupTitle"].Value = group.GetGroupName();
+
+            cells["GroupTitle"].ReadOnly = false;
+            //cells["GroupTitle"].
+            dgvContact.BeginEdit(true);
+        }
+
+
+
         /// <summary>
         /// 注销
         /// </summary>
@@ -516,6 +558,49 @@ namespace QQLogin
                 var urls = UrlUtils.GetUrls(msgContent);
                 if (BuildGoodsHandler != null)
                     MessageHandler(urls, msgCode, msgContent);
+            }
+
+        }
+        /// <summary>
+        /// 结束单元格编辑
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvContact_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                dgvContact[e.ColumnIndex, e.RowIndex].ReadOnly = true;
+                dgvContact.EndEdit();
+                DataGridViewCellCollection cells = dgvContact.Rows[e.RowIndex].Cells;
+                if (cells == null) return;
+
+                long gid = (long)cells["GroupGid"].Value;
+                string aliasName = cells["GroupTitle"].Value.ToString();
+
+                QQGroup group = QQGlobal.store.GetGroupByGin(gid);
+
+                var it = QQGlobal.listenGroups.Find((g) => { return g.Gid == gid; });
+                if (it != null)
+                {
+                    QQGlobal.listenGroups.ForEach(item =>
+                    {
+                        if (item.Gid == gid)
+                            item.Alias = aliasName;
+                    });
+
+
+                    cells["GroupTitle"].Value = aliasName + (it.isListen ? "(已监控)" : "");
+                }
+                else
+                {
+                    group.Alias = aliasName;
+                    QQGlobal.listenGroups.Add(group);
+                }
+            }
+            catch (Exception)
+            {
+
             }
 
         }
