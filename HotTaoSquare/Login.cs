@@ -1,6 +1,7 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
 using HotCoreUtils.Helper;
+using HOTReuestService;
 using HotTaoCore;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
@@ -234,8 +235,8 @@ namespace HotTaoSquare
                 loginSuccess = false;
                 isLogining = true;
                 ((Action)(delegate ()
-                {
-                    var data = LogicUser.Instance.login(lgname, pwd, (err) =>
+                {                    
+                       var data = LogicUser.Instance.login(lgname, pwd, (err) =>
                     {
                         if (err != null && err.resultCode != 200)
                         {

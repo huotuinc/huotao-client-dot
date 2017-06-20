@@ -210,6 +210,10 @@
     <None Include="Resources\icon_close1.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HOTReuestService\HOTReuestService.csproj">
+      <Project>{67006D2C-E9DA-4B7D-940D-72706C1078E6}</Project>
+      <Name>HOTReuestService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HotTaoCore\HotTaoCore.csproj">
       <Project>{850f7582-733e-4a00-9d30-8c977e4f01b9}</Project>
       <Name>HotTaoCore</Name>

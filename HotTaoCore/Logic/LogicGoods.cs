@@ -1,5 +1,6 @@
 ﻿
 using HotCoreUtils.Helper;
+using HOTReuestService;
 using HotTaoCore.Models;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace HotTaoCore.Logic
         public List<GoodsModel> getGoodsList(string loginToken)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
-            data["token"] = loginToken;
+            data["token"] = loginToken;            
             return BaseRequestService.Post<List<GoodsModel>>(ApiConst.getGoodsList, data);
         }
 

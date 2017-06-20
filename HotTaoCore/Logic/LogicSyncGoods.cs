@@ -8,6 +8,7 @@
 **/
 
 
+using HOTReuestService;
 using HotTaoCore.DAL;
 using HotTaoCore.Models;
 using System;

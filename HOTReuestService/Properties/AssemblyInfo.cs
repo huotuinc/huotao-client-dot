@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("QQCollect")]
+[assembly: AssemblyTitle("HOTReuestService")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("HOT.QQCollect")]
+[assembly: AssemblyProduct("HOTReuestService")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("5d614447-4259-4b59-85d5-195c4f1c8b56")]
+[assembly: Guid("67006d2c-e9da-4b7d-940d-72706c1078e6")]
 
 // 程序集的版本信息由下列四个值组成: 
 //

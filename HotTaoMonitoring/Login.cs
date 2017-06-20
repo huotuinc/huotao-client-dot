@@ -1,4 +1,5 @@
 ﻿using HotCoreUtils.Helper;
+using HOTReuestService;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using System;
@@ -209,7 +210,7 @@ namespace HotTaoMonitoring
                 loginSuccess = false;
                 isLogining = true;
                 ((Action)(delegate ()
-                {
+                {                    
                     var data = LogicUser.Instance.login(lgname, pwd, (err) =>
                     {
                         if (err != null && err.resultCode != 200)

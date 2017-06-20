@@ -116,7 +116,7 @@ namespace HOT.QQCollect
         {
             lock (lock_goods)
             {
-                callback?.Invoke(MessageCallBackType.正在准备, 0, 0);
+                //callback?.Invoke(MessageCallBackType.正在准备, 0, 0);
             }
         }
 

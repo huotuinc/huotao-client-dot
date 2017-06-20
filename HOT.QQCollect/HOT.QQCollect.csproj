@@ -98,6 +98,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HOTReuestService\HOTReuestService.csproj">
+      <Project>{67006d2c-e9da-4b7d-940d-72706c1078e6}</Project>
+      <Name>HOTReuestService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QQ\QQLogin\QQLogin.csproj">
       <Project>{285cfb83-13ee-47b4-8b91-827e8e26a10b}</Project>
       <Name>QQLogin</Name>

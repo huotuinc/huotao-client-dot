@@ -1,4 +1,5 @@
-﻿using HotTaoCore.Logic;
+﻿using HOTReuestService;
+using HotTaoCore.Logic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -119,7 +120,7 @@ namespace HotTaoRegistAccount
             ((Action)(delegate ()
             {
                 try
-                {
+                {                    
                     var data = LogicUser.Instance.Register(lgname, pwd, verifyCode, (err) =>
                             {
                                 if (err != null && err.resultCode != 200)
