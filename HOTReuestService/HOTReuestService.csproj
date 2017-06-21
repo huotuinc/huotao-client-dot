@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiDefineConst.cs" />
+    <Compile Include="HotJavaApi.cs" />
     <Compile Include="HttpRequestService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
