@@ -7,8 +7,7 @@
  * author guomw
 **/
 
-
-using HotCoreUtils.Helper;
+using HOTReuestService.Helper;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -38,6 +37,15 @@ namespace HOTReuestService
         static NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
 
         /// <summary>
+        /// 得到时间戳unix
+        /// </summary>
+        /// <returns></returns>
+        public static string GetTimeStamp()
+        {
+            return ((DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
+        }
+
+        /// <summary>
         /// 向服务器发送post请求 返回服务器数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -51,7 +59,7 @@ namespace HOTReuestService
             {
                 if (formFields == null)
                     formFields = new Dictionary<string, string>();
-                formFields["timestamp"] = StringHelper.GetTimeStamp();
+                formFields["timestamp"] = GetTimeStamp();
                 //获取签名
                 formFields["signature"] = SignatureHelper.BuildSign(formFields, ApiDefineConst.SecretKey);
                 byte[] request_body = Encoding.UTF8.GetBytes(PrepareRequestBody(formFields));
@@ -166,7 +174,7 @@ namespace HOTReuestService
             {
                 if (formFields == null)
                     formFields = new Dictionary<string, string>();
-                formFields["timestamp"] = StringHelper.GetTimeStamp();
+                formFields["timestamp"] = GetTimeStamp();
                 //获取签名
                 formFields["signature"] = SignatureHelper.BuildSign(formFields, ApiDefineConst.SecretKey);
                 byte[] request_body = Encoding.UTF8.GetBytes(PrepareRequestBody(formFields));
@@ -201,7 +209,7 @@ namespace HOTReuestService
             {
                 if (formFields == null)
                     formFields = new Dictionary<string, string>();
-                formFields["timestamp"] = StringHelper.GetTimeStamp();
+                formFields["timestamp"] = GetTimeStamp();
                 //获取签名
                 formFields["signature"] = SignatureHelper.BuildSign(formFields, ApiDefineConst.SecretKey);
                 byte[] request_body = Encoding.UTF8.GetBytes(PrepareRequestBody(formFields));
@@ -237,7 +245,7 @@ namespace HOTReuestService
             {
                 if (formFields == null)
                     formFields = new Dictionary<string, string>();
-                formFields["timestamp"] = StringHelper.GetTimeStamp();
+                formFields["timestamp"] = GetTimeStamp();
                 //获取签名
                 formFields["signature"] = SignatureHelper.BuildSign(formFields, ApiDefineConst.SecretKey);
                 byte[] request_body = Encoding.UTF8.GetBytes(PrepareRequestBody(formFields));

@@ -51,7 +51,6 @@ namespace iQQ.Net.WebQQCore.Util.Extensions
 
         public static string UrlEncode(this string url)
         {
-            
             return HttpUtility.UrlEncode(url);
         }
 

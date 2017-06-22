@@ -6,9 +6,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using HotCoreUtils.Helper;
 using HotTaoCore.Logic;
 using System.Threading;
+using HOTReuestService.Helper;
 
 namespace HotTao.Controls.Login
 {

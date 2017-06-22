@@ -1,6 +1,6 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
-using HotCoreUtils.Helper;
+using HOTReuestService.Helper;
 using HOTReuestService;
 using HotTaoCore;
 using HotTaoCore.Logic;

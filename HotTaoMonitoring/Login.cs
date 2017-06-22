@@ -1,5 +1,5 @@
-﻿using HotCoreUtils.Helper;
-using HOTReuestService;
+﻿using HOTReuestService;
+using HOTReuestService.Helper;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using System;

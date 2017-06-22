@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Security.Permissions;
 using HotTaoCore;
-using HotCoreUtils.Helper;
+using HOTReuestService.Helper;
 using HotTaoCore.Models;
 using CefSharp.WinForms;
 using CefSharp;

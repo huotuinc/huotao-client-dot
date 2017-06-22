@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using HotCoreUtils.Helper;
+
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using HotTaoCore;
 using System.Threading;
 using HOTReuestService;
+using HOTReuestService.Helper;
 
 namespace HotTao.Controls.Login
 {

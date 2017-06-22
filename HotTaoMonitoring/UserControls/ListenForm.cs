@@ -10,9 +10,9 @@ using System.Windows.Forms;
 using WwChatHttpCore.Objects;
 using System.IO;
 using System.Drawing.Imaging;
-using HotCoreUtils.Helper;
 using HotTaoCore;
 using HotTaoMonitoring.Properties;
+using HOTReuestService.Helper;
 
 namespace HotTaoMonitoring.UserControls
 {

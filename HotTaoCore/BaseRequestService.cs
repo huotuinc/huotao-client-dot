@@ -8,7 +8,6 @@
 **/
 
 
-using HotCoreUtils.Helper;
 using HOTReuestService;
 using HotTaoCore.Models;
 using Newtonsoft.Json;

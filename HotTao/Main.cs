@@ -1,6 +1,5 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
-using HotCoreUtils.Helper;
 using HotTao.Controls;
 using HotTao.Properties;
 using HotTaoCore;

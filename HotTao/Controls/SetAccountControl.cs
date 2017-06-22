@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.IO;
-using HotCoreUtils.Helper;
+
 using HotTaoCore;
 using HotTaoCore.Logic;
 using System.Linq;

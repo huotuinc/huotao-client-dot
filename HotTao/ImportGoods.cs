@@ -1,4 +1,4 @@
-﻿using HotCoreUtils.Helper;
+﻿using HOTReuestService.Helper;
 using HotTao.Controls;
 using HotTaoCore;
 using HotTaoCore.Logic;

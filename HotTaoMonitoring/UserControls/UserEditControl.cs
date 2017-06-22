@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp.WinForms;
 using CefSharp;
-using HotCoreUtils.Helper;
 using System.IO;
 using System.Collections.Specialized;
+using HOTReuestService.Helper;
 
 namespace HotTaoMonitoring.UserControls
 {
