@@ -18,6 +18,6 @@ namespace iQQ.Net.WebQQCore.Im.Actor
 
         public QQActorType Type => QQActorType.SimpleActor;
 
-        public Task ExecuteAsync() => Task.Run(() => Execute());
+        public Task ExecuteAsync() => Task.Factory.StartNew(() => Execute());
     }
 }

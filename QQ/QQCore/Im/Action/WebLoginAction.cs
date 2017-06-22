@@ -4,7 +4,7 @@ using iQQ.Net.WebQQCore.Im.Event;
 using iQQ.Net.WebQQCore.Im.Http;
 using iQQ.Net.WebQQCore.Im.Service;
 using iQQ.Net.WebQQCore.Util;
-using Microsoft.Extensions.Logging;
+//using Microsoft.Extensions.Logging;
 
 namespace iQQ.Net.WebQQCore.Im.Action
 {
@@ -97,7 +97,7 @@ namespace iQQ.Net.WebQQCore.Im.Action
                 ?? httpService.GetCookie("verifysession", QQConstants.URL_CHECK_VERIFY);// 验证session在获取验证码阶段得到的。
 
             if (ptvfsession != null) req.AddGetValue("pt_verifysession_v1", ptvfsession.Value);
-            else Context.Logger.LogInformation("pt_verifysession_v1为空");
+           // else Context.Logger.LogInformation("pt_verifysession_v1为空");
 
             req.AddHeader("Referer", QQConstants.REFFER);
            

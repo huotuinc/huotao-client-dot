@@ -7,11 +7,10 @@ using iQQ.Net.WebQQCore.Im.Core;
 using iQQ.Net.WebQQCore.Im.Event;
 using iQQ.Net.WebQQCore.Im.Http;
 using iQQ.Net.WebQQCore.Im.Module;
-using iQQ.Net.WebQQCore.Util;
 using iQQ.Net.WebQQCore.Util.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Microsoft.Extensions.Logging;
+//using Microsoft.Extensions.Logging;
 
 namespace iQQ.Net.WebQQCore.Im.Action
 {
@@ -70,7 +69,7 @@ namespace iQQ.Net.WebQQCore.Im.Action
             if (!ActionFuture.IsCanceled && (ex as QQException)?.ErrorCode == QQErrorCode.IOTimeout)
             {
                 Context.PushActor(new HttpActor(HttpActorType.BuildRequest, Context, this));
-                Context.Logger.LogInformation("continue polling...");
+                //Context.Logger.LogInformation("continue polling...");
                 return;
             }
             else base.OnHttpError(ex);
@@ -241,7 +240,7 @@ namespace iQQ.Net.WebQQCore.Im.Action
                     // 服务器需求重新认证
                     // {"retcode":121,"t":"0"}
                     /*			LOG.info("**** NEED_REAUTH retcode: " + retcode + " ****");*/
-                    Context.Logger.LogWarning($"**** NEED_REAUTH retcode: {retcode} ****");
+                    //Context.Logger.LogWarning($"**** NEED_REAUTH retcode: {retcode} ****");
                     Context.Session.State = QQSessionState.Offline;
                     //NotifyActionEvent(QQActionEventType.EVT_ERROR, ex);
                     //return;

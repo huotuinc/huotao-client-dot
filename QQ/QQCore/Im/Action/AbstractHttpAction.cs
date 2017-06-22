@@ -1,18 +1,12 @@
 ﻿using System;
-using System.IO;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using iQQ.Net.WebQQCore.Im.Actor;
-using iQQ.Net.WebQQCore.Im.Bean;
 using iQQ.Net.WebQQCore.Im.Core;
 using iQQ.Net.WebQQCore.Im.Event;
 using iQQ.Net.WebQQCore.Im.Http;
 using iQQ.Net.WebQQCore.Im.Service;
-using iQQ.Net.WebQQCore.Util;
-using iQQ.Net.WebQQCore.Util.Extensions;
-using Newtonsoft.Json;
-using Microsoft.Extensions.Logging;
+//using Microsoft.Extensions.Logging;
 
 namespace iQQ.Net.WebQQCore.Im.Action
 {
@@ -102,24 +96,24 @@ namespace iQQ.Net.WebQQCore.Im.Action
                 case QQActionEventType.EvtError:
                 {
                     var ex = (QQException)target;
-                    Context.Logger.LogError($"[Action={GetType().Name}, Type={type}, {ex}");
+                    //Context.Logger.LogError($"[Action={GetType().Name}, Type={type}, {ex}");
                     Context.FireNotify(new QQNotifyEvent(QQNotifyEventType.NetError, ex));
                     break;
                 }
                 case QQActionEventType.EvtRetry:
                 {
                     var ex = (QQException)target;
-                    Context.Logger.LogWarning($"[Action={GetType().Name}, Type={type}, RetryTimes={_retryTimes}][{ex.ToSimpleString()}]");
+                   // Context.Logger.LogWarning($"[Action={GetType().Name}, Type={type}, RetryTimes={_retryTimes}][{ex.ToSimpleString()}]");
                     break;
                 }
                 case QQActionEventType.EvtCanceled:
                 {
-                    Context.Logger.LogInformation($"[Action={GetType().Name}, Type={type}, Target={target}]");
+                    //Context.Logger.LogInformation($"[Action={GetType().Name}, Type={type}, Target={target}]");
                     break;
                 }
                 default:
                 {
-                    Context.Logger.LogDebug($"[Action={GetType().Name}, Type={type}");
+                    //Context.Logger.LogDebug($"[Action={GetType().Name}, Type={type}");
                     break;
                 }
             }

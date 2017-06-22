@@ -31,7 +31,7 @@ namespace iQQ.Net.WebQQCore.Im.Actor
             var actorQueue = _actorQueues.GetOrAdd(actorQueuesIndex, (i) =>
             {
                 var col = new BlockingCollection<IQQActor>();
-                var task = Task.Run(() => Run(col), _cts.Token);
+                var task = Task.Factory.StartNew(() => Run(col), _cts.Token);
                 return new Tuple<BlockingCollection<IQQActor>, Task>(col, task);
             });
             actorQueue.Item1.Add(actor);
@@ -90,7 +90,7 @@ namespace iQQ.Net.WebQQCore.Im.Actor
             for (var i = -1; i < _pollThreadNum; ++i)
             {
                 var col = new BlockingCollection<IQQActor>();
-                var task = Task.Run(() => Run(col), _cts.Token);
+                var task = Task.Factory.StartNew(() => Run(col), _cts.Token);
                 _actorQueues[i] = new Tuple<BlockingCollection<IQQActor>, Task>(col, task);
             }
         }

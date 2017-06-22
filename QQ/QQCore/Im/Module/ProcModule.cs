@@ -9,7 +9,7 @@ using iQQ.Net.WebQQCore.Im.Core;
 using iQQ.Net.WebQQCore.Im.Event;
 using iQQ.Net.WebQQCore.Im.Event.Future;
 using iQQ.Net.WebQQCore.Util;
-using Microsoft.Extensions.Logging;
+//using Microsoft.Extensions.Logging;
 
 namespace iQQ.Net.WebQQCore.Im.Module
 {
@@ -240,7 +240,7 @@ namespace iQQ.Net.WebQQCore.Im.Module
             var login = Context.GetModule<LoginModule>(QQModuleType.LOGIN);
             if (Context.Account.Status == QQStatus.OFFLINE) Context.Account.Status = QQStatus.ONLINE;
 
-            login.ChannelLogin(Context.Account.Status, async (sender, Event) =>
+            login.ChannelLogin(Context.Account.Status,/*async*/ (sender, Event) =>
             {
                 if (Event.Type == QQActionEventType.EvtOK)
                 {
@@ -250,26 +250,37 @@ namespace iQQ.Net.WebQQCore.Im.Module
                     {
                         if (e.Type == QQActionEventType.EvtOK)
                         {
-                            Context.Logger.LogInformation($"获取群列表成功，共{Context.Store.GroupCount}个群");
+                            //Context.Logger.LogInformation($"获取群列表成功，共{Context.Store.GroupCount}个群");
                         }
                     }).WhenFinalEvent();
                     var task2 = Context.GetModule<CategoryModule>(QQModuleType.CATEGORY).GetBuddyList((s, e) =>
                     {
                         if (e.Type == QQActionEventType.EvtOK)
                         {
-                            Context.Logger.LogInformation($"获取好友列表成功，共{Context.Store.BuddyCount}个好友");
+                            //Context.Logger.LogInformation($"获取好友列表成功，共{Context.Store.BuddyCount}个好友");
                         }
                     }).WhenFinalEvent();
                     var task3 = Context.GetModule<LoginModule>(QQModuleType.LOGIN).GetSelfInfo((s, e) =>
                     {
-                        if (e.Type == QQActionEventType.EvtOK) Context.Logger.LogInformation("获取个人信息成功");
+                        if (e.Type == QQActionEventType.EvtOK)
+                        {
+                            //   Context.Logger.LogInformation("获取个人信息成功");
+                        }
                     }).WhenFinalEvent();
                     var task4 = Context.GetModule<BuddyModule>(QQModuleType.BUDDY).GetOnlineBuddy((s, e) =>
                     {
-                        if (e.Type == QQActionEventType.EvtOK) Context.Logger.LogInformation($"获取在线好友信息成功，共{Context.Store.GetOnlineBuddyList().Count()}个在线好友");
+                        if (e.Type == QQActionEventType.EvtOK)
+                        {
+                            //   Context.Logger.LogInformation($"获取在线好友信息成功，共{Context.Store.GetOnlineBuddyList().Count()}个在线好友");
+                        }
                     }).WhenFinalEvent();
 
-                    await Task.WhenAll(task1, task2, task3, task4).ConfigureAwait(false);
+                    
+                    Task[] tasks = { task1, task2, task3, task4 };
+                    var r = Task.Factory.ContinueWhenAll(tasks, (t) => {});
+                    //r.Wait(3000);
+                    r.Start();
+                    //Task.WhenAll(task1, task2, task3, task4)
                     DoPollMsg();
                 }
                 else if (Event.Type == QQActionEventType.EvtError)
@@ -288,7 +299,7 @@ namespace iQQ.Net.WebQQCore.Im.Module
             {
                 if (Event.Type == QQActionEventType.EvtError)
                 {
-                    Context.Logger.LogInformation("iqq client ReloginChannel fail!!! use Login.");
+                    // Context.Logger.LogInformation("iqq client ReloginChannel fail!!! use Login.");
                     Login(listener);
                 }
                 else
@@ -301,7 +312,7 @@ namespace iQQ.Net.WebQQCore.Im.Module
 
         public void Relogin()
         {
-            Context.Logger.LogInformation("Relogin...");
+            // Context.Logger.LogInformation("Relogin...");
             var session = Context.Session;
             if (session.State == QQSessionState.Logining) return;
             // 登录失效，重新登录
@@ -325,7 +336,7 @@ namespace iQQ.Net.WebQQCore.Im.Module
         /// </summary>
         public void DoPollMsg()
         {
-            Context.Logger.LogInformation("begin to poll...");
+            // Context.Logger.LogInformation("begin to poll...");
             var login = Context.GetModule<LoginModule>(QQModuleType.LOGIN);
             _pollFuture = login.PollMsg((sender, Event) =>
             {
@@ -389,7 +400,7 @@ namespace iQQ.Net.WebQQCore.Im.Module
                             }
                         default:
                             {
-                                Context.Logger.LogInformation("poll msg unexpected error, ignore it ...", ex);
+                                // Context.Logger.LogInformation("poll msg unexpected error, ignore it ...", ex);
                                 Relogin();
                                 return;
                             }
@@ -398,7 +409,7 @@ namespace iQQ.Net.WebQQCore.Im.Module
                 else if (Event.Type == QQActionEventType.EvtRetry)
                 {
                     // System.err.println("Poll Retry:" + this);
-                    Context.Logger.LogInformation("poll msg error, retrying....", (QQException)Event.Target);
+                    // Context.Logger.LogInformation("poll msg error, retrying....", (QQException)Event.Target);
                 }
             });
         }

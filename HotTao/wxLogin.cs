@@ -13,8 +13,9 @@ using System.Threading;
 using System.Windows.Forms;
 using WwChatHttpCore.HTTP;
 using WwChatHttpCore.Objects;
-using static HotTaoCore.GlobalConfig;
 using static HotTaoCore.Models.SQLiteEntitysModel;
+//using HotTaoCore.GlobalConfig;
+//using HotTaoCore.Models.SQLiteEntitysModel;
 
 namespace HotTao
 {
@@ -499,7 +500,7 @@ namespace HotTao
 
                 switch (msgtype)
                 {
-                    case (int)WxMsgType.文本消息:
+                    case (int)HotTaoCore.GlobalConfig.WxMsgType.文本消息:
                         //获取发送者标识id;
                         //msgSendUser = content.Split(':')[0];
                         messageContent = content.Substring(idx + 1);
@@ -513,9 +514,9 @@ namespace HotTao
                         //自动踢人
                         RemoveChatroom(service, user, msgSendUser, from, nickName, msgtype, messageContent);
                         break;
-                    case (int)WxMsgType.图片消息:
-                    case (int)WxMsgType.分享链接:
-                    case (int)WxMsgType.共享名片:
+                    case (int)HotTaoCore.GlobalConfig.WxMsgType.图片消息:
+                    case (int)HotTaoCore.GlobalConfig.WxMsgType.分享链接:
+                    case (int)HotTaoCore.GlobalConfig.WxMsgType.共享名片:
                         //获取发送者标识id;
                         //msgSendUser = content.Split(':')[0];
                         //获取当前发送方的昵称
@@ -532,7 +533,7 @@ namespace HotTao
                         //自动踢人
                         RemoveChatroom(service, user, msgSendUser, from, nickName, msgtype, messageContent);
                         break;
-                    case (int)WxMsgType.系统消息:
+                    case (int)HotTaoCore.GlobalConfig.WxMsgType.系统消息:
 
                         break;
                     default:
@@ -679,7 +680,7 @@ namespace HotTao
 
                     switch (msgtype)
                     {
-                        case (int)WxMsgType.文本消息:
+                        case (int)HotTaoCore.GlobalConfig.WxMsgType.文本消息:
                             if (auto_remove.enable_share_link == 1)
                             {
                                 Regex regex = new Regex("<br/>");
@@ -692,13 +693,13 @@ namespace HotTao
                                 }
                             }
                             break;
-                        case (int)WxMsgType.图片消息:
+                        case (int)HotTaoCore.GlobalConfig.WxMsgType.图片消息:
                             isRemoveRoomUser = IsRemoveRoomUserToSendImageType(service, nickName, from, auto_remove, to);
                             break;
-                        case (int)WxMsgType.共享名片:
+                        case (int)HotTaoCore.GlobalConfig.WxMsgType.共享名片:
                             isRemoveRoomUser = auto_remove.enable_share_card == 1;
                             break;
-                        case (int)WxMsgType.分享链接:
+                        case (int)HotTaoCore.GlobalConfig.WxMsgType.分享链接:
                             isRemoveRoomUser = auto_remove.enable_share_link == 1;
                             break;
                         default:

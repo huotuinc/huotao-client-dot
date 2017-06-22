@@ -9,7 +9,7 @@ using iQQ.Net.WebQQCore.Im.Event;
 using iQQ.Net.WebQQCore.Im.Http;
 using iQQ.Net.WebQQCore.Util;
 using Newtonsoft.Json.Linq;
-using Microsoft.Extensions.Logging;
+
 
 namespace iQQ.Net.WebQQCore.Im.Action
 {
@@ -45,7 +45,7 @@ namespace iQQ.Net.WebQQCore.Im.Action
                 }
                 catch (Exception e)
                 {
-                    Context.Logger.LogWarning($"日期转换失败：{obj["birthday"]}", e);
+                    //Context.Logger.LogWarning($"日期转换失败：{obj["birthday"]}", e);
                     account.Birthday = null;
                 }
 

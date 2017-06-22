@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace iQQ.Net.WebQQCore.Util.Extensions
 {
@@ -50,7 +51,8 @@ namespace iQQ.Net.WebQQCore.Util.Extensions
 
         public static string UrlEncode(this string url)
         {
-            return WebUtility.UrlEncode(url);
+            
+            return HttpUtility.UrlEncode(url);
         }
 
         public static bool IsNullOrEmpty(this string str)

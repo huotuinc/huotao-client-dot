@@ -1,6 +1,5 @@
 ﻿using HotTao.Controls;
 using HotTao.Properties;
-using HotTaoCore;
 using HotTaoCore.Enums;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
@@ -8,13 +7,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HotTaoCore.Models.SQLiteEntitysModel;
 

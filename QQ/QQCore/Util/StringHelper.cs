@@ -126,20 +126,12 @@ namespace iQQ.Net.WebQQCore.Util
         /// <returns></returns>
         private static string ExecuteScript(string sExpression, string sCode)
         {
-            MSScriptControl.ScriptControl scriptControl = new MSScriptControl.ScriptControl();
-            scriptControl.UseSafeSubset = true;
-            scriptControl.Language = "JScript";
-            scriptControl.AddCode(sCode);
-            try
-            {
-                string str = scriptControl.Eval(sExpression).ToString();
-                return str;
-            }
-            catch (Exception ex)
-            {
-                string str = ex.Message;
-            }
-            return "";
+            Type obj = Type.GetTypeFromProgID("ScriptControl");
+            if (obj == null) return "";
+            object ScriptControl = Activator.CreateInstance(obj);
+            obj.InvokeMember("Language", BindingFlags.SetProperty, null, ScriptControl, new object[] { "JavaScript" });
+            obj.InvokeMember("AddCode", BindingFlags.InvokeMethod, null, ScriptControl, new object[] { sCode });
+            return obj.InvokeMember("Eval", BindingFlags.InvokeMethod, null, ScriptControl, new object[] { sExpression }).ToString();
         }
     }
 

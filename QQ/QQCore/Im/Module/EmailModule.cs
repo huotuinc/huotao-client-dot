@@ -4,7 +4,7 @@ using iQQ.Net.WebQQCore.Im.Bean;
 using iQQ.Net.WebQQCore.Im.Core;
 using iQQ.Net.WebQQCore.Im.Event;
 using iQQ.Net.WebQQCore.Util;
-using Microsoft.Extensions.Logging;
+//using Microsoft.Extensions.Logging;
 
 namespace iQQ.Net.WebQQCore.Im.Module
 {
@@ -128,7 +128,7 @@ namespace iQQ.Net.WebQQCore.Im.Module
                             {
                                 // 登录失败，QQ消息的POLL同时也失效，这时那边会重新登录
                                 // 如果已经在登录中，或者已经登录了，就不用再次执行
-                                Context.Logger.LogWarning("GetPT4Auth error!!! wait Relogin...", ex);
+                               // Context.Logger.LogWarning("GetPT4Auth error!!! wait Relogin...", ex);
                                 var session = Context.Session;
                                 if (session.State == QQSessionState.Logining
                                     || session.State == QQSessionState.Kicked) return;

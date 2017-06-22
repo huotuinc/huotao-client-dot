@@ -5,7 +5,7 @@ using iQQ.Net.WebQQCore.Im.Core;
 using iQQ.Net.WebQQCore.Im.Event;
 using iQQ.Net.WebQQCore.Im.Http;
 using iQQ.Net.WebQQCore.Util;
-using Microsoft.Extensions.Logging;
+//using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
 namespace iQQ.Net.WebQQCore.Im.Action
@@ -86,7 +86,7 @@ namespace iQQ.Net.WebQQCore.Im.Action
                 }
                 else
                 {
-                    Context.Logger.LogDebug($"ret: {retcode}");
+                    //Context.Logger.LogDebug($"ret: {retcode}");
                 }
             }
 
