@@ -30,6 +30,16 @@ namespace HotTao
 
         private TaskControl taskForm { get; set; }
 
+
+        public StartTask(Main mainWin)
+        {
+            InitializeComponent();
+            hotForm = mainWin;
+            historyForm = null;
+            taskForm = null;
+            loadConfig();
+        }
+
         public StartTask(Main mainWin, HistoryControl history)
         {
             InitializeComponent();
@@ -341,7 +351,7 @@ namespace HotTao
                 wins = WinApi.GetAllDesktopWindows();
                 if (wins == null || wins.Count() == 0)
                 {
-                    sendEmailNOtify("发单失败，请检查发单微信是否掉线!");                    
+                    sendEmailNOtify("发单失败，请检查发单微信是否掉线!");
                 }
 
                 if (isSendImage)
@@ -496,7 +506,7 @@ namespace HotTao
             new System.Threading.Thread(() =>
             {
                 try
-                {                    
+                {
                     hotForm.ApplyPlan(goods.goodsId, goods.goodsName, goods.goodsDetailUrl);
 
                     //PlanModel model = LogicGoods.Instance.getCommissionPlan(MyUserInfo.LoginToken, goods.goodsDetailUrl);
@@ -557,7 +567,7 @@ namespace HotTao
                 try
                 {
                     if (!isStartTask || MyUserInfo.currentUserId == 0)
-                    {                        
+                    {
                         //通知
                         sendEmailNOtify("发单号掉线，请重新登录！");
                         break;

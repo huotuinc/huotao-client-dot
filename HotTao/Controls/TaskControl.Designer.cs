@@ -29,22 +29,22 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle47 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle57 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle58 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle52 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle53 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle54 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle55 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle56 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvPid = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupindex = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -81,6 +81,28 @@
             this.label4 = new System.Windows.Forms.Label();
             this.ckbAllSelectedTask = new System.Windows.Forms.CheckBox();
             this.dgvData = new System.Windows.Forms.DataGridView();
+            this.cbselect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.rowIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsDetailUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsSupplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsSalesAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsComsRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsCommission = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.couponPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.updateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.shareLink = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.insertVideo = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.editgoods = new System.Windows.Forms.DataGridViewImageColumn();
+            this.startTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.endTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.createTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.couponUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.couponId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsMainImgUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -113,28 +135,6 @@
             this.btnAddGoods = new System.Windows.Forms.Button();
             this.btnImportLocatGoods = new System.Windows.Forms.Button();
             this.btnStartTask = new System.Windows.Forms.Button();
-            this.cbselect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.rowIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsDetailUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsSupplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsSalesAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsComsRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsCommission = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.couponPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.updateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.shareLink = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.insertVideo = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.editgoods = new System.Windows.Forms.DataGridViewImageColumn();
-            this.startTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.endTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.createTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.couponUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.couponId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.goodsMainImgUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPid)).BeginInit();
             this.cmsWeChatMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -170,19 +170,19 @@
             this.dgvPid.Location = new System.Drawing.Point(9, 77);
             this.dgvPid.Name = "dgvPid";
             this.dgvPid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.InfoText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvPid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle48.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle48.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle48.ForeColor = System.Drawing.SystemColors.InfoText;
+            dataGridViewCellStyle48.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle48.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle48.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvPid.RowHeadersDefaultCellStyle = dataGridViewCellStyle48;
             this.dgvPid.RowHeadersVisible = false;
             this.dgvPid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvPid.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle49.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle49.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvPid.RowsDefaultCellStyle = dataGridViewCellStyle49;
             this.dgvPid.RowTemplate.Height = 23;
             this.dgvPid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvPid.Size = new System.Drawing.Size(390, 150);
@@ -192,10 +192,10 @@
             // 
             // Column1
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.NullValue = false;
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle45.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle45.NullValue = false;
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle45;
             this.Column1.FalseValue = "0";
             this.Column1.HeaderText = "全选";
             this.Column1.IndeterminateValue = "0";
@@ -225,9 +225,9 @@
             // sharetitle
             // 
             this.sharetitle.DataPropertyName = "title";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.sharetitle.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle46.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.sharetitle.DefaultCellStyle = dataGridViewCellStyle46;
             this.sharetitle.HeaderText = "群昵称";
             this.sharetitle.Name = "sharetitle";
             this.sharetitle.ReadOnly = true;
@@ -239,9 +239,9 @@
             // 
             this.pid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.pid.DataPropertyName = "pid";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.pid.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle47.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.pid.DefaultCellStyle = dataGridViewCellStyle47;
             this.pid.HeaderText = "推广位ID";
             this.pid.Name = "pid";
             this.pid.ReadOnly = true;
@@ -382,9 +382,9 @@
             this.dgvTaskPlan.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgvTaskPlan.RowHeadersVisible = false;
             this.dgvTaskPlan.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvTaskPlan.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle50.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle50.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvTaskPlan.RowsDefaultCellStyle = dataGridViewCellStyle50;
             this.dgvTaskPlan.RowTemplate.Height = 23;
             this.dgvTaskPlan.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTaskPlan.Size = new System.Drawing.Size(495, 150);
@@ -409,8 +409,8 @@
             // taskid
             // 
             this.taskid.DataPropertyName = "id";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.taskid.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.taskid.DefaultCellStyle = dataGridViewCellStyle34;
             this.taskid.HeaderText = "ID";
             this.taskid.MinimumWidth = 60;
             this.taskid.Name = "taskid";
@@ -421,9 +421,9 @@
             // 
             this.taskTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.taskTitle.DataPropertyName = "title";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.taskTitle.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle35.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.taskTitle.DefaultCellStyle = dataGridViewCellStyle35;
             this.taskTitle.HeaderText = "任务标题";
             this.taskTitle.Name = "taskTitle";
             this.taskTitle.ReadOnly = true;
@@ -594,25 +594,241 @@
             this.dgvData.Location = new System.Drawing.Point(7, 303);
             this.dgvData.Name = "dgvData";
             this.dgvData.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvData.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle57.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle57.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle57.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle57.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle57.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle57.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle57.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvData.RowHeadersDefaultCellStyle = dataGridViewCellStyle57;
             this.dgvData.RowHeadersVisible = false;
             this.dgvData.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvData.RowsDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle58.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            dataGridViewCellStyle58.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle58.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvData.RowsDefaultCellStyle = dataGridViewCellStyle58;
             this.dgvData.RowTemplate.Height = 23;
             this.dgvData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvData.Size = new System.Drawing.Size(905, 253);
             this.dgvData.TabIndex = 2;
             this.dgvData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
+            // 
+            // cbselect
+            // 
+            dataGridViewCellStyle51.NullValue = false;
+            this.cbselect.DefaultCellStyle = dataGridViewCellStyle51;
+            this.cbselect.FalseValue = "0";
+            this.cbselect.HeaderText = "全选";
+            this.cbselect.IndeterminateValue = "0";
+            this.cbselect.Name = "cbselect";
+            this.cbselect.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.cbselect.TrueValue = "id";
+            this.cbselect.Width = 20;
+            // 
+            // rowIndex
+            // 
+            this.rowIndex.DataPropertyName = "rowIndex";
+            dataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.rowIndex.DefaultCellStyle = dataGridViewCellStyle52;
+            this.rowIndex.HeaderText = "编号";
+            this.rowIndex.MinimumWidth = 30;
+            this.rowIndex.Name = "rowIndex";
+            this.rowIndex.ReadOnly = true;
+            this.rowIndex.Width = 30;
+            // 
+            // gid
+            // 
+            this.gid.DataPropertyName = "id";
+            this.gid.HeaderText = "ID";
+            this.gid.Name = "gid";
+            this.gid.ReadOnly = true;
+            this.gid.Visible = false;
+            this.gid.Width = 5;
+            // 
+            // goodsId
+            // 
+            this.goodsId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.goodsId.DataPropertyName = "goodsId";
+            dataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle53.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.goodsId.DefaultCellStyle = dataGridViewCellStyle53;
+            this.goodsId.HeaderText = "商品ID";
+            this.goodsId.Name = "goodsId";
+            this.goodsId.ReadOnly = true;
+            this.goodsId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.goodsId.Visible = false;
+            // 
+            // goodsDetailUrl
+            // 
+            this.goodsDetailUrl.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.goodsDetailUrl.DataPropertyName = "goodsDetailUrl";
+            this.goodsDetailUrl.HeaderText = "商品详情地址";
+            this.goodsDetailUrl.Name = "goodsDetailUrl";
+            this.goodsDetailUrl.ReadOnly = true;
+            this.goodsDetailUrl.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.goodsDetailUrl.Visible = false;
+            // 
+            // goodsName
+            // 
+            this.goodsName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.goodsName.DataPropertyName = "goodsName";
+            this.goodsName.HeaderText = "商品名称";
+            this.goodsName.Name = "goodsName";
+            this.goodsName.ReadOnly = true;
+            this.goodsName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // goodsSupplier
+            // 
+            this.goodsSupplier.DataPropertyName = "goodsSupplier";
+            dataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.goodsSupplier.DefaultCellStyle = dataGridViewCellStyle54;
+            this.goodsSupplier.HeaderText = "所属";
+            this.goodsSupplier.MinimumWidth = 50;
+            this.goodsSupplier.Name = "goodsSupplier";
+            this.goodsSupplier.ReadOnly = true;
+            this.goodsSupplier.Width = 50;
+            // 
+            // goodsPrice
+            // 
+            this.goodsPrice.DataPropertyName = "goodsPrice";
+            this.goodsPrice.HeaderText = "价格";
+            this.goodsPrice.MinimumWidth = 50;
+            this.goodsPrice.Name = "goodsPrice";
+            this.goodsPrice.ReadOnly = true;
+            this.goodsPrice.Width = 50;
+            // 
+            // goodsSalesAmount
+            // 
+            this.goodsSalesAmount.DataPropertyName = "goodsSalesAmount";
+            this.goodsSalesAmount.HeaderText = "销量";
+            this.goodsSalesAmount.MinimumWidth = 50;
+            this.goodsSalesAmount.Name = "goodsSalesAmount";
+            this.goodsSalesAmount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.goodsSalesAmount.Width = 50;
+            // 
+            // goodsComsRate
+            // 
+            this.goodsComsRate.DataPropertyName = "goodsComsRate";
+            this.goodsComsRate.HeaderText = "返佣率(%)";
+            this.goodsComsRate.MinimumWidth = 50;
+            this.goodsComsRate.Name = "goodsComsRate";
+            this.goodsComsRate.ReadOnly = true;
+            this.goodsComsRate.Width = 70;
+            // 
+            // goodsCommission
+            // 
+            this.goodsCommission.DataPropertyName = "goodsCommission";
+            this.goodsCommission.HeaderText = "佣金";
+            this.goodsCommission.MinimumWidth = 50;
+            this.goodsCommission.Name = "goodsCommission";
+            this.goodsCommission.ReadOnly = true;
+            this.goodsCommission.Visible = false;
+            this.goodsCommission.Width = 50;
+            // 
+            // couponPrice
+            // 
+            this.couponPrice.DataPropertyName = "couponPrice";
+            this.couponPrice.HeaderText = "优惠金额";
+            this.couponPrice.MinimumWidth = 50;
+            this.couponPrice.Name = "couponPrice";
+            this.couponPrice.ReadOnly = true;
+            this.couponPrice.Width = 70;
+            // 
+            // updateTime
+            // 
+            this.updateTime.DataPropertyName = "updateTime";
+            this.updateTime.HeaderText = "更新时间";
+            this.updateTime.Name = "updateTime";
+            this.updateTime.ReadOnly = true;
+            this.updateTime.Width = 120;
+            // 
+            // shareLink
+            // 
+            this.shareLink.DataPropertyName = "shareLink";
+            dataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle55.NullValue = "验券";
+            this.shareLink.DefaultCellStyle = dataGridViewCellStyle55;
+            this.shareLink.HeaderText = "优惠券推广链接";
+            this.shareLink.Name = "shareLink";
+            this.shareLink.ReadOnly = true;
+            this.shareLink.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.shareLink.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.shareLink.Text = "验证优惠券";
+            this.shareLink.Width = 50;
+            // 
+            // insertVideo
+            // 
+            dataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle56.NullValue = "插入视频";
+            this.insertVideo.DefaultCellStyle = dataGridViewCellStyle56;
+            this.insertVideo.HeaderText = "插入短视频";
+            this.insertVideo.Name = "insertVideo";
+            this.insertVideo.ReadOnly = true;
+            this.insertVideo.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.insertVideo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.insertVideo.Text = "插入短视频";
+            this.insertVideo.Width = 80;
+            // 
+            // editgoods
+            // 
+            this.editgoods.HeaderText = "删除";
+            this.editgoods.Image = global::HotTao.Properties.Resources.icon_delete;
+            this.editgoods.Name = "editgoods";
+            this.editgoods.ToolTipText = "删除";
+            this.editgoods.Width = 50;
+            // 
+            // startTime
+            // 
+            this.startTime.DataPropertyName = "startTime";
+            this.startTime.HeaderText = "优惠券开始时间";
+            this.startTime.Name = "startTime";
+            this.startTime.ReadOnly = true;
+            this.startTime.Visible = false;
+            this.startTime.Width = 5;
+            // 
+            // endTime
+            // 
+            this.endTime.DataPropertyName = "endTime";
+            this.endTime.HeaderText = "优惠券结束时间";
+            this.endTime.Name = "endTime";
+            this.endTime.ReadOnly = true;
+            this.endTime.Visible = false;
+            this.endTime.Width = 5;
+            // 
+            // createTime
+            // 
+            this.createTime.DataPropertyName = "createTime";
+            this.createTime.HeaderText = "添加时间";
+            this.createTime.Name = "createTime";
+            this.createTime.ReadOnly = true;
+            this.createTime.Visible = false;
+            this.createTime.Width = 5;
+            // 
+            // couponUrl
+            // 
+            this.couponUrl.DataPropertyName = "couponUrl";
+            this.couponUrl.HeaderText = "优惠券链接";
+            this.couponUrl.Name = "couponUrl";
+            this.couponUrl.ReadOnly = true;
+            this.couponUrl.Visible = false;
+            this.couponUrl.Width = 5;
+            // 
+            // couponId
+            // 
+            this.couponId.HeaderText = "优惠券ID";
+            this.couponId.Name = "couponId";
+            this.couponId.ReadOnly = true;
+            this.couponId.Visible = false;
+            // 
+            // goodsMainImgUrl
+            // 
+            this.goodsMainImgUrl.DataPropertyName = "goodsMainImgUrl";
+            this.goodsMainImgUrl.HeaderText = "商品主图";
+            this.goodsMainImgUrl.Name = "goodsMainImgUrl";
+            this.goodsMainImgUrl.ReadOnly = true;
+            this.goodsMainImgUrl.Visible = false;
+            this.goodsMainImgUrl.Width = 5;
             // 
             // panel3
             // 
@@ -736,11 +952,11 @@
             this.btnAddWeChatGroup.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(177)))));
             this.btnAddWeChatGroup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddWeChatGroup.ForeColor = System.Drawing.Color.White;
-            this.btnAddWeChatGroup.Location = new System.Drawing.Point(340, 10);
+            this.btnAddWeChatGroup.Location = new System.Drawing.Point(323, 10);
             this.btnAddWeChatGroup.Name = "btnAddWeChatGroup";
-            this.btnAddWeChatGroup.Size = new System.Drawing.Size(61, 23);
+            this.btnAddWeChatGroup.Size = new System.Drawing.Size(75, 23);
             this.btnAddWeChatGroup.TabIndex = 3;
-            this.btnAddWeChatGroup.Text = "添加";
+            this.btnAddWeChatGroup.Text = "添加微信群";
             this.btnAddWeChatGroup.UseVisualStyleBackColor = false;
             this.btnAddWeChatGroup.Click += new System.EventHandler(this.btnAddWeChatGroup_Click);
             // 
@@ -795,7 +1011,7 @@
             this.btnWeChatWinGet.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
             this.btnWeChatWinGet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnWeChatWinGet.ForeColor = System.Drawing.Color.White;
-            this.btnWeChatWinGet.Location = new System.Drawing.Point(232, 10);
+            this.btnWeChatWinGet.Location = new System.Drawing.Point(216, 10);
             this.btnWeChatWinGet.Name = "btnWeChatWinGet";
             this.btnWeChatWinGet.Size = new System.Drawing.Size(102, 23);
             this.btnWeChatWinGet.TabIndex = 3;
@@ -900,7 +1116,7 @@
             this.btnAddTask.Name = "btnAddTask";
             this.btnAddTask.Size = new System.Drawing.Size(61, 23);
             this.btnAddTask.TabIndex = 3;
-            this.btnAddTask.Text = "添加";
+            this.btnAddTask.Text = "创建计划";
             this.btnAddTask.UseVisualStyleBackColor = false;
             this.btnAddTask.Click += new System.EventHandler(this.btnAddTask_Click);
             // 
@@ -990,222 +1206,6 @@
             this.btnStartTask.Text = "启动计划";
             this.btnStartTask.UseVisualStyleBackColor = false;
             this.btnStartTask.Click += new System.EventHandler(this.btnStartTask_Click);
-            // 
-            // cbselect
-            // 
-            dataGridViewCellStyle9.NullValue = false;
-            this.cbselect.DefaultCellStyle = dataGridViewCellStyle9;
-            this.cbselect.FalseValue = "0";
-            this.cbselect.HeaderText = "全选";
-            this.cbselect.IndeterminateValue = "0";
-            this.cbselect.Name = "cbselect";
-            this.cbselect.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.cbselect.TrueValue = "id";
-            this.cbselect.Width = 20;
-            // 
-            // rowIndex
-            // 
-            this.rowIndex.DataPropertyName = "rowIndex";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.rowIndex.DefaultCellStyle = dataGridViewCellStyle10;
-            this.rowIndex.HeaderText = "编号";
-            this.rowIndex.MinimumWidth = 30;
-            this.rowIndex.Name = "rowIndex";
-            this.rowIndex.ReadOnly = true;
-            this.rowIndex.Width = 30;
-            // 
-            // gid
-            // 
-            this.gid.DataPropertyName = "id";
-            this.gid.HeaderText = "ID";
-            this.gid.Name = "gid";
-            this.gid.ReadOnly = true;
-            this.gid.Visible = false;
-            this.gid.Width = 5;
-            // 
-            // goodsId
-            // 
-            this.goodsId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.goodsId.DataPropertyName = "goodsId";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.goodsId.DefaultCellStyle = dataGridViewCellStyle11;
-            this.goodsId.HeaderText = "商品ID";
-            this.goodsId.Name = "goodsId";
-            this.goodsId.ReadOnly = true;
-            this.goodsId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.goodsId.Visible = false;
-            // 
-            // goodsDetailUrl
-            // 
-            this.goodsDetailUrl.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.goodsDetailUrl.DataPropertyName = "goodsDetailUrl";
-            this.goodsDetailUrl.HeaderText = "商品详情地址";
-            this.goodsDetailUrl.Name = "goodsDetailUrl";
-            this.goodsDetailUrl.ReadOnly = true;
-            this.goodsDetailUrl.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.goodsDetailUrl.Visible = false;
-            // 
-            // goodsName
-            // 
-            this.goodsName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.goodsName.DataPropertyName = "goodsName";
-            this.goodsName.HeaderText = "商品名称";
-            this.goodsName.Name = "goodsName";
-            this.goodsName.ReadOnly = true;
-            this.goodsName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // goodsSupplier
-            // 
-            this.goodsSupplier.DataPropertyName = "goodsSupplier";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.goodsSupplier.DefaultCellStyle = dataGridViewCellStyle12;
-            this.goodsSupplier.HeaderText = "所属";
-            this.goodsSupplier.MinimumWidth = 50;
-            this.goodsSupplier.Name = "goodsSupplier";
-            this.goodsSupplier.ReadOnly = true;
-            this.goodsSupplier.Width = 50;
-            // 
-            // goodsPrice
-            // 
-            this.goodsPrice.DataPropertyName = "goodsPrice";
-            this.goodsPrice.HeaderText = "价格";
-            this.goodsPrice.MinimumWidth = 50;
-            this.goodsPrice.Name = "goodsPrice";
-            this.goodsPrice.ReadOnly = true;
-            this.goodsPrice.Width = 50;
-            // 
-            // goodsSalesAmount
-            // 
-            this.goodsSalesAmount.DataPropertyName = "goodsSalesAmount";
-            this.goodsSalesAmount.HeaderText = "销量";
-            this.goodsSalesAmount.MinimumWidth = 50;
-            this.goodsSalesAmount.Name = "goodsSalesAmount";
-            this.goodsSalesAmount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.goodsSalesAmount.Width = 50;
-            // 
-            // goodsComsRate
-            // 
-            this.goodsComsRate.DataPropertyName = "goodsComsRate";
-            this.goodsComsRate.HeaderText = "返佣率(%)";
-            this.goodsComsRate.MinimumWidth = 50;
-            this.goodsComsRate.Name = "goodsComsRate";
-            this.goodsComsRate.ReadOnly = true;
-            this.goodsComsRate.Width = 70;
-            // 
-            // goodsCommission
-            // 
-            this.goodsCommission.DataPropertyName = "goodsCommission";
-            this.goodsCommission.HeaderText = "佣金";
-            this.goodsCommission.MinimumWidth = 50;
-            this.goodsCommission.Name = "goodsCommission";
-            this.goodsCommission.ReadOnly = true;
-            this.goodsCommission.Visible = false;
-            this.goodsCommission.Width = 50;
-            // 
-            // couponPrice
-            // 
-            this.couponPrice.DataPropertyName = "couponPrice";
-            this.couponPrice.HeaderText = "优惠金额";
-            this.couponPrice.MinimumWidth = 50;
-            this.couponPrice.Name = "couponPrice";
-            this.couponPrice.ReadOnly = true;
-            this.couponPrice.Width = 70;
-            // 
-            // updateTime
-            // 
-            this.updateTime.DataPropertyName = "updateTime";
-            this.updateTime.HeaderText = "更新时间";
-            this.updateTime.Name = "updateTime";
-            this.updateTime.ReadOnly = true;
-            this.updateTime.Width = 120;
-            // 
-            // shareLink
-            // 
-            this.shareLink.DataPropertyName = "shareLink";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle13.NullValue = "验券";
-            this.shareLink.DefaultCellStyle = dataGridViewCellStyle13;
-            this.shareLink.HeaderText = "优惠券推广链接";
-            this.shareLink.Name = "shareLink";
-            this.shareLink.ReadOnly = true;
-            this.shareLink.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.shareLink.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.shareLink.Text = "验证优惠券";
-            this.shareLink.Width = 50;
-            // 
-            // insertVideo
-            // 
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle14.NullValue = "插入视频";
-            this.insertVideo.DefaultCellStyle = dataGridViewCellStyle14;
-            this.insertVideo.HeaderText = "插入短视频";
-            this.insertVideo.Name = "insertVideo";
-            this.insertVideo.ReadOnly = true;
-            this.insertVideo.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.insertVideo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.insertVideo.Text = "插入短视频";
-            this.insertVideo.Width = 80;
-            // 
-            // editgoods
-            // 
-            this.editgoods.HeaderText = "删除";
-            this.editgoods.Image = global::HotTao.Properties.Resources.icon_delete;
-            this.editgoods.Name = "editgoods";
-            this.editgoods.ToolTipText = "删除";
-            this.editgoods.Width = 50;
-            // 
-            // startTime
-            // 
-            this.startTime.DataPropertyName = "startTime";
-            this.startTime.HeaderText = "优惠券开始时间";
-            this.startTime.Name = "startTime";
-            this.startTime.ReadOnly = true;
-            this.startTime.Visible = false;
-            this.startTime.Width = 5;
-            // 
-            // endTime
-            // 
-            this.endTime.DataPropertyName = "endTime";
-            this.endTime.HeaderText = "优惠券结束时间";
-            this.endTime.Name = "endTime";
-            this.endTime.ReadOnly = true;
-            this.endTime.Visible = false;
-            this.endTime.Width = 5;
-            // 
-            // createTime
-            // 
-            this.createTime.DataPropertyName = "createTime";
-            this.createTime.HeaderText = "添加时间";
-            this.createTime.Name = "createTime";
-            this.createTime.ReadOnly = true;
-            this.createTime.Visible = false;
-            this.createTime.Width = 5;
-            // 
-            // couponUrl
-            // 
-            this.couponUrl.DataPropertyName = "couponUrl";
-            this.couponUrl.HeaderText = "优惠券链接";
-            this.couponUrl.Name = "couponUrl";
-            this.couponUrl.ReadOnly = true;
-            this.couponUrl.Visible = false;
-            this.couponUrl.Width = 5;
-            // 
-            // couponId
-            // 
-            this.couponId.HeaderText = "优惠券ID";
-            this.couponId.Name = "couponId";
-            this.couponId.ReadOnly = true;
-            this.couponId.Visible = false;
-            // 
-            // goodsMainImgUrl
-            // 
-            this.goodsMainImgUrl.DataPropertyName = "goodsMainImgUrl";
-            this.goodsMainImgUrl.HeaderText = "商品主图";
-            this.goodsMainImgUrl.Name = "goodsMainImgUrl";
-            this.goodsMainImgUrl.ReadOnly = true;
-            this.goodsMainImgUrl.Visible = false;
-            this.goodsMainImgUrl.Width = 5;
             // 
             // TaskControl
             // 

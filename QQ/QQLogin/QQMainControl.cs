@@ -131,7 +131,17 @@ namespace QQLogin
             }
             SetMessageView(message);
             if (BuildGoodsHandler != null)
-                MessageHandler(urls, msgCode, msgContent);
+                MessageHandler(urls, message);
+        }
+
+
+        /// <summary>
+        /// 获取QQ号码
+        /// </summary>
+        /// <returns></returns>
+        public string GetQQ()
+        {
+            return QQGlobal.account.QQ.ToString();
         }
 
         /// <summary>
@@ -140,7 +150,7 @@ namespace QQLogin
         /// <param name="urls"></param>
         /// <param name="msgCode"></param>
         /// <param name="msgContent"></param>
-        private void MessageHandler(List<string> urls, long msgCode, string msgContent)
+        private void MessageHandler(List<string> urls, QQGroupMessageModel message)
         {
             //TODO:
             if (urls != null && urls.Count() > 0)
@@ -151,39 +161,38 @@ namespace QQLogin
                 {
                     try
                     {
-                        long code = msgCode;
                         //消息处理回调
-                        BuildGoodsHandler?.Invoke(code, msgContent, urls, isAutoSend, isEnableCustom, (ret, i, t) =>
-                         {
-                             string text = "";
-                             switch (ret)
-                             {
-                                 case MessageCallBackType.正在准备:
-                                     text = "正在准备";
-                                     break;
-                                 case MessageCallBackType.开始转链:
-                                     text = string.Format("开始转链{0}/{1}", i, t);
-                                     break;
-                                 case MessageCallBackType.转链完成:
-                                     text = string.Format("转链完成");
-                                     break;
-                                 case MessageCallBackType.开始创建计划:
-                                     text = string.Format("创建计划..");
-                                     break;
-                                 case MessageCallBackType.完成:
-                                     text = string.Format("已完成");
-                                     break;
-                                 default:
-                                     break;
-                             }
-                             if (!string.IsNullOrEmpty(text))
-                                 SetMesageViewByMessageCode(msgCode, text);
-                         });
+                        BuildGoodsHandler?.Invoke(message.Code, message.GroupName, message.MessageContent, urls, isAutoSend, isEnableCustom, (ret, i, t) =>
+                          {
+                              string text = "";
+                              switch (ret)
+                              {
+                                  case MessageCallBackType.正在准备:
+                                      text = "正在准备";
+                                      break;
+                                  case MessageCallBackType.开始转链:
+                                      text = string.Format("开始转链{0}/{1}", i, t);
+                                      break;
+                                  case MessageCallBackType.转链完成:
+                                      text = string.Format("转链完成");
+                                      break;
+                                  case MessageCallBackType.开始创建计划:
+                                      text = string.Format("创建计划..");
+                                      break;
+                                  case MessageCallBackType.完成:
+                                      text = string.Format("已完成");
+                                      break;
+                                  default:
+                                      break;
+                              }
+                              if (!string.IsNullOrEmpty(text))
+                                  SetMesageViewByMessageCode(message.Code, text);
+                          });
 
                     }
                     catch (Exception)
                     {
-                        SetMesageViewByMessageCode(msgCode, "已完成");
+                        SetMesageViewByMessageCode(message.Code, "已完成");
                     }
                 })
                 { IsBackground = true }.Start();
@@ -553,11 +562,20 @@ namespace QQLogin
             DataGridViewCellCollection cells = this.dgvMessageView.Rows[currentRowIndex].Cells;
             if (cells != null)
             {
+                string GroupName = cells["GroupName"].Value.ToString();
                 string msgContent = cells["MessageContent"].Value.ToString();
                 long msgCode = (long)cells["MessageCode"].Value;
                 var urls = UrlUtils.GetUrls(msgContent);
                 if (BuildGoodsHandler != null)
-                    MessageHandler(urls, msgCode, msgContent);
+                {
+                    QQGroupMessageModel message = new QQGroupMessageModel()
+                    {
+                        MessageContent = msgContent,
+                        Code = msgCode,
+                        GroupName = GroupName
+                    };
+                    MessageHandler(urls, message);
+                }
             }
 
         }

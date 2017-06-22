@@ -29,7 +29,7 @@ namespace HOTReuestService
         /// <param name="groupName">群标题（直播间）</param>
         /// <param name="urls">商品优惠券地址</param>
         /// <returns></returns>
-        public bool UploadGoodsbyLink(string qq, string groupName, string urls)
+        public static bool UploadGoodsbyLink(string qq, string groupName, string urls)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["qq"] = qq;
@@ -43,7 +43,7 @@ namespace HOTReuestService
         /// </summary>
         /// <param name="loginToken"></param>
         /// <returns></returns>
-        public string SubscribeForBind(string loginToken)
+        public static string SubscribeForBind(string loginToken)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
@@ -54,10 +54,10 @@ namespace HOTReuestService
         /// 推送通知到用户
         /// </summary>
         /// <param name="loginToken"></param>
-        /// <param name="type">客户端离线(0),微信离线(1),群名(2)</param>
+        /// <param name="type">客户端离线(0),微信离线(1),群名(2),阿里妈妈离线(3)</param>
         /// <param name="extra"></param>
         /// <returns></returns>
-        public string SendUserNotice(string loginToken, int type, string extra)
+        public static string SendUserNotice(string loginToken, int type, string extra)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;

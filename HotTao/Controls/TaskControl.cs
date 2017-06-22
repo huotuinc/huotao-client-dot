@@ -838,7 +838,7 @@ namespace HotTao.Controls
             }
             else
             {
-                ShowAlert("微信初始化失败");
+                ShowAlert("未找到微信窗口!");
             }
         }
 

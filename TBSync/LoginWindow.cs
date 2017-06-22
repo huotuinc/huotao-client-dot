@@ -114,7 +114,7 @@ namespace TBSync
                         Plugins = CefState.Enabled,
                         ImageLoading = CefState.Enabled,
                         ImageShrinkStandaloneToFit = CefState.Enabled,
-                        WebGl = CefState.Enabled
+                        WebGl = CefState.Enabled,
                     };
                     browser.BrowserSettings = settings;
                     browser.Size = new Size(920, 607);
@@ -257,34 +257,6 @@ namespace TBSync
             }
         }
 
-
-        /// <summary>
-        /// 执行js脚步，等待返回，timeout 15秒
-        /// </summary>        
-        /// <param name="script">The script.</param>
-        /// <param name="millisecondsTimeout">等待时间</param>
-        /// <returns>System.Object.</returns>
-        private object EvaluateScript(string script, int millisecondsTimeout = 15000)
-        {
-            var task = browser.EvaluateScriptAsync(script);
-            string result = string.Empty;
-            //task.ContinueWith(t =>
-            //{
-            //    if (!t.IsFaulted)
-            //    {
-            //        var response = t.Result;
-            //        if (response.Success)
-            //            result = response.Result.ToString();
-            //        else
-            //            result = response.Message;
-            //    }
-            //});
-            task.Wait(millisecondsTimeout);
-            JavascriptResponse response = task.Result;
-            return response.Success ? (response.Result ?? "") : response.Message;
-            //return result;
-        }
-
         /// <summary>
         /// 登录成功回调处理
         /// </summary>
@@ -309,13 +281,16 @@ namespace TBSync
                     jsons.Add(json);
                     cookies.Add(cookie);
                 }
+
+                browser.Load("http://pub.alimama.com/myunion.htm");
+
                 string cookiesJson = JsonConvert.SerializeObject(jsons);
                 //页面加载完成回调
                 LoginSuccessHandle?.Invoke(cookies);
                 SetTitle("登录成功!获取Token成功,正在验证token...");
                 new Thread(() =>
                 {
-                    Thread.Sleep(3000);
+                    Thread.Sleep(500);
                     HideWindow();
                 })
                 { IsBackground = true }.Start();
@@ -346,40 +321,6 @@ namespace TBSync
             }
             return taobaoname;
         }
-
-
-        /// <summary>
-        /// 判断阿里妈妈是否登录
-        /// </summary>
-        /// <returns></returns>
-        public bool isLogin()
-        {
-            //            
-            if (loginSuccessTime.AddMinutes(30).CompareTo(DateTime.Now) < 0)
-            {
-                return false;
-            }
-            //bool loginStatus = false;
-            //if (browser.Address.Contains("www.alimama.com"))
-            //{
-
-            //    StringBuilder sb = new StringBuilder();
-            //    sb.AppendLine("function getUserName() {");
-            //    sb.AppendLine(" return document.getElementsByClassName('menu-username').item(0).innerHTML;");
-            //    sb.AppendLine("}");
-            //    sb.AppendLine("getUserName();");
-            //    browser.ExecuteScriptAsync(sb.ToString());
-            //    object result = EvaluateScript(sb.ToString());
-            //    if (!string.IsNullOrEmpty(result.ToString()))
-            //    {
-            //        if (result.ToString().Equals("你好"))
-            //            loginStatus = false;
-            //    }
-            //    return loginStatus;
-            //}
-            return true;
-        }
-
 
         /// <summary>
         /// 获取指定cookie
@@ -420,29 +361,6 @@ namespace TBSync
             }
             return lstCookies;
         }
-        /// <summary>
-        /// 删除指定网站的cookie
-        /// </summary>
-        public void ClearAllCookies(string url)
-        {
-            try
-            {
-                url = string.IsNullOrEmpty(url) ? LoginSuccessUrl : url;
-                var visitor = new CookieMonster();
-                if (Cef.GetGlobalCookieManager().VisitAllCookies(visitor))
-                    visitor.WaitForAllCookies();
-                if (visitor.NamesValues == null || visitor.NamesValues.Count() == 0) return;
-                foreach (System.Net.Cookie cookie in visitor.NamesValues)
-                {
-                    Cef.GetGlobalCookieManager().DeleteCookiesAsync(cookie.Domain, cookie.Name);
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-        }
-
 
 
         /// <summary>

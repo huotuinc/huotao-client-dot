@@ -967,7 +967,7 @@ namespace HotTao
                 timingRefresh = null;
             }
             timingRefresh = new Timer();
-            timingRefresh.Interval = 120000;
+            timingRefresh.Interval = 60000;
             timingRefresh.Tick += TimingRefresh_Tick;
             timingRefresh.Start();
 
@@ -1315,8 +1315,18 @@ namespace HotTao
         /// <param name="isAutoSend"></param>   
         /// <param name="EnableCustomTemplate"></param>   
         /// <param name="callback">处理回调通知</param>
-        private void QqForm_BuildGoodsHandler(long msgCode, string msgContent, List<string> urls, bool isAutoSend, bool EnableCustomTemplate, Action<MessageCallBackType, int, int> callback)
+        private void QqForm_BuildGoodsHandler(long msgCode, string msgGroupName, string msgContent, List<string> urls, bool isAutoSend, bool EnableCustomTemplate, Action<MessageCallBackType, int, int> callback)
         {
+            if (isAutoSend)
+            {
+                MyUserInfo.sendmode = 0;
+                if (winTask == null)
+                {
+                    winTask = new StartTask(this);
+                    winTask.OK();
+                }                
+            }
+
             lock (lock_goods)
             {
                 if (weChatGroups == null) weChatGroups = LogicHotTao.Instance(MyUserInfo.currentUserId).GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);

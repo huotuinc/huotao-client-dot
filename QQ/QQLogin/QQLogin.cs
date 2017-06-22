@@ -115,6 +115,17 @@ namespace QQLogin
         {
             QQGlobal.loginForm = this;
             // 获取二维码
+            InitQQClient();
+
+            System.Windows.Forms.Timer pollTime = new System.Windows.Forms.Timer();
+            pollTime.Interval = 60 * 1000;//每1分钟执行一次
+            pollTime.Tick += PollTime_Tick;
+            pollTime.Start();
+        }
+
+
+        private void InitQQClient()
+        {
             QQGlobal.client = new WebQQClient((client, notifyEvent) =>
             {
                 switch (notifyEvent.Type)
@@ -208,13 +219,9 @@ namespace QQLogin
                         }
                 }
             });
-            QQGlobal.client.LoginWithQRCode(); // 登录之后自动开始轮训
-
-            System.Windows.Forms.Timer pollTime = new System.Windows.Forms.Timer();
-            pollTime.Interval = 60 * 1000;//每1分钟执行一次
-            pollTime.Tick += PollTime_Tick;
-            pollTime.Start();
+            QQGlobal.client.LoginWithQRCode();// 登录之后自动开始轮训
         }
+
 
         /// <summary>
         /// 定时发送心率包，已保证长久在线
@@ -315,8 +322,8 @@ namespace QQLogin
             if (QrCodeInvalid)
             {
                 QrCodeInvalid = false;
-                if (QQGlobal.client != null)
-                    QQGlobal.client.LoginWithQRCode();
+                QQGlobal.client.Destroy();
+                InitQQClient();
                 picQrcode.SizeMode = PictureBoxSizeMode.CenterImage;
                 picQrcode.Image = Properties.Resources.loading;
                 picQQ.Visible = false;

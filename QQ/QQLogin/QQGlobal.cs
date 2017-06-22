@@ -50,12 +50,13 @@ namespace QQLogin
     /// 根据商品地址，生成商品信息
     /// </summary>
     /// <param name="msgCode">消息Code</param>
+    /// <param name="msgGroupName">分组名</param>
     /// <param name="msgContent">消息</param>
     /// <param name="urls">链接</param>
     /// <param name="isAutoSend">是否自动跟发</param>    
     /// <param name="EnableCustomTemplate">启用自定义文案发送</param>
     /// <param name="callback">回调</param>    
-    public delegate void BuildGoodsEventHandler(long msgCode, string msgContent, List<string> urls, bool isAutoSend, bool EnableCustomTemplate, Action<MessageCallBackType, int, int> callback);
+    public delegate void BuildGoodsEventHandler(long msgCode, string msgGroupName, string msgContent, List<string> urls, bool isAutoSend, bool EnableCustomTemplate, Action<MessageCallBackType, int, int> callback);
 
     /// <summary>
     /// 批量保存到本地商品库
@@ -69,6 +70,7 @@ namespace QQLogin
     /// </summary>
     public enum MessageCallBackType
     {
+        未准备,
         正在准备,
         开始转链,
         转链完成,

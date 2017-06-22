@@ -1,4 +1,6 @@
-﻿using QQLogin;
+﻿using HOTReuestService;
+using Newtonsoft.Json;
+using QQLogin;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -112,11 +114,40 @@ namespace HOT.QQCollect
         /// <param name="isAutoSend"></param>
         /// <param name="EnableCustomTemplate"></param>
         /// <param name="callback"></param>
-        private void QqForm_BuildGoodsHandler(long msgCode, string msgContent, List<string> urls, bool isAutoSend, bool EnableCustomTemplate, Action<MessageCallBackType, int, int> callback)
+        private void QqForm_BuildGoodsHandler(long msgCode, string msgGroupName, string msgContent, List<string> urls, bool isAutoSend, bool EnableCustomTemplate, Action<MessageCallBackType, int, int> callback)
         {
             lock (lock_goods)
             {
-                //callback?.Invoke(MessageCallBackType.正在准备, 0, 0);
+                try
+                {                    
+                    List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
+                    Dictionary<string, string> data = new Dictionary<string, string>();
+                    if (urls.Count() > 0)
+                        data["url"] = urls[0];
+                    else
+                        data["url"] = "";
+                    if (urls.Count() > 1)
+                        data["url2"] = urls[1];
+                    else
+                        data["url2"] = "";
+                    data["message"] = msgContent;
+                    list.Add(data);
+
+                    string jsonUrls = JsonConvert.SerializeObject(data);
+
+                    callback?.Invoke(MessageCallBackType.正在准备, 0, 0);
+                    //根据地址，获取商品优惠信息
+                    bool result = HotJavaApi.UploadGoodsbyLink(qqForm.GetQQ(), msgGroupName, jsonUrls);
+
+                    if (result)
+                        callback?.Invoke(MessageCallBackType.完成, 0, 0);
+                    else
+                        callback?.Invoke(MessageCallBackType.未准备, 0, 0);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
             }
         }
 
