@@ -263,7 +263,7 @@ namespace TBSync
         private void LoginSuccess()
         {
             try
-            {
+            {                
                 loginSuccessTime = DateTime.Now;
                 SetTitle("登录成功!正在获取Token...");
                 var visitor = new CookieMonster();
