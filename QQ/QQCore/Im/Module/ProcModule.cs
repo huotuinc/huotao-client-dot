@@ -278,8 +278,7 @@ namespace iQQ.Net.WebQQCore.Im.Module
                     
                     Task[] tasks = { task1, task2, task3, task4 };
                     var r = Task.Factory.ContinueWhenAll(tasks, (t) => {});
-                    //r.Wait(3000);
-                    r.Start();
+                    r.Wait(3000);                    
                     //Task.WhenAll(task1, task2, task3, task4)
                     DoPollMsg();
                 }
