@@ -122,7 +122,7 @@ namespace HotTao
         }
 
 
-        public static string cToken { get; set; } = "";
+       // public static string cToken { get; set; } = "";
 
 
 

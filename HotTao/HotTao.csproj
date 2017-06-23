@@ -105,6 +105,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Alilogin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Alilogin.dll</HintPath>
+    </Reference>
     <Reference Include="CustomControls">
       <HintPath>..\lib\CustomControls.dll</HintPath>
     </Reference>
@@ -574,10 +578,6 @@
     <ProjectReference Include="..\QQ\QQLogin\QQLogin.csproj">
       <Project>{285cfb83-13ee-47b4-8b91-827e8e26a10b}</Project>
       <Name>QQLogin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TBSync\TBSync.csproj">
-      <Project>{5de10b73-bf0a-419f-9dc3-ad4f54fb9d8f}</Project>
-      <Name>TBSync</Name>
     </ProjectReference>
     <ProjectReference Include="..\WwChatHttpCore\WeChatHttpCore.csproj">
       <Project>{2ceadef4-de9e-4e93-a1a1-1849d6781bd5}</Project>

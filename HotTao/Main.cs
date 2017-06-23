@@ -806,7 +806,8 @@ namespace HotTao
 
         #region 登录淘宝相关操作
 
-        public TBSync.LoginWindow lw;
+        public Alilogin.Alilogin lw;
+        ///public TBSync.LoginWindow lw;
         private Timer checkTbLoginTime;
         private bool loginSuccess = false;
         /// <summary>
@@ -824,19 +825,20 @@ namespace HotTao
                 TimingRefreshAlimamaPage();
                 if (lw != null)
                 {
-                    if (lw.browser != null)
-                    {
-                        lw.browser.Dispose();
-                    }
+                    //if (lw.browser != null)
+                    //{
+                    //    lw.browser.Dispose();
+                    //}
                     lw.Dispose();
                     lw.Close();
                     lw = null;
                 }
-                lw = new TBSync.LoginWindow();
+                lw = new Alilogin.Alilogin();
+                
                 lw.LoginSuccessHandle += Lw_LoginSuccessHandle;
                 lw.CloseWindowHandle += Lw_CloseWindowHandle;
                 lw.StartPosition = FormStartPosition.CenterScreen;
-                lw.ShowDialog(this);
+                lw.Show(this);
             }
         }
         /// <summary>
@@ -864,10 +866,15 @@ namespace HotTao
         /// </summary>
         private void Lw_CloseWindowHandle()
         {
-            AlertConfirm("必须登录阿里妈妈才能使用软件,确定退出?", "退出提示", () =>
+            if (!loginSuccess)
             {
-                this.Close();
-            });
+                AlertConfirm("必须登录阿里妈妈才能使用软件,确定退出?", "退出提示", () =>
+                {
+                    this.Close();
+                });
+            }
+            else
+                lw.HideWindow();
         }
 
         /// <summary>
@@ -876,11 +883,10 @@ namespace HotTao
         /// <param name="jsons">The jsons.</param>
         private void Lw_LoginSuccessHandle(CookieCollection cookies)
         {
+            lw.HideWindow();
             loginSuccess = true;
             MyUserInfo.cookies = cookies;
-            MyUserInfo.TaobaoName = lw.GetTaobaoName();
-            var c = lw.GetCookie("ctoken");
-            MyUserInfo.cToken = c != null ? c.Value : "";
+            MyUserInfo.TaobaoName = lw.GetTaobaoName();            
             string cookieJson = lw.GetCurrentCookiesToString();
             new System.Threading.Thread(() =>
             {
@@ -970,16 +976,16 @@ namespace HotTao
             timingRefresh.Tick += TimingRefresh_Tick;
             timingRefresh.Start();
 
-            if (checkTbLoginTime != null)
-            {
-                checkTbLoginTime.Stop();
-                checkTbLoginTime.Dispose();
-                checkTbLoginTime = null;
-            }
-            checkTbLoginTime = new Timer();
-            checkTbLoginTime.Interval = 10 * 60 * 1000;
-            checkTbLoginTime.Tick += CheckTbLoginTime_Tick;
-            checkTbLoginTime.Start();
+            //if (checkTbLoginTime != null)
+            //{
+            //    checkTbLoginTime.Stop();
+            //    checkTbLoginTime.Dispose();
+            //    checkTbLoginTime = null;
+            //}
+            //checkTbLoginTime = new Timer();
+            //checkTbLoginTime.Interval = 10 * 60 * 1000;
+            //checkTbLoginTime.Tick += CheckTbLoginTime_Tick;
+            //checkTbLoginTime.Start();
 
         }
         /// <summary>
@@ -1323,7 +1329,7 @@ namespace HotTao
                 {
                     winTask = new StartTask(this);
                     winTask.OK();
-                }                
+                }
             }
 
             lock (lock_goods)
