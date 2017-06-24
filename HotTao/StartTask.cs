@@ -1,4 +1,5 @@
-﻿using HotTao.Controls;
+﻿using HOTReuestService;
+using HotTao.Controls;
 using HotTao.Properties;
 using HotTaoCore.Enums;
 using HotTaoCore.Logic;
@@ -134,7 +135,8 @@ namespace HotTao
             if (wins == null || wins.Count() == 0)
             {
                 //通知
-                sendEmailNOtify("发单失败，请检查发单微信是否掉线!");
+                //sendEmailNOtify("发单失败，请检查发单微信是否掉线!");
+                HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.微信离线);
                 return;
             }
             //获取任务数据
@@ -347,7 +349,7 @@ namespace HotTao
                 wins = WinApi.GetAllDesktopWindows();
                 if (wins == null || wins.Count() == 0)
                 {
-                    sendEmailNOtify("发单失败，请检查发单微信是否掉线!");
+                    HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.微信离线);
                 }
 
                 if (isSendImage)
@@ -411,23 +413,22 @@ namespace HotTao
                     try
                     {
                         if (!isStartTask || MyUserInfo.currentUserId == 0)
-                        {
-                            //通知
-                            sendEmailNOtify("发单号掉线，请重新登录！");
+                        {                            
                             break;
                         }
 
                         //如果当前微信已经发送，则结束本循环
                         if (imageResult.Contains(item.title))
                         {
-                            sendEmailNOtify(item.title, true);
+                            //sendEmailNOtify(item.title, true);
+                            HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常,item.title);
                             continue;
                         }
 
                         wins = WinApi.GetAllDesktopWindows();
                         if (wins == null || wins.Count() == 0)
                         {
-                            sendEmailNOtify("发单失败，请检查发单微信是否掉线!");
+                            HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.微信离线);
                             continue;
                         }
 
@@ -453,13 +454,13 @@ namespace HotTao
                         else
                         {
                             //通知
-                            sendEmailNOtify(item.title, true);
+                            HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常, item.title);
                         }
                     }
                     catch (Exception ex)
                     {
                         //通知
-                        sendEmailNOtify(item.title, true);
+                        HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常, item.title);
 
                         if (!sendVideo && !imageResult.Contains(item.title))
                             imageResult.Add(item.title);
@@ -504,34 +505,6 @@ namespace HotTao
                 try
                 {
                     hotForm.ApplyPlan(goods.goodsId, goods.goodsName, goods.goodsDetailUrl);
-
-                    //PlanModel model = LogicGoods.Instance.getCommissionPlan(MyUserInfo.LoginToken, goods.goodsDetailUrl);
-                    //if (model != null)
-                    //{
-                    //    if (model.campaignType.Equals("2"))
-                    //    {
-                    //        //申请高佣金
-                    //        hotForm.ApplyPlan(goods.goodsId, goods.goodsName, model.planId, model.shopKeeperId, model.commission);
-                    //    }
-                    //    else
-                    //    {
-                    //        LogRuningModel logData = new LogRuningModel()
-                    //        {
-                    //            goodsid = goods.goodsId,
-                    //            goodsName = goods.goodsName,
-                    //            title = goods.goodsId,
-                    //            content = goods.goodsName,
-                    //            logTime = DateTime.Now,
-                    //            logType = LogTypeOpts.通用计划,
-                    //            campId = "",
-                    //            keeperid = "",
-                    //            commissionRate = model.commission,
-                    //            isError = false,
-                    //            remark = "[" + goods.goodsId + "]" + "通用计划,佣金:" + (model.commission * 100) + " %"
-                    //        };
-                    //        hotForm.logRuningList.Add(logData);
-                    //    }
-                    //}
                 }
                 catch (System.Threading.ThreadAbortException ex)
                 {
@@ -564,21 +537,19 @@ namespace HotTao
                 {
                     if (!isStartTask || MyUserInfo.currentUserId == 0)
                     {
-                        //通知
-                        sendEmailNOtify("发单号掉线，请重新登录！");
                         break;
                     }
                     Clipboard.SetText(item.text);
                     //如果当前微信已经发送，则结束本循环
                     if (textResult.Contains(item.title))
                     {
-                        sendEmailNOtify(item.title, false);
+                        HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常, item.title);
                         continue;
                     }
                     wins = WinApi.GetAllDesktopWindows();
                     if (wins == null || wins.Count() == 0)
                     {
-                        sendEmailNOtify("发单失败，请检查发单微信是否掉线!");
+                        HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.微信离线);
                         continue;
                     }
 
@@ -605,13 +576,13 @@ namespace HotTao
                     }
                     else
                     {
-                        sendEmailNOtify(item.title, false);
+                        HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常, item.title);
                     }
                 }
                 catch (Exception ex)
                 {
                     //通知
-                    sendEmailNOtify(item.title, false);
+                    HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常, item.title);
 
                     if (!textResult.Contains(item.title))
                         textResult.Add(item.title);
@@ -650,64 +621,7 @@ namespace HotTao
             })
             { IsBackground = true }.Start();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// 发送短信通知
-        /// </summary>
-        /// <param name="weChatTitle">群标题</param>
-        public void sendEmailNOtify(string weChatTitle, bool isImage)
-        {
-            string content = string.Format("您好，发单号:{0},群[{1}]{2}发送出问题了，请查看！",
-                MyUserInfo.userData.loginName, weChatTitle, isImage ? "图片" : "文案");
-            //TODO:待接口发布
-            if (cfgTime != null && !string.IsNullOrEmpty(cfgTime.notity_email))
-            {
-                string notity_email = cfgTime.notity_email;
-                new System.Threading.Thread(() =>
-                {
-                    LogicUser.Instance.sendEmailWarning(MyUserInfo.LoginToken, notity_email, content);
-                })
-                { IsBackground = true }.Start();
-            }
-        }
-
-        public void sendEmailNOtify(string content)
-        {
-            content = string.Format("您好，发单号:{0},{1}！", MyUserInfo.userData.loginName, content);
-            //TODO:待接口发布
-            if (cfgTime != null && !string.IsNullOrEmpty(cfgTime.notity_email))
-            {
-                string notity_email = cfgTime.notity_email;
-                new System.Threading.Thread(() =>
-                {
-                    LogicUser.Instance.sendEmailWarning(MyUserInfo.LoginToken, notity_email, content);
-                })
-                { IsBackground = true }.Start();
-            }
-        }
-
-
+        
         /// <summary>
         /// 暂停休息一下
         /// </summary>

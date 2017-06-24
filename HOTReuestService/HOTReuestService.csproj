@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiDefineConst.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Helper\EncryptHelper.cs" />
     <Compile Include="Helper\LogHelper.cs" />
     <Compile Include="Helper\SignatureHelper.cs" />

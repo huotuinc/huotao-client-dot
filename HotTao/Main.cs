@@ -1,5 +1,6 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
+using HOTReuestService;
 using HotTao.Controls;
 using HotTao.Properties;
 using HotTaoCore;
@@ -392,6 +393,7 @@ namespace HotTao
                     LoginSync = true;
                     return true;
                 }
+                HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.客户端离线);
                 LogicUser.CheckTokenErrorCount = 0;
                 LoginSync = false;
                 this.BeginInvoke((Action)(delegate ()  //等待结束
@@ -806,8 +808,8 @@ namespace HotTao
 
         #region 登录淘宝相关操作
 
-        public Alilogin.Alilogin lw;
-        ///public TBSync.LoginWindow lw;
+        //public Alilogin.Alilogin lw;
+        public TBSync.LoginWindow lw;
         private Timer checkTbLoginTime;
         private bool loginSuccess = false;
         /// <summary>
@@ -825,16 +827,16 @@ namespace HotTao
                 TimingRefreshAlimamaPage();
                 if (lw != null)
                 {
-                    //if (lw.browser != null)
-                    //{
-                    //    lw.browser.Dispose();
-                    //}
+                    if (lw.browser != null)
+                    {
+                        lw.browser.Dispose();
+                    }
                     lw.Dispose();
                     lw.Close();
                     lw = null;
                 }
-                lw = new Alilogin.Alilogin();
-                
+                lw = new TBSync.LoginWindow();
+
                 lw.LoginSuccessHandle += Lw_LoginSuccessHandle;
                 lw.CloseWindowHandle += Lw_CloseWindowHandle;
                 lw.StartPosition = FormStartPosition.CenterScreen;
@@ -886,7 +888,7 @@ namespace HotTao
             lw.HideWindow();
             loginSuccess = true;
             MyUserInfo.cookies = cookies;
-            MyUserInfo.TaobaoName = lw.GetTaobaoName();            
+            MyUserInfo.TaobaoName = lw.GetTaobaoName();
             string cookieJson = lw.GetCurrentCookiesToString();
             new System.Threading.Thread(() =>
             {
@@ -972,7 +974,7 @@ namespace HotTao
                 timingRefresh = null;
             }
             timingRefresh = new Timer();
-            timingRefresh.Interval = 60000;
+            timingRefresh.Interval = 300000;
             timingRefresh.Tick += TimingRefresh_Tick;
             timingRefresh.Start();
 
@@ -1117,6 +1119,9 @@ namespace HotTao
 
                     //获取更多定向计划数据
                     string url = string.Format("http://pub.alimama.com/pubauc/getCommonCampaignByItemId.json?itemId={0}&t={1}&_tb_token_={2}&pvid=", goodsId, getClientMsgId(), tbToken);
+                    cookiesContainer = null;
+                    cookiesContainer = new CookieContainer();
+                    cookiesContainer.Add(MyUserInfo.cookies);
                     content = BaseRequestService.HttpGet(url, cookiesContainer);
                     if (content.Contains("html"))
                     {

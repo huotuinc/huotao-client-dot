@@ -55,15 +55,20 @@ namespace HOTReuestService
         /// </summary>
         /// <param name="loginToken"></param>
         /// <param name="type">客户端离线(0),微信离线(1),群名(2),阿里妈妈离线(3)</param>
-        /// <param name="extra"></param>
+        /// <param name="extra">如type为2,则该数据为群名</param>
         /// <returns></returns>
-        public static string SendUserNotice(string loginToken, int type, string extra)
+        public static void SendUserNotice(string loginToken, WeChatTemplateMessageSceneType type, string extra = null)
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            data["token"] = loginToken;
-            data["type"] = type.ToString();
-            data["extra"] = extra;
-            return HttpRequestService.PostToString(ApiDefineConst.sendUserNotice, data);
+            new System.Threading.Thread(() =>
+            {
+                Dictionary<string, string> data = new Dictionary<string, string>();
+                data["token"] = loginToken;
+                data["type"] = ((int)type).ToString();
+                if (!string.IsNullOrEmpty(extra))
+                    data["extra"] = extra;
+                HttpRequestService.PostToString(ApiDefineConst.sendUserNotice, data);
+            })
+            { IsBackground = true }.Start();
         }
 
 

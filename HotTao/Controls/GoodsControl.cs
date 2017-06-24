@@ -36,23 +36,14 @@ namespace HotTao.Controls
         /// 定时器，定时去检查网页操作是否完成,如果完成，则跳转到微信群发页面
         /// </summary>
         private static System.Windows.Forms.Timer timer = null;
-        private Alilogin.EWebBrowser webBrowser1 { get; set; }
+        
         private void GoodsControl_Load(object sender, EventArgs e)
         {
             if (MyUserInfo.currentUserId > 0)
             {
                 isSubmit = false;
                 string url = ApiConst.Url + "/goods/goodListPage?viewMode=2&token=" + MyUserInfo.LoginToken;
-                //webBrowser1 = new Alilogin.EWebBrowser();
-                //webBrowser1.Dock = DockStyle.Fill;
-                //webBrowser1.ScriptErrorsSuppressed = false;
-                //hotPanel2.Controls.Add(webBrowser1);
-                //webBrowser1.DocumentCompleted += WebBrowser1_DocumentCompleted;
-                //new Thread(() =>
-                //{
-                //    BrowserNavigate(url);
-                //})
-                //{ IsBackground = true }.Start();
+        
                 if (hotForm.browser == null)
                 {
                     hotForm.InitBrowser(url);
@@ -71,42 +62,7 @@ namespace HotTao.Controls
             else
                 hotForm.openControl(new LoginControl(hotForm));
         }
-
-        private void WebBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            webBrowser1.Document.Window.Error += Window_Error;
-        }
-
-
-
-        /// <summary>
-        /// 禁止脚步错误提示
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_Error(object sender, HtmlElementErrorEventArgs e)
-        {
-            e.Handled = true;
-        }
-
-        /// <summary>
-        /// 打开阿里妈妈登录
-        /// </summary>
-        public void BrowserNavigate(string url)
-        {
-            if (this.webBrowser1.InvokeRequired)
-            {
-                this.webBrowser1.Invoke(new Action<string>(BrowserNavigate), new object[] { url });
-            }
-            else
-            {
-                webBrowser1.Url = new Uri(url);
-            }
-        }
-
-
-
-
+        
         /// <summary>
         /// 定时器，定时去检查网页操作是否完成,如果完成，则跳转到微信群发页面
         /// </summary>
@@ -123,8 +79,7 @@ namespace HotTao.Controls
                 }
                 //LoadClose();
                 ld.CloseForm();
-                //string url = ApiConst.Url + "/goods/goodListPage?viewMode=2&token=" + MyUserInfo.LoginToken;
-                //hotForm.browser.Load(url);
+                
                 hotForm.SetWeChatTabSelected();
                 hotForm.openControl(new TaskControl(hotForm));
 
