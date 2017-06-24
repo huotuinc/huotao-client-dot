@@ -103,6 +103,7 @@ namespace HotTao.Controls
             {
                 case 1: //软件账户设置
                     openControl(new SetAccountControl(hotForm));
+                    SetSaveButtonVisible(false);
                     break;
                 //case 2://淘宝账号设置
                 //    openControl(new SetAccountControl(hotForm));

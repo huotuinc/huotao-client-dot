@@ -312,10 +312,10 @@
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(50, 8);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 12);
+            this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 0;
             this.label2.Tag = "1";
-            this.label2.Text = "软件账户设置";
+            this.label2.Text = "账户设置";
             this.label2.Click += new System.EventHandler(this.SwitchControl_Click);
             // 
             // panel2

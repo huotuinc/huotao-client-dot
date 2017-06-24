@@ -260,7 +260,7 @@ namespace HotTao.Controls
                 {
                     var bytes = HttpRequestService.GetNetWorkImageData(url);
                     if (bytes != null)
-                        SetQrCodeImage(Image.FromStream(new MemoryStream(bytes)));
+                        SetQrCodeImage(Image.FromStream(new MemoryStream(bytes)), false);
                     else
                         SetQrCodeImage(Resources.loading);
                 }
@@ -272,15 +272,19 @@ namespace HotTao.Controls
         /// 设置二维码
         /// </summary>
         /// <param name="image"></param>
-        public void SetQrCodeImage(Image image)
+        public void SetQrCodeImage(Image image, bool isCenterImage = true)
         {
             if (this.myQrCode.InvokeRequired)
             {
-                this.myQrCode.Invoke(new Action<Image>(SetQrCodeImage), new object[] { image });
+                this.myQrCode.Invoke(new Action<Image, bool>(SetQrCodeImage), new object[] { image, isCenterImage });
             }
             else
             {
                 myQrCode.Image = image;
+                if(!isCenterImage)
+                {
+                    myQrCode.SizeMode = PictureBoxSizeMode.StretchImage;
+                }
             }
         }
 

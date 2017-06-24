@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Data;
 using System.Net;
+using HOTReuestService;
 
 namespace HotTao.Controls
 {
@@ -38,6 +39,8 @@ namespace HotTao.Controls
         {
             if (MyUserInfo.currentUserId > 0)
             {
+                                
+               // HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常,"tesdt");               
 
                 if (MyUserInfo.sendmode == 1)
                 {

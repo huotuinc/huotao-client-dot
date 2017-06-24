@@ -588,6 +588,7 @@
     <EmbeddedResource Include="Resources\home.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\140x140.png" />
     <Content Include="Resources\config.png" />
     <Content Include="Resources\hot_128.ico" />
     <None Include="Resources\ht13x13.png" />

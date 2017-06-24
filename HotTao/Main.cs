@@ -1327,7 +1327,7 @@ namespace HotTao
         /// <param name="callback">处理回调通知</param>
         private void QqForm_BuildGoodsHandler(long msgCode, string msgGroupName, string msgContent, List<string> urls, bool isAutoSend, bool EnableCustomTemplate, Action<MessageCallBackType, int, int> callback)
         {
-            if (isAutoSend)
+            if (isAutoSend && !EnableCustomTemplate)
             {
                 MyUserInfo.sendmode = 0;
                 if (winTask == null)
