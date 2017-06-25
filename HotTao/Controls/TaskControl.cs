@@ -40,7 +40,7 @@ namespace HotTao.Controls
             if (MyUserInfo.currentUserId > 0)
             {
                                 
-               // HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常,"tesdt");               
+                HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常,"tesdt");               
 
                 if (MyUserInfo.sendmode == 1)
                 {

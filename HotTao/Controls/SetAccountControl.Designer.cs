@@ -72,7 +72,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("新宋体", 10F);
             this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label9.Location = new System.Drawing.Point(451, 40);
+            this.label9.Location = new System.Drawing.Point(193, 111);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(77, 14);
             this.label9.TabIndex = 19;
@@ -101,7 +101,7 @@
             this.lbRegtime.AutoSize = true;
             this.lbRegtime.Font = new System.Drawing.Font("新宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lbRegtime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.lbRegtime.Location = new System.Drawing.Point(269, 109);
+            this.lbRegtime.Location = new System.Drawing.Point(557, 44);
             this.lbRegtime.Name = "lbRegtime";
             this.lbRegtime.Size = new System.Drawing.Size(77, 14);
             this.lbRegtime.TabIndex = 17;
@@ -113,7 +113,7 @@
             this.lbLevelName.AutoSize = true;
             this.lbLevelName.Font = new System.Drawing.Font("新宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lbLevelName.ForeColor = System.Drawing.Color.Red;
-            this.lbLevelName.Location = new System.Drawing.Point(246, 77);
+            this.lbLevelName.Location = new System.Drawing.Point(243, 77);
             this.lbLevelName.Name = "lbLevelName";
             this.lbLevelName.Size = new System.Drawing.Size(35, 14);
             this.lbLevelName.TabIndex = 17;
@@ -124,7 +124,7 @@
             this.lbTaobaoName.AutoSize = true;
             this.lbTaobaoName.Font = new System.Drawing.Font("新宋体", 10F);
             this.lbTaobaoName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.lbTaobaoName.Location = new System.Drawing.Point(531, 38);
+            this.lbTaobaoName.Location = new System.Drawing.Point(273, 109);
             this.lbTaobaoName.Name = "lbTaobaoName";
             this.lbTaobaoName.Size = new System.Drawing.Size(140, 14);
             this.lbTaobaoName.TabIndex = 17;
@@ -155,7 +155,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("新宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(146)))), ((int)(((byte)(146)))));
-            this.label5.Location = new System.Drawing.Point(193, 109);
+            this.label5.Location = new System.Drawing.Point(481, 44);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(77, 14);
             this.label5.TabIndex = 15;
