@@ -1071,6 +1071,7 @@ namespace HotTao
                     goodsUrl = goodsUrl,
                     remark = "您还没登录阿里妈妈，请登录后重试!"
                 });
+                HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.阿里妈妈离线);
                 return;
             }
             LogRuningModel logData = new LogRuningModel()
@@ -1133,6 +1134,7 @@ namespace HotTao
                     {
                         logData.isError = true;
                         logData.remark = "请重新登录淘宝联盟后重试";
+                        HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.阿里妈妈离线);
                     }
                     else
                     {
@@ -1180,6 +1182,7 @@ namespace HotTao
                 logData.isError = true;
                 logData.logType = LogTypeOpts.未知;
                 logData.remark = "[" + goodsId + "]" + "获取佣金计划失败，请重新登录淘宝联盟！";
+                HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.阿里妈妈离线);
             }
 
             if (logRuningList.Exists(item => { return item.goodsid == logData.goodsid && item.logType == LogTypeOpts.申请高佣; }))

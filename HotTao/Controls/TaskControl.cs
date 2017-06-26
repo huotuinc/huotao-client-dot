@@ -39,9 +39,7 @@ namespace HotTao.Controls
         {
             if (MyUserInfo.currentUserId > 0)
             {
-                                
-                HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常,"tesdt");               
-
+                
                 if (MyUserInfo.sendmode == 1)
                 {
                     if (hotForm.wxlogin != null && hotForm.wxlogin.isStartTask)
@@ -52,8 +50,7 @@ namespace HotTao.Controls
                     if (hotForm.winTask != null && hotForm.winTask.isStartTask)
                         ShowStartButtonText("暂停计划");
                 }
-
-
+                
                 CurrentShowRowNumber = 1;
                 LoadGoodsGridView();
                 loadUserPidGridView();

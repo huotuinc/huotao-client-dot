@@ -116,7 +116,7 @@
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(226, 74);
             this.label29.TabIndex = 37;
-            this.label29.Text = "\r\n扫描二维码，关注“淘宝联盟”公众号\r\n\r\n实时监控发单异常情况";
+            this.label29.Text = "\r\n扫描二维码，关注“火淘联盟”公众号\r\n\r\n实时监控发单异常情况";
             // 
             // myQrCode
             // 
