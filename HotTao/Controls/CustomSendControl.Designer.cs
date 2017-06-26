@@ -29,8 +29,18 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.openFileImage = new System.Windows.Forms.OpenFileDialog();
+            this.openFileVideo = new System.Windows.Forms.OpenFileDialog();
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.hotGroupBox1 = new HotTao.Controls.module.HotGroupBox(this.components);
+            this.lbMsg = new System.Windows.Forms.Label();
+            this.lkbAllSelected = new System.Windows.Forms.LinkLabel();
+            this.lkbRefresh = new System.Windows.Forms.LinkLabel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lbWeChat = new System.Windows.Forms.ListBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnStartSend = new System.Windows.Forms.Button();
@@ -44,14 +54,20 @@
             this.txtTempText = new System.Windows.Forms.RichTextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.openFileImage = new System.Windows.Forms.OpenFileDialog();
-            this.openFileVideo = new System.Windows.Forms.OpenFileDialog();
             this.hotPanel1.SuspendLayout();
             this.hotGroupBox1.SuspendLayout();
             this.hotGroupBox4.SuspendLayout();
             this.hotGroupBox3.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // openFileImage
+            // 
+            this.openFileImage.Filter = "图像文件(*.jpg;*jpeg;*.png;*.bmp)|*.jpg;*jpeg;*.png;*.bmp";
+            // 
+            // openFileVideo
+            // 
+            this.openFileVideo.Filter = "MP4文件(*.mp4;*.gif)|*.mp4;*.gif";
             // 
             // hotPanel1
             // 
@@ -68,6 +84,14 @@
             // 
             this.hotGroupBox1.BorderColor = System.Drawing.Color.Gainsboro;
             this.hotGroupBox1.BorderTitleColor = System.Drawing.Color.Black;
+            this.hotGroupBox1.Controls.Add(this.lbMsg);
+            this.hotGroupBox1.Controls.Add(this.lkbAllSelected);
+            this.hotGroupBox1.Controls.Add(this.lkbRefresh);
+            this.hotGroupBox1.Controls.Add(this.label6);
+            this.hotGroupBox1.Controls.Add(this.lbWeChat);
+            this.hotGroupBox1.Controls.Add(this.label5);
+            this.hotGroupBox1.Controls.Add(this.label4);
+            this.hotGroupBox1.Controls.Add(this.label3);
             this.hotGroupBox1.Controls.Add(this.label2);
             this.hotGroupBox1.Controls.Add(this.label1);
             this.hotGroupBox1.Controls.Add(this.btnStartSend);
@@ -84,10 +108,88 @@
             this.hotGroupBox1.TabIndex = 34;
             this.hotGroupBox1.TabStop = false;
             // 
+            // lbMsg
+            // 
+            this.lbMsg.ForeColor = System.Drawing.Color.Red;
+            this.lbMsg.Location = new System.Drawing.Point(714, 452);
+            this.lbMsg.Name = "lbMsg";
+            this.lbMsg.Size = new System.Drawing.Size(180, 23);
+            this.lbMsg.TabIndex = 51;
+            this.lbMsg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lkbAllSelected
+            // 
+            this.lkbAllSelected.AutoSize = true;
+            this.lkbAllSelected.Location = new System.Drawing.Point(577, 401);
+            this.lkbAllSelected.Name = "lkbAllSelected";
+            this.lkbAllSelected.Size = new System.Drawing.Size(29, 12);
+            this.lkbAllSelected.TabIndex = 50;
+            this.lkbAllSelected.TabStop = true;
+            this.lkbAllSelected.Text = "全选";
+            this.lkbAllSelected.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lkbAllSelected_LinkClicked);
+            // 
+            // lkbRefresh
+            // 
+            this.lkbRefresh.AutoSize = true;
+            this.lkbRefresh.Location = new System.Drawing.Point(613, 401);
+            this.lkbRefresh.Name = "lkbRefresh";
+            this.lkbRefresh.Size = new System.Drawing.Size(29, 12);
+            this.lkbRefresh.TabIndex = 50;
+            this.lkbRefresh.TabStop = true;
+            this.lkbRefresh.Text = "刷新";
+            this.lkbRefresh.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lkbRefresh_LinkClicked);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(506, 401);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(65, 12);
+            this.label6.TabIndex = 49;
+            this.label6.Text = "微信群窗口";
+            // 
+            // lbWeChat
+            // 
+            this.lbWeChat.FormattingEnabled = true;
+            this.lbWeChat.ItemHeight = 12;
+            this.lbWeChat.Location = new System.Drawing.Point(507, 417);
+            this.lbWeChat.Name = "lbWeChat";
+            this.lbWeChat.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.lbWeChat.Size = new System.Drawing.Size(152, 172);
+            this.lbWeChat.Sorted = true;
+            this.lbWeChat.TabIndex = 48;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 567);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(185, 12);
+            this.label5.TabIndex = 47;
+            this.label5.Text = "发送顺序，文本内容》图片》视频";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(9, 543);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(197, 12);
+            this.label4.TabIndex = 47;
+            this.label4.Text = "发送目标当前拖出来的微信单独窗口";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(10, 520);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(185, 12);
+            this.label3.TabIndex = 47;
+            this.label3.Text = "自定义发送，如果为空，则不发。";
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(503, 479);
+            this.label2.Location = new System.Drawing.Point(458, 480);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 46;
@@ -96,7 +198,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(503, 417);
+            this.label1.Location = new System.Drawing.Point(458, 416);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(29, 12);
             this.label1.TabIndex = 46;
@@ -124,9 +226,9 @@
             this.hotGroupBox4.BorderColor = System.Drawing.Color.Gainsboro;
             this.hotGroupBox4.BorderTitleColor = System.Drawing.Color.Black;
             this.hotGroupBox4.Controls.Add(this.txtVideoPath);
-            this.hotGroupBox4.Location = new System.Drawing.Point(94, 461);
+            this.hotGroupBox4.Location = new System.Drawing.Point(94, 462);
             this.hotGroupBox4.Name = "hotGroupBox4";
-            this.hotGroupBox4.Size = new System.Drawing.Size(393, 40);
+            this.hotGroupBox4.Size = new System.Drawing.Size(356, 40);
             this.hotGroupBox4.TabIndex = 44;
             this.hotGroupBox4.TabStop = false;
             // 
@@ -140,7 +242,7 @@
             this.txtVideoPath.Multiline = false;
             this.txtVideoPath.Name = "txtVideoPath";
             this.txtVideoPath.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.txtVideoPath.Size = new System.Drawing.Size(387, 20);
+            this.txtVideoPath.Size = new System.Drawing.Size(350, 20);
             this.txtVideoPath.TabIndex = 26;
             this.txtVideoPath.Text = "";
             // 
@@ -150,9 +252,9 @@
             this.hotGroupBox3.BorderColor = System.Drawing.Color.Gainsboro;
             this.hotGroupBox3.BorderTitleColor = System.Drawing.Color.Black;
             this.hotGroupBox3.Controls.Add(this.txtPicPath);
-            this.hotGroupBox3.Location = new System.Drawing.Point(95, 400);
+            this.hotGroupBox3.Location = new System.Drawing.Point(95, 399);
             this.hotGroupBox3.Name = "hotGroupBox3";
-            this.hotGroupBox3.Size = new System.Drawing.Size(392, 40);
+            this.hotGroupBox3.Size = new System.Drawing.Size(355, 40);
             this.hotGroupBox3.TabIndex = 44;
             this.hotGroupBox3.TabStop = false;
             // 
@@ -167,7 +269,7 @@
             this.txtPicPath.Name = "txtPicPath";
             this.txtPicPath.ReadOnly = true;
             this.txtPicPath.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.txtPicPath.Size = new System.Drawing.Size(386, 20);
+            this.txtPicPath.Size = new System.Drawing.Size(349, 20);
             this.txtPicPath.TabIndex = 26;
             this.txtPicPath.Text = "";
             // 
@@ -256,14 +358,6 @@
             this.label11.TabIndex = 27;
             this.label11.Text = "自定义发送内容：";
             // 
-            // openFileImage
-            // 
-            this.openFileImage.Filter = "图像文件(*.jpg;*jpeg;*.png;*.bmp)|*.jpg;*jpeg;*.png;*.bmp";
-            // 
-            // openFileVideo
-            // 
-            this.openFileVideo.Filter = "MP4文件(*.mp4;*.gif)|*.mp4;*.gif";
-            // 
             // CustomSendControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -271,6 +365,7 @@
             this.Controls.Add(this.hotPanel1);
             this.Name = "CustomSendControl";
             this.Size = new System.Drawing.Size(920, 606);
+            this.Load += new System.EventHandler(this.CustomSendControl_Load);
             this.hotPanel1.ResumeLayout(false);
             this.hotGroupBox1.ResumeLayout(false);
             this.hotGroupBox1.PerformLayout();
@@ -300,5 +395,13 @@
         private System.Windows.Forms.Button btnStartSend;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ListBox lbWeChat;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.LinkLabel lkbRefresh;
+        private System.Windows.Forms.LinkLabel lkbAllSelected;
+        private System.Windows.Forms.Label lbMsg;
     }
 }

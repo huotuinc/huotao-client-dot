@@ -607,7 +607,6 @@ namespace QQLogin
                             item.Alias = aliasName;
                     });
 
-
                     cells["GroupTitle"].Value = aliasName + (it.isListen ? "(已监控)" : "");
                 }
                 else
@@ -621,6 +620,23 @@ namespace QQLogin
 
             }
 
+        }
+
+        private void ckbEnableCustomTemplate_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = sender as CheckBox;
+            if (cb.Checked)
+                ckbAutoSend.Checked = cb.Checked;
+            ckbAutoSend.Enabled = !cb.Checked;
+        }
+        /// <summary>
+        /// 清空数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolClearAll_Click(object sender, EventArgs e)
+        {
+            dgvMessageView.Rows.Clear();
         }
     }
 }

@@ -64,6 +64,38 @@ namespace HotTao.Controls
 
         private System.Threading.Thread thread { get; set; }
 
+
+
+        private void CustomSendControl_Load(object sender, EventArgs e)
+        {
+            if (MyUserInfo.currentUserId > 0)
+                ReloadWeChat();
+            else
+                hotForm.openControl(new LoginControl(hotForm));
+
+        }
+
+        /// <summary>
+        /// 加载微信窗口
+        /// </summary>
+        private void ReloadWeChat()
+        {
+            lbWeChat.Items.Clear();
+
+            List<WindowInfo> wins = WinApi.GetAllDesktopWindows();
+            if (wins == null || wins.Count() == 0)
+            {
+                return;
+            }
+            foreach (WindowInfo win in wins)
+            {
+                lbWeChat.Items.Add(win.szWindowName);
+            }
+        }
+
+        private List<string> selecctItems = new List<string>();
+        private bool Running = false;
+
         /// <summary>
         /// 开始发送
         /// </summary>
@@ -71,6 +103,13 @@ namespace HotTao.Controls
         /// <param name="e"></param>
         private void btnStartSend_Click(object sender, EventArgs e)
         {
+            if (Running)
+            {
+                MessageAlert alert = new MessageAlert("正在发送，请稍后...");
+                alert.StartPosition = FormStartPosition.CenterScreen;
+                alert.Show();
+                return;
+            }
             List<WindowInfo> wins = WinApi.GetAllDesktopWindows();
             if (wins == null || wins.Count() == 0)
             {
@@ -79,7 +118,18 @@ namespace HotTao.Controls
                 alert.Show();
                 return;
             }
-
+            selecctItems.Clear();
+            foreach (var item in lbWeChat.SelectedItems)
+            {
+                selecctItems.Add(item.ToString());
+            }
+            if (selecctItems.Count() == 0)
+            {
+                MessageAlert alert = new MessageAlert("请选择发送目标");
+                alert.StartPosition = FormStartPosition.CenterScreen;
+                alert.Show();
+                return;
+            }
             string PicFilePath = txtPicPath.Text;
             string VideoFilePath = txtVideoPath.Text;
             string sendText = txtTempText.Text;
@@ -89,11 +139,12 @@ namespace HotTao.Controls
                 thread.Abort();
                 thread = null;
             }
+            ShowAlert("正在发送，请稍后...");
+            Running = true;
             thread = new System.Threading.Thread(() =>
            {
                try
                {
-
                    //发送图片
                    SendFile(wins, PicFilePath);
 
@@ -102,6 +153,9 @@ namespace HotTao.Controls
 
                    //发送视频文件
                    SendFile(wins, VideoFilePath);
+
+                   ShowAlert("发送完成");
+                   Running = false;
                }
                catch (System.Threading.ThreadAbortException)
                {
@@ -115,6 +169,24 @@ namespace HotTao.Controls
             thread.TrySetApartmentState(System.Threading.ApartmentState.STA);
             thread.Start();
         }
+
+
+        private void ShowAlert(string text)
+        {
+            if (this.lbMsg.InvokeRequired)
+            {
+                this.lbMsg.Invoke(new Action<string>(ShowAlert), new object[] { text });
+            }
+            else
+            {
+                this.lbMsg.Text = text;
+            }
+        }
+
+
+
+
+
 
         /// <summary>
         /// 发送文件
@@ -130,12 +202,15 @@ namespace HotTao.Controls
 
             foreach (var win in wins)
             {
-                WinApi.SetActiveWin(win.hWnd);
-                System.Threading.Thread.Sleep(400);
-                WinApi.Paste(win.hWnd);
-                System.Threading.Thread.Sleep(400);
-                WinApi.Enter(win.hWnd);
-                System.Threading.Thread.Sleep(400);
+                if (selecctItems.Exists(t => { return win.szWindowName == t; }))
+                {
+                    WinApi.SetActiveWin(win.hWnd);
+                    System.Threading.Thread.Sleep(400);
+                    WinApi.Paste(win.hWnd);
+                    System.Threading.Thread.Sleep(400);
+                    WinApi.Enter(win.hWnd);
+                    System.Threading.Thread.Sleep(400);
+                }
             }
         }
 
@@ -151,12 +226,15 @@ namespace HotTao.Controls
             System.Threading.Thread.Sleep(1000);
             foreach (var win in wins)
             {
-                WinApi.SetActiveWin(win.hWnd);
-                System.Threading.Thread.Sleep(400);
-                WinApi.Paste(win.hWnd);
-                System.Threading.Thread.Sleep(300);
-                WinApi.Enter(win.hWnd);
-                System.Threading.Thread.Sleep(400);
+                if (selecctItems.Exists(t => { return win.szWindowName == t; }))
+                {
+                    WinApi.SetActiveWin(win.hWnd);
+                    System.Threading.Thread.Sleep(400);
+                    WinApi.Paste(win.hWnd);
+                    System.Threading.Thread.Sleep(300);
+                    WinApi.Enter(win.hWnd);
+                    System.Threading.Thread.Sleep(400);
+                }
             }
         }
 
@@ -171,6 +249,28 @@ namespace HotTao.Controls
             StringCollection sc = new StringCollection();
             sc.Add(path);
             Clipboard.SetFileDropList(sc);
+        }
+
+        /// <summary>
+        /// 刷新微信窗口
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lkbRefresh_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ReloadWeChat();
+        }
+        /// <summary>
+        /// 全部选择
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lkbAllSelected_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            for (int i = 0; i < lbWeChat.Items.Count; i++)
+            {
+                lbWeChat.SetSelected(i, true);
+            }
         }
     }
 }

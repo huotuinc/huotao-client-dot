@@ -55,6 +55,7 @@
             this.ckbEnableCustomTemplate = new System.Windows.Forms.CheckBox();
             this.ckbAutoSend = new System.Windows.Forms.CheckBox();
             this.hotGroupBox2 = new HotTaoControls.HotGroupBox(this.components);
+            this.picLoading = new System.Windows.Forms.PictureBox();
             this.dgvContact = new System.Windows.Forms.DataGridView();
             this.QQFace = new System.Windows.Forms.DataGridViewImageColumn();
             this.GroupGid = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -62,7 +63,6 @@
             this.cmsTools = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolAddListen = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsUpdateAlias = new System.Windows.Forms.ToolStripMenuItem();
-            this.picLoading = new System.Windows.Forms.PictureBox();
             this.hotGroupBox1 = new HotTaoControls.HotGroupBox(this.components);
             this.btnLogoutQQ = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -71,14 +71,15 @@
             this.lbQQAccount = new System.Windows.Forms.Label();
             this.picLogo = new System.Windows.Forms.PictureBox();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.toolClearAll = new System.Windows.Forms.ToolStripMenuItem();
             this.hotPanel1.SuspendLayout();
             this.hotGroupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMessageView)).BeginInit();
             this.cmsToolsResult.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picLoading)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContact)).BeginInit();
             this.cmsTools.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picLoading)).BeginInit();
             this.hotGroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.SuspendLayout();
@@ -244,15 +245,16 @@
             // cmsToolsResult
             // 
             this.cmsToolsResult.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolReSend});
+            this.toolReSend,
+            this.toolClearAll});
             this.cmsToolsResult.Name = "cmsToolsResult";
-            this.cmsToolsResult.Size = new System.Drawing.Size(125, 26);
+            this.cmsToolsResult.Size = new System.Drawing.Size(153, 70);
             this.cmsToolsResult.Opening += new System.ComponentModel.CancelEventHandler(this.cmsToolsResult_Opening);
             // 
             // toolReSend
             // 
             this.toolReSend.Name = "toolReSend";
-            this.toolReSend.Size = new System.Drawing.Size(124, 22);
+            this.toolReSend.Size = new System.Drawing.Size(152, 22);
             this.toolReSend.Text = "手动处理";
             this.toolReSend.Click += new System.EventHandler(this.toolReSend_Click);
             // 
@@ -265,6 +267,7 @@
             this.ckbEnableCustomTemplate.TabIndex = 16;
             this.ckbEnableCustomTemplate.Text = "启用QQ自定义文案";
             this.ckbEnableCustomTemplate.UseVisualStyleBackColor = true;
+            this.ckbEnableCustomTemplate.CheckedChanged += new System.EventHandler(this.ckbEnableCustomTemplate_CheckedChanged);
             // 
             // ckbAutoSend
             // 
@@ -289,6 +292,19 @@
             this.hotGroupBox2.TabIndex = 14;
             this.hotGroupBox2.TabStop = false;
             this.hotGroupBox2.Text = "QQ群";
+            // 
+            // picLoading
+            // 
+            this.picLoading.BackColor = System.Drawing.Color.Transparent;
+            this.picLoading.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picLoading.Image = global::QQLogin.Properties.Resources.loading;
+            this.picLoading.Location = new System.Drawing.Point(3, 17);
+            this.picLoading.Name = "picLoading";
+            this.picLoading.Size = new System.Drawing.Size(247, 576);
+            this.picLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picLoading.TabIndex = 14;
+            this.picLoading.TabStop = false;
+            this.picLoading.Visible = false;
             // 
             // dgvContact
             // 
@@ -382,19 +398,6 @@
             this.toolsUpdateAlias.Text = "修改别名";
             this.toolsUpdateAlias.Click += new System.EventHandler(this.toolsUpdateAlias_Click);
             // 
-            // picLoading
-            // 
-            this.picLoading.BackColor = System.Drawing.Color.Transparent;
-            this.picLoading.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picLoading.Image = global::QQLogin.Properties.Resources.loading;
-            this.picLoading.Location = new System.Drawing.Point(3, 17);
-            this.picLoading.Name = "picLoading";
-            this.picLoading.Size = new System.Drawing.Size(247, 576);
-            this.picLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picLoading.TabIndex = 14;
-            this.picLoading.TabStop = false;
-            this.picLoading.Visible = false;
-            // 
             // hotGroupBox1
             // 
             this.hotGroupBox1.BorderColor = System.Drawing.Color.Gainsboro;
@@ -483,6 +486,13 @@
             this.dataGridViewImageColumn1.ReadOnly = true;
             this.dataGridViewImageColumn1.Width = 50;
             // 
+            // toolClearAll
+            // 
+            this.toolClearAll.Name = "toolClearAll";
+            this.toolClearAll.Size = new System.Drawing.Size(152, 22);
+            this.toolClearAll.Text = "清空";
+            this.toolClearAll.Click += new System.EventHandler(this.toolClearAll_Click);
+            // 
             // QQMainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -497,9 +507,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvMessageView)).EndInit();
             this.cmsToolsResult.ResumeLayout(false);
             this.hotGroupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picLoading)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContact)).EndInit();
             this.cmsTools.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picLoading)).EndInit();
             this.hotGroupBox1.ResumeLayout(false);
             this.hotGroupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
@@ -542,5 +552,6 @@
         private System.Windows.Forms.CheckBox ckbEnableCustomTemplate;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripMenuItem toolsUpdateAlias;
+        private System.Windows.Forms.ToolStripMenuItem toolClearAll;
     }
 }

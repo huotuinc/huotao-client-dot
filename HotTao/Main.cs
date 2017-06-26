@@ -870,9 +870,9 @@ namespace HotTao
         {
             if (!loginSuccess)
             {
-                AlertConfirm("必须登录阿里妈妈才能使用软件,确定退出?", "退出提示", () =>
+                AlertConfirm("关闭将无法自动申请高佣,确定取消登录?", "退出提示", () =>
                 {
-                    this.Close();
+                    lw.HideWindow();
                 });
             }
             else
@@ -1086,6 +1086,12 @@ namespace HotTao
             try
             {
                 MyUserInfo.cookies = lw.GetCurrentCookies();
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                foreach (System.Net.Cookie item in MyUserInfo.cookies)
+                {
+                    sb.AppendLine(string.Format("{0}={1}", item.Name, item.Value));
+                }
+                log.Info(sb);
                 var tbToken = lw.GetTbToken();
                 string searchUrl = string.Format("http://pub.alimama.com/items/search.json?q={0}&_t={1}&auctionTag=&perPageSize=40&shopTag=&t={1}&_tb_token_={2}&pvid=", goodsUrl, getClientMsgId(), tbToken);
                 CookieContainer cookiesContainer = new CookieContainer();

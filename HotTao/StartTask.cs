@@ -421,7 +421,7 @@ namespace HotTao
                         if (imageResult.Contains(item.title))
                         {
                             //sendEmailNOtify(item.title, true);
-                            HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常,item.title);
+                            //HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常,item.title);
                             continue;
                         }
 
@@ -543,7 +543,7 @@ namespace HotTao
                     //如果当前微信已经发送，则结束本循环
                     if (textResult.Contains(item.title))
                     {
-                        HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常, item.title);
+                        //HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常, item.title);
                         continue;
                     }
                     wins = WinApi.GetAllDesktopWindows();

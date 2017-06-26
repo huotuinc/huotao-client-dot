@@ -79,11 +79,14 @@
             this.commissionRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.logStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.operation = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.cmsLog = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolClearAll = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTaskPlan)).BeginInit();
             this.panel2.SuspendLayout();
             this.cmsTask.SuspendLayout();
             this.hotPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLogView)).BeginInit();
+            this.cmsLog.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvTaskPlan
@@ -383,6 +386,7 @@
             this.commissionRate,
             this.logStatus,
             this.operation});
+            this.dgvLogView.ContextMenuStrip = this.cmsLog;
             this.dgvLogView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.dgvLogView.Location = new System.Drawing.Point(12, 48);
             this.dgvLogView.MultiSelect = false;
@@ -498,6 +502,20 @@
             this.operation.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.operation.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
+            // cmsLog
+            // 
+            this.cmsLog.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolClearAll});
+            this.cmsLog.Name = "cmsLog";
+            this.cmsLog.Size = new System.Drawing.Size(153, 48);
+            // 
+            // toolClearAll
+            // 
+            this.toolClearAll.Name = "toolClearAll";
+            this.toolClearAll.Size = new System.Drawing.Size(152, 22);
+            this.toolClearAll.Text = "清空日志";
+            this.toolClearAll.Click += new System.EventHandler(this.toolClearAll_Click);
+            // 
             // HistoryControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -515,6 +533,7 @@
             this.cmsTask.ResumeLayout(false);
             this.hotPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvLogView)).EndInit();
+            this.cmsLog.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -560,5 +579,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn commissionRate;
         private System.Windows.Forms.DataGridViewTextBoxColumn logStatus;
         private System.Windows.Forms.DataGridViewLinkColumn operation;
+        private System.Windows.Forms.ContextMenuStrip cmsLog;
+        private System.Windows.Forms.ToolStripMenuItem toolClearAll;
     }
 }

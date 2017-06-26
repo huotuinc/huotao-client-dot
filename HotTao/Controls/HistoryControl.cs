@@ -518,5 +518,10 @@ namespace HotTao.Controls
                 hotForm.ApplyPlan(goodsid, goodsName, goodsUrl);
             }
         }
+
+        private void toolClearAll_Click(object sender, EventArgs e)
+        {
+            dgvLogView.Rows.Clear();
+        }
     }
 }

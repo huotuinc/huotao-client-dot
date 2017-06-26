@@ -266,7 +266,7 @@ namespace iQQ.Net.WebQQCore.Im.Module
                         {
                             //   Context.Logger.LogInformation("获取个人信息成功");
                         }
-                    }).WhenFinalEvent();
+                    }).WhenFinalEvent();                    
                     var task4 = Context.GetModule<BuddyModule>(QQModuleType.BUDDY).GetOnlineBuddy((s, e) =>
                     {
                         if (e.Type == QQActionEventType.EvtOK)
@@ -275,10 +275,10 @@ namespace iQQ.Net.WebQQCore.Im.Module
                         }
                     }).WhenFinalEvent();
 
-                    
+
                     Task[] tasks = { task1, task2, task3, task4 };
-                    var r = Task.Factory.ContinueWhenAll(tasks, (t) => {});
-                    r.Wait(3000);                    
+                    var r = Task.Factory.ContinueWhenAny(tasks, (t) => { });
+                    //r.Wait(3000);                    
                     //Task.WhenAll(task1, task2, task3, task4)
                     DoPollMsg();
                 }
