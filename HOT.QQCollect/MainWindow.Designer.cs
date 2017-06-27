@@ -117,7 +117,7 @@
             this.Controls.Add(this.QQMainView);
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "面板";
+            this.Text = "QQ商品采集";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
             this.pHead.ResumeLayout(false);
