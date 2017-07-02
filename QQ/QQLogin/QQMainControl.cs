@@ -182,6 +182,12 @@ namespace QQLogin
                                   case MessageCallBackType.完成:
                                       text = string.Format("已完成");
                                       break;
+                                  case MessageCallBackType.未准备:
+                                      text = "未准备";
+                                      break;
+                                  case MessageCallBackType.失败:
+                                      text = "失败";
+                                      break;
                                   default:
                                       break;
                               }
@@ -542,7 +548,7 @@ namespace QQLogin
             else
             {
                 string MessageStatus = cells["MessageStatus"].Value.ToString();
-                if (!MessageStatus.Equals("未处理"))
+                if (!MessageStatus.Equals("未处理")|| !MessageStatus.Equals("失败"))
                     e.Cancel = true;
             }
         }

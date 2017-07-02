@@ -133,7 +133,7 @@ namespace HOT.QQCollect
                     data["message"] = msgContent;
                     list.Add(data);
 
-                    string jsonUrls = JsonConvert.SerializeObject(data);
+                    string jsonUrls = JsonConvert.SerializeObject(list);
 
                     callback?.Invoke(MessageCallBackType.正在准备, 0, 0);
                     //根据地址，获取商品优惠信息
@@ -142,11 +142,12 @@ namespace HOT.QQCollect
                     if (result)
                         callback?.Invoke(MessageCallBackType.完成, 0, 0);
                     else
-                        callback?.Invoke(MessageCallBackType.未准备, 0, 0);
+                        callback?.Invoke(MessageCallBackType.失败, 0, 0);
                 }
                 catch (Exception ex)
                 {
                     log.Error(ex);
+                    callback?.Invoke(MessageCallBackType.失败, 0, 0);
                 }
             }
         }
