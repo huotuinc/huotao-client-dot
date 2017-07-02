@@ -39,7 +39,7 @@ namespace HotTao.Controls
         {
             if (MyUserInfo.currentUserId > 0)
             {
-                
+
                 if (MyUserInfo.sendmode == 1)
                 {
                     if (hotForm.wxlogin != null && hotForm.wxlogin.isStartTask)
@@ -50,7 +50,7 @@ namespace HotTao.Controls
                     if (hotForm.winTask != null && hotForm.winTask.isStartTask)
                         ShowStartButtonText("暂停计划");
                 }
-                
+
                 CurrentShowRowNumber = 1;
                 LoadGoodsGridView();
                 loadUserPidGridView();
@@ -478,8 +478,11 @@ namespace HotTao.Controls
 
         private void btnAddWeChatGroup_Click(object sender, EventArgs e)
         {
+            Button btn = sender as Button;
+            int t = Convert.ToInt32(btn.Tag);
             AddWeChat add = new AddWeChat(hotForm, this);
-            add.Title = "添加微信群";
+            add.Title = "添加" + string.Format("{0}群", t == 1 ? "QQ" : "微信");
+            add.addType = t;
             add.ShowDialog(this);
         }
         /// <summary>
@@ -799,21 +802,21 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnWeChatWinGet_Click(object sender, EventArgs e)
         {
+            Button btn = sender as Button;
             bool isOk = false;
             MessageConfirm confirm = new MessageConfirm();
             confirm.Message = "请确保采集的群聊都单独拖出来";
             confirm.CallBack += () => { isOk = true; };
             confirm.ShowDialog(this);
             if (isOk)
-                GetWeChatWinHandler();
+                GetWeChatWinHandler(Convert.ToInt32(btn.Tag));
         }
         /// <summary>
         /// 采集微信聊天窗口
         /// </summary>
-        private void GetWeChatWinHandler()
+        private void GetWeChatWinHandler(int groupType)
         {
-
-            var wins = WinApi.GetAllDesktopWindows();
+            var wins = groupType == 0 ? WinApi.GetDesktopWeChatWindows() : WinApi.GetDesktopQQWindows();
             if (wins != null && wins.Count() > 0)
             {
                 Loading ld = new Loading();
@@ -824,7 +827,8 @@ namespace HotTao.Controls
                         LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserWeChatGroup(new SQLiteEntitysModel.weChatGroupModel()
                         {
                             title = win.szWindowName,
-                            userid = MyUserInfo.currentUserId
+                            userid = MyUserInfo.currentUserId,
+                            type = groupType
                         });
                     }
                     ld.CloseForm();
@@ -838,7 +842,7 @@ namespace HotTao.Controls
             }
             else
             {
-                ShowAlert("未找到微信窗口!");
+                ShowAlert("未找到聊天窗口!");
             }
         }
 
@@ -1189,12 +1193,14 @@ namespace HotTao.Controls
                     DataTable dt = new DataTable();
                     dt.Columns.Add("昵称", typeof(string));
                     dt.Columns.Add("PID", typeof(string));
+                    dt.Columns.Add("群类型", typeof(string));
                     DataRow newRow;
                     foreach (var item in groupData)
                     {
                         newRow = dt.NewRow();
                         newRow[0] = item.wechattitle;
                         newRow[1] = item.pid;
+                        newRow[2] = item.type;
                         dt.Rows.Add(newRow);
                     }
 

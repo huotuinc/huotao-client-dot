@@ -75,6 +75,11 @@ namespace HotTao.Controls
 
         public int CurrentRowIndex { get; set; }
 
+        /// <summary>
+        /// 0 微信，1QQ群
+        /// </summary>
+        public int addType { get; set; } = 0;
+
         public AddWeChat(Main main, TaskControl control)
         {
             InitializeComponent();
@@ -144,7 +149,7 @@ namespace HotTao.Controls
                 {
                     //data = LogicUser.Instance.UpdateUserWeChatTitle(MyUserInfo.LoginToken, editId, txtWeChatTitle.Text);
 
-                    if (LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserWeChatTitle(MyUserInfo.currentUserId, editId, groupTitle, groupPid))
+                    if (LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserWeChatTitle(editId, groupTitle, groupPid, addType))
                     {
                         data.pid = groupPid;
                         data.wechattitle = groupTitle;

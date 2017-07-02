@@ -251,7 +251,7 @@ namespace HotTao
             try
             {
                 //初始化用户本地数据库
-                string sourceFileName = System.Environment.CurrentDirectory + "\\data\\hottao.db";
+                string sourceFileName = System.Environment.CurrentDirectory + "\\data\\fdgs.db";
                 if (!System.IO.File.Exists(sourceFileName))
                 {
                     MessageAlert alert = new MessageAlert("系统初始化失败");
@@ -265,7 +265,7 @@ namespace HotTao
                 if (!System.IO.Directory.Exists(dbpath))
                     System.IO.Directory.CreateDirectory(dbpath);
 
-                dbpath += "\\hottao.db";
+                dbpath += "\\fdgs.db";
 
                 if (!System.IO.File.Exists(dbpath))
                 {

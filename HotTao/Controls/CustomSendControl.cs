@@ -82,7 +82,7 @@ namespace HotTao.Controls
         {
             lbWeChat.Items.Clear();
 
-            List<WindowInfo> wins = WinApi.GetAllDesktopWindows();
+            List<WindowInfo> wins = WinApi.GetDesktopWeChatWindows();
             if (wins == null || wins.Count() == 0)
             {
                 return;
@@ -110,7 +110,7 @@ namespace HotTao.Controls
                 alert.Show();
                 return;
             }
-            List<WindowInfo> wins = WinApi.GetAllDesktopWindows();
+            List<WindowInfo> wins = WinApi.GetDesktopWeChatWindows();
             if (wins == null || wins.Count() == 0)
             {
                 MessageAlert alert = new MessageAlert("未找到微信聊天窗口");

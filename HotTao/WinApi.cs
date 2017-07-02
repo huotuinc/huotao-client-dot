@@ -28,6 +28,10 @@ namespace HotTao
         public IntPtr hWnd;
         public string szWindowName;
         public string szClassName;
+        /// <summary>
+        /// 窗口类型,1表示QQ窗口句柄，0表示微信窗口句柄，目前就这两种，默认为0
+        /// </summary>
+        public int winType;
     }
 
     public struct My_lParam
@@ -427,7 +431,7 @@ namespace HotTao
         /// </summary>
         /// <param name="handle">The handle.</param>
         /// <param name="isRelease">是否释放Ctrl键</param>
-        public static void Paste(IntPtr handle, bool isRelease = false)
+        public static void Paste(IntPtr handle, bool isRelease = true)
         {
             keybd_event(Keys.LControlKey, 0, 0, 0);
             System.Threading.Thread.Sleep(50);
@@ -449,25 +453,68 @@ namespace HotTao
         /// 回车
         /// </summary>
         /// <param name="handle">The handle.</param>
-        public static void Enter(IntPtr handle)
+        /// <param name="isEnter">是否是Enter</param>
+        public static void Enter(IntPtr handle, bool isEnter = false)
         {
-            //回车Alt+S
-            SendMessage(handle, 0x0104, 0x12, 0x20380001); // Mouse button down 
-            SendMessage(handle, 0x0106, 83, 0x201F0001);
-            SendMessage(handle, 0x0104, 0x53, 0x201F0001);
+            if (!isEnter)
+            {
+                //回车Alt+S
+                SendMessage(handle, 0x0104, 0x12, 0x20380001);
+                SendMessage(handle, 0x0106, 83, 0x201F0001);
+                SendMessage(handle, 0x0104, 0x53, 0x201F0001);
+
+            }
+            else
+            {
+                SendMessage(handle, 0x0100, 0x0D, 0x001C0001);
+                SendMessage(handle, 0x0102, 13, 0x001C0001);
+                SendMessage(handle, 0x0101, 0x0D, 0xC01C0001);
+            }
             //释放ctrl
-            ReleaseControlKey();
+            //ReleaseControlKey();
         }
+
 
 
 
         /// <summary>
         /// 寻找系统的全部窗口
         /// </summary>
-        /// <param name="classname">ChatWnd</param>
+        /// <param name="classname">微信：ChatWnd，QQ：TXGuiFoundation，如果为空，则视为全部</param>
         /// <returns>List&lt;WindowInfo&gt;.</returns>
-        public static List<WindowInfo> GetAllDesktopWindows(string classname = "ChatWnd")
+        public static List<WindowInfo> GetAllDesktopWindows()
         {
+            List<WindowInfo> wndList = new List<WindowInfo>();
+            EnumWindows(delegate (IntPtr hWin, int p)
+            {
+                StringBuilder sb = new StringBuilder(256);
+                GetClassName(hWin, sb, sb.Capacity);
+                if (sb.ToString().Equals("ChatWnd")|| sb.ToString().Equals("TXGuiFoundation"))
+                {
+                    WindowInfo wnd = new WindowInfo();
+                    wnd.hWnd = hWin;
+                    wnd.winType = sb.ToString().Equals("TXGuiFoundation") ? 1 : 0;
+                    wnd.szClassName = sb.ToString();
+                    GetWindowText(hWin, sb, sb.Capacity);
+                    wnd.szWindowName = sb.ToString();
+                    if (string.IsNullOrEmpty(wnd.szWindowName) || wnd.szWindowName.Contains("TXMenuWindow") || wnd.szWindowName.Contains("QQ") || wnd.szWindowName.Contains("TIM"))
+                        return true;
+
+                    if (!wndList.Exists(item => { return item.szWindowName == wnd.szWindowName && item.winType == wnd.winType; }))
+                        wndList.Add(wnd);
+                }
+                return true;
+            }, 0);
+            return wndList;
+        }
+
+        /// <summary>
+        /// 获取桌面QQ窗口
+        /// </summary>
+        /// <returns></returns>
+        public static List<WindowInfo> GetDesktopQQWindows()
+        {
+            string classname = "TXGuiFoundation";
             List<WindowInfo> wndList = new List<WindowInfo>();
             EnumWindows(delegate (IntPtr hWin, int p)
             {
@@ -477,9 +524,44 @@ namespace HotTao
                 {
                     WindowInfo wnd = new WindowInfo();
                     wnd.hWnd = hWin;
+                    wnd.winType = 1;
                     wnd.szClassName = sb.ToString();
                     GetWindowText(hWin, sb, sb.Capacity);
                     wnd.szWindowName = sb.ToString();
+
+                    if (string.IsNullOrEmpty(wnd.szWindowName) || wnd.szWindowName.Contains("TXMenuWindow") || wnd.szWindowName.Contains("QQ") || wnd.szWindowName.Contains("TIM"))
+                        return true;
+
+                    if (!wndList.Exists(item => { return item.szWindowName == wnd.szWindowName; }))
+                        wndList.Add(wnd);
+                }
+                return true;
+            }, 0);
+            return wndList;
+        }
+        /// <summary>
+        /// 获取桌面微信窗口
+        /// </summary>
+        /// <returns></returns>
+        public static List<WindowInfo> GetDesktopWeChatWindows()
+        {
+            string classname = "ChatWnd";
+            List<WindowInfo> wndList = new List<WindowInfo>();
+            EnumWindows(delegate (IntPtr hWin, int p)
+            {
+                StringBuilder sb = new StringBuilder(256);
+                GetClassName(hWin, sb, sb.Capacity);
+                if (classname == sb.ToString())
+                {
+                    WindowInfo wnd = new WindowInfo();
+                    wnd.hWnd = hWin;
+                    wnd.winType = 0;
+                    wnd.szClassName = sb.ToString();
+                    GetWindowText(hWin, sb, sb.Capacity);
+                    wnd.szWindowName = sb.ToString();
+
+                    if (string.IsNullOrEmpty(wnd.szWindowName))
+                        return true;
 
                     if (!wndList.Exists(item => { return item.szWindowName == wnd.szWindowName; }))
                         wndList.Add(wnd);
@@ -563,7 +645,7 @@ namespace HotTao
         //无标题窗体右键菜单
         private const int WS_SYSMENU = 0x00080000; // 系统菜单
         private const int WS_MINIMIZEBOX = 0x20000; // 最大最小化按钮
-        
+
         //下面几个是设置窗口阴影
         private const int CS_DropSHADOW = 0x20000;
         private const int GCL_STYLE = (-26);

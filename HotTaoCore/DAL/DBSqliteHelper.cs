@@ -28,13 +28,13 @@ namespace HotTaoCore.DAL
 
         private string connStr = "";
 
-        private static string _connStrLogin = "Data Source=" + System.Environment.CurrentDirectory + "\\data\\0\\hottao.db;Version=3;Pooling=true";
+        private static string _connStrLogin = "Data Source=" + System.Environment.CurrentDirectory + "\\data\\0\\fdgs.db;Version=3;Pooling=true";
 
         private static SQLiteConnection conn;
 
         public DBSqliteHelper(int userid)
         {
-            connStr = "Data Source=" + System.Environment.CurrentDirectory + "\\data\\" + userid.ToString() + "\\hottao.db;Version=3;Pooling=true";
+            connStr = "Data Source=" + System.Environment.CurrentDirectory + "\\data\\" + userid.ToString() + "\\fdgs.db;Version=3;Pooling=true";
             if (userid > 0)
             {
                 conn = new SQLiteConnection(connStr);

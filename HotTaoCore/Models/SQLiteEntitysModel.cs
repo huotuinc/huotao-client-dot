@@ -46,6 +46,23 @@ namespace HotTaoCore.Models
             public string title { get; set; }
 
             public string pid { get; set; }
+
+            /// <summary>
+            /// 群类型 0微信，1QQ
+            /// </summary>
+            public int type { get; set; }
+
+
+
+            public string field1 { get; set; }
+            public string field2 { get; set; }
+            public string field3 { get; set; }
+            public string field4 { get; set; }
+            public string field5 { get; set; }
+
+            public int field6 { get; set; }
+
+            public int field7 { get; set; }
         }
 
 

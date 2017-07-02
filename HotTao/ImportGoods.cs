@@ -185,19 +185,21 @@ namespace HotTao
                 try
                 {
                     List<UserPidModel> data = new List<UserPidModel>();
+
                     foreach (DataRow row in dt.Rows)
                     {
                         var model = new SQLiteEntitysModel.weChatGroupModel()
                         {
                             title = row[0].ToString(),
                             pid = row[1].ToString(),
+                            type = dt.Columns.Count > 2 ? Convert.ToInt32(row[2].ToString()) : 0,
                             userid = MyUserInfo.currentUserId
                         };
                         int flag = LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserWeChatGroup(model);
                         if (flag > 0)
-                            SetText("微信群：" + model.title + "导入成功...");
+                            SetText(model.type == 1 ? "QQ" : "微信" + "群：" + model.title + "导入成功...");
                         else
-                            SetText("微信群：" + model.title + "导入失败...");
+                            SetText(model.type == 1 ? "QQ" : "微信" + "群：" + model.title + "导入失败...");
                     }
                 }
                 catch (Exception ex)

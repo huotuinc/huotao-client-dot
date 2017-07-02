@@ -84,17 +84,18 @@ namespace HotTaoCore.DAL
             string strSql = "";
             long id = 0;
             if (data == null)
-                strSql = @"INSERT INTO user_wechat_group (userid,title,pid) VALUES(@userid,@title,@pid);select last_insert_rowid(); ";
+                strSql = @"INSERT INTO user_wechat_group (userid,title,pid,type) VALUES(@userid,@title,@pid,@type);select last_insert_rowid(); ";
             else
             {
                 id = data.id;
-                strSql = @"UPDATE user_wechat_group SET title=@title, pid =@pid WHERE id = @id and userid=@userid;";
+                strSql = @"UPDATE user_wechat_group SET title=@title, pid =@pid,type=@type WHERE id = @id and userid=@userid;";
             }
 
             var param = new[] {
                     new SQLiteParameter("@userid",model.userid),
                     new SQLiteParameter("@title",model.title),
                     new SQLiteParameter("@pid",model.pid),
+                    new SQLiteParameter("@type",model.type),
                     new SQLiteParameter("@id",id)
                 };
             return DBHelper.ExecuteSql(strSql, param);
@@ -107,11 +108,12 @@ namespace HotTaoCore.DAL
         /// <returns>true if XXXX, false otherwise.</returns>
         public bool UpdateUserWeChatGroup(weChatGroupModel model)
         {
-            string strSql = @"UPDATE user_wechat_group SET title=@title, pid =@pid WHERE id = @id and userid=@userid;";
+            string strSql = @"UPDATE user_wechat_group SET title=@title, pid =@pid,type=@type WHERE id = @id and userid=@userid;";
             var param = new[] {
                     new SQLiteParameter("@userid",model.userid),
                     new SQLiteParameter("@title",model.title),
                     new SQLiteParameter("@pid",model.pid),
+                    new SQLiteParameter("@type",model.type),
                     new SQLiteParameter("@id",model.id)
                 };
             return DBHelper.ExecuteSql(strSql, param) > 0;
@@ -181,7 +183,7 @@ namespace HotTaoCore.DAL
         /// <returns>List&lt;weChatGroupModel&gt;.</returns>
         public List<weChatGroupModel> GetUserWeChatGroupListByUserId(int userid)
         {
-            string strSql = @"select id,userid,title,pid from user_wechat_group where userid=@userid;";
+            string strSql = @"select id,userid,title,pid,type from user_wechat_group where userid=@userid;";
             var param = new[] {
                 new SQLiteParameter("@userid",userid),
             };

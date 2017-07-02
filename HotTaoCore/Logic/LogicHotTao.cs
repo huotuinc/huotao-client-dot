@@ -29,6 +29,8 @@ namespace HotTaoCore.Logic
 
         private static HotTaoDAL lnDal = new HotTaoDAL(0);
 
+        private static int currentUserId { get; set; }
+
         private LogicHotTao()
         {
 
@@ -36,6 +38,7 @@ namespace HotTaoCore.Logic
 
         public static LogicHotTao Instance(int userid)
         {
+            currentUserId = userid;
             if (_instance == null)
                 _instance = new LogicHotTao();
             if (dal == null && userid > 0)
@@ -83,14 +86,15 @@ namespace HotTaoCore.Logic
             return dal.UpdateUserWeChatGroup(groupid, pid);
         }
 
-        public bool UpdateUserWeChatTitle(int userid, int groupid, string title, string pid)
+        public bool UpdateUserWeChatTitle(int groupid, string title, string pid, int groupType)
         {
             weChatGroupModel model = new weChatGroupModel()
             {
                 id = groupid,
                 pid = pid,
                 title = title,
-                userid = userid
+                userid = currentUserId,
+                type = groupType
             };
             if (groupid > 0)
                 return UpdateUserWeChatGroup(model);
@@ -155,7 +159,8 @@ namespace HotTaoCore.Logic
                         id = Convert.ToInt32(item.id),
                         pid = item.pid,
                         wechattitle = item.title,
-                        userid = userid
+                        userid = userid,
+                        type = item.type
                     });
                 });
             }

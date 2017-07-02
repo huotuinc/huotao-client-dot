@@ -41,6 +41,7 @@
             this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.txtWeChatTitle = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.hotPanel1.SuspendLayout();
             this.panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
@@ -52,6 +53,7 @@
             // 
             this.hotPanel1.BackColor = System.Drawing.Color.White;
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Controls.Add(this.label3);
             this.hotPanel1.Controls.Add(this.panel7);
             this.hotPanel1.Controls.Add(this.label2);
             this.hotPanel1.Controls.Add(this.label1);
@@ -61,7 +63,7 @@
             this.hotPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.hotPanel1.Location = new System.Drawing.Point(0, 0);
             this.hotPanel1.Name = "hotPanel1";
-            this.hotPanel1.Size = new System.Drawing.Size(284, 153);
+            this.hotPanel1.Size = new System.Drawing.Size(284, 180);
             this.hotPanel1.TabIndex = 14;
             // 
             // panel7
@@ -173,13 +175,23 @@
             this.btnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(93, 110);
+            this.btnSave.Location = new System.Drawing.Point(61, 118);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(94, 32);
+            this.btnSave.Size = new System.Drawing.Size(164, 32);
             this.btnSave.TabIndex = 8;
             this.btnSave.Text = "保存";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.Red;
+            this.label3.Location = new System.Drawing.Point(68, 159);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(149, 12);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "请确保群标题不要出现重复";
             // 
             // AddWeChat
             // 
@@ -187,7 +199,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ClientSize = new System.Drawing.Size(284, 153);
+            this.ClientSize = new System.Drawing.Size(284, 180);
             this.Controls.Add(this.hotPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -222,5 +234,6 @@
         private System.Windows.Forms.Label label2;
         private module.HotGroupBox hotGroupBox1;
         private System.Windows.Forms.TextBox txtPid;
+        private System.Windows.Forms.Label label3;
     }
 }

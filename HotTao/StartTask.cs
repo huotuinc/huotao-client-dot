@@ -355,7 +355,7 @@ namespace HotTao
                 if (isSendImage)
                 {
                     //复制文件
-                    CopyFileToClipboard(goods.goodslocatImgPath);
+                    //CopyFileToClipboard(goods.goodslocatImgPath);
                     SendImage(image, shareData, wins, true);
                     SendText(shareData, wins, true);
                 }
@@ -363,7 +363,7 @@ namespace HotTao
                 {
                     SendText(shareData, wins, false);
                     //复制文件
-                    CopyFileToClipboard(goods.goodslocatImgPath);
+                    //CopyFileToClipboard(goods.goodslocatImgPath);
                     SendImage(image, shareData, wins, false);
                 }
 
@@ -404,24 +404,21 @@ namespace HotTao
         {
             if (image != null)
             {
-                // Clipboard.SetImage(image);
-                //System.Threading.Thread.Sleep(1000);
-
+                if (!sendVideo)
+                    Clipboard.SetImage(image);
                 //粘贴图片       
                 foreach (var item in shareData)
                 {
                     try
                     {
                         if (!isStartTask || MyUserInfo.currentUserId == 0)
-                        {                            
+                        {
                             break;
                         }
 
                         //如果当前微信已经发送，则结束本循环
                         if (imageResult.Contains(item.title))
                         {
-                            //sendEmailNOtify(item.title, true);
-                            //HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常,item.title);
                             continue;
                         }
 
@@ -436,15 +433,17 @@ namespace HotTao
                         if (b)
                         {
                             var win = wins.Find(w => { return w.szWindowName == item.title; });
-                            WinApi.SetActiveWin(win.hWnd);
-                            System.Threading.Thread.Sleep(100);
-                            WinApi.Paste(win.hWnd);
-                            System.Threading.Thread.Sleep(100);
-                            WinApi.Enter(win.hWnd);
-                            SleepImage(0.5m);
-                            if (!sendVideo && !imageResult.Contains(item.title))
-                                imageResult.Add(item.title);
-
+                            if (win.winType == 0)
+                            {
+                                WinApi.SetActiveWin(win.hWnd);
+                                System.Threading.Thread.Sleep(100);
+                                WinApi.Paste(win.hWnd);
+                                System.Threading.Thread.Sleep(100);
+                                WinApi.Enter(win.hWnd, win.winType == 1);
+                                SleepImage(0.5m);
+                                if (!sendVideo && !imageResult.Contains(item.title))
+                                    imageResult.Add(item.title);
+                            }
                             if (!isImageText)
                             {
                                 //更新修改状态
@@ -562,7 +561,7 @@ namespace HotTao
                         System.Threading.Thread.Sleep(400);
                         WinApi.Paste(win.hWnd);
                         System.Threading.Thread.Sleep(300);
-                        WinApi.Enter(win.hWnd);
+                        WinApi.Enter(win.hWnd, win.winType == 1);
                         SleepImage(0.5m);
                         // Clipboard.Clear();
                         if (!textResult.Contains(item.title))
@@ -621,7 +620,7 @@ namespace HotTao
             })
             { IsBackground = true }.Start();
         }
-        
+
         /// <summary>
         /// 暂停休息一下
         /// </summary>
