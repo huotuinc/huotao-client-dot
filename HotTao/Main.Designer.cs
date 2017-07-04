@@ -38,6 +38,9 @@
             this.panel6 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.btnCustomService = new System.Windows.Forms.PictureBox();
+            this.panelCustom = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelHelp = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.pbHelp = new System.Windows.Forms.PictureBox();
@@ -55,9 +58,6 @@
             this.btnHome = new System.Windows.Forms.PictureBox();
             this.toolTipText = new System.Windows.Forms.ToolTip(this.components);
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
-            this.panelCustom = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.HotContainer)).BeginInit();
             this.HotContainer.Panel1.SuspendLayout();
             this.HotContainer.SuspendLayout();
@@ -67,6 +67,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbMin)).BeginInit();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnCustomService)).BeginInit();
+            this.panelCustom.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelHelp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).BeginInit();
             this.panel4.SuspendLayout();
@@ -78,8 +80,6 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnHome)).BeginInit();
             this.hotPanel1.SuspendLayout();
-            this.panelCustom.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // HotContainer
@@ -200,6 +200,43 @@
             this.btnCustomService.TabStop = false;
             this.toolTipText.SetToolTip(this.btnCustomService, "客服");
             this.btnCustomService.Click += new System.EventHandler(this.btnCustomService_Click);
+            // 
+            // panelCustom
+            // 
+            this.panelCustom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
+            this.panelCustom.Controls.Add(this.label7);
+            this.panelCustom.Controls.Add(this.pictureBox1);
+            this.panelCustom.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.panelCustom.Location = new System.Drawing.Point(624, 0);
+            this.panelCustom.Name = "panelCustom";
+            this.panelCustom.Size = new System.Drawing.Size(83, 113);
+            this.panelCustom.TabIndex = 1;
+            this.panelCustom.Visible = false;
+            this.panelCustom.Click += new System.EventHandler(this.pbCustom_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(10, 80);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(65, 12);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "自定义发送";
+            this.label7.Click += new System.EventHandler(this.pbCustom_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::HotTao.Properties.Resources.icon_05;
+            this.pictureBox1.Location = new System.Drawing.Point(16, 25);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pbCustom_Click);
             // 
             // panelHelp
             // 
@@ -333,11 +370,11 @@
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(15, 80);
+            this.label2.Location = new System.Drawing.Point(8, 80);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.Size = new System.Drawing.Size(71, 12);
             this.label2.TabIndex = 1;
-            this.label2.Text = "微信群发";
+            this.label2.Text = "QQ/微信群发";
             this.label2.Click += new System.EventHandler(this.btnWeChat_Click);
             // 
             // btnWeChat
@@ -402,43 +439,6 @@
             this.hotPanel1.Size = new System.Drawing.Size(920, 720);
             this.hotPanel1.TabIndex = 1;
             // 
-            // panelCustom
-            // 
-            this.panelCustom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
-            this.panelCustom.Controls.Add(this.label7);
-            this.panelCustom.Controls.Add(this.pictureBox1);
-            this.panelCustom.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.panelCustom.Location = new System.Drawing.Point(624, 0);
-            this.panelCustom.Name = "panelCustom";
-            this.panelCustom.Size = new System.Drawing.Size(83, 113);
-            this.panelCustom.TabIndex = 1;
-            this.panelCustom.Visible = false;
-            this.panelCustom.Click += new System.EventHandler(this.pbCustom_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(10, 80);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(65, 12);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "自定义发送";
-            this.label7.Click += new System.EventHandler(this.pbCustom_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = global::HotTao.Properties.Resources.icon_05;
-            this.pictureBox1.Location = new System.Drawing.Point(16, 25);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pbCustom_Click);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -465,6 +465,9 @@
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnCustomService)).EndInit();
+            this.panelCustom.ResumeLayout(false);
+            this.panelCustom.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelHelp.ResumeLayout(false);
             this.panelHelp.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHelp)).EndInit();
@@ -481,9 +484,6 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnHome)).EndInit();
             this.hotPanel1.ResumeLayout(false);
-            this.panelCustom.ResumeLayout(false);
-            this.panelCustom.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

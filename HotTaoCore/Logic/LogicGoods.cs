@@ -155,7 +155,7 @@ namespace HotTaoCore.Logic
                     }
                     else
                     {
-                        LogicHotTao.Instance(userid).DeleteGoodsByGoodsid(goodsid);
+                        //LogicHotTao.Instance(userid).DeleteGoodsByGoodsid(goodsid);
                     }
 
                 }

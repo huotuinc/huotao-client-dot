@@ -83,7 +83,7 @@ namespace iQQ.Net.WebQQCore.Im.Service
 #endif
                 var httpRequest = GetHttpRequest(request);
                 var result1 = _httpClient.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, token);
-                result1.Wait();
+                //result1.Wait(3000);
                 var result = result1.Result;
 #if DEBUG                   
                 if (request.RawUrl == QQConstants.URL_ROBOT_TULING)
@@ -108,21 +108,21 @@ namespace iQQ.Net.WebQQCore.Im.Service
                     case ResponseResultType.String:
                         {
                             var r = result.Content.ReadAsStringAsync();
-                            r.Wait();
+                            //r.Wait();
                             response.ResponseString = r.Result; // await result.Content.ReadAsStringAsync().ConfigureAwait(false);
                             break;
                         }
                     case ResponseResultType.Byte:
                         {
                             var r = result.Content.ReadAsByteArrayAsync();
-                            r.Wait();
+                            //r.Wait();
                             response.ResponseBytes = r.Result;// await result.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
                             break;
                         }
                     case ResponseResultType.Stream:
                         {
                             var r = result.Content.ReadAsByteArrayAsync();
-                            r.Wait();
+                            //r.Wait();
                             response.ResponseStream = new MemoryStream(r.Result);//await result.Content.ReadAsByteArrayAsync().ConfigureAwait(false)
                             break;
                         }

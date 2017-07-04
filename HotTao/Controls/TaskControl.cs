@@ -395,7 +395,7 @@ namespace HotTao.Controls
             }
             if (pidList.Count() == 0)
             {
-                ShowAlert("请先选择微信群");
+                ShowAlert("请先选择群");
                 return;
             }
             if (goodsidList.Count() == 0)

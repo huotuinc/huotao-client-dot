@@ -29,7 +29,7 @@ namespace HotTaoCore.Logic
 
         private static HotTaoDAL lnDal = new HotTaoDAL(0);
 
-        private static int currentUserId { get; set; }
+        private static int uid { get; set; }
 
         private LogicHotTao()
         {
@@ -38,7 +38,7 @@ namespace HotTaoCore.Logic
 
         public static LogicHotTao Instance(int userid)
         {
-            currentUserId = userid;
+            uid = userid;
             if (_instance == null)
                 _instance = new LogicHotTao();
             if (dal == null && userid > 0)
@@ -93,7 +93,7 @@ namespace HotTaoCore.Logic
                 id = groupid,
                 pid = pid,
                 title = title,
-                userid = currentUserId,
+                userid = uid,
                 type = groupType
             };
             if (groupid > 0)

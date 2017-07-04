@@ -489,7 +489,7 @@ namespace HotTao
             {
                 StringBuilder sb = new StringBuilder(256);
                 GetClassName(hWin, sb, sb.Capacity);
-                if (sb.ToString().Equals("ChatWnd")|| sb.ToString().Equals("TXGuiFoundation"))
+                if (sb.ToString().Equals("ChatWnd") || sb.ToString().Equals("TXGuiFoundation"))
                 {
                     WindowInfo wnd = new WindowInfo();
                     wnd.hWnd = hWin;
@@ -497,7 +497,7 @@ namespace HotTao
                     wnd.szClassName = sb.ToString();
                     GetWindowText(hWin, sb, sb.Capacity);
                     wnd.szWindowName = sb.ToString();
-                    if (string.IsNullOrEmpty(wnd.szWindowName) || wnd.szWindowName.Contains("TXMenuWindow") || wnd.szWindowName.Contains("QQ") || wnd.szWindowName.Contains("TIM"))
+                    if (filterWindow(wnd.szWindowName, wnd.winType == 1))
                         return true;
 
                     if (!wndList.Exists(item => { return item.szWindowName == wnd.szWindowName && item.winType == wnd.winType; }))
@@ -506,6 +506,35 @@ namespace HotTao
                 return true;
             }, 0);
             return wndList;
+        }
+
+        /// <summary>
+        /// 过滤部分窗口名称
+        /// </summary>
+        /// <param name="windowName"></param>
+        /// <returns></returns>
+        private static bool filterWindow(string windowName, bool isQQWindow)
+        {
+            if (string.IsNullOrEmpty(windowName))
+                return true;
+            //如果不是QQ窗口,则直接返回
+            if (!isQQWindow)
+                return false;
+            if (windowName.Contains("TXMenuWindow"))
+                return true;
+            if (windowName.Contains("QQ"))
+                return true;
+            if (windowName.Contains("TIM"))
+                return true;
+            if (windowName.Contains("实时加速工具"))
+                return true;
+            if (windowName.Contains("加速小火箭"))
+                return true;
+            if (windowName.Contains("小火箭通用加速"))
+                return true;
+            if (windowName.Contains("登陆电脑管家"))
+                return true;
+            return false;
         }
 
         /// <summary>
@@ -529,9 +558,8 @@ namespace HotTao
                     GetWindowText(hWin, sb, sb.Capacity);
                     wnd.szWindowName = sb.ToString();
 
-                    if (string.IsNullOrEmpty(wnd.szWindowName) || wnd.szWindowName.Contains("TXMenuWindow") || wnd.szWindowName.Contains("QQ") || wnd.szWindowName.Contains("TIM"))
+                    if (filterWindow(wnd.szWindowName, wnd.winType == 1))
                         return true;
-
                     if (!wndList.Exists(item => { return item.szWindowName == wnd.szWindowName; }))
                         wndList.Add(wnd);
                 }
@@ -560,7 +588,7 @@ namespace HotTao
                     GetWindowText(hWin, sb, sb.Capacity);
                     wnd.szWindowName = sb.ToString();
 
-                    if (string.IsNullOrEmpty(wnd.szWindowName))
+                    if (filterWindow(wnd.szWindowName, wnd.winType == 1))
                         return true;
 
                     if (!wndList.Exists(item => { return item.szWindowName == wnd.szWindowName; }))
