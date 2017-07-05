@@ -146,7 +146,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(65, 12);
             this.label6.TabIndex = 49;
-            this.label6.Text = "微信群窗口";
+            this.label6.Text = "群窗口列表";
             // 
             // lbWeChat
             // 

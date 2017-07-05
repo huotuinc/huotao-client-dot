@@ -114,7 +114,7 @@ namespace HOT.QQCollect
         /// <param name="isAutoSend"></param>
         /// <param name="EnableCustomTemplate"></param>
         /// <param name="callback"></param>
-        private void QqForm_BuildGoodsHandler(long msgCode, string msgGroupName, string msgContent, List<string> urls, bool isAutoSend, bool EnableCustomTemplate, Action<MessageCallBackType, int, int> callback)
+        private void QqForm_BuildGoodsHandler(long msgCode, string msgGroupName, string msgContent, string msgFullContent, List<string> urls, bool isAutoSend, bool EnableCustomTemplate, Action<MessageCallBackType, int, int> callback)
         {
             lock (lock_goods)
             {
@@ -130,7 +130,7 @@ namespace HOT.QQCollect
                         data["url2"] = urls[1];
                     else
                         data["url2"] = "";
-                    data["message"] = msgContent;
+                    data["message"] = msgFullContent;
                     list.Add(data);
 
                     string jsonUrls = JsonConvert.SerializeObject(list);

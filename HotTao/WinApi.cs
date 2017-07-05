@@ -530,11 +530,15 @@ namespace HotTao
                 return true;
             if (windowName.Equals("加速小火箭"))
                 return true;
-            if (windowName.Equals("小火箭通用加速")|| windowName.Equals("小火箭托盘加速"))
+            if (windowName.Equals("小火箭通用加速") || windowName.Equals("小火箭托盘加速"))
                 return true;
-            if (windowName.Equals("登录电脑管家")|| windowName.Contains("网络流量管理"))
+            if (windowName.Equals("登录电脑管家") || windowName.Contains("网络流量管理"))
                 return true;
             if (windowName.Equals("腾讯网迷你版"))
+                return true;
+            if (windowName.Contains("Attention - Charlie Puth") || windowName.Contains("Attention") || windowName.Contains("Charlie Puth"))
+                return true;
+            if (windowName.Equals("群通知"))
                 return true;
             return false;
         }

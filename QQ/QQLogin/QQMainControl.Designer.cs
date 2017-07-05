@@ -29,37 +29,27 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.hotPanel1 = new HotTaoControls.HotPanel(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.hotGroupBox3 = new HotTaoControls.HotGroupBox(this.components);
             this.dgvMessageView = new System.Windows.Forms.DataGridView();
-            this.MessageCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GroupName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MessageContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MessageUrl1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MessageUrl2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MessageStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DeteleMessage = new System.Windows.Forms.DataGridViewLinkColumn();
             this.cmsToolsResult = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolReSend = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolClearAll = new System.Windows.Forms.ToolStripMenuItem();
             this.ckbEnableCustomTemplate = new System.Windows.Forms.CheckBox();
             this.ckbAutoSend = new System.Windows.Forms.CheckBox();
             this.hotGroupBox2 = new HotTaoControls.HotGroupBox(this.components);
             this.picLoading = new System.Windows.Forms.PictureBox();
             this.dgvContact = new System.Windows.Forms.DataGridView();
-            this.QQFace = new System.Windows.Forms.DataGridViewImageColumn();
-            this.GroupGid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GroupTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmsTools = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolAddListen = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsUpdateAlias = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,7 +61,23 @@
             this.lbQQAccount = new System.Windows.Forms.Label();
             this.picLogo = new System.Windows.Forms.PictureBox();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.toolClearAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.MessageCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GroupName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MessageContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MessageUrl1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MessageUrl2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MessageStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DeteleMessage = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.QQFace = new System.Windows.Forms.DataGridViewImageColumn();
+            this.GroupGid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GroupTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GroupAlias = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GroupStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hotPanel1.SuspendLayout();
             this.hotGroupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMessageView)).BeginInit();
@@ -88,6 +94,7 @@
             // 
             this.hotPanel1.BackColor = System.Drawing.Color.White;
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Controls.Add(this.linkLabel1);
             this.hotPanel1.Controls.Add(this.label4);
             this.hotPanel1.Controls.Add(this.label1);
             this.hotPanel1.Controls.Add(this.hotGroupBox3);
@@ -131,7 +138,7 @@
             this.hotGroupBox3.Controls.Add(this.dgvMessageView);
             this.hotGroupBox3.Location = new System.Drawing.Point(5, 109);
             this.hotGroupBox3.Name = "hotGroupBox3";
-            this.hotGroupBox3.Size = new System.Drawing.Size(654, 493);
+            this.hotGroupBox3.Size = new System.Drawing.Size(634, 493);
             this.hotGroupBox3.TabIndex = 15;
             this.hotGroupBox3.TabStop = false;
             this.hotGroupBox3.Text = "采集的数据";
@@ -163,84 +170,25 @@
             this.dgvMessageView.MultiSelect = false;
             this.dgvMessageView.Name = "dgvMessageView";
             this.dgvMessageView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.InfoText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvMessageView.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.InfoText;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvMessageView.RowHeadersDefaultCellStyle = dataGridViewCellStyle13;
             this.dgvMessageView.RowHeadersVisible = false;
             this.dgvMessageView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvMessageView.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvMessageView.RowsDefaultCellStyle = dataGridViewCellStyle14;
             this.dgvMessageView.RowTemplate.Height = 40;
             this.dgvMessageView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMessageView.Size = new System.Drawing.Size(648, 473);
+            this.dgvMessageView.Size = new System.Drawing.Size(628, 473);
             this.dgvMessageView.TabIndex = 14;
             this.dgvMessageView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMessageView_CellClick);
             this.dgvMessageView.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMessageView_CellMouseEnter);
-            // 
-            // MessageCode
-            // 
-            this.MessageCode.HeaderText = "MessageCode";
-            this.MessageCode.Name = "MessageCode";
-            this.MessageCode.ReadOnly = true;
-            this.MessageCode.Visible = false;
-            // 
-            // GroupName
-            // 
-            this.GroupName.HeaderText = "GroupName";
-            this.GroupName.Name = "GroupName";
-            this.GroupName.ReadOnly = true;
-            this.GroupName.Width = 70;
-            // 
-            // MessageContent
-            // 
-            this.MessageContent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.MessageContent.HeaderText = "MessageContent";
-            this.MessageContent.Name = "MessageContent";
-            this.MessageContent.ReadOnly = true;
-            // 
-            // MessageUrl1
-            // 
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.MessageUrl1.DefaultCellStyle = dataGridViewCellStyle1;
-            this.MessageUrl1.HeaderText = "MessageUrl1";
-            this.MessageUrl1.Name = "MessageUrl1";
-            this.MessageUrl1.ReadOnly = true;
-            // 
-            // MessageUrl2
-            // 
-            this.MessageUrl2.HeaderText = "MessageUrl2";
-            this.MessageUrl2.Name = "MessageUrl2";
-            this.MessageUrl2.ReadOnly = true;
-            // 
-            // MessageStatus
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.MessageStatus.DefaultCellStyle = dataGridViewCellStyle2;
-            this.MessageStatus.HeaderText = "MessageStatus";
-            this.MessageStatus.Name = "MessageStatus";
-            this.MessageStatus.ReadOnly = true;
-            // 
-            // Status
-            // 
-            this.Status.HeaderText = "Status";
-            this.Status.Name = "Status";
-            this.Status.Visible = false;
-            // 
-            // DeteleMessage
-            // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.NullValue = "删除";
-            this.DeteleMessage.DefaultCellStyle = dataGridViewCellStyle3;
-            this.DeteleMessage.HeaderText = "删除";
-            this.DeteleMessage.Name = "DeteleMessage";
-            this.DeteleMessage.ReadOnly = true;
-            this.DeteleMessage.Width = 50;
             // 
             // cmsToolsResult
             // 
@@ -248,15 +196,22 @@
             this.toolReSend,
             this.toolClearAll});
             this.cmsToolsResult.Name = "cmsToolsResult";
-            this.cmsToolsResult.Size = new System.Drawing.Size(153, 70);
+            this.cmsToolsResult.Size = new System.Drawing.Size(125, 48);
             this.cmsToolsResult.Opening += new System.ComponentModel.CancelEventHandler(this.cmsToolsResult_Opening);
             // 
             // toolReSend
             // 
             this.toolReSend.Name = "toolReSend";
-            this.toolReSend.Size = new System.Drawing.Size(152, 22);
+            this.toolReSend.Size = new System.Drawing.Size(124, 22);
             this.toolReSend.Text = "手动处理";
             this.toolReSend.Click += new System.EventHandler(this.toolReSend_Click);
+            // 
+            // toolClearAll
+            // 
+            this.toolClearAll.Name = "toolClearAll";
+            this.toolClearAll.Size = new System.Drawing.Size(124, 22);
+            this.toolClearAll.Text = "清空";
+            this.toolClearAll.Click += new System.EventHandler(this.toolClearAll_Click);
             // 
             // ckbEnableCustomTemplate
             // 
@@ -286,9 +241,12 @@
             this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
             this.hotGroupBox2.Controls.Add(this.picLoading);
             this.hotGroupBox2.Controls.Add(this.dgvContact);
-            this.hotGroupBox2.Location = new System.Drawing.Point(664, 7);
+            this.hotGroupBox2.Controls.Add(this.label6);
+            this.hotGroupBox2.Controls.Add(this.label7);
+            this.hotGroupBox2.Controls.Add(this.label5);
+            this.hotGroupBox2.Location = new System.Drawing.Point(641, 7);
             this.hotGroupBox2.Name = "hotGroupBox2";
-            this.hotGroupBox2.Size = new System.Drawing.Size(253, 596);
+            this.hotGroupBox2.Size = new System.Drawing.Size(276, 596);
             this.hotGroupBox2.TabIndex = 14;
             this.hotGroupBox2.TabStop = false;
             this.hotGroupBox2.Text = "QQ群";
@@ -300,7 +258,7 @@
             this.picLoading.Image = global::QQLogin.Properties.Resources.loading;
             this.picLoading.Location = new System.Drawing.Point(3, 17);
             this.picLoading.Name = "picLoading";
-            this.picLoading.Size = new System.Drawing.Size(247, 576);
+            this.picLoading.Size = new System.Drawing.Size(270, 576);
             this.picLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picLoading.TabIndex = 14;
             this.picLoading.TabStop = false;
@@ -321,59 +279,36 @@
             this.dgvContact.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.QQFace,
             this.GroupGid,
-            this.GroupTitle});
+            this.GroupTitle,
+            this.GroupAlias,
+            this.GroupStatus});
             this.dgvContact.ContextMenuStrip = this.cmsTools;
-            this.dgvContact.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvContact.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.dgvContact.Location = new System.Drawing.Point(3, 17);
+            this.dgvContact.Location = new System.Drawing.Point(4, 45);
             this.dgvContact.MultiSelect = false;
             this.dgvContact.Name = "dgvContact";
             this.dgvContact.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.InfoText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvContact.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.InfoText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvContact.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.dgvContact.RowHeadersVisible = false;
             this.dgvContact.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvContact.RowsDefaultCellStyle = dataGridViewCellStyle8;
-            this.dgvContact.RowTemplate.Height = 60;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvContact.RowsDefaultCellStyle = dataGridViewCellStyle11;
+            this.dgvContact.RowTemplate.Height = 40;
             this.dgvContact.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvContact.Size = new System.Drawing.Size(247, 576);
+            this.dgvContact.Size = new System.Drawing.Size(267, 548);
             this.dgvContact.TabIndex = 13;
             this.dgvContact.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvContact_CellClick);
             this.dgvContact.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvContact_CellEndEdit);
             this.dgvContact.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvContact_CellMouseEnter);
             this.dgvContact.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvContact_CellMouseLeave);
-            // 
-            // QQFace
-            // 
-            this.QQFace.HeaderText = "QQFace";
-            this.QQFace.Image = global::QQLogin.Properties.Resources.qqgroup;
-            this.QQFace.Name = "QQFace";
-            this.QQFace.ReadOnly = true;
-            this.QQFace.Width = 50;
-            // 
-            // GroupGid
-            // 
-            this.GroupGid.HeaderText = "GroupGid";
-            this.GroupGid.Name = "GroupGid";
-            this.GroupGid.ReadOnly = true;
-            this.GroupGid.Visible = false;
-            // 
-            // GroupTitle
-            // 
-            this.GroupTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.GroupTitle.DefaultCellStyle = dataGridViewCellStyle6;
-            this.GroupTitle.HeaderText = "GroupTitle";
-            this.GroupTitle.Name = "GroupTitle";
-            this.GroupTitle.ReadOnly = true;
             // 
             // cmsTools
             // 
@@ -396,6 +331,7 @@
             this.toolsUpdateAlias.Name = "toolsUpdateAlias";
             this.toolsUpdateAlias.Size = new System.Drawing.Size(124, 22);
             this.toolsUpdateAlias.Text = "修改别名";
+            this.toolsUpdateAlias.Visible = false;
             this.toolsUpdateAlias.Click += new System.EventHandler(this.toolsUpdateAlias_Click);
             // 
             // hotGroupBox1
@@ -410,7 +346,7 @@
             this.hotGroupBox1.Controls.Add(this.picLogo);
             this.hotGroupBox1.Location = new System.Drawing.Point(6, 7);
             this.hotGroupBox1.Name = "hotGroupBox1";
-            this.hotGroupBox1.Size = new System.Drawing.Size(653, 60);
+            this.hotGroupBox1.Size = new System.Drawing.Size(631, 60);
             this.hotGroupBox1.TabIndex = 3;
             this.hotGroupBox1.TabStop = false;
             this.hotGroupBox1.Text = "QQ信息";
@@ -425,7 +361,7 @@
             this.btnLogoutQQ.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
             this.btnLogoutQQ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogoutQQ.ForeColor = System.Drawing.Color.White;
-            this.btnLogoutQQ.Location = new System.Drawing.Point(591, 23);
+            this.btnLogoutQQ.Location = new System.Drawing.Point(578, 23);
             this.btnLogoutQQ.Name = "btnLogoutQQ";
             this.btnLogoutQQ.Size = new System.Drawing.Size(42, 23);
             this.btnLogoutQQ.TabIndex = 9;
@@ -486,12 +422,141 @@
             this.dataGridViewImageColumn1.ReadOnly = true;
             this.dataGridViewImageColumn1.Width = 50;
             // 
-            // toolClearAll
+            // linkLabel1
             // 
-            this.toolClearAll.Name = "toolClearAll";
-            this.toolClearAll.Size = new System.Drawing.Size(152, 22);
-            this.toolClearAll.Text = "清空";
-            this.toolClearAll.Click += new System.EventHandler(this.toolClearAll_Click);
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(582, 86);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(53, 12);
+            this.linkLabel1.TabIndex = 18;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "清空日志";
+            this.linkLabel1.Click += new System.EventHandler(this.toolClearAll_Click);
+            // 
+            // MessageCode
+            // 
+            this.MessageCode.HeaderText = "MessageCode";
+            this.MessageCode.Name = "MessageCode";
+            this.MessageCode.ReadOnly = true;
+            this.MessageCode.Visible = false;
+            // 
+            // GroupName
+            // 
+            this.GroupName.HeaderText = "GroupName";
+            this.GroupName.Name = "GroupName";
+            this.GroupName.ReadOnly = true;
+            this.GroupName.Width = 70;
+            // 
+            // MessageContent
+            // 
+            this.MessageContent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.MessageContent.HeaderText = "MessageContent";
+            this.MessageContent.Name = "MessageContent";
+            this.MessageContent.ReadOnly = true;
+            // 
+            // MessageUrl1
+            // 
+            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.MessageUrl1.DefaultCellStyle = dataGridViewCellStyle7;
+            this.MessageUrl1.HeaderText = "MessageUrl1";
+            this.MessageUrl1.Name = "MessageUrl1";
+            this.MessageUrl1.ReadOnly = true;
+            // 
+            // MessageUrl2
+            // 
+            this.MessageUrl2.HeaderText = "MessageUrl2";
+            this.MessageUrl2.Name = "MessageUrl2";
+            this.MessageUrl2.ReadOnly = true;
+            // 
+            // MessageStatus
+            // 
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.MessageStatus.DefaultCellStyle = dataGridViewCellStyle8;
+            this.MessageStatus.HeaderText = "MessageStatus";
+            this.MessageStatus.Name = "MessageStatus";
+            this.MessageStatus.ReadOnly = true;
+            // 
+            // Status
+            // 
+            this.Status.HeaderText = "Status";
+            this.Status.Name = "Status";
+            this.Status.Visible = false;
+            this.Status.Width = 60;
+            // 
+            // DeteleMessage
+            // 
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.NullValue = "删除";
+            this.DeteleMessage.DefaultCellStyle = dataGridViewCellStyle12;
+            this.DeteleMessage.HeaderText = "删除";
+            this.DeteleMessage.Name = "DeteleMessage";
+            this.DeteleMessage.ReadOnly = true;
+            this.DeteleMessage.Width = 50;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(149, 25);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(29, 12);
+            this.label5.TabIndex = 19;
+            this.label5.Text = "别名";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(18, 25);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(41, 12);
+            this.label6.TabIndex = 19;
+            this.label6.Text = "群名称";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(231, 24);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(29, 12);
+            this.label7.TabIndex = 19;
+            this.label7.Text = "状态";
+            // 
+            // QQFace
+            // 
+            this.QQFace.HeaderText = "QQFace";
+            this.QQFace.Image = global::QQLogin.Properties.Resources.qqgroup;
+            this.QQFace.Name = "QQFace";
+            this.QQFace.ReadOnly = true;
+            this.QQFace.Visible = false;
+            this.QQFace.Width = 50;
+            // 
+            // GroupGid
+            // 
+            this.GroupGid.HeaderText = "GroupGid";
+            this.GroupGid.Name = "GroupGid";
+            this.GroupGid.ReadOnly = true;
+            this.GroupGid.Visible = false;
+            // 
+            // GroupTitle
+            // 
+            this.GroupTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle9.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.GroupTitle.DefaultCellStyle = dataGridViewCellStyle9;
+            this.GroupTitle.HeaderText = "GroupTitle";
+            this.GroupTitle.Name = "GroupTitle";
+            this.GroupTitle.ReadOnly = true;
+            // 
+            // GroupAlias
+            // 
+            this.GroupAlias.HeaderText = "GroupAlias";
+            this.GroupAlias.Name = "GroupAlias";
+            this.GroupAlias.Width = 80;
+            // 
+            // GroupStatus
+            // 
+            this.GroupStatus.HeaderText = "GroupStatus";
+            this.GroupStatus.Name = "GroupStatus";
+            this.GroupStatus.ReadOnly = true;
+            this.GroupStatus.Width = 50;
             // 
             // QQMainControl
             // 
@@ -507,6 +572,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvMessageView)).EndInit();
             this.cmsToolsResult.ResumeLayout(false);
             this.hotGroupBox2.ResumeLayout(false);
+            this.hotGroupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLoading)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContact)).EndInit();
             this.cmsTools.ResumeLayout(false);
@@ -535,12 +601,14 @@
         private System.Windows.Forms.PictureBox picLogo;
         private System.Windows.Forms.CheckBox ckbAutoSend;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
-        private System.Windows.Forms.DataGridViewImageColumn QQFace;
-        private System.Windows.Forms.DataGridViewTextBoxColumn GroupGid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn GroupTitle;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ContextMenuStrip cmsToolsResult;
         private System.Windows.Forms.ToolStripMenuItem toolReSend;
+        private System.Windows.Forms.CheckBox ckbEnableCustomTemplate;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ToolStripMenuItem toolsUpdateAlias;
+        private System.Windows.Forms.ToolStripMenuItem toolClearAll;
+        private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.DataGridViewTextBoxColumn MessageCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn GroupName;
         private System.Windows.Forms.DataGridViewTextBoxColumn MessageContent;
@@ -549,9 +617,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn MessageStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn Status;
         private System.Windows.Forms.DataGridViewLinkColumn DeteleMessage;
-        private System.Windows.Forms.CheckBox ckbEnableCustomTemplate;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ToolStripMenuItem toolsUpdateAlias;
-        private System.Windows.Forms.ToolStripMenuItem toolClearAll;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.DataGridViewImageColumn QQFace;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GroupGid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GroupTitle;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GroupAlias;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GroupStatus;
     }
 }

@@ -154,7 +154,7 @@ namespace QQLogin
                                 urls = revMsg.GetUrls();
 
                                 long gid = revMsg.Group.Gid;
-                                GroupMsgHandler?.Invoke(revMsg.Id, gid, revMsg.Group.Name, msg, urls);
+                                GroupMsgHandler?.Invoke(revMsg.Id, gid, revMsg.Group.Name, msg, revMsg.GetText(), urls);
                             }
                             break;
                         }

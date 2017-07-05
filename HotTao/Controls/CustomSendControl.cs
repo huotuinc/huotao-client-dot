@@ -82,7 +82,7 @@ namespace HotTao.Controls
         {
             lbWeChat.Items.Clear();
 
-            List<WindowInfo> wins = WinApi.GetDesktopWeChatWindows();
+            List<WindowInfo> wins = WinApi.GetAllDesktopWindows();
             if (wins == null || wins.Count() == 0)
             {
                 return;
@@ -110,10 +110,10 @@ namespace HotTao.Controls
                 alert.Show();
                 return;
             }
-            List<WindowInfo> wins = WinApi.GetDesktopWeChatWindows();
+            List<WindowInfo> wins = WinApi.GetAllDesktopWindows();
             if (wins == null || wins.Count() == 0)
             {
-                MessageAlert alert = new MessageAlert("未找到微信聊天窗口");
+                MessageAlert alert = new MessageAlert("未找到聊天窗口");
                 alert.StartPosition = FormStartPosition.CenterScreen;
                 alert.Show();
                 return;
@@ -196,21 +196,37 @@ namespace HotTao.Controls
         {
             if (string.IsNullOrEmpty(path)) return;
             //复制文件
-            CopyFileToClipboard(path);
-            //停止1秒
-            System.Threading.Thread.Sleep(1000);
+            // CopyFileToClipboard(path);
 
-            foreach (var win in wins)
+            Image image = null;
+            try
             {
-                if (selecctItems.Exists(t => { return win.szWindowName == t; }))
+                using (Stream stream = new FileStream(path, FileMode.Open))
                 {
-                    WinApi.SetActiveWin(win.hWnd);
-                    System.Threading.Thread.Sleep(400);
-                    WinApi.Paste(win.hWnd);
-                    System.Threading.Thread.Sleep(400);
-                    WinApi.Enter(win.hWnd);
-                    System.Threading.Thread.Sleep(400);
+                    image = Image.FromStream(stream);
                 }
+
+                if (image == null) return;
+
+                Clipboard.SetImage(image);
+                //停止1秒
+                System.Threading.Thread.Sleep(1000);
+                foreach (var win in wins)
+                {
+                    if (selecctItems.Exists(t => { return win.szWindowName == t; }))
+                    {
+                        WinApi.SetActiveWin(win.hWnd);
+                        System.Threading.Thread.Sleep(400);
+                        WinApi.Paste(win.hWnd);
+                        System.Threading.Thread.Sleep(400);
+                        WinApi.Enter(win.hWnd);
+                        System.Threading.Thread.Sleep(400);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                image = null;
             }
         }
 
@@ -221,7 +237,7 @@ namespace HotTao.Controls
         private void SendText(List<WindowInfo> wins, string sendText)
         {
             if (string.IsNullOrEmpty(sendText)) return;
-            Clipboard.SetText(sendText);
+            Clipboard.SetDataObject(sendText);
             //停止1秒
             System.Threading.Thread.Sleep(1000);
             foreach (var win in wins)

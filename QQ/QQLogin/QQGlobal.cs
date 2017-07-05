@@ -33,7 +33,7 @@ namespace QQLogin
     /// <param name="msgGroupName">群标题</param>
     /// <param name="msgContent">消息内容</param>
     /// <param name="urls">消息包含的url</param>
-    public delegate void QQNotifyGroupMsgEventHandler(long msgCode, long gid, string msgGroupName, string msgContent, List<string> urls);
+    public delegate void QQNotifyGroupMsgEventHandler(long msgCode, long gid, string msgGroupName, string msgContent,string FullMessageContent, List<string> urls);
 
     /// <summary>
     /// 关闭QQ
@@ -56,7 +56,7 @@ namespace QQLogin
     /// <param name="isAutoSend">是否自动跟发</param>    
     /// <param name="EnableCustomTemplate">启用自定义文案发送</param>
     /// <param name="callback">回调</param>    
-    public delegate void BuildGoodsEventHandler(long msgCode, string msgGroupName, string msgContent, List<string> urls, bool isAutoSend, bool EnableCustomTemplate, Action<MessageCallBackType, int, int> callback);
+    public delegate void BuildGoodsEventHandler(long msgCode, string msgGroupName, string msgContent, string msgFullContent, List<string> urls, bool isAutoSend, bool EnableCustomTemplate, Action<MessageCallBackType, int, int> callback);
 
     /// <summary>
     /// 批量保存到本地商品库
@@ -180,6 +180,11 @@ namespace QQLogin
         /// 消息完整内容
         /// </summary>
         public string MessageContent { get; set; }
+
+        /// <summary>
+        /// 完成文案
+        /// </summary>
+        public string FullMessageContent { get; set; }
 
         /// <summary>
         /// 链接1

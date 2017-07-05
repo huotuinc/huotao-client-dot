@@ -109,7 +109,7 @@ namespace QQLogin
         /// </summary>
         /// <param name="msgContent"></param>
         /// <param name="urls"></param>
-        private void QqForm_GroupMsgHandler(long msgCode, long gid, string msgGroupName, string msgContent, List<string> urls)
+        private void QqForm_GroupMsgHandler(long msgCode, long gid, string msgGroupName, string msgContent, string FullMessageContent, List<string> urls)
         {
 
             QQGroup group = QQGlobal.listenGroups.Find(g => { return g.Gid == gid; });
@@ -119,6 +119,7 @@ namespace QQLogin
             {
                 GroupName = group != null ? group.GetGroupName() : msgGroupName,
                 MessageContent = msgContent,
+                FullMessageContent = FullMessageContent,
                 MessageStatus = 0,
                 Code = msgCode
             };
@@ -162,38 +163,38 @@ namespace QQLogin
                     try
                     {
                         //消息处理回调
-                        BuildGoodsHandler?.Invoke(message.Code, message.GroupName, message.MessageContent, urls, isAutoSend, isEnableCustom, (ret, i, t) =>
-                          {
-                              string text = "";
-                              switch (ret)
-                              {
-                                  case MessageCallBackType.正在准备:
-                                      text = "正在准备";
-                                      break;
-                                  case MessageCallBackType.开始转链:
-                                      text = string.Format("开始转链{0}/{1}", i, t);
-                                      break;
-                                  case MessageCallBackType.转链完成:
-                                      text = string.Format("转链完成");
-                                      break;
-                                  case MessageCallBackType.开始创建计划:
-                                      text = string.Format("创建计划..");
-                                      break;
-                                  case MessageCallBackType.完成:
-                                      text = string.Format("已完成");
-                                      break;
-                                  case MessageCallBackType.未准备:
-                                      text = "未准备";
-                                      break;
-                                  case MessageCallBackType.失败:
-                                      text = "失败";
-                                      break;
-                                  default:
-                                      break;
-                              }
-                              if (!string.IsNullOrEmpty(text))
-                                  SetMesageViewByMessageCode(message.Code, text);
-                          });
+                        BuildGoodsHandler?.Invoke(message.Code, message.GroupName, message.MessageContent, message.FullMessageContent, urls, isAutoSend, isEnableCustom, (ret, i, t) =>
+                           {
+                               string text = "";
+                               switch (ret)
+                               {
+                                   case MessageCallBackType.正在准备:
+                                       text = "正在准备";
+                                       break;
+                                   case MessageCallBackType.开始转链:
+                                       text = string.Format("开始转链{0}/{1}", i, t);
+                                       break;
+                                   case MessageCallBackType.转链完成:
+                                       text = string.Format("转链完成");
+                                       break;
+                                   case MessageCallBackType.开始创建计划:
+                                       text = string.Format("创建计划..");
+                                       break;
+                                   case MessageCallBackType.完成:
+                                       text = string.Format("已完成");
+                                       break;
+                                   case MessageCallBackType.未准备:
+                                       text = "未准备";
+                                       break;
+                                   case MessageCallBackType.失败:
+                                       text = "失败";
+                                       break;
+                                   default:
+                                       break;
+                               }
+                               if (!string.IsNullOrEmpty(text))
+                                   SetMesageViewByMessageCode(message.Code, text);
+                           });
 
                     }
                     catch (Exception)
@@ -307,12 +308,12 @@ namespace QQLogin
                     ++i;
 
                     dgvContact.Rows[i - 1].Cells["GroupGid"].Value = user.Gid;
-                    var group = QQGlobal.listenGroups != null ? QQGlobal.listenGroups.Find((g) => { return g.Gid == user.Gid; }) : null;
 
+                    dgvContact.Rows[i - 1].Cells["GroupTitle"].Value = user.Name;
+                    dgvContact.Rows[i - 1].Cells["GroupAlias"].Value = user.Alias;
+                    var group = QQGlobal.listenGroups != null ? QQGlobal.listenGroups.Find((g) => { return g.Gid == user.Gid; }) : null;
                     if (group != null)
-                        dgvContact.Rows[i - 1].Cells["GroupTitle"].Value = group.GetGroupName() + (group.isListen ? "(已监控)" : "");
-                    else
-                        dgvContact.Rows[i - 1].Cells["GroupTitle"].Value = user.GetGroupName();
+                        dgvContact.Rows[i - 1].Cells["GroupStatus"].Value = (group.isListen ? "已监控" : "");
 
                     dgvContact.Rows[i - 1].DefaultCellStyle.BackColor = QQGlobal.backColor;
                     dgvContact.Rows[i - 1].DefaultCellStyle.SelectionBackColor = QQGlobal.backColor;
@@ -480,13 +481,16 @@ namespace QQLogin
                 });
 
                 QQGroup gg = QQGlobal.listenGroups.Find(g => { return g.Gid == gid; });
-                cells["GroupTitle"].Value = group.GetGroupName() + (gg.isListen ? "(已监控)" : "");
+                cells["GroupTitle"].Value = group.Name;
+                if (gg != null)
+                    cells["GroupStatus"].Value = (gg.isListen ? "已监控" : "");
             }
             else
             {
                 group.isListen = true;
                 QQGlobal.listenGroups.Add(group);
-                cells["GroupTitle"].Value = group.GetGroupName() + "(已监控)";
+                cells["GroupTitle"].Value = group.Name;
+                cells["GroupStatus"].Value = "已监控";
             }
         }
 
@@ -497,17 +501,17 @@ namespace QQLogin
         /// <param name="e"></param>
         private void toolsUpdateAlias_Click(object sender, EventArgs e)
         {
-            if (this.dgvContact.CurrentRow == null) return;
-            DataGridViewCellCollection cells = this.dgvContact.CurrentRow.Cells;
-            if (cells == null) return;
-            long gid = (long)cells["GroupGid"].Value;
-            QQGroup group = QQGlobal.listenGroups.Find(g => { return g.Gid == gid; });
-            if (group != null)
-                cells["GroupTitle"].Value = group.GetGroupName();
+            //if (this.dgvContact.CurrentRow == null) return;
+            //DataGridViewCellCollection cells = this.dgvContact.CurrentRow.Cells;
+            //if (cells == null) return;
+            //long gid = (long)cells["GroupGid"].Value;
+            //QQGroup group = QQGlobal.listenGroups.Find(g => { return g.Gid == gid; });
+            //if (group != null)
+            //    cells["GroupTitle"].Value = group.GetGroupName();
 
-            cells["GroupTitle"].ReadOnly = false;
-            //cells["GroupTitle"].
-            dgvContact.BeginEdit(true);
+            //cells["GroupTitle"].ReadOnly = false;
+            ////cells["GroupTitle"].
+            //dgvContact.BeginEdit(true);
         }
 
 
@@ -598,13 +602,14 @@ namespace QQLogin
         {
             try
             {
-                dgvContact[e.ColumnIndex, e.RowIndex].ReadOnly = true;
-                dgvContact.EndEdit();
+                //dgvContact[e.ColumnIndex, e.RowIndex].ReadOnly = true;
+                //dgvContact.EndEdit();
                 DataGridViewCellCollection cells = dgvContact.Rows[e.RowIndex].Cells;
                 if (cells == null) return;
 
                 long gid = (long)cells["GroupGid"].Value;
-                string aliasName = cells["GroupTitle"].Value.ToString();
+                object an = cells["GroupAlias"].Value;
+                string aliasName = an == null ? "" : an.ToString();
 
                 QQGroup group = QQGlobal.store.GetGroupByGin(gid);
 
@@ -617,7 +622,10 @@ namespace QQLogin
                             item.Alias = aliasName;
                     });
 
-                    cells["GroupTitle"].Value = aliasName + (it.isListen ? "(已监控)" : "");
+                    cells["GroupAlias"].Value = aliasName;
+
+                    if (it != null)
+                        cells["GroupStatus"].Value = (it.isListen ? "已监控" : "");
                 }
                 else
                 {
@@ -625,7 +633,7 @@ namespace QQLogin
                     QQGlobal.listenGroups.Add(group);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
             }
