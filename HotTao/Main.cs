@@ -1051,6 +1051,30 @@ namespace HotTao
         }
 
 
+        private Dictionary<string, DateTime> notifyMap { get; set; } = new Dictionary<string, DateTime>();
+        /// <summary>
+        /// 群异常通知
+        /// </summary>        
+        private void SendNotify()
+        {
+            string title = "taobao_login";
+            DateTime nowDt = new DateTime();
+            if (notifyMap.ContainsKey(title))
+            {
+                notifyMap.TryGetValue(title, out nowDt);
+                if (nowDt.AddMinutes(30).CompareTo(DateTime.Now) < 0)
+                {
+                    HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.阿里妈妈离线);
+                }
+            }
+            else
+            {
+                notifyMap[title] = DateTime.Now;
+                HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.阿里妈妈离线);
+            }
+        }
+
+
         /// <summary>
         /// 申请高佣
         /// </summary>
@@ -1066,12 +1090,12 @@ namespace HotTao
                     title = goodsId,
                     content = goodsName,
                     logTime = DateTime.Now,
-                    logType = LogTypeOpts.申请高佣,
+                    logType = LogTypeOpts.未知,
                     isError = true,
                     goodsUrl = goodsUrl,
                     remark = "您还没登录阿里妈妈，请登录后重试!"
                 });
-                HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.阿里妈妈离线);
+                SendNotify();
                 return;
             }
             LogRuningModel logData = new LogRuningModel()
@@ -1134,7 +1158,7 @@ namespace HotTao
                     {
                         logData.isError = true;
                         logData.remark = "请重新登录淘宝联盟后重试";
-                        HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.阿里妈妈离线);
+                        SendNotify();
                     }
                     else
                     {
@@ -1182,7 +1206,7 @@ namespace HotTao
                 logData.isError = true;
                 logData.logType = LogTypeOpts.未知;
                 logData.remark = "[" + goodsId + "]" + "获取佣金计划失败，请重新登录淘宝联盟！";
-                HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.阿里妈妈离线);
+                SendNotify();
             }
 
             if (logRuningList.Exists(item => { return item.goodsid == logData.goodsid && item.logType == LogTypeOpts.申请高佣; }))
@@ -1450,10 +1474,10 @@ namespace HotTao
                             }
                             callback?.Invoke(MessageCallBackType.完成, 0, 0);
                         }
-                        else
-                        {
-                            log.Debug(msgContent);
-                        }
+                        //else
+                        //{
+                        // log.Debug(msgContent);
+                        //}
                     }
                     catch (Exception ex)
                     {

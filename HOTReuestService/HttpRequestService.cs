@@ -53,7 +53,7 @@ namespace HOTReuestService
         /// <param name="formFields">The form fields.</param>
         /// <param name="OnError">The on error.</param>
         /// <returns>T.</returns>
-        public static T Post<T>(string reqName, Dictionary<string, string> formFields, Action<ResultModel> OnError = null)
+        public static T Post<T>(string reqName, Dictionary<string, string> formFields, bool KeepAlive = false, Action<ResultModel> OnError = null)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace HOTReuestService
                 //获取签名
                 formFields["signature"] = SignatureHelper.BuildSign(formFields, ApiDefineConst.SecretKey);
                 byte[] request_body = Encoding.UTF8.GetBytes(PrepareRequestBody(formFields));
-                var request = CreateRequest(ApiDefineConst.Url + reqName, request_body);
+                var request = CreateRequest(ApiDefineConst.Url + reqName, request_body, KeepAlive);
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
                     return GetResponse<T>(response, OnError);
@@ -267,13 +267,13 @@ namespace HOTReuestService
             }
         }
 
-        protected static HttpWebRequest CreateRequest(string url, byte[] request_body)
+        protected static HttpWebRequest CreateRequest(string url, byte[] request_body,bool KeepAlive=false)
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
             request.ContentLength = request_body.Length;
-            request.KeepAlive = false;
+            request.KeepAlive = KeepAlive;
             using (Stream requestStream = request.GetRequestStream())
             {
                 requestStream.Write(request_body, 0, request_body.Length);
@@ -281,11 +281,11 @@ namespace HOTReuestService
             return request;
         }
 
-        protected static HttpWebRequest CreateRequest(string url)
+        protected static HttpWebRequest CreateRequest(string url, bool KeepAlive = false)
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "Get";
-            request.KeepAlive = false;
+            request.KeepAlive = KeepAlive;
             request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
             return request;
         }

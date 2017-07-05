@@ -38,7 +38,7 @@ namespace HotTaoCore.Logic
             data["password"] = loginPwd;
             if (keepToken)
                 data["keepToken"] = keepToken.ToString();
-            var userData = BaseRequestService.Post<UserModel>(ApiConst.login, data, (err) =>
+            var userData = BaseRequestService.Post<UserModel>(ApiConst.login, data,false, (err) =>
             {
                 error?.Invoke(err);
             });
@@ -70,7 +70,7 @@ namespace HotTaoCore.Logic
             data["verifyCode"] = verifyCode;
             if (!string.IsNullOrEmpty(code))
                 data["code"] = code;
-            var userData = BaseRequestService.Post<UserModel>(ApiConst.register, data, (err) =>
+            var userData = BaseRequestService.Post<UserModel>(ApiConst.register, data, false, (err) =>
             {
                 error?.Invoke(err);
             });

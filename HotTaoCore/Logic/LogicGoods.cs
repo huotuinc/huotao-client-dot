@@ -34,7 +34,7 @@ namespace HotTaoCore.Logic
         public List<GoodsModel> getGoodsList(string loginToken)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
-            data["token"] = loginToken;            
+            data["token"] = loginToken;
             return BaseRequestService.Post<List<GoodsModel>>(ApiConst.getGoodsList, data);
         }
 
@@ -62,7 +62,7 @@ namespace HotTaoCore.Logic
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
             data["urls"] = urls;
-            return BaseRequestService.Post<List<GoodsSelectedModel>>(ApiConst.findGoodsByLink, data);
+            return BaseRequestService.Post<List<GoodsSelectedModel>>(ApiConst.findGoodsByLink, data, true);
 
         }
 

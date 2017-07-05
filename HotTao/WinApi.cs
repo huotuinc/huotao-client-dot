@@ -520,19 +520,21 @@ namespace HotTao
             //如果不是QQ窗口,则直接返回
             if (!isQQWindow)
                 return false;
-            if (windowName.Contains("TXMenuWindow"))
+            if (windowName.Equals("TXMenuWindow"))
                 return true;
-            if (windowName.Contains("QQ"))
+            if (windowName.Equals("QQ"))
                 return true;
-            if (windowName.Contains("TIM"))
+            if (windowName.Equals("TIM"))
                 return true;
-            if (windowName.Contains("实时加速工具"))
+            if (windowName.Equals("实时加速工具"))
                 return true;
-            if (windowName.Contains("加速小火箭"))
+            if (windowName.Equals("加速小火箭"))
                 return true;
-            if (windowName.Contains("小火箭通用加速"))
+            if (windowName.Equals("小火箭通用加速")|| windowName.Equals("小火箭托盘加速"))
                 return true;
-            if (windowName.Contains("登陆电脑管家"))
+            if (windowName.Equals("登录电脑管家")|| windowName.Contains("网络流量管理"))
+                return true;
+            if (windowName.Equals("腾讯网迷你版"))
                 return true;
             return false;
         }

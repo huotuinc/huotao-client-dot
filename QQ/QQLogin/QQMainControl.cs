@@ -548,7 +548,11 @@ namespace QQLogin
             else
             {
                 string MessageStatus = cells["MessageStatus"].Value.ToString();
-                if (!MessageStatus.Equals("未处理")|| !MessageStatus.Equals("失败"))
+                if (MessageStatus.Equals("未处理") || MessageStatus.Equals("失败"))
+                {
+
+                }
+                else
                     e.Cancel = true;
             }
         }
