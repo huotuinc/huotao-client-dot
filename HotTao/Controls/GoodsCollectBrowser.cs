@@ -1,6 +1,7 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
 using HotTao.Properties;
+using HotTaoCore;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using Newtonsoft.Json;
@@ -11,6 +12,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -114,6 +116,7 @@ namespace HotTao.Controls
             {
                 if (browser == null)
                 {
+
                     BrowserSettings settings = new BrowserSettings()
                     {
                         LocalStorage = CefState.Enabled,
@@ -124,10 +127,13 @@ namespace HotTao.Controls
                         WebGl = CefState.Enabled
                     };
                     browser = new ChromiumWebBrowser(url);
+                    browser.RegisterJsObject("jsGoods", new GoodsCollectBrowser(hotForm), false);
                     browser.BrowserSettings = settings;
                     browser.Dock = DockStyle.Fill;
                     browser.LifeSpanHandler = new LifeSpanHandler();
                     browser.AddressChanged += Browser_AddressChanged;
+                    browser.FrameLoadEnd += Browser_FrameLoadEnd;
+                    browser.TitleChanged += Browser_TitleChanged;
                     AddBrowser();
                 }
                 else
@@ -135,6 +141,25 @@ namespace HotTao.Controls
             })
             { IsBackground = true }.Start();
         }
+
+        private void Browser_TitleChanged(object sender, TitleChangedEventArgs e)
+        {
+            InsertJsCode();
+        }
+
+        private void Browser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
+        {
+            InsertJsCode();
+        }
+
+
+        private void InsertJsCode()
+        {
+            string jsCode = "var Injection={HOST_NAME:window.location.hostname,WEBSITES:['dataoke','haodanku','taokezhushou','shihuizhu','localhost'],dataoke:function(){var self=this;var button=this.getButton('.copy_text');button.click(function(){var $target=$(this).find('.copyText');self.sendData($target)})},haodanku:function(){var self=this;var button=self.getButton('.fq-copy');button.click(function(){var html=$(this).data('tips');var $target=$('<div></div>').html(html);self.sendData($target)})},taokezhushou:function(){var self=this;var button=self.getButton('.copytext-btn');button.click(function(){var $target=$(this).next('.media-list-box').find('.media-text-area');self.sendData($target)})},shihuizhu:function(){var self=this;var button=self.getButton('.official');button.click(function(){var $target=$(this).closest('.goods-sale').next('.intro');self.sendData($target)})},getButton:function(className){var button=$(className);button.css({'background':'red','text-overflow':'ellipsis','white-space':'nowrap'}).text('一键转发');button.mouseenter(function(){$(this).css('background','red').text('一键转发')});return button},localhost:function(){console.info('==== This Localhost ====')},sendData:function($target){var data={};data.image=$target.find('img').attr('src');data.text=$.trim($target.text()).replace(/\\ +/g,'');console.info('=== Begin ===');console.info(data);console.info('=== End ===');jsGoods.copyGoodsContent(data.image,data.text);},run:function(type){this[type]()},init:function(){var self=this;self.WEBSITES.forEach(function(val){if(self.HOST_NAME.indexOf(val)>-1){return self.run(val)}})}};Injection.init();";
+
+            //browser.ExecuteScriptAsync(jsCode);
+        }
+
 
         /// <summary>
         /// 添加浏览控件到展示界面
@@ -151,6 +176,8 @@ namespace HotTao.Controls
             }
         }
 
+
+        
         /// <summary>
         /// 设置商品链接
         /// </summary>
@@ -164,6 +191,7 @@ namespace HotTao.Controls
             else
             {
                 txtAddress.Text = url;
+
             }
         }
 
@@ -174,7 +202,11 @@ namespace HotTao.Controls
         /// <param name="e"></param>
         private void Browser_AddressChanged(object sender, AddressChangedEventArgs e)
         {
+            InsertJsCode();
             SetGoodsUrl(e.Address);
+
+
+
         }
 
         private void GoodsCollectBrowser_KeyDown(object sender, KeyEventArgs e)
@@ -514,6 +546,75 @@ namespace HotTao.Controls
                 AlertTip("服务器开小差了，请稍后再试！");
             }
 
+        }
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 复制商品文案
+        /// </summary>
+        /// <param name="imageUrl"></param>
+        /// <param name="text"></param>
+        public void copyGoodsContent(string imageUrl, string text)
+        {
+            new System.Threading.Thread(() =>
+            {
+                List<string> urls = GetUrls(text);
+
+                //UrlsHelper urlsHelper = new UrlsHelper();
+                //urlsHelper.Url = urls.Count() > 0 ? urls[0] : "";
+                //urlsHelper.Url2 = urls.Count() > 1 ? urls[1] : "";
+
+                List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
+                Dictionary<string, string> data = new Dictionary<string, string>();
+                data["url"] = urls.Count() > 0 ? urls[0] : "";
+                data["url2"] = urls.Count() > 1 ? urls[1] : "";
+                data["message"] = text;
+                list.Add(data);
+                string jsonUrls = JsonConvert.SerializeObject(list);
+                List<GoodsSelectedModel> goodsData = LogicGoods.Instance.getGoodsByLink(MyUserInfo.LoginToken, jsonUrls);
+                if (goodsData != null && goodsData.Count() > 0)
+                {
+                    try
+                    {
+                        var goods = goodsData[0];
+                        goods.goodsImageUrl = imageUrl;
+                        bool isUpdate = false;
+                        //保存商品到本地数据库
+                        LogicGoods.Instance.SaveGoods(goods, MyUserInfo.currentUserId, out isUpdate);
+                        //MessageBox.Show("操作成功!");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
+                }
+            })
+            { IsBackground = true }.Start();
+        }
+
+
+        /// <summary>
+        /// 返回指定内容中的url数量
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public List<string> GetUrls(string input)
+        {
+            input = input.Replace("&amp;", "&");
+            string pattern = "http[s]?://.*?(?!(\\w|\\.|/|\\?|\\=|&|%|;))";
+            List<string> urls = new List<string>();
+            foreach (Match match in Regex.Matches(input, pattern))
+            {
+                if (!urls.Contains(match.Value))
+                    urls.Add(match.Value);
+            }
+            return urls;
         }
     }
 }

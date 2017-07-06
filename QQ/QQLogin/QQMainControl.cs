@@ -482,15 +482,19 @@ namespace QQLogin
 
                 QQGroup gg = QQGlobal.listenGroups.Find(g => { return g.Gid == gid; });
                 cells["GroupTitle"].Value = group.Name;
+
                 if (gg != null)
+                {
                     cells["GroupStatus"].Value = (gg.isListen ? "已监控" : "");
+                    cells["GroupAlias"].Value = gg.Alias;
+                }
             }
             else
             {
                 group.isListen = true;
                 QQGlobal.listenGroups.Add(group);
                 cells["GroupTitle"].Value = group.Name;
-                cells["GroupStatus"].Value = "已监控";
+                cells["GroupStatus"].Value = "已监控";                
             }
         }
 

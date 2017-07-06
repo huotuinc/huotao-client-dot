@@ -139,7 +139,7 @@ namespace iQQ.Net.WebQQCore.Util
             for (var i = 0; i < retryTimes; i++)
             {
                 var r = GetResponseAsync(requestItem, token);
-                //r.Wait();
+                r.Wait();
                 var result = r.Result;// await GetResponseAsync(requestItem, token);
                 if (result.Success) return r;
                 Thread.Sleep(1000 * i);
