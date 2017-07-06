@@ -152,7 +152,7 @@ namespace HotTao.Controls
                    SendText(wins, sendText);
 
                    //发送视频文件
-                   SendFile(wins, VideoFilePath);
+                   SendFile(wins, VideoFilePath, true);
 
                    ShowAlert("发送完成");
                    Running = false;
@@ -192,23 +192,31 @@ namespace HotTao.Controls
         /// 发送文件
         /// </summary>
         /// <param name="wins"></param>
-        private void SendFile(List<WindowInfo> wins, string path)
+        private void SendFile(List<WindowInfo> wins, string path, bool isVideo = false)
         {
             if (string.IsNullOrEmpty(path)) return;
-            //复制文件
-            // CopyFileToClipboard(path);
 
-            Image image = null;
+            bool success = false;
             try
             {
-                using (Stream stream = new FileStream(path, FileMode.Open))
+                if (isVideo)
                 {
-                    image = Image.FromStream(stream);
+                    CopyFileToClipboard(path);
+                    success = true;
                 }
-
-                if (image == null) return;
-
-                Clipboard.SetImage(image);
+                else
+                {
+                    using (Stream stream = new FileStream(path, FileMode.Open))
+                    {
+                        Image image = Image.FromStream(stream);
+                        if (image != null)
+                        {
+                            Clipboard.SetImage(image);
+                            success = true;
+                        }
+                    }
+                }
+                if (!success) return;
                 //停止1秒
                 System.Threading.Thread.Sleep(1000);
                 foreach (var win in wins)
@@ -219,14 +227,13 @@ namespace HotTao.Controls
                         System.Threading.Thread.Sleep(400);
                         WinApi.Paste(win.hWnd);
                         System.Threading.Thread.Sleep(400);
-                        WinApi.Enter(win.hWnd);
+                        WinApi.Enter(win.hWnd, win.winType == 1);
                         System.Threading.Thread.Sleep(400);
                     }
                 }
             }
             catch (Exception ex)
             {
-                image = null;
             }
         }
 
@@ -248,7 +255,7 @@ namespace HotTao.Controls
                     System.Threading.Thread.Sleep(400);
                     WinApi.Paste(win.hWnd);
                     System.Threading.Thread.Sleep(300);
-                    WinApi.Enter(win.hWnd);
+                    WinApi.Enter(win.hWnd, win.winType == 1);
                     System.Threading.Thread.Sleep(400);
                 }
             }

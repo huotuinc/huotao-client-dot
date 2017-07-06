@@ -538,7 +538,7 @@ namespace HotTao
                 return true;
             if (windowName.Contains("Attention - Charlie Puth") || windowName.Contains("Attention") || windowName.Contains("Charlie Puth"))
                 return true;
-            if (windowName.Equals("群通知"))
+            if (windowName.Equals("群通知")||windowName.Equals("打开U盘-U盘防火墙"))
                 return true;
             return false;
         }

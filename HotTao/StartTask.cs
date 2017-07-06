@@ -434,7 +434,7 @@ namespace HotTao
                         wins = WinApi.GetAllDesktopWindows();
                         if (wins == null || wins.Count() == 0)
                         {
-                            HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.微信离线);
+                            //HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.微信离线);
                             continue;
                         }
 
@@ -582,7 +582,7 @@ namespace HotTao
                     wins = WinApi.GetAllDesktopWindows();
                     if (wins == null || wins.Count() == 0)
                     {
-                        HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.微信离线);
+                        //HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.微信离线);
                         continue;
                     }
 
