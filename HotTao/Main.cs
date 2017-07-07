@@ -177,6 +177,8 @@ namespace HotTao
         /// <param name="url"></param>
         private void CollectBrowserShow(string url)
         {
+            if (!string.IsNullOrEmpty(url) && url.Equals("http://www.dataoke.com"))
+                url = "http://www.dataoke.com/qlist/";
             if (this.InvokeRequired)
             {
                 this.Invoke(new Action<string>(CollectBrowserShow), new object[] { url });

@@ -309,11 +309,13 @@ namespace QQLogin
 
                     dgvContact.Rows[i - 1].Cells["GroupGid"].Value = user.Gid;
 
-                    dgvContact.Rows[i - 1].Cells["GroupTitle"].Value = user.Name;
-                    dgvContact.Rows[i - 1].Cells["GroupAlias"].Value = user.Alias;
+                    dgvContact.Rows[i - 1].Cells["GroupTitle"].Value = user.Name;                    
                     var group = QQGlobal.listenGroups != null ? QQGlobal.listenGroups.Find((g) => { return g.Gid == user.Gid; }) : null;
                     if (group != null)
+                    {
                         dgvContact.Rows[i - 1].Cells["GroupStatus"].Value = (group.isListen ? "已监控" : "");
+                        dgvContact.Rows[i - 1].Cells["GroupAlias"].Value = group.Alias;
+                    }
 
                     dgvContact.Rows[i - 1].DefaultCellStyle.BackColor = QQGlobal.backColor;
                     dgvContact.Rows[i - 1].DefaultCellStyle.SelectionBackColor = QQGlobal.backColor;

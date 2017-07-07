@@ -111,6 +111,7 @@
             this.btnAddGoods.TabIndex = 120;
             this.btnAddGoods.Text = "开始批量采集";
             this.btnAddGoods.UseVisualStyleBackColor = false;
+            this.btnAddGoods.Visible = false;
             this.btnAddGoods.Click += new System.EventHandler(this.btnAddGoods_Click);
             // 
             // plSite

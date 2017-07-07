@@ -68,6 +68,8 @@ namespace HotTao.Controls
         private string defaultUrl { get; set; }
 
 
+        private static string jsCode = @"var Injection={HOST_NAME:window.location.hostname,WEBSITES:['dataoke','haodanku','taokezhushou','shihuizhu','localhost'],dataoke:function(){var self=this;var button=this.getButton('.copy_text');var em=$('<em>一键点击，轻松加入采集列表</em>');em.css({'display':'block','font-size':'14px','font-style':'normal'});button.css({'position':'absolute','top':0,'padding-top':'30%','height':'100%','width':'100%','font-size':'28px','background':'rgba(51,51,51,.8)','box-sizing':'border-box'}).text('火淘采集').append(em).prev().hide().prev().hide();button.off('click');button.on('click',function(){var $target=$(this).find('.copyText');self.sendData($target)})},haodanku:function(){var self=this;var button=self.getButton('.fq-copy');var em=$('<em>一键点击，轻松加入采集列表</em>');em.css({'display':'block','font-size':'14px','font-style':'normal'});button.css({'position':'absolute','top':0,'padding-top':'30%','height':'100%','width':'100%','font-size':'28px','background':'rgba(51,51,51,.8)','box-sizing':'border-box'}).text('火淘采集').append(em).parent().css({'height':'100%','width':'100%'}).siblings().hide().parent().css({'top':0,'height':'265px'});button.off('click');button.on('click',function(){var href=$(this).closest('ul').prev('a').attr('href');var html=$(this).data('tips');var $target=$('<div></div>').html(html+' '+href);self.sendData($target)})},taokezhushou:function(){var self=this;var button=self.getButton('.copytext-btn');button.css({'width':'100%','font-size':'20px','background':'rgba(51,51,51,.8)','box-sizing':'border-box'}).text('火淘采集');button.off('click');button.on('click',function(){var $target=$(this).next('.media-list-box').find('.media-text-area');self.sendData($target)})},shihuizhu:function(){var self=this;var button=self.getButton('.official');var em=$('<em>一键点击，轻松加入采集列表</em>');em.css({'display':'block','margin-top':'10px','font-size':'14px','font-style':'normal'});button.css({'opacity':0,'position':'absolute','top':0,'left':0,'padding-top':'30%','height':'272px','width':'100%','font-size':'28px','background':'rgba(51,51,51,.8)','color':'#fff','box-sizing':'border-box'}).text('火淘采集').append(em).closest('.goods-sale').next('.intro').css({'top':0});button.mouseenter(function(){$(this).css('opacity',1)});button.mouseleave(function(){$(this).css('opacity',0)});button.off('click');button.on('click',function(){var $target=$(this).closest('.goods-sale').next('.intro');self.sendData($target)})},getButton:function(className){return $(className)},localhost:function(){console.info('==== This Localhost ====')},sendData:function($target){var div=$('<div></div>');var data={};data.image=$target.find('img').attr('src');div.append($target.html().replace(/<br>/g,' '));data.text=$.trim(div.text());jsGoods.copyGoodsContent(data.image,data.text)},run:function(type){this[type]()},init:function(){var self=this;self.WEBSITES.forEach(function(val){if(self.HOST_NAME.indexOf(val)>-1){return self.run(val)}})}};Injection.init();";
+
         public GoodsCollectBrowser(Main form, string url = "")
         {
             hotForm = form;
@@ -155,9 +157,7 @@ namespace HotTao.Controls
 
         private void InsertJsCode()
         {
-            string jsCode = "var Injection={HOST_NAME:window.location.hostname,WEBSITES:['dataoke','haodanku','taokezhushou','shihuizhu','localhost'],dataoke:function(){var self=this;var button=this.getButton('.copy_text');button.click(function(){var $target=$(this).find('.copyText');self.sendData($target)})},haodanku:function(){var self=this;var button=self.getButton('.fq-copy');button.click(function(){var html=$(this).data('tips');var $target=$('<div></div>').html(html);self.sendData($target)})},taokezhushou:function(){var self=this;var button=self.getButton('.copytext-btn');button.click(function(){var $target=$(this).next('.media-list-box').find('.media-text-area');self.sendData($target)})},shihuizhu:function(){var self=this;var button=self.getButton('.official');button.click(function(){var $target=$(this).closest('.goods-sale').next('.intro');self.sendData($target)})},getButton:function(className){var button=$(className);button.css({'background':'red','text-overflow':'ellipsis','white-space':'nowrap'}).text('一键转发');button.mouseenter(function(){$(this).css('background','red').text('一键转发')});return button},localhost:function(){console.info('==== This Localhost ====')},sendData:function($target){var data={};data.image=$target.find('img').attr('src');data.text=$.trim($target.text()).replace(/\\ +/g,'');console.info('=== Begin ===');console.info(data);console.info('=== End ===');jsGoods.copyGoodsContent(data.image,data.text);},run:function(type){this[type]()},init:function(){var self=this;self.WEBSITES.forEach(function(val){if(self.HOST_NAME.indexOf(val)>-1){return self.run(val)}})}};Injection.init();";
-
-            //browser.ExecuteScriptAsync(jsCode);
+            browser.ExecuteScriptAsync(jsCode);
         }
 
 
@@ -177,7 +177,7 @@ namespace HotTao.Controls
         }
 
 
-        
+
         /// <summary>
         /// 设置商品链接
         /// </summary>
@@ -562,40 +562,41 @@ namespace HotTao.Controls
         /// <param name="text"></param>
         public void copyGoodsContent(string imageUrl, string text)
         {
-            new System.Threading.Thread(() =>
+
+            //new System.Threading.Thread(() =>
+            //{
+            List<string> urls = GetUrls(text);
+
+            //UrlsHelper urlsHelper = new UrlsHelper();
+            //urlsHelper.Url = urls.Count() > 0 ? urls[0] : "";
+            //urlsHelper.Url2 = urls.Count() > 1 ? urls[1] : "";
+
+            List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["url"] = urls.Count() > 0 ? urls[0] : "";
+            data["url2"] = urls.Count() > 1 ? urls[1] : "";
+            data["message"] = text;
+            list.Add(data);
+            string jsonUrls = JsonConvert.SerializeObject(list);
+            List<GoodsSelectedModel> goodsData = LogicGoods.Instance.getGoodsByLink(MyUserInfo.LoginToken, jsonUrls);
+            if (goodsData != null && goodsData.Count() > 0)
             {
-                List<string> urls = GetUrls(text);
-
-                //UrlsHelper urlsHelper = new UrlsHelper();
-                //urlsHelper.Url = urls.Count() > 0 ? urls[0] : "";
-                //urlsHelper.Url2 = urls.Count() > 1 ? urls[1] : "";
-
-                List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
-                Dictionary<string, string> data = new Dictionary<string, string>();
-                data["url"] = urls.Count() > 0 ? urls[0] : "";
-                data["url2"] = urls.Count() > 1 ? urls[1] : "";
-                data["message"] = text;
-                list.Add(data);
-                string jsonUrls = JsonConvert.SerializeObject(list);
-                List<GoodsSelectedModel> goodsData = LogicGoods.Instance.getGoodsByLink(MyUserInfo.LoginToken, jsonUrls);
-                if (goodsData != null && goodsData.Count() > 0)
+                try
                 {
-                    try
-                    {
-                        var goods = goodsData[0];
-                        goods.goodsImageUrl = imageUrl;
-                        bool isUpdate = false;
-                        //保存商品到本地数据库
-                        LogicGoods.Instance.SaveGoods(goods, MyUserInfo.currentUserId, out isUpdate);
-                        //MessageBox.Show("操作成功!");
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
-                    }
+                    var goods = goodsData[0];
+                    goods.goodsImageUrl = imageUrl;
+                    bool isUpdate = false;
+                    //保存商品到本地数据库
+                    LogicGoods.Instance.SaveGoods(goods, MyUserInfo.currentUserId, out isUpdate);
+                    MessageBox.Show("操作成功!");
                 }
-            })
-            { IsBackground = true }.Start();
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            }
+            //})
+            //{ IsBackground = true }.Start();
         }
 
 

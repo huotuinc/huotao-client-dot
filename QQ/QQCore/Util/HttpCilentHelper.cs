@@ -116,13 +116,13 @@ namespace iQQ.Net.WebQQCore.Util
             {
                 var httpRequest = GetHttpRequest(requestItem);
                 var r = _httpClient.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, token);
-                //r.Wait();
+                r.Wait();
                 var result = r.Result;// await _httpClient.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
                 responseItem.StatusCode = result.StatusCode;
                 if (!result.IsSuccessStatusCode) throw new WebException($"Unexpected Status Code: {result.StatusCode}");
 
                 var res = GetHttpResponseItem(result, requestItem.ResultType);
-                //res.Wait();
+                res.Wait();
                 responseItem = res.Result;// await GetHttpResponseItem(result, requestItem.ResultType).ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -151,7 +151,7 @@ namespace iQQ.Net.WebQQCore.Util
         public Task<HttpResponseItem> GetAsync(string url)
         {
             var r = GetResponseAsync(new HttpRequestItem(url, HttpMethodType.Get));
-            //r.Wait();
+            r.Wait();
             return r;// await GetResponseAsync(new HttpRequestItem(url, HttpMethodType.Get));
         }
 
@@ -160,7 +160,7 @@ namespace iQQ.Net.WebQQCore.Util
             for (var i = 0; i < retryTimes; i++)
             {
                 var r = GetAsync(url);
-                //r.Wait();
+                r.Wait();
                 var result = r.Result;// await GetAsync(url);
                 if (result.Success) return r;
                 Thread.Sleep(1000 * i);
@@ -205,21 +205,21 @@ namespace iQQ.Net.WebQQCore.Util
                 case ResponseResultType.String:
                     {
                         var r = response.Content.ReadAsStringAsync();
-                       // r.Wait();
+                        r.Wait();
                         responseItem.ResponseString = r.Result;// await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                         break;
                     }
                 case ResponseResultType.Byte:
                     {
                         var r = response.Content.ReadAsByteArrayAsync();
-                       // r.Wait();
+                        r.Wait();
                         responseItem.ResponseBytes = r.Result;// await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
                         break;
                     }
                 case ResponseResultType.Stream:
                     {
                         var r = response.Content.ReadAsByteArrayAsync();
-                        //r.Wait();
+                        r.Wait();
                         responseItem.ResponseStream = new MemoryStream(r.Result);//await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false)
                         break;
                     }
