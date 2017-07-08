@@ -10,14 +10,20 @@ using System.Windows.Forms;
 using iQQ.Net.WebQQCore.Im.Bean;
 using iQQ.Net.WebQQCore.Im.Event;
 using iQQ.Net.WebQQCore.Util;
+using System.Diagnostics;
+using System.Net;
+using System.IO;
 
 namespace QQLogin
 {
     public partial class QQMainControl : UserControl
     {
+        private static KQDAL KQ = new KQDAL();
+
 
         public QQMainControl()
         {
+
             InitializeComponent();
         }
 
@@ -64,11 +70,6 @@ namespace QQLogin
             {
                 ckbEnableCustomTemplate.Visible = false;
                 label4.Visible = false;
-            }
-
-            if (qqForm == null)
-            {
-                LoginQQ();
             }
         }
 
@@ -212,6 +213,9 @@ namespace QQLogin
         /// </summary>
         private void QqForm_loginSuccessHandler()
         {
+            LoginType = 1;
+            SetBtnEnable(true);
+            SetBtnText("注销");
             QQGlobal.client.GetUserFace(QQGlobal.account, (s, e) =>
             {
                 if (e.Type == QQActionEventType.EvtOK)
@@ -232,8 +236,38 @@ namespace QQLogin
         /// </summary>
         private void QqForm_CloseQQHandler()
         {
+            LoginType = 0;
+            SetBtnEnable(true);
+            SetBtnText("登录");
             //TODO:关闭窗口
-            CloseQQHandler?.Invoke();
+            // CloseQQHandler?.Invoke();
+
+            CloseEx();
+        }
+
+
+
+        private void SetBtnEnable(bool enable)
+        {
+            if (btnLogoutQQ.InvokeRequired)
+            {
+                btnLogoutQQ.Invoke(new Action<bool>(SetBtnEnable), new object[] { enable });
+            }
+            else
+            {
+                btnLogoutQQ.Enabled = enable;
+            }
+        }
+        private void SetBtnText(string text)
+        {
+            if (btnLogoutQQ.InvokeRequired)
+            {
+                btnLogoutQQ.Invoke(new Action<string>(SetBtnText), new object[] { text });
+            }
+            else
+            {
+                btnLogoutQQ.Text = text;
+            }
         }
 
 
@@ -242,8 +276,11 @@ namespace QQLogin
         /// </summary>
         public void CloseEx()
         {
-            qqForm.Close();
-            qqForm = null;
+            if (qqForm != null)
+            {
+                qqForm.Close();
+                qqForm = null;
+            }
             QQGlobal.Reset();
         }
 
@@ -289,7 +326,7 @@ namespace QQLogin
         }
 
         /// <summary>
-        /// 加载微信通讯录
+        /// 加载QQ群通讯录
         /// </summary>
         /// <param name="contact_all">The contact_all.</param>
         public void SetContactsView(List<QQGroup> contact_all)
@@ -309,7 +346,7 @@ namespace QQLogin
 
                     dgvContact.Rows[i - 1].Cells["GroupGid"].Value = user.Gid;
 
-                    dgvContact.Rows[i - 1].Cells["GroupTitle"].Value = user.Name;                    
+                    dgvContact.Rows[i - 1].Cells["GroupTitle"].Value = user.Name;
                     var group = QQGlobal.listenGroups != null ? QQGlobal.listenGroups.Find((g) => { return g.Gid == user.Gid; }) : null;
                     if (group != null)
                     {
@@ -321,7 +358,6 @@ namespace QQLogin
                     dgvContact.Rows[i - 1].DefaultCellStyle.SelectionBackColor = QQGlobal.backColor;
                 }
                 picLoading.Visible = false;
-                btnLogoutQQ.Visible = true;
                 new System.Threading.Thread(() =>
                 {
                     while (string.IsNullOrEmpty(QQGlobal.account.Nickname)) { }
@@ -330,6 +366,45 @@ namespace QQLogin
                 { IsBackground = true }.Start();
             }
         }
+
+
+        /// <summary>
+        /// 加载QQ群通讯录
+        /// </summary>
+        /// <param name="contact_all">The contact_all.</param>
+        public void SetContactsView(List<GroupInfo> contact_all)
+        {
+            if (dgvContact.InvokeRequired)
+            {
+                this.dgvContact.Invoke(new Action<List<QQGroup>>(SetContactsView), new object[] { contact_all });
+            }
+            else
+            {
+                this.dgvContact.Rows.Clear();
+                int i = dgvContact.Rows.Count;
+                foreach (var user in contact_all)
+                {
+                    dgvContact.Rows.Add();
+                    ++i;
+
+                    dgvContact.Rows[i - 1].Cells["GroupGid"].Value = user.group_number;
+
+                    dgvContact.Rows[i - 1].Cells["GroupTitle"].Value = user.group_name;
+                    var group = QQGlobal.listenGroups != null ? QQGlobal.listenGroups.Find((g) => { return g.Gid.ToString() == user.group_number; }) : null;
+                    if (group != null)
+                    {
+                        dgvContact.Rows[i - 1].Cells["GroupStatus"].Value = (group.isListen ? "已监控" : "");
+                        dgvContact.Rows[i - 1].Cells["GroupAlias"].Value = group.Alias;
+                    }
+
+                    dgvContact.Rows[i - 1].DefaultCellStyle.BackColor = QQGlobal.backColor;
+                    dgvContact.Rows[i - 1].DefaultCellStyle.SelectionBackColor = QQGlobal.backColor;
+                }
+                picLoading.Visible = false;
+            }
+        }
+
+
 
         /// <summary>
         /// 加载微信通讯录
@@ -349,6 +424,7 @@ namespace QQLogin
                 dgvMessageView.Rows[i - 1].Cells["MessageCode"].Value = message.Code;
                 dgvMessageView.Rows[i - 1].Cells["GroupName"].Value = message.GroupName;
                 dgvMessageView.Rows[i - 1].Cells["MessageContent"].Value = message.MessageContent;
+                dgvMessageView.Rows[i - 1].Cells["FullMessageContent"].Value = message.FullMessageContent;
                 dgvMessageView.Rows[i - 1].Cells["MessageUrl1"].Value = message.MessageUrl1;
                 dgvMessageView.Rows[i - 1].Cells["MessageUrl2"].Value = message.MessageUrl2;
                 dgvMessageView.Rows[i - 1].Cells["MessageStatus"].Value = message.MessageStatus == 0 ? "未处理" : "已完成";
@@ -453,7 +529,7 @@ namespace QQLogin
                 e.Cancel = true;
             else
             {
-                long gid = (long)cells["GroupGid"].Value;
+                long gid = Convert.ToInt64(cells["GroupGid"].Value);
                 if (QQGlobal.listenGroups.Exists((g) => { return g.Gid == gid && g.isListen; }))
                     toolAddListen.Text = "移除监控";
                 else
@@ -471,8 +547,18 @@ namespace QQLogin
 
             DataGridViewCellCollection cells = this.dgvContact.CurrentRow.Cells;
             if (cells == null) return;
-            long gid = (long)cells["GroupGid"].Value;
-            QQGroup group = QQGlobal.store.GetGroupByGin(gid);
+            long gid = Convert.ToInt64(cells["GroupGid"].Value);
+            QQGroup group = null;
+            if (LoginType == 2)
+            {
+                var g = KQ.GetGroupInfo(gid.ToString());
+                group = new QQGroup();
+                group.Gid = gid;
+                group.Name = g.group_name;
+
+            }
+            else
+                group = QQGlobal.store.GetGroupByGin(gid);
 
             if (QQGlobal.listenGroups.Exists((g) => { return g.Gid == gid; }))
             {
@@ -496,7 +582,7 @@ namespace QQLogin
                 group.isListen = true;
                 QQGlobal.listenGroups.Add(group);
                 cells["GroupTitle"].Value = group.Name;
-                cells["GroupStatus"].Value = "已监控";                
+                cells["GroupStatus"].Value = "已监控";
             }
         }
 
@@ -520,19 +606,62 @@ namespace QQLogin
             //dgvContact.BeginEdit(true);
         }
 
+        /// <summary>
+        /// 登录状态0表示为登录 1扫描登录，2酷Q登录
+        /// </summary>
+        private int LoginType { get; set; } = 0;
 
 
         /// <summary>
-        /// 注销
+        /// 注销/登录
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnLogoutQQ_Click(object sender, EventArgs e)
         {
-            CloseEx();
-            btnLogoutQQ.Visible = false;
-            picLogo.Image = Properties.Resources.QQ40x40;
-            LoginQQ();
+            if (LoginType == 0)
+            {
+               
+                if (loginTypeKQ.Checked)
+                {
+                    KQ.ClearQQGroupData();
+                    StartKQ();
+                }
+                else
+                {
+                    btnLogoutQQ.Enabled = false;
+                    if (qqForm != null)
+                    {
+                        CloseEx();
+                        picLogo.Image = Properties.Resources.QQ40x40;
+                    }
+                    LoginQQ();
+                }
+            }
+            else if (LoginType == 1)
+            {
+                dgvContact.Rows.Clear();
+                dgvMessageView.Rows.Clear();
+
+                LoginType = 0;
+                CloseEx();
+                picLogo.Image = Properties.Resources.QQ40x40;
+
+                btnLogoutQQ.Enabled = true;
+                btnLogoutQQ.Text = "登录";
+            }
+            else if (LoginType == 2)
+            {
+                dgvContact.Rows.Clear();
+                dgvMessageView.Rows.Clear();
+                LoginType = 0;
+                StopKQ();
+                picLogo.Image = Properties.Resources.QQ40x40;
+
+                btnLogoutQQ.Enabled = true;
+                btnLogoutQQ.Text = "登录";
+            }
+
         }
 
         private void dgvMessageView_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -585,14 +714,22 @@ namespace QQLogin
                 string GroupName = cells["GroupName"].Value.ToString();
                 string msgContent = cells["MessageContent"].Value.ToString();
                 long msgCode = (long)cells["MessageCode"].Value;
-                var urls = UrlUtils.GetUrls(msgContent);
+                string FullMessageContent = cells["FullMessageContent"].Value.ToString();
+                string url = cells["MessageUrl1"].Value.ToString();
+                string url2 = cells["MessageUrl2"].Value.ToString();
+
+
+                var urls = UrlUtils.GetUrls(FullMessageContent);
                 if (BuildGoodsHandler != null)
                 {
                     QQGroupMessageModel message = new QQGroupMessageModel()
                     {
                         MessageContent = msgContent,
                         Code = msgCode,
-                        GroupName = GroupName
+                        GroupName = GroupName,
+                        MessageUrl1 = url,
+                        MessageUrl2 = url2,
+                        FullMessageContent = FullMessageContent
                     };
                     MessageHandler(urls, message);
                 }
@@ -613,11 +750,23 @@ namespace QQLogin
                 DataGridViewCellCollection cells = dgvContact.Rows[e.RowIndex].Cells;
                 if (cells == null) return;
 
-                long gid = (long)cells["GroupGid"].Value;
+                long gid = Convert.ToInt64(cells["GroupGid"].Value);
                 object an = cells["GroupAlias"].Value;
                 string aliasName = an == null ? "" : an.ToString();
 
-                QQGroup group = QQGlobal.store.GetGroupByGin(gid);
+
+                QQGroup group = null;
+                if (LoginType == 2)
+                {
+                    var g = KQ.GetGroupInfo(gid.ToString());
+                    group = new QQGroup();
+                    group.Gid = gid;
+                    group.Name = g.group_name;
+                    group.Alias = aliasName;
+
+                }
+                else
+                    group = QQGlobal.store.GetGroupByGin(gid);
 
                 var it = QQGlobal.listenGroups.Find((g) => { return g.Gid == gid; });
                 if (it != null)
@@ -661,6 +810,179 @@ namespace QQLogin
         private void toolClearAll_Click(object sender, EventArgs e)
         {
             dgvMessageView.Rows.Clear();
+        }
+
+        /// <summary>
+        /// 退出酷Q
+        /// </summary>
+        private void StopKQ()
+        {
+            var myProcesses = System.Diagnostics.Process.GetProcessesByName("CQA");
+            if (myProcesses.Length > 0)
+            {
+                foreach (var item in myProcesses)
+                {
+                    item.Kill();
+                }
+            }
+
+            KQ.ClearQQGroupData();
+
+        }
+        /// <summary>
+        /// 启动酷Q
+        /// </summary>
+        private void StartKQ()
+        {
+            try
+            {
+                StopKQ();
+                var path = Application.StartupPath + @"\KQAir\CQA.exe";
+                Process.Start(path);
+
+                Timer chekLoginStatus = new Timer();
+                chekLoginStatus.Interval = 2000;
+                chekLoginStatus.Tick += chekLoginStatus_Tick;
+                chekLoginStatus.Start();
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+        /// <summary>
+        /// 检查登录
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void chekLoginStatus_Tick(object sender, EventArgs e)
+        {
+            var cfg = KQ.GetGroupCofing();
+            if (cfg.load_completed == 1)
+            {
+                lbQQAccount.Text = cfg.login_qq;
+                lbQQNickName.Text = cfg.login_name;
+                Image face = GetQQFace(cfg.login_qq);
+                if (face != null)
+                    picLogo.Image = face;
+                LoginType = 2;
+                SetBtnEnable(true);
+                SetBtnText("注销");
+                Timer t = sender as Timer;
+                t.Stop();
+
+                List<GroupInfo> data = KQ.GetGroupList();
+                SetContactsView(data);
+
+                Timer checkGroupMsg = new Timer();
+                checkGroupMsg.Interval = 3000;
+                checkGroupMsg.Tick += CheckGroupMsg_Tick;
+                checkGroupMsg.Start();
+            }
+        }
+
+        /// <summary>
+        /// 监控
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CheckGroupMsg_Tick(object sender, EventArgs e)
+        {
+            Timer t = sender as Timer;
+            t.Stop();
+            if (LoginType == 2)
+            {
+                var items = QQGlobal.listenGroups.FindAll((item) => { return item.isListen; });
+                List<long> ids = new List<long>();
+                foreach (var item in items)
+                {
+                    ids.Add(item.Gid);
+                }
+                var msgs = KQ.GetGroupMsgList(ids);
+                //删除指定目标以外的数据
+                KQ.DeleteQQGroupMsg(ids);
+                if (msgs != null)
+                {
+                    foreach (var msg in msgs)
+                    {
+                        msg.detail = msg.detail.Replace("&amp;", "&");
+                        string msgContent = GetTextReplace(msg.detail);
+                        var urls = UrlUtils.GetUrls(msg.detail);                        
+                        QqForm_GroupMsgHandler(msg.id, Convert.ToInt64(msg.group_number), "", msgContent, msg.detail, urls);
+                        //删除
+                        KQ.DeleteQQGroupMsg(msg.id);
+                        System.Threading.Thread.Sleep(500);
+                    }
+                }
+                t.Start();
+            }
+        }
+
+        public string GetTextReplace(string msg)
+        {
+            string msgText = StringHelper.FilterText(msg);
+            List<string> urls = UrlUtils.GetUrls(msgText);
+            if (urls != null)
+            {
+                foreach (var url in urls)
+                {
+                    msgText = msgText.Replace(url, "");
+                }
+            }
+
+            StringBuilder sb = new StringBuilder();
+            using (StringReader sr = new StringReader(msgText))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (!string.IsNullOrEmpty(line))
+                    {
+                        sb.AppendLine(line);
+                    }
+                }
+            }
+            sb.AppendLine("");
+            return sb.ToString();
+        }
+
+
+
+
+
+
+
+        /// <summary>
+        /// 获取QQ头像图像信息
+        /// </summary>
+        /// <param name="qqNumber">QQ号码</param>
+        /// <returns>Image对象</returns>
+        public Image GetQQFace(string qqNumber)
+        {
+            string url = string.Format("http://q.qlogo.cn/headimg_dl?dst_uin={0}&spec=640&img_type=jpg", qqNumber);
+            Image img = null;
+            try
+            {
+                //声明WebClient对象
+                WebClient client = new WebClient();
+                //添加头信息
+                client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+                //获数数据流
+                Stream streamData = client.OpenRead(url);
+                //从流中创建Image
+                img = Image.FromStream(streamData);
+                //关闭数据流
+                streamData.Close();
+                //释放内存
+                client = null;
+            }
+            catch
+            {
+
+            }
+
+            //反回数据类型
+            return img;
         }
     }
 }

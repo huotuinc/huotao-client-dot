@@ -57,6 +57,7 @@
     <Compile Include="Helper\SignatureHelper.cs" />
     <Compile Include="HotJavaApi.cs" />
     <Compile Include="HttpRequestService.cs" />
+    <Compile Include="KQService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

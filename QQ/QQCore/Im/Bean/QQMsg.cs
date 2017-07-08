@@ -198,7 +198,7 @@ namespace iQQ.Net.WebQQCore.Im.Bean
             foreach (var item in ContentList)
             {
                 string msg = item.ToText();
-                msg = FilterText(msg);
+                msg = StringHelper.FilterText(msg);
                 if (string.IsNullOrEmpty(msg)) continue;
 
                 if (!string.IsNullOrEmpty(msg.Trim()))
@@ -256,104 +256,6 @@ namespace iQQ.Net.WebQQCore.Im.Bean
         {
             return UrlUtils.GetUrls(GetText());
         }
-
-
-
-        /// <summary>
-        /// 过滤文本
-        /// </summary>
-        /// <param name="msg"></param>
-        /// <returns></returns>
-        private string FilterText(string msg)
-        {
-            if (string.IsNullOrEmpty(msg)) return msg;
-
-            //替换xxx元内部券            
-            Regex regex;
-            string[] patterns = {
-                @"\d+元优惠券:",
-                @"\d+元优惠券：",
-                @"\d*\.\d+元内部券：",
-                @"\d*\.\d+内部券：",
-                @"\d*\.\d+内部券:",
-                @"\d*\.\d+元内部券:",
-                @"\d+元内部券：",
-                @"\d+内部券:",
-                @"\d+元内部券",
-                @"\d*\.\d+元优惠券：",
-                @"\d*\.\d+元优惠券:"                
-            };
-            foreach (var pattern in patterns)
-            {
-                regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                Match m = regex.Match(msg);
-                if (m.Success)
-                {
-                    msg = regex.Replace(msg, "");
-                    break;
-                }
-            }
-            if (string.IsNullOrEmpty(msg)) return msg;
-
-            foreach (var str in filterDictionary)
-            {
-                if (msg.Contains(str))
-                {
-                    msg = msg.Replace(str, "");
-                    break;
-                }
-            }
-            return msg;
-        }
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// 过滤词典
-        /// </summary>
-        private static string[] filterDictionary = {
-            "抢购地址：",
-            "商品地址：",
-            "产品链接：",
-            "抢购：",
-            "领券：",
-            "下单：",
-            "领卷：",
-            "优惠券：",
-            "券：",
-            "拍：",
-            "内部券：",
-            "抢购地址:",
-            "商品地址:",
-            "产品链接:",
-            "抢购:",
-            "领券:",
-            "下单:",
-            "领卷:",
-            "优惠券:",
-            "优惠券链接",
-            "下单链接",
-            "下单地址",
-            "优惠券",
-            "链接",
-            "抢购",
-            "领券",
-            "下单",
-            "领卷",
-            "券如下",
-            "【抢券】",
-            "【下单】",
-            "券:",
-            "拍:",
-        };
-
-
-
         public void ClearContentItems()
         {
             ContentList.Clear();
