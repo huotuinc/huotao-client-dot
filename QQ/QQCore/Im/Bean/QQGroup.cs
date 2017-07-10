@@ -9,6 +9,12 @@ namespace iQQ.Net.WebQQCore.Im.Bean
 
     public class QQGroup
     {
+
+        /// <summary>
+        /// 登录QQ
+        /// </summary>
+        public long LoginQQ { get; set; }
+
         public long Gid { get; set; }
         public long Gin { get; set; }
         public long Code { get; set; }

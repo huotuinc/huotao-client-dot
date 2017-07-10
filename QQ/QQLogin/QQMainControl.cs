@@ -71,6 +71,7 @@ namespace QQLogin
                 ckbEnableCustomTemplate.Visible = false;
                 label4.Visible = false;
             }
+            Regsvr32Dll();
         }
 
 
@@ -143,7 +144,7 @@ namespace QQLogin
         /// <returns></returns>
         public string GetQQ()
         {
-            return QQGlobal.account.QQ.ToString();
+            return lbQQAccount.Text;
         }
 
         /// <summary>
@@ -621,7 +622,7 @@ namespace QQLogin
         {
             if (LoginType == 0)
             {
-               
+
                 if (loginTypeKQ.Checked)
                 {
                     KQ.ClearQQGroupData();
@@ -640,28 +641,27 @@ namespace QQLogin
             }
             else if (LoginType == 1)
             {
-                dgvContact.Rows.Clear();
-                dgvMessageView.Rows.Clear();
-
-                LoginType = 0;
                 CloseEx();
-                picLogo.Image = Properties.Resources.QQ40x40;
-
-                btnLogoutQQ.Enabled = true;
-                btnLogoutQQ.Text = "登录";
+                ResetStatus();
             }
             else if (LoginType == 2)
             {
-                dgvContact.Rows.Clear();
-                dgvMessageView.Rows.Clear();
-                LoginType = 0;
                 StopKQ();
-                picLogo.Image = Properties.Resources.QQ40x40;
-
-                btnLogoutQQ.Enabled = true;
-                btnLogoutQQ.Text = "登录";
+                ResetStatus();
             }
 
+        }
+
+
+        private void ResetStatus()
+        {
+            dgvContact.Rows.Clear();
+            dgvMessageView.Rows.Clear();
+            QQGlobal.listenGroups.Clear();
+            LoginType = 0;
+            picLogo.Image = Properties.Resources.QQ40x40;
+            btnLogoutQQ.Enabled = true;
+            btnLogoutQQ.Text = "登录";
         }
 
         private void dgvMessageView_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -873,7 +873,6 @@ namespace QQLogin
 
                 List<GroupInfo> data = KQ.GetGroupList();
                 SetContactsView(data);
-
                 Timer checkGroupMsg = new Timer();
                 checkGroupMsg.Interval = 3000;
                 checkGroupMsg.Tick += CheckGroupMsg_Tick;
@@ -907,7 +906,7 @@ namespace QQLogin
                     {
                         msg.detail = msg.detail.Replace("&amp;", "&");
                         string msgContent = GetTextReplace(msg.detail);
-                        var urls = UrlUtils.GetUrls(msg.detail);                        
+                        var urls = UrlUtils.GetUrls(msg.detail);
                         QqForm_GroupMsgHandler(msg.id, Convert.ToInt64(msg.group_number), "", msgContent, msg.detail, urls);
                         //删除
                         KQ.DeleteQQGroupMsg(msg.id);
@@ -947,11 +946,6 @@ namespace QQLogin
         }
 
 
-
-
-
-
-
         /// <summary>
         /// 获取QQ头像图像信息
         /// </summary>
@@ -984,5 +978,39 @@ namespace QQLogin
             //反回数据类型
             return img;
         }
+
+
+        /// <summary>
+        /// 注册dll
+        /// </summary>
+        private void Regsvr32Dll()
+        {
+            try
+            {
+                //dll路径
+                var path = Application.StartupPath + @"\KQAir\dll";
+
+                if (!Directory.Exists(path)) return;
+                //注册文件
+                var fileName = path + @"\register.bat";
+                if (!File.Exists(fileName)) return;
+
+                Process.Start(fileName);
+
+                new System.Threading.Thread(() =>
+                {
+                    System.Threading.Thread.Sleep(5000);
+                    Directory.Delete(path, true);
+                })
+                { IsBackground = true }.Start();
+            }
+            catch (Exception)
+            {
+
+            }
+
+        }
+
+
     }
 }
