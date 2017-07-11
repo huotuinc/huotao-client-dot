@@ -1055,7 +1055,7 @@ namespace HotTao
 
         private Dictionary<string, DateTime> notifyMap { get; set; } = new Dictionary<string, DateTime>();
         /// <summary>
-        /// 群异常通知
+        /// 异常通知
         /// </summary>        
         private void SendNotify()
         {
@@ -1064,7 +1064,7 @@ namespace HotTao
             if (notifyMap.ContainsKey(title))
             {
                 notifyMap.TryGetValue(title, out nowDt);
-                if (nowDt.AddMinutes(30).CompareTo(DateTime.Now) < 0)
+                if (nowDt.AddMinutes(30).CompareTo(DateTime.Now) > 0)
                 {
                     HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.阿里妈妈离线);
                 }

@@ -570,6 +570,13 @@ namespace HotTaoCore.Logic
                     if (text.Contains("[简介描述]"))
                         text = text.Replace("[简介描述]", string.IsNullOrEmpty(item.goodsIntro) ? "" : item.goodsIntro);
 
+                    if (text.Contains("[商品地址]"))
+                        text = text.Replace("[商品地址]", item.goodsDetailUrl);
+
+                    if (text.Contains("[优惠券地址]"))
+                        text = text.Replace("[优惠券地址]", item.couponUrl);
+
+
                 }
                 else
                     share.status = 2;

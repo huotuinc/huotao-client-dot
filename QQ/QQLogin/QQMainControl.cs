@@ -70,8 +70,7 @@ namespace QQLogin
             {
                 ckbEnableCustomTemplate.Visible = false;
                 label4.Visible = false;
-            }
-            Regsvr32Dll();
+            }            
         }
 
 
@@ -1011,6 +1010,9 @@ namespace QQLogin
 
         }
 
-
+        private void lbRegsvr_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Regsvr32Dll();
+        }
     }
 }

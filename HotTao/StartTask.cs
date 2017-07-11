@@ -501,7 +501,7 @@ namespace HotTao
             if (notifyMap.ContainsKey(title))
             {
                 notifyMap.TryGetValue(title, out nowDt);
-                if (nowDt.AddMinutes(30).CompareTo(DateTime.Now) < 0)
+                if (nowDt.AddMinutes(30).CompareTo(DateTime.Now) > 0)
                 {
                     HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常, title);
                 }
