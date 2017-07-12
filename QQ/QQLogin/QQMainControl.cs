@@ -18,7 +18,7 @@ namespace QQLogin
 {
     public partial class QQMainControl : UserControl
     {
-        private static KQDAL KQ = new KQDAL();
+        private static KQDAL KQ = null;
 
 
         public QQMainControl()
@@ -26,6 +26,10 @@ namespace QQLogin
 
             InitializeComponent();
         }
+
+
+
+
 
         /// <summary>
         /// 登录成功处理
@@ -42,8 +46,15 @@ namespace QQLogin
         /// </summary>
         public event BuildGoodsEventHandler BuildGoodsHandler;
 
+        /// <summary>
+        /// 身份标识
+        /// </summary>
+        public string IdentificationTag { get; set; }
 
-
+        /// <summary>
+        /// 当前进程
+        /// </summary>
+        private Process currentProcess { get; set; } = null;
 
         /// <summary>
         /// 是否显示自动跟发功能
@@ -60,6 +71,10 @@ namespace QQLogin
 
         private void QQMainControl_Load(object sender, EventArgs e)
         {
+
+            if (string.IsNullOrEmpty(IdentificationTag))
+                IdentificationTag = Guid.NewGuid().ToString();
+
             if (!IsShowAutoSend)
             {
                 ckbAutoSend.Visible = false;
@@ -70,7 +85,10 @@ namespace QQLogin
             {
                 ckbEnableCustomTemplate.Visible = false;
                 label4.Visible = false;
-            }            
+            }
+            IintKQAir();
+            if (KQ == null)
+                KQ = new KQDAL(IdentificationTag);
         }
 
 
@@ -821,13 +839,21 @@ namespace QQLogin
             {
                 foreach (var item in myProcesses)
                 {
-                    item.Kill();
+                    string path = item.MainModule.FileName.Replace("\\CQA.exe", "");
+
+                    var arr = path.Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
+                    if (arr != null && arr[arr.Length - 1].Equals(IdentificationTag))
+                    {
+                        item.Kill();
+                        break;
+                    }
                 }
             }
 
             KQ.ClearQQGroupData();
 
         }
+
         /// <summary>
         /// 启动酷Q
         /// </summary>
@@ -836,8 +862,8 @@ namespace QQLogin
             try
             {
                 StopKQ();
-                var path = Application.StartupPath + @"\KQAir\CQA.exe";
-                Process.Start(path);
+                var path = Application.StartupPath + string.Format(@"\data\tempair\{0}\CQA.exe", IdentificationTag);
+                currentProcess = Process.Start(path);
 
                 Timer chekLoginStatus = new Timer();
                 chekLoginStatus.Interval = 2000;
@@ -1012,7 +1038,82 @@ namespace QQLogin
 
         private void lbRegsvr_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Regsvr32Dll();
+            try
+            {
+                //dll路径
+                var path = Application.StartupPath + @"\KQAir\dll";
+                if (!Directory.Exists(path)) return;
+                //help文件
+                var fileName = path + @"\help.txt";
+                if (!File.Exists(fileName)) return;
+
+                Process.Start(fileName);
+                Process.Start(path);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void loginTypeKQ_CheckedChanged(object sender, EventArgs e)
+        {
+            lbRegsvr.Visible = loginTypeKQ.Checked;
+        }
+
+
+        /// <summary>
+        /// 初始化数据库
+        /// </summary>
+        /// <returns>BuildDataBase.</returns>
+        public void IintKQAir()
+        {
+            try
+            {
+                //dll路径
+                var path = Application.StartupPath + @"\KQAir";
+                string kqpath = System.Environment.CurrentDirectory + "\\data\\tempair\\" + IdentificationTag;
+                //复制
+                CopyDir(path, kqpath);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        /// <summary>
+        /// 复制
+        /// </summary>
+        /// <param name="fromDir"></param>
+        /// <param name="toDir"></param>
+        private void CopyDir(string fromDir, string toDir)
+        {
+            if (!Directory.Exists(fromDir))
+                return;
+
+            if (!Directory.Exists(toDir))
+            {
+                Directory.CreateDirectory(toDir);
+            }
+
+            string[] files = Directory.GetFiles(fromDir);
+            foreach (string formFileName in files)
+            {
+                string fileName = Path.GetFileName(formFileName);
+                string toFileName = Path.Combine(toDir, fileName);
+                File.Copy(formFileName, toFileName, false);
+            }
+            string[] fromDirs = Directory.GetDirectories(fromDir);
+            foreach (string fromDirName in fromDirs)
+            {
+                string dirName = Path.GetFileName(fromDirName);
+                if (!dirName.Equals("dll"))
+                {
+                    string toDirName = Path.Combine(toDir, dirName);
+                    CopyDir(fromDirName, toDirName);
+                }
+            }
         }
     }
 }

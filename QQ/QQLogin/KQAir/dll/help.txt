@@ -1,0 +1,7 @@
+﻿
+如果登录酷Q监控后，提示错误：不是合法的应用（loadlibrary失败，GetlastError=126)(-103)
+解决方法：
+1、打开软件安装根目录，找到KQAir/dll文件夹
+2、运行vc_redist.x86.exe文件
+3、安装完成后，已管理员身份执行register.bat文件
+4、完成

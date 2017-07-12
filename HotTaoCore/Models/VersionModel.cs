@@ -32,4 +32,20 @@ namespace HotTaoCore.Models
 
         public string desc { get; set; }
     }
+
+
+    /// <summary>
+    /// 采集脚步实体
+    /// </summary>
+    public class InjectionJsModel
+    {
+        /// <summary>
+        /// 服务器版本
+        /// </summary>
+        /// <value>The version.</value>
+        public int version { get; set; }
+
+        public string code { get; set; }
+
+    }
 }

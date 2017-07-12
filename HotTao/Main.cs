@@ -217,7 +217,6 @@ namespace HotTao
             { IsBackground = true }.Start();
         }
 
-
         private void ShowConfirm(VersionModel version)
         {
             if (this.InvokeRequired)
@@ -879,7 +878,26 @@ namespace HotTao
             }
             else
                 lw.HideWindow();
+
+
+            SetWinForegroundWindow(this.Handle);
+
         }
+
+
+        private void SetWinForegroundWindow(IntPtr hWin)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<IntPtr>(SetWinForegroundWindow), new object[] { hWin });
+            }
+            else
+            {
+                WinApi.SetForegroundWindow(hWin);
+            }
+        }
+
+
 
         /// <summary>
         /// 登录成功事件回调
@@ -1053,19 +1071,20 @@ namespace HotTao
         }
 
 
-        private Dictionary<string, DateTime> notifyMap { get; set; } = new Dictionary<string, DateTime>();
+        private static Dictionary<string, DateTime> notifyMap { get; set; } = new Dictionary<string, DateTime>();
         /// <summary>
         /// 异常通知
         /// </summary>        
         private void SendNotify()
         {
             string title = "taobao_login";
-            DateTime nowDt = new DateTime();
             if (notifyMap.ContainsKey(title))
             {
+                DateTime nowDt = DateTime.Now;
                 notifyMap.TryGetValue(title, out nowDt);
-                if (nowDt.AddMinutes(30).CompareTo(DateTime.Now) > 0)
+                if (nowDt.AddMinutes(30).CompareTo(DateTime.Now) < 0)
                 {
+                    notifyMap[title] = DateTime.Now;
                     HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.阿里妈妈离线);
                 }
             }
@@ -1337,6 +1356,7 @@ namespace HotTao
             if (qqForm == null)
             {
                 qqForm = new QQLogin.QQMainControl();
+                qqForm.IdentificationTag = MyUserInfo.currentUserId.ToString();
                 qqForm.CloseQQHandler += QqForm_CloseQQHandler;
                 qqForm.BuildGoodsHandler += QqForm_BuildGoodsHandler;
                 openControl(qqForm);

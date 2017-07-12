@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmsToolsResult = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolReSend = new System.Windows.Forms.ToolStripMenuItem();
             this.toolClearAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -241,19 +241,19 @@
             this.dgvMessageView.MultiSelect = false;
             this.dgvMessageView.Name = "dgvMessageView";
             this.dgvMessageView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.InfoText;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvMessageView.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.InfoText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvMessageView.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvMessageView.RowHeadersVisible = false;
             this.dgvMessageView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvMessageView.RowsDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvMessageView.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvMessageView.RowTemplate.Height = 40;
             this.dgvMessageView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvMessageView.Size = new System.Drawing.Size(628, 473);
@@ -291,8 +291,8 @@
             // 
             // MessageUrl1
             // 
-            dataGridViewCellStyle9.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.MessageUrl1.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.MessageUrl1.DefaultCellStyle = dataGridViewCellStyle1;
             this.MessageUrl1.HeaderText = "MessageUrl1";
             this.MessageUrl1.Name = "MessageUrl1";
             this.MessageUrl1.ReadOnly = true;
@@ -305,8 +305,8 @@
             // 
             // MessageStatus
             // 
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.MessageStatus.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.MessageStatus.DefaultCellStyle = dataGridViewCellStyle2;
             this.MessageStatus.HeaderText = "MessageStatus";
             this.MessageStatus.Name = "MessageStatus";
             this.MessageStatus.ReadOnly = true;
@@ -320,9 +320,9 @@
             // 
             // DeteleMessage
             // 
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.NullValue = "删除";
-            this.DeteleMessage.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.NullValue = "删除";
+            this.DeteleMessage.DefaultCellStyle = dataGridViewCellStyle3;
             this.DeteleMessage.HeaderText = "删除";
             this.DeteleMessage.Name = "DeteleMessage";
             this.DeteleMessage.ReadOnly = true;
@@ -430,19 +430,19 @@
             this.dgvContact.MultiSelect = false;
             this.dgvContact.Name = "dgvContact";
             this.dgvContact.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.InfoText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvContact.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.InfoText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvContact.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvContact.RowHeadersVisible = false;
             this.dgvContact.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvContact.RowsDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvContact.RowsDefaultCellStyle = dataGridViewCellStyle8;
             this.dgvContact.RowTemplate.Height = 40;
             this.dgvContact.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvContact.Size = new System.Drawing.Size(267, 548);
@@ -471,8 +471,8 @@
             // GroupTitle
             // 
             this.GroupTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.GroupTitle.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.GroupTitle.DefaultCellStyle = dataGridViewCellStyle6;
             this.GroupTitle.HeaderText = "GroupTitle";
             this.GroupTitle.Name = "GroupTitle";
             this.GroupTitle.ReadOnly = true;
@@ -513,7 +513,7 @@
             // lbRegsvr
             // 
             this.lbRegsvr.AutoSize = true;
-            this.lbRegsvr.Location = new System.Drawing.Point(433, 40);
+            this.lbRegsvr.Location = new System.Drawing.Point(436, 40);
             this.lbRegsvr.Name = "lbRegsvr";
             this.lbRegsvr.Size = new System.Drawing.Size(191, 12);
             this.lbRegsvr.TabIndex = 18;
@@ -525,24 +525,26 @@
             // loginTypeKQ
             // 
             this.loginTypeKQ.AutoSize = true;
-            this.loginTypeKQ.Location = new System.Drawing.Point(440, 25);
+            this.loginTypeKQ.Location = new System.Drawing.Point(440, 17);
             this.loginTypeKQ.Name = "loginTypeKQ";
             this.loginTypeKQ.Size = new System.Drawing.Size(41, 16);
             this.loginTypeKQ.TabIndex = 11;
             this.loginTypeKQ.Text = "酷Q";
             this.loginTypeKQ.UseVisualStyleBackColor = true;
+            this.loginTypeKQ.CheckedChanged += new System.EventHandler(this.loginTypeKQ_CheckedChanged);
             // 
             // loginTypeSan
             // 
             this.loginTypeSan.AutoSize = true;
             this.loginTypeSan.Checked = true;
-            this.loginTypeSan.Location = new System.Drawing.Point(487, 25);
+            this.loginTypeSan.Location = new System.Drawing.Point(487, 17);
             this.loginTypeSan.Name = "loginTypeSan";
             this.loginTypeSan.Size = new System.Drawing.Size(71, 16);
             this.loginTypeSan.TabIndex = 11;
             this.loginTypeSan.TabStop = true;
             this.loginTypeSan.Text = "扫描登录";
             this.loginTypeSan.UseVisualStyleBackColor = true;
+            this.loginTypeSan.CheckedChanged += new System.EventHandler(this.loginTypeKQ_CheckedChanged);
             // 
             // btnLogoutQQ
             // 
@@ -554,7 +556,7 @@
             this.btnLogoutQQ.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(183)))), ((int)(((byte)(89)))));
             this.btnLogoutQQ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogoutQQ.ForeColor = System.Drawing.Color.White;
-            this.btnLogoutQQ.Location = new System.Drawing.Point(560, 21);
+            this.btnLogoutQQ.Location = new System.Drawing.Point(560, 13);
             this.btnLogoutQQ.Name = "btnLogoutQQ";
             this.btnLogoutQQ.Size = new System.Drawing.Size(65, 23);
             this.btnLogoutQQ.TabIndex = 9;

@@ -497,12 +497,14 @@ namespace HotTao
         /// <param name="title"></param>
         private void SendNotify(string title)
         {
-            DateTime nowDt = new DateTime();
+
             if (notifyMap.ContainsKey(title))
             {
+                DateTime nowDt = DateTime.Now;
                 notifyMap.TryGetValue(title, out nowDt);
-                if (nowDt.AddMinutes(30).CompareTo(DateTime.Now) > 0)
+                if (nowDt.AddMinutes(30).CompareTo(DateTime.Now) < 0)
                 {
+                    notifyMap[title] = DateTime.Now;
                     HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常, title);
                 }
             }

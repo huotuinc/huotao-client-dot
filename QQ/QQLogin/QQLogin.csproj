@@ -168,7 +168,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="KQAir\conf\CQP.cfg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="KQAir\conf\CSPlugins.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -213,6 +213,9 @@
     <Content Include="KQAir\CSharpPlugins\HotTao.CQP.CSharpPlugins.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="KQAir\dll\help.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="KQAir\dll\msvcp140d.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -221,6 +224,9 @@
     </Content>
     <Content Include="KQAir\dll\vcruntime140d.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KQAir\dll\vc_redist.x86.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="KQAir\Flexlive.CQP.Framework.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

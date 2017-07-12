@@ -65,9 +65,9 @@ namespace QQLogin
     public class KQDAL
     {
         private static QQLoginDBSqliteHelper DBHelper;
-        public KQDAL()
+        public KQDAL(string IdentificationTag)
         {
-            DBHelper = new QQLoginDBSqliteHelper();
+            DBHelper = new QQLoginDBSqliteHelper(IdentificationTag);
         }
 
 

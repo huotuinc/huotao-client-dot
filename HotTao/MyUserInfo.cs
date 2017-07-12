@@ -27,6 +27,7 @@ namespace HotTao
     {
         public static UserModel userData;
 
+
         public static string LoginToken = "";
 
         public static int currentUserId = 0;

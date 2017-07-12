@@ -70,7 +70,5 @@ namespace HOTReuestService
             })
             { IsBackground = true }.Start();
         }
-
-
     }
 }

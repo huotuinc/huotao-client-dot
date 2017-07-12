@@ -34,7 +34,15 @@ namespace HOTReuestService
         /// </summary>
         public const string www = "http://www.51huotao.com";
 
-        public const string CheckUpdateUrl = "http://www.51huotao.com/version/v.json";
+        public const string CheckUpdateUrl = Url + "/version/v.json";
+
+        /// <summary>
+        ///  采集js脚步地址
+        /// </summary>
+        public const string JsCode = Url + "/version/caijijs/injection.json";
+
+
+
 
 
         /// <summary>

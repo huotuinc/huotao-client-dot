@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HOT.QQCollect", "HOT.QQColl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HOTReuestService", "HOTReuestService\HOTReuestService.csproj", "{67006D2C-E9DA-4B7D-940D-72706C1078E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "update", "update\update.csproj", "{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,6 +185,18 @@ Global
 		{67006D2C-E9DA-4B7D-940D-72706C1078E6}.Release|x64.Build.0 = Release|Any CPU
 		{67006D2C-E9DA-4B7D-940D-72706C1078E6}.Release|x86.ActiveCfg = Release|Any CPU
 		{67006D2C-E9DA-4B7D-940D-72706C1078E6}.Release|x86.Build.0 = Release|Any CPU
+		{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}.Debug|x64.Build.0 = Debug|Any CPU
+		{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}.Debug|x86.Build.0 = Debug|Any CPU
+		{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}.Release|x64.ActiveCfg = Release|Any CPU
+		{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}.Release|x64.Build.0 = Release|Any CPU
+		{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}.Release|x86.ActiveCfg = Release|Any CPU
+		{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

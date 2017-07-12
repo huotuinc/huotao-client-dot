@@ -33,10 +33,10 @@ namespace HotTaoCore
     /// <summary>
     /// 网络请求
     /// </summary>
-    public class BaseRequestService: HttpRequestService
+    public class BaseRequestService : HttpRequestService
     {
         static NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
-        
+
         public static VersionModel CheckUpdate()
         {
             try
@@ -64,6 +64,45 @@ namespace HotTaoCore
                 return null;
             }
         }
-        
+
+
+        /// <summary>
+        /// 获取采集js代码
+        /// </summary>
+        /// <returns></returns>
+        public static string GetInjectionJsCode()
+        {
+            try
+            {
+                var request = CreateRequest(ApiDefineConst.JsCode);
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (Stream response_stream = response.GetResponseStream())
+                    {
+                        using (StreamReader sr = new StreamReader(response_stream, Encoding.UTF8))
+                        {
+                            string respone = sr.ReadToEnd().Trim();
+                            if (!string.IsNullOrEmpty(respone))
+                            {
+                                var result = Resolve<InjectionJsModel>(respone);
+                                if (result != null)
+                                    return result.code;
+                            }
+                            return null;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("CheckUpdate: " + ex.ToString());
+                return null;
+            }
+        }
+
+
+
+
+
     }
 }

@@ -25,11 +25,14 @@ namespace QQLogin
     public class QQLoginDBSqliteHelper
     {
 
-        private string connStr = "Data Source=" + AppDomain.CurrentDomain.BaseDirectory + "\\KQAir\\CSharpPlugins\\qqcache.db;Version=3;Pooling=true";
+        private string connStr = string.Empty;
 
         private static SQLiteConnection conn;
 
-
+        public QQLoginDBSqliteHelper(string IdentificationTag)
+        {
+            connStr = "Data Source=" + AppDomain.CurrentDomain.BaseDirectory + "\\data\\tempair\\" + IdentificationTag + "\\CSharpPlugins\\qqcache.db;Version=3;Pooling=true";
+        }
 
         /// <summary>
         /// 关闭连接
