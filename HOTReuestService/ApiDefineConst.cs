@@ -27,7 +27,7 @@ namespace HOTReuestService
         /// <summary>
         /// 接口地址
         /// </summary>
-        public const string Url = "http://www.51huotao.com";// "http://www.staging.51huotao.com";
+        public const string Url = "http://www.staging.51huotao.com";//"http://www.51huotao.com";// 
 
         /// <summary>
         /// 官网首页

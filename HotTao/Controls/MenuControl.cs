@@ -83,7 +83,12 @@ namespace HotTao.Controls
             hotForm.AlertConfirm("确定要切换淘宝登录？", "提示", () =>
             {
                 this.Hide();
-                hotForm.LoginTaoBao();
+
+                new System.Threading.Thread(() =>
+                {
+                    hotForm.LoginTaoBao();
+                })
+                { IsBackground = true }.Start();
             });
 
         }
