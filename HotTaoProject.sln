@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HOTReuestService", "HOTReue
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "update", "update\update.csproj", "{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotJoinImage", "HotJoinImage\HotJoinImage.csproj", "{5D4FD003-B8B6-41DC-BE20-045142BE39A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -197,6 +199,18 @@ Global
 		{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}.Release|x64.Build.0 = Release|Any CPU
 		{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}.Release|x86.ActiveCfg = Release|Any CPU
 		{FC971D77-E0DB-47C3-BB17-FF4079BFFB85}.Release|x86.Build.0 = Release|Any CPU
+		{5D4FD003-B8B6-41DC-BE20-045142BE39A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D4FD003-B8B6-41DC-BE20-045142BE39A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D4FD003-B8B6-41DC-BE20-045142BE39A4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5D4FD003-B8B6-41DC-BE20-045142BE39A4}.Debug|x64.Build.0 = Debug|Any CPU
+		{5D4FD003-B8B6-41DC-BE20-045142BE39A4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5D4FD003-B8B6-41DC-BE20-045142BE39A4}.Debug|x86.Build.0 = Debug|Any CPU
+		{5D4FD003-B8B6-41DC-BE20-045142BE39A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D4FD003-B8B6-41DC-BE20-045142BE39A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D4FD003-B8B6-41DC-BE20-045142BE39A4}.Release|x64.ActiveCfg = Release|Any CPU
+		{5D4FD003-B8B6-41DC-BE20-045142BE39A4}.Release|x64.Build.0 = Release|Any CPU
+		{5D4FD003-B8B6-41DC-BE20-045142BE39A4}.Release|x86.ActiveCfg = Release|Any CPU
+		{5D4FD003-B8B6-41DC-BE20-045142BE39A4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

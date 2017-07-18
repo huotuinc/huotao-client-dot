@@ -1183,16 +1183,10 @@ namespace HotTao
                     }
                     else
                     {
-
-
-
                         TaobaoCommonCampaignItemsModel items = JsonConvert.DeserializeObject<TaobaoCommonCampaignItemsModel>(content);
                         if (items != null && items.ok && items.data != null && items.data.Count > 0)
                         {
-                            //var data = items.data.FindAll(i =>
-                            // {
-                            //     return i.manualAudit == 0;
-                            // });
+ 
                             var listData = items.data.OrderByDescending(r => r.commissionRate).ToList();
 
                             TaobaoCommonItem item = listData[0];

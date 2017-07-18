@@ -165,6 +165,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HotJoinImage\HotJoinImage.csproj">
+      <Project>{5D4FD003-B8B6-41DC-BE20-045142BE39A4}</Project>
+      <Name>HotJoinImage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HOTReuestService\HOTReuestService.csproj">
       <Project>{67006D2C-E9DA-4B7D-940D-72706C1078E6}</Project>
       <Name>HOTReuestService</Name>

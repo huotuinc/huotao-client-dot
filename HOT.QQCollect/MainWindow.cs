@@ -98,6 +98,7 @@ namespace HOT.QQCollect
                 qqForm = new QQLogin.QQMainControl();
                 qqForm.IsShowAutoSend = false;
                 qqForm.IsShowCustomTemplate = false;
+                qqForm.IsShowBigCowGoodsCaiji = true;
                 qqForm.CloseQQHandler += QqForm_CloseQQHandler;
                 qqForm.BuildGoodsHandler += QqForm_BuildGoodsHandler;
             }
@@ -119,7 +120,10 @@ namespace HOT.QQCollect
             lock (lock_goods)
             {
                 try
-                {                    
+                {
+                    bool bigCow = true;
+                    if (qqForm != null)
+                        bigCow = qqForm.EnableBigCow;
                     List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
                     Dictionary<string, string> data = new Dictionary<string, string>();
                     if (urls.Count() > 0)
@@ -137,7 +141,7 @@ namespace HOT.QQCollect
 
                     callback?.Invoke(MessageCallBackType.正在准备, 0, 0);
                     //根据地址，获取商品优惠信息
-                    bool result = HotJavaApi.UploadGoodsbyLink(qqForm.GetQQ(), msgGroupName, jsonUrls);
+                    bool result = HotJavaApi.UploadGoodsbyLink(qqForm.GetQQ(), msgGroupName, jsonUrls, bigCow ? "daniu" : "");
 
                     if (result)
                         callback?.Invoke(MessageCallBackType.完成, 0, 0);

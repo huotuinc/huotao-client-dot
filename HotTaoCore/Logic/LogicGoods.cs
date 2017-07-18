@@ -213,5 +213,28 @@ namespace HotTaoCore.Logic
         }
 
 
+        /// <summary>
+        /// 保存采集到的商品
+        /// </summary>
+        /// <param name="loginToken"></param>
+        /// <param name="goodsId"></param>
+        /// <param name="goodsName"></param>
+        /// <param name="price">商品价格</param>
+        /// <param name="discountAmount">券价值</param>
+        /// <param name="shareText"></param>
+        /// <returns></returns>
+        public int saveCollectionGoods(string loginToken, string goodsId, string goodsName, decimal price, decimal discountAmount, string shareText)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["goodsId"] = goodsId;
+            data["goodsName"] = goodsName;
+            data["price"] = price.ToString("f2");
+            data["discountAmount"] = discountAmount.ToString("f2");
+            data["shareText"] = shareText;
+            return HttpRequestService.PostToInt32(ApiDefineConst.saveCollectionGoods, data);
+        }
+
+
     }
 }

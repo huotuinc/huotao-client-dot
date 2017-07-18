@@ -1355,5 +1355,62 @@ namespace HotTao.Controls
             collect.StartPosition = FormStartPosition.CenterParent;
             collect.ShowDialog(this);
         }
+
+
+        /// <summary>
+        /// 防封号一键合成图片转发
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnOneKeyImage_Click(object sender, EventArgs e)
+        {
+            List<GoodsTaskModel> goodsidList = new List<GoodsTaskModel>();
+            //循环获取选中的数据
+            foreach (DataGridViewRow item in dgvData.Rows)
+            {
+                if ((bool)item.Cells[0].EditedFormattedValue == true)
+                {
+                    int result = 0;
+                    int.TryParse(item.Cells["gid"].Value.ToString(), out result);
+                    if (result > 0 && goodsidList.FindIndex(r => { return r.id == result; }) < 0)
+                        goodsidList.Add(new GoodsTaskModel() { id = result });
+                }
+            }
+
+            List<UserPidTaskModel> pidList = new List<UserPidTaskModel>();
+            foreach (DataGridViewRow item in dgvPid.Rows)
+            {
+                if ((bool)item.Cells[0].EditedFormattedValue == true)
+                {
+                    int result = 0;
+                    int.TryParse(item.Cells["shareid"].Value.ToString(), out result);
+                    if (result > 0 && pidList.FindIndex(r => { return r.id == result; }) < 0)
+                        pidList.Add(new UserPidTaskModel() { id = result });
+                }
+            }
+            if (pidList.Count() == 0)
+            {
+                ShowAlert("请先选择群");
+                return;
+            }
+            if (goodsidList.Count() == 0)
+            {
+                ShowAlert("请先选择商品");
+                return;
+            }
+            if (goodsidList.Count() > 3)
+            {
+                ShowAlert("最多选择三个商品");
+                return;
+            }
+
+
+            TaskEdit te = new TaskEdit(hotForm, this);
+            te.hotGoodsText = goodsidList;
+            te.hotPidsText = pidList;
+            te.Title = "创建合成图转发计划";
+            te.isJoinImage = true;
+            te.ShowDialog(this);
+        }
     }
 }

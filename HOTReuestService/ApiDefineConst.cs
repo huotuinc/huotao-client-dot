@@ -27,7 +27,7 @@ namespace HOTReuestService
         /// <summary>
         /// 接口地址
         /// </summary>
-        public const string Url = "http://www.51huotao.com";// "http://www.staging.51huotao.com";//"
+        public const string Url = "http://www.51huotao.com";// "http://www.staging.51huotao.com";//http://www.51huotao.com"
 
         /// <summary>
         /// 官网首页
@@ -41,6 +41,11 @@ namespace HOTReuestService
         /// </summary>
         public const string JsCode = Url + "/version/caijijs/injection.json";
 
+
+        /// <summary>
+        /// 二维码内容，参数ids，多个ID用_隔开
+        /// </summary>
+        public const string QrCodeUrl = Url + "/collectionGoods/collectionPage";
 
 
 
@@ -305,6 +310,11 @@ namespace HOTReuestService
         /// 推送通知到用户
         /// </summary>
         public const string sendUserNotice = "/hotUser/sendUserNotice";
+
+        /// <summary>
+        /// 保存采集到的商品
+        /// </summary>
+        public const string saveCollectionGoods = "/collectionGoods/saveCollectionGoods";
 
         #endregion
     }

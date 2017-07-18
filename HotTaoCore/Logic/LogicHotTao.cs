@@ -8,6 +8,8 @@
 **/
 
 
+using HotJoinImage;
+using HOTReuestService.Helper;
 using HotTaoCore.DAL;
 using HotTaoCore.Models;
 using Newtonsoft.Json;
@@ -458,7 +460,7 @@ namespace HotTaoCore.Logic
         /// <param name="templateText">文案</param>
         /// <param name="result">The result.</param>
         /// <returns>true if XXXX, false otherwise.</returns>
-        public bool BuildTaskTpwd(string loginToken, int userid, int taskid, string templateText, string appkey, string appsecret, Action<weChatShareTextModel> result = null, bool append = false)
+        public bool BuildTaskTpwd(string loginToken, int userid, int taskid, string templateText, string appkey, string appsecret, Action<weChatShareTextModel> result = null, bool append = false, bool isJoinImage = false)
         {
             var taskData = FindByUserTaskPlanInfo(userid, taskid);
             if (taskData == null || taskData.ExecStatus != 0) return false;
@@ -495,7 +497,7 @@ namespace HotTaoCore.Logic
                 foreach (var group in wechatlist)
                 {
                     //生成商品分享文本
-                    BuildShareText(loginToken, userid, taskid, templateText, goodslist, group, appkey, appsecret, result);
+                    BuildShareText(loginToken, userid, taskid, templateText, goodslist, group, appkey, appsecret, result, isJoinImage, taskData.title);
                 }
                 UpdateUserTaskPlanIsTpwd(taskid);
             }
@@ -528,7 +530,7 @@ namespace HotTaoCore.Logic
         /// <param name="data">The data.</param>
         /// <param name="group">The group.</param>
         /// <returns>true if XXXX, false otherwise.</returns>
-        private bool BuildShareText(string loginToken, int userid, int taskid, string templateText, List<GoodsModel> data, weChatGroupModel group, string appkey, string appsecret, Action<weChatShareTextModel> result = null)
+        private bool BuildShareText(string loginToken, int userid, int taskid, string templateText, List<GoodsModel> data, weChatGroupModel group, string appkey, string appsecret, Action<weChatShareTextModel> result = null, bool isJoinImage = false, string JoinImageDesc = "")
         {
             if (data == null) return false;
             weChatShareTextModel share = new weChatShareTextModel()
@@ -538,6 +540,11 @@ namespace HotTaoCore.Logic
                 status = -1,
                 title = group.title
             };
+
+            List<int> ids = new List<int>();
+
+            List<JoinGoodsInfo> imageList = new List<JoinGoodsInfo>();
+
             foreach (var item in data)
             {
                 if (item.goodsPrice - item.couponPrice <= 0) continue;
@@ -583,8 +590,43 @@ namespace HotTaoCore.Logic
                 share.goodsid = Convert.ToInt32(item.id);
                 share.text = text;
                 share.tpwd = tpwd;
+                share.field1 = item.goodslocatImgPath;
+
+                if (isJoinImage)
+                {
+                    string _url = GlobalConfig.couponUrl;
+                    _url += "?src=ht_hot&activityId=" + item.couponId;
+                    _url += "&itemId=" + item.goodsId.Replace("=", "");
+                    _url += "&pid=" + tpwd;
+                    var _tpwd = HotTaoApiService.Instance.taobao_wireless_share_tpwd_create(item.goodsMainImgUrl, _url, item.goodsName, appkey, appsecret);
+                    share.field2 = _tpwd;
+                    var _id = LogicGoods.Instance.saveCollectionGoods(loginToken, item.goodsId, item.goodsName, item.goodsPrice, item.couponPrice, _tpwd);
+                    if (_id > 0)
+                        ids.Add(_id);
+
+                    share.field7 = _id;
+                    share.status = 0;
+                    imageList.Add(new JoinGoodsInfo()
+                    {
+                        GoodsName = item.goodsName,
+                        GoodsPrice = item.goodsPrice,
+                        CouponPrice = item.couponPrice,
+                        imagePath = item.goodslocatImgPath
+                    });
+                }
+                share.field6 = isJoinImage ? 1 : 0;
+                share.field3 = group.id.ToString();
                 AddUserWechatSharetext(share);
                 result?.Invoke(share);
+            }
+            if (isJoinImage)
+            {
+                var img = JoinImage.GetJoinImage(imageList, 800, string.Format("{0}?ids={1}", ApiConst.QrCodeUrl, string.Join("_", ids)), string.IsNullOrEmpty(JoinImageDesc) ? "今日爆款" : JoinImageDesc.Replace("【合成图片转发】", ""));
+                string path = System.Environment.CurrentDirectory + "\\temp\\joinimage";
+                if (!System.IO.Directory.Exists(path))
+                    System.IO.Directory.CreateDirectory(path);
+                string fileName = EncryptHelper.MD5(taskid.ToString() + group.id.ToString());
+                img.Save(string.Format("{0}\\{1}.jpg", path, fileName));
             }
             return true;
         }

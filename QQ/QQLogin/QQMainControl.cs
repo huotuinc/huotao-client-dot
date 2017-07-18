@@ -66,6 +66,11 @@ namespace QQLogin
         /// </summary>
         public bool IsShowCustomTemplate { get; set; } = true;
 
+        /// <summary>
+        /// 是否显示大牛选单
+        /// </summary>
+        public bool IsShowBigCowGoodsCaiji { get; set; } = false;
+
 
         public QQLogin qqForm;
 
@@ -75,20 +80,27 @@ namespace QQLogin
             if (string.IsNullOrEmpty(IdentificationTag))
                 IdentificationTag = Guid.NewGuid().ToString();
 
-            if (!IsShowAutoSend)
-            {
-                ckbAutoSend.Visible = false;
-                label1.Visible = false;
-            }
 
-            if (!IsShowCustomTemplate)
-            {
-                ckbEnableCustomTemplate.Visible = false;
-                label4.Visible = false;
-            }
+            ckbAutoSend.Visible = IsShowAutoSend;
+            label1.Visible = IsShowAutoSend;
+
+            ckbEnableCustomTemplate.Visible = IsShowCustomTemplate;
+            label4.Visible = IsShowCustomTemplate;
+
+            ckBigCow.Visible = IsShowBigCowGoodsCaiji;
+
             IintKQAir();
             if (KQ == null)
                 KQ = new KQDAL(IdentificationTag);
+        }
+
+
+        public bool EnableBigCow
+        {
+            get
+            {
+                return ckBigCow.Checked;
+            }
         }
 
 

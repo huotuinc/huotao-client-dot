@@ -435,7 +435,7 @@ namespace HotTaoCore.DAL
         /// <returns>System.Int32.</returns>
         public int AddUserTaskPlan(TaskPlanModel model)
         {
-            string strSql = @"INSERT INTO user_task_plan (userid,title,startTime,endTime,goodsText,pidsText,isTpwd,status) VALUES(@userid,@title,@startTime,@endTime,@goodsText,@pidsText,0,0);select last_insert_rowid(); ";
+            string strSql = @"INSERT INTO user_task_plan (userid,title,startTime,endTime,goodsText,pidsText,isTpwd,status) VALUES(@userid,@title,@startTime,@endTime,@goodsText,@pidsText,@isTpwd,@status);select last_insert_rowid(); ";
 
             var param = new[] {
                     new SQLiteParameter("@userid",model.userid),
@@ -443,7 +443,9 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@startTime",model.startTime),
                     new SQLiteParameter("@endTime",model.endTime),
                     new SQLiteParameter("@goodsText",model.goodsText),
-                    new SQLiteParameter("@pidsText",model.pidsText)
+                    new SQLiteParameter("@pidsText",model.pidsText),
+                    new SQLiteParameter("@isTpwd",model.isTpwd),
+                    new SQLiteParameter("@status",model.status)
                 };
             return DBHelper.ExecuteSql(strSql, param);
         }
@@ -594,7 +596,7 @@ namespace HotTaoCore.DAL
         /// <returns>System.Int32.</returns>
         public int AddUserWechatSharetext(weChatShareTextModel model)
         {
-            string strSql = @"INSERT INTO user_wechat_sharetext (userid,title,text,taskid,goodsid,status,tpwd) VALUES(@userid,@title,@text,@taskid,@goodsid,@status,@tpwd);select last_insert_rowid(); ";
+            string strSql = @"INSERT INTO user_wechat_sharetext (userid,title,text,taskid,goodsid,status,tpwd,field1,field2,field3,field4,field5,field6,field7) VALUES(@userid,@title,@text,@taskid,@goodsid,@status,@tpwd,@field1,@field2,@field3,@field4,@field5,@field6,@field7);select last_insert_rowid(); ";
 
             var param = new[] {
                     new SQLiteParameter("@userid",model.userid),
@@ -603,7 +605,14 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@taskid",model.taskid),
                     new SQLiteParameter("@goodsid",model.goodsid),
                     new SQLiteParameter("@status",model.status),
-                    new SQLiteParameter("@tpwd",model.tpwd)
+                    new SQLiteParameter("@tpwd",model.tpwd),
+                    new SQLiteParameter("@field1",model.field1),
+                    new SQLiteParameter("@field2",model.field2),
+                    new SQLiteParameter("@field3",model.field3),
+                    new SQLiteParameter("@field4",model.field4),
+                    new SQLiteParameter("@field5",model.field5),
+                    new SQLiteParameter("@field6",model.field6),
+                    new SQLiteParameter("@field7",model.field7)
                 };
             return DBHelper.ExecuteSql(strSql, param);
         }
@@ -705,7 +714,7 @@ namespace HotTaoCore.DAL
         /// <returns>List&lt;GoodsModel&gt;.</returns>
         public List<weChatShareTextModel> FindByUserWechatShareTextList(int userid, int taskid)
         {
-            string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd from user_wechat_sharetext where userid=@userid and taskid=@taskid;";
+            string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd,field1,field2,field3,field4,field5,field6,field7 from user_wechat_sharetext where userid=@userid and taskid=@taskid;";
             var param = new[] {
                     new SQLiteParameter("@taskid",taskid),
                     new SQLiteParameter("@userid",userid)
@@ -722,7 +731,7 @@ namespace HotTaoCore.DAL
         /// <returns>List&lt;weChatShareTextModel&gt;.</returns>
         public List<weChatShareTextModel> FindByUserWechatShareTextList(int userid, int taskid, int goodsid)
         {
-            string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd from user_wechat_sharetext where userid=@userid and taskid=@taskid and goodsid=@goodsid and status=0 ;";
+            string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd,field1,field2,field3,field4,field5,field6,field7 from user_wechat_sharetext where userid=@userid and taskid=@taskid and goodsid=@goodsid and status=0 ;";
             var param = new[] {
                     new SQLiteParameter("@taskid",taskid),
                     new SQLiteParameter("@userid",userid),
@@ -738,7 +747,7 @@ namespace HotTaoCore.DAL
         /// <returns>List&lt;weChatShareTextModel&gt;.</returns>
         public List<weChatShareTextModel> FindByUserWechatShareTextList(int userid)
         {
-            string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd from user_wechat_sharetext where userid=@userid  and status in (0,-1);";
+            string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd,field1,field2,field3,field4,field5,field6,field7 from user_wechat_sharetext where userid=@userid  and status in (0,-1);";
             var param = new[] {
                     new SQLiteParameter("@userid",userid)
             };

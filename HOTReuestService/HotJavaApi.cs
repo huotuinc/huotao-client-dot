@@ -28,13 +28,16 @@ namespace HOTReuestService
         /// <param name="qq">当前采取者的QQ号</param>
         /// <param name="groupName">群标题（直播间）</param>
         /// <param name="urls">商品优惠券地址</param>
+        /// <param name="from">来源 值daniu为大牛选单</param>
         /// <returns></returns>
-        public static bool UploadGoodsbyLink(string qq, string groupName, string urls)
+        public static bool UploadGoodsbyLink(string qq, string groupName, string urls, string from = "")
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["qq"] = qq;
             data["groupName"] = groupName;
             data["urls"] = urls;
+            if (!string.IsNullOrEmpty(from))
+                data["from"] = from;
             return HttpRequestService.Post(ApiDefineConst.uploadGoodsbyLink, data);
         }
 

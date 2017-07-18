@@ -82,6 +82,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lbQQAccount = new System.Windows.Forms.Label();
             this.picLogo = new System.Windows.Forms.PictureBox();
+            this.ckBigCow = new System.Windows.Forms.CheckBox();
             this.cmsToolsResult.SuspendLayout();
             this.cmsTools.SuspendLayout();
             this.hotPanel1.SuspendLayout();
@@ -153,6 +154,7 @@
             // 
             this.hotPanel1.BackColor = System.Drawing.Color.White;
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Controls.Add(this.ckBigCow);
             this.hotPanel1.Controls.Add(this.linkLabel1);
             this.hotPanel1.Controls.Add(this.label4);
             this.hotPanel1.Controls.Add(this.label1);
@@ -608,6 +610,17 @@
             this.picLogo.TabIndex = 10;
             this.picLogo.TabStop = false;
             // 
+            // ckBigCow
+            // 
+            this.ckBigCow.AutoSize = true;
+            this.ckBigCow.Location = new System.Drawing.Point(13, 81);
+            this.ckBigCow.Name = "ckBigCow";
+            this.ckBigCow.Size = new System.Drawing.Size(168, 16);
+            this.ckBigCow.TabIndex = 19;
+            this.ckBigCow.Text = "勾选启用大牛选单商品采集";
+            this.ckBigCow.UseVisualStyleBackColor = true;
+            this.ckBigCow.Visible = false;
+            // 
             // QQMainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -679,5 +692,6 @@
         private System.Windows.Forms.RadioButton loginTypeKQ;
         private System.Windows.Forms.RadioButton loginTypeSan;
         private System.Windows.Forms.LinkLabel lbRegsvr;
+        private System.Windows.Forms.CheckBox ckBigCow;
     }
 }
