@@ -73,6 +73,16 @@ namespace TBSync
         private const string searchUrl = "http://pub.alimama.com/promo/search/index.htm";
 
         /// <summary>
+        /// 淘宝授权地址
+        /// </summary>
+        private const string authUrl = "https://oauth.taobao.com/authorize?response_type=token&client_id=24538400&state=1212&view=web";
+
+        /// <summary>
+        /// 淘宝授权结果页面
+        /// </summary>
+        private const string authView = "https://oauth.taobao.com/oauth2";
+
+        /// <summary>
         /// 初始化是否加载完成
         /// </summary>
         private bool isLoadCompleted = false;
@@ -80,6 +90,11 @@ namespace TBSync
         ///是否登录完成
         /// </summary>
         private bool isLoginCompleted = false;
+
+        /// <summary>
+        /// 是否授权完成
+        /// </summary>
+        private bool isAuthCompleted = false;
 
         /// <summary>
         /// 登录成功时间
@@ -124,6 +139,12 @@ namespace TBSync
                     browser.TitleChanged += Browser_TitleChanged;
                     browser.AddressChanged += Browser_AddressChanged;
                     this.tbPanel.Controls.Add(browser);
+
+                    //定时去刷新页面，以保证淘宝长久在线状态
+                    System.Windows.Forms.Timer RefreshAuthView = new System.Windows.Forms.Timer();
+                    RefreshAuthView.Interval = 1000 * 60 * 4;
+                    RefreshAuthView.Tick += RefreshAuthView_Tick;
+                    RefreshAuthView.Start();
                 }
             }
             catch (Exception ex)
@@ -133,8 +154,25 @@ namespace TBSync
                 this.Close();
             }
         }
+
         /// <summary>
-        /// 登录发送改变时
+        /// 定时刷新
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RefreshAuthView_Tick(object sender, EventArgs e)
+        {
+            if (browser.Address.Contains(authView))
+            {
+                if (isAuthCompleted)
+                {
+                    browser.Reload();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 地址发生改变时
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -150,6 +188,14 @@ namespace TBSync
                         LoginSuccess();
                     })
                     { IsBackground = true }.Start();
+                }
+            }
+            else if (e.Address.Contains(authView))
+            {
+                if (!isAuthCompleted)
+                {
+                    isAuthCompleted = true;
+                    HideWindow();
                 }
             }
         }
@@ -204,6 +250,14 @@ namespace TBSync
                     LoadDenyHandler?.Invoke();
                 })
                 { IsBackground = true }.Start();
+            }
+            else if (e.Url.Contains(authView))
+            {
+                if (!isAuthCompleted)
+                {
+                    isAuthCompleted = true;
+                    HideWindow();
+                }
             }
         }
 
@@ -263,7 +317,7 @@ namespace TBSync
         private void LoginSuccess()
         {
             try
-            {                
+            {
                 loginSuccessTime = DateTime.Now;
                 SetTitle("登录成功!正在获取Token...");
                 var visitor = new CookieMonster();
@@ -282,18 +336,18 @@ namespace TBSync
                     cookies.Add(cookie);
                 }
 
-                browser.Load("http://pub.alimama.com/myunion.htm");
+                browser.Load(authUrl);
 
                 string cookiesJson = JsonConvert.SerializeObject(jsons);
                 //页面加载完成回调
                 LoginSuccessHandle?.Invoke(cookies);
                 SetTitle("登录成功!获取Token成功,正在验证token...");
-                new Thread(() =>
-                {
-                    Thread.Sleep(500);
-                    HideWindow();
-                })
-                { IsBackground = true }.Start();
+                //new Thread(() =>
+                //{
+                //    Thread.Sleep(500);
+                //    HideWindow();
+                //})
+                //{ IsBackground = true }.Start();
             }
             catch (Exception ex)
             {

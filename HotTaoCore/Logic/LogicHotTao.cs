@@ -604,7 +604,7 @@ namespace HotTaoCore.Logic
                         ids.Add(_id);
 
                     share.field7 = _id;
-                    share.status = 0;
+                    //share.status = 0;
                     imageList.Add(new JoinGoodsInfo()
                     {
                         GoodsName = item.goodsName,
@@ -619,15 +619,13 @@ namespace HotTaoCore.Logic
                 result?.Invoke(share);
             }
             if (isJoinImage)
-            {
-                //new System.Threading.Thread(() =>{
+            {                
                 var img = JoinImage.GetJoinImage(imageList, 800, string.Format("{0}?ids={1}", ApiConst.QrCodeUrl, string.Join("_", ids)), string.IsNullOrEmpty(JoinImageDesc) ? "今日爆款" : JoinImageDesc.Replace("【合成图片转发】", ""));
                 string path = System.Environment.CurrentDirectory + "\\temp\\joinimage";
                 if (!System.IO.Directory.Exists(path))
                     System.IO.Directory.CreateDirectory(path);
                 string fileName = EncryptHelper.MD5(taskid.ToString() + group.id.ToString());
-                img.Save(string.Format("{0}\\{1}.jpg", path, fileName));
-                //}){ IsBackground = true }.Start();
+                img.Save(string.Format("{0}\\{1}.jpg", path, fileName));                
             }
             return true;
         }

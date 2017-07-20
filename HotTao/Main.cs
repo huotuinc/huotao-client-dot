@@ -906,7 +906,7 @@ namespace HotTao
         /// <param name="jsons">The jsons.</param>
         private void Lw_LoginSuccessHandle(CookieCollection cookies)
         {
-            lw.HideWindow();
+            //lw.HideWindow();
             loginSuccess = true;
             MyUserInfo.cookies = cookies;
             MyUserInfo.TaobaoName = lw.GetTaobaoName();
@@ -1179,7 +1179,7 @@ namespace HotTao
                     if (content.Contains("html"))
                     {
                         logData.isError = true;
-                        logData.remark = "请重新登录淘宝联盟后重试";
+                        logData.remark = "阿里妈妈登录状态已失效，请重新登录";
                         SendNotify();
                     }
                     else
@@ -1209,10 +1209,7 @@ namespace HotTao
                             logData.logType = LogTypeOpts.未知;
                             logData.remark = "[" + goodsId + "]" + "没找到定向佣金计划";
                         }
-
-
-
-
+                        
                     }
                 }
             }
@@ -1222,7 +1219,7 @@ namespace HotTao
                 logData.isError = true;
                 logData.logType = LogTypeOpts.未知;
                 logData.remark = "[" + goodsId + "]" + "获取佣金计划失败，请重新登录淘宝联盟！";
-                SendNotify();
+                //SendNotify();
             }
 
             if (logRuningList.Exists(item => { return item.goodsid == logData.goodsid && item.logType == LogTypeOpts.申请高佣; }))
