@@ -235,7 +235,8 @@ namespace HotTao
                 cfr.ShowDialog();
                 if (isUpdate)
                 {
-                    Process.Start(version.url);
+                    Process.Start("CheckUpdate.exe");
+                    CloseMain();
                 }
             }
         }
@@ -1186,7 +1187,7 @@ namespace HotTao
                         TaobaoCommonCampaignItemsModel items = JsonConvert.DeserializeObject<TaobaoCommonCampaignItemsModel>(content);
                         if (items != null && items.ok && items.data != null && items.data.Count > 0)
                         {
- 
+
                             var listData = items.data.OrderByDescending(r => r.commissionRate).ToList();
 
                             TaobaoCommonItem item = listData[0];

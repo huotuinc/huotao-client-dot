@@ -491,7 +491,6 @@ namespace HotTaoCore.Logic
                 });
                 //获取微信群数据
                 var wechatlist = FindByUserWeChatGroup(userid, ids);
-
                 //删除现有数据
                 dal.DeleteUserWechatShareText(userid, taskid);
                 foreach (var group in wechatlist)
@@ -598,9 +597,9 @@ namespace HotTaoCore.Logic
                     _url += "?src=ht_hot&activityId=" + item.couponId;
                     _url += "&itemId=" + item.goodsId.Replace("=", "");
                     _url += "&pid=" + tpwd;
-                    var _tpwd = HotTaoApiService.Instance.taobao_wireless_share_tpwd_create(item.goodsMainImgUrl, _url, item.goodsName, appkey, appsecret);
+                    var _tpwd = "";// HotTaoApiService.Instance.taobao_wireless_share_tpwd_create(item.goodsMainImgUrl, _url, item.goodsName, appkey, appsecret);
                     share.field2 = _tpwd;
-                    var _id = LogicGoods.Instance.saveCollectionGoods(loginToken, item.goodsId, item.goodsName, item.goodsPrice, item.couponPrice, _tpwd);
+                    var _id = LogicGoods.Instance.saveCollectionGoods(loginToken, item.goodsId, item.goodsName, item.goodsPrice, item.couponPrice, _tpwd, _url, item.goodsMainImgUrl);
                     if (_id > 0)
                         ids.Add(_id);
 
@@ -621,12 +620,14 @@ namespace HotTaoCore.Logic
             }
             if (isJoinImage)
             {
+                //new System.Threading.Thread(() =>{
                 var img = JoinImage.GetJoinImage(imageList, 800, string.Format("{0}?ids={1}", ApiConst.QrCodeUrl, string.Join("_", ids)), string.IsNullOrEmpty(JoinImageDesc) ? "今日爆款" : JoinImageDesc.Replace("【合成图片转发】", ""));
                 string path = System.Environment.CurrentDirectory + "\\temp\\joinimage";
                 if (!System.IO.Directory.Exists(path))
                     System.IO.Directory.CreateDirectory(path);
                 string fileName = EncryptHelper.MD5(taskid.ToString() + group.id.ToString());
                 img.Save(string.Format("{0}\\{1}.jpg", path, fileName));
+                //}){ IsBackground = true }.Start();
             }
             return true;
         }

@@ -45,6 +45,7 @@
             this.toolsUpdateAlias = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.hotPanel1 = new HotTaoControls.HotPanel(this.components);
+            this.ckBigCow = new System.Windows.Forms.CheckBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -82,7 +83,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lbQQAccount = new System.Windows.Forms.Label();
             this.picLogo = new System.Windows.Forms.PictureBox();
-            this.ckBigCow = new System.Windows.Forms.CheckBox();
             this.cmsToolsResult.SuspendLayout();
             this.cmsTools.SuspendLayout();
             this.hotPanel1.SuspendLayout();
@@ -168,6 +168,17 @@
             this.hotPanel1.Name = "hotPanel1";
             this.hotPanel1.Size = new System.Drawing.Size(920, 607);
             this.hotPanel1.TabIndex = 10;
+            // 
+            // ckBigCow
+            // 
+            this.ckBigCow.AutoSize = true;
+            this.ckBigCow.Location = new System.Drawing.Point(13, 81);
+            this.ckBigCow.Name = "ckBigCow";
+            this.ckBigCow.Size = new System.Drawing.Size(168, 16);
+            this.ckBigCow.TabIndex = 19;
+            this.ckBigCow.Text = "勾选启用大牛选单商品采集";
+            this.ckBigCow.UseVisualStyleBackColor = true;
+            this.ckBigCow.Visible = false;
             // 
             // linkLabel1
             // 
@@ -356,11 +367,11 @@
             this.hotGroupBox2.BackColor = System.Drawing.Color.White;
             this.hotGroupBox2.BorderColor = System.Drawing.Color.Gainsboro;
             this.hotGroupBox2.BorderTitleColor = System.Drawing.Color.Black;
-            this.hotGroupBox2.Controls.Add(this.picLoading);
             this.hotGroupBox2.Controls.Add(this.label6);
             this.hotGroupBox2.Controls.Add(this.label7);
             this.hotGroupBox2.Controls.Add(this.label5);
             this.hotGroupBox2.Controls.Add(this.dgvContact);
+            this.hotGroupBox2.Controls.Add(this.picLoading);
             this.hotGroupBox2.Location = new System.Drawing.Point(641, 7);
             this.hotGroupBox2.Name = "hotGroupBox2";
             this.hotGroupBox2.Size = new System.Drawing.Size(276, 596);
@@ -609,17 +620,6 @@
             this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picLogo.TabIndex = 10;
             this.picLogo.TabStop = false;
-            // 
-            // ckBigCow
-            // 
-            this.ckBigCow.AutoSize = true;
-            this.ckBigCow.Location = new System.Drawing.Point(13, 81);
-            this.ckBigCow.Name = "ckBigCow";
-            this.ckBigCow.Size = new System.Drawing.Size(168, 16);
-            this.ckBigCow.TabIndex = 19;
-            this.ckBigCow.Text = "勾选启用大牛选单商品采集";
-            this.ckBigCow.UseVisualStyleBackColor = true;
-            this.ckBigCow.Visible = false;
             // 
             // QQMainControl
             // 
