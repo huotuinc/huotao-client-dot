@@ -106,6 +106,9 @@ namespace TBSync
         /// </summary>
         private List<System.Net.Cookie> lstCookies { get; set; }
 
+
+        public System.Windows.Forms.Timer RefreshAuthView { get; set; }
+
         private void LoginWindow_Load(object sender, EventArgs e)
         {
             OpenTaobao();
@@ -141,7 +144,13 @@ namespace TBSync
                     this.tbPanel.Controls.Add(browser);
 
                     //定时去刷新页面，以保证淘宝长久在线状态
-                    System.Windows.Forms.Timer RefreshAuthView = new System.Windows.Forms.Timer();
+                    if (RefreshAuthView != null)
+                    {
+                        RefreshAuthView.Stop();
+                        RefreshAuthView.Dispose();
+                        RefreshAuthView = null;
+                    }
+                    RefreshAuthView = new System.Windows.Forms.Timer();
                     RefreshAuthView.Interval = 1000 * 60 * 4;
                     RefreshAuthView.Tick += RefreshAuthView_Tick;
                     RefreshAuthView.Start();
@@ -162,11 +171,14 @@ namespace TBSync
         /// <param name="e"></param>
         private void RefreshAuthView_Tick(object sender, EventArgs e)
         {
-            if (browser.Address.Contains(authView))
+            if (isAuthCompleted)
             {
-                if (isAuthCompleted)
+                if (browser != null)
                 {
-                    browser.Reload();
+                    if (browser.Address.Contains(authView))
+                    {
+                        browser.Reload();
+                    }
                 }
             }
         }
