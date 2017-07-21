@@ -1412,5 +1412,10 @@ namespace HotTao.Controls
             te.isJoinImage = true;
             te.ShowDialog(this);
         }
+
+        private void btnApplyCommisplan_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
