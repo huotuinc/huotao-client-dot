@@ -841,7 +841,11 @@ namespace HotTao
                 if (lw != null)
                 {
                     if (lw.RefreshAuthView != null)
+                    {
                         lw.RefreshAuthView.Stop();
+                        lw.RefreshAuthView.Dispose();
+                        lw.RefreshAuthView = null;
+                    }
                     if (lw.browser != null)
                     {
                         lw.browser.Dispose();

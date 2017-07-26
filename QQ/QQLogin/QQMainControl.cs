@@ -86,7 +86,7 @@ namespace QQLogin
                 IdentificationTag = Guid.NewGuid().ToString();
 
 
-            ckbAutoSend.Visible = IsShowAutoSend;           
+            ckbAutoSend.Visible = IsShowAutoSend;
 
             ckbEnableCustomTemplate.Visible = IsShowCustomTemplate;
             label4.Visible = IsShowCustomTemplate;
@@ -1113,7 +1113,7 @@ namespace QQLogin
             }
             catch (Exception ex)
             {
-               
+
             }
         }
 
@@ -1153,9 +1153,11 @@ namespace QQLogin
 
         private void ckbEnableJoinImage_CheckedChanged(object sender, EventArgs e)
         {
-            CheckBox cb = sender as CheckBox;            
+            CheckBox cb = sender as CheckBox;
             ckbAutoSend.Enabled = !cb.Checked;
             ckbEnableCustomTemplate.Enabled = !cb.Checked;
+            ckbEnableCustomTemplate.Checked = false;
+            ckbAutoSend.Checked = false;
         }
     }
 }

@@ -950,7 +950,7 @@ namespace HotTao.Controls
                     int result = 0;
                     int.TryParse(row["shareid"].Value.ToString(), out result);
                     add.editId = result;
-                    add.Title = "修改微信群";
+                    add.Title = "修改群";
                     add.CurrentRowIndex = MouseCurrentRowIndex;
                     add.weChatTitle = row["sharetitle"].Value.ToString();
                     add.weChatPid = row["pid"].Value.ToString();
@@ -1442,7 +1442,7 @@ namespace HotTao.Controls
                 {
                     hotForm.ApplyTotal = data.Count();
                     SetApplyProg();
-                    new System.Threading.Thread(() =>
+                    new Thread(() =>
                     {
                         hotForm.ApplyFinishCount = 0;
                         foreach (var item in data)

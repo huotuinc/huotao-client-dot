@@ -353,8 +353,6 @@ namespace HotTao.Controls
 
                 if (taskControl != null)
                     taskControl.LoadTaskPlanGridView();
-                if (historyControl != null)
-                    historyControl.LoadTaskPlanGridView();
                 BuildStart = false;
                 ShowAlert("生成完成");
 

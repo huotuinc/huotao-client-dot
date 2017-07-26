@@ -33,138 +33,11 @@ namespace HotTao.Controls
         {
             if (MyUserInfo.currentUserId > 0)
             {
-                //if (MyUserInfo.sendmode == 1)
-                //{
-                //    if (hotForm.wxlogin != null && hotForm.wxlogin.isStartTask)
-                //        ShowStartButtonText("暂停计划");
-                //}
-                //else
-                //{
-                //    if (hotForm.winTask != null && hotForm.winTask.isStartTask)
-                //        ShowStartButtonText("暂停计划");
-                //}
                 LoadLogGridView();
-
-                dgvTaskPlan.MouseWheel += DgvData_MouseWheel;
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));
 
-        }
-        /// <summary>
-        /// 鼠标滚动事件
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
-        private void DgvData_MouseWheel(object sender, MouseEventArgs e)
-        {
-            DataGridView dataGridView1 = sender as DataGridView;
-            try
-            {
-                if (dataGridView1.CurrentCell != null)
-                {
-                    DataGridViewCell dvc = dataGridView1.CurrentCell;
-                    int ri = dvc.RowIndex;
-                    int ci = dvc.ColumnIndex;
-                    int c = 0;
-                    if (e.Delta > 0)//向上
-                    {
-                        if (ri - 3 > 0)
-                            c = 3;
-                        else if (ri > 0)
-                            c = 1;
-                        if (c > 0)
-                        {
-                            dvc = dataGridView1.Rows[ri - c].Cells[ci];
-                            dataGridView1.CurrentCell = dvc;
-                        }
-                    }
-                    else
-                    {
-                        if (ri < dataGridView1.Rows.Count - 3)
-                            c = 3;
-                        else if (ri < dataGridView1.Rows.Count - 1)
-                            c = 1;
-                        if (c > 0)
-                        {
-                            dvc = dataGridView1.Rows[ri + c].Cells[ci];
-                            dataGridView1.CurrentCell = dvc;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                return;
-            }
-        }
-
-
-        /// <summary>
-        /// 加载计划数据
-        /// </summary>
-        public void LoadTaskPlanGridView()
-        {
-            new Thread(() =>
-            {
-                //是否自动添加属性字段
-                this.dgvTaskPlan.AutoGenerateColumns = false;
-                var taskData = LogicHotTao.Instance(MyUserInfo.currentUserId).FindUserTaskPlanListByUserId(MyUserInfo.currentUserId, true);
-                if (taskData != null)
-                {
-                    SetTaskView(taskData);
-                    if (this.dgvTaskPlan.Rows.Count > 0)
-                    {
-                        dgvTaskPlan.Rows[0].Selected = false;
-                        dgvTaskPlan.ContextMenuStrip = cmsTask;
-                    }
-                }
-            })
-            { IsBackground = true }.Start();
-        }
-
-        private void SetTaskView(List<TaskPlanModel> taskData)
-        {
-            if (dgvTaskPlan.InvokeRequired)
-            {
-                this.Invoke(new Action<List<TaskPlanModel>>(SetTaskView), new object[] { taskData });
-            }
-            else
-            {
-                dgvTaskPlan.Rows.Clear();
-                int i = dgvTaskPlan.Rows.Count;
-                for (int j = 0; j < taskData.Count(); j++)
-                {
-                    dgvTaskPlan.Rows.Add();
-                    ++i;
-                    dgvTaskPlan.Rows[i - 1].Cells["taskid"].Value = taskData[j].id.ToString();
-                    dgvTaskPlan.Rows[i - 1].Cells["taskTitle"].Value = taskData[j].title.ToString();
-                    dgvTaskPlan.Rows[i - 1].Cells["taskStartTime"].Value = taskData[j].startTime.ToString();
-                    dgvTaskPlan.Rows[i - 1].Cells["taskEndTime"].Value = taskData[j].endTime.ToString();
-                    dgvTaskPlan.Rows[i - 1].Cells["startTimeText"].Value = taskData[j].startTimeText.ToString();
-                    dgvTaskPlan.Rows[i - 1].Cells["taskStatusText"].Value = taskData[j].statusText.ToString();
-                    dgvTaskPlan.Rows[i - 1].Cells["goodsText"].Value = taskData[j].goodsText.ToString();
-                    dgvTaskPlan.Rows[i - 1].Cells["pidsText"].Value = taskData[j].pidsText.ToString();
-                    dgvTaskPlan.Rows[i - 1].Cells["ExecStatus"].Value = taskData[j].status.ToString();
-                    dgvTaskPlan.Rows[i - 1].Cells["isTpwd"].Value = taskData[j].isTpwd.ToString();
-                    dgvTaskPlan.Rows[i - 1].Cells["TpwdText"].Value = taskData[j].isTpwd == 1 ? "OK" : "";
-
-                    if (i % 2 == 0)
-                    {
-                        dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewEvenRowBackColor;
-                        dgvTaskPlan.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewEvenRowBackColor;
-                    }
-                    else
-                    {
-                        dgvTaskPlan.Rows[i - 1].DefaultCellStyle.BackColor = ConstConfig.DataGridViewOddRowBackColor;
-                        dgvTaskPlan.Rows[i - 1].DefaultCellStyle.SelectionBackColor = ConstConfig.DataGridViewOddRowBackColor;
-                    }
-
-
-                    dgvTaskPlan.Rows[i - 1].Height = ConstConfig.DataGridViewRowHeight;
-                    dgvTaskPlan.Rows[i - 1].DefaultCellStyle.ForeColor = ConstConfig.DataGridViewRowForeColor;
-                }
-            }
         }
 
         private System.Windows.Forms.Timer timingRefresh { get; set; }
@@ -184,23 +57,23 @@ namespace HotTao.Controls
             })
             { IsBackground = true }.Start();
 
-            if (timingRefresh != null)
-            {
-                timingRefresh.Stop();
-                timingRefresh.Dispose();
-                timingRefresh = null;
-            }
-            timingRefresh = new System.Windows.Forms.Timer();
-            timingRefresh.Interval = 10000;
-            timingRefresh.Tick += TimingRefresh_Tick;
-            timingRefresh.Start();
+            //if (timingRefresh != null)
+            //{
+            //    timingRefresh.Stop();
+            //    timingRefresh.Dispose();
+            //    timingRefresh = null;
+            //}
+            //timingRefresh = new System.Windows.Forms.Timer();
+            //timingRefresh.Interval = 10000;
+            //timingRefresh.Tick += TimingRefresh_Tick;
+            //timingRefresh.Start();
         }
 
-        private void TimingRefresh_Tick(object sender, EventArgs e)
-        {
-            if (hotForm.logRuningList != null && hotForm.logRuningList.Count() > 0)
-                SetLogView(hotForm.logRuningList);
-        }
+        //private void TimingRefresh_Tick(object sender, EventArgs e)
+        //{
+        //    if (hotForm.logRuningList != null && hotForm.logRuningList.Count() > 0)
+        //        SetLogView(hotForm.logRuningList);
+        //}
 
         private void SetLogView(List<LogRuningModel> data)
         {

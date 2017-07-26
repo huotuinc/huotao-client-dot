@@ -207,10 +207,6 @@ namespace HotTao.Controls
                     {
                         if (hotTask != null)
                             hotTask.SetTaskView(data, taskid > 0 ? CurrentRowIndex : -1);
-
-                        if (hotHistoryTask != null)
-                            hotHistoryTask.LoadTaskPlanGridView();
-
                         txtTaskTitle.Clear();
                         alert.Message = "保存成功";
                         alert.CallBack += () => { this.Close(); };
