@@ -76,7 +76,6 @@ namespace QQLogin
         /// </summary>
         public bool IsShowJoinImage { get; set; } = false;
 
-
         public QQLogin qqForm;
 
         private void QQMainControl_Load(object sender, EventArgs e)
@@ -96,6 +95,10 @@ namespace QQLogin
             ckbEnableJoinImage.Visible = IsShowJoinImage;
 
 
+
+            txtStartTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            txtEndTime.Text = DateTime.Now.AddHours(12).ToString("yyyy-MM-dd HH:mm:ss");
+
             IintKQAir();
             if (KQ == null)
                 KQ = new KQDAL(IdentificationTag);
@@ -109,6 +112,40 @@ namespace QQLogin
                 return ckBigCow.Checked;
             }
         }
+
+        /// <summary>
+        /// 判断是否启用时间配置
+        /// </summary>
+        public bool EnableTimeConfig
+        {
+            get
+            {
+                return ckbEnableSendTime.Checked;
+            }
+        }
+
+        /// <summary>
+        /// 任务开始时间
+        /// </summary>
+        public DateTime TaskStartTime
+        {
+            get
+            {
+                return Convert.ToDateTime(txtStartTime.Text);
+            }
+        }
+        /// <summary>
+        /// 任务结束时间
+        /// </summary>
+        public DateTime TaskEndTime
+        {
+            get
+            {
+                return Convert.ToDateTime(txtEndTime.Text);
+            }
+        }
+
+
 
         /// <summary>
         /// 是否启用合成图
@@ -1158,6 +1195,14 @@ namespace QQLogin
             ckbEnableCustomTemplate.Enabled = !cb.Checked;
             ckbEnableCustomTemplate.Checked = false;
             ckbAutoSend.Checked = false;
+        }
+
+        private void ckbEnableSendTime_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = sender as CheckBox;
+
+            txtStartTime.Enabled = cb.Checked;
+            txtEndTime.Enabled = cb.Checked;
         }
     }
 }

@@ -1454,6 +1454,25 @@ namespace HotTao
             if (IsJoinImageCompleted && qqForm != null && qqForm.EnableJoinImage)
             {
                 IsJoinImageCompleted = false;
+                DateTime startTime = DateTime.Now;
+                DateTime endTime = DateTime.Now.AddHours(12);
+
+                if (qqForm.EnableTimeConfig)
+                {
+                    //当前时间大于任务开始时间小于结束时间,则时间当前时间为任务开始时间
+                    if (qqForm.TaskStartTime.CompareTo(DateTime.Now) < 0 && qqForm.TaskEndTime.CompareTo(DateTime.Now) > 0)
+                    {
+                        startTime = DateTime.Now;
+                        endTime = qqForm.TaskEndTime;
+                    }
+                    //如果任务时间大于当前时间
+                    else
+                    {
+                        startTime = qqForm.TaskStartTime;
+                        endTime = qqForm.TaskEndTime;
+                    }
+
+                }
                 new System.Threading.Thread(() =>
                 {
                     if (weChatGroups == null) weChatGroups = LogicHotTao.Instance(MyUserInfo.currentUserId).GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);
@@ -1475,7 +1494,8 @@ namespace HotTao
                         appkey = Resources.taobaoappkey;
                         appsecret = Resources.taobaoappsecret;
                     }
-                    LogicHotTao.Instance(MyUserInfo.currentUserId).AutoJoinImage(MyUserInfo.LoginToken, weChatGroups, appkey, appsecret);
+
+                    LogicHotTao.Instance(MyUserInfo.currentUserId).AutoJoinImage(MyUserInfo.LoginToken, weChatGroups, appkey, appsecret, startTime, endTime);
                     IsJoinImageCompleted = true;
                 })
                 { IsBackground = true }.Start();
@@ -1513,6 +1533,24 @@ namespace HotTao
             }
             lock (lock_goods)
             {
+                DateTime startTime = DateTime.Now;
+                DateTime endTime = DateTime.Now.AddHours(12);
+                if (qqForm.EnableTimeConfig)
+                {
+                    //当前时间大于任务开始时间小于结束时间,则时间当前时间为任务开始时间
+                    if (qqForm.TaskStartTime.CompareTo(DateTime.Now) < 0 && qqForm.TaskEndTime.CompareTo(DateTime.Now) > 0)
+                    {
+                        startTime = DateTime.Now;
+                        endTime = qqForm.TaskEndTime;
+                    }
+                    //如果任务时间大于当前时间
+                    else //if (qqForm.TaskStartTime.CompareTo(DateTime.Now) > 0)
+                    {
+                        startTime = qqForm.TaskStartTime;
+                        endTime = qqForm.TaskEndTime;
+                    }
+                }
+
                 if (weChatGroups == null) weChatGroups = LogicHotTao.Instance(MyUserInfo.currentUserId).GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);
                 int groupCount = weChatGroups.Count();
                 if (urls != null)
@@ -1570,8 +1608,8 @@ namespace HotTao
                                 {
                                     userid = MyUserInfo.currentUserId,
                                     title = goodsData[0].goodsName,
-                                    startTime = DateTime.Now,
-                                    endTime = DateTime.Now.AddHours(5),
+                                    startTime = startTime,
+                                    endTime = endTime,
                                     pidsText = pidsText,
                                     goodsText = goodsText,
                                     id = 0
@@ -1624,36 +1662,6 @@ namespace HotTao
                 }
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

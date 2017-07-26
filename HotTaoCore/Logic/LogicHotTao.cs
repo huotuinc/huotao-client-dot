@@ -806,7 +806,7 @@ namespace HotTaoCore.Logic
         /// <param name="appkey"></param>
         /// <param name="appsecret"></param>
         /// <returns></returns>
-        public bool AutoJoinImage(string loginToken, List<UserWechatListModel> wechatlist, string appkey, string appsecret)
+        public bool AutoJoinImage(string loginToken, List<UserWechatListModel> wechatlist, string appkey, string appsecret, DateTime startTime, DateTime endTime)
         {
 
             string templateText = "[二合一淘口令]";
@@ -848,8 +848,8 @@ namespace HotTaoCore.Logic
             {
                 userid = uid,
                 title = "【合成图片转发】",
-                startTime = DateTime.Now,
-                endTime = DateTime.Now.AddHours(6),
+                startTime = startTime,
+                endTime = endTime,
                 pidsText = pidsText,
                 goodsText = goodsText,
                 id = 0,

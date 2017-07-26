@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmsToolsResult = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolReSend = new System.Windows.Forms.ToolStripMenuItem();
             this.toolClearAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,7 +45,11 @@
             this.toolsUpdateAlias = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.hotPanel1 = new HotTaoControls.HotPanel(this.components);
-            this.ckBigCow = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtEndTime = new System.Windows.Forms.DateTimePicker();
+            this.txtStartTime = new System.Windows.Forms.DateTimePicker();
+            this.ckbEnableSendTime = new System.Windows.Forms.CheckBox();
+            this.ckbEnableJoinImage = new System.Windows.Forms.CheckBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label4 = new System.Windows.Forms.Label();
             this.hotGroupBox3 = new HotTaoControls.HotGroupBox(this.components);
@@ -82,7 +86,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lbQQAccount = new System.Windows.Forms.Label();
             this.picLogo = new System.Windows.Forms.PictureBox();
-            this.ckbEnableJoinImage = new System.Windows.Forms.CheckBox();
+            this.ckBigCow = new System.Windows.Forms.CheckBox();
             this.cmsToolsResult.SuspendLayout();
             this.cmsTools.SuspendLayout();
             this.hotPanel1.SuspendLayout();
@@ -154,6 +158,10 @@
             // 
             this.hotPanel1.BackColor = System.Drawing.Color.White;
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Controls.Add(this.label1);
+            this.hotPanel1.Controls.Add(this.txtEndTime);
+            this.hotPanel1.Controls.Add(this.txtStartTime);
+            this.hotPanel1.Controls.Add(this.ckbEnableSendTime);
             this.hotPanel1.Controls.Add(this.ckbEnableJoinImage);
             this.hotPanel1.Controls.Add(this.linkLabel1);
             this.hotPanel1.Controls.Add(this.label4);
@@ -169,16 +177,57 @@
             this.hotPanel1.Size = new System.Drawing.Size(920, 607);
             this.hotPanel1.TabIndex = 10;
             // 
-            // ckBigCow
+            // label1
             // 
-            this.ckBigCow.AutoSize = true;
-            this.ckBigCow.Location = new System.Drawing.Point(13, 81);
-            this.ckBigCow.Name = "ckBigCow";
-            this.ckBigCow.Size = new System.Drawing.Size(168, 16);
-            this.ckBigCow.TabIndex = 19;
-            this.ckBigCow.Text = "勾选启用大牛选单商品采集";
-            this.ckBigCow.UseVisualStyleBackColor = true;
-            this.ckBigCow.Visible = false;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(424, 114);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(11, 12);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "-";
+            // 
+            // txtEndTime
+            // 
+            this.txtEndTime.CustomFormat = "yyyy-MM-dd HH:mm:ss";
+            this.txtEndTime.Enabled = false;
+            this.txtEndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.txtEndTime.Location = new System.Drawing.Point(440, 110);
+            this.txtEndTime.Name = "txtEndTime";
+            this.txtEndTime.Size = new System.Drawing.Size(132, 21);
+            this.txtEndTime.TabIndex = 22;
+            // 
+            // txtStartTime
+            // 
+            this.txtStartTime.CustomFormat = "yyyy-MM-dd HH:mm:ss";
+            this.txtStartTime.Enabled = false;
+            this.txtStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.txtStartTime.Location = new System.Drawing.Point(285, 110);
+            this.txtStartTime.Name = "txtStartTime";
+            this.txtStartTime.Size = new System.Drawing.Size(133, 21);
+            this.txtStartTime.TabIndex = 22;
+            // 
+            // ckbEnableSendTime
+            // 
+            this.ckbEnableSendTime.AutoSize = true;
+            this.ckbEnableSendTime.Location = new System.Drawing.Point(151, 113);
+            this.ckbEnableSendTime.Name = "ckbEnableSendTime";
+            this.ckbEnableSendTime.Size = new System.Drawing.Size(132, 16);
+            this.ckbEnableSendTime.TabIndex = 21;
+            this.ckbEnableSendTime.Text = "启用发送时间段配置";
+            this.ckbEnableSendTime.UseVisualStyleBackColor = true;
+            this.ckbEnableSendTime.CheckedChanged += new System.EventHandler(this.ckbEnableSendTime_CheckedChanged);
+            // 
+            // ckbEnableJoinImage
+            // 
+            this.ckbEnableJoinImage.AutoSize = true;
+            this.ckbEnableJoinImage.Location = new System.Drawing.Point(13, 113);
+            this.ckbEnableJoinImage.Name = "ckbEnableJoinImage";
+            this.ckbEnableJoinImage.Size = new System.Drawing.Size(132, 16);
+            this.ckbEnableJoinImage.TabIndex = 20;
+            this.ckbEnableJoinImage.Text = "自动跟发商品合成图";
+            this.ckbEnableJoinImage.UseVisualStyleBackColor = true;
+            this.ckbEnableJoinImage.Visible = false;
+            this.ckbEnableJoinImage.CheckedChanged += new System.EventHandler(this.ckbEnableJoinImage_CheckedChanged);
             // 
             // linkLabel1
             // 
@@ -196,7 +245,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label4.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.label4.Location = new System.Drawing.Point(370, 81);
+            this.label4.Location = new System.Drawing.Point(270, 81);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(149, 12);
             this.label4.TabIndex = 17;
@@ -243,19 +292,19 @@
             this.dgvMessageView.MultiSelect = false;
             this.dgvMessageView.Name = "dgvMessageView";
             this.dgvMessageView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle40.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle40.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle40.ForeColor = System.Drawing.SystemColors.InfoText;
-            dataGridViewCellStyle40.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle40.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle40.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvMessageView.RowHeadersDefaultCellStyle = dataGridViewCellStyle40;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.InfoText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvMessageView.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvMessageView.RowHeadersVisible = false;
             this.dgvMessageView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle41.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle41.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvMessageView.RowsDefaultCellStyle = dataGridViewCellStyle41;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvMessageView.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvMessageView.RowTemplate.Height = 40;
             this.dgvMessageView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvMessageView.Size = new System.Drawing.Size(628, 436);
@@ -293,8 +342,8 @@
             // 
             // MessageUrl1
             // 
-            dataGridViewCellStyle29.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.MessageUrl1.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.MessageUrl1.DefaultCellStyle = dataGridViewCellStyle1;
             this.MessageUrl1.HeaderText = "MessageUrl1";
             this.MessageUrl1.Name = "MessageUrl1";
             this.MessageUrl1.ReadOnly = true;
@@ -307,8 +356,8 @@
             // 
             // MessageStatus
             // 
-            dataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.MessageStatus.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.MessageStatus.DefaultCellStyle = dataGridViewCellStyle2;
             this.MessageStatus.HeaderText = "MessageStatus";
             this.MessageStatus.Name = "MessageStatus";
             this.MessageStatus.ReadOnly = true;
@@ -322,9 +371,9 @@
             // 
             // DeteleMessage
             // 
-            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle39.NullValue = "删除";
-            this.DeteleMessage.DefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.NullValue = "删除";
+            this.DeteleMessage.DefaultCellStyle = dataGridViewCellStyle3;
             this.DeteleMessage.HeaderText = "删除";
             this.DeteleMessage.Name = "DeteleMessage";
             this.DeteleMessage.ReadOnly = true;
@@ -333,7 +382,7 @@
             // ckbEnableCustomTemplate
             // 
             this.ckbEnableCustomTemplate.AutoSize = true;
-            this.ckbEnableCustomTemplate.Location = new System.Drawing.Point(236, 80);
+            this.ckbEnableCustomTemplate.Location = new System.Drawing.Point(151, 80);
             this.ckbEnableCustomTemplate.Name = "ckbEnableCustomTemplate";
             this.ckbEnableCustomTemplate.Size = new System.Drawing.Size(120, 16);
             this.ckbEnableCustomTemplate.TabIndex = 16;
@@ -432,19 +481,19 @@
             this.dgvContact.MultiSelect = false;
             this.dgvContact.Name = "dgvContact";
             this.dgvContact.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle37.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle37.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle37.ForeColor = System.Drawing.SystemColors.InfoText;
-            dataGridViewCellStyle37.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle37.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle37.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvContact.RowHeadersDefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.InfoText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvContact.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvContact.RowHeadersVisible = false;
             this.dgvContact.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle42.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle42.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
-            this.dgvContact.RowsDefaultCellStyle = dataGridViewCellStyle42;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
+            this.dgvContact.RowsDefaultCellStyle = dataGridViewCellStyle8;
             this.dgvContact.RowTemplate.Height = 40;
             this.dgvContact.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvContact.Size = new System.Drawing.Size(267, 548);
@@ -473,8 +522,8 @@
             // GroupTitle
             // 
             this.GroupTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle36.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.GroupTitle.DefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.GroupTitle.DefaultCellStyle = dataGridViewCellStyle6;
             this.GroupTitle.HeaderText = "GroupTitle";
             this.GroupTitle.Name = "GroupTitle";
             this.GroupTitle.ReadOnly = true;
@@ -610,17 +659,16 @@
             this.picLogo.TabIndex = 10;
             this.picLogo.TabStop = false;
             // 
-            // ckbEnableJoinImage
+            // ckBigCow
             // 
-            this.ckbEnableJoinImage.AutoSize = true;
-            this.ckbEnableJoinImage.Location = new System.Drawing.Point(13, 113);
-            this.ckbEnableJoinImage.Name = "ckbEnableJoinImage";
-            this.ckbEnableJoinImage.Size = new System.Drawing.Size(132, 16);
-            this.ckbEnableJoinImage.TabIndex = 20;
-            this.ckbEnableJoinImage.Text = "自动跟发商品合成图";
-            this.ckbEnableJoinImage.UseVisualStyleBackColor = true;
-            this.ckbEnableJoinImage.Visible = false;
-            this.ckbEnableJoinImage.CheckedChanged += new System.EventHandler(this.ckbEnableJoinImage_CheckedChanged);
+            this.ckBigCow.AutoSize = true;
+            this.ckBigCow.Location = new System.Drawing.Point(13, 81);
+            this.ckBigCow.Name = "ckBigCow";
+            this.ckBigCow.Size = new System.Drawing.Size(168, 16);
+            this.ckBigCow.TabIndex = 19;
+            this.ckBigCow.Text = "勾选启用大牛选单商品采集";
+            this.ckBigCow.UseVisualStyleBackColor = true;
+            this.ckBigCow.Visible = false;
             // 
             // QQMainControl
             // 
@@ -694,5 +742,9 @@
         private System.Windows.Forms.LinkLabel lbRegsvr;
         private System.Windows.Forms.CheckBox ckBigCow;
         private System.Windows.Forms.CheckBox ckbEnableJoinImage;
+        private System.Windows.Forms.CheckBox ckbEnableSendTime;
+        private System.Windows.Forms.DateTimePicker txtStartTime;
+        private System.Windows.Forms.DateTimePicker txtEndTime;
+        private System.Windows.Forms.Label label1;
     }
 }
