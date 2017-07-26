@@ -48,7 +48,7 @@ namespace iQQ.Net.WebQQCore.Im.Actor
 
         public void Init(IQQContext context)
         {
-            Task.Run(() => Run());
+            Task.Factory.StartNew(() => Run());
         }
 
         public void Destroy()

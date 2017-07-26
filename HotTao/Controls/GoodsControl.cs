@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Security.Permissions;
 using HotTaoCore;
-using HotCoreUtils.Helper;
+using HOTReuestService.Helper;
 using HotTaoCore.Models;
 using CefSharp.WinForms;
 using CefSharp;
@@ -36,14 +36,14 @@ namespace HotTao.Controls
         /// 定时器，定时去检查网页操作是否完成,如果完成，则跳转到微信群发页面
         /// </summary>
         private static System.Windows.Forms.Timer timer = null;
-
+        
         private void GoodsControl_Load(object sender, EventArgs e)
         {
             if (MyUserInfo.currentUserId > 0)
             {
                 isSubmit = false;
                 string url = ApiConst.Url + "/goods/goodListPage?viewMode=2&token=" + MyUserInfo.LoginToken;
-
+        
                 if (hotForm.browser == null)
                 {
                     hotForm.InitBrowser(url);
@@ -62,8 +62,7 @@ namespace HotTao.Controls
             else
                 hotForm.openControl(new LoginControl(hotForm));
         }
-
-
+        
         /// <summary>
         /// 定时器，定时去检查网页操作是否完成,如果完成，则跳转到微信群发页面
         /// </summary>
@@ -80,8 +79,7 @@ namespace HotTao.Controls
                 }
                 //LoadClose();
                 ld.CloseForm();
-                //string url = ApiConst.Url + "/goods/goodListPage?viewMode=2&token=" + MyUserInfo.LoginToken;
-                //hotForm.browser.Load(url);
+                
                 hotForm.SetWeChatTabSelected();
                 hotForm.openControl(new TaskControl(hotForm));
 
@@ -142,53 +140,6 @@ namespace HotTao.Controls
                 log.Error(ex);
             }
         }
-
-
-        /// <summary>
-        /// 下载商品图片
-        /// </summary>
-        /// <param name="fileName">Name of the file.</param>
-        /// <param name="goodsImageUrl">The goods image URL.</param>
-        private void downloadGoodsImage(string fileName, string goodsImageUrl, string goodsid)
-        {
-            new Thread(() =>
-            {
-                try
-                {
-                    string _goodsid = goodsid;
-                    byte[] data = BaseRequestService.GetNetWorkImageData(goodsImageUrl);
-                    if (data == null)
-                    {
-                        Thread.Sleep(1000);
-                        data = BaseRequestService.GetNetWorkImageData(goodsImageUrl);
-                    }
-                    if (data != null)
-                    {
-                        MemoryStream ms = new MemoryStream(data);
-                        Bitmap img = new Bitmap(ms);
-                        img.Save(fileName, ImageFormat.Jpeg);
-                        ms.Dispose();
-                        ms = null;
-                        img.Dispose();
-                        img = null;
-                    }
-                    else
-                    {
-                        log.Info("网络图片地址：" + goodsImageUrl);
-                        //_goodsid
-                    }
-
-                }
-                catch (Exception ex)
-                {
-
-                    log.Error("downloadGoodsImage:" + ex.ToString());
-                }
-            })
-            { IsBackground = true }.Start();
-        }
-
-
 
         private void LoadClose()
         {

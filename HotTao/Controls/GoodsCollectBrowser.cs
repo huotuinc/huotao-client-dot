@@ -1,6 +1,7 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
 using HotTao.Properties;
+using HotTaoCore;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using Newtonsoft.Json;
@@ -11,6 +12,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -65,6 +67,8 @@ namespace HotTao.Controls
 
         private string defaultUrl { get; set; }
 
+        private static string jsCode { get; set; }
+        private static string defaultJsCode = @"var Injection={HOST_NAME:window.location.hostname,WEBSITES:['dataoke','haodanku','taokezhushou','shihuizhu','localhost'],dataoke:function(){var self=this;var button=this.getButton('.copy_text');var em=$('<em>一键点击，轻松加入采集列表</em>');em.css({'display':'block','font-size':'14px','font-style':'normal'});button.css({'position':'absolute','top':0,'padding-top':'30%','height':'100%','width':'100%','font-size':'28px','background':'rgba(51,51,51,.8)','box-sizing':'border-box'}).text('火淘采集').append(em).prev().hide().prev().hide();button.off('click');button.on('click',function(){var $target=$(this).find('.copyText');self.sendData($target)})},haodanku:function(){var self=this;var button=self.getButton('.fq-copy');var em=$('<em>一键点击，轻松加入采集列表</em>');em.css({'display':'block','font-size':'14px','font-style':'normal'});button.css({'position':'absolute','top':0,'padding-top':'30%','height':'100%','width':'100%','font-size':'28px','background':'rgba(51,51,51,.8)','box-sizing':'border-box'}).text('火淘采集').append(em).parent().css({'height':'100%','width':'100%'}).siblings().hide().parent().css({'top':0,'height':'265px'});button.off('click');button.on('click',function(){var href=$(this).closest('ul').prev('a').attr('href');var html=$(this).data('tips');var $target=$('<div></div>').html(html+' '+href);self.sendData($target)})},taokezhushou:function(){var self=this;var button=self.getButton('.copytext-btn');button.css({'width':'100%','font-size':'20px','background':'rgba(51,51,51,.8)','box-sizing':'border-box'}).text('火淘采集');button.off('click');button.on('click',function(){var $target=$(this).next('.media-list-box').find('.media-text-area');self.sendData($target)})},shihuizhu:function(){var self=this;var button=self.getButton('.official');var em=$('<em>一键点击，轻松加入采集列表</em>');em.css({'display':'block','margin-top':'10px','font-size':'14px','font-style':'normal'});button.css({'opacity':0,'position':'absolute','top':0,'left':0,'padding-top':'30%','height':'272px','width':'100%','font-size':'28px','background':'rgba(51,51,51,.8)','color':'#fff','box-sizing':'border-box'}).text('火淘采集').append(em).closest('.goods-sale').next('.intro').css({'top':0});button.mouseenter(function(){$(this).css('opacity',1)});button.mouseleave(function(){$(this).css('opacity',0)});button.off('click');button.on('click',function(){var $target=$(this).closest('.goods-sale').next('.intro');self.sendData($target)})},getButton:function(className){return $(className)},localhost:function(){console.info('==== This Localhost ====')},sendData:function($target){var div=$('<div></div>');var data={};data.image=$target.find('img').attr('src');div.append($target.html().replace(/<br>/g,' '));data.text=$.trim(div.text());jsGoods.copyGoodsContent(data.image,data.text)},run:function(type){this[type]()},init:function(){var self=this;self.WEBSITES.forEach(function(val){if(self.HOST_NAME.indexOf(val)>-1){return self.run(val)}})}};Injection.init();";
 
         public GoodsCollectBrowser(Main form, string url = "")
         {
@@ -114,6 +118,7 @@ namespace HotTao.Controls
             {
                 if (browser == null)
                 {
+
                     BrowserSettings settings = new BrowserSettings()
                     {
                         LocalStorage = CefState.Enabled,
@@ -124,16 +129,43 @@ namespace HotTao.Controls
                         WebGl = CefState.Enabled
                     };
                     browser = new ChromiumWebBrowser(url);
+                    browser.RegisterJsObject("jsGoods", new GoodsCollectBrowser(hotForm), false);
                     browser.BrowserSettings = settings;
                     browser.Dock = DockStyle.Fill;
                     browser.LifeSpanHandler = new LifeSpanHandler();
                     browser.AddressChanged += Browser_AddressChanged;
+                    browser.FrameLoadEnd += Browser_FrameLoadEnd;
+                    browser.TitleChanged += Browser_TitleChanged;
                     AddBrowser();
                 }
                 else
                     browser.Load(url);
             })
             { IsBackground = true }.Start();
+        }
+
+        private void Browser_TitleChanged(object sender, TitleChangedEventArgs e)
+        {
+            InsertJsCode();
+        }
+
+        private void Browser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
+        {
+            InsertJsCode();
+        }
+
+
+        private void InsertJsCode()
+        {
+            if (string.IsNullOrEmpty(jsCode))
+            {
+                var js = BaseRequestService.GetInjectionJsCode();
+                if (!string.IsNullOrEmpty(js))
+                    jsCode = js;
+                else
+                    jsCode = defaultJsCode;
+            }
+            browser.ExecuteScriptAsync(jsCode);
         }
 
         /// <summary>
@@ -151,6 +183,8 @@ namespace HotTao.Controls
             }
         }
 
+
+
         /// <summary>
         /// 设置商品链接
         /// </summary>
@@ -164,6 +198,7 @@ namespace HotTao.Controls
             else
             {
                 txtAddress.Text = url;
+
             }
         }
 
@@ -174,7 +209,11 @@ namespace HotTao.Controls
         /// <param name="e"></param>
         private void Browser_AddressChanged(object sender, AddressChangedEventArgs e)
         {
+            InsertJsCode();
             SetGoodsUrl(e.Address);
+
+
+
         }
 
         private void GoodsCollectBrowser_KeyDown(object sender, KeyEventArgs e)
@@ -430,6 +469,24 @@ namespace HotTao.Controls
         }
 
 
+        public void AlertConfirm(string text, Action<bool> result)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<string>(AlertTip), new object[] { text });
+            }
+            else
+            {
+                bool isOk = false;
+                MessageConfirm alert = new MessageConfirm(text, "提示");
+                alert.StartPosition = FormStartPosition.CenterScreen;
+                alert.CallBack += () => { isOk = true; };
+                alert.ShowDialog(this);
+                result?.Invoke(isOk);
+            }
+        }
+
+
         /// <summary>
         /// 打开指定采集网
         /// </summary>
@@ -459,14 +516,14 @@ namespace HotTao.Controls
                 list.Add(dict);
             }
             string jsonUrls = JsonConvert.SerializeObject(list);
-
+            setTipMsg(string.Format("采集完成，共采集到{0}个商品,正在解析商品...", data.Count()));
             //根据地址，获取商品优惠信息
             List<GoodsSelectedModel> goodsData = LogicGoods.Instance.getGoodsByLink(MyUserInfo.LoginToken, jsonUrls);
             try
             {
                 if (goodsData != null && goodsData.Count() > 0)
                 {
-                    setTipMsg(string.Format("采集完成，共采集到{0}个商品,正在保存...", goodsData.Count()));
+                    setTipMsg(string.Format("商品解析完成，共{0}个商品,正在保存...", goodsData.Count()));
                     bool isUpdate = false;
                     foreach (var goods in goodsData)
                     {
@@ -486,7 +543,7 @@ namespace HotTao.Controls
                 else
                 {
                     LoadingClose();
-                    AlertTip("服务器开小差了，请稍后再试！");
+                    AlertTip("数据采集完成");
                 }
             }
             catch (Exception ex)
@@ -496,6 +553,76 @@ namespace HotTao.Controls
                 AlertTip("服务器开小差了，请稍后再试！");
             }
 
+        }
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 复制商品文案
+        /// </summary>
+        /// <param name="imageUrl"></param>
+        /// <param name="text"></param>
+        public void copyGoodsContent(string imageUrl, string text)
+        {
+
+            //new System.Threading.Thread(() =>
+            //{
+            List<string> urls = GetUrls(text);
+
+            //UrlsHelper urlsHelper = new UrlsHelper();
+            //urlsHelper.Url = urls.Count() > 0 ? urls[0] : "";
+            //urlsHelper.Url2 = urls.Count() > 1 ? urls[1] : "";
+
+            List<Dictionary<string, string>> list = new List<Dictionary<string, string>>();
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["url"] = urls.Count() > 0 ? urls[0] : "";
+            data["url2"] = urls.Count() > 1 ? urls[1] : "";
+            data["message"] = text;
+            list.Add(data);
+            string jsonUrls = JsonConvert.SerializeObject(list);
+            List<GoodsSelectedModel> goodsData = LogicGoods.Instance.getGoodsByLink(MyUserInfo.LoginToken, jsonUrls);
+            if (goodsData != null && goodsData.Count() > 0)
+            {
+                try
+                {
+                    var goods = goodsData[0];
+                    goods.goodsImageUrl = imageUrl;
+                    bool isUpdate = false;
+                    //保存商品到本地数据库
+                    LogicGoods.Instance.SaveGoods(goods, MyUserInfo.currentUserId, out isUpdate);
+                    MessageBox.Show("操作成功!");
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            }
+            //})
+            //{ IsBackground = true }.Start();
+        }
+
+
+        /// <summary>
+        /// 返回指定内容中的url数量
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public List<string> GetUrls(string input)
+        {
+            input = input.Replace("&amp;", "&");
+            string pattern = "http[s]?://.*?(?!(\\w|\\.|/|\\?|\\=|&|%|;))";
+            List<string> urls = new List<string>();
+            foreach (Match match in Regex.Matches(input, pattern))
+            {
+                if (!urls.Contains(match.Value))
+                    urls.Add(match.Value);
+            }
+            return urls;
         }
     }
 }

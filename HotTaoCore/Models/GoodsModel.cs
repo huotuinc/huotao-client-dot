@@ -121,6 +121,30 @@ namespace HotTaoCore.Models
         /// <value>The goods intro.</value>
         public string goodsIntro { get; set; }
 
+
+        public string field1 { get; set; }
+
+        public string field2 { get; set; }
+
+        public string field3 { get; set; }
+
+        public string field4 { get; set; }
+
+        public string field5 { get; set; }
+
+        public string field6 { get; set; }
+
+        public string field7 { get; set; }
+
+        public string field8 { get; set; }
+
+        /// <summary>
+        /// 改商品是否已合成图片
+        /// </summary>
+        public int field9 { get; set; }
+
+        public int field10 { get; set; }
+
     }
 
 
@@ -222,5 +246,39 @@ namespace HotTaoCore.Models
         public decimal couponAfterPrice { get; set; }
     }
 
+
+
+    public class PlanModel
+    {
+        /// <summary>
+        /// 计划id
+        /// </summary>
+        public string planId;
+
+        /// <summary>
+        /// 计划佣金率
+        /// </summary>
+        public decimal commission;
+
+        /// <summary>
+        /// 佣金率定向计划文本
+        /// </summary>
+        public string goodsPlanText;
+
+        /// <summary>
+        /// 申请定向计划URL
+        /// </summary>
+        public string applyPlanUrl;
+
+        /// <summary>
+        /// 计划类型 "1"-通用，"2"-定向
+        /// </summary>
+        public string campaignType;
+
+        /// <summary>
+        /// 店铺id
+        /// </summary>
+        public string shopKeeperId;
+    }
 
 }

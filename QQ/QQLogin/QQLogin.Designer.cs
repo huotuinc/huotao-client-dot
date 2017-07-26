@@ -138,7 +138,6 @@
             this.Controls.Add(this.hotPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "QQLogin";
-            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "登录Smart QQ";
             this.Load += new System.EventHandler(this.Form1_Load);

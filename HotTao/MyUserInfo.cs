@@ -8,7 +8,7 @@
 **/
 
 
-using HotCoreUtils.Helper;
+using HOTReuestService.Helper;
 using HotTaoCore.Models;
 using System;
 using System.Collections.Generic;
@@ -26,6 +26,7 @@ namespace HotTao
     public class MyUserInfo
     {
         public static UserModel userData;
+
 
         public static string LoginToken = "";
 
@@ -122,7 +123,7 @@ namespace HotTao
         }
 
 
-        public static string cToken { get; set; } = "";
+       // public static string cToken { get; set; } = "";
 
 
 
@@ -141,14 +142,17 @@ namespace HotTao
             string filepath_gif = string.Format("{0}.gif", fileName);
             string filepath_mp4 = string.Format("{0}.mp4", fileName);
 
-            //判断
-            if (File.Exists(filepath_gif))
-                return filepath_gif;
-            else if (File.Exists(filepath_mp4))
+            if (File.Exists(filepath_mp4))
                 return filepath_mp4;
-
+            //判断
+            else if (File.Exists(filepath_gif))
+                return filepath_gif;
             return null;
         }
 
+
+
+
+        
     }
 }

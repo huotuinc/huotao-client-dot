@@ -12,7 +12,7 @@ using iQQ.Net.WebQQCore.Im.Log;
 using iQQ.Net.WebQQCore.Im.Module;
 using iQQ.Net.WebQQCore.Im.Service;
 using iQQ.Net.WebQQCore.Util;
-using Microsoft.Extensions.Logging;
+//using Microsoft.Extensions.Logging;
 
 namespace iQQ.Net.WebQQCore.Im
 {
@@ -56,8 +56,8 @@ namespace iQQ.Net.WebQQCore.Im
             Store = new QQStore();
             NotifyListener = notifyListener;
             _actorDispatcher = actorDispatcher ?? new SimpleActorDispatcher();
-            Logger = logger ?? new EmptyQQLogger();
-            Logger.Context = this;
+            //Logger = logger ?? new EmptyQQLogger();
+            //Logger.Context = this;
             Init();
         }
 
@@ -162,7 +162,7 @@ namespace iQQ.Net.WebQQCore.Im
             }
             catch (QQException e)
             {
-                Logger.LogWarning($"初始化模块和服务失败{e}");
+               // Logger.LogWarning($"初始化模块和服务失败{e}");
             }
         }
 
@@ -187,7 +187,7 @@ namespace iQQ.Net.WebQQCore.Im
             }
             catch (QQException e)
             {
-                Logger.LogWarning($"销毁所有模块和服务失败: {e}");
+               // Logger.LogWarning($"销毁所有模块和服务失败: {e}");
             }
         }
 
@@ -263,7 +263,7 @@ namespace iQQ.Net.WebQQCore.Im
             }
             catch (Exception ex)
             {
-                Logger.LogError($"FireNotify Error!! {ex}", ex);
+               // Logger.LogError($"FireNotify Error!! {ex}", ex);
             }
         }
 
@@ -287,7 +287,7 @@ namespace iQQ.Net.WebQQCore.Im
             }
             catch (Exception ex)
             {
-                Logger.LogError($"FireNotify Error!! {ex}", ex);
+                //Logger.LogError($"FireNotify Error!! {ex}", ex);
             }
         }
 

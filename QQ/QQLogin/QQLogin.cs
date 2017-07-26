@@ -67,7 +67,7 @@ namespace QQLogin
         }
         #endregion
 
-        
+
         public QQLogin()
         {
             InitializeComponent();
@@ -112,9 +112,20 @@ namespace QQLogin
         private bool isLoginSuccess { get; set; }
 
         private void Form1_Load(object sender, EventArgs e)
-        {            
+        {
             QQGlobal.loginForm = this;
             // 获取二维码
+            InitQQClient();
+
+            System.Windows.Forms.Timer pollTime = new System.Windows.Forms.Timer();
+            pollTime.Interval = 60 * 1000;//每1分钟执行一次
+            pollTime.Tick += PollTime_Tick;
+            pollTime.Start();
+        }
+
+
+        private void InitQQClient()
+        {
             QQGlobal.client = new WebQQClient((client, notifyEvent) =>
             {
                 switch (notifyEvent.Type)
@@ -138,10 +149,12 @@ namespace QQLogin
                             bool isListen = QQGlobal.listenGroups.Exists((g) => { return g.Gid == revMsg.Group.Gid; });
                             if (isListen)
                             {
-                                string msg = revMsg.GetText();
+                                string msg = revMsg.GetTextReplace();
                                 List<string> urls = new List<string>();
-                                urls = UrlUtils.GetUrls(msg);
-                                GroupMsgHandler?.Invoke(revMsg.Id, revMsg.Group.Name, msg, urls);
+                                urls = revMsg.GetUrls();
+
+                                long gid = revMsg.Group.Gid;
+                                GroupMsgHandler?.Invoke(revMsg.Id, gid, revMsg.Group.Name, msg, revMsg.GetText(), urls);
                             }
                             break;
                         }
@@ -163,9 +176,9 @@ namespace QQLogin
                             break;
                         }
                     case QQNotifyEventType.LoadGroupSuccess:
-                        {                            
+                        {
                             QQGlobal.QQGroupLoadSuccess = true;
-                            GroupLoadSuccessHandler?.Invoke();                            
+                            GroupLoadSuccessHandler?.Invoke();
                             break;
                         }
                     case QQNotifyEventType.QrcodeInvalid:
@@ -206,13 +219,9 @@ namespace QQLogin
                         }
                 }
             });
-            QQGlobal.client.LoginWithQRCode(); // 登录之后自动开始轮训
-
-            System.Windows.Forms.Timer pollTime = new System.Windows.Forms.Timer();
-            pollTime.Interval = 60 * 1000;//每1分钟执行一次
-            pollTime.Tick += PollTime_Tick;
-            pollTime.Start();
+            QQGlobal.client.LoginWithQRCode();// 登录之后自动开始轮训
         }
+
 
         /// <summary>
         /// 定时发送心率包，已保证长久在线
@@ -313,8 +322,8 @@ namespace QQLogin
             if (QrCodeInvalid)
             {
                 QrCodeInvalid = false;
-                if (QQGlobal.client != null)
-                    QQGlobal.client.LoginWithQRCode();
+                QQGlobal.client.Destroy();
+                InitQQClient();
                 picQrcode.SizeMode = PictureBoxSizeMode.CenterImage;
                 picQrcode.Image = Properties.Resources.loading;
                 picQQ.Visible = false;

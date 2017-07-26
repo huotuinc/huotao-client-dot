@@ -68,18 +68,25 @@
             this.hotPanel1 = new HotTao.Controls.module.HotPanel(this.components);
             this.dgvLogView = new System.Windows.Forms.DataGridView();
             this.logTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.goodsUrl = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.goodsName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.goodsid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.logId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.logType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.logContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.campId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.keeperid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.commissionRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.logStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.operation = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.cmsLog = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolClearAll = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTaskPlan)).BeginInit();
             this.panel2.SuspendLayout();
             this.cmsTask.SuspendLayout();
             this.hotPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLogView)).BeginInit();
+            this.cmsLog.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvTaskPlan
@@ -368,13 +375,18 @@
             this.dgvLogView.ColumnHeadersVisible = false;
             this.dgvLogView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.logTime,
+            this.goodsUrl,
             this.goodsName,
             this.goodsid,
             this.logId,
             this.logType,
             this.logContent,
+            this.campId,
+            this.keeperid,
+            this.commissionRate,
             this.logStatus,
             this.operation});
+            this.dgvLogView.ContextMenuStrip = this.cmsLog;
             this.dgvLogView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.dgvLogView.Location = new System.Drawing.Point(12, 48);
             this.dgvLogView.MultiSelect = false;
@@ -397,6 +409,13 @@
             this.logTime.Name = "logTime";
             this.logTime.ReadOnly = true;
             this.logTime.Width = 120;
+            // 
+            // goodsUrl
+            // 
+            this.goodsUrl.HeaderText = "goodsUrl";
+            this.goodsUrl.Name = "goodsUrl";
+            this.goodsUrl.ReadOnly = true;
+            this.goodsUrl.Visible = false;
             // 
             // goodsName
             // 
@@ -443,6 +462,27 @@
             this.logContent.ReadOnly = true;
             this.logContent.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
+            // campId
+            // 
+            this.campId.HeaderText = "campId";
+            this.campId.Name = "campId";
+            this.campId.ReadOnly = true;
+            this.campId.Visible = false;
+            // 
+            // keeperid
+            // 
+            this.keeperid.HeaderText = "keeperid";
+            this.keeperid.Name = "keeperid";
+            this.keeperid.ReadOnly = true;
+            this.keeperid.Visible = false;
+            // 
+            // commissionRate
+            // 
+            this.commissionRate.HeaderText = "commissionRate";
+            this.commissionRate.Name = "commissionRate";
+            this.commissionRate.ReadOnly = true;
+            this.commissionRate.Visible = false;
+            // 
             // logStatus
             // 
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -462,6 +502,20 @@
             this.operation.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.operation.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
+            // cmsLog
+            // 
+            this.cmsLog.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolClearAll});
+            this.cmsLog.Name = "cmsLog";
+            this.cmsLog.Size = new System.Drawing.Size(125, 26);
+            // 
+            // toolClearAll
+            // 
+            this.toolClearAll.Name = "toolClearAll";
+            this.toolClearAll.Size = new System.Drawing.Size(124, 22);
+            this.toolClearAll.Text = "清空日志";
+            this.toolClearAll.Click += new System.EventHandler(this.toolClearAll_Click);
+            // 
             // HistoryControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -479,6 +533,7 @@
             this.cmsTask.ResumeLayout(false);
             this.hotPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvLogView)).EndInit();
+            this.cmsLog.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -513,12 +568,18 @@
         private System.Windows.Forms.DataGridViewImageColumn edittask;
         private System.Windows.Forms.DataGridView dgvLogView;
         private System.Windows.Forms.DataGridViewTextBoxColumn logTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn goodsUrl;
         private System.Windows.Forms.DataGridViewTextBoxColumn goodsName;
         private System.Windows.Forms.DataGridViewTextBoxColumn goodsid;
         private System.Windows.Forms.DataGridViewTextBoxColumn logId;
         private System.Windows.Forms.DataGridViewTextBoxColumn logType;
         private System.Windows.Forms.DataGridViewTextBoxColumn logContent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn campId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn keeperid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn commissionRate;
         private System.Windows.Forms.DataGridViewTextBoxColumn logStatus;
         private System.Windows.Forms.DataGridViewLinkColumn operation;
+        private System.Windows.Forms.ContextMenuStrip cmsLog;
+        private System.Windows.Forms.ToolStripMenuItem toolClearAll;
     }
 }

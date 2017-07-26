@@ -32,8 +32,9 @@ namespace iQQ.Net.WebQQCore.Util.Extensions
         {
             return MemberDic.GetOrAdd(member, (key) =>
             {
-                var att = member.GetCustomAttribute<DescriptionAttribute>(false);
-                return att == null ? member.Name : att.Description;
+                //var att = member.GetCustomAttribute<DescriptionAttribute>(false);
+                // return att == null ? member.Name : att.Description;
+                return member.Name;
             });
         }
 
@@ -41,8 +42,9 @@ namespace iQQ.Net.WebQQCore.Util.Extensions
         {
             return TypeDic.GetOrAdd(type, (key) =>
             {
-                var att = type.GetTypeInfo().GetCustomAttribute<DescriptionAttribute>(false);
-                return att == null ? type.Name : att.Description;
+                //var att = type.GetTypeInfo().GetCustomAttribute<DescriptionAttribute>(false);
+                //return att == null ? type.Name : att.Description;
+                return type.Name;
             });
         }
 

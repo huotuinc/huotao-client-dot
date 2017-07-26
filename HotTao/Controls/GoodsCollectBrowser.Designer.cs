@@ -47,6 +47,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.plfooter = new System.Windows.Forms.Panel();
             this.lbTipMsg = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).BeginInit();
             this.plSite.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -111,6 +112,7 @@
             this.btnAddGoods.TabIndex = 120;
             this.btnAddGoods.Text = "开始批量采集";
             this.btnAddGoods.UseVisualStyleBackColor = false;
+            this.btnAddGoods.Visible = false;
             this.btnAddGoods.Click += new System.EventHandler(this.btnAddGoods_Click);
             // 
             // plSite
@@ -263,6 +265,7 @@
             // 
             this.plfooter.Controls.Add(this.lbTipMsg);
             this.plfooter.Controls.Add(this.button1);
+            this.plfooter.Controls.Add(this.button5);
             this.plfooter.Controls.Add(this.button4);
             this.plfooter.Controls.Add(this.button2);
             this.plfooter.Controls.Add(this.btnAddGoods);
@@ -283,6 +286,18 @@
             this.lbTipMsg.Name = "lbTipMsg";
             this.lbTipMsg.Size = new System.Drawing.Size(0, 12);
             this.lbTipMsg.TabIndex = 123;
+            // 
+            // button5
+            // 
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Location = new System.Drawing.Point(332, 13);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(74, 34);
+            this.button5.TabIndex = 122;
+            this.button5.Tag = "http://www.qingtaoke.com/";
+            this.button5.Text = "轻淘客";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.btnOpenUrl);
             // 
             // GoodsCollectBrowser
             // 
@@ -340,5 +355,6 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Panel plfooter;
         private System.Windows.Forms.Label lbTipMsg;
+        private System.Windows.Forms.Button button5;
     }
 }

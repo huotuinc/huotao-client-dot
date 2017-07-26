@@ -7,7 +7,7 @@ using iQQ.Net.WebQQCore.Im.Http;
 using iQQ.Net.WebQQCore.Im.Service;
 using iQQ.Net.WebQQCore.Util;
 using iQQ.Net.WebQQCore.Util.Extensions;
-using Microsoft.Extensions.Logging;
+//using Microsoft.Extensions.Logging;
 
 namespace iQQ.Net.WebQQCore.Im.Actor
 {
@@ -36,7 +36,7 @@ namespace iQQ.Net.WebQQCore.Im.Actor
         {
             if (_action.ActionFuture.IsCanceled) return;
 
-            _context.Logger.LogDebug($"[Action={GetType().Name}, HttpActorType={_type}] Begin");
+            //_context.Logger.LogDebug($"[Action={GetType().Name}, HttpActorType={_type}] Begin");
             try
             {
                 switch (_type)
@@ -46,7 +46,7 @@ namespace iQQ.Net.WebQQCore.Im.Actor
                         var service = _context.GetSerivce<IHttpService>(QQServiceType.HTTP);
                         var adaptor = new HttpAdaptor(_context, _action);
                         var request = _action.BuildRequest();
-                        _action.ResponseFuture = service.ExecuteHttpRequestAsync(request, adaptor, _action.ActionFuture.Token);
+                        _action.ResponseFuture = service.ExecuteHttpRequestAsync(request, adaptor, _action.ActionFuture.Token);                            
                         break;
                     }
 
@@ -78,12 +78,12 @@ namespace iQQ.Net.WebQQCore.Im.Actor
             // 统一异常处理
             catch (Exception ex)
             {
-                _context.Logger.LogDebug($"[Action={GetType().Name}, HttpActorType={_type}] Error");
+               // _context.Logger.LogDebug($"[Action={GetType().Name}, HttpActorType={_type}] Error");
 
                 var qqEx = ex as QQException ?? new QQException(ex);
                 _action.OnHttpError(qqEx);
             }
-            _context.Logger.LogDebug($"[Action={GetType().Name}, HttpActorType={_type}] End");
+            //_context.Logger.LogDebug($"[Action={GetType().Name}, HttpActorType={_type}] End");
         }
 
         public HttpActor(HttpActorType type, IQQContext context, IHttpAction action)
@@ -180,6 +180,6 @@ namespace iQQ.Net.WebQQCore.Im.Actor
             }
         }
 
-        public Task ExecuteAsync() => Task.Run(() => Execute());
+        public Task ExecuteAsync() => Task.Factory.StartNew(() => Execute());
     }
 }

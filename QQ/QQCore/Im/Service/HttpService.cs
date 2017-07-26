@@ -12,7 +12,7 @@ using iQQ.Net.WebQQCore.Im.Core;
 using iQQ.Net.WebQQCore.Im.Http;
 using iQQ.Net.WebQQCore.Util;
 using iQQ.Net.WebQQCore.Util.Extensions;
-using Microsoft.Extensions.Logging;
+//using Microsoft.Extensions.Logging;
 
 namespace iQQ.Net.WebQQCore.Im.Service
 {
@@ -70,7 +70,7 @@ namespace iQQ.Net.WebQQCore.Im.Service
             throw new NotSupportedException();
         }
 
-        public async Task<QQHttpResponse> ExecuteHttpRequestAsync(QQHttpRequest request, IQQHttpListener listener, CancellationToken token)
+        public Task<QQHttpResponse> ExecuteHttpRequestAsync(QQHttpRequest request, IQQHttpListener listener, CancellationToken token)
         {
             try
             {
@@ -81,8 +81,10 @@ namespace iQQ.Net.WebQQCore.Im.Service
                     //var count = str.Length;
                 }
 #endif
-                var httpRequest = GetHttpRequest(request);                
-                var result = await _httpClient.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+                var httpRequest = GetHttpRequest(request);
+                var result1 = _httpClient.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, token);
+                result1.Wait();
+                var result = result1.Result;
 #if DEBUG                   
                 if (request.RawUrl == QQConstants.URL_ROBOT_TULING)
                 {
@@ -96,7 +98,7 @@ namespace iQQ.Net.WebQQCore.Im.Service
                 var response = new QQHttpResponse
                 {
                     ResponseMessage = result.ReasonPhrase,
-                    ResponseCode = (int) result.StatusCode,
+                    ResponseCode = (int)result.StatusCode,
                     Headers = new Dictionary<string, List<string>>(),
                     ResultType = request.ResultType,
                 };
@@ -104,20 +106,26 @@ namespace iQQ.Net.WebQQCore.Im.Service
                 switch (request.ResultType)
                 {
                     case ResponseResultType.String:
-                    {
-                        response.ResponseString = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        break;
-                    }
+                        {
+                            var r = result.Content.ReadAsStringAsync();
+                            r.Wait();
+                            response.ResponseString = r.Result; // await result.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            break;
+                        }
                     case ResponseResultType.Byte:
-                    {
-                        response.ResponseBytes = await result.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                        break;
-                    }
+                        {
+                            var r = result.Content.ReadAsByteArrayAsync();
+                            r.Wait();
+                            response.ResponseBytes = r.Result;// await result.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                            break;
+                        }
                     case ResponseResultType.Stream:
-                    {
-                        response.ResponseStream = new MemoryStream(await result.Content.ReadAsByteArrayAsync().ConfigureAwait(false));
-                        break;
-                    }
+                        {
+                            var r = result.Content.ReadAsByteArrayAsync();
+                            r.Wait();
+                            response.ResponseStream = new MemoryStream(r.Result);//await result.Content.ReadAsByteArrayAsync().ConfigureAwait(false)
+                            break;
+                        }
                 }
 
                 foreach (var header in result.Headers)
@@ -132,14 +140,19 @@ namespace iQQ.Net.WebQQCore.Im.Service
                 if (result.Headers.Location != null)
                 {
                     request.Url = result.Headers.Location.AbsoluteUri;
-                    return ExecuteHttpRequest(request, listener);
+                    //return ExecuteHttpRequest(request, listener);
+                    var task = Task.Factory.StartNew(() => { return response; });
+                    return task;
                 }
                 else
                 {
                     listener.OnHttpHeader(response);
                     listener.OnHttpRead(0, response.GetContentLength());
                     listener.OnHttpFinish(response);
-                    return response;
+
+                    var task = Task.Factory.StartNew(() => { return response; });
+
+                    return task;
                 }
             }
             catch (Exception ex)
@@ -156,7 +169,7 @@ namespace iQQ.Net.WebQQCore.Im.Service
             QQHttpCookie qqHttpCookie = null;
             var cookie = _cc.GetCookies(new Uri(url))[name];
             if (cookie != null) qqHttpCookie = new QQHttpCookie(cookie);
-            else Context.Logger.LogError($"获取cookie失败：{name}");
+            // else Context.Logger.LogError($"获取cookie失败：{name}");
             return qqHttpCookie;
         }
 

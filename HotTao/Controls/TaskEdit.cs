@@ -1,4 +1,5 @@
-﻿using HotTaoCore.Logic;
+﻿using HotTao.Properties;
+using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using Newtonsoft.Json;
 using System;
@@ -62,6 +63,9 @@ namespace HotTao.Controls
         public string Title { get; set; }
 
 
+        public bool isJoinImage { get; set; } = false;
+
+
         public int taskid { get; set; }
 
         public string taskTitle { get; set; }
@@ -106,6 +110,12 @@ namespace HotTao.Controls
 
         private void TaskEdit_Load(object sender, EventArgs e)
         {
+
+            if (isJoinImage)
+            {
+                lbTaskName.Text = "商品简述：";
+            }
+
             if (!string.IsNullOrEmpty(Title))
             {
                 lbTitle.Text = Title;
@@ -129,19 +139,32 @@ namespace HotTao.Controls
             {
                 txtEndTime.Text = DateTime.Now.AddHours(5).ToString("yyyy-MM-dd HH:mm:ss");
             }
+            else
+            {
+                txtTaskTitle.ReadOnly = true;
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             MessageAlert alert = new MessageAlert();
-            if (string.IsNullOrEmpty(txtTaskTitle.Text))
+            if (!isJoinImage && string.IsNullOrEmpty(txtTaskTitle.Text))
             {
                 alert.Message = "请输入任务标题";
                 alert.ShowDialog(this);
                 txtTaskTitle.Focus();
                 return;
             }
-
+            else
+            {
+                if (txtTaskTitle.Text.Length > 8)
+                {
+                    alert.Message = "商品简述最多8个字";
+                    alert.ShowDialog(this);
+                    txtTaskTitle.Focus();
+                    return;
+                }
+            }
             if (string.IsNullOrEmpty(txtStartTime.Text))
             {
                 txtStartTime.Focus();
@@ -158,22 +181,28 @@ namespace HotTao.Controls
             TaskPlanModel model = new TaskPlanModel()
             {
                 userid = MyUserInfo.currentUserId,
-                title = txtTaskTitle.Text,
+                title = isJoinImage ? "【合成图片转发】" + txtTaskTitle.Text : txtTaskTitle.Text,
                 startTime = Convert.ToDateTime(txtStartTime.Text),
                 endTime = Convert.ToDateTime(txtEndTime.Text),
                 pidsText = pidsText,
                 goodsText = goodsText,
-                id = taskid
+                id = taskid,
+                status = 0,
+                isTpwd = isJoinImage ? 1 : 0
             };
             Loading ld = new Loading();
             ((Action)(delegate ()
             {
-                //TaskPlanModel data = LogicTaskPlan.Instance.addTaskPlan(MyUserInfo.LoginToken, model);
                 TaskPlanModel data = LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserTaskPlan(model);
-                ld.CloseForm();
+
                 if (data != null)
                 {
 
+                    if (isJoinImage)
+                    {
+                        BuildText(Convert.ToInt32(data.id));
+                    }
+                    ld.CloseForm();
                     this.BeginInvoke((Action)(delegate ()  //等待结束
                     {
                         if (hotTask != null)
@@ -190,6 +219,7 @@ namespace HotTao.Controls
                 }
                 else
                 {
+                    ld.CloseForm();
                     this.BeginInvoke((Action)(delegate ()  //等待结束
                     {
                         alert.Message = "保存失败";
@@ -199,5 +229,35 @@ namespace HotTao.Controls
             })).BeginInvoke(null, null);
             ld.ShowDialog(hotForm);
         }
+
+        /// <summary>
+        /// 生成转发
+        /// </summary>
+        /// <param name="tkid"></param>
+        private void BuildText(int tkid)
+        {
+            string tempText = "[二合一淘口令]";
+            string appkey = string.Empty;
+            string appsecret = string.Empty;
+            if (hotForm.myConfig == null)
+                hotForm.myConfig = new ConfigModel();
+            else
+            {
+                ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(hotForm.myConfig.send_time_config) ? null : JsonConvert.DeserializeObject<ConfigSendTimeModel>(hotForm.myConfig.send_time_config);
+                if (cfgTime != null)
+                {
+                    appkey = cfgTime.appkey;
+                    appsecret = cfgTime.appsecret;
+                }
+            }
+            if (string.IsNullOrEmpty(appkey) && string.IsNullOrEmpty(appsecret))
+            {
+                appkey = Resources.taobaoappkey;
+                appsecret = Resources.taobaoappsecret;
+            }
+
+            LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTaskTpwd(MyUserInfo.LoginToken, MyUserInfo.currentUserId, tkid, tempText, appkey, appsecret, (share) => { }, false, isJoinImage);
+        }
+
     }
 }

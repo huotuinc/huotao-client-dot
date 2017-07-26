@@ -308,7 +308,7 @@ namespace WwChatHttpCore.HTTP
         private string SendImageToUserName(string userName, string from, string imageName, Stream stream)
         {
 
-            String mimeType = MimeMapping.GetMimeMapping(imageName);
+            string mimeType = "image/jpeg";// System.Web.MimeMapping.GetMimeMapping(imageName);
             string id = "WU_FILE_" + (UploadMediaSerialId++);
             Cookie wdt = BaseService.GetCookie("webwx_data_ticket");
             Cookie sid = BaseService.GetCookie("wxsid");

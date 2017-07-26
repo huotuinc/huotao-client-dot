@@ -1,6 +1,6 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
-using HotCoreUtils.Helper;
+using HOTReuestService;
 using HotTao.Controls;
 using HotTao.Properties;
 using HotTaoCore;
@@ -118,6 +118,17 @@ namespace HotTao
         public bool isTokenValid { get; set; }
 
         /// <summary>
+        /// 申请总数量
+        /// </summary>
+        public int ApplyTotal { get; set; }
+
+        /// <summary>
+        /// 申请完成数量
+        /// </summary>
+        public int ApplyFinishCount { get; set; }
+
+
+        /// <summary>
         /// 运行日志
         /// </summary>
         public List<LogRuningModel> logRuningList { get; set; }
@@ -177,6 +188,8 @@ namespace HotTao
         /// <param name="url"></param>
         private void CollectBrowserShow(string url)
         {
+            if (!string.IsNullOrEmpty(url) && url.Equals("http://www.dataoke.com"))
+                url = "http://www.dataoke.com/qlist/";
             if (this.InvokeRequired)
             {
                 this.Invoke(new Action<string>(CollectBrowserShow), new object[] { url });
@@ -215,7 +228,6 @@ namespace HotTao
             { IsBackground = true }.Start();
         }
 
-
         private void ShowConfirm(VersionModel version)
         {
             if (this.InvokeRequired)
@@ -234,7 +246,8 @@ namespace HotTao
                 cfr.ShowDialog();
                 if (isUpdate)
                 {
-                    Process.Start(version.url);
+                    Process.Start("CheckUpdate.exe");
+                    CloseMain();
                 }
             }
         }
@@ -251,7 +264,7 @@ namespace HotTao
             try
             {
                 //初始化用户本地数据库
-                string sourceFileName = System.Environment.CurrentDirectory + "\\data\\hottao.db";
+                string sourceFileName = System.Environment.CurrentDirectory + "\\data\\fdgs.db";
                 if (!System.IO.File.Exists(sourceFileName))
                 {
                     MessageAlert alert = new MessageAlert("系统初始化失败");
@@ -265,7 +278,7 @@ namespace HotTao
                 if (!System.IO.Directory.Exists(dbpath))
                     System.IO.Directory.CreateDirectory(dbpath);
 
-                dbpath += "\\hottao.db";
+                dbpath += "\\fdgs.db";
 
                 if (!System.IO.File.Exists(dbpath))
                 {
@@ -393,6 +406,7 @@ namespace HotTao
                     LoginSync = true;
                     return true;
                 }
+                HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.客户端离线);
                 LogicUser.CheckTokenErrorCount = 0;
                 LoginSync = false;
                 this.BeginInvoke((Action)(delegate ()  //等待结束
@@ -647,6 +661,17 @@ namespace HotTao
 
         }
 
+
+        private void pbCustom_Click(object sender, EventArgs e)
+        {
+            SetSelectedBackgroundImage(sender);
+            openControl(new CustomSendControl(this));
+        }
+
+
+
+
+
         public Loading LoadingShow { get; set; }
 
         private void Main_Shown(object sender, EventArgs e)
@@ -796,6 +821,7 @@ namespace HotTao
 
         #region 登录淘宝相关操作
 
+        //public Alilogin.Alilogin lw;
         public TBSync.LoginWindow lw;
         private Timer checkTbLoginTime;
         private bool loginSuccess = false;
@@ -811,18 +837,25 @@ namespace HotTao
             else
             {
                 loginSuccess = false;
-                TimingRefreshAlimamaPage();
+                //TimingRefreshAlimamaPage();
                 if (lw != null)
                 {
+                    if (lw.RefreshAuthView != null)
+                        lw.RefreshAuthView.Stop();
+                    if (lw.browser != null)
+                    {
+                        lw.browser.Dispose();
+                    }
                     lw.Dispose();
                     lw.Close();
                     lw = null;
                 }
                 lw = new TBSync.LoginWindow();
+
                 lw.LoginSuccessHandle += Lw_LoginSuccessHandle;
                 lw.CloseWindowHandle += Lw_CloseWindowHandle;
                 lw.StartPosition = FormStartPosition.CenterScreen;
-                lw.ShowDialog(this);
+                lw.Show(this);
             }
         }
         /// <summary>
@@ -835,7 +868,9 @@ namespace HotTao
             new System.Threading.Thread(() =>
             {
                 if (lw == null || !loginSuccess || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
-                if (!lw.isLogin())
+                MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
+                bool flag = LogicUser.Instance.checkCookieStatus(MyUserInfo.LoginToken, MyUserInfo.cookieJson);
+                if (!flag)
                 {
                     LoginTaoBao();
                 }
@@ -848,11 +883,35 @@ namespace HotTao
         /// </summary>
         private void Lw_CloseWindowHandle()
         {
-            AlertConfirm("必须登录阿里妈妈才能使用软件,确定退出?", "退出提示", () =>
+            if (!loginSuccess)
             {
-                this.Close();
-            });
+                AlertConfirm("关闭将无法自动申请高佣,确定取消登录?", "退出提示", () =>
+                {
+                    lw.HideWindow();
+                });
+            }
+            else
+                lw.HideWindow();
+
+
+            SetWinForegroundWindow(this.Handle);
+
         }
+
+
+        private void SetWinForegroundWindow(IntPtr hWin)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<IntPtr>(SetWinForegroundWindow), new object[] { hWin });
+            }
+            else
+            {
+                WinApi.SetForegroundWindow(hWin);
+            }
+        }
+
+
 
         /// <summary>
         /// 登录成功事件回调
@@ -860,11 +919,11 @@ namespace HotTao
         /// <param name="jsons">The jsons.</param>
         private void Lw_LoginSuccessHandle(CookieCollection cookies)
         {
+            SetWinForegroundWindow(this.Handle);
+            //lw.HideWindow();
             loginSuccess = true;
             MyUserInfo.cookies = cookies;
             MyUserInfo.TaobaoName = lw.GetTaobaoName();
-            var c = lw.GetCookie("ctoken");
-            MyUserInfo.cToken = c != null ? c.Value : "";
             string cookieJson = lw.GetCurrentCookiesToString();
             new System.Threading.Thread(() =>
             {
@@ -950,20 +1009,20 @@ namespace HotTao
                 timingRefresh = null;
             }
             timingRefresh = new Timer();
-            timingRefresh.Interval = 30000;
+            timingRefresh.Interval = 300000;
             timingRefresh.Tick += TimingRefresh_Tick;
             timingRefresh.Start();
 
-            if (checkTbLoginTime != null)
-            {
-                checkTbLoginTime.Stop();
-                checkTbLoginTime.Dispose();
-                checkTbLoginTime = null;
-            }
-            checkTbLoginTime = new Timer();
-            checkTbLoginTime.Interval = 40000;
-            checkTbLoginTime.Tick += CheckTbLoginTime_Tick;
-            checkTbLoginTime.Start();
+            //if (checkTbLoginTime != null)
+            //{
+            //    checkTbLoginTime.Stop();
+            //    checkTbLoginTime.Dispose();
+            //    checkTbLoginTime = null;
+            //}
+            //checkTbLoginTime = new Timer();
+            //checkTbLoginTime.Interval = 10 * 60 * 1000;
+            //checkTbLoginTime.Tick += CheckTbLoginTime_Tick;
+            //checkTbLoginTime.Start();
 
         }
         /// <summary>
@@ -974,6 +1033,7 @@ namespace HotTao
         /// <exception cref="System.NotImplementedException"></exception>
         private void TimingRefresh_Tick(object sender, EventArgs e)
         {
+            if (!loginSuccess) return;
             new System.Threading.Thread(() =>
             {
                 ResetRefeshStatus();
@@ -1026,11 +1086,47 @@ namespace HotTao
         }
 
 
+        private static Dictionary<string, DateTime> notifyMap { get; set; } = new Dictionary<string, DateTime>();
+        /// <summary>
+        /// 异常通知
+        /// </summary>        
+        private void SendNotify()
+        {
+            string title = "taobao_login";
+            if (notifyMap.ContainsKey(title))
+            {
+                DateTime nowDt = DateTime.Now;
+                notifyMap.TryGetValue(title, out nowDt);
+                if (nowDt.AddMinutes(30).CompareTo(DateTime.Now) < 0)
+                {
+                    notifyMap[title] = DateTime.Now;
+                    HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.阿里妈妈离线);
+                    new System.Threading.Thread(() =>
+                    {
+                        LoginTaoBao();
+                    })
+                    { IsBackground = true }.Start();
+                }
+            }
+            else
+            {
+                notifyMap[title] = DateTime.Now;
+                HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.阿里妈妈离线);
+                new System.Threading.Thread(() =>
+                {
+                    LoginTaoBao();
+                })
+                { IsBackground = true }.Start();
+            }
+        }
+
+
+
         /// <summary>
         /// 申请高佣
         /// </summary>
         /// <param name="goodsDetailUrl">商品详情地址</param>
-        public void ApplyPlan(string goodsId, string goodsName)
+        public void ApplyPlan(string goodsId, string goodsName, string goodsUrl)
         {
             if (lw == null)
             {
@@ -1041,110 +1137,246 @@ namespace HotTao
                     title = goodsId,
                     content = goodsName,
                     logTime = DateTime.Now,
-                    logType = LogTypeOpts.申请高佣,
+                    logType = LogTypeOpts.未知,
                     isError = true,
+                    goodsUrl = goodsUrl,
                     remark = "您还没登录阿里妈妈，请登录后重试!"
                 });
+                SendNotify();
                 return;
             }
-            ThreadHandle(() =>
+            LogRuningModel logData = new LogRuningModel()
             {
-                LogRuningModel logData = new LogRuningModel()
+                goodsid = goodsId,
+                goodsName = goodsName,
+                title = goodsId,
+                content = goodsName,
+                logTime = DateTime.Now,
+                goodsUrl = goodsUrl,
+                logType = LogTypeOpts.申请高佣,
+            };
+            string content = string.Empty;
+            try
+            {
+                MyUserInfo.cookies = lw.GetCurrentCookies();
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                foreach (System.Net.Cookie item in MyUserInfo.cookies)
                 {
-                    goodsid = goodsId,
-                    goodsName = goodsName,
-                    title = goodsId,
-                    content = goodsName,
-                    logTime = DateTime.Now,
-                    logType = LogTypeOpts.申请高佣,
-                };
-                try
+                    sb.AppendLine(string.Format("{0}={1}", item.Name, item.Value));
+                }
+                var tbToken = lw.GetTbToken();
+                string searchUrl = string.Format("http://pub.alimama.com/items/search.json?q={0}&_t={1}&auctionTag=&perPageSize=40&shopTag=&t={1}&_tb_token_={2}&pvid=", HttpUtility.UrlEncode(goodsUrl), getClientMsgId(), tbToken);
+                CookieContainer cookiesContainer = new CookieContainer();
+                cookiesContainer.Add(MyUserInfo.cookies);
+                content = HttpRequestService.HttpGet(searchUrl, cookiesContainer);
+                decimal tkRate = 0;
+                decimal eventRate = 0;
+                bool tkMktStatus = false;
+                bool resultOk = false;
+                if (!string.IsNullOrEmpty(content))
                 {
-                    MyUserInfo.cookies = lw.GetCurrentCookies();
-                    //获取更多定向计划数据
-                    string url = string.Format("http://pub.alimama.com/pubauc/getCommonCampaignByItemId.json?itemId={0}&t={1}&_tb_token_={2}&pvid=", goodsId, getClientMsgId(), MyUserInfo.GetTbToken());
-                    CookieContainer cookiesContainer = new CookieContainer();
-                    cookiesContainer.Add(MyUserInfo.cookies);
-                    string content = BaseRequestService.HttpGet(url, cookiesContainer);
-                    TaobaoCommonCampaignItemsModel items = JsonConvert.DeserializeObject<TaobaoCommonCampaignItemsModel>(content);
-                    if (items != null && items.ok && items.data != null && items.data.Count > 0)
+                    try
                     {
-                        var data = items.data.FindAll(i =>
-                         {
-                             return i.manualAudit == 0;
-                         });
-                        var listData = data.OrderByDescending(r => r.commissionRate).ToList();
-
-                        TaobaoCommonItem item = listData[0];
-                        if (item != null)
+                        TaobaoSearchResultModel searchResult = JsonConvert.DeserializeObject<TaobaoSearchResultModel>(content);
+                        if (searchResult != null && searchResult.ok && searchResult.data.pageList != null)
                         {
-                            if (!item.Exist)
-                            {
-                                string applyUrl = "http://pub.alimama.com/pubauc/applyForCommonCampaign.json";
-                                Dictionary<string, string> formFields = new Dictionary<string, string>();
-                                formFields["campId"] = item.CampaignID;
-                                formFields["keeperid"] = item.ShopKeeperID;
-                                formFields["applyreason"] = "您好，淘客人多，请于通过!";
-                                formFields["_tb_token_"] = MyUserInfo.GetTbToken();
-                                formFields["t"] = getClientMsgId().ToString();
-                                formFields["pvid"] = "";
-                                string res = BaseRequestService.HttpPost(applyUrl, formFields, cookiesContainer);
-                                log.Info(res);
-                                TaobaoCommonCampaignItemsModel _items = JsonConvert.DeserializeObject<TaobaoCommonCampaignItemsModel>(res);
-                                if (_items != null)
-                                {
-                                    if (_items.ok)
-                                    {
-                                        logData.isError = false;
-                                        logData.remark = "[" + goodsId + "]" + "自动申请佣金成功,佣金:" + item.commissionRate + " %";
-                                    }
-                                    else
-                                    {
-                                        logData.isError = true;
-                                        logData.remark = "[" + goodsId + "]" + _items.info.message;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                logData.isError = false;
-                                logData.remark = "[" + goodsId + "]" + "已经申请过了";
-                            }
+                            //通用计划
+                            tkRate = searchResult.data.pageList[0].tkRate;
+
+                            if (!string.IsNullOrEmpty(searchResult.data.pageList[0].eventRate))
+                                eventRate = Convert.ToDecimal(searchResult.data.pageList[0].eventRate);
+
+                            if (!string.IsNullOrEmpty(searchResult.data.pageList[0].tkMktStatus))
+                                tkMktStatus = Convert.ToInt32(searchResult.data.pageList[0].tkMktStatus) == 1;
+                            resultOk = true;
                         }
                         else
                         {
                             logData.isError = false;
-                            logData.remark = "[" + goodsId + "]" + "没找到定向佣金";
+                            logData.logType = LogTypeOpts.未知;
+                            logData.remark = "[" + goodsId + "]" + "该商品在阿里妈妈未找到";
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("该商品在阿里妈妈未找到" + ex.Message);
+                        logData.isError = false;
+                        logData.logType = LogTypeOpts.未知;
+                        logData.remark = "[" + goodsId + "]" + "该商品在阿里妈妈未找到";
+                    }
+                }
+                if (resultOk)
+                {
+                    if (tkMktStatus)
+                    {
+                        logData.isError = false;
+                        logData.logType = LogTypeOpts.营销计划;
+                        logData.remark = "[" + goodsId + "]" + "营销计划,佣金:" + tkRate.ToString() + " %";
                     }
                     else
                     {
-                        logData.isError = false;
-                        logData.remark = "[" + goodsId + "]" + "没找到定向佣金";
+                        //获取更多定向计划数据
+                        string url = string.Format("http://pub.alimama.com/pubauc/getCommonCampaignByItemId.json?itemId={0}&t={1}&_tb_token_={2}&pvid=", goodsId, getClientMsgId(), tbToken);
+                        cookiesContainer = null;
+                        cookiesContainer = new CookieContainer();
+                        cookiesContainer.Add(MyUserInfo.cookies);
+                        content = BaseRequestService.HttpGet(url, cookiesContainer);
+                        if (content.Contains("html"))
+                        {
+                            logData.isError = true;
+                            logData.remark = "阿里妈妈登录状态已失效，请重新登录";
+
+                            SendNotify();
+                        }
+                        else
+                        {
+                            try
+                            {
+                                TaobaoCommonCampaignItemsModel items = JsonConvert.DeserializeObject<TaobaoCommonCampaignItemsModel>(content);
+                                if (items != null && items.ok && items.data != null && items.data.Count > 0)
+                                {
+
+                                    var listData = items.data.OrderByDescending(r => r.commissionRate).ToList();
+                                    TaobaoCommonItem item = listData[0];
+
+                                    //开始申请佣金
+                                    if (tkRate <= item.commissionRate)
+                                        ApplyPlan(goodsId, goodsName, item.CampaignID, item.ShopKeeperID, item.commissionRate / 100, goodsUrl);
+                                    else
+                                    {
+                                        logData.isError = false;
+                                        logData.logType = LogTypeOpts.通用计划;
+                                        logData.remark = "[" + goodsId + "]" + "通用计划,佣金:" + tkRate.ToString() + " %";
+                                    }
+                                }
+                                else
+                                {
+                                    logData.isError = false;
+                                    if (eventRate > tkRate)
+                                    {
+                                        logData.logType = LogTypeOpts.高佣活动;
+                                        logData.remark = "[" + goodsId + "]" + "高佣活动,佣金:" + tkRate.ToString() + " %";
+                                    }
+                                    else
+                                    {
+                                        logData.logType = LogTypeOpts.通用计划;
+                                        logData.remark = "[" + goodsId + "]" + "通用计划,佣金:" + tkRate.ToString() + " %";
+                                    }
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                logData.isError = false;
+                                if (eventRate > tkRate)
+                                {
+                                    logData.logType = LogTypeOpts.高佣活动;
+                                    logData.remark = "[" + goodsId + "]" + "高佣活动,佣金:" + tkRate.ToString() + " %";
+                                }
+                                else
+                                {
+                                    logData.logType = LogTypeOpts.通用计划;
+                                    logData.remark = "[" + goodsId + "]" + "通用计划,佣金:" + tkRate.ToString() + " %";
+                                }
+                            }
+                        }
                     }
                 }
-                catch (Exception ex)
-                {
-                    log.Error(ex);
-                    logData.isError = true;
-                    logData.remark = "[" + goodsId + "]" + "一瞬间，风起人涌，交通拥堵，请稍后重试！";
-                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
 
-                if (logRuningList.Exists(item => { return item.goodsid == logData.goodsid; }))
+            if (logRuningList.Exists(item => { return item.goodsid == logData.goodsid && item.logType == LogTypeOpts.申请高佣; }))
+            {
+                logRuningList.ForEach(l =>
                 {
-                    logRuningList.ForEach(l =>
+                    if (l.goodsid == logData.goodsid)
                     {
-                        if (l.goodsid == logData.goodsid)
-                        {
-                            l = logData;
-                            return;
-                        }
-                    });
-                }
-                else
-                    logRuningList.Add(logData);
+                        l = logData;
+                        return;
+                    }
+                });
+            }
+            else
+                logRuningList.Add(logData);
+        }
 
-            });
+
+        /// <summary>
+        /// 申请高佣
+        /// </summary>
+        /// <param name="goodsId"></param>
+        /// <param name="goodsName"></param>
+        /// <param name="campId">计划ID</param>
+        /// <param name="keeperid">店铺ID</param>
+        /// <param name="commissionRate">佣金率</param>
+        public void ApplyPlan(string goodsId, string goodsName, string campId, string keeperid, decimal commissionRate, string goodsUrl)
+        {
+            LogRuningModel logData = new LogRuningModel()
+            {
+                goodsid = goodsId,
+                goodsName = goodsName,
+                title = goodsId,
+                content = goodsName,
+                logTime = DateTime.Now,
+                logType = LogTypeOpts.申请高佣,
+                campId = campId,
+                keeperid = keeperid,
+                commissionRate = commissionRate,
+                goodsUrl = goodsUrl
+            };
+
+            try
+            {
+                MyUserInfo.cookies = lw.GetCurrentCookies();
+                CookieContainer cookiesContainer = new CookieContainer();
+                cookiesContainer.Add(MyUserInfo.cookies);
+                string applyUrl = "http://pub.alimama.com/pubauc/applyForCommonCampaign.json";
+                Dictionary<string, string> formFields = new Dictionary<string, string>();
+                formFields["campId"] = campId;
+                formFields["keeperid"] = keeperid;
+                formFields["applyreason"] = "您好，淘客人多，请于通过!";
+                formFields["_tb_token_"] = lw.GetTbToken();
+                formFields["t"] = getClientMsgId().ToString();
+                formFields["pvid"] = "";
+                string res = BaseRequestService.HttpPost(applyUrl, formFields, cookiesContainer);
+
+                TaobaoCommonCampaignItemsModel _items = JsonConvert.DeserializeObject<TaobaoCommonCampaignItemsModel>(res);
+                if (_items != null)
+                {
+                    if (_items.ok)
+                    {
+                        logData.isError = false;
+                        logData.remark = "[" + goodsId + "]" + "自动申请佣金成功,佣金:" + (commissionRate * 100) + " %";
+                    }
+                    else
+                    {
+                        logData.isError = _items.info.message.Contains("您已经在申请该计划或您已经申请过该掌柜计划") ? false : true;
+                        logData.remark = "[" + goodsId + "]" + _items.info.message;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                logData.isError = true;
+                logData.remark = "[" + goodsId + "]" + "一瞬间，风起人涌，交通拥堵，请稍后重试！";
+            }
+
+            if (logRuningList.Exists(item => { return item.goodsid == logData.goodsid && item.logType == LogTypeOpts.申请高佣; }))
+            {
+                logRuningList.ForEach(l =>
+                {
+                    if (l.goodsid == logData.goodsid)
+                    {
+                        l = logData;
+                        return;
+                    }
+                });
+            }
+            else
+                logRuningList.Add(logData);
         }
 
 
@@ -1161,10 +1393,10 @@ namespace HotTao
         /// 获取随机时间戳
         /// </summary>
         /// <returns>System.Int64.</returns>
-        public static long getClientMsgId()
+        public static double getClientMsgId()
         {
             System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-            return (long)(DateTime.Now - startTime).TotalMilliseconds;
+            return (DateTime.Now - startTime).TotalMilliseconds;
         }
         #endregion
 
@@ -1174,6 +1406,11 @@ namespace HotTao
         #region QQ相关操作
 
         public QQMainControl qqForm;
+
+        public Timer autoJoinImageTimer { get; set; }
+
+        public bool IsJoinImageCompleted { get; set; } = true;
+
         /// <summary>
         /// 登录QQ
         /// </summary>
@@ -1182,12 +1419,63 @@ namespace HotTao
             if (qqForm == null)
             {
                 qqForm = new QQLogin.QQMainControl();
+                qqForm.IsShowJoinImage = true;
+                qqForm.IdentificationTag = MyUserInfo.currentUserId.ToString();
                 qqForm.CloseQQHandler += QqForm_CloseQQHandler;
                 qqForm.BuildGoodsHandler += QqForm_BuildGoodsHandler;
                 openControl(qqForm);
+
+                if (autoJoinImageTimer != null)
+                {
+                    autoJoinImageTimer.Stop();
+                    autoJoinImageTimer.Dispose();
+                    autoJoinImageTimer = null;
+                }
+                autoJoinImageTimer = new Timer();
+                autoJoinImageTimer.Interval = 5000;
+                autoJoinImageTimer.Tick += AutoJoinImageTimer_Tick;
+                autoJoinImageTimer.Start();
             }
             else
                 openControl(qqForm);
+        }
+
+        /// <summary>
+        /// 自动合成图定时器
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AutoJoinImageTimer_Tick(object sender, EventArgs e)
+        {
+            if (IsJoinImageCompleted && qqForm != null && qqForm.EnableJoinImage)
+            {
+                IsJoinImageCompleted = false;
+                new System.Threading.Thread(() =>
+                {
+                    if (weChatGroups == null) weChatGroups = LogicHotTao.Instance(MyUserInfo.currentUserId).GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);
+                    string appkey = string.Empty;
+                    string appsecret = string.Empty;
+                    if (myConfig == null)
+                        myConfig = new ConfigModel();
+                    else
+                    {
+                        ConfigSendTimeModel cfgTime = string.IsNullOrEmpty(myConfig.send_time_config) ? null : JsonConvert.DeserializeObject<ConfigSendTimeModel>(myConfig.send_time_config);
+                        if (cfgTime != null)
+                        {
+                            appkey = cfgTime.appkey;
+                            appsecret = cfgTime.appsecret;
+                        }
+                    }
+                    if (string.IsNullOrEmpty(appkey) && string.IsNullOrEmpty(appsecret))
+                    {
+                        appkey = Resources.taobaoappkey;
+                        appsecret = Resources.taobaoappsecret;
+                    }
+                    LogicHotTao.Instance(MyUserInfo.currentUserId).AutoJoinImage(MyUserInfo.LoginToken, weChatGroups, appkey, appsecret);
+                    IsJoinImageCompleted = true;
+                })
+                { IsBackground = true }.Start();
+            }
         }
 
         /// <summary>
@@ -1197,15 +1485,28 @@ namespace HotTao
 
         public static object lock_goods = new object();
 
+        public bool isStart = false;
+
         /// <summary>
         /// 生成商品,并判断是否开启创建任务计划
         /// </summary>
         /// <param name="msgCode">商品</param>
         /// <param name="urls">采集到的URL</param>
         /// <param name="isAutoSend"></param>   
+        /// <param name="EnableCustomTemplate"></param>   
         /// <param name="callback">处理回调通知</param>
-        private void QqForm_BuildGoodsHandler(long msgCode, string msgContent, List<string> urls, bool isAutoSend, Action<MessageCallBackType, int, int> callback)
+        private void QqForm_BuildGoodsHandler(long msgCode, string msgGroupName, string msgContent, string msgFullContent, List<string> urls, bool isAutoSend, bool EnableCustomTemplate, Action<MessageCallBackType, int, int> callback)
         {
+            if ((isAutoSend || qqForm.EnableJoinImage) && !EnableCustomTemplate && !isStart)
+            {
+                MyUserInfo.sendmode = 0;
+                if (winTask == null)
+                {
+                    winTask = new StartTask(this);
+                    winTask.OK();
+                    isStart = true;
+                }
+            }
             lock (lock_goods)
             {
                 if (weChatGroups == null) weChatGroups = LogicHotTao.Instance(MyUserInfo.currentUserId).GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);
@@ -1224,7 +1525,7 @@ namespace HotTao
                     else
                         data["url2"] = "";
 
-                    data["message"] = msgContent;
+                    data["message"] = msgFullContent;
                     list.Add(data);
 
                     string jsonUrls = JsonConvert.SerializeObject(list);
@@ -1254,7 +1555,7 @@ namespace HotTao
                             string goodsText = JsonConvert.SerializeObject(goodsidList);
                             string pidsText = JsonConvert.SerializeObject(pidList);
 
-                            if (groupCount > 0 && isAutoSend)
+                            if (groupCount > 0 && isAutoSend && !qqForm.EnableJoinImage)
                             {
                                 System.Threading.Thread.Sleep(2000);
 
@@ -1296,28 +1597,62 @@ namespace HotTao
 
                                 //开始转链
                                 int i = 1;
-                                LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTaskTpwd(MyUserInfo.LoginToken, MyUserInfo.currentUserId, taskId, MyUserInfo.sendtemplate, appkey, appsecret, (share) =>
+                                string templateText = EnableCustomTemplate ? msgContent : MyUserInfo.sendtemplate;// + "复制这条信息，打开『手机淘宝』[二合一淘口令]领券下单即可抢购宝贝";
+                                LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTaskTpwd(MyUserInfo.LoginToken, MyUserInfo.currentUserId, taskId, templateText, appkey, appsecret, (share) =>
                                 {
                                     callback?.Invoke(MessageCallBackType.开始转链, i, groupCount);
                                     i++;
                                 });
                                 #endregion
                                 callback?.Invoke(MessageCallBackType.转链完成, 0, groupCount);
+                                //
+                                writeTemplate(taskId.ToString(), templateText);
+
                             }
                             callback?.Invoke(MessageCallBackType.完成, 0, 0);
-                        }
-                        else
-                        {
-                            log.Debug(msgContent);
                         }
                     }
                     catch (Exception ex)
                     {
                         log.Error(ex);
+                        callback?.Invoke(MessageCallBackType.失败, 0, 0);
                     }
                 }
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// 点击关闭按钮回调事件
         /// </summary>
@@ -1332,7 +1667,27 @@ namespace HotTao
         }
 
 
+        /// <summary>
+        /// 缓存文件路径
+        /// </summary>
+        private static string cacheFilePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.datapath);
+        /// <summary>
+        /// 写入配置文件
+        /// </summary>
+        private void writeTemplate(string taskid, string text)
+        {
+            string path = string.Format("{0}/{1}/temp", cacheFilePath, MyUserInfo.currentUserId.ToString());
 
+            string templateFileName = path + string.Format("/text_{0}.txt", taskid);
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            if (!File.Exists(templateFileName))
+                File.Create(templateFileName).Dispose();
+            StreamWriter sw = new StreamWriter(@templateFileName, false);
+            sw.Write(text);
+            sw.Close();//写入
+        }
         #endregion
 
     }

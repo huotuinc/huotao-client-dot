@@ -37,11 +37,12 @@
             this.hotGroupBox2 = new HotTao.Controls.module.HotGroupBox(this.components);
             this.txtTaskTitle = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbTaskName = new System.Windows.Forms.Label();
             this.txtEndTime = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.txtStartTime = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.hotPanel1.SuspendLayout();
             this.bgPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
@@ -51,10 +52,11 @@
             // hotPanel1
             // 
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Controls.Add(this.label1);
             this.hotPanel1.Controls.Add(this.bgPanel);
             this.hotPanel1.Controls.Add(this.hotGroupBox2);
             this.hotPanel1.Controls.Add(this.btnSave);
-            this.hotPanel1.Controls.Add(this.label1);
+            this.hotPanel1.Controls.Add(this.lbTaskName);
             this.hotPanel1.Controls.Add(this.txtEndTime);
             this.hotPanel1.Controls.Add(this.label3);
             this.hotPanel1.Controls.Add(this.txtStartTime);
@@ -139,14 +141,14 @@
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // label1
+            // lbTaskName
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(83, 55);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "任务标题：";
+            this.lbTaskName.AutoSize = true;
+            this.lbTaskName.Location = new System.Drawing.Point(83, 55);
+            this.lbTaskName.Name = "lbTaskName";
+            this.lbTaskName.Size = new System.Drawing.Size(65, 12);
+            this.lbTaskName.TabIndex = 0;
+            this.lbTaskName.Text = "任务标题：";
             // 
             // txtEndTime
             // 
@@ -185,6 +187,16 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "开始时间：";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(450, 55);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(59, 12);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "最多8个字";
+            this.label1.Visible = false;
+            // 
             // TaskEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -212,7 +224,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbTaskName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DateTimePicker txtStartTime;
@@ -224,5 +236,6 @@
         private System.Windows.Forms.PictureBox pbClose;
         private module.HotGroupBox hotGroupBox2;
         private System.Windows.Forms.TextBox txtTaskTitle;
+        private System.Windows.Forms.Label label1;
     }
 }

@@ -6,7 +6,6 @@ using iQQ.Net.WebQQCore.Im.Service;
 using iQQ.Net.WebQQCore.Util;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 
 namespace iQQ.Net.WebQQCore.Im.Action
 {

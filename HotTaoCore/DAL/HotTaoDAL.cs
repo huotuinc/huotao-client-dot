@@ -84,17 +84,18 @@ namespace HotTaoCore.DAL
             string strSql = "";
             long id = 0;
             if (data == null)
-                strSql = @"INSERT INTO user_wechat_group (userid,title,pid) VALUES(@userid,@title,@pid);select last_insert_rowid(); ";
+                strSql = @"INSERT INTO user_wechat_group (userid,title,pid,type) VALUES(@userid,@title,@pid,@type);select last_insert_rowid(); ";
             else
             {
                 id = data.id;
-                strSql = @"UPDATE user_wechat_group SET title=@title, pid =@pid WHERE id = @id and userid=@userid;";
+                strSql = @"UPDATE user_wechat_group SET title=@title, pid =@pid,type=@type WHERE id = @id and userid=@userid;";
             }
 
             var param = new[] {
                     new SQLiteParameter("@userid",model.userid),
                     new SQLiteParameter("@title",model.title),
                     new SQLiteParameter("@pid",model.pid),
+                    new SQLiteParameter("@type",model.type),
                     new SQLiteParameter("@id",id)
                 };
             return DBHelper.ExecuteSql(strSql, param);
@@ -107,11 +108,12 @@ namespace HotTaoCore.DAL
         /// <returns>true if XXXX, false otherwise.</returns>
         public bool UpdateUserWeChatGroup(weChatGroupModel model)
         {
-            string strSql = @"UPDATE user_wechat_group SET title=@title, pid =@pid WHERE id = @id and userid=@userid;";
+            string strSql = @"UPDATE user_wechat_group SET title=@title, pid =@pid,type=@type WHERE id = @id and userid=@userid;";
             var param = new[] {
                     new SQLiteParameter("@userid",model.userid),
                     new SQLiteParameter("@title",model.title),
                     new SQLiteParameter("@pid",model.pid),
+                    new SQLiteParameter("@type",model.type),
                     new SQLiteParameter("@id",model.id)
                 };
             return DBHelper.ExecuteSql(strSql, param) > 0;
@@ -181,7 +183,7 @@ namespace HotTaoCore.DAL
         /// <returns>List&lt;weChatGroupModel&gt;.</returns>
         public List<weChatGroupModel> GetUserWeChatGroupListByUserId(int userid)
         {
-            string strSql = @"select id,userid,title,pid from user_wechat_group where userid=@userid;";
+            string strSql = @"select id,userid,title,pid,type from user_wechat_group where userid=@userid;";
             var param = new[] {
                 new SQLiteParameter("@userid",userid),
             };
@@ -238,6 +240,21 @@ namespace HotTaoCore.DAL
             };
             return DBHelper.ExecQueryList<GoodsModel>(strSql, param);
         }
+
+        /// <summary>
+        /// 获取最早的三条未合成图片的商品数据
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        public List<GoodsModel> FindByUserGoodsListThree(int userid)
+        {
+            string strSql = @"select id,userid,goodsId,goodsName,goodsMainImgUrl,goodsIntro,goodslocatImgPath,goodsDetailUrl,goodsSupplier,goodsSalesAmount,goodsComsRate,goodsPrice,couponPrice,endTime,couponUrl,couponId,updateTime,field9 from user_goods_list where userid=@userid and field9=0 order by updatetime asc limit 3;";
+            var param = new[] {
+                new SQLiteParameter("@userid",userid),
+            };
+            return DBHelper.ExecQueryList<GoodsModel>(strSql, param);
+        }
+
 
         /// <summary>
         /// 获取商品列表
@@ -305,6 +322,22 @@ namespace HotTaoCore.DAL
         public bool DeleteAllGoods(int userid, List<int> ids)
         {
             string strSql = string.Format(@"delete from user_goods_list where userid=@userid and id in ({0});", string.Join(",", ids));
+            var param = new[] {
+                    new SQLiteParameter("@userid",userid)
+                };
+            return DBHelper.ExecuteSql(strSql, param) > 0;
+        }
+
+
+        /// <summary>
+        /// 修改商品合成图片状态
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public bool UpdateGoodsJoinImageStatusByIds(int userid, List<int> ids)
+        {
+            string strSql = string.Format(@"update user_goods_list set field9=1 where userid=@userid and id in ({0});", string.Join(",", ids));
             var param = new[] {
                     new SQLiteParameter("@userid",userid)
                 };
@@ -433,7 +466,7 @@ namespace HotTaoCore.DAL
         /// <returns>System.Int32.</returns>
         public int AddUserTaskPlan(TaskPlanModel model)
         {
-            string strSql = @"INSERT INTO user_task_plan (userid,title,startTime,endTime,goodsText,pidsText,isTpwd,status) VALUES(@userid,@title,@startTime,@endTime,@goodsText,@pidsText,0,0);select last_insert_rowid(); ";
+            string strSql = @"INSERT INTO user_task_plan (userid,title,startTime,endTime,goodsText,pidsText,isTpwd,status) VALUES(@userid,@title,@startTime,@endTime,@goodsText,@pidsText,@isTpwd,@status);select last_insert_rowid(); ";
 
             var param = new[] {
                     new SQLiteParameter("@userid",model.userid),
@@ -441,7 +474,9 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@startTime",model.startTime),
                     new SQLiteParameter("@endTime",model.endTime),
                     new SQLiteParameter("@goodsText",model.goodsText),
-                    new SQLiteParameter("@pidsText",model.pidsText)
+                    new SQLiteParameter("@pidsText",model.pidsText),
+                    new SQLiteParameter("@isTpwd",model.isTpwd),
+                    new SQLiteParameter("@status",model.status)
                 };
             return DBHelper.ExecuteSql(strSql, param);
         }
@@ -592,7 +627,7 @@ namespace HotTaoCore.DAL
         /// <returns>System.Int32.</returns>
         public int AddUserWechatSharetext(weChatShareTextModel model)
         {
-            string strSql = @"INSERT INTO user_wechat_sharetext (userid,title,text,taskid,goodsid,status,tpwd) VALUES(@userid,@title,@text,@taskid,@goodsid,@status,@tpwd);select last_insert_rowid(); ";
+            string strSql = @"INSERT INTO user_wechat_sharetext (userid,title,text,taskid,goodsid,status,tpwd,field1,field2,field3,field4,field5,field6,field7) VALUES(@userid,@title,@text,@taskid,@goodsid,@status,@tpwd,@field1,@field2,@field3,@field4,@field5,@field6,@field7);select last_insert_rowid(); ";
 
             var param = new[] {
                     new SQLiteParameter("@userid",model.userid),
@@ -601,7 +636,14 @@ namespace HotTaoCore.DAL
                     new SQLiteParameter("@taskid",model.taskid),
                     new SQLiteParameter("@goodsid",model.goodsid),
                     new SQLiteParameter("@status",model.status),
-                    new SQLiteParameter("@tpwd",model.tpwd)
+                    new SQLiteParameter("@tpwd",model.tpwd),
+                    new SQLiteParameter("@field1",model.field1),
+                    new SQLiteParameter("@field2",model.field2),
+                    new SQLiteParameter("@field3",model.field3),
+                    new SQLiteParameter("@field4",model.field4),
+                    new SQLiteParameter("@field5",model.field5),
+                    new SQLiteParameter("@field6",model.field6),
+                    new SQLiteParameter("@field7",model.field7)
                 };
             return DBHelper.ExecuteSql(strSql, param);
         }
@@ -653,6 +695,22 @@ namespace HotTaoCore.DAL
                 };
             return DBHelper.ExecuteSql(strSql, param) > 0;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="shareid"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public bool UpdateUserShareText(long shareid, string text)
+        {
+            string strSql = @"UPDATE user_wechat_sharetext SET text=@text  WHERE id = @id ;";
+            var param = new[] {
+                    new SQLiteParameter("@id",shareid),
+                    new SQLiteParameter("@text",text)
+                };
+            return DBHelper.ExecuteSql(strSql, param) > 0;
+        }
+
 
 
 
@@ -687,7 +745,7 @@ namespace HotTaoCore.DAL
         /// <returns>List&lt;GoodsModel&gt;.</returns>
         public List<weChatShareTextModel> FindByUserWechatShareTextList(int userid, int taskid)
         {
-            string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd from user_wechat_sharetext where userid=@userid and taskid=@taskid;";
+            string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd,field1,field2,field3,field4,field5,field6,field7 from user_wechat_sharetext where userid=@userid and taskid=@taskid;";
             var param = new[] {
                     new SQLiteParameter("@taskid",taskid),
                     new SQLiteParameter("@userid",userid)
@@ -704,7 +762,7 @@ namespace HotTaoCore.DAL
         /// <returns>List&lt;weChatShareTextModel&gt;.</returns>
         public List<weChatShareTextModel> FindByUserWechatShareTextList(int userid, int taskid, int goodsid)
         {
-            string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd from user_wechat_sharetext where userid=@userid and taskid=@taskid and goodsid=@goodsid and status=0 ;";
+            string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd,field1,field2,field3,field4,field5,field6,field7 from user_wechat_sharetext where userid=@userid and taskid=@taskid and goodsid=@goodsid and status=0 ;";
             var param = new[] {
                     new SQLiteParameter("@taskid",taskid),
                     new SQLiteParameter("@userid",userid),
@@ -720,7 +778,7 @@ namespace HotTaoCore.DAL
         /// <returns>List&lt;weChatShareTextModel&gt;.</returns>
         public List<weChatShareTextModel> FindByUserWechatShareTextList(int userid)
         {
-            string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd from user_wechat_sharetext where userid=@userid  and status in (0,-1);";
+            string strSql = @"select id,userid,title,text,taskid,goodsid,status,tpwd,field1,field2,field3,field4,field5,field6,field7 from user_wechat_sharetext where userid=@userid  and status in (0,-1);";
             var param = new[] {
                     new SQLiteParameter("@userid",userid)
             };

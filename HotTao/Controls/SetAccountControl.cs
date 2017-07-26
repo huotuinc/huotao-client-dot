@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.IO;
-using HotCoreUtils.Helper;
+
 using HotTaoCore;
 using HotTaoCore.Logic;
 using System.Linq;
@@ -35,21 +35,28 @@ namespace HotTao.Controls
         }
         private void SetAccountControl_Load(object sender, EventArgs e)
         {
-            this.IsRememberPassword = false;           
-            var data = LogicHotTao.Instance(MyUserInfo.currentUserId).GetLoginName(MyUserInfo.userData.loginName);
-            if (data != null)
+            if (MyUserInfo.userData != null)
             {
-                loginName.Text = data.login_name;
-                loginName.ReadOnly = true;
-                loginPwd.ReadOnly = true;
-                this.ckbSavePwd.Checked = data.is_save_pwd == 1;
-                this.ckbAutoLogin.Checked = false;
-                this.IsRememberPassword = true;
-                if (!string.IsNullOrEmpty(data.login_password) && data.is_save_pwd == 1)
-                {
-                    loginPwd.Text = data.login_password;
-                }
+                lbLoginName.Text = MyUserInfo.userData.loginName;
+                lbRegtime.Text = MyUserInfo.userData.createTime.ToString("yyyy-MM-dd HH:mm:ss");
+                lbTaobaoName.Text = MyUserInfo.TaobaoName;
+                lbLevelName.Text = MyUserInfo.userData.levelName;
             }
+            //this.IsRememberPassword = false;           
+            //var data = LogicHotTao.Instance(MyUserInfo.currentUserId).GetLoginName(MyUserInfo.userData.loginName);
+            //if (data != null)
+            //{
+            //    lbLoginName.Text = MyUserInfo.userData.loginName;
+            //    loginName.ReadOnly = true;
+            //    loginPwd.ReadOnly = true;
+            //    this.ckbSavePwd.Checked = data.is_save_pwd == 1;
+            //    this.ckbAutoLogin.Checked = false;
+            //    this.IsRememberPassword = true;
+            //    if (!string.IsNullOrEmpty(data.login_password) && data.is_save_pwd == 1)
+            //    {
+            //        loginPwd.Text = data.login_password;
+            //    }
+            //}
         }
 
 
@@ -58,24 +65,24 @@ namespace HotTao.Controls
         /// </summary>
         public void Save()
         {
-            try
-            {
-              
-                LogicHotTao.Instance(MyUserInfo.currentUserId).AddLoginName(new HotTaoCore.Models.SQLiteEntitysModel.LoginNameModel()
-                {
-                    userid = MyUserInfo.currentUserId,
-                    login_name = loginName.Text,
-                    login_password = loginPwd.Text,
-                    is_save_pwd = this.ckbSavePwd.Checked ? 1 : 0
-                });
+            //try
+            //{
 
-                ShowAlert("保存成功");
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-                ShowAlert("保存失败");
-            }
+            //    LogicHotTao.Instance(MyUserInfo.currentUserId).AddLoginName(new HotTaoCore.Models.SQLiteEntitysModel.LoginNameModel()
+            //    {
+            //        userid = MyUserInfo.currentUserId,
+            //        login_name = loginName.Text,
+            //        login_password = loginPwd.Text,
+            //        is_save_pwd = this.ckbSavePwd.Checked ? 1 : 0
+            //    });
+
+            //    ShowAlert("保存成功");
+            //}
+            //catch (Exception ex)
+            //{
+            //    log.Error(ex);
+            //    ShowAlert("保存失败");
+            //}
         }
 
         /// <summary>
@@ -108,33 +115,61 @@ namespace HotTao.Controls
         }
 
 
-        /// <summary>
-        /// 记住密码
-        /// </summary>
-        private void RememberPassword(string pwdStr)
-        {
-            string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.dbpath);
-            if (!Directory.Exists(filePath))
-                Directory.CreateDirectory(filePath);
-            filePath += ConstConfig.conf_user;
-            if (!File.Exists(filePath))
-                File.Create(filePath).Dispose();
-            StreamWriter sw = new StreamWriter(@filePath, false);
-            sw.Write(pwdStr);
-            sw.Close();//写入
-        }
+        ///// <summary>
+        ///// 记住密码
+        ///// </summary>
+        //private void RememberPassword(string pwdStr)
+        //{
+        //    string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.dbpath);
+        //    if (!Directory.Exists(filePath))
+        //        Directory.CreateDirectory(filePath);
+        //    filePath += ConstConfig.conf_user;
+        //    if (!File.Exists(filePath))
+        //        File.Create(filePath).Dispose();
+        //    StreamWriter sw = new StreamWriter(@filePath, false);
+        //    sw.Write(pwdStr);
+        //    sw.Close();//写入
+        //}
 
-        private void ckbAutoLogin_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ckbAutoLogin.Checked)
-                ckbSavePwd.Checked = true;
-        }
+        //private void ckbAutoLogin_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (ckbAutoLogin.Checked)
+        //        ckbSavePwd.Checked = true;
+        //}
 
 
         private void ShowAlert(string content)
         {
             MessageAlert alert = new MessageAlert(content);
             alert.ShowDialog(this);
+        }
+
+        private void hotGroupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            hotForm.AlertConfirm("是否退出当前登录账户？", "注销", () =>
+            {
+                MyUserInfo my = new MyUserInfo();
+                my.SetUserData(null);
+                if (hotForm.wxlogin != null)
+                {
+                    hotForm.wxlogin.isStartTask = false;
+                    hotForm.wxlogin.isCloseWinForm = true;
+                    hotForm.wxlogin.Close();
+                    hotForm.wxlogin = null;
+                }
+                if (hotForm.winTask != null)
+                {
+                    hotForm.winTask.isStartTask = false;
+                    hotForm.winTask.Close();
+                    hotForm.winTask = null;
+                }               
+                hotForm.openControl(new LoginControl(hotForm));
+            });
         }
     }
 }

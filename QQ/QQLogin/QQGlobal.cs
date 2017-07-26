@@ -33,7 +33,7 @@ namespace QQLogin
     /// <param name="msgGroupName">群标题</param>
     /// <param name="msgContent">消息内容</param>
     /// <param name="urls">消息包含的url</param>
-    public delegate void QQNotifyGroupMsgEventHandler(long msgCode, string msgGroupName, string msgContent, List<string> urls);
+    public delegate void QQNotifyGroupMsgEventHandler(long msgCode, long gid, string msgGroupName, string msgContent,string FullMessageContent, List<string> urls);
 
     /// <summary>
     /// 关闭QQ
@@ -49,12 +49,14 @@ namespace QQLogin
     /// <summary>
     /// 根据商品地址，生成商品信息
     /// </summary>
-    /// <param name="msgCode">商品CODE</param>
+    /// <param name="msgCode">消息Code</param>
+    /// <param name="msgGroupName">分组名</param>
     /// <param name="msgContent">消息</param>
     /// <param name="urls">链接</param>
     /// <param name="isAutoSend">是否自动跟发</param>    
+    /// <param name="EnableCustomTemplate">启用自定义文案发送</param>
     /// <param name="callback">回调</param>    
-    public delegate void BuildGoodsEventHandler(long msgCode, string msgContent, List<string> urls, bool isAutoSend, Action<MessageCallBackType, int, int> callback);
+    public delegate void BuildGoodsEventHandler(long msgCode, string msgGroupName, string msgContent, string msgFullContent, List<string> urls, bool isAutoSend, bool EnableCustomTemplate, Action<MessageCallBackType, int, int> callback);
 
     /// <summary>
     /// 批量保存到本地商品库
@@ -63,17 +65,18 @@ namespace QQLogin
     public delegate void BatchSaveEventHandler(List<Dictionary<string, string>> urls);
 
 
-
     /// <summary>
     /// 消息处理回调类型
     /// </summary>
     public enum MessageCallBackType
     {
+        未准备,
         正在准备,
         开始转链,
         转链完成,
         开始创建计划,
-        完成
+        完成,
+        失败
     }
 
 
@@ -177,6 +180,11 @@ namespace QQLogin
         /// 消息完整内容
         /// </summary>
         public string MessageContent { get; set; }
+
+        /// <summary>
+        /// 完成文案
+        /// </summary>
+        public string FullMessageContent { get; set; }
 
         /// <summary>
         /// 链接1

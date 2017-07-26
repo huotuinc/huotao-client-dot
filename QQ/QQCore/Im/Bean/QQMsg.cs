@@ -5,6 +5,8 @@ using iQQ.Net.WebQQCore.Im.Bean.Content;
 using iQQ.Net.WebQQCore.Util;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Text.RegularExpressions;
+using System.IO;
 
 namespace iQQ.Net.WebQQCore.Im.Bean
 {
@@ -140,23 +142,23 @@ namespace iQQ.Net.WebQQCore.Im.Bean
                         switch (contentItemType)
                         {
                             case ContentItemType.Face:
-                            AddContentItem(new FaceItem(item));
-                            break;
+                                AddContentItem(new FaceItem(item));
+                                break;
 
                             case ContentItemType.Font:
-                            AddContentItem(new FontItem(item));
-                            break;
+                                AddContentItem(new FontItem(item));
+                                break;
 
                             case ContentItemType.Cface:
-                            AddContentItem(new CFaceItem(item));
-                            break;
+                                AddContentItem(new CFaceItem(item));
+                                break;
 
                             case ContentItemType.Offpic:
-                            AddContentItem(new OffPicItem(item));
-                            break;
+                                AddContentItem(new OffPicItem(item));
+                                break;
 
                             default:
-                            break;
+                                break;
                         }
                     }
                     else
@@ -190,16 +192,70 @@ namespace iQQ.Net.WebQQCore.Im.Bean
             return PackContentList();
         }
 
+        public string GetTextReplace()
+        {
+            var buffer = new StringBuilder();
+            foreach (var item in ContentList)
+            {
+                string msg = item.ToText();
+                msg = StringHelper.FilterText(msg);
+                if (string.IsNullOrEmpty(msg)) continue;
+
+                if (!string.IsNullOrEmpty(msg.Trim()))
+                {
+                    msg = msg.Replace('"', ' ').Replace(" ", "\r\n");
+                    buffer.AppendLine(msg);
+                }
+            }
+            string msgText = buffer.ToString();
+            List<string> urls = UrlUtils.GetUrls(msgText);
+            if (urls != null)
+            {
+                foreach (var url in urls)
+                {
+                    msgText = msgText.Replace(url, "");
+                }
+            }
+
+            StringBuilder sb = new StringBuilder();
+            using (StringReader sr = new StringReader(msgText))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (!string.IsNullOrEmpty(line))
+                    {
+                        sb.AppendLine(line);
+                    }
+                }
+            }
+            sb.AppendLine("");
+            return sb.ToString();
+        }
+
         public string GetText()
         {
             var buffer = new StringBuilder();
             foreach (var item in ContentList)
             {
-                buffer.Append(item.ToText());
+                string msg = item.ToText();
+                if (!string.IsNullOrEmpty(msg))
+                {
+                    msg = msg.Replace('"', ' ').Replace(" ", "");
+                    buffer.AppendLine(msg);
+                }
             }
             return buffer.ToString();
         }
 
+        /// <summary>
+        /// 获取文案中的url
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetUrls()
+        {
+            return UrlUtils.GetUrls(GetText());
+        }
         public void ClearContentItems()
         {
             ContentList.Clear();

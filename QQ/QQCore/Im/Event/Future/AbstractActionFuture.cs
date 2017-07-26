@@ -101,13 +101,14 @@ namespace iQQ.Net.WebQQCore.Im.Event.Future
 
         public QQActionEvent WaitFinalEvent(int millisecond)
         {
-            var cts = new CancellationTokenSource(new TimeSpan(0, 0, 0, 0, millisecond));
+            var cts = new CancellationTokenSource();
+            
             return WaitFinalEvent(cts.Token);
         }
 
         public Task<QQActionEvent> WhenFinalEvent()
         {
-            return Task.Run(() => WaitFinalEvent(), Token);
+            return Task.Factory.StartNew(() => WaitFinalEvent(), Token);
         }
 
         public Task<QQActionEvent> WhenFinalEvent(CancellationToken token)
@@ -126,7 +127,8 @@ namespace iQQ.Net.WebQQCore.Im.Event.Future
 
         public Task<QQActionEvent> WhenFinalEvent(int millisecond)
         {
-            var cts = new CancellationTokenSource(new TimeSpan(0, 0, 0, 0, millisecond));
+            //new TimeSpan(0, 0, 0, 0, millisecond)
+            var cts = new CancellationTokenSource();
             return WhenFinalEvent(cts.Token);
         }
 

@@ -94,6 +94,9 @@ namespace HotTaoCore.Models
         /// <value>The pid.</value>
         public string pid { get; set; }
 
+
+        public int type { get; set; }
+
         public DateTime createtime { get; set; }
     }
 

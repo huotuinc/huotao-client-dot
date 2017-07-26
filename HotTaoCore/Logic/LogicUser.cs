@@ -1,11 +1,12 @@
 ﻿using HotTaoCore.Models;
-using HotCoreUtils.Caching;
+//using HotCoreUtils.Caching;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HotTaoCore.Enums;
+using HOTReuestService;
 
 namespace HotTaoCore.Logic
 {
@@ -37,7 +38,7 @@ namespace HotTaoCore.Logic
             data["password"] = loginPwd;
             if (keepToken)
                 data["keepToken"] = keepToken.ToString();
-            var userData = BaseRequestService.Post<UserModel>(ApiConst.login, data, (err) =>
+            var userData = BaseRequestService.Post<UserModel>(ApiConst.login, data,false, (err) =>
             {
                 error?.Invoke(err);
             });
@@ -69,7 +70,7 @@ namespace HotTaoCore.Logic
             data["verifyCode"] = verifyCode;
             if (!string.IsNullOrEmpty(code))
                 data["code"] = code;
-            var userData = BaseRequestService.Post<UserModel>(ApiConst.register, data, (err) =>
+            var userData = BaseRequestService.Post<UserModel>(ApiConst.register, data, false, (err) =>
             {
                 error?.Invoke(err);
             });
@@ -89,7 +90,23 @@ namespace HotTaoCore.Logic
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["mobile"] = mobile;
+
             return BaseRequestService.Post(ApiConst.sendCodeForRegister, data);
+        }
+
+        public bool sendCodeForRegister(string mobile, out string msg)
+        {
+            msg = "";
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["mobile"] = mobile;
+            string errorMsg = "";
+            bool b = BaseRequestService.Post(ApiConst.sendCodeForRegister, data, (ret) =>
+             {
+                 errorMsg = ret.resultMsg;
+             });
+
+            msg = errorMsg;
+            return b;
         }
 
         /// <summary>
@@ -104,6 +121,21 @@ namespace HotTaoCore.Logic
             data["mobile"] = mobile;
             data["content"] = content;
             BaseRequestService.Post(ApiConst.sendWarning, data);
+        }
+
+        /// <summary>
+        /// 发送预警邮件
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="email"></param>
+        /// <param name="content"></param>
+        public void sendEmailWarning(string token, string email, string content)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = token;
+            data["email"] = email;
+            data["content"] = content;
+            BaseRequestService.Post(ApiConst.sendMail, data);
         }
 
 
@@ -385,6 +417,28 @@ namespace HotTaoCore.Logic
             data["token"] = loginToken;
             data["cookies"] = cookies;
             return BaseRequestService.PostToString(ApiConst.getTaobaoUsername, data);
+        }
+
+
+        /// <summary>
+        /// 检查阿里妈妈cookie状态
+        /// </summary>
+        /// <param name="loginToken"></param>
+        /// <param name="cookies"></param>
+        /// <returns></returns>
+        public bool checkCookieStatus(string loginToken, string cookies)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["cookies"] = cookies;
+            bool flag = false;
+            var result = BaseRequestService.Post(ApiConst.checkCookie, data, ret =>
+            {
+                flag = true;
+            });
+            if (flag)
+                result = flag;
+            return result;
         }
 
     }

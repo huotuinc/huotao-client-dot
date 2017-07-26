@@ -1,5 +1,7 @@
 ﻿
-using HotCoreUtils.Helper;
+//using HotCoreUtils.Helper;
+using HOTReuestService;
+using HOTReuestService.Helper;
 using HotTaoCore.Models;
 using System;
 using System.Collections.Generic;
@@ -60,7 +62,7 @@ namespace HotTaoCore.Logic
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
             data["urls"] = urls;
-            return BaseRequestService.Post<List<GoodsSelectedModel>>(ApiConst.findGoodsByLink, data);
+            return BaseRequestService.Post<List<GoodsSelectedModel>>(ApiConst.findGoodsByLink, data, true);
 
         }
 
@@ -153,7 +155,7 @@ namespace HotTaoCore.Logic
                     }
                     else
                     {
-                        LogicHotTao.Instance(userid).DeleteGoodsByGoodsid(goodsid);
+                        //LogicHotTao.Instance(userid).DeleteGoodsByGoodsid(goodsid);
                     }
 
                 }
@@ -195,6 +197,47 @@ namespace HotTaoCore.Logic
             data["taskid"] = taskId;
             return BaseRequestService.Post<GoodsCollertModel>(ApiConst.queryGoods, data);
         }
+
+        /// <summary>
+        /// 根据商品链接查找最优定向佣金计划
+        /// </summary>
+        /// <param name="loginToken"></param>
+        /// <param name="goodsLink">商品地址</param>
+        /// <returns></returns>
+        public PlanModel getCommissionPlan(string loginToken, string goodsLink)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["goodsLink"] = goodsLink;
+            return BaseRequestService.Post<PlanModel>(ApiConst.getCommissionPlan, data);
+        }
+
+
+        /// <summary>
+        /// 保存采集到的商品
+        /// </summary>
+        /// <param name="loginToken"></param>
+        /// <param name="goodsId"></param>
+        /// <param name="goodsName"></param>
+        /// <param name="price">商品价格</param>
+        /// <param name="discountAmount">券价值</param>
+        /// <param name="shareText"></param>
+        /// <returns></returns>
+        public int saveCollectionGoods(string loginToken, string goodsId, string goodsName, decimal price, decimal discountAmount, string shareText, string goodsPromotionUrl, string primaryImg)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["goodsId"] = goodsId;
+            data["goodsName"] = goodsName;
+            data["price"] = price.ToString("f2");
+            data["discountAmount"] = discountAmount.ToString("f2");
+            if (!string.IsNullOrEmpty(shareText))
+                data["shareText"] = shareText;
+            data["goodsPromotionUrl"] = goodsPromotionUrl;
+            data["primaryImg"] = primaryImg;
+            return HttpRequestService.PostToInt32(ApiDefineConst.saveCollectionGoods, data);
+        }
+
 
     }
 }

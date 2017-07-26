@@ -1,6 +1,7 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
-using HotCoreUtils.Helper;
+using HOTReuestService.Helper;
+using HOTReuestService;
 using HotTaoCore;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
@@ -234,8 +235,8 @@ namespace HotTaoSquare
                 loginSuccess = false;
                 isLogining = true;
                 ((Action)(delegate ()
-                {
-                    var data = LogicUser.Instance.login(lgname, pwd, (err) =>
+                {                    
+                       var data = LogicUser.Instance.login(lgname, pwd, (err) =>
                     {
                         if (err != null && err.resultCode != 200)
                         {
@@ -357,8 +358,7 @@ namespace HotTaoSquare
                     browser = new ChromiumWebBrowser(url);
                     browser.BrowserSettings = settings;
                     browser.RegisterJsObject("hotJs", new Login(), false);
-                    browser.Dock = DockStyle.Fill;
-                    browser.LifeSpanHandler = new LifeSpanHandler();
+                    browser.Dock = DockStyle.Fill;                    
                     browser.MenuHandler = new MenuHandler();
                 }
                 else
@@ -435,7 +435,7 @@ namespace HotTaoSquare
         /// <returns></returns>
         public string getTempateText()
         {
-            return MyUserInfo.sendtemplate;
+            return string.IsNullOrEmpty(MyUserInfo.sendtemplate) ? MyUserInfo.defaultSendTempateText : MyUserInfo.sendtemplate;
         }
 
         /// <summary>
@@ -444,7 +444,15 @@ namespace HotTaoSquare
         /// <param name="url"></param>
         public void OpenExternalBrowser(string url)
         {
-            Process.Start(url);
+            try
+            {
+                if (!string.IsNullOrEmpty(url))
+                    Process.Start(url);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
 
@@ -480,9 +488,25 @@ namespace HotTaoSquare
     {
         public void OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
         {
-            model.Clear();
-            model.AddItem(CefMenuCommand.Back, "返回");
-            model.AddItem(CefMenuCommand.Forward, "前进");
+            //移除不需要的菜单
+            model.Remove(CefMenuCommand.ViewSource);
+            model.Remove(CefMenuCommand.Print);
+            model.Remove(CefMenuCommand.AddToDictionary);
+            model.Remove(CefMenuCommand.SpellCheckNoSuggestions);
+            model.Remove(CefMenuCommand.Reload);
+
+            //修改菜单显示名称
+            model.SetLabel(CefMenuCommand.Undo, "撤回");
+            model.SetLabel(CefMenuCommand.Redo, "恢复");
+            model.SetLabel(CefMenuCommand.Back, "返回");
+            model.SetLabel(CefMenuCommand.Forward, "前进");
+            model.SetLabel(CefMenuCommand.Cut, "剪切");
+            model.SetLabel(CefMenuCommand.Copy, "复制");
+            model.SetLabel(CefMenuCommand.Paste, "粘贴");
+            model.SetLabel(CefMenuCommand.Delete, "删除");
+            model.SetLabel(CefMenuCommand.SelectAll, "全选");
+
+            //添加菜单
             model.AddItem(CefMenuCommand.Reload, "重新加载");
 
         }
@@ -499,16 +523,22 @@ namespace HotTaoSquare
 
         public bool RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
         {
+            model.SetEnabled(CefMenuCommand.Cut, false);
             return false;
         }
     }
 
+
+    public delegate void LoadPopupEvent();
 
     /// <summary>
     /// 禁止页面跳出浏览控件
     /// </summary>
     internal class LifeSpanHandler : ILifeSpanHandler
     {
+
+        public event LoadPopupEvent poputEvent;
+
         public bool DoClose(IWebBrowser browserControl, IBrowser browser)
         {
             return false;
@@ -530,6 +560,7 @@ namespace HotTaoSquare
 
         public bool OnBeforePopup(IWebBrowser browserControl, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
         {
+            poputEvent?.Invoke();
             newBrowser = browserControl;
             newBrowser.Load(targetUrl);
             return true;

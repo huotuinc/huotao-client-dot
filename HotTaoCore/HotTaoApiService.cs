@@ -1,4 +1,4 @@
-﻿using HotCoreUtils.Helper;
+﻿using HOTReuestService.Helper;
 using HotTaoCore.Models;
 using System;
 using System.Collections.Generic;
@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Top.Api;
+using Top.Api.Domain;
 using Top.Api.Request;
 using Top.Api.Response;
 using static Top.Api.Request.WirelessShareTpwdCreateRequest;
@@ -133,5 +134,38 @@ namespace HotTaoCore
             return null;
         }
 
+
+
+
+
+        public GoodsSelectedModel GetGoodsInfo(string goodsId)
+        {
+            ITopClient client = new DefaultTopClient(url, appkey, appsecret);
+            TbkItemInfoGetRequest req = new TbkItemInfoGetRequest();
+            req.Fields = "num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url";
+            req.Platform = 1L;
+            req.NumIids = goodsId;
+            TbkItemInfoGetResponse rsp = client.Execute(req);
+            if (!rsp.IsError)
+            {
+                List<NTbkItem> data = rsp.Results;
+                if (data != null && data.Count() > 0)
+                {
+                    NTbkItem item = data[0];
+                    GoodsSelectedModel model = new GoodsSelectedModel()
+                    {
+                        goodsId = item.NumIid.ToString(),
+                        goodsName = item.Title,
+                        goodsPrice = Convert.ToDecimal(item.ZkFinalPrice),
+                        goodsDetailUrl = item.ItemUrl,
+                        goodsImageUrl = item.PictUrl,
+                        goodsSalesAmount = Convert.ToInt32(item.Volume),
+                    };
+                    return model;
+                }
+            }
+            return null;
+        }
+        
     }
 }

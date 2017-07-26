@@ -2,12 +2,15 @@
 using CefSharp.WinForms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace TBSync
 {
@@ -15,7 +18,9 @@ namespace TBSync
     /// 淘宝登录窗口
     /// </summary>
     public partial class LoginWindow : Form
-    {        
+    {
+        Logger log = LogManager.GetCurrentClassLogger();
+
         public LoginWindow()
         {
             InitializeComponent();
@@ -68,6 +73,16 @@ namespace TBSync
         private const string searchUrl = "http://pub.alimama.com/promo/search/index.htm";
 
         /// <summary>
+        /// 淘宝授权地址
+        /// </summary>
+        private const string authUrl = "https://oauth.taobao.com/authorize?response_type=token&client_id=24538400&state=1212&view=web";
+
+        /// <summary>
+        /// 淘宝授权结果页面
+        /// </summary>
+        private const string authView = "https://oauth.taobao.com/oauth2";
+
+        /// <summary>
         /// 初始化是否加载完成
         /// </summary>
         private bool isLoadCompleted = false;
@@ -75,6 +90,11 @@ namespace TBSync
         ///是否登录完成
         /// </summary>
         private bool isLoginCompleted = false;
+
+        /// <summary>
+        /// 是否授权完成
+        /// </summary>
+        private bool isAuthCompleted = false;
 
         /// <summary>
         /// 登录成功时间
@@ -86,6 +106,9 @@ namespace TBSync
         /// </summary>
         private List<System.Net.Cookie> lstCookies { get; set; }
 
+
+        public System.Windows.Forms.Timer RefreshAuthView { get; set; }
+
         private void LoginWindow_Load(object sender, EventArgs e)
         {
             OpenTaobao();
@@ -96,26 +119,72 @@ namespace TBSync
         /// </summary>
         public void OpenTaobao()
         {
-            if (browser == null)
+            try
             {
-                browser = new ChromiumWebBrowser(LoginUrl);
-                BrowserSettings settings = new BrowserSettings()
+
+                if (browser == null)
                 {
-                    LocalStorage = CefState.Enabled,
-                    Javascript = CefState.Enabled,
-                    WebSecurity = CefState.Enabled
-                };
-                browser.BrowserSettings = settings;
-                browser.Size = new Size(920, 607);
-                browser.Location = new Point(1, 0);
-                browser.FrameLoadEnd += Browser_FrameLoadEnd;
-                browser.TitleChanged += Browser_TitleChanged;
-                browser.AddressChanged += Browser_AddressChanged;
-                this.tbPanel.Controls.Add(browser);
+                    browser = new ChromiumWebBrowser(LoginUrl);
+                    BrowserSettings settings = new BrowserSettings()
+                    {
+                        LocalStorage = CefState.Enabled,
+                        Javascript = CefState.Enabled,
+                        Plugins = CefState.Enabled,
+                        ImageLoading = CefState.Enabled,
+                        ImageShrinkStandaloneToFit = CefState.Enabled,
+                        WebGl = CefState.Enabled,
+                    };
+                    browser.BrowserSettings = settings;
+                    browser.Size = new Size(920, 607);
+                    browser.Location = new Point(1, 0);
+                    browser.MenuHandler = new TBMenuHandler();
+                    browser.FrameLoadEnd += Browser_FrameLoadEnd;
+                    browser.TitleChanged += Browser_TitleChanged;
+                    browser.AddressChanged += Browser_AddressChanged;
+                    this.tbPanel.Controls.Add(browser);
+
+                    //定时去刷新页面，以保证淘宝长久在线状态
+                    if (RefreshAuthView != null)
+                    {
+                        RefreshAuthView.Stop();
+                        RefreshAuthView.Dispose();
+                        RefreshAuthView = null;
+                    }
+                    RefreshAuthView = new System.Windows.Forms.Timer();
+                    RefreshAuthView.Interval = 1000 * 60 * 4;
+                    RefreshAuthView.Tick += RefreshAuthView_Tick;
+                    RefreshAuthView.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                MessageBox.Show("系统出现未知异常，请重启系统！");
+                this.Close();
             }
         }
+
         /// <summary>
-        /// 登录发送改变时
+        /// 定时刷新
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RefreshAuthView_Tick(object sender, EventArgs e)
+        {
+            //if (isAuthCompleted)
+            //{
+            if (browser != null)
+            {
+                if (browser.Address.Contains(authView))
+                {
+                    browser.Reload();
+                }
+            }
+            //}
+        }
+
+        /// <summary>
+        /// 地址发生改变时
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -132,6 +201,24 @@ namespace TBSync
                     })
                     { IsBackground = true }.Start();
                 }
+            }
+            else if (e.Address.Contains(authView))
+            {
+                if (!isAuthCompleted)
+                {
+                    isAuthCompleted = true;
+                    HideWindow();
+                }
+            }
+            else if (e.Address.Equals(authUrl))
+            {
+                new Thread(() =>
+                {
+                    Thread.Sleep(10000);
+                    if (browser.Address.Equals(authUrl))
+                        browser.ExecuteScriptAsync("auther('true')");
+                })
+                { IsBackground = true }.Start();
             }
         }
 
@@ -186,6 +273,24 @@ namespace TBSync
                 })
                 { IsBackground = true }.Start();
             }
+            else if (e.Url.Contains(authView))
+            {
+                if (!isAuthCompleted)
+                {
+                    isAuthCompleted = true;
+                    HideWindow();
+                }
+            }
+            else if (e.Url.Equals(authUrl))
+            {
+                new Thread(() =>
+                {
+                    Thread.Sleep(10000);
+                    if (browser.Address.Equals(authUrl))
+                        browser.ExecuteScriptAsync("auther('true')");
+                })
+                { IsBackground = true }.Start();
+            }
         }
 
         /// <summary>
@@ -196,7 +301,8 @@ namespace TBSync
         {
             if (!string.IsNullOrEmpty(url))
             {
-                browser.Load(url);
+                if (browser != null)
+                    browser.Reload();
             }
         }
 
@@ -223,30 +329,18 @@ namespace TBSync
         /// </summary>
         public void SetTitle(string text)
         {
-            if (this.lbTitle.InvokeRequired)
+            //判断当前控件是否被释放
+            if (!this.IsDisposed && this.lbTitle != null && !this.lbTitle.IsDisposed)
             {
-                this.lbTitle.Invoke(new Action<string>(SetTitle), new object[] { text });
+                if (this.lbTitle.InvokeRequired)
+                {
+                    this.lbTitle.Invoke(new Action<string>(SetTitle), new object[] { text });
+                }
+                else
+                {
+                    this.lbTitle.Text = text;
+                }
             }
-            else
-            {
-                this.lbTitle.Text = text;
-            }
-        }
-
-
-        /// <summary>
-        /// 执行js脚步，等待返回，timeout 15秒
-        /// </summary>
-        /// <param name="b">The b.</param>
-        /// <param name="script">The script.</param>
-        /// <param name="millisecondsTimeout">等待时间</param>
-        /// <returns>System.Object.</returns>
-        private object EvaluateScript(ChromiumWebBrowser b, string script, int millisecondsTimeout = 5000)
-        {
-            var task = b.EvaluateScriptAsync(script);
-            task.Wait(millisecondsTimeout);
-            JavascriptResponse response = task.Result;
-            return response.Success ? (response.Result ?? "") : response.Message;
         }
 
         /// <summary>
@@ -254,34 +348,45 @@ namespace TBSync
         /// </summary>
         private void LoginSuccess()
         {
-            loginSuccessTime = DateTime.Now;
-            SetTitle("登录成功!正在获取Token...");
-            var visitor = new CookieMonster();
-            if (Cef.GetGlobalCookieManager().VisitUrlCookies(LoginSuccessUrl, true, visitor))
-                visitor.WaitForAllCookies();
-            JArray jsons = new JArray();
-            CookieCollection cookies = new CookieCollection();
-            foreach (System.Net.Cookie cookie in visitor.NamesValues)
+            try
             {
-                JObject json = new JObject();
-                json["name"] = cookie.Name;
-                json["path"] = cookie.Path;
-                json["domain"] = cookie.Domain;
-                json["value"] = cookie.Value;
-                jsons.Add(json);
-                cookies.Add(cookie);
-            }
-            string cookiesJson = JsonConvert.SerializeObject(jsons);
-            //页面加载完成回调
-            LoginSuccessHandle?.Invoke(cookies);
-            SetTitle("登录成功!获取Token成功,正在验证token...");
-            new Thread(() =>
-            {
-                Thread.Sleep(3000);
-                HideWindow();
-            })
-            { IsBackground = true }.Start();
+                loginSuccessTime = DateTime.Now;
+                SetTitle("登录成功!正在获取Token...");
+                var visitor = new CookieMonster();
+                if (Cef.GetGlobalCookieManager().VisitUrlCookies(LoginSuccessUrl, true, visitor))
+                    visitor.WaitForAllCookies();
+                JArray jsons = new JArray();
+                CookieCollection cookies = new CookieCollection();
+                foreach (System.Net.Cookie cookie in visitor.NamesValues)
+                {
+                    JObject json = new JObject();
+                    json["name"] = cookie.Name;
+                    json["path"] = cookie.Path;
+                    json["domain"] = cookie.Domain;
+                    json["value"] = cookie.Value;
+                    jsons.Add(json);
+                    cookies.Add(cookie);
+                }
 
+                // browser.Load(authUrl);
+
+                string cookiesJson = JsonConvert.SerializeObject(jsons);
+                //页面加载完成回调
+                LoginSuccessHandle?.Invoke(cookies);
+                SetTitle("登录成功!获取Token成功,正在验证token...");
+                HideWindow();
+                //new Thread(() =>
+                //{
+                //    Thread.Sleep(500);
+                //    HideWindow();
+                //})
+                //{ IsBackground = true }.Start();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                MessageBox.Show("系统出现未知异常，请重启系统！");
+            }
         }
 
         /// <summary>
@@ -303,33 +408,6 @@ namespace TBSync
             }
             return taobaoname;
         }
-
-
-        /// <summary>
-        /// 判断阿里妈妈是否登录
-        /// </summary>
-        /// <returns></returns>
-        public bool isLogin()
-        {
-            //            
-            if (loginSuccessTime.AddMinutes(30).CompareTo(DateTime.Now) < 0)
-            {
-                return false;
-            }
-            //bool loginStatus = false;
-            //if (browser.Address.Contains("www.alimama.com"))
-            //{
-            //    object result = EvaluateScript(browser, "document.getElementsByClassName('menu-username').item(0).innerHTML");
-            //    if (!string.IsNullOrEmpty(result.ToString()))
-            //    {
-            //        if (result.ToString().Equals("你好"))
-            //            loginStatus = false;
-            //    }
-            //    return loginStatus;
-            //}
-            return true;
-        }
-
 
         /// <summary>
         /// 获取指定cookie
@@ -372,7 +450,6 @@ namespace TBSync
         }
 
 
-
         /// <summary>
         /// 获取登录阿里妈妈的cookies
         /// </summary>
@@ -380,7 +457,7 @@ namespace TBSync
         public CookieCollection GetCurrentCookies(string address = null)
         {
             var visitor = new CookieMonster();
-            if (Cef.GetGlobalCookieManager().VisitUrlCookies(string.IsNullOrEmpty(address) ? LoginSuccessUrl : "address", true, visitor))
+            if (Cef.GetGlobalCookieManager().VisitUrlCookies(string.IsNullOrEmpty(address) ? LoginSuccessUrl : address, true, visitor))
                 visitor.WaitForAllCookies();
             CookieCollection cookies = new CookieCollection();
             foreach (System.Net.Cookie cookie in visitor.NamesValues)
@@ -389,6 +466,34 @@ namespace TBSync
             }
             return cookies;
         }
+        /// <summary>
+        /// 获取阿里妈妈token
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public string GetTbToken()
+        {
+            try
+            {
+                var cookies = GetCurrentCookies();
+                string _tb_token = string.Empty;
+                foreach (System.Net.Cookie cookie in cookies)
+                {
+                    if (cookie.Name.Equals("_tb_token_"))
+                    {
+                        _tb_token = cookie.Value;
+                        break;
+                    }
+                }
+                return _tb_token;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+            return "";
+        }
+
 
         /// <summary>
         /// 获取登录阿里妈妈的cookies
@@ -513,6 +618,53 @@ namespace TBSync
         public IEnumerable<System.Net.Cookie> NamesValues
         {
             get { return cookies; }
+        }
+    }
+
+
+    /// <summary>
+    /// 控制右键菜单
+    /// </summary>
+    internal class TBMenuHandler : IContextMenuHandler
+    {
+        public void OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
+        {
+            //移除不需要的菜单
+            model.Remove(CefMenuCommand.ViewSource);
+            model.Remove(CefMenuCommand.Print);
+            model.Remove(CefMenuCommand.AddToDictionary);
+            model.Remove(CefMenuCommand.SpellCheckNoSuggestions);
+            model.Remove(CefMenuCommand.Reload);
+
+            //修改菜单显示名称
+            model.SetLabel(CefMenuCommand.Undo, "撤回");
+            model.SetLabel(CefMenuCommand.Redo, "恢复");
+            model.SetLabel(CefMenuCommand.Back, "返回");
+            model.SetLabel(CefMenuCommand.Forward, "前进");
+            model.SetLabel(CefMenuCommand.Cut, "剪切");
+            model.SetLabel(CefMenuCommand.Copy, "复制");
+            model.SetLabel(CefMenuCommand.Paste, "粘贴");
+            model.SetLabel(CefMenuCommand.Delete, "删除");
+            model.SetLabel(CefMenuCommand.SelectAll, "全选");
+
+            //添加菜单
+            model.AddItem(CefMenuCommand.Reload, "重新加载");
+
+        }
+
+        public bool OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
+        {
+            return false;
+        }
+
+        public void OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+        {
+
+        }
+
+        public bool RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
+        {
+            return false;
         }
     }
 

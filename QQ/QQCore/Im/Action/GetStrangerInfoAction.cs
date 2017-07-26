@@ -4,9 +4,8 @@ using iQQ.Net.WebQQCore.Im.Core;
 using iQQ.Net.WebQQCore.Im.Event;
 using iQQ.Net.WebQQCore.Im.Http;
 using iQQ.Net.WebQQCore.Util;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Microsoft.Extensions.Logging;
+
 
 namespace iQQ.Net.WebQQCore.Im.Action
 {
@@ -61,7 +60,7 @@ namespace iQQ.Net.WebQQCore.Im.Action
                     }
                     catch (FormatException e)
                     {
-                        Context.Logger.LogWarning($"日期转换失败：{obj["birthday"]}", e);
+                       /// Context.Logger.LogWarning($"日期转换失败：{obj["birthday"]}", e);
                         user.Birthday = null;
                     }
                     user.Occupation = obj["occupation"].ToString();
@@ -98,7 +97,7 @@ namespace iQQ.Net.WebQQCore.Im.Action
             }
             catch (Exception e)
             {
-                Context.Logger.LogWarning(e.Message, e);
+                //Context.Logger.LogWarning(e.Message, e);
             }
             NotifyActionEvent(QQActionEventType.EvtOK, user);
         }

@@ -9,6 +9,9 @@ using System.Windows.Forms;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using Newtonsoft.Json;
+using HOTReuestService;
+using System.IO;
+using HotTao.Properties;
 
 namespace HotTao.Controls
 {
@@ -29,6 +32,8 @@ namespace HotTao.Controls
             if (MyUserInfo.currentUserId > 0)
             {
                 LoadConfig();
+                //加载公众号二维码
+                LoadMyQrCode();
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));
@@ -57,7 +62,7 @@ namespace HotTao.Controls
                     txtTaoAppKey.Text = cfgTime.appkey;
                     txtTaoAppSecret.Text = cfgTime.appsecret;
                     ckbSendVideo.Checked = cfgTime.enable_sendvideo;
-                    txtNotifyMobile.Text = cfgTime.notify_mobile;
+                    //txtNotifyMobile.Text = cfgTime.notity_email;
                 }
 
                 ConfigWhereModel cfgWhere = string.IsNullOrEmpty(hotForm.myConfig.where_config) ? null : JsonConvert.DeserializeObject<ConfigWhereModel>(hotForm.myConfig.where_config);
@@ -108,8 +113,8 @@ namespace HotTao.Controls
             //发视频
             cfgTime.enable_sendvideo = ckbSendVideo.Checked;
 
-            //通知手机
-            cfgTime.notify_mobile = txtNotifyMobile.Text;
+            //通知邮箱
+            //cfgTime.notity_email = txtNotifyMobile.Text;
 
 
             //商品间隔
@@ -241,5 +246,47 @@ namespace HotTao.Controls
                 setForm.sendRequest = rdSendRequest.Checked;
             }
         }
+
+        /// <summary>
+        /// 加载公众号二维码
+        /// </summary>
+        private void LoadMyQrCode()
+        {
+            myQrCode.Image = Resources.loading;
+            new System.Threading.Thread(() =>
+            {
+                string url = HotJavaApi.SubscribeForBind(MyUserInfo.LoginToken);
+                if (!string.IsNullOrEmpty(url))
+                {
+                    var bytes = HttpRequestService.GetNetWorkImageData(url);
+                    if (bytes != null)
+                        SetQrCodeImage(Image.FromStream(new MemoryStream(bytes)), false);
+                    else
+                        SetQrCodeImage(Resources.loading);
+                }
+            })
+            { IsBackground = true }.Start();
+        }
+
+        /// <summary>
+        /// 设置二维码
+        /// </summary>
+        /// <param name="image"></param>
+        public void SetQrCodeImage(Image image, bool isCenterImage = true)
+        {
+            if (this.myQrCode.InvokeRequired)
+            {
+                this.myQrCode.Invoke(new Action<Image, bool>(SetQrCodeImage), new object[] { image, isCenterImage });
+            }
+            else
+            {
+                myQrCode.Image = image;
+                if(!isCenterImage)
+                {
+                    myQrCode.SizeMode = PictureBoxSizeMode.StretchImage;
+                }
+            }
+        }
+
     }
 }

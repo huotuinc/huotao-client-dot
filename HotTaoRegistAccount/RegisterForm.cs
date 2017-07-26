@@ -1,4 +1,5 @@
-﻿using HotTaoCore.Logic;
+﻿using HOTReuestService;
+using HotTaoCore.Logic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -119,7 +120,7 @@ namespace HotTaoRegistAccount
             ((Action)(delegate ()
             {
                 try
-                {
+                {                    
                     var data = LogicUser.Instance.Register(lgname, pwd, verifyCode, (err) =>
                             {
                                 if (err != null && err.resultCode != 200)
@@ -152,15 +153,16 @@ namespace HotTaoRegistAccount
                 return;
             }
 
+            string errorMsg = string.Empty;
             //获取
-            if (LogicUser.Instance.sendCodeForRegister(loginName.Text.Trim()))
+            if (LogicUser.Instance.sendCodeForRegister(loginName.Text.Trim(), out errorMsg))
             {
                 isSendVerifyCode = true;
                 timeOut();
             }
             else
             {
-                MessageBox.Show("短信发送失败，请检查改手机号是否有误或已注册！");
+                MessageBox.Show(errorMsg);
             }
         }
 

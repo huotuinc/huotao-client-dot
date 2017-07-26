@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO;
 using HotTaoCore;
-using HotCoreUtils.Helper;
 using HotTaoCore.Models;
 using HotTaoCore.Logic;
 using HotTao.Controls.Login;

@@ -1,4 +1,5 @@
 ﻿using HotTao.Properties;
+using HotTaoCore;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using Newtonsoft.Json;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -73,6 +75,11 @@ namespace HotTao.Controls
         private Main hotForm { get; set; }
 
         /// <summary>
+        /// 自定义文案
+        /// </summary>
+        private string customTemplateText { get; set; }
+
+        /// <summary>
         /// 任务ID
         /// </summary>
         /// <value>The taskid.</value>
@@ -99,10 +106,15 @@ namespace HotTao.Controls
         {
             if (MyUserInfo.currentUserId > 0)
             {
-                if (string.IsNullOrEmpty(MyUserInfo.sendtemplate))
-                    MyUserInfo.sendtemplate = MyUserInfo.defaultSendTempateText;
+                customTemplateText = GetTemplateText(taskid.ToString());
+                if (string.IsNullOrEmpty(customTemplateText))
+                {
+                    if (string.IsNullOrEmpty(MyUserInfo.sendtemplate))
+                        MyUserInfo.sendtemplate = MyUserInfo.defaultSendTempateText;
+                    txtTemplateText.Text = MyUserInfo.sendtemplate;
 
-                txtTemplateText.Text = MyUserInfo.sendtemplate;
+                    btnAppendShareText.Visible = false;
+                }
                 dgvShareText.MouseWheel += DgvData_MouseWheel;
 
                 loadUserPidGridView();
@@ -180,7 +192,7 @@ namespace HotTao.Controls
                 dgvShareText.Rows.Add();
                 ++i;
                 dgvShareText.Rows[i - 1].Cells["sharetitle"].Value = model.title;
-                dgvShareText.Rows[i - 1].Cells["tpwd"].Value ="[二合一淘口令]";
+                dgvShareText.Rows[i - 1].Cells["tpwd"].Value = "[二合一淘口令]";
                 dgvShareText.Rows[i - 1].Cells["shareText"].Value = model.text.ToString();
                 if (i % 2 == 0)
                 {
@@ -288,10 +300,29 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnBuildShareText_Click(object sender, EventArgs e)
         {
-            if (BuildStart)
+            BuildText(txtTemplateText.Text);
+        }
+
+
+        /// <summary>
+        /// 追加自定义文案
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnAppendShareText_Click(object sender, EventArgs e)
+        {
+            string text = customTemplateText;
+            text += txtTemplateText.Text;
+            BuildText(text);
+        }
+
+
+        private void BuildText(string templateText, bool append = false)
+        {
+            if (BuildStart || string.IsNullOrEmpty(templateText))
                 return;
             BuildStart = true;
-            string tempText = txtTemplateText.Text;
+            string tempText = templateText;
             this.dgvShareText.Rows.Clear();
 
             new Thread(() =>
@@ -309,18 +340,17 @@ namespace HotTao.Controls
                         appsecret = cfgTime.appsecret;
                     }
                 }
-
                 if (string.IsNullOrEmpty(appkey) && string.IsNullOrEmpty(appsecret))
                 {
                     appkey = Resources.taobaoappkey;
                     appsecret = Resources.taobaoappsecret;
                 }
 
-
                 LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTaskTpwd(MyUserInfo.LoginToken, MyUserInfo.currentUserId, taskid, tempText, appkey, appsecret, (share) =>
-                  {
-                      SetView(share);
-                  });
+                {
+                    SetView(share);
+                }, append);
+
                 if (taskControl != null)
                     taskControl.LoadTaskPlanGridView();
                 if (historyControl != null)
@@ -330,7 +360,6 @@ namespace HotTao.Controls
 
             })
             { IsBackground = true }.Start();
-
         }
 
         private void ShowAlert(string text)
@@ -345,5 +374,45 @@ namespace HotTao.Controls
                 alert.ShowDialog(this);
             }
         }
+
+        private void lkbtn_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(MyUserInfo.sendtemplate))
+                MyUserInfo.sendtemplate = MyUserInfo.defaultSendTempateText;
+            txtTemplateText.Text = MyUserInfo.sendtemplate;
+        }
+
+        /// <summary>
+        /// 缓存文件路径
+        /// </summary>
+        private static string cacheFilePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.datapath);
+        /// <summary>
+        /// 获取文案
+        /// </summary>
+        /// <returns></returns>
+        public string GetTemplateText(string taskid)
+        {
+            try
+            {
+                string templateFileName = string.Format("{0}/{1}/temp/text_{2}.txt", cacheFilePath, MyUserInfo.currentUserId.ToString(), taskid);
+                if (File.Exists(templateFileName))
+                {
+                    FileStream aFile = new FileStream(templateFileName, FileMode.Open);
+                    StreamReader sr = new StreamReader(aFile);
+                    string str = sr.ReadToEnd();
+                    sr.Close();
+                    sr.Dispose();
+                    aFile.Close();
+                    aFile.Dispose();
+                    return str;
+                }
+                return string.Empty;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
     }
 }

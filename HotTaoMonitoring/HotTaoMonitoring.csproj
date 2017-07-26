@@ -71,10 +71,6 @@
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HotCoreUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HotCoreUtils.1.0.0.0\lib\net40\HotCoreUtils.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -277,6 +273,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HOTReuestService\HOTReuestService.csproj">
+      <Project>{67006D2C-E9DA-4B7D-940D-72706C1078E6}</Project>
+      <Name>HOTReuestService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HotTaoCore\HotTaoCore.csproj">
       <Project>{850f7582-733e-4a00-9d30-8c977e4f01b9}</Project>
       <Name>HotTaoCore</Name>

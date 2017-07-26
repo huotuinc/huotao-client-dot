@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using HotCoreUtils.Helper;
+
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using HotTaoCore;
 using System.Threading;
+using HOTReuestService;
+using HOTReuestService.Helper;
 
 namespace HotTao.Controls.Login
 {
@@ -92,7 +94,7 @@ namespace HotTao.Controls.Login
                 loginSuccess = false;
                 isLogining = true;
                 ((Action)(delegate ()
-                {
+                {                    
                     var data = LogicUser.Instance.login(lgname, pwd, (err) =>
                     {
                         if (err != null && err.resultCode != 200)

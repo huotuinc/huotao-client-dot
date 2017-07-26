@@ -16,6 +16,41 @@ using System.Threading.Tasks;
 
 namespace HotTaoCore.Models
 {
+
+
+
+    public class TaobaoSearchResultModel
+    {
+        public bool ok { get; set; }
+
+
+        public TaobaoSearchDataModel data { get; set; } = new TaobaoSearchDataModel();
+    }
+
+    public class TaobaoSearchDataModel
+    {
+        public List<TaobaoSearchPageListModel> pageList { get; set; } = new List<TaobaoSearchPageListModel>();
+    }
+
+    public class TaobaoSearchPageListModel
+    {
+        /// <summary>
+        /// 通用佣金率
+        /// </summary>
+        public decimal tkRate { get; set; }
+
+        /// <summary>
+        /// 高佣
+        /// </summary>
+        public string eventRate { get; set; }
+
+        /// <summary>
+        /// 是否是营销计划 1
+        /// </summary>
+        public string tkMktStatus { get; set; }
+    }
+
+
     public class TaobaoCommonCampaignItemsModel
     {
 

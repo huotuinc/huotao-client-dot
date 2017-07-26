@@ -36,6 +36,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -45,7 +46,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.hotGroupBox1.SuspendLayout();
             this.hotGroupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -59,6 +61,8 @@
             this.hotGroupBox1.Controls.Add(this.label9);
             this.hotGroupBox1.Controls.Add(this.label11);
             this.hotGroupBox1.Controls.Add(this.label10);
+            this.hotGroupBox1.Controls.Add(this.label15);
+            this.hotGroupBox1.Controls.Add(this.label14);
             this.hotGroupBox1.Controls.Add(this.label13);
             this.hotGroupBox1.Controls.Add(this.label8);
             this.hotGroupBox1.Controls.Add(this.label7);
@@ -146,7 +150,7 @@
             this.label10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
             this.label10.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(264, 91);
+            this.label10.Location = new System.Drawing.Point(197, 91);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(58, 25);
             this.label10.TabIndex = 29;
@@ -154,12 +158,25 @@
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label10.Click += new System.EventHandler(this.SetTag_Click);
             // 
+            // label13
+            // 
+            this.label13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
+            this.label13.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label13.ForeColor = System.Drawing.Color.White;
+            this.label13.Location = new System.Drawing.Point(320, 91);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(68, 25);
+            this.label13.TabIndex = 29;
+            this.label13.Text = "[简介描述]";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label13.Click += new System.EventHandler(this.SetTag_Click);
+            // 
             // label8
             // 
             this.label8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
             this.label8.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(328, 91);
+            this.label8.Location = new System.Drawing.Point(261, 91);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(53, 25);
             this.label8.TabIndex = 29;
@@ -211,7 +228,7 @@
             this.label4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
             this.label4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(162, 91);
+            this.label4.Location = new System.Drawing.Point(95, 91);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(96, 25);
             this.label4.TabIndex = 29;
@@ -267,18 +284,31 @@
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label1.Click += new System.EventHandler(this.SetTag_Click);
             // 
-            // label13
+            // label14
             // 
-            this.label13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
-            this.label13.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label13.ForeColor = System.Drawing.Color.White;
-            this.label13.Location = new System.Drawing.Point(387, 91);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(68, 25);
-            this.label13.TabIndex = 29;
-            this.label13.Text = "[简介描述]";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label13.Click += new System.EventHandler(this.SetTag_Click);
+            this.label14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
+            this.label14.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label14.ForeColor = System.Drawing.Color.White;
+            this.label14.Location = new System.Drawing.Point(394, 91);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(68, 25);
+            this.label14.TabIndex = 29;
+            this.label14.Text = "[商品地址]";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label14.Click += new System.EventHandler(this.SetTag_Click);
+            // 
+            // label15
+            // 
+            this.label15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(139)))), ((int)(((byte)(196)))));
+            this.label15.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label15.ForeColor = System.Drawing.Color.White;
+            this.label15.Location = new System.Drawing.Point(468, 91);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(80, 25);
+            this.label15.TabIndex = 29;
+            this.label15.Text = "[优惠券地址]";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label15.Click += new System.EventHandler(this.SetTag_Click);
             // 
             // SetSendTemplateControl
             // 
@@ -314,5 +344,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
     }
 }

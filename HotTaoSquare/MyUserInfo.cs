@@ -27,7 +27,7 @@ namespace HotTaoSquare
         /// <summary>
         /// 版本号
         /// </summary>
-        public const string value = "1.0.8";
+        public const string value = "1.1.0";
     }
 
 

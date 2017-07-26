@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Data;
 using System.Net;
+using HOTReuestService;
 
 namespace HotTao.Controls
 {
@@ -38,7 +39,7 @@ namespace HotTao.Controls
         {
             if (MyUserInfo.currentUserId > 0)
             {
-
+                SetApplyProg();
                 if (MyUserInfo.sendmode == 1)
                 {
                     if (hotForm.wxlogin != null && hotForm.wxlogin.isStartTask)
@@ -49,7 +50,6 @@ namespace HotTao.Controls
                     if (hotForm.winTask != null && hotForm.winTask.isStartTask)
                         ShowStartButtonText("暂停计划");
                 }
-
 
                 CurrentShowRowNumber = 1;
                 LoadGoodsGridView();
@@ -66,8 +66,6 @@ namespace HotTao.Controls
             }
             else
                 hotForm.openControl(new LoginControl(hotForm));
-
-            //hotForm.worker.RunWorkerAsync("http://www.dataoke.com");
         }
 
         /// <summary>
@@ -302,7 +300,7 @@ namespace HotTao.Controls
             {
                 //是否自动添加属性字段
                 this.dgvData.AutoGenerateColumns = false;
-                var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(MyUserInfo.currentUserId);
+                var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList();
                 if (data != null)
                 {
                     SetGoodsGridViewData(dgvData, data);
@@ -395,7 +393,7 @@ namespace HotTao.Controls
             }
             if (pidList.Count() == 0)
             {
-                ShowAlert("请先选择微信群");
+                ShowAlert("请先选择群");
                 return;
             }
             if (goodsidList.Count() == 0)
@@ -478,8 +476,11 @@ namespace HotTao.Controls
 
         private void btnAddWeChatGroup_Click(object sender, EventArgs e)
         {
+            Button btn = sender as Button;
+            int t = Convert.ToInt32(btn.Tag);
             AddWeChat add = new AddWeChat(hotForm, this);
-            add.Title = "添加微信群";
+            add.Title = "添加" + string.Format("{0}群", t == 1 ? "QQ" : "微信");
+            add.addType = t;
             add.ShowDialog(this);
         }
         /// <summary>
@@ -725,7 +726,10 @@ namespace HotTao.Controls
             }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        private int goodsSelectCount { get; set; }
 
         /// <summary>
         /// 商品操作
@@ -775,7 +779,7 @@ namespace HotTao.Controls
                 video.gid = gid;
                 video.ShowDialog(this);
             }
-            else  //点击单元格选中商品
+            else if (cells != null && cells["cbselect"].ColumnIndex == e.ColumnIndex)  //点击单元格选中商品
             {
                 if (this.dgvData.Rows.Count > 0)
                 {
@@ -786,7 +790,13 @@ namespace HotTao.Controls
                         if (!(bool)row[0].EditedFormattedValue == true)
                             int.TryParse(row["gid"].Value.ToString(), out result);
                         if (result > 0)
+                        {
                             this.dgvData.Rows[e.RowIndex].Cells[0].Value = result;
+                            goodsSelectCount++;
+                        }
+                        else
+                            goodsSelectCount--;
+                        lbSelectedCount.Text = string.Format("(已选中{0}个)", goodsSelectCount);
                     }
                 }
             }
@@ -799,21 +809,21 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnWeChatWinGet_Click(object sender, EventArgs e)
         {
+            Button btn = sender as Button;
             bool isOk = false;
             MessageConfirm confirm = new MessageConfirm();
             confirm.Message = "请确保采集的群聊都单独拖出来";
             confirm.CallBack += () => { isOk = true; };
             confirm.ShowDialog(this);
             if (isOk)
-                GetWeChatWinHandler();
+                GetWeChatWinHandler(Convert.ToInt32(btn.Tag));
         }
         /// <summary>
         /// 采集微信聊天窗口
         /// </summary>
-        private void GetWeChatWinHandler()
+        private void GetWeChatWinHandler(int groupType)
         {
-
-            var wins = WinApi.GetAllDesktopWindows();
+            var wins = groupType == 0 ? WinApi.GetDesktopWeChatWindows() : WinApi.GetDesktopQQWindows();
             if (wins != null && wins.Count() > 0)
             {
                 Loading ld = new Loading();
@@ -824,7 +834,8 @@ namespace HotTao.Controls
                         LogicHotTao.Instance(MyUserInfo.currentUserId).AddUserWeChatGroup(new SQLiteEntitysModel.weChatGroupModel()
                         {
                             title = win.szWindowName,
-                            userid = MyUserInfo.currentUserId
+                            userid = MyUserInfo.currentUserId,
+                            type = groupType
                         });
                     }
                     ld.CloseForm();
@@ -838,7 +849,7 @@ namespace HotTao.Controls
             }
             else
             {
-                ShowAlert("微信初始化失败");
+                ShowAlert("未找到聊天窗口!");
             }
         }
 
@@ -1029,6 +1040,7 @@ namespace HotTao.Controls
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void ckbGoodsAllSelected_CheckedChanged(object sender, EventArgs e)
         {
+            goodsSelectCount = 0;
             if (dgvData.Rows != null && dgvData.Rows.Count > 0)
             {
                 foreach (DataGridViewRow row in dgvData.Rows)
@@ -1039,12 +1051,15 @@ namespace HotTao.Controls
                     {
                         row.Cells[0].Value = result;
                         row.Selected = true;
+                        goodsSelectCount++;
                     }
                     else
                     {
                         row.Cells[0].Value = 0;
                         row.Selected = false;
                     }
+                    lbSelectedCount.Text = string.Format("(已选中{0}个)", goodsSelectCount);
+
                 }
             }
         }
@@ -1189,12 +1204,14 @@ namespace HotTao.Controls
                     DataTable dt = new DataTable();
                     dt.Columns.Add("昵称", typeof(string));
                     dt.Columns.Add("PID", typeof(string));
+                    dt.Columns.Add("群类型", typeof(string));
                     DataRow newRow;
                     foreach (var item in groupData)
                     {
                         newRow = dt.NewRow();
                         newRow[0] = item.wechattitle;
                         newRow[1] = item.pid;
+                        newRow[2] = item.type;
                         dt.Rows.Add(newRow);
                     }
 
@@ -1289,7 +1306,7 @@ namespace HotTao.Controls
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
                 string filepath = saveFile.FileName;
-                var goodsData = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(MyUserInfo.currentUserId);
+                var goodsData = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList();
                 if (goodsData != null && goodsData.Count() > 0)
                 {
                     DataTable dt = new DataTable();
@@ -1348,6 +1365,125 @@ namespace HotTao.Controls
             GoodsCollect collect = new GoodsCollect(this, hotForm);
             collect.StartPosition = FormStartPosition.CenterParent;
             collect.ShowDialog(this);
+        }
+
+
+        /// <summary>
+        /// 防封号一键合成图片转发
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnOneKeyImage_Click(object sender, EventArgs e)
+        {
+            List<GoodsTaskModel> goodsidList = new List<GoodsTaskModel>();
+            //循环获取选中的数据
+            foreach (DataGridViewRow item in dgvData.Rows)
+            {
+                if ((bool)item.Cells[0].EditedFormattedValue == true)
+                {
+                    int result = 0;
+                    int.TryParse(item.Cells["gid"].Value.ToString(), out result);
+                    if (result > 0 && goodsidList.FindIndex(r => { return r.id == result; }) < 0)
+                        goodsidList.Add(new GoodsTaskModel() { id = result });
+                }
+            }
+
+            List<UserPidTaskModel> pidList = new List<UserPidTaskModel>();
+            foreach (DataGridViewRow item in dgvPid.Rows)
+            {
+                if ((bool)item.Cells[0].EditedFormattedValue == true)
+                {
+                    int result = 0;
+                    int.TryParse(item.Cells["shareid"].Value.ToString(), out result);
+                    if (result > 0 && pidList.FindIndex(r => { return r.id == result; }) < 0)
+                        pidList.Add(new UserPidTaskModel() { id = result });
+                }
+            }
+            if (pidList.Count() == 0)
+            {
+                ShowAlert("请先选择群");
+                return;
+            }
+            if (goodsidList.Count() == 0)
+            {
+                ShowAlert("请先选择商品");
+                return;
+            }
+            if (goodsidList.Count() > 3)
+            {
+                ShowAlert("最多选择三个商品");
+                return;
+            }
+
+
+            TaskEdit te = new TaskEdit(hotForm, this);
+            te.hotGoodsText = goodsidList;
+            te.hotPidsText = pidList;
+            te.Title = "创建合成图转发计划";
+            te.isJoinImage = true;
+            te.ShowDialog(this);
+        }
+
+
+        /// <summary>
+        /// 一键申请高佣
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnApplyCommisplan_Click(object sender, EventArgs e)
+        {
+            if (hotForm.ApplyFinishCount != hotForm.ApplyTotal)
+                return;
+
+            if (hotForm.lw != null && !string.IsNullOrEmpty(MyUserInfo.TaobaoName) && !string.IsNullOrEmpty(hotForm.lw.GetTbToken()))
+            {
+                var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList();
+                if (data != null)
+                {
+                    hotForm.ApplyTotal = data.Count();
+                    SetApplyProg();
+                    new System.Threading.Thread(() =>
+                    {
+                        hotForm.ApplyFinishCount = 0;
+                        foreach (var item in data)
+                        {
+                            hotForm.ApplyPlan(item.goodsId, item.goodsName, item.goodsDetailUrl);
+                            hotForm.ApplyFinishCount++;
+                            SetApplyProg();
+                            Thread.Sleep(3000);
+                        }
+
+                        hotForm.ApplyTotal = 0;
+                        hotForm.ApplyFinishCount = 0;
+                        SetApplyProg();
+                        MessageBox.Show("申请完成，请到运行日志中查看申请结果");
+                    })
+                    { IsBackground = true }.Start();
+                }
+            }
+            else
+            {
+                ShowAlert("请先登录阿里妈妈");
+                return;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void SetApplyProg()
+        {
+            if (this.btnApplyCommisplan.InvokeRequired)
+            {
+                this.btnApplyCommisplan.Invoke(new Action(SetApplyProg), new object[] { });
+            }
+            else
+            {
+                if (hotForm.ApplyFinishCount != hotForm.ApplyTotal)
+                    btnApplyCommisplan.Text = string.Format("申请进度{0}/{1}", hotForm.ApplyFinishCount, hotForm.ApplyTotal);
+                else
+                    btnApplyCommisplan.Text = "一键申请高佣";
+            }
         }
     }
 }

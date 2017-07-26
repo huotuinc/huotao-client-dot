@@ -3,7 +3,7 @@ using iQQ.Net.WebQQCore.Im.Core;
 using iQQ.Net.WebQQCore.Im.Event;
 using iQQ.Net.WebQQCore.Im.Http;
 using iQQ.Net.WebQQCore.Util;
-using Microsoft.Extensions.Logging;
+//using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -62,7 +62,7 @@ namespace iQQ.Net.WebQQCore.Im.Action
             }
             else
             {
-                Context.Logger.LogWarning("unknown MsgType: " + _msg.Type);
+                //Context.Logger.LogWarning("unknown MsgType: " + _msg.Type);
             }
 
             json.Add("content", _msg.PackContentList());

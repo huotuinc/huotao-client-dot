@@ -1,6 +1,7 @@
-﻿using HotTao.Controls;
+﻿using HOTReuestService;
+using HOTReuestService.Helper;
+using HotTao.Controls;
 using HotTao.Properties;
-using HotTaoCore;
 using HotTaoCore.Enums;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
@@ -8,13 +9,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HotTaoCore.Models.SQLiteEntitysModel;
 
@@ -29,6 +27,16 @@ namespace HotTao
         private HistoryControl historyForm { get; set; }
 
         private TaskControl taskForm { get; set; }
+
+
+        public StartTask(Main mainWin)
+        {
+            InitializeComponent();
+            hotForm = mainWin;
+            historyForm = null;
+            taskForm = null;
+            loadConfig();
+        }
 
         public StartTask(Main mainWin, HistoryControl history)
         {
@@ -53,7 +61,6 @@ namespace HotTao
             else
             {
                 cfgTime = string.IsNullOrEmpty(hotForm.myConfig.send_time_config) ? null : JsonConvert.DeserializeObject<ConfigSendTimeModel>(hotForm.myConfig.send_time_config);
-
             }
         }
 
@@ -117,6 +124,13 @@ namespace HotTao
                 SleepTask();
             }
         }
+
+        /// <summary>
+        /// 通知
+        /// </summary>
+        private Dictionary<string, DateTime> notifyMap { get; set; } = new Dictionary<string, DateTime>();
+
+
         /// <summary>
         /// 开始执行发送
         /// </summary>
@@ -127,6 +141,9 @@ namespace HotTao
             List<WindowInfo> wins = WinApi.GetAllDesktopWindows();
             if (wins == null || wins.Count() == 0)
             {
+                //通知
+                //sendEmailNOtify("发单失败，请检查发单微信是否掉线!");
+                HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.微信离线);
                 return;
             }
             //获取任务数据
@@ -178,6 +195,7 @@ namespace HotTao
                 });
                 //获取商品数据
                 var goodslist = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(MyUserInfo.currentUserId, ids);
+
                 if (goodslist == null || goodslist.Count() == 0)
                 {
                     if (!isStartTask || MyUserInfo.currentUserId == 0) break;
@@ -246,66 +264,91 @@ namespace HotTao
             bool result = false;
             var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserWechatShareTextList(MyUserInfo.currentUserId);
             if (data == null || data.Count() == 0) return true;
-            foreach (var goods in goodslist)
+
+            if (taskModel.title.Contains("【合成图片转发】"))
             {
-                textResult.Clear();
-                imageResult.Clear();
-
-                if (!isStartTask || MyUserInfo.currentUserId == 0)
+                List<weChatShareTextModel> newdata = new List<weChatShareTextModel>();
+                foreach (var item in data)
                 {
-                    result = false;
-                    break;
+                    if (item.taskid == taskModel.id)
+                    {
+                        if (!newdata.Exists(r => { return r.field3.Equals(item.field3); }))
+                            newdata.Add(item);
+                    }
                 }
-                if (taskModel.endTime.CompareTo(DateTime.Now) < 0)
-                {
-                    result = false;
-                    break;
-                }
-
+                SendImage(null, newdata, wins, true, false, true);
                 result = true;
-                int goodsId = Convert.ToInt32(goods.id);
 
-                var shareData = data.FindAll(share =>
-                  {
-                      return share.goodsid == goodsId && share.taskid == taskModel.id;
-                  });
-                if (shareData == null || shareData.Count() == 0)
-                    continue;
-
-
-                //申请高佣金
-                hotForm.ApplyPlan(goods.goodsId, goods.goodsName);
-
-
-                //加载appkey，判断是否存在，如果不存在，则不发商品
-                if (LoadAppkeyAndSecret())
+                foreach (var goods in goodslist)
                 {
-                    //发送当前商品时，进行淘口令生产
-                    shareData.ForEach(item =>
+                    //申请高佣金
+                    ApplyCamp(goods);
+                    System.Threading.Thread.Sleep(1000);
+                }
+            }
+            else
+            {
+                foreach (var goods in goodslist)
+                {
+                    textResult.Clear();
+                    imageResult.Clear();
+
+                    if (!isStartTask || MyUserInfo.currentUserId == 0)
                     {
-                        if (item.status == -1)
+                        result = false;
+                        break;
+                    }
+                    if (taskModel.endTime.CompareTo(DateTime.Now) < 0)
+                    {
+                        result = false;
+                        break;
+                    }
+
+                    result = true;
+                    int goodsId = Convert.ToInt32(goods.id);
+
+                    var shareData = data.FindAll(share =>
+                      {
+                          return share.goodsid == goodsId && share.taskid == taskModel.id;
+                      });
+                    if (shareData == null || shareData.Count() == 0)
+                        continue;
+
+
+                    //申请高佣金
+                    ApplyCamp(goods);
+
+
+                    //加载appkey，判断是否存在，如果不存在，则不发商品
+                    if (LoadAppkeyAndSecret())
+                    {
+                        //发送当前商品时，进行淘口令生产
+                        shareData.ForEach(item =>
                         {
-                            bool flag = LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTpwd(MyUserInfo.currentUserId, MyUserInfo.LoginToken, goods, item, appkey, appsecret);
-                            if (flag)
-                                item.status = 0;
-                        }
-                    });
+                            if (item.status == -1)
+                            {
+                                bool flag = LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTpwd(MyUserInfo.currentUserId, MyUserInfo.LoginToken, goods, item, appkey, appsecret);
+                                if (flag)
+                                    item.status = 0;
+                            }
+                        });
 
-                    hotForm.logRuningList.Add(new LogRuningModel()
-                    {
-                        goodsName = goods.goodsName,
-                        goodsid = goods.goodsId,
-                        title = goods.goodsId,
-                        content = goods.goodsName,
-                        logTime = DateTime.Now,
-                        logType = LogTypeOpts.商品发送,
-                        isError = false,
-                        remark = string.Format("[{0}]开始发送商品[{1}]", goods.goodsId, goods.goodsName)
-                    });
+                        hotForm.logRuningList.Add(new LogRuningModel()
+                        {
+                            goodsName = goods.goodsName,
+                            goodsid = goods.goodsId,
+                            title = goods.goodsId,
+                            content = goods.goodsName,
+                            logTime = DateTime.Now,
+                            logType = LogTypeOpts.商品发送,
+                            isError = false,
+                            remark = string.Format("[{0}]开始发送商品[{1}]", goods.goodsId, goods.goodsName)
+                        });
 
-                    shareData = shareData.FindAll(share => { return share.status == 0; });
-                    SendWeChatGroupShareText(shareData, goods, wins);
-                    SleepGoods();
+                        shareData = shareData.FindAll(share => { return share.status == 0; });
+                        SendWeChatGroupShareText(shareData, goods, wins, taskModel);
+                        SleepGoods();
+                    }
                 }
             }
             return result;
@@ -316,8 +359,9 @@ namespace HotTao
         /// <param name="shareData">The share data.</param>
         /// <param name="goods">The goods.</param>
         /// <param name="lst">The LST.</param>
-        private void SendWeChatGroupShareText(List<weChatShareTextModel> shareData, GoodsModel goods, List<WindowInfo> wins)
+        private void SendWeChatGroupShareText(List<weChatShareTextModel> shareData, GoodsModel goods, List<WindowInfo> wins, TaskPlanModel taskModel)
         {
+
             try
             {
                 Image image = null;
@@ -332,10 +376,34 @@ namespace HotTao
                 catch (Exception ex)
                 {
                     image = null;
-                    isSendImage = true;
+                    //isSendImage = true;
                     log.Error(ex);
                 }
 
+                wins = WinApi.GetAllDesktopWindows();
+                if (wins == null || wins.Count() == 0)
+                {
+                    HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.微信离线);
+                }
+
+                if (isSendImage)
+                {
+                    //复制文件
+                    //CopyFileToClipboard(goods.goodslocatImgPath);
+                    if (image != null)
+                        SendImage(image, shareData, wins, true);
+                    SendText(shareData, wins, true);
+                }
+                else
+                {
+                    SendText(shareData, wins, false);
+                    //复制文件
+                    //CopyFileToClipboard(goods.goodslocatImgPath);
+                    if (image != null)
+                        SendImage(image, shareData, wins, false);
+                }
+
+                //发完图文后，发送视频或动态,优先短视频
                 if (cfgTime != null && cfgTime.enable_sendvideo)
                 {
                     //发送视频或GIF图片
@@ -347,20 +415,6 @@ namespace HotTao
                     }
                 }
 
-                if (isSendImage)
-                {
-                    //复制文件
-                    CopyFileToClipboard(goods.goodslocatImgPath);
-                    SendImage(image, shareData, wins, true);
-                    SendText(shareData, wins, true);
-                }
-                else
-                {
-                    SendText(shareData, wins, false);
-                    //复制文件
-                    CopyFileToClipboard(goods.goodslocatImgPath);
-                    SendImage(image, shareData, wins, false);
-                }
             }
             catch (Exception ex)
             {
@@ -382,71 +436,141 @@ namespace HotTao
         /// <param name="image">The image.</param>
         /// <param name="shareData">The share data.</param>
         /// <param name="wins">The wins.</param>
-        private void SendImage(Image image, List<weChatShareTextModel> shareData, List<WindowInfo> wins, bool isImageText, bool sendVideo = false)
+        private void SendImage(Image image, List<weChatShareTextModel> shareData, List<WindowInfo> wins, bool isImageText, bool sendVideo = false, bool isJoinImage = false)
         {
-            if (image != null)
+
+            if (!isJoinImage)
             {
-                // Clipboard.SetImage(image);
-                //System.Threading.Thread.Sleep(1000);
-                //粘贴图片       
-                foreach (var item in shareData)
+                if (image == null)
                 {
-                    try
+                    return;
+                }
+                if (!sendVideo)
+                    Clipboard.SetImage(image);
+            }
+            //粘贴图片       
+            foreach (var item in shareData)
+            {
+                try
+                {
+
+                    if (isJoinImage)
                     {
-                        if (!isStartTask || MyUserInfo.currentUserId == 0)
+                        try
+                        {
+                            string path = System.Environment.CurrentDirectory + "\\temp\\joinimage";
+                            if (!System.IO.Directory.Exists(path))
+                                System.IO.Directory.CreateDirectory(path);
+                            string fileName = EncryptHelper.MD5(item.taskid.ToString() + item.field3);
+
+                            using (Stream stream = new FileStream(string.Format("{0}\\{1}.jpg", path, fileName), FileMode.Open))
+                            {
+                                image = Image.FromStream(stream);
+                            }
+                            Clipboard.SetImage(image);
+                        }
+                        catch (Exception)
                         {
                             //通知
-                            sendSmsNotify(item.title, true);
-                            break;
+                            SendNotify(item.title);
+                            continue;
                         }
+                    }
 
-                        //如果当前微信已经发送，则结束本循环
-                        if (imageResult.Contains(item.title)) continue;
 
-                        bool b = wins.Exists(win => { return win.szWindowName == item.title; });
-                        if (b)
+
+
+
+                    if (!isStartTask || MyUserInfo.currentUserId == 0)
+                    {
+                        break;
+                    }
+
+                    //如果当前微信已经发送，则结束本循环
+                    if (imageResult.Contains(item.title))
+                    {
+                        continue;
+                    }
+
+                    wins = WinApi.GetAllDesktopWindows();
+                    if (wins == null || wins.Count() == 0)
+                    {
+                        continue;
+                    }
+
+                    bool b = wins.Exists(win => { return win.szWindowName == item.title; });
+                    if (b)
+                    {
+                        var win = wins.Find(w => { return w.szWindowName == item.title; });
+                        if (sendVideo && win.winType == 1)
                         {
-                            var win = wins.Find(w => { return w.szWindowName == item.title; });
+
+                        }
+                        else
+                        {
                             WinApi.SetActiveWin(win.hWnd);
                             System.Threading.Thread.Sleep(100);
                             WinApi.Paste(win.hWnd);
                             System.Threading.Thread.Sleep(100);
-                            WinApi.Enter(win.hWnd);
+                            WinApi.Enter(win.hWnd, win.winType == 1);
                             SleepImage(0.5m);
                             if (!sendVideo && !imageResult.Contains(item.title))
                                 imageResult.Add(item.title);
-
-                            if (!isImageText)
-                            {
-                                //更新修改状态
-                                UpdateShareTextStatus(item.id);
-                            }
                         }
-                        else
-                        {
-                            //通知
-                            sendSmsNotify(item.title, false);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        //通知
-                        sendSmsNotify(item.title, false);
-
-                        if (!sendVideo && !imageResult.Contains(item.title))
-                            imageResult.Add(item.title);
-
-                        AddErrorLog(item, 0);
 
                         if (!isImageText)
                         {
                             //更新修改状态
                             UpdateShareTextStatus(item.id);
                         }
-                        log.Error(ex);
+                    }
+                    else
+                    {
+                        //通知
+                        SendNotify(item.title);
                     }
                 }
-                Clipboard.Clear();
+                catch (Exception ex)
+                {
+                    //通知
+                    SendNotify(item.title);
+
+                    if (!sendVideo && !imageResult.Contains(item.title))
+                        imageResult.Add(item.title);
+
+                    AddErrorLog(item, 0);
+
+                    if (!isImageText)
+                    {
+                        //更新修改状态
+                        UpdateShareTextStatus(item.id);
+                    }
+                    log.Error(ex);
+                }
+            }
+            Clipboard.Clear();
+        }
+        /// <summary>
+        /// 群异常通知
+        /// </summary>
+        /// <param name="title"></param>
+        private void SendNotify(string title)
+        {
+
+            if (notifyMap.ContainsKey(title))
+            {
+                DateTime nowDt = DateTime.Now;
+                notifyMap.TryGetValue(title, out nowDt);
+                if (nowDt.AddMinutes(30).CompareTo(DateTime.Now) < 0)
+                {
+                    notifyMap[title] = DateTime.Now;
+                    HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常, title);
+                }
+            }
+            else
+            {
+                notifyMap[title] = DateTime.Now;
+                HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.群异常, title);
             }
         }
 
@@ -466,6 +590,36 @@ namespace HotTao
 
 
         /// <summary>
+        /// 申请高佣
+        /// </summary>
+        /// <param name="goods"></param>
+        private void ApplyCamp(GoodsModel goods)
+        {
+            new System.Threading.Thread(() =>
+            {
+                try
+                {
+                    hotForm.ApplyPlan(goods.goodsId, goods.goodsName, goods.goodsDetailUrl);
+                }
+                catch (System.Threading.ThreadAbortException ex)
+                {
+                    log.Error(ex);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            })
+            { IsBackground = true }.Start();
+
+        }
+
+
+
+
+
+
+        /// <summary>
         /// 发送文本
         /// </summary>
         /// <param name="shareData">The share data.</param>
@@ -478,13 +632,20 @@ namespace HotTao
                 {
                     if (!isStartTask || MyUserInfo.currentUserId == 0)
                     {
-                        //通知
-                        sendSmsNotify(item.title, false);
                         break;
                     }
-                    Clipboard.SetText(item.text);
+                    Clipboard.SetDataObject(item.text);
                     //如果当前微信已经发送，则结束本循环
-                    if (textResult.Contains(item.title)) continue;
+                    if (textResult.Contains(item.title))
+                    {
+                        continue;
+                    }
+                    wins = WinApi.GetAllDesktopWindows();
+                    if (wins == null || wins.Count() == 0)
+                    {
+                        //HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.微信离线);
+                        continue;
+                    }
 
                     bool b = wins.Exists(win => { return win.szWindowName == item.title; });
                     if (b)
@@ -495,7 +656,7 @@ namespace HotTao
                         System.Threading.Thread.Sleep(400);
                         WinApi.Paste(win.hWnd);
                         System.Threading.Thread.Sleep(300);
-                        WinApi.Enter(win.hWnd);
+                        WinApi.Enter(win.hWnd, win.winType == 1);
                         SleepImage(0.5m);
                         // Clipboard.Clear();
                         if (!textResult.Contains(item.title))
@@ -509,13 +670,14 @@ namespace HotTao
                     }
                     else
                     {
-                        sendSmsNotify(item.title, false);
+                        //通知
+                        SendNotify(item.title);
                     }
                 }
                 catch (Exception ex)
                 {
-                    //通知
-                    sendSmsNotify(item.title, false);
+                    //通知                    
+                    SendNotify(item.title);
 
                     if (!textResult.Contains(item.title))
                         textResult.Add(item.title);
@@ -554,48 +716,6 @@ namespace HotTao
             })
             { IsBackground = true }.Start();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// 发送短信通知
-        /// </summary>
-        /// <param name="weChatTitle">群标题</param>
-        public void sendSmsNotify(string weChatTitle, bool isImage)
-        {
-            string content = string.Format("您好，发单号:{0},群[{1}]{2}发送出问题了，请查看！",
-                MyUserInfo.userData.loginName, weChatTitle, isImage ? "图片" : "文案");
-            //TODO:待接口发布
-            if (cfgTime != null && !string.IsNullOrEmpty(cfgTime.notify_mobile))
-            {
-                string notify_mobile = cfgTime.notify_mobile;
-                new System.Threading.Thread(() =>
-                {
-                    LogicUser.Instance.sendWarning(MyUserInfo.LoginToken, notify_mobile, content);
-                })
-                { IsBackground = true }.Start();
-            }
-        }
-
 
         /// <summary>
         /// 暂停休息一下

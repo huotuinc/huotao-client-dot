@@ -6,7 +6,6 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using HotCoreUtils.Helper;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using System.IO;
@@ -104,6 +103,7 @@ namespace HotTao.Controls
             {
                 case 1: //软件账户设置
                     openControl(new SetAccountControl(hotForm));
+                    SetSaveButtonVisible(false);
                     break;
                 //case 2://淘宝账号设置
                 //    openControl(new SetAccountControl(hotForm));

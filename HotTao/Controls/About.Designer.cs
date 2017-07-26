@@ -62,7 +62,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(315, 37);
             this.label1.TabIndex = 1;
-            this.label1.Text = "火淘助手 1.0.0";
+            this.label1.Text = "火淘助手";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
             this.label1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);

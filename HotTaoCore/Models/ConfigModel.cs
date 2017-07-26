@@ -8,11 +8,6 @@
 **/
 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotTaoCore.Models
 {
@@ -157,12 +152,17 @@ namespace HotTaoCore.Models
         /// <summary>
         /// 启用发送视频
         /// </summary>
-        public bool enable_sendvideo { get; set; } = false;
+        public bool enable_sendvideo { get; set; } = true;
 
         /// <summary>
         /// 微信群漏发通知
         /// </summary>
         public string notify_mobile { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 邮箱通知
+        /// </summary>
+        public string notity_email { get; set; } = string.Empty;
 
     }
 
