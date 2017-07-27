@@ -96,8 +96,8 @@ namespace QQLogin
 
 
 
-            txtStartTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            txtEndTime.Text = DateTime.Now.AddHours(12).ToString("yyyy-MM-dd HH:mm:ss");
+            txtStartTime.Text = DateTime.Now.ToString("HH:mm:ss");
+            txtEndTime.Text = "23:00:00";
 
             IintKQAir();
             if (KQ == null)
@@ -131,7 +131,7 @@ namespace QQLogin
         {
             get
             {
-                return Convert.ToDateTime(txtStartTime.Text);
+                return Convert.ToDateTime(string.Format("{0} {1}", DateTime.Now.ToString("yyyy-MM-dd"), txtStartTime.Text));
             }
         }
         /// <summary>
@@ -141,7 +141,7 @@ namespace QQLogin
         {
             get
             {
-                return Convert.ToDateTime(txtEndTime.Text);
+                return Convert.ToDateTime(string.Format("{0} {1}", DateTime.Now.ToString("yyyy-MM-dd"), txtEndTime.Text));
             }
         }
 
@@ -197,7 +197,6 @@ namespace QQLogin
         /// <param name="urls"></param>
         private void QqForm_GroupMsgHandler(long msgCode, long gid, string msgGroupName, string msgContent, string FullMessageContent, List<string> urls)
         {
-
             QQGroup group = QQGlobal.listenGroups.Find(g => { return g.Gid == gid; });
 
             //TODO:接收群消息

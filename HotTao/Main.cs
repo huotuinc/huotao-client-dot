@@ -1466,12 +1466,13 @@ namespace HotTao
                         endTime = qqForm.TaskEndTime;
                     }
                     //如果任务时间大于当前时间
-                    else
+                    else if (qqForm.TaskStartTime.CompareTo(DateTime.Now) > 0)
                     {
                         startTime = qqForm.TaskStartTime;
                         endTime = qqForm.TaskEndTime;
                     }
-
+                    else if (qqForm.TaskEndTime.CompareTo(DateTime.Now) < 0)
+                        return;
                 }
                 new System.Threading.Thread(() =>
                 {
@@ -1536,7 +1537,7 @@ namespace HotTao
                 DateTime startTime = DateTime.Now;
                 DateTime endTime = DateTime.Now.AddHours(12);
                 if (qqForm.EnableTimeConfig)
-                {
+                {                    
                     //当前时间大于任务开始时间小于结束时间,则时间当前时间为任务开始时间
                     if (qqForm.TaskStartTime.CompareTo(DateTime.Now) < 0 && qqForm.TaskEndTime.CompareTo(DateTime.Now) > 0)
                     {
@@ -1544,11 +1545,13 @@ namespace HotTao
                         endTime = qqForm.TaskEndTime;
                     }
                     //如果任务时间大于当前时间
-                    else //if (qqForm.TaskStartTime.CompareTo(DateTime.Now) > 0)
+                    else if (qqForm.TaskStartTime.CompareTo(DateTime.Now) > 0)
                     {
                         startTime = qqForm.TaskStartTime;
                         endTime = qqForm.TaskEndTime;
                     }
+                    else if (qqForm.TaskEndTime.CompareTo(DateTime.Now) < 0)
+                        return;
                 }
 
                 if (weChatGroups == null) weChatGroups = LogicHotTao.Instance(MyUserInfo.currentUserId).GetUserWeChatGroupListByUserId(MyUserInfo.currentUserId);

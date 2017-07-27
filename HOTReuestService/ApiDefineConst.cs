@@ -44,7 +44,7 @@ namespace HOTReuestService
         /// <summary>
         /// 二维码地址
         /// </summary>
-        public const string QrCodeUrl = www + "/collectionGoods/collectionPage";
+        public const string QrCodeUrl = Url + "/collectionGoods/collectionPage";
 
 
         /// <summary>
