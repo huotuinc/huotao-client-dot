@@ -262,7 +262,7 @@ namespace HotTao
         private bool SendGoods(List<GoodsModel> goodslist, TaskPlanModel taskModel, List<WindowInfo> wins)
         {
             bool result = false;
-            var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserWechatShareTextList(MyUserInfo.currentUserId);
+            var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserWechatShareTextList(Convert.ToInt32(taskModel.id));
             if (data == null || data.Count() == 0) return true;
 
             if (taskModel.title.Contains("【合成图片转发】"))
@@ -317,19 +317,36 @@ namespace HotTao
 
                     //申请高佣金
                     ApplyCamp(goods);
-
-
                     //加载appkey，判断是否存在，如果不存在，则不发商品
                     if (LoadAppkeyAndSecret())
                     {
-                        //发送当前商品时，进行淘口令生产
                         shareData.ForEach(item =>
                         {
                             if (item.status == -1)
                             {
-                                bool flag = LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTpwd(MyUserInfo.currentUserId, MyUserInfo.LoginToken, goods, item, appkey, appsecret);
-                                if (flag)
-                                    item.status = 0;
+                                //Tuple<string, string> resultTuple = hotForm.GetGaoYongToken(goods.goodsDetailUrl, goods.goodsId, item.tpwd, out isLogin);
+                                //if (resultTuple != null)
+                                //{
+                                //    if (!isLogin)
+                                //        return;
+                                //    item.status = 0;
+                                //    if (item.text.Contains("[二合一淘口令]"))
+                                //        item.text = item.text.Replace("[二合一淘口令]", resultTuple.Item1);
+                                //    else
+                                //        item.text += "复制这条信息，打开『手机淘宝』" + resultTuple.Item1 + "领券下单即可抢购宝贝";
+
+                                //    if (item.text.Contains("[短链接]"))
+                                //        item.text = item.text.Replace("[短链接]", resultTuple.Item2);
+                                //    LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserShareTextStatus(item.id, item.text, resultTuple.Item1);
+                                //}
+                                //else
+                                //{
+                                //    bool flag = LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTpwd(MyUserInfo.currentUserId, MyUserInfo.LoginToken, goods, item, appkey, appsecret);
+                                //    if (flag)
+                                //        item.status = 0;
+                                //}
+
+                                item.status = 0;
                             }
                         });
 
@@ -388,17 +405,15 @@ namespace HotTao
 
                 if (isSendImage)
                 {
-                    //复制文件
-                    //CopyFileToClipboard(goods.goodslocatImgPath);
+                    //复制文件                    
                     if (image != null)
                         SendImage(image, shareData, wins, true);
-                    SendText(shareData, wins, true);
+                    SendText(shareData, wins, true, goods);
                 }
                 else
                 {
-                    SendText(shareData, wins, false);
-                    //复制文件
-                    //CopyFileToClipboard(goods.goodslocatImgPath);
+                    SendText(shareData, wins, false, goods);
+                    //复制文件                    
                     if (image != null)
                         SendImage(image, shareData, wins, false);
                 }
@@ -635,12 +650,42 @@ namespace HotTao
         /// </summary>
         /// <param name="shareData">The share data.</param>
         /// <param name="wins">The wins.</param>
-        private void SendText(List<weChatShareTextModel> shareData, List<WindowInfo> wins, bool isImageText)
+        private void SendText(List<weChatShareTextModel> shareData, List<WindowInfo> wins, bool isImageText, GoodsModel goods)
         {
+            bool isLogin = true;
             foreach (var item in shareData)
             {
                 try
                 {
+
+                    Tuple<string, string> resultTuple = hotForm.GetGaoYongToken(goods.goodsDetailUrl, goods.goodsId, item.tpwd, out isLogin);
+                    if (resultTuple != null)
+                    {
+                        if (!isLogin)
+                        {
+                            hotForm.SendNotify();
+                            System.Threading.Thread.Sleep(5000);
+                            break;
+                        }
+                        item.status = 0;
+                        if (item.text.Contains("[二合一淘口令]"))
+                            item.text = item.text.Replace("[二合一淘口令]", resultTuple.Item1);
+                        else
+                            item.text += "复制这条信息，打开『手机淘宝』" + resultTuple.Item1 + "领券下单即可抢购宝贝";
+
+                        if (item.text.Contains("[短链接]"))
+                            item.text = item.text.Replace("[短链接]", resultTuple.Item2);
+                        LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserShareTextStatus(item.id, item.text, resultTuple.Item1);
+                    }
+                    else
+                    {
+                        bool flag = LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTpwd(MyUserInfo.currentUserId, MyUserInfo.LoginToken, goods, item, appkey, appsecret);
+                        if (!flag)
+                            continue;
+                    }
+
+
+
                     if (!isStartTask || MyUserInfo.currentUserId == 0)
                     {
                         break;

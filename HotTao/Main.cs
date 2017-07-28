@@ -898,20 +898,20 @@ namespace HotTao
                 lw.HideWindow();
 
 
-            SetWinForegroundWindow(this.Handle);
+            SetWinForegroundWindow();
 
         }
 
 
-        private void SetWinForegroundWindow(IntPtr hWin)
+        private void SetWinForegroundWindow()
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new Action<IntPtr>(SetWinForegroundWindow), new object[] { hWin });
+                this.Invoke(new Action(SetWinForegroundWindow), new object[] { });
             }
             else
             {
-                WinApi.SetForegroundWindow(hWin);
+                WinApi.SetForegroundWindow(this.Handle);
             }
         }
 
@@ -923,12 +923,15 @@ namespace HotTao
         /// <param name="jsons">The jsons.</param>
         private void Lw_LoginSuccessHandle(CookieCollection cookies)
         {
-            SetWinForegroundWindow(this.Handle);
+            SetWinForegroundWindow();
             //lw.HideWindow();
             loginSuccess = true;
             MyUserInfo.cookies = cookies;
             MyUserInfo.TaobaoName = lw.GetTaobaoName();
             string cookieJson = lw.GetCurrentCookiesToString();
+
+            GetAdzoneList();
+
             new System.Threading.Thread(() =>
             {
                 bindTaobao(cookieJson);
@@ -1094,7 +1097,7 @@ namespace HotTao
         /// <summary>
         /// 异常通知
         /// </summary>        
-        private void SendNotify()
+        public void SendNotify()
         {
             string title = "taobao_login";
             if (notifyMap.ContainsKey(title))
@@ -1121,6 +1124,36 @@ namespace HotTao
                     LoginTaoBao();
                 })
                 { IsBackground = true }.Start();
+            }
+        }
+
+
+        public List<TaobaoAdzoneManageDataPageListModel> myAdzonePidList { get; set; } = new List<TaobaoAdzoneManageDataPageListModel>();
+
+        /// <summary>
+        /// 获取推广位
+        /// </summary>
+        public void GetAdzoneList()
+        {
+            try
+            {
+                MyUserInfo.cookies = lw.GetCurrentCookies();
+                var tbToken = lw.GetTbToken();
+                string adzoneManageUrl = string.Format("http://pub.alimama.com/common/adzone/adzoneManage.json?spm=&tab=3&toPage=1&perPageSize=10000&gcid=8&t={0}&pvid=&_tb_token_={1}&_input_charset=utf-8", getClientMsgId(), tbToken);
+                CookieContainer cookiesContainer = new CookieContainer();
+                cookiesContainer.Add(MyUserInfo.cookies);
+                var content = HttpRequestService.HttpGet(adzoneManageUrl, cookiesContainer);
+
+                if (!string.IsNullOrEmpty(content))
+                {
+                    TaobaoAdzoneManageModel adzoneResult = JsonConvert.DeserializeObject<TaobaoAdzoneManageModel>(content);
+                    if (adzoneResult != null && adzoneResult.ok && adzoneResult.data != null)
+                        myAdzonePidList = adzoneResult.data.pageList;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("获取推广位失败" + ex.Message);
             }
         }
 
@@ -1211,7 +1244,7 @@ namespace HotTao
                 }
                 if (resultOk)
                 {
-                    if (tkMktStatus)
+                    if (tkMktStatus && tkRate > eventRate)
                     {
                         logData.isError = false;
                         logData.logType = LogTypeOpts.营销计划;
@@ -1224,12 +1257,11 @@ namespace HotTao
                         cookiesContainer = null;
                         cookiesContainer = new CookieContainer();
                         cookiesContainer.Add(MyUserInfo.cookies);
-                        content = BaseRequestService.HttpGet(url, cookiesContainer);
+                        content = HttpRequestService.HttpGet(url, cookiesContainer);
                         if (content.Contains("html"))
                         {
                             logData.isError = true;
                             logData.remark = "阿里妈妈登录状态已失效，请重新登录";
-
                             SendNotify();
                         }
                         else
@@ -1246,13 +1278,21 @@ namespace HotTao
                                     TaobaoCommonItem item = listData[0];
 
                                     //开始申请佣金
-                                    if (tkRate <= item.commissionRate)
+                                    if (tkRate < item.commissionRate && eventRate < item.commissionRate)
                                         ApplyPlan(goodsId, goodsName, item.CampaignID, item.ShopKeeperID, item.commissionRate / 100, goodsUrl);
                                     else
                                     {
                                         logData.isError = false;
-                                        logData.logType = LogTypeOpts.通用计划;
-                                        logData.remark = "[" + goodsId + "]" + "通用计划,佣金:" + tkRate.ToString() + " %";
+                                        if (eventRate > tkRate)
+                                        {
+                                            logData.logType = LogTypeOpts.高佣活动;
+                                            logData.remark = "[" + goodsId + "]" + "高佣活动,佣金:" + eventRate.ToString() + " %";
+                                        }
+                                        else
+                                        {
+                                            logData.logType = LogTypeOpts.通用计划;
+                                            logData.remark = "[" + goodsId + "]" + "通用计划,佣金:" + tkRate.ToString() + " %";
+                                        }
                                     }
                                 }
                                 else
@@ -1261,7 +1301,7 @@ namespace HotTao
                                     if (eventRate > tkRate)
                                     {
                                         logData.logType = LogTypeOpts.高佣活动;
-                                        logData.remark = "[" + goodsId + "]" + "高佣活动,佣金:" + tkRate.ToString() + " %";
+                                        logData.remark = "[" + goodsId + "]" + "高佣活动,佣金:" + eventRate.ToString() + " %";
                                     }
                                     else
                                     {
@@ -1276,7 +1316,7 @@ namespace HotTao
                                 if (eventRate > tkRate)
                                 {
                                     logData.logType = LogTypeOpts.高佣活动;
-                                    logData.remark = "[" + goodsId + "]" + "高佣活动,佣金:" + tkRate.ToString() + " %";
+                                    logData.remark = "[" + goodsId + "]" + "高佣活动,佣金:" + eventRate.ToString() + " %";
                                 }
                                 else
                                 {
@@ -1404,6 +1444,169 @@ namespace HotTao
             System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
             return (DateTime.Now - startTime).TotalMilliseconds;
         }
+
+
+
+        private static Dictionary<string, Tuple<string, string>> tokenDict = new Dictionary<string, Tuple<string, string>>();
+
+
+        /// <summary>
+        /// 获取高佣活动和营销计划的淘口令
+        /// </summary>
+        /// <param name="goodsUrl"></param>
+        /// <param name="goodsId"></param>
+        /// <param name="pid"></param>
+        /// <returns></returns>
+        public Tuple<string, string> GetGaoYongToken(string goodsUrl, string goodsId, string pid, out bool isLogin)
+        {
+
+            Tuple<string, string> resultTuple = null;
+            //PID  mm_aaaa_bbbb_cccc
+            //aaaa:memberid
+            //bbbb:siteid
+            //ccc:adzoneid
+            isLogin = true;
+            string dictKey = string.Format("{0}_{1}", pid, goodsId);
+            //判断同商品相同的推广位，是否已经申请过淘口令
+            if (tokenDict.ContainsKey(dictKey))
+            {
+                string _token = string.Empty;
+                tokenDict.TryGetValue(dictKey, out resultTuple);
+                return resultTuple;
+            }
+            var pids = pid.Replace("mm_", "").Split('_');
+
+            if (pids.Length != 3) return resultTuple;
+
+            string adzoneid = pids[2];
+            string siteid = pids[1];
+            if (lw == null)
+            {
+                SendNotify();
+                isLogin = false;
+                return resultTuple;
+            }
+            MyUserInfo.cookies = lw.GetCurrentCookies();
+            var tbToken = lw.GetTbToken();
+            string searchUrl = string.Format("http://pub.alimama.com/items/search.json?q={0}&_t={1}&auctionTag=&perPageSize=40&shopTag=&t={1}&_tb_token_={2}&pvid=", HttpUtility.UrlEncode(goodsUrl), getClientMsgId(), tbToken);
+            CookieContainer cookiesContainer = new CookieContainer();
+            cookiesContainer.Add(MyUserInfo.cookies);
+            string content = HttpRequestService.HttpGet(searchUrl, cookiesContainer);
+            decimal tkRate = 0;
+            decimal eventRate = 0;
+            bool tkMktStatus = false;
+            bool resultOk = false;
+            if (!string.IsNullOrEmpty(content))
+            {
+                try
+                {
+                    TaobaoSearchResultModel searchResult = JsonConvert.DeserializeObject<TaobaoSearchResultModel>(content);
+                    if (searchResult != null && searchResult.ok && searchResult.data.pageList != null)
+                    {
+                        //通用计划
+                        tkRate = searchResult.data.pageList[0].tkRate;
+
+                        if (!string.IsNullOrEmpty(searchResult.data.pageList[0].eventRate))
+                            eventRate = Convert.ToDecimal(searchResult.data.pageList[0].eventRate);
+
+                        if (!string.IsNullOrEmpty(searchResult.data.pageList[0].tkMktStatus))
+                            tkMktStatus = Convert.ToInt32(searchResult.data.pageList[0].tkMktStatus) == 1;
+                        resultOk = true;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+            if (resultOk)
+            {
+                //判断是否是营销计划
+                if (tkMktStatus && tkRate > eventRate)
+                {
+                    //开始申请营销计划佣金
+                    string url = string.Format("http://pub.alimama.com/common/code/getAuctionCode.json?auctionid={0}&adzoneid={1}&siteid={2}&scenes=1&t={3}&_tb_token_={4}&pvid=", goodsId, adzoneid, siteid, getClientMsgId(), tbToken);
+                    resultTuple = GetGaoyong(url);
+                    if (resultTuple != null)
+                    {
+                        tokenDict[dictKey] = resultTuple;
+                        return resultTuple;
+                    }
+                }
+                else //判断是否有高佣金
+                {
+                    //获取更多定向计划数据
+                    string url = string.Format("http://pub.alimama.com/pubauc/getCommonCampaignByItemId.json?itemId={0}&t={1}&_tb_token_={2}&pvid=", goodsId, getClientMsgId(), tbToken);
+                    cookiesContainer = null;
+                    cookiesContainer = new CookieContainer();
+                    cookiesContainer.Add(MyUserInfo.cookies);
+                    content = HttpRequestService.HttpGet(url, cookiesContainer);
+                    if (content.Contains("html"))
+                    {
+                        SendNotify();
+                        isLogin = false;
+                        return resultTuple;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            TaobaoCommonCampaignItemsModel items = JsonConvert.DeserializeObject<TaobaoCommonCampaignItemsModel>(content);
+                            if (items != null && items.ok && items.data != null && items.data.Count > 0)
+                            {
+                                //过滤人工审核的佣金计划
+                                var data = items.data.FindAll(r => r.manualAudit == 0);
+                                var listData = data.OrderByDescending(r => r.commissionRate).ToList();
+                                TaobaoCommonItem item = listData[0];
+                                //如果定向佣金大于通用和高佣活动的佣金
+                                if (tkRate < item.commissionRate && eventRate < item.commissionRate)
+                                {
+                                    tkRate = 0;
+                                    eventRate = 0;
+                                }
+                            }
+                        }
+                        catch (Exception) { }
+                        //如果高佣活动佣金大于通用佣金
+                        if (eventRate > tkRate)
+                        {
+                            //开始申请高佣活动
+                            url = string.Format("http://pub.alimama.com/common/code/getAuctionCode.json?auctionid={0}&adzoneid={1}&siteid={2}&scenes=3&channel=tk_qqhd&t={3}&_tb_token_={4}&pvid=", goodsId, adzoneid, siteid, getClientMsgId(), tbToken);
+                            resultTuple = GetGaoyong(url);
+                            if (resultTuple != null)
+                            {
+                                tokenDict[dictKey] = resultTuple;
+                                return resultTuple;
+                            }
+                        }
+                    }
+                }
+            }
+            isLogin = false;
+            return resultTuple;
+        }
+        /// <summary>
+        /// 申请高佣活动/营销计划
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        private Tuple<string, string> GetGaoyong(string url)
+        {
+            Tuple<string, string> result = null;
+            CookieContainer cookiesContainer = new CookieContainer();
+            cookiesContainer.Add(MyUserInfo.cookies);
+            string content = HttpRequestService.HttpGet(url, cookiesContainer);
+            AuctionCodeModel searchResult = JsonConvert.DeserializeObject<AuctionCodeModel>(content);
+            if (searchResult != null && searchResult.ok && searchResult.data != null)
+            {
+                string token = string.IsNullOrEmpty(searchResult.data.couponLinkTaoToken) ? searchResult.data.taoToken : searchResult.data.couponLinkTaoToken;
+                string link = string.IsNullOrEmpty(searchResult.data.couponShortLinkUrl) ? searchResult.data.shortLinkUrl : searchResult.data.couponShortLinkUrl;
+                result = new Tuple<string, string>(token, link);
+            }
+            return result;
+        }
+
+
         #endregion
 
 

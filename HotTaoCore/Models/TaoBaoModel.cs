@@ -128,4 +128,102 @@ namespace HotTaoCore.Models
         public bool ok { get; set; }
     }
 
+
+
+    /// <summary>
+    /// 获取淘宝推广位
+    /// </summary>
+    public class TaobaoAdzoneManageModel
+    {
+        public bool ok { get; set; }
+        public TaobaoAdzoneManageDataModel data { get; set; } = new TaobaoAdzoneManageDataModel();
+
+        public TaobaoInfoModel info { get; set; } = new TaobaoInfoModel();
+    }
+
+
+    public class TaobaoInfoModel
+    {
+        public string message { get; set; }
+
+        public string pvid { get; set; }
+
+        public bool ok { get; set; }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public class TaobaoAdzoneManageDataModel
+    {
+        public List<TaobaoAdzoneManageDataPageListModel> pageList = new List<TaobaoAdzoneManageDataPageListModel>();
+    }
+    public class TaobaoAdzoneManageDataPageListModel
+    {
+        public string name { get; set; }
+        public string memberid { get; set; }
+        public string siteid { get; set; }
+        public string adzoneid { get; set; }
+        public string adzonePid { get; set; }
+    }
+
+
+    /// <summary>
+    /// 立即推广
+    /// </summary>
+    public class AuctionCodeModel
+    {
+        public bool ok { get; set; }
+        public AuctionCodeDataModel data { get; set; } = new AuctionCodeDataModel();
+        public TaobaoInfoModel info { get; set; } = new TaobaoInfoModel();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class AuctionCodeDataModel
+    {
+        /// <summary>
+        /// 商品淘口令
+        /// </summary>
+        public string taoToken { get; set; }
+
+        /// <summary>
+        /// 领券淘口令
+        /// </summary>
+        public string couponLinkTaoToken { get; set; }
+
+        /// <summary>
+        /// 商品链接
+        /// </summary>
+        public string shortLinkUrl { get; set; }
+
+        /// <summary>
+        /// 领券链接
+        /// </summary>
+        public string couponShortLinkUrl { get; set; }
+
+        /// <summary>
+        /// 领券地址-长地址
+        /// </summary>
+        public string couponLink { get; set; }
+
+        /// <summary>
+        /// 商品地址-长地址
+        /// </summary>
+        public string clickUrl { get; set; }
+
+
+
+        /// <summary>
+        /// 推广二维码地址
+        /// </summary>
+        public string qrCodeUrl { get; set; }
+
+
+
+
+
+    }
+
+
 }

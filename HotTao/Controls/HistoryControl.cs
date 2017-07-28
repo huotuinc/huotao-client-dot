@@ -383,7 +383,10 @@ namespace HotTao.Controls
                 string goodsid = cells["goodsid"].Value.ToString();
                 string goodsName = cells["goodsName"].Value.ToString();
                 string goodsUrl = cells["goodsUrl"].Value.ToString();
-                string url = string.Format("http://pub.alimama.com/promo/search/index.htm?q={0}&_t=1500628600631&toPage=1&yxjh=-1", HttpUtility.UrlEncode(goodsUrl));
+                string logType = cells["logType"].Value.ToString();
+                string url = string.Format("http://pub.alimama.com/promo/search/index.htm?q={0}&_t={1}&toPage=1&yxjh=-1", HttpUtility.UrlEncode(goodsUrl), getClientMsgId());
+                if (logType.Equals(""))
+                    url = string.Format("http://pub.alimama.com/promo/item/channel/index.htm?q={0}&channel=qqhd&_t={1}", HttpUtility.UrlEncode(goodsUrl), getClientMsgId());
                 Process.Start(url);
             }
         }
@@ -392,6 +395,15 @@ namespace HotTao.Controls
         {
             hotForm.logRuningList.Clear();
             dgvLogView.Rows.Clear();
+        }
+        /// <summary>
+        /// 获取随机时间戳
+        /// </summary>
+        /// <returns>System.Int64.</returns>
+        public double getClientMsgId()
+        {
+            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+            return (DateTime.Now - startTime).TotalMilliseconds;
         }
     }
 }

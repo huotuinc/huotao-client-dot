@@ -1140,7 +1140,7 @@ namespace HotTao
         private bool SendGoods(List<GoodsModel> goodslist, TaskPlanModel taskModel)
         {
             bool result = false;
-            var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserWechatShareTextList(MyUserInfo.currentUserId);
+            var data = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserWechatShareTextList(Convert.ToInt32(taskModel.id));
             if (data == null) return true;
             foreach (var goods in goodslist)
             {
