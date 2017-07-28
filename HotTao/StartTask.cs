@@ -325,27 +325,6 @@ namespace HotTao
                         {
                             if (item.status == -1)
                             {
-                                //Tuple<string, string> resultTuple = hotForm.GetGaoYongToken(goods.goodsDetailUrl, goods.goodsId, item.tpwd, out isLogin);
-                                //if (resultTuple != null)
-                                //{
-                                //    if (!isLogin)
-                                //        return;
-                                //    item.status = 0;
-                                //    if (item.text.Contains("[二合一淘口令]"))
-                                //        item.text = item.text.Replace("[二合一淘口令]", resultTuple.Item1);
-                                //    else
-                                //        item.text += "复制这条信息，打开『手机淘宝』" + resultTuple.Item1 + "领券下单即可抢购宝贝";
-
-                                //    if (item.text.Contains("[短链接]"))
-                                //        item.text = item.text.Replace("[短链接]", resultTuple.Item2);
-                                //    LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserShareTextStatus(item.id, item.text, resultTuple.Item1);
-                                //}
-                                //else
-                                //{
-                                //    bool flag = LogicHotTao.Instance(MyUserInfo.currentUserId).BuildTpwd(MyUserInfo.currentUserId, MyUserInfo.LoginToken, goods, item, appkey, appsecret);
-                                //    if (flag)
-                                //        item.status = 0;
-                                //}
 
                                 item.status = 0;
                             }

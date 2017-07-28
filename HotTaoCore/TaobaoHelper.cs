@@ -22,6 +22,7 @@ namespace HotTaoCore
 {
     public static class TaobaoHelper
     {
+        static NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
         private static Dictionary<string, Tuple<string, string>> tokenDict = new Dictionary<string, Tuple<string, string>>();
 
 
@@ -36,118 +37,135 @@ namespace HotTaoCore
         {
 
             Tuple<string, string> resultTuple = null;
-            //PID  mm_aaaa_bbbb_cccc
-            //aaaa:memberid
-            //bbbb:siteid
-            //ccc:adzoneid
-            isLogin = true;
-            string dictKey = string.Format("{0}_{1}", pid, goodsId);
-            //判断同商品相同的推广位，是否已经申请过淘口令
-            if (tokenDict.ContainsKey(dictKey))
+            try
             {
-                string _token = string.Empty;
-                tokenDict.TryGetValue(dictKey, out resultTuple);
-                return resultTuple;
-            }
-            var pids = pid.Replace("mm_", "").Split('_');
-
-            if (pids.Length != 3) return resultTuple;
-
-            string adzoneid = pids[2];
-            string siteid = pids[1];
-            string searchUrl = string.Format("http://pub.alimama.com/items/search.json?q={0}&_t={1}&auctionTag=&perPageSize=40&shopTag=&t={1}&_tb_token_={2}&pvid=", HttpUtility.UrlEncode(goodsUrl), getClientMsgId(), tbToken);
-            CookieContainer cookiesContainer = new CookieContainer();
-            cookiesContainer.Add(cookies);
-            string content = HttpRequestService.HttpGet(searchUrl, cookiesContainer);
-            decimal tkRate = 0;
-            decimal eventRate = 0;
-            bool tkMktStatus = false;
-            bool resultOk = false;
-            if (!string.IsNullOrEmpty(content))
-            {
-                try
+                //PID  mm_aaaa_bbbb_cccc
+                //aaaa:memberid
+                //bbbb:siteid
+                //ccc:adzoneid
+                isLogin = true;
+                string dictKey = string.Format("{0}_{1}", pid, goodsId);
+                //判断同商品相同的推广位，是否已经申请过淘口令
+                if (tokenDict.ContainsKey(dictKey))
                 {
-                    TaobaoSearchResultModel searchResult = JsonConvert.DeserializeObject<TaobaoSearchResultModel>(content);
-                    if (searchResult != null && searchResult.ok && searchResult.data.pageList != null)
-                    {
-                        //通用计划
-                        tkRate = searchResult.data.pageList[0].tkRate;
-
-                        if (!string.IsNullOrEmpty(searchResult.data.pageList[0].eventRate))
-                            eventRate = Convert.ToDecimal(searchResult.data.pageList[0].eventRate);
-
-                        if (!string.IsNullOrEmpty(searchResult.data.pageList[0].tkMktStatus))
-                            tkMktStatus = Convert.ToInt32(searchResult.data.pageList[0].tkMktStatus) == 1;
-                        resultOk = true;
-                    }
+                    string _token = string.Empty;
+                    tokenDict.TryGetValue(dictKey, out resultTuple);
+                    return resultTuple;
                 }
-                catch (Exception)
+                //淘宝未登录，请登录淘宝
+                if(cookies==null)
                 {
+                    isLogin = false;
+                    resultTuple = new Tuple<string, string>("", "");
+                    return resultTuple;
+                }
 
-                }
-            }
-            if (resultOk)
-            {
-                //判断是否是营销计划
-                if (tkMktStatus && tkRate > eventRate)
+
+
+                var pids = pid.Replace("mm_", "").Split('_');
+
+                if (pids.Length != 3) return resultTuple;
+
+                string adzoneid = pids[2];
+                string siteid = pids[1];
+                string searchUrl = string.Format("http://pub.alimama.com/items/search.json?q={0}&_t={1}&auctionTag=&perPageSize=40&shopTag=&t={1}&_tb_token_={2}&pvid=", HttpUtility.UrlEncode(goodsUrl), getClientMsgId(), tbToken);
+                CookieContainer cookiesContainer = new CookieContainer();
+                cookiesContainer.Add(cookies);
+                string content = HttpRequestService.HttpGet(searchUrl, cookiesContainer);
+                decimal tkRate = 0;
+                decimal eventRate = 0;
+                bool tkMktStatus = false;
+                bool resultOk = false;
+                if (!string.IsNullOrEmpty(content))
                 {
-                    //开始申请营销计划佣金
-                    string url = string.Format("http://pub.alimama.com/common/code/getAuctionCode.json?auctionid={0}&adzoneid={1}&siteid={2}&scenes=1&t={3}&_tb_token_={4}&pvid=", goodsId, adzoneid, siteid, getClientMsgId(), tbToken);
-                    resultTuple = GetGaoyong(url, cookies);
-                    if (resultTuple != null)
+                    try
                     {
-                        tokenDict[dictKey] = resultTuple;
-                        return resultTuple;
-                    }
-                }
-                else //判断是否有高佣金
-                {
-                    //获取更多定向计划数据
-                    string url = string.Format("http://pub.alimama.com/pubauc/getCommonCampaignByItemId.json?itemId={0}&t={1}&_tb_token_={2}&pvid=", goodsId, getClientMsgId(), tbToken);
-                    cookiesContainer = null;
-                    cookiesContainer = new CookieContainer();
-                    cookiesContainer.Add(cookies);
-                    content = HttpRequestService.HttpGet(url, cookiesContainer);
-                    if (content.Contains("html"))
-                    {
-                        isLogin = false;
-                        resultTuple = new Tuple<string, string>("", "");
-                        return resultTuple;
-                    }
-                    else
-                    {
-                        try
+                        TaobaoSearchResultModel searchResult = JsonConvert.DeserializeObject<TaobaoSearchResultModel>(content);
+                        if (searchResult != null && searchResult.ok && searchResult.data.pageList != null)
                         {
-                            TaobaoCommonCampaignItemsModel items = JsonConvert.DeserializeObject<TaobaoCommonCampaignItemsModel>(content);
-                            if (items != null && items.ok && items.data != null && items.data.Count > 0)
+                            //通用计划
+                            tkRate = searchResult.data.pageList[0].tkRate;
+
+                            if (!string.IsNullOrEmpty(searchResult.data.pageList[0].eventRate))
+                                eventRate = Convert.ToDecimal(searchResult.data.pageList[0].eventRate);
+
+                            if (!string.IsNullOrEmpty(searchResult.data.pageList[0].tkMktStatus))
+                                tkMktStatus = Convert.ToInt32(searchResult.data.pageList[0].tkMktStatus) == 1;
+                            resultOk = true;
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+                if (resultOk)
+                {
+                    //判断是否是营销计划
+                    if (tkMktStatus && tkRate > eventRate)
+                    {
+                        //开始申请营销计划佣金
+                        string url = string.Format("http://pub.alimama.com/common/code/getAuctionCode.json?auctionid={0}&adzoneid={1}&siteid={2}&scenes=1&t={3}&_tb_token_={4}&pvid=", goodsId, adzoneid, siteid, getClientMsgId(), tbToken);
+                        resultTuple = GetGaoyong(url, cookies);
+                        if (resultTuple != null)
+                        {
+                            tokenDict[dictKey] = resultTuple;
+                            return resultTuple;
+                        }
+                    }
+                    else //判断是否有高佣金
+                    {
+                        //获取更多定向计划数据
+                        string url = string.Format("http://pub.alimama.com/pubauc/getCommonCampaignByItemId.json?itemId={0}&t={1}&_tb_token_={2}&pvid=", goodsId, getClientMsgId(), tbToken);
+                        cookiesContainer = null;
+                        cookiesContainer = new CookieContainer();
+                        cookiesContainer.Add(cookies);
+                        content = HttpRequestService.HttpGet(url, cookiesContainer);
+                        if (content.Contains("html"))
+                        {
+                            isLogin = false;
+                            resultTuple = new Tuple<string, string>("", "");
+                            return resultTuple;
+                        }
+                        else
+                        {
+                            try
                             {
-                                //过滤人工审核的佣金计划
-                                var data = items.data.FindAll(r => r.manualAudit == 0);
-                                var listData = data.OrderByDescending(r => r.commissionRate).ToList();
-                                TaobaoCommonItem item = listData[0];
-                                //如果定向佣金大于通用和高佣活动的佣金
-                                if (tkRate < item.commissionRate && eventRate < item.commissionRate)
+                                TaobaoCommonCampaignItemsModel items = JsonConvert.DeserializeObject<TaobaoCommonCampaignItemsModel>(content);
+                                if (items != null && items.ok && items.data != null && items.data.Count > 0)
                                 {
-                                    tkRate = 0;
-                                    eventRate = 0;
+                                    //过滤人工审核的佣金计划
+                                    var data = items.data.FindAll(r => r.manualAudit == 0);
+                                    var listData = data.OrderByDescending(r => r.commissionRate).ToList();
+                                    TaobaoCommonItem item = listData[0];
+                                    //如果定向佣金大于通用和高佣活动的佣金
+                                    if (tkRate < item.commissionRate && eventRate < item.commissionRate)
+                                    {
+                                        tkRate = 0;
+                                        eventRate = 0;
+                                    }
+                                }
+                            }
+                            catch (Exception) { }
+                            //如果高佣活动佣金大于通用佣金
+                            if (eventRate > tkRate)
+                            {
+                                //开始申请高佣活动
+                                url = string.Format("http://pub.alimama.com/common/code/getAuctionCode.json?auctionid={0}&adzoneid={1}&siteid={2}&scenes=3&channel=tk_qqhd&t={3}&_tb_token_={4}&pvid=", goodsId, adzoneid, siteid, getClientMsgId(), tbToken);
+                                resultTuple = GetGaoyong(url, cookies);
+                                if (resultTuple != null)
+                                {
+                                    tokenDict[dictKey] = resultTuple;
+                                    return resultTuple;
                                 }
                             }
                         }
-                        catch (Exception) { }
-                        //如果高佣活动佣金大于通用佣金
-                        if (eventRate > tkRate)
-                        {
-                            //开始申请高佣活动
-                            url = string.Format("http://pub.alimama.com/common/code/getAuctionCode.json?auctionid={0}&adzoneid={1}&siteid={2}&scenes=3&channel=tk_qqhd&t={3}&_tb_token_={4}&pvid=", goodsId, adzoneid, siteid, getClientMsgId(), tbToken);
-                            resultTuple = GetGaoyong(url, cookies);
-                            if (resultTuple != null)
-                            {
-                                tokenDict[dictKey] = resultTuple;
-                                return resultTuple;
-                            }
-                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                log.Error(string.Format("GetGaoYongToken:message:{0},StackTrace:{1}", ex.Message, ex.StackTrace));
             }
             isLogin = false;
             resultTuple = new Tuple<string, string>("", "");

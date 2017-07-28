@@ -111,6 +111,7 @@ namespace HotTao
         public static string GetTbToken()
         {
             string _tb_token = string.Empty;
+            if (cookies == null) return _tb_token;
             foreach (Cookie cookie in cookies)
             {
                 if (cookie.Name.Equals("_tb_token_"))
@@ -123,7 +124,7 @@ namespace HotTao
         }
 
 
-       // public static string cToken { get; set; } = "";
+        // public static string cToken { get; set; } = "";
 
 
 
@@ -153,6 +154,6 @@ namespace HotTao
 
 
 
-        
+
     }
 }
