@@ -109,8 +109,9 @@ namespace HotTaoCore
                     cookiesContainer.Add(cookies);
                     content = HttpRequestService.HttpGet(url, cookiesContainer);
                     if (content.Contains("html"))
-                    {                        
+                    {
                         isLogin = false;
+                        resultTuple = new Tuple<string, string>("", "");
                         return resultTuple;
                     }
                     else
@@ -149,6 +150,7 @@ namespace HotTaoCore
                 }
             }
             isLogin = false;
+            resultTuple = new Tuple<string, string>("", "");
             return resultTuple;
         }
         /// <summary>
