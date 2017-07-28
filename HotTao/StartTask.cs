@@ -2,6 +2,7 @@
 using HOTReuestService.Helper;
 using HotTao.Controls;
 using HotTao.Properties;
+using HotTaoCore;
 using HotTaoCore.Enums;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
@@ -658,7 +659,7 @@ namespace HotTao
                 try
                 {
 
-                    Tuple<string, string> resultTuple = hotForm.GetGaoYongToken(goods.goodsDetailUrl, goods.goodsId, item.tpwd, out isLogin);
+                    Tuple<string, string> resultTuple = TaobaoHelper.GetGaoYongToken(goods.goodsDetailUrl, goods.goodsId, item.tpwd,MyUserInfo.GetTbToken(),MyUserInfo.cookies, out isLogin);
                     if (resultTuple != null)
                     {
                         if (!isLogin)

@@ -153,6 +153,7 @@
     <Compile Include="Models\WxAuthConfigModel.cs" />
     <Compile Include="Models\WxAutoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaobaoHelper.cs" />
     <Compile Include="UrlsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
