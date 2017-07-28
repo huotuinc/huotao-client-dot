@@ -206,7 +206,10 @@ namespace HotTao.Controls
                     this.BeginInvoke((Action)(delegate ()  //等待结束
                     {
                         if (hotTask != null)
-                            hotTask.SetTaskView(data, taskid > 0 ? CurrentRowIndex : -1);
+                        {
+                            //hotTask.SetTaskView(data, taskid > 0 ? CurrentRowIndex : -1);
+                            hotTask.LoadTaskPlanGridView();
+                        }
                         txtTaskTitle.Clear();
                         alert.Message = "保存成功";
                         alert.CallBack += () => { this.Close(); };

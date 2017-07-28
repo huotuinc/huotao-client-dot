@@ -1239,8 +1239,10 @@ namespace HotTao
                                 TaobaoCommonCampaignItemsModel items = JsonConvert.DeserializeObject<TaobaoCommonCampaignItemsModel>(content);
                                 if (items != null && items.ok && items.data != null && items.data.Count > 0)
                                 {
+                                    //过滤人工审核的佣金计划
+                                    var data = items.data.FindAll(r => r.manualAudit == 0);
 
-                                    var listData = items.data.OrderByDescending(r => r.commissionRate).ToList();
+                                    var listData = data.OrderByDescending(r => r.commissionRate).ToList();
                                     TaobaoCommonItem item = listData[0];
 
                                     //开始申请佣金
@@ -1537,7 +1539,7 @@ namespace HotTao
                 DateTime startTime = DateTime.Now;
                 DateTime endTime = DateTime.Now.AddHours(12);
                 if (qqForm.EnableTimeConfig)
-                {                    
+                {
                     //当前时间大于任务开始时间小于结束时间,则时间当前时间为任务开始时间
                     if (qqForm.TaskStartTime.CompareTo(DateTime.Now) < 0 && qqForm.TaskEndTime.CompareTo(DateTime.Now) > 0)
                     {

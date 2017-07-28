@@ -9,6 +9,7 @@
 
 
 using HotJoinImage;
+using HOTReuestService;
 using HOTReuestService.Helper;
 using HotTaoCore.DAL;
 using HotTaoCore.Models;
@@ -304,9 +305,9 @@ namespace HotTaoCore.Logic
         /// <param name="userid">The userid.</param>
         /// <param name="ids">The ids.</param>
         /// <returns>List&lt;GoodsModel&gt;.</returns>
-        public List<GoodsModel> FindByUserGoodsList(int userid, List<int> ids)
+        public List<GoodsModel> FindByUserGoodsList(List<int> ids)
         {
-            return dal.FindByUserGoodsList(userid, ids);
+            return dal.FindByUserGoodsList(uid, ids);
         }
 
 
@@ -320,9 +321,9 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="gid">The gid.</param>
         /// <returns>TaskPlanModel.</returns>
-        public TaskPlanModel FindByUserTaskPlanInfo(int userid, int taskid)
+        public TaskPlanModel FindByUserTaskPlanInfo(int taskid)
         {
-            return dal.FindByUserTaskPlanInfo(userid, taskid);
+            return dal.FindByUserTaskPlanInfo(uid, taskid);
         }
 
         /// <summary>
@@ -330,9 +331,9 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="userid">The userid.</param>
         /// <returns>List&lt;GoodsModel&gt;.</returns>
-        public List<TaskPlanModel> FindUserTaskPlanListByUserId(int userid, bool isFilterFinish)
+        public List<TaskPlanModel> FindUserTaskPlanListByUserId(bool isFilterFinish)
         {
-            return dal.FindUserTaskPlanListByUserId(userid, isFilterFinish);
+            return dal.FindUserTaskPlanListByUserId(uid, isFilterFinish);
         }
         /// <summary>
         /// 删除微信群
@@ -387,13 +388,13 @@ namespace HotTaoCore.Logic
                 int taskid = dal.AddUserTaskPlan(model);
                 if (taskid > 0)
                 {
-                    return FindByUserTaskPlanInfo(model.userid, taskid);
+                    return FindByUserTaskPlanInfo(taskid);
                 }
             }
             else
             {
                 if (dal.UpdateUserTaskPlan(model) > 0)
-                    return FindByUserTaskPlanInfo(model.userid, Convert.ToInt32(model.id));
+                    return FindByUserTaskPlanInfo(Convert.ToInt32(model.id));
             }
             return null;
         }
@@ -447,9 +448,9 @@ namespace HotTaoCore.Logic
         /// <param name="userid">The userid.</param>
         /// <param name="taskid">The taskid.</param>
         /// <returns>List&lt;GoodsModel&gt;.</returns>
-        public List<weChatShareTextModel> FindByUserWechatShareTextList(int userid, int taskid)
+        public List<weChatShareTextModel> FindByUserWechatShareTextList(int taskid)
         {
-            return dal.FindByUserWechatShareTextList(userid, taskid);
+            return dal.FindByUserWechatShareTextList(uid, taskid);
         }
         /// <summary>
         /// 获取发送内容列表
@@ -458,9 +459,9 @@ namespace HotTaoCore.Logic
         /// <param name="taskid">The taskid.</param>
         /// <param name="goodsid">The goodsid.</param>
         /// <returns>List&lt;weChatShareTextModel&gt;.</returns>
-        public List<weChatShareTextModel> FindByUserWechatShareTextList(int userid, int taskid, int goodsid)
+        public List<weChatShareTextModel> FindByUserWechatShareTextList(int taskid, int goodsid)
         {
-            return dal.FindByUserWechatShareTextList(userid, taskid, goodsid);
+            return dal.FindByUserWechatShareTextList(uid, taskid, goodsid);
         }
 
         /// <summary>
@@ -468,9 +469,9 @@ namespace HotTaoCore.Logic
         /// </summary>
         /// <param name="userid">The userid.</param>
         /// <returns>List&lt;weChatShareTextModel&gt;.</returns>
-        public List<weChatShareTextModel> FindByUserWechatShareTextList(int userid)
+        public List<weChatShareTextModel> FindByUserWechatShareTextList()
         {
-            return dal.FindByUserWechatShareTextList(userid);
+            return dal.FindByUserWechatShareTextList(uid);
         }
 
 
@@ -485,7 +486,7 @@ namespace HotTaoCore.Logic
         /// <returns>true if XXXX, false otherwise.</returns>
         public bool BuildTaskTpwd(string loginToken, int userid, int taskid, string templateText, string appkey, string appsecret, Action<weChatShareTextModel> result = null, bool append = false, bool isJoinImage = false)
         {
-            var taskData = FindByUserTaskPlanInfo(userid, taskid);
+            var taskData = FindByUserTaskPlanInfo(taskid);
             if (taskData == null || taskData.ExecStatus != 0) return false;
 
             if (string.IsNullOrEmpty(taskData.pidsText) || string.IsNullOrEmpty(taskData.goodsText)) return false;
@@ -502,7 +503,7 @@ namespace HotTaoCore.Logic
                     ids.Add(item.id);
             });
             //获取商品数据
-            var goodslist = FindByUserGoodsList(userid, ids);
+            var goodslist = FindByUserGoodsList(ids);
 
             if (!append)
             {
@@ -516,10 +517,21 @@ namespace HotTaoCore.Logic
                 var wechatlist = FindByUserWeChatGroup(userid, ids);
                 //删除现有数据
                 dal.DeleteUserWechatShareText(userid, taskid);
+                List<JoinGoodsList> joinLists = new List<JoinGoodsList>();
                 foreach (var group in wechatlist)
                 {
+                    JoinGoodsList joinList = new JoinGoodsList();
                     //生成商品分享文本
-                    BuildShareText(loginToken, userid, taskid, templateText, goodslist, group, appkey, appsecret, result, isJoinImage, taskData.title);
+                    BuildShareText(loginToken, userid, taskid, templateText, goodslist, group, appkey, appsecret, out joinList, result, isJoinImage);
+
+                    if (isJoinImage && joinList != null)
+                        joinLists.Add(joinList);
+                }
+                if (isJoinImage)
+                {
+                    int flag = BuildJoinImage(loginToken, joinLists, taskData.title);
+                    if (flag > 0)
+                        DeleteUserTaskPlan(flag);
                 }
                 UpdateUserTaskPlanIsTpwd(taskid);
             }
@@ -552,8 +564,9 @@ namespace HotTaoCore.Logic
         /// <param name="data">The data.</param>
         /// <param name="group">The group.</param>
         /// <returns>true if XXXX, false otherwise.</returns>
-        private bool BuildShareText(string loginToken, int userid, int taskid, string templateText, List<GoodsModel> data, weChatGroupModel group, string appkey, string appsecret, Action<weChatShareTextModel> result = null, bool isJoinImage = false, string JoinImageDesc = "")
+        private bool BuildShareText(string loginToken, int userid, int taskid, string templateText, List<GoodsModel> data, weChatGroupModel group, string appkey, string appsecret, out JoinGoodsList joinList, Action<weChatShareTextModel> result = null, bool isJoinImage = false)
         {
+            joinList = null;
             if (data == null) return false;
             weChatShareTextModel share = new weChatShareTextModel()
             {
@@ -562,6 +575,8 @@ namespace HotTaoCore.Logic
                 status = -1,
                 title = group.title
             };
+            if (isJoinImage)
+                joinList = new JoinGoodsList();
 
             List<int> ids = new List<int>();
 
@@ -620,21 +635,28 @@ namespace HotTaoCore.Logic
                     _url += "?src=ht_hot&activityId=" + item.couponId;
                     _url += "&itemId=" + item.goodsId.Replace("=", "");
                     _url += "&pid=" + tpwd;
-                    var _tpwd = "";// HotTaoApiService.Instance.taobao_wireless_share_tpwd_create(item.goodsMainImgUrl, _url, item.goodsName, appkey, appsecret);
+                    var _tpwd = "";
                     share.field2 = _tpwd;
-                    var _id = LogicGoods.Instance.saveCollectionGoods(loginToken, item.goodsId, item.goodsName, item.goodsPrice, item.couponPrice, _tpwd, _url, item.goodsMainImgUrl);
-                    if (_id > 0)
-                        ids.Add(_id);
-
-                    share.field7 = _id;
-                    //share.status = 0;
-                    imageList.Add(new JoinGoodsInfo()
+                    //商品数据
+                    joinList.collectionGoodsList.Add(new CollectionGoods()
+                    {
+                        goodsId = item.goodsId,
+                        goodsName = item.goodsName,
+                        price = item.goodsPrice,
+                        discountAmount = item.couponPrice,
+                        goodsPromotionUrl = _url,
+                        goodsPrimaryImg = item.goodsMainImgUrl,
+                        shareText = ""
+                    });
+                    //图片
+                    joinList.ImageList.Add(new JoinGoodsInfo()
                     {
                         GoodsName = item.goodsName,
                         GoodsPrice = item.goodsPrice,
                         CouponPrice = item.couponPrice,
                         imagePath = item.goodslocatImgPath
                     });
+
                 }
                 share.field6 = isJoinImage ? 1 : 0;
                 share.field3 = group.id.ToString();
@@ -643,12 +665,8 @@ namespace HotTaoCore.Logic
             }
             if (isJoinImage)
             {
-                var img = JoinImage.GetJoinImage(imageList, 800, string.Format("{0}?ids={1}", ApiConst.QrCodeUrl, string.Join("_", ids)), string.IsNullOrEmpty(JoinImageDesc) ? "今日爆款" : JoinImageDesc.Replace("【合成图片转发】", ""));
-                string path = System.Environment.CurrentDirectory + "\\temp\\joinimage";
-                if (!System.IO.Directory.Exists(path))
-                    System.IO.Directory.CreateDirectory(path);
-                string fileName = EncryptHelper.MD5(taskid.ToString() + group.id.ToString());
-                img.Save(string.Format("{0}\\{1}.jpg", path, fileName));
+                joinList.TaskId = taskid;
+                joinList.id = Convert.ToInt32(group.id);
             }
             return true;
         }
@@ -783,7 +801,7 @@ namespace HotTaoCore.Logic
         /// <returns></returns>
         public TaskPlanModel FindExecTaskPlanByUserId(int userId)
         {
-            var data = FindUserTaskPlanListByUserId(userId, true);
+            var data = FindUserTaskPlanListByUserId(true);
             if (data == null) return null;
             var lst = data.FindAll(item =>
              {
@@ -858,6 +876,7 @@ namespace HotTaoCore.Logic
             };
             TaskPlanModel data = AddUserTaskPlan(model);
             if (data == null) return false;
+            List<JoinGoodsList> joinLists = new List<JoinGoodsList>();
             foreach (var group in wechatlist)
             {
                 weChatGroupModel g = new weChatGroupModel()
@@ -867,13 +886,60 @@ namespace HotTaoCore.Logic
                     pid = group.pid,
                     userid = group.userid
                 };
+                JoinGoodsList joinList = new JoinGoodsList();
                 //生成商品分享文本
-                BuildShareText(loginToken, uid, Convert.ToInt32(data.id), templateText, goodslist, g, appkey, appsecret, null, true, data.title);
+                BuildShareText(loginToken, uid, Convert.ToInt32(data.id), templateText, goodslist, g, appkey, appsecret, out joinList, null, true);
+                if (joinList != null)
+                    joinLists.Add(joinList);
             }
 
-            UpdateGoodsJoinImageStatusByIds(uid, ids);
+            int flag = BuildJoinImage(loginToken, joinLists, data.title);
+            if (flag == 0)
+                UpdateGoodsJoinImageStatusByIds(uid, ids);
+            else
+            {
+                DeleteUserTaskPlan(flag);
+            }
+
             return false;
         }
 
+        private static int BuildJoinImage(string loginToken, List<JoinGoodsList> joinLists, string desc)
+        {
+            int result = 0;
+            if (joinLists.Count() > 0)
+            {
+                var goodsJson = JsonConvert.SerializeObject(joinLists);
+                var collectionResult = LogicGoods.Instance.cacheCollectionGoods(loginToken, goodsJson);
+                if (collectionResult != null)
+                {
+                    string path = System.Environment.CurrentDirectory + "\\temp\\joinimage";
+                    if (!System.IO.Directory.Exists(path))
+                        System.IO.Directory.CreateDirectory(path);
+                    foreach (var item in collectionResult)
+                    {
+                        try
+                        {
+                            var _data = joinLists.Find(r => r.id.ToString().Equals(item.Key));
+                            if (_data == null) continue;
+                            var img = JoinImage.GetJoinImage(_data.ImageList, 800, string.Format("{0}?ids={1}", ApiDefineConst.QrCodeUrl, item.Value), string.IsNullOrEmpty(desc) ? "今日爆款" : desc.Replace("【合成图片转发】", ""));
+                            string fileName = EncryptHelper.MD5(_data.TaskId.ToString() + item.Key);
+                            img.Save(string.Format("{0}\\{1}.jpg", path, fileName));
+                            img.Dispose();
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                }
+                else
+                    result = joinLists[0].TaskId;
+
+
+            }
+
+            return result;
+        }
     }
 }

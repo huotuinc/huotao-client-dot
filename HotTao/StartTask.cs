@@ -147,7 +147,7 @@ namespace HotTao
                 return;
             }
             //获取任务数据
-            var taskdata = LogicHotTao.Instance(MyUserInfo.currentUserId).FindUserTaskPlanListByUserId(MyUserInfo.currentUserId, true);
+            var taskdata = LogicHotTao.Instance(MyUserInfo.currentUserId).FindUserTaskPlanListByUserId(true);
             if (taskdata == null || taskdata.Count() == 0)
             {
                 return;
@@ -194,7 +194,7 @@ namespace HotTao
                         ids.Add(it.id);
                 });
                 //获取商品数据
-                var goodslist = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(MyUserInfo.currentUserId, ids);
+                var goodslist = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(ids);
 
                 if (goodslist == null || goodslist.Count() == 0)
                 {
@@ -438,7 +438,7 @@ namespace HotTao
         /// <param name="wins">The wins.</param>
         private void SendImage(Image image, List<weChatShareTextModel> shareData, List<WindowInfo> wins, bool isImageText, bool sendVideo = false, bool isJoinImage = false)
         {
-
+            string path = System.Environment.CurrentDirectory + "\\temp\\joinimage";
             if (!isJoinImage)
             {
                 if (image == null)
@@ -447,6 +447,11 @@ namespace HotTao
                 }
                 if (!sendVideo)
                     Clipboard.SetImage(image);
+            }
+            else
+            {
+                if (!System.IO.Directory.Exists(path))
+                    System.IO.Directory.CreateDirectory(path);
             }
             //粘贴图片       
             foreach (var item in shareData)
@@ -458,16 +463,22 @@ namespace HotTao
                     {
                         try
                         {
-                            string path = System.Environment.CurrentDirectory + "\\temp\\joinimage";
-                            if (!System.IO.Directory.Exists(path))
-                                System.IO.Directory.CreateDirectory(path);
                             string fileName = EncryptHelper.MD5(item.taskid.ToString() + item.field3);
 
-                            using (Stream stream = new FileStream(string.Format("{0}\\{1}.jpg", path, fileName), FileMode.Open))
+                            if (File.Exists(string.Format("{0}\\{1}.jpg", path, fileName)))
                             {
-                                image = Image.FromStream(stream);
+                                using (Stream stream = new FileStream(string.Format("{0}\\{1}.jpg", path, fileName), FileMode.Open))
+                                {
+                                    image = Image.FromStream(stream);
+                                }
+                                Clipboard.SetImage(image);
                             }
-                            Clipboard.SetImage(image);
+                            else
+                            {
+                                log.Info(string.Format("商品图片不存在，群[{0}]未发送", item.title));
+                                continue;
+
+                            }
                         }
                         catch (Exception)
                         {
@@ -634,7 +645,7 @@ namespace HotTao
                     {
                         break;
                     }
-                    Clipboard.SetDataObject(item.text);
+                    ClipboardObjectData(item.text);
                     //如果当前微信已经发送，则结束本循环
                     if (textResult.Contains(item.title))
                     {
@@ -694,6 +705,30 @@ namespace HotTao
             }
         }
 
+
+        /// <summary>
+        /// 复制内容
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="count"></param>
+        /// <param name="totalCount"></param>
+        private void ClipboardObjectData(string text, int count = 1, int totalCount = 5)
+        {
+            try
+            {
+                Clipboard.Clear();
+                Clipboard.SetDataObject(text, false, 5, 1000);
+            }
+            catch (Exception)
+            {
+                if (totalCount >= count)
+                {
+                    System.Threading.Thread.Sleep(1000);
+                    ClipboardObjectData(text, count, totalCount);
+                    count++;
+                }
+            }
+        }
 
         /// <summary>
         /// 添加错误日志  

@@ -185,8 +185,7 @@ namespace HotTao.Controls
             {
                 //是否自动添加属性字段
                 this.dgvTaskPlan.AutoGenerateColumns = false;
-                //var data = LogicGoods.Instance.getGoodsList(MyUserInfo.LoginToken);
-                var taskData = LogicHotTao.Instance(MyUserInfo.currentUserId).FindUserTaskPlanListByUserId(MyUserInfo.currentUserId, true);
+                var taskData = LogicHotTao.Instance(MyUserInfo.currentUserId).FindUserTaskPlanListByUserId(true);
                 if (taskData != null)
                 {
                     SetTaskView(taskData);
@@ -781,23 +780,27 @@ namespace HotTao.Controls
             }
             else if (cells != null && cells["cbselect"].ColumnIndex == e.ColumnIndex)  //点击单元格选中商品
             {
+                if (goodsSelectCount < 0)
+                    goodsSelectCount = 0;
                 if (this.dgvData.Rows.Count > 0)
-                {
-                    DataGridViewCellCollection row = this.dgvData.Rows[e.RowIndex].Cells;
-                    if (row != null)
+                {                    
+                    int result = 0;
+                    if ((bool)cells["cbselect"].EditedFormattedValue == true)
+                        int.TryParse(cells["gid"].Value.ToString(), out result);
+                    if (result > 0)
                     {
-                        int result = 0;
-                        if (!(bool)row[0].EditedFormattedValue == true)
-                            int.TryParse(row["gid"].Value.ToString(), out result);
-                        if (result > 0)
-                        {
-                            this.dgvData.Rows[e.RowIndex].Cells[0].Value = result;
-                            goodsSelectCount++;
-                        }
-                        else
-                            goodsSelectCount--;
-                        lbSelectedCount.Text = string.Format("(已选中{0}个)", goodsSelectCount);
+                        cells[0].Value = result;                        
+                        goodsSelectCount++;
                     }
+                    else
+                    {
+                        cells[0].Value = 0;                        
+                        if (goodsSelectCount > 0)
+                            goodsSelectCount--;
+                        else
+                            goodsSelectCount = 0;
+                    }
+                    lbSelectedCount.Text = string.Format("(已选中{0}个)", goodsSelectCount);
                 }
             }
         }

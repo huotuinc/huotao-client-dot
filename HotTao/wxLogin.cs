@@ -1026,7 +1026,7 @@ namespace HotTao
         private void StartSend()
         {
             //获取任务数据
-            var taskdata = LogicHotTao.Instance(MyUserInfo.currentUserId).FindUserTaskPlanListByUserId(MyUserInfo.currentUserId, true);
+            var taskdata = LogicHotTao.Instance(MyUserInfo.currentUserId).FindUserTaskPlanListByUserId(true);
             if (taskdata == null || taskdata.Count() == 0)
             { //休息一下
                 SleepTask();
@@ -1074,7 +1074,7 @@ namespace HotTao
                         ids.Add(it.id);
                 });
                 //获取商品数据
-                var goodslist = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(MyUserInfo.currentUserId, ids);
+                var goodslist = LogicHotTao.Instance(MyUserInfo.currentUserId).FindByUserGoodsList(ids);
                 if (goodslist == null || goodslist.Count() == 0)
                 {
                     LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserTaskPlanExecStatus(taskid, 2);

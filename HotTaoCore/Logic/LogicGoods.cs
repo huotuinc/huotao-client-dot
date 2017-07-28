@@ -238,6 +238,19 @@ namespace HotTaoCore.Logic
             return HttpRequestService.PostToInt32(ApiDefineConst.saveCollectionGoods, data);
         }
 
+        /// <summary>
+        /// 保存采集商品(服务端缓存机制)
+        /// </summary>
+        /// <param name="loginToken"></param>
+        /// <param name="goodsJson"></param>
+        public Dictionary<string, string> cacheCollectionGoods(string loginToken, string goodsJson)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data["token"] = loginToken;
+            data["goodsJson"] = goodsJson;
+            return HttpRequestService.Post<Dictionary<string, string>>(ApiDefineConst.saveCollectionGoods, data);
+        }
+
 
     }
 }
