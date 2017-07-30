@@ -830,6 +830,7 @@ namespace HotTao
         /// </summary>
         public void LoginTaoBao()
         {
+            SetWinForegroundWindow();
             if (this.InvokeRequired)
             {
                 this.Invoke(new Action(LoginTaoBao), new object[] { });
@@ -855,7 +856,7 @@ namespace HotTao
                     lw = null;
                 }
                 lw = new TBSync.LoginWindow();
-
+                lw.UserId = MyUserInfo.currentUserId;
                 lw.LoginSuccessHandle += Lw_LoginSuccessHandle;
                 lw.CloseWindowHandle += Lw_CloseWindowHandle;
                 lw.StartPosition = FormStartPosition.CenterScreen;

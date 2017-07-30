@@ -248,7 +248,7 @@ namespace HotTaoCore.Logic
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
             data["goodsJson"] = goodsJson;
-            return HttpRequestService.Post<Dictionary<string, string>>(ApiDefineConst.saveCollectionGoods, data);
+            return HttpRequestService.Post<Dictionary<string, string>>(ApiDefineConst.cacheCollectionGoods, data);
         }
 
 

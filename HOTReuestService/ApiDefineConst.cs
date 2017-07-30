@@ -313,7 +313,12 @@ namespace HOTReuestService
         /// <summary>
         /// 保存采集到的商品
         /// </summary>
-        public const string saveCollectionGoods = "/collectionGoods/cacheCollectionGoods";
+        public const string saveCollectionGoods = "/collectionGoods/saveCollectionGoods";
+
+        /// <summary>
+        /// 保存采集到的商品-缓存
+        /// </summary>
+        public const string cacheCollectionGoods = "/collectionGoods/cacheCollectionGoods";
 
         #endregion
     }

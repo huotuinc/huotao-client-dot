@@ -6,6 +6,7 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -52,7 +53,7 @@ namespace TBSync
         /// <summary>
         /// The login URL
         /// </summary>
-        private const string LoginUrl = "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=true&css_style=alimama&from=alimama";
+        private const string LoginUrl = "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=false&css_style=alimama&from=alimama";
         /// <summary>
         /// 登录成功跳转阿里妈妈首页页面
         /// </summary>
@@ -101,6 +102,19 @@ namespace TBSync
         /// </summary>
         private DateTime loginSuccessTime { get; set; }
 
+
+        /// <summary>
+        /// 用户id
+        /// </summary>
+        public int UserId { get; set; }
+        /// <summary>
+        /// 判断当前的淘宝账号密码是否读取本地数据
+        /// </summary>
+        private bool isLocalData { get; set; } = false;
+        /// <summary>
+        /// 当前是否是二维码扫描登录方式
+        /// </summary>
+        private bool isQrCodeLogin { get; set; } = false;
         /// <summary>
         /// 所有的cookie
         /// </summary>
@@ -113,6 +127,21 @@ namespace TBSync
         {
             OpenTaobao();
         }
+
+        private void GetLocalData()
+        {            
+            isLocalData = false;
+            string tblp = GetData();
+            if (!string.IsNullOrEmpty(tblp))
+            {
+                var s = tblp.Split('|');
+                txtTbLoginName.Text = s[0];
+                txtTbLoginPwd.Text = s[1];
+                isLocalData = true;
+                btnLoginTaobao_Click(null, null);                
+            }            
+        }
+
 
         /// <summary>
         /// 打开阿里妈妈登录
@@ -141,6 +170,7 @@ namespace TBSync
                     browser.FrameLoadEnd += Browser_FrameLoadEnd;
                     browser.TitleChanged += Browser_TitleChanged;
                     browser.AddressChanged += Browser_AddressChanged;
+                    browser.IsBrowserInitializedChanged += Browser_IsBrowserInitializedChanged;
                     this.tbPanel.Controls.Add(browser);
 
                     //定时去刷新页面，以保证淘宝长久在线状态
@@ -162,6 +192,14 @@ namespace TBSync
                 MessageBox.Show("系统出现未知异常，请重启系统！");
                 this.Close();
             }
+        }
+        /// <summary>
+        /// 浏览器是否加载完成
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Browser_IsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs e)
+        {
         }
 
         /// <summary>
@@ -250,12 +288,14 @@ namespace TBSync
         /// <param name="e">The <see cref="FrameLoadEndEventArgs"/> instance containing the event data.</param>
         private void Browser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
         {
-            if (e.Url == LoginUrl)
+            if (e.Url.Contains("https://login.taobao.com/member/login.jhtml"))
             {
                 if (!isLoadCompleted)
                 {
                     isLoadCompleted = true;
                     isLoginCompleted = false;
+                    if (!isQrCodeLogin)
+                        GetLocalData();
                     new Thread(() =>
                     {
                         //页面加载完成回调
@@ -367,20 +407,11 @@ namespace TBSync
                     jsons.Add(json);
                     cookies.Add(cookie);
                 }
-
-                // browser.Load(authUrl);
-
                 string cookiesJson = JsonConvert.SerializeObject(jsons);
                 //页面加载完成回调
                 LoginSuccessHandle?.Invoke(cookies);
                 SetTitle("登录成功!获取Token成功,正在验证token...");
                 HideWindow();
-                //new Thread(() =>
-                //{
-                //    Thread.Sleep(500);
-                //    HideWindow();
-                //})
-                //{ IsBackground = true }.Start();
             }
             catch (Exception ex)
             {
@@ -519,6 +550,7 @@ namespace TBSync
 
         private void pbClose_Click(object sender, EventArgs e)
         {
+            isQrCodeLogin = true;
             if (CloseWindowHandle != null)
                 CloseWindowHandle?.Invoke();
             else
@@ -582,6 +614,167 @@ namespace TBSync
 
         }
         #endregion
+
+        private void TaobaoLogin_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton rb = sender as RadioButton;
+            string url = string.Format("https://login.taobao.com/member/login.jhtml?style=mini&newMini2={0}&css_style=alimama&from=alimama", rb.Tag.ToString().Equals("1") ? "false" : "true");
+            browser.Load(url);
+            gbLoginTaobao.Visible = rb.Tag.ToString().Equals("1");
+            isQrCodeLogin = !rb.Tag.ToString().Equals("1");
+
+        }
+
+
+        /// <summary>
+        ///登录淘宝
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnLoginTaobao_Click(object sender, EventArgs e)
+        {
+            if (txtTbLoginName.Text.Trim().Length == 0)
+                return;
+            if (txtTbLoginPwd.Text.Trim().Length == 0)
+                return;
+            if (!isLocalData)
+                SetData(string.Format("{0}|{1}", txtTbLoginName.Text, txtTbLoginPwd.Text));
+            btnLoginTaobao.Text = "登录中...请稍等!";
+            new Thread(() =>
+            {
+                Thread.Sleep(1000);
+                HideLoginTaobaoPanel(false);                
+                //模拟登录
+                AutoSimulateLogin(txtTbLoginName.Text.Trim(), txtTbLoginPwd.Text.Trim());
+            })
+            { IsBackground = true }.Start();
+
+
+
+        }
+        /// <summary>
+        /// 模拟登录
+        /// </summary>
+        /// <param name="tbLoginName"></param>
+        /// <param name="tbLoginPwd"></param>
+        private void AutoSimulateLogin(string tbLoginName, string tbLoginPwd)
+        {
+            SetTitle("自动登录中...");
+            if (!isQrCodeLogin)
+            {                
+                browser.ExecuteScriptAsync("document.getElementsByClassName('login-text J_UserName').item(0).value='';document.getElementsByClassName('login-text').item(1).value='';document.body.click()");
+                Thread.Sleep(1000);
+                SendKeys.SendWait("{TAB}");
+                SendKeys.SendWait("{TAB}");
+                SendKeys.SendWait(tbLoginName);
+                Thread.Sleep(1000);
+                SendKeys.SendWait("{TAB}");
+                Thread.Sleep(1000);
+                SendKeys.SendWait(tbLoginPwd);
+                Thread.Sleep(3000);
+                SendKeys.SendWait("{ENTER}");
+                //如果5秒后，还再这个页面，就认为它需要滑动验证码登录，将尝试重新模拟自动登录                
+                SendKeys.SendWait("{TAB}");
+                SendKeys.SendWait("{TAB}");
+                Thread.Sleep(10000);
+                if (browser.Address.Contains("https://login.taobao.com/member/login.jhtml"))
+                {
+                    HideLoginTaobaoPanel(true);
+                    isLoadCompleted = false;
+                    string url = string.Format("https://login.taobao.com/member/login.jhtml?style=mini&newMini2={0}&css_style=alimama&from=alimama", "false");
+                    if (!isQrCodeLogin)
+                        browser.Load(url);
+                }
+            }
+        }
+
+        private void HideLoginTaobaoPanel(bool isVisible)
+        {
+
+            if (this.gbLoginTaobao.InvokeRequired)
+            {
+                this.Invoke(new Action<bool>(HideLoginTaobaoPanel), new object[] { isVisible });
+            }
+            else
+            {
+                gbLoginTaobao.Visible = isVisible;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 缓存文件路径
+        /// </summary>
+        private static string cacheFilePath = System.IO.Path.Combine(Application.StartupPath, "data");
+        /// <summary>
+        /// 文案文件名称
+        /// </summary>
+        private string GetPath()
+        {
+            return string.Format("{0}/{1}/tblp.data", cacheFilePath, UserId);
+        }
+
+        /// <summary>
+        /// 写入配置文件
+        /// </summary>
+        private void SetData(string text)
+        {
+            try
+            {
+                string path = GetPath();
+                if (!Directory.Exists(cacheFilePath))
+                    Directory.CreateDirectory(cacheFilePath);
+                if (!File.Exists(path))
+                    File.Create(GetPath()).Dispose();
+                StreamWriter sw = new StreamWriter(@path, false);
+                sw.Write(text);
+                sw.Close();//写入
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        /// <summary>
+        /// 获取文案
+        /// </summary>
+        /// <returns></returns>
+        public string GetData()
+        {
+            try
+            {
+                string path = GetPath();
+                if (File.Exists(path))
+                {
+                    FileStream aFile = new FileStream(path, FileMode.Open);
+                    StreamReader sr = new StreamReader(aFile);
+                    string str = sr.ReadToEnd();
+                    sr.Close();
+                    sr.Dispose();
+                    aFile.Close();
+                    aFile.Dispose();
+                    return str;
+                }
+                return string.Empty;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
+
+
+
     }
 
 
