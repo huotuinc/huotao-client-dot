@@ -267,7 +267,36 @@ namespace HOTReuestService
             }
         }
 
-        protected static HttpWebRequest CreateRequest(string url, byte[] request_body,bool KeepAlive=false)
+        public static long PostToInt64(string reqName, Dictionary<string, string> formFields, Action<ResultModel> OnError = null)
+        {
+            try
+            {
+                if (formFields == null)
+                    formFields = new Dictionary<string, string>();
+                formFields["timestamp"] = GetTimeStamp();
+                //获取签名
+                formFields["signature"] = SignatureHelper.BuildSign(formFields, ApiDefineConst.SecretKey);
+                byte[] request_body = Encoding.UTF8.GetBytes(PrepareRequestBody(formFields));
+
+                var request = CreateRequest(ApiDefineConst.Url + reqName, request_body);
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    return GetResponseToInt64(response, OnError);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(reqName + " " + ex.ToString());
+                ResultModel result = new ResultModel();
+                result.resultMsg = "连接服务器失败";
+                result.resultCode = 500;
+                OnError?.Invoke(result);
+                return 0;
+            }
+        }
+
+
+        protected static HttpWebRequest CreateRequest(string url, byte[] request_body, bool KeepAlive = false)
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
@@ -307,7 +336,7 @@ namespace HOTReuestService
                         }
                         else
                         {
-                            log.Info(response.ResponseUri.AbsoluteUri +"|"+ respone);
+                            log.Info(response.ResponseUri.AbsoluteUri + "|" + respone);
                             OnError?.Invoke(result);
                         }
                     }
@@ -387,6 +416,33 @@ namespace HOTReuestService
                         {
                             if (!string.IsNullOrEmpty(result.data.ToString()))
                                 return Convert.ToInt32(result.data.ToString());
+                            return 0;
+                        }
+                        else
+                        {
+                            log.Info(response.ResponseUri.AbsoluteUri + "|" + respone);
+                            OnError?.Invoke(result);
+                        }
+                    }
+                }
+            }
+            return 0;
+        }
+
+        protected static long GetResponseToInt64(HttpWebResponse response, Action<ResultModel> OnError)
+        {
+            using (Stream response_stream = response.GetResponseStream())
+            {
+                using (StreamReader sr = new StreamReader(response_stream, Encoding.UTF8))
+                {
+                    string respone = sr.ReadToEnd().Trim();
+                    if (!string.IsNullOrEmpty(respone))
+                    {
+                        ResultModel result = JsonConvert.DeserializeObject<ResultModel>(respone);
+                        if (result != null && result.resultCode == 200)
+                        {
+                            if (!string.IsNullOrEmpty(result.data.ToString()))
+                                return Convert.ToInt64(result.data.ToString());
                             return 0;
                         }
                         else

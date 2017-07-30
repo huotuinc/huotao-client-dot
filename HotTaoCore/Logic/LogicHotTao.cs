@@ -529,7 +529,7 @@ namespace HotTaoCore.Logic
                 }
                 if (isJoinImage)
                 {
-                    int flag = BuildJoinImage(loginToken, joinLists, taskData.title);
+                    int flag = BuildJoinImage(loginToken, joinLists, taskData.title, Convert.ToInt32(taskData.id));
                     if (flag > 0)
                         DeleteUserTaskPlan(flag);
                 }
@@ -619,8 +619,7 @@ namespace HotTaoCore.Logic
 
                     if (text.Contains("[优惠券地址]"))
                         text = text.Replace("[优惠券地址]", item.couponUrl);
-
-
+                    
                 }
                 else
                     share.status = 2;
@@ -636,7 +635,19 @@ namespace HotTaoCore.Logic
                     _url += "&itemId=" + item.goodsId.Replace("=", "");
                     _url += "&pid=" + tpwd;
                     var _tpwd = "";
-                    share.field2 = _tpwd;                    
+                    share.field2 = _tpwd;
+
+                    bool isLogin = true;
+
+                    Tuple<string, string> resultTuple = TaobaoHelper.GetGaoYongToken(item.goodsDetailUrl, item.goodsId, tpwd, MyUserInfo.GetTbToken(), MyUserInfo.cookies, out isLogin);
+                    string shareText = "";
+                    if (resultTuple != null)
+                    {
+                        if (!isLogin)                       
+                            break;
+
+                        shareText = resultTuple.Item1;
+                    }
                     //商品数据
                     joinList.collectionGoodsList.Add(new CollectionGoods()
                     {
@@ -646,7 +657,7 @@ namespace HotTaoCore.Logic
                         discountAmount = item.couponPrice,
                         goodsPromotionUrl = _url,
                         goodsPrimaryImg = item.goodsMainImgUrl,
-                        shareText = ""
+                        shareText = shareText
                     });
                     //图片
                     joinList.ImageList.Add(new JoinGoodsInfo()
@@ -889,7 +900,7 @@ namespace HotTaoCore.Logic
                     joinLists.Add(joinList);
             }
 
-            int flag = BuildJoinImage(loginToken, joinLists, data.title);
+            int flag = BuildJoinImage(loginToken, joinLists, data.title, Convert.ToInt32(data.id));
             if (flag == 0)
                 UpdateGoodsJoinImageStatusByIds(uid, ids);
             else
@@ -900,9 +911,9 @@ namespace HotTaoCore.Logic
             return false;
         }
 
-        private static int BuildJoinImage(string loginToken, List<JoinGoodsList> joinLists, string desc)
+        private static int BuildJoinImage(string loginToken, List<JoinGoodsList> joinLists, string desc, int taskid)
         {
-            int result = 0;
+            int result = taskid;
             if (joinLists.Count() > 0)
             {
                 //因cacheCollectionGoods接口，服务端还未配置好，所以不执行里面代码，等配置好之后，去掉该条件
@@ -948,7 +959,7 @@ namespace HotTaoCore.Logic
                     {
                         try
                         {
-                            List<int> ids = new List<int>();
+                            List<long> ids = new List<long>();
                             foreach (var goods in item.collectionGoodsList)
                             {
                                 var rsp = LogicGoods.Instance.saveCollectionGoods(loginToken, goods.goodsId, goods.goodsName, goods.price, goods.discountAmount, goods.shareText, goods.goodsPromotionUrl, goods.goodsPrimaryImg);
@@ -959,8 +970,8 @@ namespace HotTaoCore.Logic
                             img.Save(string.Format("{0}\\{1}.jpg", path, fileName));
                             img.Dispose();
                         }
-                        catch 
-                        {                            
+                        catch
+                        {
                         }
                     }
                     #endregion

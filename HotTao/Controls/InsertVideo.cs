@@ -1,6 +1,7 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
 using HOTReuestService.Helper;
+using HotTaoCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -83,10 +83,10 @@ namespace HotJoinImage
         /// <param name="w"></param>        
         /// <param name="qrCodeUrl">二维码内容</param>
         /// <returns></returns>
-        public static Image GetJoinImage(List<JoinGoodsInfo> imageList, int w, string qrCodeUrl, string desc = "今日爆款")
+        public static Image GetJoinImage(List<JoinGoodsInfo> imageList, int w, string qrCodeUrl, string desc = "大牛精品选单")
         {
             if (string.IsNullOrEmpty(desc))
-                desc = "今日爆款";
+                desc = "大牛精品选单";
             List<Image> list = new List<Image>();
             int len = imageList.Count();
             foreach (var item in imageList)

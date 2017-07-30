@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using Newtonsoft.Json;
+using HotTaoCore;
 
 namespace HotTao.Controls
 {

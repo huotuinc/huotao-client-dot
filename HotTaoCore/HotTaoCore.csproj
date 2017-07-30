@@ -152,6 +152,7 @@
     <Compile Include="Models\VersionModel.cs" />
     <Compile Include="Models\WxAuthConfigModel.cs" />
     <Compile Include="Models\WxAutoModel.cs" />
+    <Compile Include="MyUserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaobaoHelper.cs" />
     <Compile Include="UrlsHelper.cs" />

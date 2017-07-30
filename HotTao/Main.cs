@@ -623,7 +623,11 @@ namespace HotTao
 
         private void pbClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            AlertConfirm("确定退出软件?", "退出提示", () =>
+            {
+                this.Close();
+            });
+
         }
 
         private void pbMin_Click(object sender, EventArgs e)
@@ -823,7 +827,10 @@ namespace HotTao
 
         //public Alilogin.Alilogin lw;
         public TBSync.LoginWindow lw;
-        private Timer checkTbLoginTime;
+        /// <summary>
+        /// 检查登录
+        /// </summary>
+        private Timer checkTbLoginTime { get; set; }
         private bool loginSuccess = false;
         /// <summary>
         /// 登录淘宝
@@ -838,7 +845,7 @@ namespace HotTao
             else
             {
                 loginSuccess = false;
-                //TimingRefreshAlimamaPage();
+                TimingRefreshAlimamaPage();
                 if (lw != null)
                 {
                     if (lw.RefreshAuthView != null)
@@ -872,13 +879,7 @@ namespace HotTao
         {
             new System.Threading.Thread(() =>
             {
-                if (lw == null || !loginSuccess || string.IsNullOrEmpty(MyUserInfo.TaobaoName)) return;
-                MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
-                bool flag = LogicUser.Instance.checkCookieStatus(MyUserInfo.LoginToken, MyUserInfo.cookieJson);
-                if (!flag)
-                {
-                    LoginTaoBao();
-                }
+                LoginTaoBao();
             })
             { IsBackground = true }.Start();
         }
@@ -893,12 +894,16 @@ namespace HotTao
                 AlertConfirm("关闭将无法自动申请高佣,确定取消登录?", "退出提示", () =>
                 {
                     lw.HideWindow();
+                    if (checkTbLoginTime != null)
+                    {
+                        checkTbLoginTime.Stop();
+                        checkTbLoginTime.Dispose();
+                        checkTbLoginTime = null;
+                    }
                 });
             }
             else
                 lw.HideWindow();
-
-
             SetWinForegroundWindow();
 
         }
@@ -933,11 +938,11 @@ namespace HotTao
 
             GetAdzoneList();
 
-            new System.Threading.Thread(() =>
-            {
-                bindTaobao(cookieJson);
-            })
-            { IsBackground = true }.Start();
+            //new System.Threading.Thread(() =>
+            //{
+            //    bindTaobao(cookieJson);
+            //})
+            //{ IsBackground = true }.Start();
         }
         private int RetryCount { get; set; }
         private void bindTaobao(string cookieJson)
@@ -996,11 +1001,6 @@ namespace HotTao
         /// </summary>
         /// <value>The refresh URL.</value>
         private string RefreshUrl { get; set; }
-        /// <summary>
-        /// 定时刷新
-        /// </summary>
-        /// <value>The timing refresh.</value>
-        private Timer timingRefresh { get; set; }
 
         public bool IsRuning { get; set; }
 
@@ -1010,87 +1010,17 @@ namespace HotTao
         /// </summary>
         private void TimingRefreshAlimamaPage()
         {
-            if (timingRefresh != null)
+            if (checkTbLoginTime != null)
             {
-                timingRefresh.Stop();
-                timingRefresh.Dispose();
-                timingRefresh = null;
+                checkTbLoginTime.Stop();
+                checkTbLoginTime.Dispose();
+                checkTbLoginTime = null;
             }
-            timingRefresh = new Timer();
-            timingRefresh.Interval = 300000;
-            timingRefresh.Tick += TimingRefresh_Tick;
-            timingRefresh.Start();
+            checkTbLoginTime = new Timer();
+            checkTbLoginTime.Interval = 55 * 60 * 1000;
+            checkTbLoginTime.Tick += CheckTbLoginTime_Tick;
+            checkTbLoginTime.Start();
 
-            //if (checkTbLoginTime != null)
-            //{
-            //    checkTbLoginTime.Stop();
-            //    checkTbLoginTime.Dispose();
-            //    checkTbLoginTime = null;
-            //}
-            //checkTbLoginTime = new Timer();
-            //checkTbLoginTime.Interval = 10 * 60 * 1000;
-            //checkTbLoginTime.Tick += CheckTbLoginTime_Tick;
-            //checkTbLoginTime.Start();
-
-        }
-        /// <summary>
-        /// 定时刷新
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        /// <exception cref="System.NotImplementedException"></exception>
-        private void TimingRefresh_Tick(object sender, EventArgs e)
-        {
-            if (!loginSuccess) return;
-            new System.Threading.Thread(() =>
-            {
-                ResetRefeshStatus();
-                if (lw == null) return;
-                string taobaoname = lw.GetTaobaoName();
-                if (!string.IsNullOrEmpty(taobaoname))
-                    lw.GoPage(RefreshUrl);
-            })
-            { IsBackground = true }.Start();
-        }
-
-
-        int urlIndex = 0;
-        /// <summary>
-        /// Resets the refesh status.
-        /// </summary>
-        public void ResetRefeshStatus()
-        {
-            switch (urlIndex)
-            {
-                case 0:
-                    urlIndex = 1;
-                    RefreshUrl = "http://www.alimama.com";
-                    break;
-                case 1:
-                    urlIndex = 2;
-                    RefreshUrl = "https://www.taobao.com/";
-                    break;
-                case 2:
-                    urlIndex = 0;
-                    RefreshUrl = "https://www.tmall.com/";
-                    break;
-                default:
-                    urlIndex = 1;
-                    RefreshUrl = "http://www.alimama.com";
-                    break;
-            }
-            try
-            {
-                MyUserInfo.TaobaoName = lw.GetTaobaoName();
-                MyUserInfo.cookies = lw.GetCurrentCookies();
-                MyUserInfo.cookieJson = lw.GetCurrentCookiesToString();
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-
-            RefreshStatus = !RefreshStatus;
         }
 
 
@@ -1137,10 +1067,8 @@ namespace HotTao
         public void GetAdzoneList()
         {
             try
-            {
-                MyUserInfo.cookies = lw.GetCurrentCookies();
-                var tbToken = lw.GetTbToken();
-                string adzoneManageUrl = string.Format("http://pub.alimama.com/common/adzone/adzoneManage.json?spm=&tab=3&toPage=1&perPageSize=10000&gcid=8&t={0}&pvid=&_tb_token_={1}&_input_charset=utf-8", TaobaoHelper.getClientMsgId(), tbToken);
+            {                
+                string adzoneManageUrl = string.Format("http://pub.alimama.com/common/adzone/adzoneManage.json?spm=&tab=3&toPage=1&perPageSize=10000&gcid=8&t={0}&pvid=&_tb_token_={1}&_input_charset=utf-8", TaobaoHelper.getClientMsgId(), MyUserInfo.GetTbToken());
                 CookieContainer cookiesContainer = new CookieContainer();
                 cookiesContainer.Add(MyUserInfo.cookies);
                 var content = HttpRequestService.HttpGet(adzoneManageUrl, cookiesContainer);
@@ -1195,14 +1123,13 @@ namespace HotTao
             };
             string content = string.Empty;
             try
-            {
-                MyUserInfo.cookies = lw.GetCurrentCookies();
+            {                
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 foreach (System.Net.Cookie item in MyUserInfo.cookies)
                 {
                     sb.AppendLine(string.Format("{0}={1}", item.Name, item.Value));
                 }
-                var tbToken = lw.GetTbToken();
+                var tbToken = MyUserInfo.GetTbToken();
                 string searchUrl = string.Format("http://pub.alimama.com/items/search.json?q={0}&_t={1}&auctionTag=&perPageSize=40&shopTag=&t={1}&_tb_token_={2}&pvid=", HttpUtility.UrlEncode(goodsUrl), TaobaoHelper.getClientMsgId(), tbToken);
                 CookieContainer cookiesContainer = new CookieContainer();
                 cookiesContainer.Add(MyUserInfo.cookies);
@@ -1375,8 +1302,7 @@ namespace HotTao
             };
 
             try
-            {
-                MyUserInfo.cookies = lw.GetCurrentCookies();
+            {                
                 CookieContainer cookiesContainer = new CookieContainer();
                 cookiesContainer.Add(MyUserInfo.cookies);
                 string applyUrl = "http://pub.alimama.com/pubauc/applyForCommonCampaign.json";
@@ -1384,7 +1310,7 @@ namespace HotTao
                 formFields["campId"] = campId;
                 formFields["keeperid"] = keeperid;
                 formFields["applyreason"] = "您好，淘客人多，请于通过!";
-                formFields["_tb_token_"] = lw.GetTbToken();
+                formFields["_tb_token_"] = MyUserInfo.GetTbToken();
                 formFields["t"] = TaobaoHelper.getClientMsgId().ToString();
                 formFields["pvid"] = "";
                 string res = BaseRequestService.HttpPost(applyUrl, formFields, cookiesContainer);

@@ -114,7 +114,7 @@ namespace TBSync
         /// <summary>
         /// 当前是否是二维码扫描登录方式
         /// </summary>
-        private bool isQrCodeLogin { get; set; } = false;
+        private static bool isQrCodeLogin { get; set; } = false;
         /// <summary>
         /// 所有的cookie
         /// </summary>
@@ -123,24 +123,45 @@ namespace TBSync
 
         public System.Windows.Forms.Timer RefreshAuthView { get; set; }
 
+        private string tblp { get; set; }
+
         private void LoginWindow_Load(object sender, EventArgs e)
         {
             OpenTaobao();
-        }
 
-        private void GetLocalData()
-        {            
-            isLocalData = false;
-            string tblp = GetData();
+            tblp = GetData();
             if (!string.IsNullOrEmpty(tblp))
             {
+                rbtnQrCodeLogin.Visible = true;
                 var s = tblp.Split('|');
                 txtTbLoginName.Text = s[0];
                 txtTbLoginPwd.Text = s[1];
                 isLocalData = true;
-                btnLoginTaobao_Click(null, null);                
-            }            
+            }
+            else
+                isLocalData = false;
+
         }
+
+        private void GetLocalData()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(GetLocalData));
+            }
+            else
+            {
+                isLocalData = false;
+                if (!string.IsNullOrEmpty(tblp))
+                {                    
+                    isLocalData = true;
+                    btnLoginTaobao_Click(null, null);
+                }
+            }
+        }
+
+
+
 
 
         /// <summary>
@@ -431,7 +452,7 @@ namespace TBSync
             string taobaoname = string.Empty;
             foreach (System.Net.Cookie cookie in visitor.NamesValues)
             {
-                if (cookie.Name == "lid")
+                if (cookie.Name == "lid"|| cookie.Name == "lgc")
                 {
                     taobaoname = cookie.Value;
                     break;
@@ -633,19 +654,31 @@ namespace TBSync
         /// <param name="e"></param>
         private void btnLoginTaobao_Click(object sender, EventArgs e)
         {
+            if (isQrCodeLogin)
+            {
+                isQrCodeLogin = false;
+                return;
+            }
+
             if (txtTbLoginName.Text.Trim().Length == 0)
                 return;
             if (txtTbLoginPwd.Text.Trim().Length == 0)
                 return;
+
+            SetData(string.Format("{0}|{1}", txtTbLoginName.Text, txtTbLoginPwd.Text));
+
             if (!isLocalData)
-                SetData(string.Format("{0}|{1}", txtTbLoginName.Text, txtTbLoginPwd.Text));
+                rbtnQrCodeLogin.Visible = true;
             btnLoginTaobao.Text = "登录中...请稍等!";
             new Thread(() =>
             {
-                Thread.Sleep(1000);
-                HideLoginTaobaoPanel(false);                
-                //模拟登录
-                AutoSimulateLogin(txtTbLoginName.Text.Trim(), txtTbLoginPwd.Text.Trim());
+                Thread.Sleep(2000);
+                if (!isQrCodeLogin)
+                {
+                    HideLoginTaobaoPanel(false);
+                    //模拟登录
+                    AutoSimulateLogin(txtTbLoginName.Text.Trim(), txtTbLoginPwd.Text.Trim());
+                }
             })
             { IsBackground = true }.Start();
 
@@ -661,7 +694,7 @@ namespace TBSync
         {
             SetTitle("自动登录中...");
             if (!isQrCodeLogin)
-            {                
+            {
                 browser.ExecuteScriptAsync("document.getElementsByClassName('login-text J_UserName').item(0).value='';document.getElementsByClassName('login-text').item(1).value='';document.body.click()");
                 Thread.Sleep(1000);
                 SendKeys.SendWait("{TAB}");
@@ -671,12 +704,12 @@ namespace TBSync
                 SendKeys.SendWait("{TAB}");
                 Thread.Sleep(1000);
                 SendKeys.SendWait(tbLoginPwd);
-                Thread.Sleep(3000);
+                Thread.Sleep(5000);
                 SendKeys.SendWait("{ENTER}");
                 //如果5秒后，还再这个页面，就认为它需要滑动验证码登录，将尝试重新模拟自动登录                
                 SendKeys.SendWait("{TAB}");
                 SendKeys.SendWait("{TAB}");
-                Thread.Sleep(10000);
+                Thread.Sleep(5000);
                 if (browser.Address.Contains("https://login.taobao.com/member/login.jhtml"))
                 {
                     HideLoginTaobaoPanel(true);
@@ -698,6 +731,8 @@ namespace TBSync
             else
             {
                 gbLoginTaobao.Visible = isVisible;
+                if (isVisible)
+                    btnLoginTaobao.Text = "登    录";
             }
         }
 
@@ -771,10 +806,6 @@ namespace TBSync
                 return string.Empty;
             }
         }
-
-
-
-
     }
 
 
@@ -827,7 +858,6 @@ namespace TBSync
             model.Remove(CefMenuCommand.Print);
             model.Remove(CefMenuCommand.AddToDictionary);
             model.Remove(CefMenuCommand.SpellCheckNoSuggestions);
-            model.Remove(CefMenuCommand.Reload);
 
             //修改菜单显示名称
             model.SetLabel(CefMenuCommand.Undo, "撤回");
@@ -839,9 +869,7 @@ namespace TBSync
             model.SetLabel(CefMenuCommand.Paste, "粘贴");
             model.SetLabel(CefMenuCommand.Delete, "删除");
             model.SetLabel(CefMenuCommand.SelectAll, "全选");
-
-            //添加菜单
-            model.AddItem(CefMenuCommand.Reload, "重新加载");
+            model.SetLabel(CefMenuCommand.Reload, "重新加载");
 
         }
 

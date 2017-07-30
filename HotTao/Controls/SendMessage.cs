@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using HotTaoCore.Models;
 using HotTaoCore.Logic;
 using System.Threading;
+using HotTaoCore;
 
 namespace HotTao.Controls
 {

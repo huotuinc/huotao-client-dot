@@ -18,12 +18,12 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotTao
+namespace HotTaoCore
 {
     /// <summary>
     /// 用户相关的全局数据类
     /// </summary>
-    public class MyUserInfo_1221
+    public class MyUserInfo
     {
         public static UserModel userData;
 

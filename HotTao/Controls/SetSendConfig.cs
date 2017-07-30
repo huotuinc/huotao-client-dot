@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using HOTReuestService;
 using System.IO;
 using HotTao.Properties;
+using HotTaoCore;
 
 namespace HotTao.Controls
 {

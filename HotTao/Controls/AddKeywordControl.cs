@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using HotTaoCore.Logic;
-
+using HotTaoCore;
 
 namespace HotTao.Controls
 {

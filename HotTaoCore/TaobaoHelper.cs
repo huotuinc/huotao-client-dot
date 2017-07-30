@@ -27,11 +27,11 @@ namespace HotTaoCore
 
 
         /// <summary>
-        /// 获取高佣活动和营销计划的淘口令
+        /// 获取高佣活动和营销计划的淘口令,Item1 淘口令，Item2 短链
         /// </summary>
         /// <param name="goodsUrl"></param>
         /// <param name="goodsId"></param>
-        /// <param name="pid"></param>
+        /// <param name="pid">Pid</param>
         /// <returns></returns>
         public static Tuple<string, string> GetGaoYongToken(string goodsUrl, string goodsId, string pid, string tbToken, CookieCollection cookies, out bool isLogin)
         {
@@ -199,6 +199,31 @@ namespace HotTaoCore
         {
             System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
             return (DateTime.Now - startTime).TotalMilliseconds;
+        }
+
+
+        /// <summary>
+        /// 检查淘宝登录
+        /// </summary>
+        /// <param name="tbToken"></param>
+        /// <returns></returns>
+        public static bool checkLogin()
+        {
+            try
+            {
+                string url = string.Format("http://pub.alimama.com/pubauc/getCommonCampaignByItemId.json?itemId={0}&t={1}&_tb_token_={2}&pvid=", "", getClientMsgId(), MyUserInfo.GetTbToken());
+                CookieContainer cookiesContainer = new CookieContainer();
+                cookiesContainer.Add(MyUserInfo.cookies);
+                string content = HttpRequestService.HttpGet(url, cookiesContainer);
+                if (content.Contains("html"))
+                    return false;
+                else
+                    return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
     }

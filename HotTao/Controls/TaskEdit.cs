@@ -1,4 +1,5 @@
 ﻿using HotTao.Properties;
+using HotTaoCore;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using Newtonsoft.Json;

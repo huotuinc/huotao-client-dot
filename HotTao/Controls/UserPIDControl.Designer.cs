@@ -166,7 +166,6 @@
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(84)))), ((int)(((byte)(158)))));
             this.dgvUserPid.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvUserPid.RowTemplate.Height = 23;
-            this.dgvUserPid.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvUserPid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUserPid.Size = new System.Drawing.Size(423, 389);
             this.dgvUserPid.TabIndex = 9;

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
+using HotTaoCore;
 
 namespace HotTao.Controls
 {

@@ -223,7 +223,7 @@ namespace HotTaoCore.Logic
         /// <param name="discountAmount">券价值</param>
         /// <param name="shareText"></param>
         /// <returns></returns>
-        public int saveCollectionGoods(string loginToken, string goodsId, string goodsName, decimal price, decimal discountAmount, string shareText, string goodsPromotionUrl, string primaryImg)
+        public long saveCollectionGoods(string loginToken, string goodsId, string goodsName, decimal price, decimal discountAmount, string shareText, string goodsPromotionUrl, string primaryImg)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data["token"] = loginToken;
@@ -235,7 +235,7 @@ namespace HotTaoCore.Logic
                 data["shareText"] = shareText;
             data["goodsPromotionUrl"] = goodsPromotionUrl;
             data["primaryImg"] = primaryImg;
-            return HttpRequestService.PostToInt32(ApiDefineConst.saveCollectionGoods, data);
+            return HttpRequestService.PostToInt64(ApiDefineConst.saveCollectionGoods, data);
         }
 
         /// <summary>

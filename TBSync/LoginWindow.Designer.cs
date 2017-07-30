@@ -31,22 +31,22 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginWindow));
             this.hotPanel1 = new TBSync.HotPanel(this.components);
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.tbPanel = new System.Windows.Forms.Panel();
             this.gbLoginTaobao = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.btnLoginTaobao = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtTbLoginName = new System.Windows.Forms.TextBox();
             this.txtTbLoginPwd = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rbtnQrCodeLogin = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbTitle = new System.Windows.Forms.Label();
             this.pbClose = new System.Windows.Forms.PictureBox();
+            this.tbPanel = new System.Windows.Forms.Panel();
             this.hotPanel1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.gbLoginTaobao.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
             this.SuspendLayout();
@@ -64,50 +64,6 @@
             this.hotPanel1.Name = "hotPanel1";
             this.hotPanel1.Size = new System.Drawing.Size(528, 483);
             this.hotPanel1.TabIndex = 0;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 427);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(504, 49);
-            this.groupBox1.TabIndex = 10;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "登录方式";
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(324, 22);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(107, 16);
-            this.radioButton2.TabIndex = 0;
-            this.radioButton2.Tag = "2";
-            this.radioButton2.Text = "二维码扫描登录";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.TaobaoLogin_CheckedChanged);
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(44, 22);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(215, 16);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Tag = "1";
-            this.radioButton1.Text = "账号密码登录方式（自动模拟登录）";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.TaobaoLogin_CheckedChanged);
-            // 
-            // tbPanel
-            // 
-            this.tbPanel.Location = new System.Drawing.Point(1, 30);
-            this.tbPanel.Name = "tbPanel";
-            this.tbPanel.Size = new System.Drawing.Size(528, 393);
-            this.tbPanel.TabIndex = 9;
             // 
             // gbLoginTaobao
             // 
@@ -173,6 +129,44 @@
             this.txtTbLoginPwd.Size = new System.Drawing.Size(206, 21);
             this.txtTbLoginPwd.TabIndex = 0;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.rbtnQrCodeLogin);
+            this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Location = new System.Drawing.Point(12, 427);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(504, 49);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "登录方式";
+            // 
+            // rbtnQrCodeLogin
+            // 
+            this.rbtnQrCodeLogin.AutoSize = true;
+            this.rbtnQrCodeLogin.Location = new System.Drawing.Point(157, 22);
+            this.rbtnQrCodeLogin.Name = "rbtnQrCodeLogin";
+            this.rbtnQrCodeLogin.Size = new System.Drawing.Size(107, 16);
+            this.rbtnQrCodeLogin.TabIndex = 0;
+            this.rbtnQrCodeLogin.Tag = "2";
+            this.rbtnQrCodeLogin.Text = "二维码扫描登录";
+            this.rbtnQrCodeLogin.UseVisualStyleBackColor = true;
+            this.rbtnQrCodeLogin.Visible = false;
+            this.rbtnQrCodeLogin.CheckedChanged += new System.EventHandler(this.TaobaoLogin_CheckedChanged);
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Checked = true;
+            this.radioButton1.Location = new System.Drawing.Point(42, 22);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(95, 16);
+            this.radioButton1.TabIndex = 0;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Tag = "1";
+            this.radioButton1.Text = "模拟自动登录";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.TaobaoLogin_CheckedChanged);
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(108)))), ((int)(((byte)(172)))));
@@ -208,6 +202,13 @@
             this.pbClose.TabStop = false;
             this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
             // 
+            // tbPanel
+            // 
+            this.tbPanel.Location = new System.Drawing.Point(1, 30);
+            this.tbPanel.Name = "tbPanel";
+            this.tbPanel.Size = new System.Drawing.Size(528, 393);
+            this.tbPanel.TabIndex = 9;
+            // 
             // LoginWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -222,10 +223,10 @@
             this.Text = "登录淘宝";
             this.Load += new System.EventHandler(this.LoginWindow_Load);
             this.hotPanel1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.gbLoginTaobao.ResumeLayout(false);
             this.gbLoginTaobao.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
@@ -241,7 +242,7 @@
         private System.Windows.Forms.PictureBox pbClose;
         private System.Windows.Forms.Panel tbPanel;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton rbtnQrCodeLogin;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.TextBox txtTbLoginPwd;
         private System.Windows.Forms.TextBox txtTbLoginName;

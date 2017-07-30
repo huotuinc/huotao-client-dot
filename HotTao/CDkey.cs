@@ -1,4 +1,5 @@
 ﻿using HotTao.Controls;
+using HotTaoCore;
 using HotTaoCore.Logic;
 using System;
 using System.Collections.Generic;

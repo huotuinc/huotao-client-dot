@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
+using HotTaoCore;
 
 namespace HotTao.Controls
 {
@@ -100,8 +101,6 @@ namespace HotTao.Controls
                 this.Text = Title;
             }
             loadUserPidGridView();
-
-            dgvUserPid.MouseWheel += DgvData_MouseWheel;
         }
 
         /// <summary>
@@ -120,7 +119,18 @@ namespace HotTao.Controls
             this.dgvUserPid.Rows.Clear();
             ((Action)(delegate ()
             {
-                var pidData = LogicUserPid.Instance.getUserPidList(MyUserInfo.LoginToken, MyUserInfo.TaobaoName);
+
+                List<UserPidModel> pidData = new List<UserPidModel>();
+                foreach (var item in hotForm.myAdzonePidList)
+                {
+                    pidData.Add(new UserPidModel()
+                    {
+                        pid = item.adzonePid,
+                        title = item.name,
+                        id = 0
+                    });
+                }
+                //var pidData = hotForm.myAdzonePidList; // LogicUserPid.Instance.getUserPidList(MyUserInfo.LoginToken, MyUserInfo.TaobaoName);
                 if (pidData != null)
                 {
                     this.BeginInvoke((Action)(delegate ()  //等待结束
@@ -145,7 +155,7 @@ namespace HotTao.Controls
             {
                 dgvUserPid.Rows.Add();
                 ++i;
-                dgvUserPid.Rows[i - 1].Cells["id"].Value = data[j].id.ToString();
+                dgvUserPid.Rows[i - 1].Cells["id"].Value = i;
                 dgvUserPid.Rows[i - 1].Cells["title"].Value = data[j].title.ToString();
                 dgvUserPid.Rows[i - 1].Cells["pid"].Value = data[j].pid.ToString();
 
@@ -175,20 +185,15 @@ namespace HotTao.Controls
             if (WeChatId > 0)
             {
                 string pidText = string.Empty;
-                int result = 0;
                 if (SelectedRow != null)
                 {
-                    int.TryParse(SelectedRow["id"].Value.ToString(), out result);
                     pidText = SelectedRow["pid"].Value.ToString();
 
                 }
                 Loading ld = new Loading();
                 ((Action)(delegate ()
                 {
-                    if (LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserWeChatGroup(WeChatId, pidText))
-                    {
-                        pidText = result > 0 ? pidText : "";
-                    }
+                    LogicHotTao.Instance(MyUserInfo.currentUserId).UpdateUserWeChatGroup(WeChatId, pidText);
                     ld.CloseForm();
                     this.BeginInvoke((Action)(delegate ()  //等待结束
                     {
@@ -223,20 +228,6 @@ namespace HotTao.Controls
                 DataGridViewCellCollection row = this.dgvUserPid.Rows[e.RowIndex].Cells;
                 if (row != null)
                 {
-                    //if ((bool)row["chkPid"].EditedFormattedValue == true)
-                    //{
-                    //    this.dgvUserPid.Rows[e.RowIndex].Cells["chkPid"].Value = 0;
-                    //    this.dgvUserPid.Rows[e.RowIndex].Selected = false;
-                    //    SelectedRow = null;
-                    //}
-                    //else
-                    //{
-                    //    int result = 0;
-                    //    int.TryParse(row["id"].Value.ToString(), out result);
-                    //    this.dgvUserPid.Rows[e.RowIndex].Cells["chkPid"].Value = result;
-                    //    this.dgvUserPid.Rows[e.RowIndex].Selected = true;
-                    //    SelectedRow = row;
-                    //}
                     int result = 0;
                     if (!(bool)row[0].EditedFormattedValue == true)
                         int.TryParse(row["id"].Value.ToString(), out result);
@@ -247,54 +238,6 @@ namespace HotTao.Controls
             }
         }
 
-
-        /// <summary>
-        /// 鼠标滚动事件
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
-        private void DgvData_MouseWheel(object sender, MouseEventArgs e)
-        {
-            DataGridView dataGridView1 = sender as DataGridView;
-            try
-            {
-                if (dataGridView1.CurrentCell != null)
-                {
-                    DataGridViewCell dvc = dataGridView1.CurrentCell;
-                    int ri = dvc.RowIndex;
-                    int ci = dvc.ColumnIndex;
-                    int c = 0;
-                    if (e.Delta > 0)//向上
-                    {
-                        if (ri - 3 > 0)
-                            c = 3;
-                        else if (ri > 0)
-                            c = 1;
-                        if (c > 0)
-                        {
-                            dvc = dataGridView1.Rows[ri - c].Cells[ci];
-                            dataGridView1.CurrentCell = dvc;
-                        }
-                    }
-                    else
-                    {
-                        if (ri < dataGridView1.Rows.Count - 3)
-                            c = 3;
-                        else if (ri < dataGridView1.Rows.Count - 1)
-                            c = 1;
-                        if (c > 0)
-                        {
-                            dvc = dataGridView1.Rows[ri + c].Cells[ci];
-                            dataGridView1.CurrentCell = dvc;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                return;
-            }
-        }
         protected override CreateParams CreateParams
         {
             get
