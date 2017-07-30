@@ -1278,7 +1278,7 @@ namespace HotTao
                                     TaobaoCommonItem item = listData[0];
 
                                     //开始申请佣金
-                                    if (tkRate < item.commissionRate && eventRate < item.commissionRate)
+                                    if (tkRate < item.commissionRate && eventRate < item.commissionRate && !tkMktStatus)
                                         ApplyPlan(goodsId, goodsName, item.CampaignID, item.ShopKeeperID, item.commissionRate / 100, goodsUrl);
                                     else
                                     {
@@ -1433,7 +1433,7 @@ namespace HotTao
                 call?.Invoke();
             })
             { IsBackground = true }.Start();
-        }        
+        }
         #endregion
 
 

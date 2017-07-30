@@ -467,6 +467,7 @@
             this.txtTaoAppSecret.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
             this.txtTaoAppSecret.Location = new System.Drawing.Point(79, 71);
             this.txtTaoAppSecret.Name = "txtTaoAppSecret";
+            this.txtTaoAppSecret.PasswordChar = '*';
             this.txtTaoAppSecret.Size = new System.Drawing.Size(193, 21);
             this.txtTaoAppSecret.TabIndex = 1;
             // 

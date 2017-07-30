@@ -310,7 +310,7 @@ namespace HotTao
 
                     var shareData = data.FindAll(share =>
                       {
-                          return share.goodsid == goodsId && share.taskid == taskModel.id;
+                          return share.goodsid == goodsId && share.taskid == taskModel.id && share.status != 1;
                       });
                     if (shareData == null || shareData.Count() == 0)
                         continue;
@@ -514,11 +514,10 @@ namespace HotTao
                         }
                         else
                         {
-                            WinApi.SetActiveWin(win.hWnd);
-                            System.Threading.Thread.Sleep(100);
-                            WinApi.Paste(win.hWnd);
-                            System.Threading.Thread.Sleep(100);
-                            WinApi.Enter(win.hWnd, win.winType == 1);
+                            //复制粘贴发送
+                            WinApi.SendData(win.hWnd, win.winType == 1);
+
+
                             SleepImage(0.5m);
                             if (!sendVideo && !imageResult.Contains(item.title))
                                 imageResult.Add(item.title);
@@ -638,11 +637,12 @@ namespace HotTao
                 try
                 {
 
-                    Tuple<string, string> resultTuple = TaobaoHelper.GetGaoYongToken(goods.goodsDetailUrl, goods.goodsId, item.tpwd,MyUserInfo.GetTbToken(),MyUserInfo.cookies, out isLogin);
+                    Tuple<string, string> resultTuple = TaobaoHelper.GetGaoYongToken(goods.goodsDetailUrl, goods.goodsId, item.tpwd, MyUserInfo.GetTbToken(), MyUserInfo.cookies, out isLogin);
                     if (resultTuple != null)
                     {
                         if (!isLogin)
                         {
+                            isStartTask = false;
                             hotForm.SendNotify();
                             System.Threading.Thread.Sleep(5000);
                             break;
@@ -664,51 +664,33 @@ namespace HotTao
                             continue;
                     }
 
+                    if (!isStartTask || MyUserInfo.currentUserId == 0) break;
 
-
-                    if (!isStartTask || MyUserInfo.currentUserId == 0)
-                    {
-                        break;
-                    }
                     ClipboardObjectData(item.text);
                     //如果当前微信已经发送，则结束本循环
-                    if (textResult.Contains(item.title))
-                    {
-                        continue;
-                    }
+                    if (textResult.Contains(item.title)) continue;
                     wins = WinApi.GetAllDesktopWindows();
-                    if (wins == null || wins.Count() == 0)
-                    {
-                        //HotJavaApi.SendUserNotice(MyUserInfo.LoginToken, WeChatTemplateMessageSceneType.微信离线);
-                        continue;
-                    }
+                    if (wins == null || wins.Count() == 0) continue;
 
                     bool b = wins.Exists(win => { return win.szWindowName == item.title; });
                     if (b)
                     {
                         var win = wins.Find(w => { return w.szWindowName == item.title; });
                         //设置微信为输入焦点
-                        WinApi.SetActiveWin(win.hWnd);
-                        System.Threading.Thread.Sleep(400);
-                        WinApi.Paste(win.hWnd);
-                        System.Threading.Thread.Sleep(300);
-                        WinApi.Enter(win.hWnd, win.winType == 1);
+
+                        //复制粘贴发送
+                        WinApi.SendData(win.hWnd, win.winType == 1);
+
                         SleepImage(0.5m);
-                        // Clipboard.Clear();
+
                         if (!textResult.Contains(item.title))
                             textResult.Add(item.title);
 
                         if (isImageText)
-                        {
-                            //更新修改状态
-                            UpdateShareTextStatus(item.id);
-                        }
+                            UpdateShareTextStatus(item.id);//更新修改状态
                     }
                     else
-                    {
-                        //通知
-                        SendNotify(item.title);
-                    }
+                        SendNotify(item.title);//通知                 
                 }
                 catch (Exception ex)
                 {
@@ -721,10 +703,7 @@ namespace HotTao
                     //添加错误日志
                     AddErrorLog(item, 1);
                     if (isImageText)
-                    {
-                        //更新修改状态
-                        UpdateShareTextStatus(item.id);
-                    }
+                        UpdateShareTextStatus(item.id);//更新修改状态
                     log.Error(ex);
                 }
             }
@@ -741,16 +720,18 @@ namespace HotTao
         {
             try
             {
-                Clipboard.Clear();
-                Clipboard.SetDataObject(text, false, 5, 1000);
+                Clipboard.SetDataObject(text, false, 5, 3000);
+                log.Debug(string.Format("操作剪切板成功:count={0}", count));
             }
             catch (Exception)
             {
                 if (totalCount >= count)
                 {
+                    log.Debug(string.Format("操作剪切板失败:count={0}", count));
+                    count++;
                     System.Threading.Thread.Sleep(1000);
                     ClipboardObjectData(text, count, totalCount);
-                    count++;
+
                 }
             }
         }
@@ -791,7 +772,7 @@ namespace HotTao
 
         private void SleepImage(decimal interval)
         {
-            //没发一张图片，暂停休息一下
+            //每发一张图片，暂停休息一下
             if (cfgTime != null)
                 System.Threading.Thread.Sleep(cfgTime.hdInterval > 0 ? Convert.ToInt32(cfgTime.hdInterval * 1000) : Convert.ToInt32(interval * 1000));
             else

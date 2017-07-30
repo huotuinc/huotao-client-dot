@@ -712,38 +712,34 @@ namespace HotTaoCore.Logic
         /// <param name="appsecret">The appsecret.</param>
         public bool BuildTpwd(int currentUserId, string LoginToken, GoodsModel goods, weChatShareTextModel item, string appkey, string appsecret)
         {
-            if (item.status == -1)
+            string url = GlobalConfig.couponUrl;
+            url += "?src=ht_hot&activityId=" + goods.couponId;
+            url += "&itemId=" + goods.goodsId.Replace("=", "");
+            url += "&pid=" + item.tpwd;
+            string shortUrl = "";
+            string tpwd = HotTaoApiService.Instance.taobao_wireless_share_tpwd_create(goods.goodsMainImgUrl, url, goods.goodsName, appkey, appsecret);
+            if (!string.IsNullOrEmpty(tpwd))
             {
-                string url = GlobalConfig.couponUrl;
-                url += "?src=ht_hot&activityId=" + goods.couponId;
-                url += "&itemId=" + goods.goodsId.Replace("=", "");
-                url += "&pid=" + item.tpwd;
-                string shortUrl = "";
-                string tpwd = HotTaoApiService.Instance.taobao_wireless_share_tpwd_create(goods.goodsMainImgUrl, url, goods.goodsName, appkey, appsecret);
-                if (!string.IsNullOrEmpty(tpwd))
+                if (item.text.Contains("[短链接]"))
                 {
-                    if (item.text.Contains("[短链接]"))
-                    {
-                        shortUrl = HotTaoApiService.Instance.buildShortUrl(LoginToken, tpwd, url, goods.goodsName, goods.goodsMainImgUrl);
-                        if (string.IsNullOrEmpty(shortUrl))
-                            shortUrl = HotTaoApiService.Instance.taobao_tbk_spread_get(url, appkey, appsecret);
-                    }
-                    if (item.text.Contains("[二合一淘口令]"))
-                        item.text = item.text.Replace("[二合一淘口令]", tpwd);
-                    else
-                        item.text += "复制这条信息，打开『手机淘宝』" + tpwd + "领券下单即可抢购宝贝";
-
-                    if (item.text.Contains("[短链接]"))
-                        item.text = item.text.Replace("[短链接]", shortUrl);
-
-                    item.status = 0;
-                    UpdateUserShareTextStatus(item.id, item.text, tpwd);
-                    return true;
+                    shortUrl = HotTaoApiService.Instance.buildShortUrl(LoginToken, tpwd, url, goods.goodsName, goods.goodsMainImgUrl);
+                    if (string.IsNullOrEmpty(shortUrl))
+                        shortUrl = HotTaoApiService.Instance.taobao_tbk_spread_get(url, appkey, appsecret);
                 }
+                if (item.text.Contains("[二合一淘口令]"))
+                    item.text = item.text.Replace("[二合一淘口令]", tpwd);
                 else
-                    return false;
+                    item.text += "复制这条信息，打开『手机淘宝』" + tpwd + "领券下单即可抢购宝贝";
+
+                if (item.text.Contains("[短链接]"))
+                    item.text = item.text.Replace("[短链接]", shortUrl);
+
+                item.status = 0;
+                UpdateUserShareTextStatus(item.id, item.text, tpwd);
+                return true;
             }
-            return true;
+            else
+                return false;
         }
         #endregion
 

@@ -223,12 +223,8 @@ namespace HotTao.Controls
                 {
                     if (selecctItems.Exists(t => { return win.szWindowName == t; }))
                     {
-                        WinApi.SetActiveWin(win.hWnd);
-                        System.Threading.Thread.Sleep(400);
-                        WinApi.Paste(win.hWnd);
-                        System.Threading.Thread.Sleep(400);
-                        WinApi.Enter(win.hWnd, win.winType == 1);
-                        System.Threading.Thread.Sleep(400);
+                        //复制粘贴发送
+                        WinApi.SendData(win.hWnd, win.winType == 1);
                     }
                 }
             }
@@ -251,12 +247,8 @@ namespace HotTao.Controls
             {
                 if (selecctItems.Exists(t => { return win.szWindowName == t; }))
                 {
-                    WinApi.SetActiveWin(win.hWnd);
-                    System.Threading.Thread.Sleep(400);
-                    WinApi.Paste(win.hWnd);
-                    System.Threading.Thread.Sleep(300);
-                    WinApi.Enter(win.hWnd, win.winType == 1);
-                    System.Threading.Thread.Sleep(400);
+                    //复制粘贴发送
+                    WinApi.SendData(win.hWnd, win.winType == 1);
                 }
             }
         }

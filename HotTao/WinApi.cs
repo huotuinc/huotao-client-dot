@@ -385,16 +385,13 @@ namespace HotTao
         /// 激活窗口
         /// </summary>
         /// <param name="handle">The handle.</param>
-        public static RECT SetActiveWin(IntPtr handle, bool isTop = true)
+        public static RECT SetActiveWin(IntPtr handle, bool isTop = false)
         {
 
             RECT rc = new RECT();
             GetWindowRect(handle, ref rc);
-            ////显示窗口            
-            ////ShowWindow(handle, NCmdShowFlag.SW_SHOWNORMAL);
-            ////if (isTop)
-            ////SetWindowPos(handle, HWND_TOPMOST, 0, 0, 0, 0, 0x0001 | 0x0002);
-            ////SetForegroundWindow(handle);
+            if (isTop)
+                ShowWindow(handle, NCmdShowFlag.SW_SHOWNORMAL);//显示窗口
             SetWeChatInputFocus(handle, rc);
             return rc;
 
@@ -418,11 +415,13 @@ namespace HotTao
         {
             int h = rc.Bottom - rc.Top;
             //定位微信坐标       
-            IntPtr lParam = (IntPtr)((h - 80 << 16) | 20);// The coordinates                                     
+            IntPtr lParam = (IntPtr)((h - 80 << 16) | 30);// The coordinates                                     
             //发送点击鼠标左键
-            SendMessage(handle, downCode, IntPtr.Zero, lParam); // Mouse button down             
+            SendMessage(handle, downCode, IntPtr.Zero, lParam); // Mouse button down            
+            //System.Threading.Thread.Sleep(100);
             //发送释放鼠标左键
             SendMessage(handle, upCode, IntPtr.Zero, lParam); // Mouse button up  
+            //System.Threading.Thread.Sleep(100);
         }
 
 
@@ -431,22 +430,13 @@ namespace HotTao
         /// </summary>
         /// <param name="handle">The handle.</param>
         /// <param name="isRelease">是否释放Ctrl键</param>
-        public static void Paste(IntPtr handle, bool isRelease = true)
+        public static int Paste(IntPtr handle, bool isRelease = true)
         {
             keybd_event(Keys.LControlKey, 0, 0, 0);
-            System.Threading.Thread.Sleep(50);
-            SendMessage(handle, 0x0100, 0x56, 0x002F0001);
-            System.Threading.Thread.Sleep(100);
-            if (isRelease)
-                ReleaseControlKey();
-        }
-        /// <summary>
-        /// 释放ctrl
-        /// </summary>
-        public static void ReleaseControlKey()
-        {
-            //释放ctrl
+            int flag = SendMessage(handle, 0x0100, 0x56, 0x002F0001);
             keybd_event(Keys.LControlKey, 0, 2, 0);
+            System.Threading.Thread.Sleep(100);
+            return flag;
         }
 
         /// <summary>
@@ -462,16 +452,25 @@ namespace HotTao
                 SendMessage(handle, 0x0104, 0x12, 0x20380001);
                 SendMessage(handle, 0x0106, 83, 0x201F0001);
                 SendMessage(handle, 0x0104, 0x53, 0x201F0001);
-
             }
             else
             {
                 SendMessage(handle, 0x0100, 0x0D, 0x001C0001);
                 SendMessage(handle, 0x0102, 13, 0x001C0001);
                 SendMessage(handle, 0x0101, 0x0D, 0xC01C0001);
+
+                ShowWindow(handle, NCmdShowFlag.SW_SHOWMINIMIZED);
             }
-            //释放ctrl
-            //ReleaseControlKey();
+        }
+
+
+
+
+        public static void SendData(IntPtr handle, bool isWeChat = true)
+        {
+            SetActiveWin(handle, isWeChat);
+            Paste(handle);
+            Enter(handle, isWeChat);
         }
 
 
@@ -538,7 +537,7 @@ namespace HotTao
                 return true;
             if (windowName.Contains("Attention - Charlie Puth") || windowName.Contains("Attention") || windowName.Contains("Charlie Puth"))
                 return true;
-            if (windowName.Equals("群通知")||windowName.Equals("打开U盘-U盘防火墙"))
+            if (windowName.Equals("群通知") || windowName.Equals("打开U盘-U盘防火墙"))
                 return true;
             return false;
         }

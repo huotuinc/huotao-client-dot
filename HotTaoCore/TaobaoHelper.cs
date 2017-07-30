@@ -37,13 +37,14 @@ namespace HotTaoCore
         {
 
             Tuple<string, string> resultTuple = null;
+            isLogin = true;
             try
             {
                 //PID  mm_aaaa_bbbb_cccc
                 //aaaa:memberid
                 //bbbb:siteid
                 //ccc:adzoneid
-                isLogin = true;
+
                 string dictKey = string.Format("{0}_{1}", pid, goodsId);
                 //判断同商品相同的推广位，是否已经申请过淘口令
                 if (tokenDict.ContainsKey(dictKey))
@@ -53,13 +54,12 @@ namespace HotTaoCore
                     return resultTuple;
                 }
                 //淘宝未登录，请登录淘宝
-                if(cookies==null)
+                if (cookies == null)
                 {
                     isLogin = false;
                     resultTuple = new Tuple<string, string>("", "");
                     return resultTuple;
                 }
-
 
 
                 var pids = pid.Replace("mm_", "").Split('_');
@@ -139,7 +139,7 @@ namespace HotTaoCore
                                     var listData = data.OrderByDescending(r => r.commissionRate).ToList();
                                     TaobaoCommonItem item = listData[0];
                                     //如果定向佣金大于通用和高佣活动的佣金
-                                    if (tkRate < item.commissionRate && eventRate < item.commissionRate)
+                                    if (tkRate < item.commissionRate && eventRate < item.commissionRate && !tkMktStatus)
                                     {
                                         tkRate = 0;
                                         eventRate = 0;
@@ -166,9 +166,8 @@ namespace HotTaoCore
             catch (Exception ex)
             {
                 log.Error(string.Format("GetGaoYongToken:message:{0},StackTrace:{1}", ex.Message, ex.StackTrace));
+                return resultTuple;
             }
-            isLogin = false;
-            resultTuple = new Tuple<string, string>("", "");
             return resultTuple;
         }
         /// <summary>

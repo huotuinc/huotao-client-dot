@@ -386,7 +386,7 @@ namespace HotTao.Controls
                 string goodsUrl = cells["goodsUrl"].Value.ToString();
                 string logType = cells["logType"].Value.ToString();
                 string url = string.Format("http://pub.alimama.com/promo/search/index.htm?q={0}&_t={1}&toPage=1&yxjh=-1", HttpUtility.UrlEncode(goodsUrl), TaobaoHelper.getClientMsgId());
-                if (logType.Equals(""))
+                if (logType.Equals("高佣活动"))
                     url = string.Format("http://pub.alimama.com/promo/item/channel/index.htm?q={0}&channel=qqhd&_t={1}", HttpUtility.UrlEncode(goodsUrl), TaobaoHelper.getClientMsgId());
                 Process.Start(url);
             }
