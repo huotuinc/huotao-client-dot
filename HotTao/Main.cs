@@ -844,7 +844,7 @@ namespace HotTao
             }
             else
             {
-                
+
                 loginSuccess = false;
                 TimingRefreshAlimamaPage();
                 if (lw != null)
@@ -878,7 +878,14 @@ namespace HotTao
         /// <param name="e"></param>
         private void CheckTbLoginTime_Tick(object sender, EventArgs e)
         {
-            LoginTaoBao();
+            new System.Threading.Thread(() =>
+            {
+                if (!TaobaoHelper.checkLogin())
+                    LoginTaoBao();
+            })
+            { IsBackground = true }.Start();
+
+
         }
 
         /// <summary>
@@ -1015,7 +1022,7 @@ namespace HotTao
                 checkTbLoginTime = null;
             }
             checkTbLoginTime = new Timer();
-            checkTbLoginTime.Interval = 50 * 60 * 1000;
+            checkTbLoginTime.Interval = 10 * 60 * 1000;
             checkTbLoginTime.Tick += CheckTbLoginTime_Tick;
             checkTbLoginTime.Start();
 
@@ -1065,7 +1072,7 @@ namespace HotTao
         public void GetAdzoneList()
         {
             try
-            {                
+            {
                 string adzoneManageUrl = string.Format("http://pub.alimama.com/common/adzone/adzoneManage.json?spm=&tab=3&toPage=1&perPageSize=10000&gcid=8&t={0}&pvid=&_tb_token_={1}&_input_charset=utf-8", TaobaoHelper.getClientMsgId(), MyUserInfo.GetTbToken());
                 CookieContainer cookiesContainer = new CookieContainer();
                 cookiesContainer.Add(MyUserInfo.cookies);
@@ -1121,7 +1128,7 @@ namespace HotTao
             };
             string content = string.Empty;
             try
-            {                
+            {
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 foreach (System.Net.Cookie item in MyUserInfo.cookies)
                 {
@@ -1300,7 +1307,7 @@ namespace HotTao
             };
 
             try
-            {                
+            {
                 CookieContainer cookiesContainer = new CookieContainer();
                 cookiesContainer.Add(MyUserInfo.cookies);
                 string applyUrl = "http://pub.alimama.com/pubauc/applyForCommonCampaign.json";

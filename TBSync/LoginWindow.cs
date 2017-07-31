@@ -209,8 +209,7 @@ namespace TBSync
             }
             catch (Exception ex)
             {
-                log.Error(ex);
-                MessageBox.Show("系统出现未知异常，请重启系统！");
+                log.Error(ex);                
                 this.Close();
             }
         }
@@ -436,8 +435,7 @@ namespace TBSync
             }
             catch (Exception ex)
             {
-                log.Error(ex);
-                MessageBox.Show("系统出现未知异常，请重启系统！");
+                log.Error(ex);               
             }
         }
 

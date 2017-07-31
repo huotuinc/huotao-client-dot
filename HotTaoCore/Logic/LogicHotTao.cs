@@ -915,67 +915,35 @@ namespace HotTaoCore.Logic
         {
             int result = 0;
             if (joinLists.Count() > 0)
-            {
-                //因cacheCollectionGoods接口，服务端还未配置好，所以不执行里面代码，等配置好之后，去掉该条件
-                if (true)
+            {                
+                #region 批量请求
+                var goodsJson = JsonConvert.SerializeObject(joinLists);
+                var collectionResult = LogicGoods.Instance.cacheCollectionGoods(loginToken, goodsJson);
+                if (collectionResult != null)
                 {
-                    #region 批量请求
-                    var goodsJson = JsonConvert.SerializeObject(joinLists);
-                    var collectionResult = LogicGoods.Instance.cacheCollectionGoods(loginToken, goodsJson);
-                    if (collectionResult != null)
-                    {
-                        string path = System.Environment.CurrentDirectory + "\\temp\\joinimage";
-                        if (!System.IO.Directory.Exists(path))
-                            System.IO.Directory.CreateDirectory(path);
-                        foreach (var item in collectionResult)
-                        {
-                            try
-                            {
-                                var _data = joinLists.Find(r => r.id.ToString().Equals(item.Key));
-                                if (_data == null) continue;
-                                var img = JoinImage.GetJoinImage(_data.ImageList, 800, string.Format("{0}?ids={1}", ApiDefineConst.QrCodeUrl, item.Value), string.IsNullOrEmpty(desc) ? "大牛精品选单" : desc.Replace("【合成图片转发】", ""));
-                                string fileName = EncryptHelper.MD5(_data.TaskId.ToString() + item.Key);
-                                img.Save(string.Format("{0}\\{1}.jpg", path, fileName));
-                                img.Dispose();
-                            }
-                            catch
-                            {
-
-                            }
-                        }
-                    }
-                    else
-                        result = joinLists[0].TaskId;
-                    #endregion
-                }
-                else
-                {
-                    //因cacheCollectionGoods接口服务端未配置好，等配置好之后，删除该部分代码
-                    #region 老模式
                     string path = System.Environment.CurrentDirectory + "\\temp\\joinimage";
                     if (!System.IO.Directory.Exists(path))
                         System.IO.Directory.CreateDirectory(path);
-                    foreach (var item in joinLists)
+                    foreach (var item in collectionResult)
                     {
                         try
                         {
-                            List<long> ids = new List<long>();
-                            foreach (var goods in item.collectionGoodsList)
-                            {
-                                var rsp = LogicGoods.Instance.saveCollectionGoods(loginToken, goods.goodsId, goods.goodsName, goods.price, goods.discountAmount, goods.shareText, goods.goodsPromotionUrl, goods.goodsPrimaryImg);
-                                ids.Add(rsp);
-                            }
-                            var img = JoinImage.GetJoinImage(item.ImageList, 800, string.Format("{0}?ids={1}", ApiDefineConst.QrCodeUrl, string.Join("_", ids)), string.IsNullOrEmpty(desc) ? "大牛精品选单" : desc.Replace("【合成图片转发】", ""));
-                            string fileName = EncryptHelper.MD5(item.TaskId.ToString() + item.id.ToString());
+                            var _data = joinLists.Find(r => r.id.ToString().Equals(item.Key));
+                            if (_data == null) continue;
+                            var img = JoinImage.GetJoinImage(_data.ImageList, 800, string.Format("{0}?ids={1}", ApiDefineConst.QrCodeUrl, item.Value), string.IsNullOrEmpty(desc) ? "大牛精品选单" : desc.Replace("【合成图片转发】", ""));
+                            string fileName = EncryptHelper.MD5(_data.TaskId.ToString() + item.Key);
                             img.Save(string.Format("{0}\\{1}.jpg", path, fileName));
                             img.Dispose();
                         }
                         catch
                         {
+
                         }
                     }
-                    #endregion
                 }
+                else
+                    result = joinLists[0].TaskId;
+                #endregion
             }
             else
                 result = taskid;

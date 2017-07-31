@@ -49,7 +49,6 @@ namespace HotTao
                     str = string.Format("应用程序线程错误:{0}", ex);
                 }
                 log.Error(str);
-                MessageBox.Show("系统出现未知异常，请重启系统！");
             }
         }
 
@@ -60,9 +59,6 @@ namespace HotTao
             Exception ex = (Exception)e.ExceptionObject;
             if (ex != null)
                 log.Error(ex);
-            MessageBox.Show("系统出现未知异常，请重启系统！");
-            //Application.ExitThread();
-            //Environment.Exit(Environment.ExitCode);
         }
 
         private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
@@ -70,9 +66,6 @@ namespace HotTao
             var ex = e.Exception;
             if (ex != null)
                 log.Error(ex);
-            MessageBox.Show("系统出现未知异常，请重启系统！");
-            //Application.ExitThread();
-            //Environment.Exit(Environment.ExitCode);
         }
     }
 }
