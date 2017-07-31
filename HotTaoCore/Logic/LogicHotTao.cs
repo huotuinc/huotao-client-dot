@@ -917,7 +917,7 @@ namespace HotTaoCore.Logic
             if (joinLists.Count() > 0)
             {
                 //因cacheCollectionGoods接口，服务端还未配置好，所以不执行里面代码，等配置好之后，去掉该条件
-                if (joinLists == null)
+                if (true)
                 {
                     #region 批量请求
                     var goodsJson = JsonConvert.SerializeObject(joinLists);

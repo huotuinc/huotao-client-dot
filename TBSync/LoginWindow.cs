@@ -114,7 +114,7 @@ namespace TBSync
         /// <summary>
         /// 当前是否是二维码扫描登录方式
         /// </summary>
-        private static bool isQrCodeLogin { get; set; } = false;
+        private bool isQrCodeLogin { get; set; } = false;
         /// <summary>
         /// 所有的cookie
         /// </summary>
@@ -153,9 +153,9 @@ namespace TBSync
             {
                 isLocalData = false;
                 if (!string.IsNullOrEmpty(tblp))
-                {                    
+                {
                     isLocalData = true;
-                    btnLoginTaobao_Click(null, null);
+                    LoginTaobao();                    
                 }
             }
         }
@@ -452,7 +452,7 @@ namespace TBSync
             string taobaoname = string.Empty;
             foreach (System.Net.Cookie cookie in visitor.NamesValues)
             {
-                if (cookie.Name == "lid"|| cookie.Name == "lgc")
+                if (cookie.Name == "lid" || cookie.Name == "lgc")
                 {
                     taobaoname = cookie.Value;
                     break;
@@ -643,7 +643,7 @@ namespace TBSync
             browser.Load(url);
             gbLoginTaobao.Visible = rb.Tag.ToString().Equals("1");
             isQrCodeLogin = !rb.Tag.ToString().Equals("1");
-
+            btnLoginTaobao.Text = "登    录";
         }
 
 
@@ -654,37 +654,46 @@ namespace TBSync
         /// <param name="e"></param>
         private void btnLoginTaobao_Click(object sender, EventArgs e)
         {
+            isQrCodeLogin = false;
+            if (txtTbLoginName.Text.Trim().Length == 0)
+                return;
+            if (txtTbLoginPwd.Text.Trim().Length == 0)
+                return;
+            SetData(string.Format("{0}|{1}", txtTbLoginName.Text, txtTbLoginPwd.Text));
+            if (browser != null && browser.IsBrowserInitialized)
+                browser.Load("https://login.taobao.com/member/login.jhtml?style=mini&newMini2=false&css_style=alimama&from=alimama");
+        }
+
+
+        private void LoginTaobao(bool isBtn = false)
+        {
             if (isQrCodeLogin)
             {
                 isQrCodeLogin = false;
                 return;
             }
-
-            if (txtTbLoginName.Text.Trim().Length == 0)
-                return;
-            if (txtTbLoginPwd.Text.Trim().Length == 0)
-                return;
-
-            SetData(string.Format("{0}|{1}", txtTbLoginName.Text, txtTbLoginPwd.Text));
-
+            btnLoginTaobao.Text = "登录中...请稍等!";
             if (!isLocalData)
                 rbtnQrCodeLogin.Visible = true;
-            btnLoginTaobao.Text = "登录中...请稍等!";
             new Thread(() =>
             {
-                Thread.Sleep(2000);
                 if (!isQrCodeLogin)
                 {
                     HideLoginTaobaoPanel(false);
+                    SendKeys.SendWait("{TAB}");
+                    if (isBtn)
+                    {
+                        SendKeys.SendWait("{TAB}");
+                        SendKeys.SendWait("{TAB}");
+                        SendKeys.SendWait("{TAB}");
+                    }
                     //模拟登录
                     AutoSimulateLogin(txtTbLoginName.Text.Trim(), txtTbLoginPwd.Text.Trim());
                 }
             })
             { IsBackground = true }.Start();
-
-
-
         }
+
         /// <summary>
         /// 模拟登录
         /// </summary>
@@ -696,9 +705,10 @@ namespace TBSync
             if (!isQrCodeLogin)
             {
                 browser.ExecuteScriptAsync("document.getElementsByClassName('login-text J_UserName').item(0).value='';document.getElementsByClassName('login-text').item(1).value='';document.body.click()");
+                browser.EvaluateScriptAsync("document.getElementById('TPL_username_1').focus();");
                 Thread.Sleep(1000);
-                SendKeys.SendWait("{TAB}");
-                SendKeys.SendWait("{TAB}");
+                //SendKeys.SendWait("{TAB}");
+                //SendKeys.SendWait("{TAB}");
                 SendKeys.SendWait(tbLoginName);
                 Thread.Sleep(1000);
                 SendKeys.SendWait("{TAB}");
