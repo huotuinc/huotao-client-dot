@@ -619,7 +619,7 @@ namespace HotTaoCore.Logic
 
                     if (text.Contains("[优惠券地址]"))
                         text = text.Replace("[优惠券地址]", item.couponUrl);
-                    
+
                 }
                 else
                     share.status = 2;
@@ -643,7 +643,7 @@ namespace HotTaoCore.Logic
                     string shareText = "";
                     if (resultTuple != null)
                     {
-                        if (!isLogin)                       
+                        if (!isLogin)
                             break;
 
                         shareText = resultTuple.Item1;
@@ -913,7 +913,7 @@ namespace HotTaoCore.Logic
 
         private static int BuildJoinImage(string loginToken, List<JoinGoodsList> joinLists, string desc, int taskid)
         {
-            int result = taskid;
+            int result = 0;
             if (joinLists.Count() > 0)
             {
                 //因cacheCollectionGoods接口，服务端还未配置好，所以不执行里面代码，等配置好之后，去掉该条件
@@ -976,8 +976,9 @@ namespace HotTaoCore.Logic
                     }
                     #endregion
                 }
-
             }
+            else
+                result = taskid;
 
             return result;
         }

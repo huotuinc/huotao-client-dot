@@ -844,6 +844,7 @@ namespace HotTao
             }
             else
             {
+                
                 loginSuccess = false;
                 TimingRefreshAlimamaPage();
                 if (lw != null)
@@ -867,7 +868,7 @@ namespace HotTao
                 lw.LoginSuccessHandle += Lw_LoginSuccessHandle;
                 lw.CloseWindowHandle += Lw_CloseWindowHandle;
                 lw.StartPosition = FormStartPosition.CenterScreen;
-                lw.Show(this);
+                lw.ShowDialog(this);
             }
         }
         /// <summary>
@@ -877,11 +878,7 @@ namespace HotTao
         /// <param name="e"></param>
         private void CheckTbLoginTime_Tick(object sender, EventArgs e)
         {
-            new System.Threading.Thread(() =>
-            {
-                LoginTaoBao();
-            })
-            { IsBackground = true }.Start();
+            LoginTaoBao();
         }
 
         /// <summary>
@@ -917,6 +914,7 @@ namespace HotTao
             }
             else
             {
+                WinApi.ShowWindow(this.Handle, WinApi.NCmdShowFlag.SW_SHOWNORMAL);
                 WinApi.SetForegroundWindow(this.Handle);
             }
         }
@@ -1017,7 +1015,7 @@ namespace HotTao
                 checkTbLoginTime = null;
             }
             checkTbLoginTime = new Timer();
-            checkTbLoginTime.Interval = 55 * 60 * 1000;
+            checkTbLoginTime.Interval = 50 * 60 * 1000;
             checkTbLoginTime.Tick += CheckTbLoginTime_Tick;
             checkTbLoginTime.Start();
 

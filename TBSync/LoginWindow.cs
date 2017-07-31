@@ -660,8 +660,9 @@ namespace TBSync
             if (txtTbLoginPwd.Text.Trim().Length == 0)
                 return;
             SetData(string.Format("{0}|{1}", txtTbLoginName.Text, txtTbLoginPwd.Text));
-            if (browser != null && browser.IsBrowserInitialized)
-                browser.Load("https://login.taobao.com/member/login.jhtml?style=mini&newMini2=false&css_style=alimama&from=alimama");
+            //if (browser != null && browser.IsBrowserInitialized)
+            //    browser.Load("https://login.taobao.com/member/login.jhtml?style=mini&newMini2=false&css_style=alimama&from=alimama");
+            LoginTaobao();
         }
 
 
