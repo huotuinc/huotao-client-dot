@@ -926,6 +926,32 @@ namespace HotTao
             }
         }
 
+        public bool isTaskRuning { get; set; } = false;
+
+        private void LoginSuccessStartTask()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(LoginSuccessStartTask));
+            }
+            else
+            {
+                if (isTaskRuning)
+                {
+                    if (winTask == null)
+                    {
+                        winTask = new StartTask(this, null);
+                        winTask.OK();
+                    }
+                    else
+                    {
+                        winTask.OK();
+                    }
+                    isTaskRuning = false;
+                }
+            }
+        }
+
 
 
         /// <summary>
@@ -935,6 +961,7 @@ namespace HotTao
         private void Lw_LoginSuccessHandle(CookieCollection cookies)
         {
             SetWinForegroundWindow();
+            LoginSuccessStartTask();
             //lw.HideWindow();
             loginSuccess = true;
             MyUserInfo.cookies = cookies;

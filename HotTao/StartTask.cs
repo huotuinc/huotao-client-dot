@@ -38,15 +38,6 @@ namespace HotTao
             taskForm = null;
             loadConfig();
         }
-
-        public StartTask(Main mainWin, HistoryControl history)
-        {
-            InitializeComponent();
-            hotForm = mainWin;
-            historyForm = history;
-            loadConfig();
-        }
-
         public StartTask(Main mainWin, TaskControl control)
         {
             InitializeComponent();
@@ -642,6 +633,7 @@ namespace HotTao
                     {
                         if (!isLogin)
                         {
+                            hotForm.isTaskRuning = true;
                             isStartTask = false;
                             hotForm.SendNotify();
                             System.Threading.Thread.Sleep(5000);
