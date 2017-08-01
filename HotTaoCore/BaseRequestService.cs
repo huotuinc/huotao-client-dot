@@ -37,11 +37,11 @@ namespace HotTaoCore
     {
         static NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
 
-        public static VersionModel CheckUpdate()
+        public static VersionModel CheckUpdate(string url)
         {
             try
             {
-                var request = CreateRequest(ApiConst.CheckUpdateUrl);
+                var request = CreateRequest(url);
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
                     using (Stream response_stream = response.GetResponseStream())

@@ -123,9 +123,9 @@ namespace HotTaoCore
         /// </summary>
         /// <param name="version">The version.</param>
         /// <returns>VersionModel.</returns>
-        public VersionModel CheckVersion(int v)
+        public VersionModel CheckVersion(int v, string url)
         {
-            var result = BaseRequestService.CheckUpdate();
+            var result = BaseRequestService.CheckUpdate(url);
             //服务器版本号，大于本地版本号,则更新
             if (result != null && result.version > v)
             {
@@ -166,6 +166,6 @@ namespace HotTaoCore
             }
             return null;
         }
-        
+
     }
 }

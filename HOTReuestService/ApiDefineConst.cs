@@ -37,6 +37,11 @@ namespace HOTReuestService
         public const string CheckUpdateUrl = Url + "/version/v.json";
 
         /// <summary>
+        /// 检查客服
+        /// </summary>
+        public const string CheckUpdateKfUrl = Url + "/version/kfversion.json";
+
+        /// <summary>
         ///  采集js脚步地址
         /// </summary>
         public const string JsCode = Url + "/version/caijijs/injection.json";

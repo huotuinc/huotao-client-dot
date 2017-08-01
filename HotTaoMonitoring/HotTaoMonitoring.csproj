@@ -252,6 +252,9 @@
     <None Include="data\fdgs.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="data\hot.version">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="data\hottao.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

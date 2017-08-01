@@ -220,7 +220,7 @@ namespace HotTao
                 int v = this.GetCurrentClientVersion();
                 if (v > 0)
                 {
-                    var version = HotTaoApiService.Instance.CheckVersion(v);
+                    var version = HotTaoApiService.Instance.CheckVersion(v, ApiConst.CheckUpdateUrl);
                     if (version != null)
                         ShowConfirm(version);
                 }

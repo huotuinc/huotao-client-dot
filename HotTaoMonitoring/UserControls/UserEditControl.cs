@@ -125,9 +125,6 @@ namespace HotTaoMonitoring.UserControls
             listenForm.HileWinEdit();
         }
 
-
-
-
         private void btnSend_Click(object sender, EventArgs e)
         {
             bool isNotify = false;
@@ -644,7 +641,7 @@ namespace HotTaoMonitoring.UserControls
         {
             try
             {
-                string filePath = string.Format("{0}\\data\\cacheData\\{1}.cache", System.Environment.CurrentDirectory, EncryptHelper.MD5(toShowName + toNickName));
+                string filePath = string.Format("{0}\\data\\cacheData\\{1}.cache", System.Environment.CurrentDirectory, EncryptHelper.MD5(_toShowName + _toNickName));
                 if (File.Exists(filePath))
                 {
                     FileStream aFile = new FileStream(@filePath, FileMode.Open);
@@ -758,20 +755,47 @@ namespace HotTaoMonitoring.UserControls
 
         public void ShowImage(string base64Str)
         {
-            System.Diagnostics.Process.Start(base64Str);
+
+            string fileName = SaveBase64Image(base64Str);
+            if (!string.IsNullOrEmpty(fileName))
+                System.Diagnostics.Process.Start("ImagePreview.exe", fileName);
         }
 
-        public Image Base64ToImage(string base64String)
-        {
-            // Convert Base64 String to byte[]
-            byte[] imageBytes = Convert.FromBase64String(base64String);
-            MemoryStream ms = new MemoryStream(imageBytes, 0,
-              imageBytes.Length);
 
-            // Convert byte[] to Image
-            ms.Write(imageBytes, 0, imageBytes.Length);
-            Image image = Image.FromStream(ms, true);
-            return image;
+
+        /// <summary>
+        /// 保存图片
+        /// </summary>
+        /// <param name="base64String"></param>
+        /// <returns></returns>
+        public string SaveBase64Image(string base64String)
+        {
+            try
+            {
+                // Convert Base64 String to byte[]
+                byte[] imageBytes = Convert.FromBase64String(base64String.Replace("data:image/png;base64,", ""));
+                MemoryStream ms = new MemoryStream(imageBytes, 0,
+                  imageBytes.Length);
+
+                // Convert byte[] to Image
+                ms.Write(imageBytes, 0, imageBytes.Length);
+                Image image = Image.FromStream(ms, true);
+
+
+                string dirPath = string.Format("data/iamgeCache/{0}", MyUserInfo.currentUserId);
+                if (!System.IO.Directory.Exists(dirPath))
+                    Directory.CreateDirectory(dirPath);
+                string filenamePath = string.Format("{0}/{1}.jpg", dirPath, EncryptHelper.MD5(Guid.NewGuid().ToString()));
+                if (!File.Exists(filenamePath))
+                    File.Create(filenamePath).Dispose();
+                image.Save(filenamePath);
+                image.Dispose();
+                return filenamePath;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
         }
     }
 }

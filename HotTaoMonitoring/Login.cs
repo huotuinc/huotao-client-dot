@@ -1,5 +1,6 @@
 ﻿using HOTReuestService;
 using HOTReuestService.Helper;
+using HotTaoCore;
 using HotTaoCore.Logic;
 using HotTaoCore.Models;
 using System;
@@ -8,6 +9,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -114,6 +116,7 @@ namespace HotTaoMonitoring
 
         private void Login_Load(object sender, EventArgs e)
         {
+            CheckVersion();
             //设置阴影
             // WinApi.SetWinFormTaskbarSystemMenu(this);
             loginName.Focus();
@@ -557,5 +560,89 @@ namespace HotTaoMonitoring
             }
         }
 
+
+
+        /// <summary>
+        /// Checks the version.
+        /// </summary>
+        private void CheckVersion()
+        {
+            new Thread(() =>
+            {
+                int v = this.GetCurrentClientVersion();
+                if (v > 0)
+                {
+                    var version = HotTaoApiService.Instance.CheckVersion(v, ApiDefineConst.CheckUpdateKfUrl);
+                    if (version != null)
+                        ShowConfirm(version);
+                }
+            })
+            { IsBackground = true }.Start();
+        }
+
+        private void ShowConfirm(VersionModel version)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<VersionModel>(ShowConfirm), new object[] { version });
+            }
+            else
+            {
+                bool isUpdate = false;
+                MessageConfirm cfr = new MessageConfirm("发现新版本，是否马上下载更新?");
+                cfr.CallBack += () =>
+                {
+                    isUpdate = true;
+                };
+                cfr.StartPosition = FormStartPosition.CenterScreen;
+                cfr.ShowDialog();
+                if (isUpdate)
+                {
+                    Process.Start("CheckUpdate.exe");
+                    CloseMain();
+                }
+            }
+        }
+
+        public void CloseMain()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(CloseMain), new object[] { });
+            }
+            else
+            {
+                this.Close();
+            }
+        }
+
+        /// <summary>
+        /// 获取当前版本
+        /// </summary>
+        /// <returns>System.Int32.</returns>
+        public int GetCurrentClientVersion()
+        {
+            int v = 0;
+            try
+            {
+                string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.datapath + ConstConfig.v_version);
+                if (File.Exists(filePath))
+                {
+                    FileStream aFile = new FileStream(filePath, FileMode.Open);
+                    StreamReader sr = new StreamReader(aFile);
+                    string str = sr.ReadToEnd();
+                    sr.Close();
+                    sr.Dispose();
+                    aFile.Close();
+                    aFile.Dispose();
+                    int.TryParse(str, out v);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return v;
+        }
     }
 }
