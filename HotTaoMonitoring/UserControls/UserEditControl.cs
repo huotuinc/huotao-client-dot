@@ -755,10 +755,17 @@ namespace HotTaoMonitoring.UserControls
 
         public void ShowImage(string base64Str)
         {
-
-            string fileName = SaveBase64Image(base64Str);
-            if (!string.IsNullOrEmpty(fileName))
-                System.Diagnostics.Process.Start("ImagePreview.exe", fileName);
+            try
+            {
+                int idx = base64Str.IndexOf(",");
+                string fileName = SaveBase64Image(base64Str.Substring(idx + 1));
+                if (!string.IsNullOrEmpty(fileName))
+                    System.Diagnostics.Process.Start("ImagePreview.exe", fileName);
+            }
+            catch (Exception)
+            {
+                
+            }
         }
 
 
@@ -773,7 +780,7 @@ namespace HotTaoMonitoring.UserControls
             try
             {
                 // Convert Base64 String to byte[]
-                byte[] imageBytes = Convert.FromBase64String(base64String.Replace("data:image/png;base64,", ""));
+                byte[] imageBytes = Convert.FromBase64String(base64String);
                 MemoryStream ms = new MemoryStream(imageBytes, 0,
                   imageBytes.Length);
 

@@ -38,6 +38,7 @@
             this.picBox.Location = new System.Drawing.Point(0, 0);
             this.picBox.Name = "picBox";
             this.picBox.Size = new System.Drawing.Size(397, 349);
+            this.picBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picBox.TabIndex = 0;
             this.picBox.TabStop = false;
             // 
@@ -48,6 +49,7 @@
             this.ClientSize = new System.Drawing.Size(397, 349);
             this.Controls.Add(this.picBox);
             this.Name = "Preview";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "图片预览";
             this.Load += new System.EventHandler(this.Preview_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).EndInit();
