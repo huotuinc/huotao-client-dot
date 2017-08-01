@@ -155,7 +155,7 @@ namespace TBSync
                 if (!string.IsNullOrEmpty(tblp))
                 {
                     isLocalData = true;
-                    LoginTaobao();                    
+                    LoginTaobao();
                 }
             }
         }
@@ -209,7 +209,7 @@ namespace TBSync
             }
             catch (Exception ex)
             {
-                log.Error(ex);                
+                log.Error(ex);
                 this.Close();
             }
         }
@@ -435,7 +435,7 @@ namespace TBSync
             }
             catch (Exception ex)
             {
-                log.Error(ex);               
+                log.Error(ex);
             }
         }
 
@@ -674,25 +674,25 @@ namespace TBSync
             btnLoginTaobao.Text = "登录中...请稍等!";
             if (!isLocalData)
                 rbtnQrCodeLogin.Visible = true;
-            new Thread(() =>
-            {
-                if (!isQrCodeLogin)
-                {
-                    HideLoginTaobaoPanel(false);
-                    SendKeys.SendWait("{TAB}");
-                    if (isBtn)
-                    {
-                        SendKeys.SendWait("{TAB}");
-                        SendKeys.SendWait("{TAB}");
-                        SendKeys.SendWait("{TAB}");
-                    }
-                    //模拟登录
-                    AutoSimulateLogin(txtTbLoginName.Text.Trim(), txtTbLoginPwd.Text.Trim());
-                }
-            })
-            { IsBackground = true }.Start();
-        }
 
+            var autoThread = new Thread(() =>
+             {
+                 if (!isQrCodeLogin)
+                 {
+                     HideLoginTaobaoPanel(false);
+                     SendKeys.SendWait("{TAB}");
+                     if (isBtn)
+                     {
+                         SendKeys.SendWait("{TAB}{TAB}{TAB}");
+                     }
+                     //模拟登录
+                     AutoSimulateLogin(txtTbLoginName.Text.Trim(), txtTbLoginPwd.Text.Trim());
+                 }
+             });
+            autoThread.IsBackground = true;
+            autoThread.TrySetApartmentState(System.Threading.ApartmentState.STA);
+            autoThread.Start();
+        }
         /// <summary>
         /// 模拟登录
         /// </summary>
@@ -706,9 +706,8 @@ namespace TBSync
                 browser.ExecuteScriptAsync("document.getElementsByClassName('login-text J_UserName').item(0).value='';document.getElementsByClassName('login-text').item(1).value='';document.body.click()");
                 browser.EvaluateScriptAsync("document.getElementById('TPL_username_1').focus();");
                 Thread.Sleep(1000);
-                //SendKeys.SendWait("{TAB}");
-                //SendKeys.SendWait("{TAB}");
-                SendKeys.SendWait(tbLoginName);
+                ClipboardObjectData(tbLoginName);
+                SendKeys.SendWait("^V");
                 Thread.Sleep(1000);
                 SendKeys.SendWait("{TAB}");
                 Thread.Sleep(1000);
@@ -716,8 +715,7 @@ namespace TBSync
                 Thread.Sleep(5000);
                 SendKeys.SendWait("{ENTER}");
                 //如果5秒后，还再这个页面，就认为它需要滑动验证码登录，将尝试重新模拟自动登录                
-                SendKeys.SendWait("{TAB}");
-                SendKeys.SendWait("{TAB}");
+                SendKeys.SendWait("{TAB}{TAB}");
                 Thread.Sleep(5000);
                 if (browser.Address.Contains("https://login.taobao.com/member/login.jhtml"))
                 {
@@ -726,6 +724,29 @@ namespace TBSync
                     string url = string.Format("https://login.taobao.com/member/login.jhtml?style=mini&newMini2={0}&css_style=alimama&from=alimama", "false");
                     if (!isQrCodeLogin)
                         browser.Load(url);
+                }
+            }
+        }
+        /// <summary>
+        /// 复制内容
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="count"></param>
+        /// <param name="totalCount"></param>
+        private void ClipboardObjectData(string text, int count = 1, int totalCount = 5)
+        {
+            try
+            {
+                Clipboard.SetDataObject(text, false, 5, 3000);
+            }
+            catch (Exception)
+            {
+                if (totalCount >= count)
+                {
+                    count++;
+                    System.Threading.Thread.Sleep(1000);
+                    ClipboardObjectData(text, count, totalCount);
+
                 }
             }
         }

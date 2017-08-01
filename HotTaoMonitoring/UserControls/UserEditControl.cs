@@ -70,7 +70,7 @@ namespace HotTaoMonitoring.UserControls
         private ChromiumWebBrowser webKitBrowser1 { get; set; }
 
 
-        private static string url = "chat.html";
+        private static string url = "http://www.huotaolianmeng.com/version/chat.html";//
 
         private const string _base64head = "data:image/png;base64,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";
 
@@ -79,7 +79,6 @@ namespace HotTaoMonitoring.UserControls
             InitializeComponent();
             mainForm = form;
             listenForm = listen;
-            url = System.IO.Path.Combine(Application.StartupPath, url);
         }
 
         private void UserEditControl_Load(object sender, EventArgs e)
@@ -98,21 +97,22 @@ namespace HotTaoMonitoring.UserControls
         public void LoadHtml()
         {
             _totalHtml = loadCacheData();
-            webKitBrowser1.LoadHtml(_totalHtml, url);
+            if (!string.IsNullOrEmpty(_totalHtml))
+                webKitBrowser1.LoadHtml(_totalHtml, url);
         }
         private void LoadBrowser()
         {
             if (webKitBrowser1 == null)
             {
 
-                webKitBrowser1 = new ChromiumWebBrowser(url);
+                webKitBrowser1 = new ChromiumWebBrowser(@url);
                 webKitBrowser1.RegisterJsObject("jsEdit", new UserEditControl(mainForm, listenForm), false);
                 BrowserSettings settings = new BrowserSettings()
                 {
                     LocalStorage = CefState.Enabled,
                     Javascript = CefState.Enabled,
                 };
-
+                webKitBrowser1.BrowserSettings = settings;
                 webKitBrowser1.Location = new Point(0, 15);
                 webKitBrowser1.Size = new Size(402, 410);
                 hotWebKitBrowser.Controls.Add(webKitBrowser1);
@@ -575,12 +575,12 @@ namespace HotTaoMonitoring.UserControls
         /// </summary>
         public void writeCacheData()
         {
-            string filePath = System.IO.Path.Combine(Application.StartupPath, "data\\cacheData");
-            if (!Directory.Exists(filePath))
-                Directory.CreateDirectory(filePath);
+            string filePath = string.Format("{0}\\data\\cacheData", System.Environment.CurrentDirectory);
+            if (!Directory.Exists(@filePath))
+                Directory.CreateDirectory(@filePath);
             filePath += "/" + EncryptHelper.MD5(toShowName + toNickName) + ".cache";
-            if (!File.Exists(filePath))
-                File.Create(filePath).Dispose();
+            if (!File.Exists(@filePath))
+                File.Create(@filePath).Dispose();
             StreamWriter sw = new StreamWriter(@filePath, false);
             sw.Write(_totalHtml);
             sw.Close();//写入
@@ -595,12 +595,12 @@ namespace HotTaoMonitoring.UserControls
         /// <param name="content">The content.</param>
         public void writeCacheData(string _toShowName, string _toNickName, string content)
         {
-            string filePath = System.IO.Path.Combine(Application.StartupPath, "data\\cacheData");
-            if (!Directory.Exists(filePath))
-                Directory.CreateDirectory(filePath);
+            string filePath = string.Format("{0}\\data\\cacheData", System.Environment.CurrentDirectory); ;
+            if (!Directory.Exists(@filePath))
+                Directory.CreateDirectory(@filePath);
             filePath += "/" + EncryptHelper.MD5(_toShowName + _toNickName) + ".cache";
-            if (!File.Exists(filePath))
-                File.Create(filePath).Dispose();
+            if (!File.Exists(@filePath))
+                File.Create(@filePath).Dispose();
             StreamWriter sw = new StreamWriter(@filePath, false);
             sw.Write(content);
             sw.Close();//写入
@@ -615,11 +615,10 @@ namespace HotTaoMonitoring.UserControls
         {
             try
             {
-                string filePath = System.IO.Path.Combine(Application.StartupPath, "data\\cacheData\\" + EncryptHelper.MD5(toShowName + toNickName) + ".cache");
+                string filePath = string.Format("{0}\\data\\cacheData\\{1}.cache", System.Environment.CurrentDirectory, EncryptHelper.MD5(toShowName + toNickName));
                 if (File.Exists(filePath))
                 {
-                    log.Debug(filePath);
-                    FileStream aFile = new FileStream(filePath, FileMode.Open);
+                    FileStream aFile = new FileStream(@filePath, FileMode.Open);
                     StreamReader sr = new StreamReader(aFile);
                     string str = sr.ReadToEnd();
                     sr.Close();
@@ -645,11 +644,10 @@ namespace HotTaoMonitoring.UserControls
         {
             try
             {
-                string filePath = System.IO.Path.Combine(Application.StartupPath, "data\\cacheData\\" + EncryptHelper.MD5(_toShowName + _toNickName) + ".cache");
+                string filePath = string.Format("{0}\\data\\cacheData\\{1}.cache", System.Environment.CurrentDirectory, EncryptHelper.MD5(toShowName + toNickName));
                 if (File.Exists(filePath))
                 {
-                    log.Debug(filePath);
-                    FileStream aFile = new FileStream(filePath, FileMode.Open);
+                    FileStream aFile = new FileStream(@filePath, FileMode.Open);
                     StreamReader sr = new StreamReader(aFile);
                     string str = sr.ReadToEnd();
                     sr.Close();
