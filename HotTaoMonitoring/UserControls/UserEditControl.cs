@@ -760,12 +760,7 @@ namespace HotTaoMonitoring.UserControls
 
         public void ShowImage(string base64Str)
         {
-            //data:image/jpg;base64,
-            //int idx = base64Str.IndexOf(",");
-            //Image image = Base64ToImage(base64Str.Substring(idx+1));
-            //ImagePreview preview = new ImagePreview();            
-            //preview.Show();
-            //preview.ShowPreview(image);
+            System.Diagnostics.Process.Start(base64Str);
         }
 
         public Image Base64ToImage(string base64String)
