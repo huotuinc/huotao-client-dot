@@ -158,23 +158,27 @@ namespace HotTaoMonitoring
         /// <summary>
         /// 微信登录初始化及同步操作
         /// </summary>
-        public void DoMainLogic()
+        public void DoMainLogic(bool isReload = false)
         {
             WXService wxs = new WXService();
-            JObject init_result = wxs.WxInit();  //初始化
-            mainForm.contact_all.Clear();
-            if (init_result != null)
+            try
             {
-                InitCurrentUserData(init_result);
+                JObject init_result = wxs.WxInit();  //初始化
+                mainForm.contact_all.Clear();
+                if (init_result != null)
+                {
+                    InitCurrentUserData(init_result);
+                }
+                JObject contact_result = wxs.GetContact(); //通讯录
+                if (contact_result != null)
+                {
+                    LoadMyContact(contact_result);
+                }
             }
-            else return;
-            JObject contact_result = wxs.GetContact(); //通讯录
-            if (contact_result != null)
+            catch (Exception)
             {
-                LoadMyContact(contact_result);
+
             }
-
-
             new Thread(() =>
             {
                 Thread.Sleep(30000);
@@ -182,6 +186,18 @@ namespace HotTaoMonitoring
             })
             { IsBackground = true }.Start();
 
+
+            if (!isReload)
+                WxSyncCheck(wxs);
+        }
+
+
+        /// <summary>
+        /// 消息同步
+        /// </summary>
+        /// <param name="wxs"></param>
+        private void WxSyncCheck(WXService wxs)
+        {
             string sync_flag = "";
             JObject sync_result;
             while (true)
@@ -226,7 +242,6 @@ namespace HotTaoMonitoring
                         catch (Exception ex)
                         {
                             log.Error(ex);
-                            throw;
                         }
                     }
                 }
@@ -352,86 +367,93 @@ namespace HotTaoMonitoring
         /// <param name="m">The m.</param>
         private void SyncMsgHandle(WXService service, JObject m)
         {
-            //用户退出或任务停止时
-            if (MyUserInfo.currentUserId == 0) return;
-
-            //自己发消息时，from为自己的id，否则为群id
-            string from = m["FromUserName"].ToString();
-            //不是自己发消息时，to为自己的id,否则为群id
-            string to = m["ToUserName"].ToString();
-
-            //判断发送方不是本人,且目标是群聊
-            if (_me.UserName == to && from.Contains("@@"))
+            try
             {
-                string msgid = m["MsgId"].ToString();
-                string content = m["Content"].ToString();
-                int msgtype = 0;
-                int.TryParse(m["MsgType"].ToString(), out msgtype);
+                //用户退出或任务停止时
+                if (MyUserInfo.currentUserId == 0) return;
 
-                //获取当前群信息
-                WXUser user = mainForm.contact_all.Find((WXUser obj) => { return obj.UserName == from; });
-                if (user == null) return;
+                //自己发消息时，from为自己的id，否则为群id
+                string from = m["FromUserName"].ToString();
+                //不是自己发消息时，to为自己的id,否则为群id
+                string to = m["ToUserName"].ToString();
 
-
-                //获取发送者标识id;
-                int idx = content.IndexOf(":");
-                string msgSendUser = content.Substring(0, idx);
-
-                if (string.IsNullOrEmpty(MyUserInfo.filterUserGroups))
-                    MyUserInfo.filterUserGroups = "";
-
-                if (mainForm.listenForm != null)
+                //判断发送方不是本人,且目标是群聊
+                if (_me.UserName == to && from.Contains("@@"))
                 {
-                    var groups = mainForm.listenForm.ListenWeChatData;
-                    if (groups != null && groups.Exists(item => { return item.UserName == user.UserName; }))
+                    string msgid = m["MsgId"].ToString();
+                    string content = m["Content"].ToString();
+
+                    int msgtype = 0;
+                    int.TryParse(m["MsgType"].ToString(), out msgtype);
+
+                    //获取当前群信息
+                    WXUser user = mainForm.contact_all.Find((WXUser obj) => { return obj.UserName == from; });
+                    if (user == null) return;
+
+                    //获取发送者标识id;
+                    int idx = content.IndexOf(":");
+                    string msgSendUser = content.Substring(0, idx);
+
+                    if (string.IsNullOrEmpty(MyUserInfo.filterUserGroups))
+                        MyUserInfo.filterUserGroups = "";
+
+                    if (mainForm.listenForm != null)
                     {
-                        string nickName = string.Empty, messageContent = string.Empty;
-                        switch (msgtype)
+                        var groups = mainForm.listenForm.ListenWeChatData;
+                        if (groups != null && groups.Exists(item => { return item.UserName == user.UserName; }))
                         {
-                            case (int)WxMsgType.文本消息:
-                                {
-                                    messageContent = content.Substring(idx + 1);
-                                    //获取当前发送方的昵称
-                                    nickName = GetCurrentMessageUserNickName(service, msgSendUser, user.UserName);
-
-                                    if (MyUserInfo.currentUserId == 0) return;
-
-                                    bool isExist = MyUserInfo.filterUserGroups.Contains("[" + nickName + "]");
-                                    //是否过滤当前用户操作
-                                    if (!string.IsNullOrEmpty(nickName) && !isExist)
+                            string nickName = string.Empty, messageContent = string.Empty;
+                            switch (msgtype)
+                            {
+                                case (int)WxMsgType.文本消息:
                                     {
-                                        mainForm.listenForm.SetWxMessageData(user, msgSendUser, nickName, messageContent, null);
-                                    }
-                                }
-                                break;
-                            case (int)WxMsgType.图片消息:
-                                {
-                                    //获取当前发送方的昵称
-                                    nickName = GetCurrentMessageUserNickName(service, msgSendUser, user.UserName);
-                                    bool isExist = MyUserInfo.filterUserGroups.Contains("[" + nickName + "]");
-                                    //是否过滤当前用户操作
-                                    if (!string.IsNullOrEmpty(nickName) && !isExist)
-                                    {
+                                        messageContent = content.Substring(idx + 1);
+                                        //获取当前发送方的昵称
+                                        nickName = GetCurrentMessageUserNickName(service, msgSendUser, user.UserName);
 
-                                        byte[] buffer = service.GetMsgImage(msgid);
-                                        if (buffer != null)
+                                        if (MyUserInfo.currentUserId == 0) return;
+
+                                        bool isExist = MyUserInfo.filterUserGroups.Contains("[" + nickName + "]");
+                                        //是否过滤当前用户操作
+                                        if (!string.IsNullOrEmpty(nickName) && !isExist)
                                         {
-                                            mainForm.listenForm.SetWxMessageData(user, msgSendUser, nickName, "发了一张图片", buffer);
+                                            mainForm.listenForm.SetWxMessageData(user, msgSendUser, nickName, messageContent, null);
                                         }
                                     }
-                                }
-                                break;
-                            case (int)WxMsgType.分享链接:
-                            case (int)WxMsgType.共享名片:
-                            case (int)WxMsgType.系统消息:
+                                    break;
+                                case (int)WxMsgType.图片消息:
+                                    {
+                                        //获取当前发送方的昵称
+                                        nickName = GetCurrentMessageUserNickName(service, msgSendUser, user.UserName);
+                                        bool isExist = MyUserInfo.filterUserGroups.Contains("[" + nickName + "]");
+                                        //是否过滤当前用户操作
+                                        if (!string.IsNullOrEmpty(nickName) && !isExist)
+                                        {
 
-                                break;
-                            default:
-                                break;
+                                            byte[] buffer = service.GetMsgImage(msgid);
+                                            if (buffer != null)
+                                            {
+                                                mainForm.listenForm.SetWxMessageData(user, msgSendUser, nickName, "发了一张图片", buffer);
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case (int)WxMsgType.分享链接:
+                                case (int)WxMsgType.共享名片:
+                                case (int)WxMsgType.系统消息:
+
+                                    break;
+                                default:
+                                    break;
+                            }
+
                         }
-
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
             }
         }
 
@@ -577,14 +599,12 @@ namespace HotTaoMonitoring
         /// </summary>
         public void ReloadContact(Action callback = null)
         {
+            //isCloseWinForm = true;
+
             mainForm.ThreadHandle(() =>
             {
-                WXService wxs = new WXService();
-                JObject contact_result = wxs.GetContact(); //通讯录
-                if (contact_result != null)
-                {
-                    LoadMyContact(contact_result, callback);
-                }
+                DoMainLogic(true);
+
             });
         }
 

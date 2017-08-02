@@ -502,25 +502,31 @@ namespace WwChatHttpCore.HTTP
         /// <returns></returns>
         public string WxSyncCheck()
         {
-            string sync_key = "";
-            foreach (KeyValuePair<string, string> p in _syncKey)
+            try
             {
-                sync_key += p.Key + "_" + p.Value + "%7C";
-            }
-            sync_key = sync_key.TrimEnd('%', '7', 'C');
-
-            Cookie sid = BaseService.GetCookie("wxsid");
-            Cookie uin = BaseService.GetCookie("wxuin");
-
-            if (sid != null && uin != null)
-            {
-                _synccheck_url = string.Format(_synccheck_url, sid.Value, uin.Value, sync_key, getClientMsgId(), LoginService.SKey.Replace("@", "%40"), GetDeviceID());
-
-                byte[] bytes = BaseService.SendGetRequest(_synccheck_url + "&_=" + DateTime.Now.Ticks);
-                if (bytes != null)
+                string sync_key = "";
+                foreach (KeyValuePair<string, string> p in _syncKey)
                 {
-                    return Encoding.UTF8.GetString(bytes);
+                    sync_key += p.Key + "_" + p.Value + "%7C";
                 }
+                sync_key = sync_key.TrimEnd('%', '7', 'C');
+
+                Cookie sid = BaseService.GetCookie("wxsid");
+                Cookie uin = BaseService.GetCookie("wxuin");
+
+                if (sid != null && uin != null)
+                {
+                    _synccheck_url = string.Format(_synccheck_url, sid.Value, uin.Value, sync_key, getClientMsgId(), LoginService.SKey.Replace("@", "%40"), GetDeviceID());
+
+                    byte[] bytes = BaseService.SendGetRequest(_synccheck_url + "&_=" + DateTime.Now.Ticks);
+                    if (bytes != null)
+                    {
+                        return Encoding.UTF8.GetString(bytes);
+                    }
+                }                
+            }
+            catch (Exception)
+            {                
             }
             return null;
         }
@@ -556,7 +562,7 @@ namespace WwChatHttpCore.HTTP
                         _syncKey.Clear();
                         foreach (JObject key in sync_resul["SyncKey"]["List"])
                         {
-                            _syncKey.Add(key["Key"].ToString(), key["Val"].ToString());
+                            _syncKey[key["Key"].ToString()] = key["Val"].ToString();
                         }
                     }
                     return sync_resul;

@@ -115,6 +115,7 @@ namespace HotTaoMonitoring.UserControls
                 webKitBrowser1.BrowserSettings = settings;
                 webKitBrowser1.Location = new Point(0, 15);
                 webKitBrowser1.Size = new Size(402, 410);
+                webKitBrowser1.MenuHandler = new KFMenuHandler();
                 hotWebKitBrowser.Controls.Add(webKitBrowser1);
                 LoadHtml();
             }
@@ -237,7 +238,7 @@ namespace HotTaoMonitoring.UserControls
             <div class=""timename_div""><p class=""timename"">" + time + @"</p></div>
             <div class=""chat_content_group self"">               
             <p class=""chat_nick""><img src=" + (string.IsNullOrEmpty(base64) ? _base64head : base64) + @" width=""36px;"">" + @"</p>   
-            <p style=""float: right;margin-top: 0px;margin-right: 10px;""><img onclick=""jsEdit.ShowImage('" + base64Image + @"')"" src=""" + base64Image + @""" width=""80px""></p>
+            <p style=""float: right;margin-top: 0px;margin-right: 10px;""><img onclick=""jsEdit.ShowImage('" + base64Image + @"','" + Guid.NewGuid().ToString() + @"')"" src=""" + base64Image + @""" width=""80px""></p>
             <p style=""clear: both""></p>
             </div><a id='ok'></a>";
             if (_totalHtml == "")
@@ -245,7 +246,7 @@ namespace HotTaoMonitoring.UserControls
                 _totalHtml = _baseHtml;
             }
             LoadBrowser();
-            _totalHtml = _totalHtml.Replace("<a id='ok'></a>", "") + str;
+            _totalHtml = _totalHtml.Replace("<a id='ok'></a>", "") + str;          
             webKitBrowser1.LoadHtml(_totalHtml, url);
         }
 
@@ -292,7 +293,7 @@ namespace HotTaoMonitoring.UserControls
             <div class=""timename_div""><p class=""timename"">" + time + @"</p></div>
             <div class=""chat_content_group buddy"">               
             <p class=""chat_nick""><img src=" + (string.IsNullOrEmpty(base64) ? _base64head : base64) + @" width=""36px;"">" + @"</p>   
-            <p style=""float: left;margin-top: 0px;margin-left: 10px;""><img onclick=""jsEdit.ShowImage('" + msgImageBase64 + @"')"" src=""" + msgImageBase64 + @""" width=""80px""></p>
+            <p style=""float: left;margin-top: 0px;margin-left: 10px;""><img onclick=""jsEdit.ShowImage('" + msgImageBase64 + @"','" + Guid.NewGuid().ToString() + @"')"" src=""" + msgImageBase64 + @""" width=""80px""></p>
             <p style=""clear: both""></p>
             </div><a id='ok'></a>";
             if (_totalHtml == "")
@@ -301,7 +302,8 @@ namespace HotTaoMonitoring.UserControls
             }
             LoadBrowser();
             _totalHtml = _totalHtml.Replace("<a id='ok'></a>", "") + str;
-            webKitBrowser1.LoadHtml(_totalHtml, url);
+            webKitBrowser1.LoadHtml(_totalHtml, url);            
+                        
         }
 
 
@@ -349,7 +351,7 @@ namespace HotTaoMonitoring.UserControls
             <div class=""timename_div""><p class=""timename"">" + time + @"</p></div>
             <div class=""chat_content_group buddy"">               
             <p class=""chat_nick""><img src=" + (string.IsNullOrEmpty(base64) ? _base64head : base64) + @" width=""36px;"">" + @"</p>   
-            <p style=""float: left;margin-top: 0px;margin-left: 10px;""><img onclick=""jsEdit.ShowImage('" + msgImageBase64 + @"')"" src=""" + msgImageBase64 + @""" width=""80px""></p>
+            <p style=""float: left;margin-top: 0px;margin-left: 10px;""><img onclick=""jsEdit.ShowImage('" + msgImageBase64 + @"','" + Guid.NewGuid().ToString() + @"')"" src=""" + msgImageBase64 + @""" width=""80px""></p>
             <p style=""clear: both""></p>
             </div><a id='ok'></a>";
             if (__totalHtml == "")
@@ -685,54 +687,10 @@ namespace HotTaoMonitoring.UserControls
                 else
                     btnSend_Click(null, null);
             }
-            else if (e.KeyCode == Keys.V)
-            {
-                e.Handled = true;
-                if (isKeyControl)
-                {
-                    if (SendFileList == null) SendFileList = new Dictionary<string, string>();
-                    StringCollection colles = Clipboard.GetFileDropList();
-                    if (colles != null && colles.Count > 0)
-                    {
-                        string path = colles[0];
-                        if (!string.IsNullOrEmpty(path))
-                        {
-                            string ext = path.Substring(path.LastIndexOf("."));
-                            if (!FilterFileType(ext)) return;
-                            using (Stream stream = new FileStream(path, FileMode.Open))
-                            {
-                                //, 150, 120
-                                Bitmap bmp = new Bitmap(Image.FromStream(stream), 150, 120);
-                                Clipboard.SetDataObject(bmp, false);//将图片放在剪贴板中
-                                if (txtContent.CanPaste(DataFormats.GetFormat(DataFormats.Bitmap)))
-                                {
-                                    txtContent.Paste();
-                                    Clipboard.SetFileDropList(colles);
-                                    string _RtfText = txtContent.Rtf;
-                                    while (true)
-                                    {
-                                        int _Index = _RtfText.IndexOf("pichgoal");
-                                        if (_Index == -1) break;
-                                        _RtfText = _RtfText.Remove(0, _Index + 8);
+            //else if (e.KeyCode == Keys.V)
+            //{
 
-                                        _Index = _RtfText.IndexOf("\r\n");
-
-                                        _RtfText = _RtfText.Remove(0, _Index);
-                                        string __RtfText = _RtfText.Replace("\r\n", "");
-
-                                        _Index = __RtfText.IndexOf("}");
-                                        string filenamekey = EncryptHelper.MD5(__RtfText.Substring(0, _Index));
-                                        if (!SendFileList.ContainsKey(filenamekey))
-                                            SendFileList.Add(filenamekey, path);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else
-                        txtContent.Paste();
-                }
-            }
+            //}
         }
 
 
@@ -753,18 +711,30 @@ namespace HotTaoMonitoring.UserControls
         }
 
 
-        public void ShowImage(string base64Str)
+        public void ShowImage(string base64Str, string guid = "")
         {
             try
             {
+                if (string.IsNullOrEmpty(guid))
+                    guid = Guid.NewGuid().ToString();
                 int idx = base64Str.IndexOf(",");
-                string fileName = SaveBase64Image(base64Str.Substring(idx + 1));
+                string fileName = SaveBase64Image(base64Str.Substring(idx + 1), guid);
                 if (!string.IsNullOrEmpty(fileName))
-                    System.Diagnostics.Process.Start("ImagePreview.exe", fileName);
+                {
+                    //建立新的系统进程
+                    System.Diagnostics.Process process = new System.Diagnostics.Process();
+                    //设置文件名，此处为图片的真实路径+文件名   
+                    process.StartInfo.FileName = System.Environment.CurrentDirectory + "\\" + fileName;
+                    //此项为是否使用Shell执行程序，因系统默认为true，此项也可不设，但若设置必须为true   
+                    process.StartInfo.UseShellExecute = true;
+                    process.Start();
+                    process.Close();
+                }
+
             }
             catch (Exception)
             {
-                
+
             }
         }
 
@@ -775,7 +745,7 @@ namespace HotTaoMonitoring.UserControls
         /// </summary>
         /// <param name="base64String"></param>
         /// <returns></returns>
-        public string SaveBase64Image(string base64String)
+        public string SaveBase64Image(string base64String, string guid)
         {
             try
             {
@@ -792,7 +762,7 @@ namespace HotTaoMonitoring.UserControls
                 string dirPath = string.Format("data/iamgeCache/{0}", MyUserInfo.currentUserId);
                 if (!System.IO.Directory.Exists(dirPath))
                     Directory.CreateDirectory(dirPath);
-                string filenamePath = string.Format("{0}/{1}.jpg", dirPath, EncryptHelper.MD5(Guid.NewGuid().ToString()));
+                string filenamePath = string.Format("{0}/{1}.jpg", dirPath, EncryptHelper.MD5(guid));
                 if (!File.Exists(filenamePath))
                     File.Create(filenamePath).Dispose();
                 image.Save(filenamePath);
@@ -803,6 +773,77 @@ namespace HotTaoMonitoring.UserControls
             {
                 return string.Empty;
             }
+        }
+
+        private void tsmCtrlV_Click(object sender, EventArgs e)
+        {
+            if (SendFileList == null) SendFileList = new Dictionary<string, string>();
+            StringCollection colles = Clipboard.GetFileDropList();
+            if (colles != null && colles.Count > 0)
+            {
+                string path = colles[0];
+                if (!string.IsNullOrEmpty(path))
+                {
+                    string ext = path.Substring(path.LastIndexOf("."));
+                    if (!FilterFileType(ext)) return;
+                    using (Stream stream = new FileStream(path, FileMode.Open))
+                    {
+                        //, 150, 120
+                        Bitmap bmp = new Bitmap(Image.FromStream(stream), 150, 120);
+                        Clipboard.SetDataObject(bmp, false);//将图片放在剪贴板中
+                        if (txtContent.CanPaste(DataFormats.GetFormat(DataFormats.Bitmap)))
+                        {
+                            txtContent.Paste();
+                            Clipboard.SetFileDropList(colles);
+                            string _RtfText = txtContent.Rtf;
+                            while (true)
+                            {
+                                int _Index = _RtfText.IndexOf("pichgoal");
+                                if (_Index == -1) break;
+                                _RtfText = _RtfText.Remove(0, _Index + 8);
+
+                                _Index = _RtfText.IndexOf("\r\n");
+
+                                _RtfText = _RtfText.Remove(0, _Index);
+                                string __RtfText = _RtfText.Replace("\r\n", "");
+
+                                _Index = __RtfText.IndexOf("}");
+                                string filenamekey = EncryptHelper.MD5(__RtfText.Substring(0, _Index));
+                                if (!SendFileList.ContainsKey(filenamekey))
+                                    SendFileList.Add(filenamekey, path);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+                txtContent.Paste();
+        }
+    }
+
+    /// <summary>
+    /// 控制右键菜单
+    /// </summary>
+    internal class KFMenuHandler : IContextMenuHandler
+    {
+        public void OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
+        {
+            model.Clear();
+        }
+
+        public bool OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
+        {
+            return false;
+        }
+
+        public void OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+        {
+
+        }
+
+        public bool RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
+        {
+            return false;
         }
     }
 }

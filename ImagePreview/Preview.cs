@@ -26,7 +26,7 @@ namespace ImagePreview
         private void Preview_Load(object sender, EventArgs e)
         {
             try
-            {
+            {                
                 picBox.Image = Image.FromFile(base64Image);
             }
             catch (Exception)
@@ -34,6 +34,5 @@ namespace ImagePreview
                 this.Close();
             }
         }
-
     }
 }

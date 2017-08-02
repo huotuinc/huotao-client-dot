@@ -13,6 +13,9 @@ using System.Drawing.Imaging;
 using HotTaoCore;
 using HotTaoMonitoring.Properties;
 using HOTReuestService.Helper;
+using System.Diagnostics;
+using HotTaoCore.Models;
+using HOTReuestService;
 
 namespace HotTaoMonitoring.UserControls
 {
@@ -89,7 +92,7 @@ namespace HotTaoMonitoring.UserControls
         /// <summary>
         /// 微信监控的消息数据
         /// </summary>
-        public List<WxMessageBodyModel> wxMessageData { get; set; }
+        public List<WxMessageBodyModel> wxMessageData { get; set; } = new List<WxMessageBodyModel>();
         /// <summary>
         /// 是否显示全部
         /// </summary>
@@ -180,6 +183,27 @@ namespace HotTaoMonitoring.UserControls
             }
             else
             {
+                if (mainForm.useredit == null || mainForm.useredit.isHide || (mainForm.useredit.toUserName != data.MsgUserName && mainForm.useredit.toNickName != data.MsgNickName))
+                {
+                    foreach (DataGridViewRow row in dgvWeChatList.Rows)
+                    {
+                        if (row.Cells["UserName"].Value.ToString().Equals(data.MsgUserName))
+                        {
+                            string _MessageReadStatus = row.Cells["MessageReadStatus"].Value.ToString();
+                            if (!string.IsNullOrEmpty(_MessageReadStatus))
+                            {
+                                row.Cells["MessageReadStatus"].Value = Convert.ToInt32(_MessageReadStatus) + 1;
+                                break;
+                            }
+                            else
+                            {
+                                row.Cells["MessageReadStatus"].Value = 1;
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 UserEditControl ed = new UserEditControl(mainForm, this);
                 string base64 = mainForm.wxlogin.GetIcon(data.MsgSendUser);
                 if (!string.IsNullOrEmpty(base64))
@@ -475,6 +499,22 @@ namespace HotTaoMonitoring.UserControls
                     dgvWeChatList.Rows[i - 1].Height = 50;
                     dgvWeChatList.Rows[i - 1].DefaultCellStyle.SelectionBackColor = Color.FromArgb(236, 232, 231);// ConstConfig.DataGridViewOddRowBackColor;                    
                     dgvWeChatList.Rows[i - 1].Cells["editListen"].Value = IsListenView ? Resources.icon_delete : Resources.icon_add;
+
+
+                    if (IsListenView)
+                    {
+                        int count = 0;
+                        var data = wxMessageData.FindAll(r => r.MsgUserName == user.UserName && r.NotReadCount > 0 && r.MsgShowName == user.ShowName);
+                        if (data != null)
+                        {
+                            foreach (WxMessageBodyModel item in data)
+                            {
+                                count += item.NotReadCount;
+                            }
+                        }
+                        dgvWeChatList.Rows[i - 1].Cells["MessageReadStatus"].Value = count > 0 ? count.ToString() : "";
+
+                    }
                 }
             }
         }
@@ -526,7 +566,35 @@ namespace HotTaoMonitoring.UserControls
                 string _msgShowName = cells["MsgShowName"].Value.ToString();
                 string _msgNickName = cells["MsgNickName"].Value.ToString();
                 string _msgSendUser = cells["MsgSendUser"].Value.ToString();
+                string _notReadCount = cells["NotReadCount"].Value.ToString();
                 int rowIndex = cells[0].RowIndex;
+
+                int c = 0;
+                if (!string.IsNullOrEmpty(_notReadCount))
+                    c = Convert.ToInt32(_notReadCount);
+                foreach (DataGridViewRow row in dgvWeChatList.Rows)
+                {
+                    if (row.Cells["UserName"].Value.ToString().Equals(_msgUserName))
+                    {
+                        string _MessageReadStatus = row.Cells["MessageReadStatus"].Value.ToString();
+                        if (!string.IsNullOrEmpty(_MessageReadStatus))
+                        {
+                            int _c = Convert.ToInt32(_MessageReadStatus) - c;
+                            if (_c > 0)
+                                row.Cells["MessageReadStatus"].Value = _c;
+                            else
+                                row.Cells["MessageReadStatus"].Value = "";
+                            break;
+                        }
+                        else
+                        {
+                            row.Cells["MessageReadStatus"].Value = "";
+                            break;
+                        }
+                    }
+                }
+
+
 
                 cells["NotReadCount"].Value = 0;
                 cells["NotReadCount"].Style.ForeColor = ConstConfig.DataGridViewRowForeColor;
@@ -633,12 +701,12 @@ namespace HotTaoMonitoring.UserControls
         /// <summary>
         /// 已监控的微信群
         /// </summary>
-        public List<WXUser> ListenWeChatData { get; set; }
+        public List<WXUser> ListenWeChatData { get; set; } = new List<WXUser>();
 
         /// <summary>
         /// 未监控的微信群
         /// </summary>
-        public List<WXUser> NotListenWeChatData { get; set; }
+        public List<WXUser> NotListenWeChatData { get; set; } = new List<WXUser>();
 
         /// <summary>
         /// 是否在监控页面
@@ -815,5 +883,139 @@ namespace HotTaoMonitoring.UserControls
                 mainForm.myInfo = null;
             }
         }
+
+        private void lbCheckUpdate_Click(object sender, EventArgs e)
+        {
+            CheckVersion();
+        }
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// Checks the version.
+        /// </summary>
+        private void CheckVersion()
+        {
+            new System.Threading.Thread(() =>
+            {
+                int v = this.GetCurrentClientVersion();
+                if (v > 0)
+                {
+                    var version = HotTaoApiService.Instance.CheckVersion(v, ApiDefineConst.CheckUpdateKfUrl);
+                    if (version != null)
+                        ShowConfirm(version);
+                    else
+                        ShowAlert();
+                }
+                else
+                    ShowAlert();
+
+            })
+            { IsBackground = true }.Start();
+        }
+
+        private void ShowConfirm(VersionModel version)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<VersionModel>(ShowConfirm), new object[] { version });
+            }
+            else
+            {
+                bool isUpdate = false;
+                MessageConfirm cfr = new MessageConfirm("发现新版本，是否马上下载更新?");
+                cfr.CallBack += () =>
+                {
+                    isUpdate = true;
+                };
+                cfr.StartPosition = FormStartPosition.CenterScreen;
+                cfr.ShowDialog();
+                if (isUpdate)
+                {
+                    Process.Start("CheckUpdate.exe");
+                    CloseMain();
+                }
+            }
+        }
+
+
+        private void ShowAlert()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(ShowAlert), new object[] { });
+            }
+            else
+            {
+                MessageAlert alert = new MessageAlert("当前已是最新版本，无需更新!");
+                alert.StartPosition = FormStartPosition.CenterScreen;
+                alert.Show();
+            }
+        }
+
+        public void CloseMain()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(CloseMain), new object[] { });
+            }
+            else
+            {
+                mainForm.ApplicationClose();
+            }
+        }
+
+        /// <summary>
+        /// 获取当前版本
+        /// </summary>
+        /// <returns>System.Int32.</returns>
+        public int GetCurrentClientVersion()
+        {
+            int v = 0;
+            try
+            {
+                string filePath = System.IO.Path.Combine(Application.StartupPath, GlobalConfig.datapath + ConstConfig.v_version);
+                if (File.Exists(filePath))
+                {
+                    FileStream aFile = new FileStream(filePath, FileMode.Open);
+                    StreamReader sr = new StreamReader(aFile);
+                    string str = sr.ReadToEnd();
+                    sr.Close();
+                    sr.Dispose();
+                    aFile.Close();
+                    aFile.Dispose();
+                    int.TryParse(str, out v);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return v;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

@@ -33,11 +33,14 @@
             this.picClose = new System.Windows.Forms.PictureBox();
             this.plTop = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.cmsMouseTools = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmCtrlV = new System.Windows.Forms.ToolStripMenuItem();
             this.hotPanel1 = new HotTaoMonitoring.module.HotPanel(this.components);
             this.btnSend = new System.Windows.Forms.Button();
             this.txtContent = new System.Windows.Forms.RichTextBox();
             this.hotWebKitBrowser = new HotTaoMonitoring.module.HotPanel(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).BeginInit();
+            this.cmsMouseTools.SuspendLayout();
             this.hotPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,6 +84,22 @@
             this.panel2.Size = new System.Drawing.Size(400, 1);
             this.panel2.TabIndex = 56;
             // 
+            // cmsMouseTools
+            // 
+            this.cmsMouseTools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmCtrlV});
+            this.cmsMouseTools.Name = "cmsMouseTools";
+            this.cmsMouseTools.Size = new System.Drawing.Size(153, 48);
+            // 
+            // tsmCtrlV
+            // 
+            this.tsmCtrlV.Name = "tsmCtrlV";
+            this.tsmCtrlV.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.tsmCtrlV.ShowShortcutKeys = false;
+            this.tsmCtrlV.Size = new System.Drawing.Size(127, 22);
+            this.tsmCtrlV.Text = "粘贴";
+            this.tsmCtrlV.Click += new System.EventHandler(this.tsmCtrlV_Click);
+            // 
             // hotPanel1
             // 
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
@@ -112,6 +131,7 @@
             // 
             this.txtContent.BackColor = System.Drawing.Color.White;
             this.txtContent.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtContent.ContextMenuStrip = this.cmsMouseTools;
             this.txtContent.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
             this.txtContent.Location = new System.Drawing.Point(7, 9);
             this.txtContent.Margin = new System.Windows.Forms.Padding(5);
@@ -146,6 +166,7 @@
             this.Size = new System.Drawing.Size(402, 740);
             this.Load += new System.EventHandler(this.UserEditControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picClose)).EndInit();
+            this.cmsMouseTools.ResumeLayout(false);
             this.hotPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -161,5 +182,7 @@
         private System.Windows.Forms.RichTextBox txtContent;
         private System.Windows.Forms.Panel plTop;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ContextMenuStrip cmsMouseTools;
+        private System.Windows.Forms.ToolStripMenuItem tsmCtrlV;
     }
 }

@@ -60,6 +60,7 @@
             this.menuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolsClearListen = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lbCheckUpdate = new System.Windows.Forms.Label();
             this.picWeChatHead = new System.Windows.Forms.PictureBox();
             this.hotPanelWeChatList = new HotTaoMonitoring.module.HotPanel(this.components);
             this.hotPanelSearch = new HotTaoMonitoring.module.HotPanel(this.components);
@@ -71,6 +72,7 @@
             this.weChatIcon = new System.Windows.Forms.DataGridViewImageColumn();
             this.ShowName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MessageReadStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.editListen = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
@@ -302,6 +304,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panel1.Controls.Add(this.lbCheckUpdate);
             this.panel1.Controls.Add(this.picWeChatHead);
             this.panel1.Controls.Add(this.lbTabWeChat);
             this.panel1.Controls.Add(this.lbTabWeChatListen);
@@ -313,6 +316,18 @@
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseDown);
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseMove);
             this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WinForm_MouseUp);
+            // 
+            // lbCheckUpdate
+            // 
+            this.lbCheckUpdate.AutoSize = true;
+            this.lbCheckUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbCheckUpdate.ForeColor = System.Drawing.Color.Blue;
+            this.lbCheckUpdate.Location = new System.Drawing.Point(14, 607);
+            this.lbCheckUpdate.Name = "lbCheckUpdate";
+            this.lbCheckUpdate.Size = new System.Drawing.Size(53, 12);
+            this.lbCheckUpdate.TabIndex = 16;
+            this.lbCheckUpdate.Text = "检查更新";
+            this.lbCheckUpdate.Click += new System.EventHandler(this.lbCheckUpdate_Click);
             // 
             // picWeChatHead
             // 
@@ -397,6 +412,7 @@
             this.weChatIcon,
             this.ShowName,
             this.UserName,
+            this.MessageReadStatus,
             this.editListen});
             this.dgvWeChatList.ContextMenuStrip = this.menuStrip;
             this.dgvWeChatList.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(232)))), ((int)(((byte)(231)))));
@@ -427,12 +443,10 @@
             // 
             // ID
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ID.DefaultCellStyle = dataGridViewCellStyle7;
             this.ID.HeaderText = "ID";
             this.ID.Name = "ID";
             this.ID.ReadOnly = true;
-            this.ID.Width = 35;
+            this.ID.Width = 20;
             // 
             // weChatIcon
             // 
@@ -447,9 +461,9 @@
             // 
             this.ShowName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.ShowName.DataPropertyName = "ShowName";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.Padding = new System.Windows.Forms.Padding(5);
-            this.ShowName.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(5);
+            this.ShowName.DefaultCellStyle = dataGridViewCellStyle7;
             this.ShowName.HeaderText = "ShowName";
             this.ShowName.MinimumWidth = 50;
             this.ShowName.Name = "ShowName";
@@ -461,6 +475,14 @@
             this.UserName.Name = "UserName";
             this.UserName.ReadOnly = true;
             this.UserName.Visible = false;
+            // 
+            // MessageReadStatus
+            // 
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Red;
+            this.MessageReadStatus.DefaultCellStyle = dataGridViewCellStyle8;
+            this.MessageReadStatus.HeaderText = "MessageReadStatus";
+            this.MessageReadStatus.Name = "MessageReadStatus";
+            this.MessageReadStatus.Width = 20;
             // 
             // editListen
             // 
@@ -507,6 +529,7 @@
             this.panel2.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picWeChatHead)).EndInit();
             this.hotPanelWeChatList.ResumeLayout(false);
             this.hotPanelSearch.ResumeLayout(false);
@@ -546,12 +569,14 @@
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
+        private System.Windows.Forms.PictureBox picWeChatHead;
+        private System.Windows.Forms.Label lbCheckUpdate;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewImageColumn weChatIcon;
         private System.Windows.Forms.DataGridViewTextBoxColumn ShowName;
         private System.Windows.Forms.DataGridViewTextBoxColumn UserName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MessageReadStatus;
         private System.Windows.Forms.DataGridViewImageColumn editListen;
-        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
-        private System.Windows.Forms.PictureBox picWeChatHead;
     }
 }
