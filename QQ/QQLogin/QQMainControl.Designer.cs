@@ -45,6 +45,8 @@
             this.toolsUpdateAlias = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.hotPanel1 = new HotTaoControls.HotPanel(this.components);
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtGoodsCount = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtEndTime = new System.Windows.Forms.DateTimePicker();
             this.txtStartTime = new System.Windows.Forms.DateTimePicker();
@@ -158,6 +160,8 @@
             // 
             this.hotPanel1.BackColor = System.Drawing.Color.White;
             this.hotPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.hotPanel1.Controls.Add(this.label8);
+            this.hotPanel1.Controls.Add(this.txtGoodsCount);
             this.hotPanel1.Controls.Add(this.label1);
             this.hotPanel1.Controls.Add(this.txtEndTime);
             this.hotPanel1.Controls.Add(this.txtStartTime);
@@ -177,10 +181,31 @@
             this.hotPanel1.Size = new System.Drawing.Size(920, 607);
             this.hotPanel1.TabIndex = 10;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(142, 114);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(41, 12);
+            this.label8.TabIndex = 25;
+            this.label8.Text = "商品数";
+            // 
+            // txtGoodsCount
+            // 
+            this.txtGoodsCount.Location = new System.Drawing.Point(183, 110);
+            this.txtGoodsCount.Name = "txtGoodsCount";
+            this.txtGoodsCount.Size = new System.Drawing.Size(33, 21);
+            this.txtGoodsCount.TabIndex = 24;
+            this.txtGoodsCount.Text = "3";
+            this.txtGoodsCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtGoodsCount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtGoodsCount_KeyDown);
+            this.txtGoodsCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxNumber_KeyPress);
+            this.txtGoodsCount.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtGoodsCount_KeyUp);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(366, 113);
+            this.label1.Location = new System.Drawing.Point(440, 113);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(11, 12);
             this.label1.TabIndex = 23;
@@ -191,7 +216,7 @@
             this.txtEndTime.CustomFormat = "";
             this.txtEndTime.Enabled = false;
             this.txtEndTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.txtEndTime.Location = new System.Drawing.Point(380, 110);
+            this.txtEndTime.Location = new System.Drawing.Point(454, 110);
             this.txtEndTime.Name = "txtEndTime";
             this.txtEndTime.ShowUpDown = true;
             this.txtEndTime.Size = new System.Drawing.Size(81, 21);
@@ -202,7 +227,7 @@
             this.txtStartTime.CustomFormat = "";
             this.txtStartTime.Enabled = false;
             this.txtStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.txtStartTime.Location = new System.Drawing.Point(285, 110);
+            this.txtStartTime.Location = new System.Drawing.Point(359, 110);
             this.txtStartTime.Name = "txtStartTime";
             this.txtStartTime.ShowUpDown = true;
             this.txtStartTime.Size = new System.Drawing.Size(77, 21);
@@ -211,7 +236,7 @@
             // ckbEnableSendTime
             // 
             this.ckbEnableSendTime.AutoSize = true;
-            this.ckbEnableSendTime.Location = new System.Drawing.Point(151, 113);
+            this.ckbEnableSendTime.Location = new System.Drawing.Point(225, 113);
             this.ckbEnableSendTime.Name = "ckbEnableSendTime";
             this.ckbEnableSendTime.Size = new System.Drawing.Size(132, 16);
             this.ckbEnableSendTime.TabIndex = 21;
@@ -572,31 +597,32 @@
             this.lbRegsvr.TabIndex = 18;
             this.lbRegsvr.TabStop = true;
             this.lbRegsvr.Text = "点击此处修复酷Q应用加载失败问题";
-            this.lbRegsvr.Visible = false;
             this.lbRegsvr.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbRegsvr_LinkClicked);
             // 
             // loginTypeKQ
             // 
             this.loginTypeKQ.AutoSize = true;
+            this.loginTypeKQ.Checked = true;
             this.loginTypeKQ.Location = new System.Drawing.Point(440, 17);
             this.loginTypeKQ.Name = "loginTypeKQ";
             this.loginTypeKQ.Size = new System.Drawing.Size(41, 16);
             this.loginTypeKQ.TabIndex = 11;
+            this.loginTypeKQ.TabStop = true;
             this.loginTypeKQ.Text = "酷Q";
             this.loginTypeKQ.UseVisualStyleBackColor = true;
+            this.loginTypeKQ.Visible = false;
             this.loginTypeKQ.CheckedChanged += new System.EventHandler(this.loginTypeKQ_CheckedChanged);
             // 
             // loginTypeSan
             // 
             this.loginTypeSan.AutoSize = true;
-            this.loginTypeSan.Checked = true;
             this.loginTypeSan.Location = new System.Drawing.Point(487, 17);
             this.loginTypeSan.Name = "loginTypeSan";
             this.loginTypeSan.Size = new System.Drawing.Size(71, 16);
             this.loginTypeSan.TabIndex = 11;
-            this.loginTypeSan.TabStop = true;
             this.loginTypeSan.Text = "扫描登录";
             this.loginTypeSan.UseVisualStyleBackColor = true;
+            this.loginTypeSan.Visible = false;
             this.loginTypeSan.CheckedChanged += new System.EventHandler(this.loginTypeKQ_CheckedChanged);
             // 
             // btnLogoutQQ
@@ -748,5 +774,7 @@
         private System.Windows.Forms.DateTimePicker txtStartTime;
         private System.Windows.Forms.DateTimePicker txtEndTime;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtGoodsCount;
+        private System.Windows.Forms.Label label8;
     }
 }

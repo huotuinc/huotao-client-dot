@@ -245,12 +245,14 @@ namespace HotTaoCore.DAL
         /// 获取最早的三条未合成图片的商品数据
         /// </summary>
         /// <param name="userid"></param>
+        /// <param name="JoinImageCount">数量</param>
         /// <returns></returns>
-        public List<GoodsModel> FindByUserGoodsListThree(int userid)
+        public List<GoodsModel> FindByUserGoodsListThree(int userid, int JoinImageCount)
         {
-            string strSql = @"select id,userid,goodsId,goodsName,goodsMainImgUrl,goodsIntro,goodslocatImgPath,goodsDetailUrl,goodsSupplier,goodsSalesAmount,goodsComsRate,goodsPrice,couponPrice,endTime,couponUrl,couponId,updateTime,field9 from user_goods_list where userid=@userid and field9=0 order by updatetime asc limit 3;";
+            string strSql = @"select id,userid,goodsId,goodsName,goodsMainImgUrl,goodsIntro,goodslocatImgPath,goodsDetailUrl,goodsSupplier,goodsSalesAmount,goodsComsRate,goodsPrice,couponPrice,endTime,couponUrl,couponId,updateTime,field9 from user_goods_list where userid=@userid and field9=0 order by updatetime asc limit @JoinImageCount;";
             var param = new[] {
                 new SQLiteParameter("@userid",userid),
+                new SQLiteParameter("@JoinImageCount",JoinImageCount)
             };
             return DBHelper.ExecQueryList<GoodsModel>(strSql, param);
         }
@@ -607,7 +609,10 @@ namespace HotTaoCore.DAL
 
                     if (item.isTpwd == 0)
                     {
-                        item.statusText = "待转链,双击进行转链";
+                        if (item.title.Contains("【合成图片转发】"))
+                            item.statusText = "待执行";
+                        else
+                            item.statusText = "待转链,双击进行转链";
                         item.ExecStatus = 0;
                         item.status = 0;
                     }

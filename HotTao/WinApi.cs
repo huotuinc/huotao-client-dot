@@ -469,11 +469,11 @@ namespace HotTao
         public static void SendData(IntPtr handle, bool isWeChat = true)
         {
             SetActiveWin(handle, isWeChat);
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(200);
             Paste(handle);
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(200);
             Enter(handle, isWeChat);
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(200);
         }
 
 

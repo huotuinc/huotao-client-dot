@@ -102,6 +102,8 @@ namespace QQLogin
             IintKQAir();
             if (KQ == null)
                 KQ = new KQDAL(IdentificationTag);
+
+
         }
 
 
@@ -155,6 +157,17 @@ namespace QQLogin
             get
             {
                 return ckbEnableJoinImage.Checked;
+            }
+        }
+
+        /// <summary>
+        /// 图片合成的商品数量
+        /// </summary>
+        public int JoinImageCount
+        {
+            get
+            {
+                return string.IsNullOrEmpty(txtGoodsCount.Text) ? 3 : Convert.ToInt32(txtGoodsCount.Text);
             }
         }
 
@@ -1186,7 +1199,11 @@ namespace QQLogin
                 }
             }
         }
-
+        /// <summary>
+        /// 启用自动合成图片设置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ckbEnableJoinImage_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cb = sender as CheckBox;
@@ -1196,12 +1213,61 @@ namespace QQLogin
             ckbAutoSend.Checked = false;
         }
 
+        /// <summary>
+        /// 启用发送时间设置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ckbEnableSendTime_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cb = sender as CheckBox;
 
             txtStartTime.Enabled = cb.Checked;
             txtEndTime.Enabled = cb.Checked;
+        }
+
+
+
+        string number = string.Empty;
+        /// <summary>
+        /// 数字并且只能是1，2，3 这三个数字
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
+        private void TextBoxNumber_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox t = sender as TextBox;
+            t.Clear();
+            if (!char.IsNumber(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;//消除不合适字符  
+
+            }
+            if (char.ToString(e.KeyChar).Equals("1") || char.ToString(e.KeyChar).Equals("2") || char.ToString(e.KeyChar).Equals("3"))
+            {
+                number = e.KeyChar.ToString();
+            }
+            else
+                e.Handled = true;
+        }
+        /// <summary>
+        /// 释放按键时，给文本框赋值
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtGoodsCount_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(number))
+                txtGoodsCount.Text = number;
+        }
+        /// <summary>
+        ///首次按下时，清空文本框数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtGoodsCount_KeyDown(object sender, KeyEventArgs e)
+        {
+            txtGoodsCount.Clear();
         }
     }
 }

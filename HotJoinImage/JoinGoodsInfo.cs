@@ -29,6 +29,11 @@ namespace HotJoinImage
         /// 商品图片地址
         /// </summary>
         public string imagePath { get; set; }
+
+        /// <summary>
+        /// 商品描述
+        /// </summary>
+        public string GoodsIntro { get; set; }
     }
 
     public class JoinGoodsList

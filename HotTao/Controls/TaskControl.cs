@@ -783,18 +783,18 @@ namespace HotTao.Controls
                 if (goodsSelectCount < 0)
                     goodsSelectCount = 0;
                 if (this.dgvData.Rows.Count > 0)
-                {                    
+                {
                     int result = 0;
                     if ((bool)cells["cbselect"].EditedFormattedValue == true)
                         int.TryParse(cells["gid"].Value.ToString(), out result);
                     if (result > 0)
                     {
-                        cells[0].Value = result;                        
+                        cells[0].Value = result;
                         goodsSelectCount++;
                     }
                     else
                     {
-                        cells[0].Value = 0;                        
+                        cells[0].Value = 0;
                         if (goodsSelectCount > 0)
                             goodsSelectCount--;
                         else
@@ -1098,6 +1098,9 @@ namespace HotTao.Controls
 
             if (cells["edittask"].ColumnIndex != e.ColumnIndex)
             {
+
+                if (cells["taskTitle"].Value.ToString().Contains("【合成图片转发】")) return;
+
                 int eCode = 0;
                 int.TryParse(cells["ExecStatus"].Value.ToString(), out eCode);
                 if (eCode == 0)

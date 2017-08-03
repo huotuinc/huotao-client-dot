@@ -1444,10 +1444,10 @@ namespace HotTao
         {
             if (IsJoinImageCompleted && qqForm != null && qqForm.EnableJoinImage)
             {
+                int JoinImageCount = qqForm.JoinImageCount;
                 IsJoinImageCompleted = false;
                 DateTime startTime = DateTime.Now;
                 DateTime endTime = DateTime.Now.AddHours(12);
-
                 if (qqForm.EnableTimeConfig)
                 {
                     //当前时间大于任务开始时间小于结束时间,则时间当前时间为任务开始时间
@@ -1487,7 +1487,7 @@ namespace HotTao
                         appsecret = Resources.taobaoappsecret;
                     }
 
-                    LogicHotTao.Instance(MyUserInfo.currentUserId).AutoJoinImage(MyUserInfo.LoginToken, weChatGroups, appkey, appsecret, startTime, endTime);
+                    LogicHotTao.Instance(MyUserInfo.currentUserId).AutoJoinImage(MyUserInfo.LoginToken, weChatGroups, appkey, appsecret, startTime, endTime, JoinImageCount);
                     IsJoinImageCompleted = true;
                 })
                 { IsBackground = true }.Start();
@@ -1573,8 +1573,15 @@ namespace HotTao
                         {
                             callback?.Invoke(MessageCallBackType.正在准备, 0, 0);
                             bool isUpdate = false;
+
+
+                            GoodsSelectedModel goodsInfo = goodsData[0];
+
+                            string url = urls.Last();
+                            int idx = msgFullContent.IndexOf(url);
+                            goodsInfo.goodsIntro = msgFullContent.Substring(idx).Replace(url, "");
                             //保存商品到本地数据库
-                            int gid = LogicGoods.Instance.SaveGoods(goodsData[0], MyUserInfo.currentUserId, out isUpdate);
+                            int gid = LogicGoods.Instance.SaveGoods(goodsInfo, MyUserInfo.currentUserId, out isUpdate);
                             if (isUpdate)
                             {
                                 callback?.Invoke(MessageCallBackType.完成, 0, 0);

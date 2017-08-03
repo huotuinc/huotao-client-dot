@@ -134,7 +134,7 @@ namespace HotTaoMonitoring
                         if (login_result is string)  //已完成登录
                         {
                             //访问登录跳转URL
-                            string message = ls.GetSidUid(login_result as string);                            
+                            string message = ls.GetSidUid(login_result as string);
                             if (string.IsNullOrEmpty(message))
                             {
                                 //打开主界面
@@ -146,7 +146,7 @@ namespace HotTaoMonitoring
                             }
                             else
                             {
-                                MessageBox.Show(message,"安全提醒");                                
+                                MessageBox.Show(message, "安全提醒");
                             }
                             break;
                         }
@@ -185,14 +185,6 @@ namespace HotTaoMonitoring
             {
 
             }
-            new Thread(() =>
-            {
-                Thread.Sleep(30000);
-                wxs = new WXService();
-            })
-            { IsBackground = true }.Start();
-
-
             if (!isReload)
                 WxSyncCheck(wxs);
         }
@@ -204,6 +196,13 @@ namespace HotTaoMonitoring
         /// <param name="wxs"></param>
         private void WxSyncCheck(WXService wxs)
         {
+            new Thread(() =>
+            {
+                Thread.Sleep(10000);
+                wxs.WxInit();  //初始化
+            })
+            { IsBackground = true }.Start();
+
             string sync_flag = "";
             JObject sync_result;
             while (true)

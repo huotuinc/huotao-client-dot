@@ -142,35 +142,39 @@ namespace WwChatHttpCore.HTTP
         /// <returns></returns>
         public JObject WxInit()
         {
-            string init_json = "{{\"BaseRequest\":{{\"Uin\":\"{0}\",\"Sid\":\"{1}\",\"Skey\":\"{3}\",\"DeviceID\":\"{2}\"}}}}";
-            Cookie sid = BaseService.GetCookie("wxsid");
-            Cookie uin = BaseService.GetCookie("wxuin");
-
-            if (sid != null && uin != null)
+            try
             {
-                init_json = string.Format(init_json, uin.Value, sid.Value, GetDeviceID(), LoginService.SKey);
-                byte[] bytes = BaseService.SendPostRequest(GetURLInit() + getClientMsgId() + "&pass_ticket=" + LoginService.Pass_Ticket, init_json);
+                string init_json = "{{\"BaseRequest\":{{\"Uin\":\"{0}\",\"Sid\":\"{1}\",\"Skey\":\"{3}\",\"DeviceID\":\"{2}\"}}}}";
+                Cookie sid = BaseService.GetCookie("wxsid");
+                Cookie uin = BaseService.GetCookie("wxuin");
 
-                if (bytes == null) return null;
-
-                string init_str = Encoding.UTF8.GetString(bytes);
-
-                JObject init_result = JsonConvert.DeserializeObject(init_str) as JObject;
-                if (init_result["BaseResponse"]["Ret"].ToObject<int>() > 0)
-                    throw new Exceptions.LoginRequiredException();
-
-                _syncKey.Clear();
-                foreach (JObject synckey in init_result["SyncKey"]["List"])  //同步键值
+                if (sid != null && uin != null)
                 {
-                    _syncKey.Add(synckey["Key"].ToString(), synckey["Val"].ToString());
+                    init_json = string.Format(init_json, uin.Value, sid.Value, GetDeviceID(), LoginService.SKey);
+                    byte[] bytes = BaseService.SendPostRequest(GetURLInit() + getClientMsgId() + "&pass_ticket=" + LoginService.Pass_Ticket, init_json);
+
+                    if (bytes == null) return null;
+
+                    string init_str = Encoding.UTF8.GetString(bytes);
+
+                    JObject init_result = JsonConvert.DeserializeObject(init_str) as JObject;
+                    if (init_result["BaseResponse"]["Ret"].ToObject<int>() > 0)
+                        throw new Exceptions.LoginRequiredException();
+
+                    _syncKey.Clear();
+                    foreach (JObject synckey in init_result["SyncKey"]["List"])  //同步键值
+                    {
+                        _syncKey.Add(synckey["Key"].ToString(), synckey["Val"].ToString());
+                    }
+                    initData = init_result;
+                    return init_result;
                 }
-                initData = init_result;
-                return init_result;
             }
-            else
+            catch (Exception)
             {
-                return null;
+                
             }
+            return null;
         }
         public JObject WxInitTest(string uin, string sid, string skey)
         {

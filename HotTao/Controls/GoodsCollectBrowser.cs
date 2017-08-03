@@ -592,6 +592,11 @@ namespace HotTao.Controls
                 {
                     var goods = goodsData[0];
                     goods.goodsImageUrl = imageUrl;
+                    string url = urls.Last();
+                    int idx = text.IndexOf(url);
+                    goods.goodsIntro = text.Substring(idx).Replace(url,"");
+
+
                     bool isUpdate = false;
                     //保存商品到本地数据库
                     LogicGoods.Instance.SaveGoods(goods, MyUserInfo.currentUserId, out isUpdate);
