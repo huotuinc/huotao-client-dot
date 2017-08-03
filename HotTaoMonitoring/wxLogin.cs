@@ -134,14 +134,20 @@ namespace HotTaoMonitoring
                         if (login_result is string)  //已完成登录
                         {
                             //访问登录跳转URL
-                            ls.GetSidUid(login_result as string);
-
-                            //打开主界面
-                            this.BeginInvoke((Action)delegate ()
+                            string message = ls.GetSidUid(login_result as string);                            
+                            if (string.IsNullOrEmpty(message))
                             {
-                                mainForm.ShowListen(UserControlsOpts.listen);
-                                this.Hide();
-                            });
+                                //打开主界面
+                                this.BeginInvoke((Action)delegate ()
+                                {
+                                    mainForm.ShowListen(UserControlsOpts.listen);
+                                    this.Hide();
+                                });
+                            }
+                            else
+                            {
+                                MessageBox.Show(message,"安全提醒");                                
+                            }
                             break;
                         }
                     }

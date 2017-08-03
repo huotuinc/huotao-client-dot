@@ -12,7 +12,7 @@ namespace WwChatHttpCore.HTTP
     /// </summary>
     public class LoginService
     {
-        public static string Pass_Ticket = "";        
+        public static string Pass_Ticket = "";
         public static string SKey = "";
         public static string _session_id = null;
 
@@ -71,12 +71,28 @@ namespace WwChatHttpCore.HTTP
         /// <summary>
         /// 获取sid uid   结果存放在cookies中
         /// </summary>
-        public void GetSidUid(string login_redirect)
+        public string GetSidUid(string login_redirect)
         {
-            byte[] bytes = BaseService.SendGetRequest(login_redirect + "&fun=new&version=v2&lang=zh_CN");
-            string pass_ticket = Encoding.UTF8.GetString(bytes);
-            Pass_Ticket = pass_ticket.Split(new string[] { "pass_ticket" }, StringSplitOptions.None)[1].TrimStart('>').TrimEnd('<', '/');
-            SKey = pass_ticket.Split(new string[] { "skey" }, StringSplitOptions.None)[1].TrimStart('>').TrimEnd('<', '/');
+            string message = string.Empty;
+            try
+            {
+                byte[] bytes = BaseService.SendGetRequest(login_redirect + "&fun=new&version=v2&lang=zh_CN");
+                string pass_ticket = Encoding.UTF8.GetString(bytes);
+
+                string ret = pass_ticket.Split(new string[] { "ret" }, StringSplitOptions.None)[1].TrimStart('>').TrimEnd('<', '/');
+                message = pass_ticket.Split(new string[] { "message" }, StringSplitOptions.None)[1].TrimStart('>').TrimEnd('<', '/');
+                Pass_Ticket = pass_ticket.Split(new string[] { "pass_ticket" }, StringSplitOptions.None)[1].TrimStart('>').TrimEnd('<', '/');
+                SKey = pass_ticket.Split(new string[] { "skey" }, StringSplitOptions.None)[1].TrimStart('>').TrimEnd('<', '/');
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return message;
+
+
+
         }
     }
 }
