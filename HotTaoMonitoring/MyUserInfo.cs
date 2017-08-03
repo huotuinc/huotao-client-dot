@@ -190,10 +190,9 @@ namespace HotTaoMonitoring
 
 
         /// <summary>
-        /// 图片数据
+        /// 图片base64
         /// </summary>
-        /// <value>The MSG image data.</value>
-        public byte[] MsgImageData { get; set; }
+        public string MsgImageBase64String { get; set; }
 
     }
 

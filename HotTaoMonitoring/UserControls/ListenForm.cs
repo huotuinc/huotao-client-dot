@@ -141,8 +141,8 @@ namespace HotTaoMonitoring.UserControls
                     NotReadCount = 1,
                     MsgUserName = user.UserName,
                     MsgNickName = nickName,
-                    MsgStatus = "未回复",
-                    MsgImageData = msgImageData
+                    MsgStatus = "未回复",                    
+                    MsgImageBase64String = msgImageData != null ? Convert.ToBase64String(msgImageData) : null
                 };
                 wxMessageData.Add(msg);
             }
@@ -156,8 +156,8 @@ namespace HotTaoMonitoring.UserControls
                         data.MsgTime = DateTime.Now;
                         data.MsgText = content;
                         data.NotReadCount += 1;
-                        data.MsgStatus = "未回复";
-                        data.MsgImageData = msgImageData;
+                        data.MsgStatus = "未回复";                        
+                        data.MsgImageBase64String = msgImageData != null ? Convert.ToBase64String(msgImageData) : null;
                     }
                 });
 
@@ -209,10 +209,10 @@ namespace HotTaoMonitoring.UserControls
                 if (!string.IsNullOrEmpty(base64))
                     base64 = "data:image/jpg;base64," + base64;
                 string html = string.Empty;
-                if (data.MsgImageData == null)
+                if (string.IsNullOrEmpty(data.MsgImageBase64String))
                     html = ed.GetReceiveMsgHtml(data.MsgShowName, data.MsgNickName, data.MsgText, data.MsgTime.ToString("yyyy-MM-dd HH:mm"), base64);
                 else
-                    html = ed.GetReceiveMsgHtml(data.MsgShowName, data.MsgNickName, data.MsgText, data.MsgTime.ToString("yyyy-MM-dd HH:mm"), base64, "data:image/jpg;base64," + Convert.ToBase64String(data.MsgImageData));
+                    html = ed.GetReceiveMsgHtml(data.MsgShowName, data.MsgNickName, data.MsgText, data.MsgTime.ToString("yyyy-MM-dd HH:mm"), base64, "data:image/jpg;base64," + data.MsgImageBase64String);
 
                 ed.writeCacheData(data.MsgShowName, data.MsgNickName, html);
 
@@ -287,10 +287,10 @@ namespace HotTaoMonitoring.UserControls
                 }
                 if (mainForm.useredit != null && mainForm.useredit.toUserName == data.MsgUserName && mainForm.useredit.toNickName == data.MsgNickName)
                 {
-                    if (data.MsgImageData == null)
+                    if (string.IsNullOrEmpty(data.MsgImageBase64String))
                         mainForm.useredit.ShowReceiveMsg(data.MsgNickName, data.MsgText, data.MsgTime.ToString("yyyy-MM-dd HH:mm"), base64);
                     else
-                        mainForm.useredit.ShowReceiveMsg(data.MsgNickName, data.MsgText, data.MsgTime.ToString("yyyy-MM-dd HH:mm"), base64, "data:image/jpg;base64," + Convert.ToBase64String(data.MsgImageData));
+                        mainForm.useredit.ShowReceiveMsg(data.MsgNickName, data.MsgText, data.MsgTime.ToString("yyyy-MM-dd HH:mm"), base64, "data:image/jpg;base64," + data.MsgImageBase64String);
                 }
 
             }
