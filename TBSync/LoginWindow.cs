@@ -663,7 +663,7 @@ namespace TBSync
             LoginTaobao();
         }
 
-
+        private Thread autoThread { get; set; }
         private void LoginTaobao(bool isBtn = false)
         {
             if (isQrCodeLogin)
@@ -675,20 +675,33 @@ namespace TBSync
             if (!isLocalData)
                 rbtnQrCodeLogin.Visible = true;
 
-            var autoThread = new Thread(() =>
-             {
-                 if (!isQrCodeLogin)
-                 {
-                     HideLoginTaobaoPanel(false);
-                     SendKeys.SendWait("{TAB}");
-                     if (isBtn)
-                     {
-                         SendKeys.SendWait("{TAB}{TAB}{TAB}");
-                     }
-                     //模拟登录
-                     AutoSimulateLogin(txtTbLoginName.Text.Trim(), txtTbLoginPwd.Text.Trim());
-                 }
-             });
+            if (autoThread != null)
+            {
+                autoThread.Abort();
+                autoThread = null;
+            }
+
+            autoThread = new Thread(() =>
+            {
+                try
+                {
+                    if (!isQrCodeLogin)
+                    {
+                        HideLoginTaobaoPanel(false);
+                        SendKeys.SendWait("{TAB}");
+                        if (isBtn)
+                        {
+                            SendKeys.SendWait("{TAB}{TAB}{TAB}");
+                        }
+                        //模拟登录
+                        AutoSimulateLogin(txtTbLoginName.Text.Trim(), txtTbLoginPwd.Text.Trim());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            });
             autoThread.IsBackground = true;
             autoThread.TrySetApartmentState(System.Threading.ApartmentState.STA);
             autoThread.Start();
@@ -701,7 +714,7 @@ namespace TBSync
         private void AutoSimulateLogin(string tbLoginName, string tbLoginPwd)
         {
             SetTitle("自动登录中...");
-            if (!isQrCodeLogin)
+            if (!isQrCodeLogin && browser != null && !browser.IsDisposed)
             {
                 browser.ExecuteScriptAsync("document.getElementsByClassName('login-text J_UserName').item(0).value='';document.getElementsByClassName('login-text').item(1).value='';document.body.click()");
                 browser.EvaluateScriptAsync("document.getElementById('TPL_username_1').focus();");
@@ -717,7 +730,7 @@ namespace TBSync
                 //如果5秒后，还再这个页面，就认为它需要滑动验证码登录，将尝试重新模拟自动登录                
                 SendKeys.SendWait("{TAB}{TAB}");
                 Thread.Sleep(5000);
-                if (browser.Address.Contains("https://login.taobao.com/member/login.jhtml"))
+                if (!isQrCodeLogin && browser != null && !browser.IsDisposed && browser.Address.Contains("https://login.taobao.com/member/login.jhtml"))
                 {
                     HideLoginTaobaoPanel(true);
                     isLoadCompleted = false;

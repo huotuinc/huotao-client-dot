@@ -117,6 +117,7 @@ namespace HotJoinImage
         /// </summary>
         public string goodsPrimaryImg { get; set; }
 
+        //public string goodsIntro { get; set; }
 
     }
 

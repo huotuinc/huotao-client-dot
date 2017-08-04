@@ -27,7 +27,7 @@ namespace HotTaoCore.Logic
 {
     public class LogicHotTao
     {
-       static NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
+        static NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
         private static LogicHotTao _instance = null;
         private static HotTaoDAL dal;
 
@@ -595,6 +595,11 @@ namespace HotTaoCore.Logic
                 //将淘口令改成pid，2017-04-07 修改，淘口令改到分享时生产
                 string tpwd = (string.IsNullOrEmpty(group.pid) ? "mm_33648229_22032774_73500078" : group.pid);// "[二合一淘口令]";// HotTaoApiService.Instance.taobao_wireless_share_tpwd_create(item.goodsMainImgUrl, item.shareLink, item.goodsName, appkey, appsecret);
                 string text = templateText;
+                if (string.IsNullOrEmpty(item.goodsIntro))
+                {
+                    item.goodsIntro = Regex.Replace(item.goodsIntro, @"[\r\n]", "");
+                    item.goodsIntro = item.goodsIntro.TrimEnd((char[])"\r\n".ToCharArray());
+                }
 
                 if (!string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(tpwd))
                 {
@@ -647,6 +652,7 @@ namespace HotTaoCore.Logic
                         if (isLogin)
                             shareText = resultTuple.Item1;
                     }
+
                     //商品数据
                     joinList.collectionGoodsList.Add(new CollectionGoods()
                     {
@@ -656,7 +662,8 @@ namespace HotTaoCore.Logic
                         discountAmount = item.couponPrice,
                         goodsPromotionUrl = _url,
                         goodsPrimaryImg = item.goodsMainImgUrl,
-                        shareText = shareText
+                        shareText = shareText,
+                        //goodsIntro=item.goodsIntro
                     });
                     //图片
                     joinList.ImageList.Add(new JoinGoodsInfo()
@@ -957,7 +964,7 @@ namespace HotTaoCore.Logic
                                 log.Debug("图片生成失败");
                             }
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             log.Error(ex);
                         }
