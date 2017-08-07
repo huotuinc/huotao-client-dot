@@ -359,6 +359,10 @@ namespace HotTao
                     using (Stream stream = new FileStream(goods.goodslocatImgPath, FileMode.Open))
                     {
                         image = Image.FromStream(stream);
+                        if (image != null)
+                        {
+                            Clipboard.SetImage(image);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -431,8 +435,6 @@ namespace HotTao
                 {
                     return;
                 }
-                if (!sendVideo)
-                    Clipboard.SetImage(image);
             }
             else
             {
@@ -449,15 +451,19 @@ namespace HotTao
                     {
                         try
                         {
+                            Clipboard.Clear();
                             string fileName = EncryptHelper.MD5(item.taskid.ToString() + item.field3);
 
                             if (File.Exists(string.Format("{0}\\{1}.jpg", path, fileName)))
                             {
                                 using (Stream stream = new FileStream(string.Format("{0}\\{1}.jpg", path, fileName), FileMode.Open))
                                 {
-                                    image = Image.FromStream(stream);
+                                    Image image2 = Image.FromStream(stream);
+                                    if (image2 != null)
+                                    {
+                                        Clipboard.SetImage(image2);
+                                    }
                                 }
-                                Clipboard.SetImage(image);
                             }
                             else
                             {

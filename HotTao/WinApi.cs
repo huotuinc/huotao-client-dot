@@ -415,7 +415,7 @@ namespace HotTao
         {
             int h = rc.Bottom - rc.Top;
             //定位微信坐标       
-            IntPtr lParam = (IntPtr)((h - 80 << 18) | 30);// The coordinates                                     
+            IntPtr lParam = (IntPtr)((h - 80 << 16) | 30);// The coordinates                                     
             //发送点击鼠标左键
             SendMessage(handle, downCode, IntPtr.Zero, lParam); // Mouse button down            
             System.Threading.Thread.Sleep(100);
@@ -469,11 +469,11 @@ namespace HotTao
         public static void SendData(IntPtr handle, bool isWeChat = true)
         {
             SetActiveWin(handle, isWeChat);
-            System.Threading.Thread.Sleep(300);
+            System.Threading.Thread.Sleep(400);
             Paste(handle);
-            System.Threading.Thread.Sleep(300);
+            System.Threading.Thread.Sleep(400);
             Enter(handle, isWeChat);
-            System.Threading.Thread.Sleep(200);
+            System.Threading.Thread.Sleep(400);
         }
 
 
