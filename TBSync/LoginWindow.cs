@@ -76,7 +76,7 @@ namespace TBSync
         /// <summary>
         /// 淘宝授权地址
         /// </summary>
-        private const string authUrl = "https://oauth.taobao.com/authorize?response_type=token&client_id=24538400&state=1212&view=web";
+        private const string authUrl = "https://oauth.taobao.com/authorize?response_type=token&client_id=24557524&state=1212&view=web";
 
         /// <summary>
         /// 淘宝授权结果页面
