@@ -729,7 +729,7 @@ namespace HotTaoCore.Logic
         /// <param name="appkey">The appkey.</param>
         /// <param name="appsecret">The appsecret.</param>
         public bool BuildTpwd(int currentUserId, string LoginToken, GoodsModel goods, weChatShareTextModel item, string appkey, string appsecret)
-        {
+        {            
             string url = GlobalConfig.couponUrl;
             url += "?src=ht_hot&activityId=" + goods.couponId;
             url += "&itemId=" + goods.goodsId.Replace("=", "");

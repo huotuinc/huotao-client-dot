@@ -431,7 +431,10 @@ namespace TBSync
                 //页面加载完成回调
                 LoginSuccessHandle?.Invoke(cookies);
                 SetTitle("登录成功!获取Token成功,正在验证token...");
-                HideWindow();
+
+                //跳转淘宝授权页面
+                browser.Load(authUrl);
+                //HideWindow();
             }
             catch (Exception ex)
             {
