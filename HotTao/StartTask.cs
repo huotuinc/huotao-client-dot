@@ -634,7 +634,7 @@ namespace HotTao
                 try
                 {
 
-                    Tuple<string, string> resultTuple = TaobaoHelper.GetGaoYongToken(goods.goodsDetailUrl, goods.goodsId, item.tpwd, MyUserInfo.GetTbToken(), MyUserInfo.cookies, out isLogin);
+                    Tuple<string, string> resultTuple = null;// TaobaoHelper.GetGaoYongToken(goods.goodsDetailUrl, goods.goodsId, item.tpwd, MyUserInfo.GetTbToken(), MyUserInfo.cookies, out isLogin);
                     if (resultTuple != null)
                     {
                         if (!isLogin)

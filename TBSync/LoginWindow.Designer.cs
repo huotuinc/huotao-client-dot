@@ -150,7 +150,6 @@
             this.rbtnQrCodeLogin.Tag = "2";
             this.rbtnQrCodeLogin.Text = "二维码扫描登录";
             this.rbtnQrCodeLogin.UseVisualStyleBackColor = true;
-            this.rbtnQrCodeLogin.Visible = false;
             this.rbtnQrCodeLogin.CheckedChanged += new System.EventHandler(this.TaobaoLogin_CheckedChanged);
             // 
             // radioButton1

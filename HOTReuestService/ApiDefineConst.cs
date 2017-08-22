@@ -27,12 +27,12 @@ namespace HOTReuestService
         /// <summary>
         /// 接口地址
         /// </summary>
-        public const string Url = "http://www.51huotao.com";// "http://www.staging.51huotao.com";//"
+        public const string Url = "http://www.huotaolianmeng.com";// "http://www.staging.51huotao.com";//"
 
         /// <summary>
         /// 官网首页
         /// </summary>
-        public const string www = "http://www.51huotao.com";
+        public const string www = "http://www.huotaolianmeng.com";
 
         public const string CheckUpdateUrl = Url + "/version/v.json";
 
